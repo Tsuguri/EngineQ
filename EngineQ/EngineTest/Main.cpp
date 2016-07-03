@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 		monoPath = argv[2];
 	}
 
-	EngineQ::Scripting::ScriptEngine se{ argv[0], (assembliesPath + "EngineQ.dll").c_str(), (monoPath + "lib").c_str(), (monoPath + "etc").c_str() };
+	EngineQ::Scripting::ScriptEngine se{ argv[0], (assembliesPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
 
 	EngineQ::Entity entity1{ se };
 	EngineQ::Entity entity2{ se };

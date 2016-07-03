@@ -105,7 +105,7 @@
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY $(SolutionDir)Libraries\Mono\dll\* $(OutputPath)
+      <Command>COPY $(SolutionDir)Libraries\Mono\bin\$(Platform)\* $(OutputPath)
 COPY $(SolutionDir)EngineQScripting\bin\$(Configuration)\* $(OutputPath)
 COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
     </PostBuildEvent>
@@ -126,7 +126,7 @@ COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY $(SolutionDir)Libraries\Mono\dll\* $(OutputPath)
+      <Command>COPY $(SolutionDir)Libraries\Mono\bin\$(Platform)\* $(OutputPath)
 COPY $(SolutionDir)EngineQScripting\bin\$(Configuration)\* $(OutputPath)
 COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
     </PostBuildEvent>
@@ -150,6 +150,11 @@ COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
       <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>COPY $(SolutionDir)Libraries\Mono\bin\$(Platform)\* $(OutputPath)
+COPY $(SolutionDir)EngineQScripting\bin\$(Configuration)\* $(OutputPath)
+COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -170,6 +175,11 @@ COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
       <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>COPY $(SolutionDir)Libraries\Mono\bin\$(Platform)\* $(OutputPath)
+COPY $(SolutionDir)EngineQScripting\bin\$(Configuration)\* $(OutputPath)
+COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
