@@ -28,6 +28,20 @@ namespace EngineQ
 		scriptEngine.InvokeConstructor(GetManagedObject());
 	}
 
+	Transform::~Transform()
+	{
+		for (auto child : this->children)
+		{
+			child->parent = nullptr;
+			child->VoidGlobalMatrix();
+		}
+	}
+
+	ComponentType Transform::GetType() const
+	{
+		return ComponentType::Transform;
+	}
+
 	void Transform::SetParent(Transform* parent)
 	{
 		if (this->parent == parent)
@@ -104,12 +118,12 @@ namespace EngineQ
 		return this->rotation;
 	}
 
-	int Transform::GetChildCount() const
+	std::size_t Transform::GetChildCount() const
 	{
 		return children.size();
 	}
 
-	Transform* Transform::GetChild(int child) const
+	Transform* Transform::GetChild(std::size_t child) const
 	{
 		return children[child];
 	}

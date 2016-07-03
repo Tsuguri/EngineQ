@@ -18,50 +18,7 @@ namespace EngineQ
 
 	class Entity;
 
-	/*
-	class Trigger
-	{
-	private:
-		bool set;
-
-		
-
-		std::vector<Trigger*> dependencies;
-
-		void Register(Trigger* trigger)
-		{
-			dependencies.push_back(trigger);
-		}
-
-	public:
-		Trigger(std::initializer_list<Trigger&> triggers)
-			: set(false)
-		{
-			for (Trigger& trigger : triggers)
-				trigger.Register(this);
-		}
-
-		void Set()
-		{
-			set = true;
-
-			for (Trigger* dep : dependencies)
-				dep->Set();
-		}
-
-		void Reset()
-		{
-			set = false;
-		}
-
-		bool IsSet()
-		{
-			return set;
-		}
-	};
-	*/
-
-	class Transform : public Component
+	class Transform final : public Component
 	{
 		friend class Entity;
 
@@ -92,11 +49,15 @@ namespace EngineQ
 		void VoidGlobalMatrix();
 
 	public:
+		virtual ~Transform();
+
+		virtual ComponentType GetType() const override;
+
 		void SetParent(Transform* parent);
 		Transform* GetParent() const;
 
-		int GetChildCount() const;
-		Transform* GetChild(int child) const;
+		std::size_t GetChildCount() const;
+		Transform* GetChild(std::size_t child) const;
 
 		void SetPosition(const Vector3& position);
 		Vector3 GetPosition() const;

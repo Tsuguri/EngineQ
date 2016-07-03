@@ -21,8 +21,6 @@ namespace EngineQ
 {
 	namespace Scripting
 	{
-		const char* ScriptEngine::ConstructorName = ":.ctor";
-
 		MonoMethod* ScriptEngine::GetMethod(MonoClass* mclass, const char* name)
 		{
 			MonoMethodDesc* desc = mono_method_desc_new(name, true);
@@ -77,18 +75,19 @@ namespace EngineQ
 
 			this->image = mono_assembly_get_image(assembly);
 
-			this->qObjectClass = mono_class_from_name(this->image, "EngineQ", "Object");
-			this->qObjectHandleField = mono_class_get_field_from_name(this->qObjectClass, "nativeHandle");
+			this->qObjectClass = mono_class_from_name(this->image, NamespaceName, ObjectClassName);
+			this->qObjectHandleField = mono_class_get_field_from_name(this->qObjectClass, NativeHandleFieldName);
 
-			this->scriptClass = mono_class_from_name(this->image, "EngineQ", "Script");
-
-			this->entityClass = mono_class_from_name(this->image, "EngineQ", "Entity");
-			this->transformClass = mono_class_from_name(this->image, "EngineQ", "Transform");
+			this->entityClass = mono_class_from_name(this->image, NamespaceName, EntityClassName);
+			this->scriptClass = mono_class_from_name(this->image, NamespaceName, ScriptClassName);
+			this->transformClass = mono_class_from_name(this->image, NamespaceName, TransformClassName);
+			this->lightClass = mono_class_from_name(this->image, NamespaceName, LightClassName);
+			this->cameraClass = mono_class_from_name(this->image, NamespaceName, CameraClassName);
 
 			this->entityConstructor = GetMethod(this->entityClass, ConstructorName);
 			this->transformConstructor = GetMethod(this->transformClass, ConstructorName);
 
-			this->entityUpdate = GetMethod(this->entityClass, ":Update");
+			this->entityUpdate = GetMethod(this->entityClass, UpdateName);
 
 			// API
 			API_Quaternion::API_Register(*this);
@@ -186,7 +185,7 @@ namespace EngineQ
 
 		ScriptMethod ScriptEngine::GetScriptUpdateMethod(ScriptClass sclass, ScriptObject object) const
 		{
-			return GetScriptMethod(sclass, object, ":Update");
+			return GetScriptMethod(sclass, object, UpdateName);
 		}
 
 		ScriptClass ScriptEngine::GetScriptClass(const char* assembly, const char* classNamespace, const char* name) const
@@ -205,6 +204,16 @@ namespace EngineQ
 		ScriptClass ScriptEngine::GetTransformClass() const
 		{
 			return this->transformClass;
+		}
+
+		ScriptClass ScriptEngine::GetLightClass() const
+		{
+			return this->lightClass;
+		}
+
+		ScriptClass ScriptEngine::GetCameraClass() const
+		{
+			return this->cameraClass;
 		}
 
 		ScriptClass ScriptEngine::GetEntityClass() const

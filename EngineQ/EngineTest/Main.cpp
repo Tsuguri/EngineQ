@@ -3,8 +3,10 @@
 #include "Math/Vector4.hpp"
 #include "Math/Matrix4.hpp"
 
+#include "Scene.hpp"
 #include "Entity.hpp"
 #include "Scripting/ScriptEngine.hpp"
+#include "Light.hpp"
 
 int main(int argc, char** argv)
 {
@@ -30,16 +32,22 @@ int main(int argc, char** argv)
 
 	EngineQ::Scripting::ScriptEngine se{ argv[0], (assembliesPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
 
-	EngineQ::Entity entity1{ se };
-	EngineQ::Entity entity2{ se };
+	EngineQ::Scene scene{ se };
 
-	entity1.GetTransform().SetParent(&entity2.GetTransform());
+	EngineQ::Entity* entity1 = scene.CreateEntity();
+	EngineQ::Entity* entity2 = scene.CreateEntity();
+
+	entity1->GetTransform().SetParent(&entity2->GetTransform());
 
 	se.LoadAssembly((assembliesPath + "ScriptTest.dll").c_str());
 	EngineQ::Scripting::ScriptClass scriptClass = se.GetScriptClass("ScriptTest", "ScriptTest", "MyScript");
 
-	entity1.AddScript(scriptClass);
-	entity1.Update();
-		
+	entity1->AddComponent<EngineQ::Light>();
+	entity1->AddScript(scriptClass);
+	entity1->Update();
+	
+	scene.RemoveEntity(entity1);
+	scene.RemoveEntity(entity2);
+
 	return 0;
 }

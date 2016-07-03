@@ -75,7 +75,7 @@ namespace EngineQ
 
 		void API_Transform::API_GetChildCount(Transform& transform, int& count)
 		{
-			count = transform.GetChildCount();
+			count = static_cast<int>(transform.GetChildCount());
 		}
 
 		void API_Transform::API_GetChild(Transform& transform, int index, MonoObject*& child)

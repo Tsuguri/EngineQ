@@ -7,6 +7,14 @@ namespace EngineQ
 {
 	class Entity;
 
+	enum class ComponentType
+	{
+		Transform,
+		Camera,
+		Light,
+		Script,
+	};
+
 	class Component : public Object
 	{
 	private:
@@ -17,6 +25,8 @@ namespace EngineQ
 		
 		Entity& GetEntity();
 		const Entity& GetEntity() const;
+
+		virtual ComponentType GetType() const = 0;
 	};
 }
 

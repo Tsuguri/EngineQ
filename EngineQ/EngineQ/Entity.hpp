@@ -11,20 +11,28 @@
 
 namespace EngineQ
 {
+	class Scene;
+
 	class Entity : public Object
 	{
 		friend class Transform;
+		friend class Scene;
 
 	private:
+		Scene& scene;
+
 		std::vector<Component*> components;
 		std::vector<Script*> updatable;
 
 		Transform& transform;
 
+		Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine);
+
 	public:
-		Entity(Scripting::ScriptEngine& scriptEngine);
 		virtual ~Entity() override;
-		Entity& operator = (const Entity& other) = delete;
+	
+		const Scene& GetScene() const;
+		Scene& GetScene();
 
 		const Transform& GetTransform() const;
 		Transform& GetTransform();
@@ -36,6 +44,7 @@ namespace EngineQ
 
 		template<typename Type>
 		Type* AddComponent();
+		void RemoveComponent(Component& component);
 
 		Script* AddScript(Scripting::ScriptClass sclass);
 	};

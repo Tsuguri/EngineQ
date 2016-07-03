@@ -1,20 +1,32 @@
 #include "Entity.hpp"
+#include "Scene.hpp"
 
 namespace EngineQ
 {
-	Entity::Entity(Scripting::ScriptEngine& scriptEngine) : 
-		Object{ scriptEngine, scriptEngine.GetEntityClass() }, 
-		components{}, 
+	Entity::Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine) :
+		Object{ scriptEngine, scriptEngine.GetEntityClass() },
+		scene{ scene },
+		components{},
 		transform{ *AddComponent<Transform>() }
 	{
 		// TMP
 		scriptEngine.InvokeConstructor(GetManagedObject());
 	}
-	
+
 	Entity::~Entity()
 	{
 		for (Component* component : components)
 			delete component;
+	}
+
+	const Scene& Entity::GetScene() const
+	{
+		return this->scene;
+	}
+
+	Scene& Entity::GetScene()
+	{
+		return this->scene;
 	}
 
 	Transform& Entity::GetTransform()
@@ -31,6 +43,18 @@ namespace EngineQ
 	{
 		for (Script* script : updatable)
 			script->Update();
+	}
+
+	void Entity::RemoveComponent(Component& component)
+	{
+		if (&component == &this->transform)
+			throw std::runtime_error("Cannot remove transform component");
+
+		this->scene.RemovedComponent(component);
+
+		this->components.erase(std::remove(this->components.begin(), this->components.end(), &component), this->components.end());
+
+		delete &component;
 	}
 
 	int Entity::GetComponentsCount() const
