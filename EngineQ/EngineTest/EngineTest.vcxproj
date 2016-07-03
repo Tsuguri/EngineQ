@@ -104,6 +104,11 @@
       <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>COPY $(SolutionDir)Libraries\Mono\dll\* $(OutputPath)
+COPY $(SolutionDir)EngineQScripting\bin\$(Configuration)\* $(OutputPath)
+COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -120,6 +125,11 @@
       <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>COPY $(SolutionDir)Libraries\Mono\dll\* $(OutputPath)
+COPY $(SolutionDir)EngineQScripting\bin\$(Configuration)\* $(OutputPath)
+COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

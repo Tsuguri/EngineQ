@@ -7,10 +7,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineQ", "EngineQ\EngineQ.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineTest", "EngineTest\EngineTest.vcxproj", "{C0245421-1E17-4C5F-8417-9394FC9EF8D7}"
 	ProjectSection(ProjectDependencies) = postProject
+		{4349E581-BCBA-404E-995C-F62B6D1857D1} = {4349E581-BCBA-404E-995C-F62B6D1857D1}
+		{9928F89E-BAE3-48B4-9EE4-10EA062E540D} = {9928F89E-BAE3-48B4-9EE4-10EA062E540D}
 		{C9BF8FE4-F956-43A3-88F1-69D4ABEBC221} = {C9BF8FE4-F956-43A3-88F1-69D4ABEBC221}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineQScripting", "EngineQScripting\EngineQScripting.csproj", "{9928F89E-BAE3-48B4-9EE4-10EA062E540D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptTest", "ScriptTest\ScriptTest.csproj", "{4349E581-BCBA-404E-995C-F62B6D1857D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +58,18 @@ Global
 		{9928F89E-BAE3-48B4-9EE4-10EA062E540D}.Release|x64.Build.0 = Release|Any CPU
 		{9928F89E-BAE3-48B4-9EE4-10EA062E540D}.Release|x86.ActiveCfg = Release|Any CPU
 		{9928F89E-BAE3-48B4-9EE4-10EA062E540D}.Release|x86.Build.0 = Release|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Debug|x64.Build.0 = Debug|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Debug|x86.Build.0 = Debug|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Release|x64.ActiveCfg = Release|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Release|x64.Build.0 = Release|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Release|x86.ActiveCfg = Release|Any CPU
+		{4349E581-BCBA-404E-995C-F62B6D1857D1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -19,13 +19,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Math\Matrix3.cpp" />
     <ClCompile Include="Math\Matrix4.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Script.cpp" />
+    <ClCompile Include="Scripting\API_Component.cpp" />
+    <ClCompile Include="Scripting\API_Entity.cpp" />
+    <ClCompile Include="Scripting\API_Matrix3.cpp" />
+    <ClCompile Include="Scripting\API_Matrix4.cpp" />
+    <ClCompile Include="Scripting\API_Quaternion.cpp" />
+    <ClCompile Include="Scripting\API_Transform.cpp" />
+    <ClCompile Include="Scripting\ScriptEngine.cpp" />
+    <ClCompile Include="Scripting\ScriptEngineException.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component.hpp" />
+    <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="Immovable.hpp" />
     <ClInclude Include="Math\Matrix3.hpp" />
     <ClInclude Include="Math\Matrix4.hpp" />
     <ClInclude Include="Math\Quaternion.hpp" />
@@ -33,6 +49,17 @@
     <ClInclude Include="Math\Vector2.hpp" />
     <ClInclude Include="Math\Vector3.hpp" />
     <ClInclude Include="Math\Vector4.hpp" />
+    <ClInclude Include="Object.hpp" />
+    <ClInclude Include="Script.hpp" />
+    <ClInclude Include="Scripting\API_Component.hpp" />
+    <ClInclude Include="Scripting\API_Entity.hpp" />
+    <ClInclude Include="Scripting\API_Matrix3.hpp" />
+    <ClInclude Include="Scripting\API_Matrix4.hpp" />
+    <ClInclude Include="Scripting\API_Quaternion.hpp" />
+    <ClInclude Include="Scripting\API_Transform.hpp" />
+    <ClInclude Include="Scripting\ScriptEngine.hpp" />
+    <ClInclude Include="Scripting\ScriptEngineException.hpp" />
+    <ClInclude Include="Transform.hpp" />
     <ClInclude Include="Utilities.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -119,11 +146,18 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -132,11 +166,18 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -147,6 +188,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,6 +206,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
