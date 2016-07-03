@@ -40,6 +40,6 @@ int main(int argc, char** argv)
 
 	entity1.AddScript(scriptClass);
 	entity1.Update();
-		
+
 	return 0;
 }

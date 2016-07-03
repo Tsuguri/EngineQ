@@ -17,6 +17,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptTest", "ScriptTest\ScriptTest.csproj", "{4349E581-BCBA-404E-995C-F62B6D1857D1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineQDemonstration", "EngineQDemonstration\EngineQDemonstration.vcxproj", "{18503581-6984-4014-B99C-ABA8D03E4620}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C9BF8FE4-F956-43A3-88F1-69D4ABEBC221} = {C9BF8FE4-F956-43A3-88F1-69D4ABEBC221}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
