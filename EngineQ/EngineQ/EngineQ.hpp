@@ -21,6 +21,7 @@ private:
 	EngineQ(std::string name, int width, int height);
 public:
 	static void Initialize(std::string name, int width, int height);
+	static EngineQ* Get();
 #pragma endregion 
 
 
