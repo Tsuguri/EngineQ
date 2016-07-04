@@ -18,19 +18,25 @@ int main(int argc, char** argv)
 
 	std::cout << "mat * vec = " << (mat * vec).ToString() << std::endl;
 
-	std::string assembliesPath = "./";
+	std::string monoPath = "./";
 	if (argc > 1)
 	{
-		assembliesPath = argv[1];
+		monoPath = argv[1];
 	}
 
-	std::string monoPath = "./";
+	std::string engineAssemblyPath = "./";
 	if (argc > 2)
 	{
-		monoPath = argv[2];
+		engineAssemblyPath = argv[2];
 	}
 
-	EngineQ::Scripting::ScriptEngine se{ argv[0], (assembliesPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
+	std::string scriptsAssembliesPath = "./Scripts/";
+	if (argc > 3)
+	{
+		scriptsAssembliesPath = argv[3];
+	}
+	
+	EngineQ::Scripting::ScriptEngine se{ argv[0], (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
 
 	EngineQ::Scene scene{ se };
 
@@ -39,7 +45,7 @@ int main(int argc, char** argv)
 
 	entity1->GetTransform().SetParent(&entity2->GetTransform());
 
-	se.LoadAssembly((assembliesPath + "ScriptTest.dll").c_str());
+	se.LoadAssembly((scriptsAssembliesPath + "ScriptTest.dll").c_str());
 	EngineQ::Scripting::ScriptClass scriptClass = se.GetScriptClass("ScriptTest", "ScriptTest", "MyScript");
 
 	entity1->AddComponent<EngineQ::Light>();

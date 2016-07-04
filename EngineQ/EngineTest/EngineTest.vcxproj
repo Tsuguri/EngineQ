@@ -105,9 +105,11 @@
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY $(SolutionDir)Libraries\Mono\bin\$(Platform)\* $(OutputPath)
-COPY $(SolutionDir)EngineQScripting\bin\$(Configuration)\* $(OutputPath)
-COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
+      <Command>COPY "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)"
+COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
+
+if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
+COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -126,9 +128,11 @@ COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY $(SolutionDir)Libraries\Mono\bin\$(Platform)\* $(OutputPath)
-COPY $(SolutionDir)EngineQScripting\bin\$(Configuration)\* $(OutputPath)
-COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
+      <Command>COPY "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)"
+COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
+
+if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
+COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,9 +155,11 @@ COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY $(SolutionDir)Libraries\Mono\bin\$(Platform)\* $(OutputPath)
-COPY $(SolutionDir)EngineQScripting\bin\$(Configuration)\* $(OutputPath)
-COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
+      <Command>COPY "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)"
+COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
+
+if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
+COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -176,9 +182,11 @@ COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY $(SolutionDir)Libraries\Mono\bin\$(Platform)\* $(OutputPath)
-COPY $(SolutionDir)EngineQScripting\bin\$(Configuration)\* $(OutputPath)
-COPY $(SolutionDir)ScriptTest\bin\$(Configuration)\* $(OutputPath)</Command>
+      <Command>COPY "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)"
+COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
+
+if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
+COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

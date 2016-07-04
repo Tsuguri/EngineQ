@@ -9,17 +9,16 @@
 
 namespace EngineQ
 {
-	class Scene
+	class Scene : public Object
 	{
 		friend class Entity;
 
 	private:
-		Scripting::ScriptEngine& scriptEngine;
-
 		std::vector<Entity*> entities;
 
 		std::vector<Light*> lights;
 		std::vector<Camera*> cameras;
+
 
 		void RemovedComponent(Component& component);
 		void AddedComponent(Component& component);

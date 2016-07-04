@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 
+#include "../Immovable.hpp"
 #include "ScriptEngineException.hpp"
 
 typedef struct _MonoDomain MonoDomain;
@@ -30,7 +31,7 @@ namespace EngineQ
 		using ScriptHandle = std::uint32_t;
 		using ScriptTypeClass = MonoReflectionType*;
 
-		class ScriptEngine
+		class ScriptEngine : public Immovable
 		{
 		private:
 			static constexpr char* ConstructorName = ":.ctor";
@@ -43,6 +44,7 @@ namespace EngineQ
 			static constexpr char* TransformClassName = "Transform";
 			static constexpr char* LightClassName = "Light";
 			static constexpr char* CameraClassName = "Camera";
+			static constexpr char* SceneClassName = "Scene";
 
 			static constexpr char* NativeHandleFieldName = "nativeHandle";
 
@@ -58,6 +60,7 @@ namespace EngineQ
 			MonoClass* transformClass;
 			MonoClass* lightClass;
 			MonoClass* cameraClass;
+			MonoClass* sceneClass;
 
 			MonoMethod* entityConstructor;
 			MonoMethod* transformConstructor;
@@ -95,9 +98,13 @@ namespace EngineQ
 			ScriptClass GetLightClass() const;
 			ScriptClass GetCameraClass() const;
 			ScriptClass GetEntityClass() const;
+			ScriptClass GetSceneClass() const;
 
 			ScriptClass GetObjectClass(ScriptObject object) const;
-			ScriptClass GetTypeClass(ScriptTypeClass type) const;			
+			ScriptClass GetTypeClass(ScriptTypeClass type) const;
+
+			bool IsDerrived(ScriptClass derrived, ScriptClass base) const;
+			bool IsScript(ScriptClass sclass) const;
 		};
 	}
 }

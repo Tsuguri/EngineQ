@@ -3,7 +3,7 @@
 namespace EngineQ
 {
 	Scene::Scene(Scripting::ScriptEngine& scriptEngine) :
-		scriptEngine{ scriptEngine }
+		Object{scriptEngine, scriptEngine.GetSceneClass()}
 	{
 
 	}

@@ -36,6 +36,7 @@
     <ClCompile Include="Scripting\API_Matrix3.cpp" />
     <ClCompile Include="Scripting\API_Matrix4.cpp" />
     <ClCompile Include="Scripting\API_Quaternion.cpp" />
+    <ClCompile Include="Scripting\API_Scene.cpp" />
     <ClCompile Include="Scripting\API_Transform.cpp" />
     <ClCompile Include="Scripting\ScriptEngine.cpp" />
     <ClCompile Include="Scripting\ScriptEngineException.cpp" />
@@ -64,6 +65,7 @@
     <ClInclude Include="Scripting\API_Matrix3.hpp" />
     <ClInclude Include="Scripting\API_Matrix4.hpp" />
     <ClInclude Include="Scripting\API_Quaternion.hpp" />
+    <ClInclude Include="Scripting\API_Scene.hpp" />
     <ClInclude Include="Scripting\API_Transform.hpp" />
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />

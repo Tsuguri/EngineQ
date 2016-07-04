@@ -73,12 +73,12 @@ namespace EngineQ
 			matrix = transform.GetGlobalMatrix();
 		}
 
-		void API_Transform::API_GetChildCount(Transform& transform, int& count)
+		void API_Transform::API_GetChildCount(Transform& transform, std::int32_t & count)
 		{
-			count = static_cast<int>(transform.GetChildCount());
+			count = static_cast<std::int32_t>(transform.GetChildCount());
 		}
 
-		void API_Transform::API_GetChild(Transform& transform, int index, MonoObject*& child)
+		void API_Transform::API_GetChild(Transform& transform, std::int32_t index, MonoObject*& child)
 		{
 			if (index < 0 || index >= transform.GetChildCount())
 			{

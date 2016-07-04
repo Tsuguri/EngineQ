@@ -57,14 +57,23 @@ namespace EngineQ
 		delete &component;
 	}
 
-	int Entity::GetComponentsCount() const
+	std::size_t Entity::GetComponentsCount() const
 	{
 		return static_cast<int>(this->components.size());
 	}
 
-	Component* Entity::GetComponent(int index) const
+	Component* Entity::GetComponent(std::size_t index) const
 	{
 		return this->components[index];
+	}
+
+	std::size_t Entity::GetComponentIndex(Component* component) const
+	{
+		for (auto it = this->components.begin(), end = this->components.end(); it != end; ++it)
+			if (*it == component)
+				return it - this->components.begin();
+
+		throw std::runtime_error("Component not found");
 	}
 
 	Script* Entity::AddScript(Scripting::ScriptClass sclass)

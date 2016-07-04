@@ -39,12 +39,14 @@ namespace EngineQ
 
 		void Update();
 
-		int GetComponentsCount() const;
-		Component* GetComponent(int index) const;
+		std::size_t GetComponentsCount() const;
+		Component* GetComponent(std::size_t index) const;
 
 		template<typename Type>
 		Type* AddComponent();
 		void RemoveComponent(Component& component);
+
+		std::size_t GetComponentIndex(Component* component) const;
 
 		Script* AddScript(Scripting::ScriptClass sclass);
 	};
@@ -58,6 +60,8 @@ namespace EngineQ
 		Type* component = new Type{ this->scriptEngine, *this };
 
 		components.push_back(component);
+
+		this->scene.AddedComponent(*component);
 
 		return component;
 	}
