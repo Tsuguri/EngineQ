@@ -3,7 +3,8 @@
 namespace EngineQ
 {
 	Scene::Scene(Scripting::ScriptEngine& scriptEngine) :
-		Object{scriptEngine, scriptEngine.GetSceneClass()}
+		Object{ scriptEngine, scriptEngine.GetSceneClass() },
+		isUpdating{ false }
 	{
 
 	}
@@ -16,29 +17,71 @@ namespace EngineQ
 
 	Entity* Scene::CreateEntity()
 	{
-		return new Entity{ *this, this->scriptEngine };
+		Entity* entity = new Entity{ *this, this->scriptEngine };
+		this->entities.push_back(entity);
+		return entity;
 	}
 
 	void Scene::RemoveEntity(Entity* entity)
 	{
-		RemoveEntityComponents(entity);
-		this->entities.erase(std::remove(this->entities.begin(), this->entities.end(), entity), this->entities.end());
-		
-		delete entity;
+		auto it = std::find(this->entities.begin(), this->entities.end(), entity);
+		if (it == this->entities.end())
+			throw std::runtime_error("Entity not found");
+
+		if (this->isUpdating)
+			this->entitiesToDelete.push_back(entity);
+		else
+			RemoveEntity_Internal(entity, it);
 	}
 
 	void Scene::RemoveEntity(std::size_t index)
 	{
+		if (index >= this->entities.size())
+			throw std::runtime_error("Index out of range");
 		auto it = std::next(this->entities.begin(), index);
 
-		RemoveEntityComponents(*it);
-		this->entities.erase(it);
+		if (this->isUpdating)
+			this->entitiesToDelete.push_back(*it);
+		else
+			RemoveEntity_Internal(*it, it);
 	}
 
-	void Scene::RemoveEntityComponents(Entity* entity)
+	void Scene::Update()
 	{
+		isUpdating = true;
+
+		// Lock entities
+		for (auto entity : this->entities)
+			entity->LockRemove();
+
+		// Update entities
+		for (size_t i = 0, size = this->entities.size(); i < size; ++i)
+			this->entities[i]->Update();
+
+		// Remove entities
+		if (this->entitiesToDelete.size() > 0)
+		{
+			for (auto entity : this->entitiesToDelete)
+				RemoveEntity_Internal(entity, std::find(this->entities.begin(), this->entities.end(), entity));
+			this->entitiesToDelete.clear();
+		}
+
+		// Unlock entities
+		for (auto entity : this->entities)
+			entity->UnlockRemove();
+
+		isUpdating = false;
+	}
+
+	void Scene::RemoveEntity_Internal(Entity* entity, std::vector<Entity*>::iterator it)
+	{
+		// Remove entity components
 		this->cameras.erase(std::remove_if(this->cameras.begin(), this->cameras.end(), [=](Component* component) {return &component->GetEntity() == entity; }), this->cameras.end());
 		this->lights.erase(std::remove_if(this->lights.begin(), this->lights.end(), [=](Component* component) {return &component->GetEntity() == entity; }), this->lights.end());
+	
+		this->entities.erase(it);
+		
+		delete entity;
 	}
 
 	void Scene::RemovedComponent(Component& component)
@@ -47,15 +90,15 @@ namespace EngineQ
 		{
 			case ComponentType::Camera:
 			{
-				Camera* camera = static_cast<Camera*>(&component);
-				this->cameras.erase(std::remove(this->cameras.begin(), this->cameras.end(), camera), this->cameras.end());
+				Camera& camera = static_cast<Camera&>(component);
+				this->cameras.erase(std::remove(this->cameras.begin(), this->cameras.end(), &camera), this->cameras.end());
 			}
 			break;
 
 			case ComponentType::Light:
 			{
-				Light* light = static_cast<Light*>(&component);
-				this->lights.erase(std::remove(this->lights.begin(), this->lights.end(), light), this->lights.end());
+				Light& light = static_cast<Light&>(component);
+				this->lights.erase(std::remove(this->lights.begin(), this->lights.end(), &light), this->lights.end());
 			}
 			break;
 		}

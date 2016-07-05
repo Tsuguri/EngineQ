@@ -165,6 +165,13 @@ namespace EngineQ
 
 		void ScriptEngine::DestroyObject(ScriptHandle handle) const
 		{
+			// Get object reference
+			MonoObject* instance = mono_gchandle_get_target(handle);
+
+			// Clear pointer to native representation
+			void* nativeHandle = nullptr;
+			mono_field_set_value(instance, this->qObjectHandleField, &nativeHandle);
+
 			// Release reference
 			mono_gchandle_free(handle);
 		}

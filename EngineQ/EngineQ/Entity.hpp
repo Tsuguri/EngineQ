@@ -21,12 +21,23 @@ namespace EngineQ
 	private:
 		Scene& scene;
 
+		bool isRemoveLocked;
+
 		std::vector<Component*> components;
 		std::vector<Script*> updatable;
+
+		std::vector<Component*> componentsToDelete;
 
 		Transform& transform;
 
 		Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine);
+
+		void LockRemove();
+		void UnlockRemove();
+
+		void RemoveComponent_Internal(Component& component, std::vector<Component*>::iterator it);
+		
+		void Update();
 
 	public:
 		virtual ~Entity() override;
@@ -37,7 +48,7 @@ namespace EngineQ
 		const Transform& GetTransform() const;
 		Transform& GetTransform();
 
-		void Update();
+		
 
 		std::size_t GetComponentsCount() const;
 		Component* GetComponent(std::size_t index) const;

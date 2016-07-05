@@ -50,10 +50,9 @@ int main(int argc, char** argv)
 
 	entity1->AddComponent<EngineQ::Light>();
 	entity1->AddScript(scriptClass);
-	entity1->Update();
 	
-	scene.RemoveEntity(entity1);
-	scene.RemoveEntity(entity2);
+	scene.Update();
+	scene.Update();
 
 	return 0;
 }

@@ -12,7 +12,7 @@ namespace EngineQ
 			get
 			{
 				Entity value;
-				API_GetEntity(nativeHandle, out value);
+				API_GetEntity(NativeHandle, out value);
 				return value;
 			}
 		}

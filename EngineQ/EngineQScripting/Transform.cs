@@ -14,12 +14,12 @@ namespace EngineQ
 			get
 			{
 				Transform value;
-				API_GetParent(nativeHandle, out value);
+				API_GetParent(NativeHandle, out value);
 				return value;
 			}
 			set
 			{
-				API_SetParent(nativeHandle, ref value);
+				API_SetParent(NativeHandle, ref value);
 			}
 		}
 
@@ -28,12 +28,12 @@ namespace EngineQ
 			get
 			{
 				Vector3 value;
-				API_GetPosition(nativeHandle, out value);
+				API_GetPosition(NativeHandle, out value);
 				return value;
 			}
 			set
 			{
-				API_SetPosition(nativeHandle, ref value);
+				API_SetPosition(NativeHandle, ref value);
 			}
 		}
 
@@ -42,13 +42,13 @@ namespace EngineQ
 			get
 			{
 				Vector3 value;
-				API_GetScale(nativeHandle, out value);
+				API_GetScale(NativeHandle, out value);
 				return value;
 			}
 
 			set
 			{
-				API_SetScale(nativeHandle, ref value);
+				API_SetScale(NativeHandle, ref value);
 			}
 		}
 
@@ -57,13 +57,13 @@ namespace EngineQ
 			get
 			{
 				Quaternion value;
-				API_GetRotation(nativeHandle, out value);
+				API_GetRotation(NativeHandle, out value);
 				return value;
 			}
 
 			set
 			{
-				API_SetRotation(nativeHandle, ref value);
+				API_SetRotation(NativeHandle, ref value);
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace EngineQ
 			get
 			{
 				Matrix4 value;
-				API_GetLocalMatrix(nativeHandle, out value);
+				API_GetLocalMatrix(NativeHandle, out value);
 				return value;
 			}
 		}
@@ -82,7 +82,7 @@ namespace EngineQ
 			get
 			{
 				Matrix4 value;
-				API_GetGlobalMatrix(nativeHandle, out value);
+				API_GetGlobalMatrix(NativeHandle, out value);
 				return value;
 			}
 		}
@@ -92,7 +92,7 @@ namespace EngineQ
 			get
 			{
 				int value;
-				API_GetChildCount(nativeHandle, out value);
+				API_GetChildCount(NativeHandle, out value);
 				return value;
 			}
 		}
@@ -100,7 +100,7 @@ namespace EngineQ
 		public Transform GetChild(int index)
 		{
 			Transform value;
-			API_GetChild(nativeHandle, index, out value);
+			API_GetChild(NativeHandle, index, out value);
 			return value;
 		}
 

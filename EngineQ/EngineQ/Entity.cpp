@@ -7,7 +7,8 @@ namespace EngineQ
 		Object{ scriptEngine, scriptEngine.GetEntityClass() },
 		scene{ scene },
 		components{},
-		transform{ *AddComponent<Transform>() }
+		transform{ *AddComponent<Transform>() },
+		isRemoveLocked{false}
 	{
 		// TMP
 		scriptEngine.InvokeConstructor(GetManagedObject());
@@ -15,8 +16,45 @@ namespace EngineQ
 
 	Entity::~Entity()
 	{
-		for (Component* component : components)
+		for (auto component : components)
 			delete component;
+	}
+
+	void Entity::LockRemove()
+	{
+		isRemoveLocked = true;
+	}
+
+	void Entity::UnlockRemove()
+	{
+		if (this->componentsToDelete.size() > 0)
+		{
+			for (auto component : this->componentsToDelete)
+				RemoveComponent_Internal(*component, std::find(this->components.begin(), this->components.end(), component));
+			this->componentsToDelete.clear();
+		}
+
+		isRemoveLocked = false;
+	}
+
+	void Entity::RemoveComponent_Internal(Component& component, std::vector<Component*>::iterator it)
+	{
+		this->components.erase(it);
+		this->scene.RemovedComponent(component);
+		
+		// Remove from cache
+		switch (component.GetType())
+		{
+			case ComponentType::Script:
+			{
+				Script& script = static_cast<Script&>(component);
+				if (script.IsUpdateble())
+					this->updatable.erase(std::remove(this->updatable.begin(), this->updatable.end(), &script), this->updatable.end());
+			}
+			break;
+		}
+
+		delete &component;
 	}
 
 	const Scene& Entity::GetScene() const
@@ -50,11 +88,14 @@ namespace EngineQ
 		if (&component == &this->transform)
 			throw std::runtime_error("Cannot remove transform component");
 
-		this->scene.RemovedComponent(component);
-
-		this->components.erase(std::remove(this->components.begin(), this->components.end(), &component), this->components.end());
-
-		delete &component;
+		auto it = std::find(this->components.begin(), this->components.end(), &component);
+		if (it == this->components.end())
+			throw std::runtime_error("Component not found");
+		
+		if (this->isRemoveLocked)
+			this->componentsToDelete.push_back(&component);
+		else
+			RemoveComponent_Internal(component, it);
 	}
 
 	std::size_t Entity::GetComponentsCount() const

@@ -4,17 +4,27 @@ namespace EngineQ
 {
 	public abstract class Object
 	{
-		protected readonly IntPtr nativeHandle;
+		private IntPtr nativeHandle;
+		protected IntPtr NativeHandle
+		{
+			get
+			{
+				if (nativeHandle == IntPtr.Zero)
+					throw new Exception("Attempt to use destroyed object");
 
+				return nativeHandle;
+			}
+		}
+
+		// TMP
 		public Object()
 		{
-			// TMP
 			Console.WriteLine($"Constructed {GetType()} with handle {nativeHandle}");
 		}
 
+		// TMP
 		~Object()
 		{
-			// TMP
 			Console.WriteLine($"Destructed {GetType()} with handle {nativeHandle}");
 		}
 	}

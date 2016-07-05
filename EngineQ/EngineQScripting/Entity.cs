@@ -10,7 +10,7 @@ namespace EngineQ
 			get
 			{
 				Scene value;
-				API_GetScene(nativeHandle, out value);
+				API_GetScene(NativeHandle, out value);
 				return value;
 			}
 		}
@@ -20,7 +20,7 @@ namespace EngineQ
 			get
 			{
 				Transform value;
-				API_GetTransform(nativeHandle, out value);
+				API_GetTransform(NativeHandle, out value);
 				return value;
 			}
 		}
@@ -30,7 +30,7 @@ namespace EngineQ
 		{
 			Component value;
 			Type type = typeof(TComponent);
-			API_GetComponentType(nativeHandle, ref type, out value);
+			API_GetComponentType(NativeHandle, ref type, out value);
 			return (TComponent)value;
 		}
 
@@ -39,13 +39,13 @@ namespace EngineQ
 		{
 			Component value;
 			Type type = typeof(TComponent);
-			API_AddComponent(nativeHandle, ref type, out value);
+			API_AddComponent(NativeHandle, ref type, out value);
 			return (TComponent)value;
 		}
 
 		public void RemoveComponent(Component component)
 		{
-			API_RemoveComponent(nativeHandle, ref component);
+			API_RemoveComponent(NativeHandle, ref component);
 		}
 		
 		public int ComponentsCount
@@ -53,7 +53,7 @@ namespace EngineQ
 			get
 			{
 				int value;
-				API_GetComponentsCount(nativeHandle, out value);
+				API_GetComponentsCount(NativeHandle, out value);
 				return value;
 			}
 		}
@@ -61,7 +61,7 @@ namespace EngineQ
 		public Component GetComponent(int index)
 		{
 			Component value;
-			API_GetComponentIndex(nativeHandle, index, out value);
+			API_GetComponentIndex(NativeHandle, index, out value);
 			return value;
 		}
 

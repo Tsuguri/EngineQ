@@ -8,31 +8,31 @@ namespace EngineQ
 		public Entity CreateEntity()
 		{
 			Entity value;
-			API_CreateEntity(nativeHandle, out value);
+			API_CreateEntity(NativeHandle, out value);
 			return value;
 		}
 
 		public void RemoveEntity(int index)
 		{
-			API_RemoveEntityIndex(nativeHandle, index);
+			API_RemoveEntityIndex(NativeHandle, index);
 		}
 
 		public void RemoveEntity(Entity entity)
 		{
-			API_RemoveEntityRef(nativeHandle, ref entity);
+			API_RemoveEntityRef(NativeHandle, ref entity);
 		}
 
 		public int GetEntityIndex(Entity entity)
 		{
 			int value;
-			API_GetEntityIndex(nativeHandle, ref entity, out value);
+			API_GetEntityIndex(NativeHandle, ref entity, out value);
 			return value;
 		}
 
 		public Entity GetEntity(int index)
 		{
 			Entity value;
-			API_GetEntity(nativeHandle, index, out value);
+			API_GetEntity(NativeHandle, index, out value);
 			return value;
 		}
 
@@ -41,7 +41,7 @@ namespace EngineQ
 			get
 			{
 				int value;
-				API_GetEntitiesCount(nativeHandle, out value);
+				API_GetEntitiesCount(NativeHandle, out value);
 				return value;
 			}
 		}

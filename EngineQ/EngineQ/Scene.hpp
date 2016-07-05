@@ -15,6 +15,9 @@ namespace EngineQ
 
 	private:
 		std::vector<Entity*> entities;
+		std::vector<Entity*> entitiesToDelete;
+
+		bool isUpdating;
 
 		std::vector<Light*> lights;
 		std::vector<Camera*> cameras;
@@ -23,7 +26,7 @@ namespace EngineQ
 		void RemovedComponent(Component& component);
 		void AddedComponent(Component& component);
 
-		void RemoveEntityComponents(Entity* entity);
+		void RemoveEntity_Internal(Entity* entity, std::vector<Entity*>::iterator it);
 
 	public:
 		Scene(Scripting::ScriptEngine& scriptEngine);
@@ -32,6 +35,8 @@ namespace EngineQ
 		Entity* CreateEntity();
 		void RemoveEntity(Entity* entity);
 		void RemoveEntity(std::size_t index);
+
+		void Update();
 
 		std::size_t GetEntityIndex(Entity* entity) const;
 
