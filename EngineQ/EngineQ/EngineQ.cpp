@@ -3,6 +3,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "Shader.hpp"
+#include "Math/Vector3.hpp"
 
 namespace EngineQ
 {
@@ -35,7 +37,9 @@ namespace EngineQ
 
 		glfwMakeContextCurrent(window);
 
+		//Change here to manipulate vsync
 		//glfwSwapInterval(0);
+
 		// Set the required callback functions
 		glfwSetKeyCallback(window, KeyControl);
 		glfwSetCursorPosCallback(window, MouseControl);
@@ -60,6 +64,7 @@ namespace EngineQ
 		// Define the viewport dimensions
 		glViewport(0, 0, width, height);
 	}
+
 	void EngineQ::KeyControl(GLFWwindow* window, int key, int scancode, int action, int mode)
 	{
 
@@ -102,5 +107,47 @@ namespace EngineQ
 			std::cout << "EngineQ is not initialized" << std::endl;
 			return nullptr;
 		}
+	}
+
+
+
+
+	void EngineQ::Run()
+	{
+		// main engine loop
+		Shader tempShader { "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
+
+		Math::Vector3(0, 0, 0);
+
+
+
+
+		while (!glfwWindowShouldClose(window))
+		{
+			//input
+			glfwPollEvents();
+
+
+
+			//check input and stuff
+
+
+			//scripts & logic
+
+
+
+
+			//render
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+
+
+			//swapiping buffers
+			glfwSwapBuffers(window);
+		}
+
+		glfwTerminate();
 	}
 }

@@ -4,6 +4,7 @@ int main()
 {
 	EngineQ::EngineQ::Initialize("Turbo giera", 800, 600);
 
-	getchar();
-	return 1;
+	EngineQ::EngineQ::Get()->Run();
+	
+	return 0;
 }
