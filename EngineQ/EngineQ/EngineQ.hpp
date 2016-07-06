@@ -29,7 +29,7 @@ public:
 	static bool Initialize(std::string name, int width, int height);
 	static EngineQ* Get();
 
-	void Run();
+	void Run() const;
 
 #pragma endregion 
 

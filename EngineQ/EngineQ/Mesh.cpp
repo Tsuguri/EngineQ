@@ -4,6 +4,10 @@
 
 namespace EngineQ
 {
+	GLuint Mesh::Count()
+	{
+		return count;
+	}
 
 	Mesh::Mesh(const std::vector<VertexPNC>& vertices, const std::vector<GLuint>& indices)
 	{

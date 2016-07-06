@@ -11,9 +11,13 @@ namespace EngineQ
 	class Mesh
 	{
 	private:
+		GLuint count;
+	public:
+		
 		GLuint vao=0;
 		GLuint vbo[3]={0,0,0};
-	public:
+		
+		
 		Mesh(const std::vector <VertexPNC>& vertices,const std::vector <GLuint>& indices);
 		~Mesh();
 	};
