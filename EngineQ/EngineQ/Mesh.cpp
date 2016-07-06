@@ -14,8 +14,9 @@ namespace EngineQ
 
 		//Generating vertex array and buffers
 		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
 		glGenBuffers(3, &vbo[0]);
+
+		glBindVertexArray(vao);
 
 
 
@@ -39,12 +40,13 @@ namespace EngineQ
 		glEnableVertexAttribArray(colorAtt);
 
 
-		glBindBuffer(GL_ARRAY_BUFFER, NULL);
+		
 
 		//sending indices data
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[2]);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size()*sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
-
+		glBindBuffer(GL_ARRAY_BUFFER, NULL);
+		count = indices.size();
 	}
 
 	EngineQ::Mesh::~Mesh()

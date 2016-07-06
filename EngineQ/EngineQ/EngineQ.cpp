@@ -1,12 +1,13 @@
 ﻿#include "EngineQ.hpp"
-#define GLEW_STATIC // to jest ok? czy to musi być w headerze?
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <fstream>
 #include "Shader.hpp"
 #include "Math/Vector3.hpp"
 #include "Mesh.hpp"
 #include <memory>
+#include <Windows.h>
 namespace EngineQ
 {
 
@@ -111,7 +112,7 @@ namespace EngineQ
 	}
 
 
-	std::unique_ptr<Mesh> GenerateCube(float side=1.0f)
+	std::unique_ptr<Mesh> GenerateCube(float side = 1.0f)
 	{
 		std::vector<VertexPNC> vertices{
 			{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
@@ -155,17 +156,26 @@ namespace EngineQ
 		std::vector<GLuint> indices{};
 		for (GLuint i = 0; i < vertices.size(); i++)
 			indices.push_back(i);
-		
+
 		return std::make_unique<Mesh>(vertices, indices);
 	}
+
 
 	void EngineQ::Run() const
 	{
 		// main engine loop
+
 		Shader tempShader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
 
 		Math::Vector3(0, 0, 0);
-		auto mesh = GenerateCube();
+		auto mesh = GenerateCube(0.2f);
+
+		//glEnable(GL_DEPTH_TEST);
+		glFrontFace(GL_CCW);
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_BACK, GL_FILL);
+		//glCullFace(GL_BACK);
+		//glEnable(GL_CULL_FACE);
 
 
 
@@ -194,7 +204,7 @@ namespace EngineQ
 
 
 			glBindVertexArray(mesh->vao);
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo[2]);
+			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vbo[2]);
 			glDrawElements(GL_TRIANGLES, mesh->Count(), GL_UNSIGNED_INT, NULL);
 
 			//swapiping buffers

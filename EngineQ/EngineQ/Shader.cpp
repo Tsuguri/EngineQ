@@ -16,6 +16,9 @@ namespace EngineQ
 		glGetProgramiv(programId, GL_LINK_STATUS, &success);
 		if (!success)
 		{
+			char infoLog[512];
+			glGetProgramInfoLog(programId, 512, NULL, infoLog);
+			std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
 			std::cout << "Shader linking failure" << std::endl;
 			throw 1;
 		}
@@ -69,7 +72,10 @@ namespace EngineQ
 		}
 		GLuint shaderId = glCreateShader(type);
 		if (shaderId == 0)
+		{
+			std::cout << "subshader creation failure" << std::endl;
 			return 0;
+		}
 		const GLchar* source[1];
 		source[0] = shaderCode;
 		glShaderSource(shaderId, 1, source, nullptr);

@@ -2,7 +2,7 @@
 #define ENGINEQHPP
 #include <string>
 
-class GLFWwindow;
+struct GLFWwindow;
 
 namespace EngineQ
 {

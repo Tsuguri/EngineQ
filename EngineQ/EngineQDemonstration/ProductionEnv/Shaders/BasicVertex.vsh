@@ -2,6 +2,7 @@
 
 layout(location = 0)in vec3 positionIn;
 layout(location = 3)in vec3 normalIn;
+layout(location = 2)in vec3 colorIn;
 
 const mat4 IdMat = mat4(1.0);
 
@@ -23,6 +24,7 @@ mat3 NormalMat = mat3(transpose(inverse(ModelMat)));
 out vec4 position;
 out vec3 normals;
 out vec4 worldPosition;
+out vec3 color;
 
 void main(void)
 {
@@ -32,5 +34,6 @@ void main(void)
 	position = ModelMat*position;
 
 		normals = NormalMat*normalIn;
+		color=colorIn;
 
 }
