@@ -172,7 +172,7 @@
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -192,7 +192,7 @@
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -216,7 +216,7 @@
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -240,7 +240,7 @@
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

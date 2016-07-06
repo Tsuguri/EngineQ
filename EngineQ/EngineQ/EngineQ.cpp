@@ -154,7 +154,8 @@ namespace EngineQ
 
 		};
 		std::vector<GLuint> indices{};
-		for (GLuint i = 0; i < vertices.size(); i++)
+		indices.reserve(vertices.size());
+		for (GLuint i = 0; i < vertices.size(); ++i)
 			indices.push_back(i);
 
 		return std::make_unique<Mesh>(vertices, indices);
