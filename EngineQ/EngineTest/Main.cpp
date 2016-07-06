@@ -8,8 +8,17 @@
 #include "Scripting/ScriptEngine.hpp"
 #include "Light.hpp"
 
+#include "ShaderPart.h"
+
 int main(int argc, char** argv)
 {
+	{
+		// Shaders test
+		EngineQ::VertexShader vs = EngineQ::VertexShader::CreateFromFile("Shaders/Test/Simple.frag");
+	}
+
+
+	// Scripting test
 	EngineQ::Math::Vector4 vec{ 1, 2, 3, 4 };
 	EngineQ::Math::Matrix4 mat = EngineQ::Math::Matrix4::GetIdentity();
 

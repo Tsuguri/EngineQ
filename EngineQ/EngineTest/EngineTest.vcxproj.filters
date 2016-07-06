@@ -19,4 +19,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Shaders\Test\Simple.frag" />
+    <Resource Include="Shaders\Test\Simple.vert" />
+  </ItemGroup>
 </Project>

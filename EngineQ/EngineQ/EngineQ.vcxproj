@@ -69,6 +69,7 @@
     <ClInclude Include="Scripting\API_Transform.hpp" />
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
+    <ClInclude Include="ShaderPart.h" />
     <ClInclude Include="Transform.hpp" />
     <ClInclude Include="Utilities.hpp" />
   </ItemGroup>

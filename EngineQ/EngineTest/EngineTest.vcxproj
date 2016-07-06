@@ -109,7 +109,9 @@
 COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
 
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
-COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"</Command>
+COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"
+
+XCOPY "$(ProjectDir)Shaders" "$(OutputPath)Shaders" /E /Y /I /R</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -132,7 +134,9 @@ COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPat
 COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
 
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
-COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"</Command>
+COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"
+
+XCOPY "$(ProjectDir)Shaders" "$(OutputPath)Shaders" /E /Y /I /R</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -159,7 +163,9 @@ COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPat
 COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
 
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
-COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"</Command>
+COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"
+
+XCOPY "$(ProjectDir)Shaders" "$(OutputPath)Shaders" /E /Y /I /R</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -186,11 +192,23 @@ COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPat
 COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
 
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
-COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"</Command>
+COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"
+
+XCOPY "$(ProjectDir)Shaders" "$(OutputPath)Shaders" /E /Y /I /R</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Test\Simple.frag">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Test\Simple.vert">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
