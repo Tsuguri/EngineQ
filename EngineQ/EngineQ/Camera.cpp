@@ -1,12 +1,15 @@
-#include "Camera.hpp"
+#include "Camera.hpp" 
 
-
-
-Camera::Camera()
+namespace EngineQ
 {
-}
+	Camera::Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity)
+		: Component{ scriptEngine, scriptEngine.GetCameraClass(), entity }
+	{
 
+	}
 
-Camera::~Camera()
-{
+	ComponentType Camera::GetType() const
+	{
+		return ComponentType::Camera;
+	}
 }
