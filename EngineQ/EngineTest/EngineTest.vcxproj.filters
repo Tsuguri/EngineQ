@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Shaders\Test\Simple.frag" />
-    <Resource Include="Shaders\Test\Simple.vert" />
+    <None Include="Shaders\Test\Simple.frag" />
+    <None Include="Shaders\Test\Simple.vert" />
   </ItemGroup>
 </Project>
