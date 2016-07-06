@@ -8,6 +8,11 @@ namespace EngineQ
 		updateMethod = scriptEngine.GetScriptUpdateMethod(sclass, scriptEngine.GetInstance(managedHandle));
 	}
 
+	ComponentType Script::GetType() const
+	{
+		return ComponentType::Script;
+	}
+
 	void Script::Update()
 	{
 		scriptEngine.InvokeMethod(managedHandle, updateMethod, nullptr);

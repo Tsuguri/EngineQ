@@ -19,20 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EngineQ.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Math\Matrix3.cpp" />
     <ClCompile Include="Math\Matrix4.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Scripting\API_Component.cpp" />
     <ClCompile Include="Scripting\API_Entity.cpp" />
     <ClCompile Include="Scripting\API_Matrix3.cpp" />
     <ClCompile Include="Scripting\API_Matrix4.cpp" />
     <ClCompile Include="Scripting\API_Quaternion.cpp" />
+    <ClCompile Include="Scripting\API_Scene.cpp" />
     <ClCompile Include="Scripting\API_Transform.cpp" />
     <ClCompile Include="Scripting\ScriptEngine.cpp" />
     <ClCompile Include="Scripting\ScriptEngineException.cpp" />
@@ -40,10 +44,12 @@
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="EngineQ.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="Immovable.hpp" />
+    <ClInclude Include="Light.hpp" />
     <ClInclude Include="Math\Matrix3.hpp" />
     <ClInclude Include="Math\Matrix4.hpp" />
     <ClInclude Include="Math\Quaternion.hpp" />
@@ -52,12 +58,14 @@
     <ClInclude Include="Math\Vector3.hpp" />
     <ClInclude Include="Math\Vector4.hpp" />
     <ClInclude Include="Object.hpp" />
+    <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Script.hpp" />
     <ClInclude Include="Scripting\API_Component.hpp" />
     <ClInclude Include="Scripting\API_Entity.hpp" />
     <ClInclude Include="Scripting\API_Matrix3.hpp" />
     <ClInclude Include="Scripting\API_Matrix4.hpp" />
     <ClInclude Include="Scripting\API_Quaternion.hpp" />
+    <ClInclude Include="Scripting\API_Scene.hpp" />
     <ClInclude Include="Scripting\API_Transform.hpp" />
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />

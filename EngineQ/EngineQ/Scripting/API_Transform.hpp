@@ -30,8 +30,8 @@ namespace EngineQ
 			static void API_GetLocalMatrix(Transform& transform, Matrix4& matrix);
 			static void API_GetGlobalMatrix(Transform& transform, Matrix4& matrix);
 
-			static void API_GetChildCount(Transform& transform, int& count);
-			static void API_GetChild(Transform& transform, int index, MonoObject*& child);
+			static void API_GetChildCount(Transform& transform, std::int32_t & count);
+			static void API_GetChild(Transform& transform, std::int32_t  index, MonoObject*& child);
 
 			static void API_Register(ScriptEngine& scriptEngine);
 		};

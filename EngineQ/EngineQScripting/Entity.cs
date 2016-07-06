@@ -5,12 +5,22 @@ namespace EngineQ
 {
 	public sealed class Entity : Object
 	{
+		public Scene Scene
+		{
+			get
+			{
+				Scene value;
+				API_GetScene(NativeHandle, out value);
+				return value;
+			}
+		}
+
 		public Transform Transform
 		{
 			get
 			{
 				Transform value;
-				API_GetTransform(nativeHandle, out value);
+				API_GetTransform(NativeHandle, out value);
 				return value;
 			}
 		}
@@ -20,25 +30,30 @@ namespace EngineQ
 		{
 			Component value;
 			Type type = typeof(TComponent);
-			API_GetComponentType(nativeHandle, ref type, out value);
+			API_GetComponentType(NativeHandle, ref type, out value);
 			return (TComponent)value;
 		}
 
-		public TScript AddScript<TScript>()
-			where TScript : Script
+		public TComponent AddComponent<TComponent>()
+			where TComponent : Component
 		{
-			Script value;
-			Type type = typeof(TScript);
-			API_AddScript(nativeHandle, ref type, out value);
-			return (TScript)value;
+			Component value;
+			Type type = typeof(TComponent);
+			API_AddComponent(NativeHandle, ref type, out value);
+			return (TComponent)value;
 		}
 
+		public void RemoveComponent(Component component)
+		{
+			API_RemoveComponent(NativeHandle, ref component);
+		}
+		
 		public int ComponentsCount
 		{
 			get
 			{
 				int value;
-				API_GetComponentsCount(nativeHandle, out value);
+				API_GetComponentsCount(NativeHandle, out value);
 				return value;
 			}
 		}
@@ -46,11 +61,14 @@ namespace EngineQ
 		public Component GetComponent(int index)
 		{
 			Component value;
-			API_GetComponentIndex(nativeHandle, index, out value);
+			API_GetComponentIndex(NativeHandle, index, out value);
 			return value;
 		}
 
 		#region API
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetScene(IntPtr handle, out Scene scene);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_GetTransform(IntPtr handle, out Transform transform);
@@ -65,7 +83,10 @@ namespace EngineQ
 		private static extern void API_GetComponentType(IntPtr handle, ref Type type, out Component component);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		private static extern void API_AddScript(IntPtr handle, ref Type type, out Script script);
+		private static extern void API_AddComponent(IntPtr handle, ref Type type, out Component component);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_RemoveComponent(IntPtr handle, ref Component component);
 
 		#endregion
 	}

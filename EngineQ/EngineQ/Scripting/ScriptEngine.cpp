@@ -13,6 +13,7 @@
 #include "API_Component.hpp"
 #include "API_Transform.hpp"
 #include "API_Entity.hpp"
+#include "API_Scene.hpp"
 #include "API_Quaternion.hpp"
 #include "API_Matrix3.hpp"
 #include "API_Matrix4.hpp"
@@ -21,8 +22,6 @@ namespace EngineQ
 {
 	namespace Scripting
 	{
-		const char* ScriptEngine::ConstructorName = ":.ctor";
-
 		MonoMethod* ScriptEngine::GetMethod(MonoClass* mclass, const char* name)
 		{
 			MonoMethodDesc* desc = mono_method_desc_new(name, true);
@@ -77,18 +76,20 @@ namespace EngineQ
 
 			this->image = mono_assembly_get_image(assembly);
 
-			this->qObjectClass = mono_class_from_name(this->image, "EngineQ", "Object");
-			this->qObjectHandleField = mono_class_get_field_from_name(this->qObjectClass, "nativeHandle");
+			this->qObjectClass = mono_class_from_name(this->image, NamespaceName, ObjectClassName);
+			this->qObjectHandleField = mono_class_get_field_from_name(this->qObjectClass, NativeHandleFieldName);
 
-			this->scriptClass = mono_class_from_name(this->image, "EngineQ", "Script");
-
-			this->entityClass = mono_class_from_name(this->image, "EngineQ", "Entity");
-			this->transformClass = mono_class_from_name(this->image, "EngineQ", "Transform");
+			this->entityClass = mono_class_from_name(this->image, NamespaceName, EntityClassName);
+			this->scriptClass = mono_class_from_name(this->image, NamespaceName, ScriptClassName);
+			this->transformClass = mono_class_from_name(this->image, NamespaceName, TransformClassName);
+			this->lightClass = mono_class_from_name(this->image, NamespaceName, LightClassName);
+			this->cameraClass = mono_class_from_name(this->image, NamespaceName, CameraClassName);
+			this->sceneClass = mono_class_from_name(this->image, NamespaceName, SceneClassName);
 
 			this->entityConstructor = GetMethod(this->entityClass, ConstructorName);
 			this->transformConstructor = GetMethod(this->transformClass, ConstructorName);
 
-			this->entityUpdate = GetMethod(this->entityClass, ":Update");
+			this->entityUpdate = GetMethod(this->entityClass, UpdateName);
 
 			// API
 			API_Quaternion::API_Register(*this);
@@ -98,6 +99,7 @@ namespace EngineQ
 			API_Component::API_Register(*this);
 			API_Transform::API_Register(*this);
 			API_Entity::API_Register(*this);
+			API_Scene::API_Register(*this);
 		}
 
 		ScriptEngine::~ScriptEngine()
@@ -163,6 +165,13 @@ namespace EngineQ
 
 		void ScriptEngine::DestroyObject(ScriptHandle handle) const
 		{
+			// Get object reference
+			MonoObject* instance = mono_gchandle_get_target(handle);
+
+			// Clear pointer to native representation
+			void* nativeHandle = nullptr;
+			mono_field_set_value(instance, this->qObjectHandleField, &nativeHandle);
+
 			// Release reference
 			mono_gchandle_free(handle);
 		}
@@ -186,7 +195,7 @@ namespace EngineQ
 
 		ScriptMethod ScriptEngine::GetScriptUpdateMethod(ScriptClass sclass, ScriptObject object) const
 		{
-			return GetScriptMethod(sclass, object, ":Update");
+			return GetScriptMethod(sclass, object, UpdateName);
 		}
 
 		ScriptClass ScriptEngine::GetScriptClass(const char* assembly, const char* classNamespace, const char* name) const
@@ -207,9 +216,24 @@ namespace EngineQ
 			return this->transformClass;
 		}
 
+		ScriptClass ScriptEngine::GetLightClass() const
+		{
+			return this->lightClass;
+		}
+
+		ScriptClass ScriptEngine::GetCameraClass() const
+		{
+			return this->cameraClass;
+		}
+
 		ScriptClass ScriptEngine::GetEntityClass() const
 		{
 			return this->entityClass;
+		}
+
+		ScriptClass ScriptEngine::GetSceneClass() const
+		{
+			return this->sceneClass;
 		}
 
 		ScriptClass ScriptEngine::GetObjectClass(ScriptObject object) const
@@ -222,7 +246,27 @@ namespace EngineQ
 			return mono_type_get_class(mono_reflection_type_get_type(type));
 		}
 
-		
+		bool ScriptEngine::IsDerrived(ScriptClass derrived, ScriptClass base) const
+		{
+			MonoClass* currClass = derrived;
+			while (currClass != base)
+			{
+				if (currClass == nullptr)
+					return false;
+
+				currClass = mono_class_get_parent(currClass);
+			}
+
+			return true;
+		}
+
+		bool ScriptEngine::IsScript(ScriptClass sclass) const
+		{
+			if (sclass == this->scriptClass)
+				return false;
+
+			return IsDerrived(sclass, this->scriptClass);
+		}
 
 		//int ScriptEngine::TMPRUN(int argc, char** argv)
 		//{

@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 
+#include "../Immovable.hpp"
 #include "ScriptEngineException.hpp"
 
 typedef struct _MonoDomain MonoDomain;
@@ -30,10 +31,22 @@ namespace EngineQ
 		using ScriptHandle = std::uint32_t;
 		using ScriptTypeClass = MonoReflectionType*;
 
-		class ScriptEngine
+		class ScriptEngine : public Immovable
 		{
 		private:
-			static const char* ConstructorName;
+			static constexpr char* ConstructorName = ":.ctor";
+			static constexpr char* UpdateName = ":Update";
+
+			static constexpr char* NamespaceName = "EngineQ";
+			static constexpr char* ObjectClassName = "Object";
+			static constexpr char* EntityClassName = "Entity";
+			static constexpr char* ScriptClassName = "Script";
+			static constexpr char* TransformClassName = "Transform";
+			static constexpr char* LightClassName = "Light";
+			static constexpr char* CameraClassName = "Camera";
+			static constexpr char* SceneClassName = "Scene";
+
+			static constexpr char* NativeHandleFieldName = "nativeHandle";
 
 			MonoDomain* domain;
 			MonoAssembly* assembly;
@@ -45,6 +58,9 @@ namespace EngineQ
 
 			MonoClass* entityClass;
 			MonoClass* transformClass;
+			MonoClass* lightClass;
+			MonoClass* cameraClass;
+			MonoClass* sceneClass;
 
 			MonoMethod* entityConstructor;
 			MonoMethod* transformConstructor;
@@ -79,10 +95,16 @@ namespace EngineQ
 
 			ScriptClass GetScriptClass(const char* assembly, const char* classNamespace, const char* name) const;
 			ScriptClass GetTransformClass() const;
+			ScriptClass GetLightClass() const;
+			ScriptClass GetCameraClass() const;
 			ScriptClass GetEntityClass() const;
+			ScriptClass GetSceneClass() const;
 
 			ScriptClass GetObjectClass(ScriptObject object) const;
-			ScriptClass GetTypeClass(ScriptTypeClass type) const;			
+			ScriptClass GetTypeClass(ScriptTypeClass type) const;
+
+			bool IsDerrived(ScriptClass derrived, ScriptClass base) const;
+			bool IsScript(ScriptClass sclass) const;
 		};
 	}
 }
