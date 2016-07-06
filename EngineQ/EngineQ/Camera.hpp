@@ -1,17 +1,14 @@
-#ifndef ENGINEQ_CAMERA_H
-#define ENGINEQ_CAMERA_H
-
-#include "Component.hpp"
+#ifndef CAMERAHPP
+#define CAMERAHPP
+#include "Transform.hpp"
 
 namespace EngineQ
 {
-	class Camera : public Component
+	class Camera : public Transform
 	{
 	public:
-		Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity);
-
-		virtual ComponentType GetType() const override;
+		Camera();
+		~Camera();
 	};
 }
-
-#endif // !ENGINEQ_CAMERA_H
+#endif
