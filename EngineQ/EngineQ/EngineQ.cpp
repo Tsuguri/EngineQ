@@ -1,6 +1,5 @@
 ﻿#include "EngineQ.hpp"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+
 #include <iostream>
 #include <fstream>
 #include "Shader.hpp"
@@ -17,67 +16,27 @@ namespace EngineQ
 	{
 
 		std::cout << "Creating  EngineQ" << std::endl;
-
-
-		glfwInit();
-
-		// Set all the required options for GLFW
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-
-		// Creating glfw window.
-		window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);//glfwGetPrimaryMonitor()
-
-		if (window == nullptr)
+		if (!window.Initialize(name, width, height))
 		{
-			std::cout << "Failed to create GLFW window" << std::endl;
-			glfwTerminate();
-			return;
-		}
-
-		glfwMakeContextCurrent(window);
-
-		//Change here to manipulate vsync
-		//glfwSwapInterval(0);
-
-		// Set the required callback functions
-		glfwSetKeyCallback(window, KeyControl);
-		glfwSetCursorPosCallback(window, MouseControl);
-		glfwSetMouseButtonCallback(window, MouseButtonControl);
-
-		//Uncomment below if want to register call on window resizing
-		//glfwSetFramebufferSizeCallback(window, WindowResized);
-
-
-		// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
-		glewExperimental = GL_TRUE;
-
-		// Initialize GLEW to setup the OpenGL Function pointers
-		if (glewInit() != GLEW_OK)
-		{
-			std::cout << "Failed to initialize GLEW" << std::endl;
-			glfwSetWindowShouldClose(window, GL_TRUE);
-			window = nullptr;
-			return;
+			std::cout << "Unable to initialize glfw window" << std::endl;
+			throw std::logic_error("Unable to start glfw window");
 		}
 
 		// Define the viewport dimensions
 		glViewport(0, 0, width, height);
 	}
 
-	void EngineQ::KeyControl(GLFWwindow* window, int key, int scancode, int action, int mode)
+	void EngineQ::KeyControl(int key, int scancode, int action, int mode)
 	{
 
 	}
 
-	void EngineQ::MouseButtonControl(GLFWwindow* window, int button, int action, int mods)
+	void EngineQ::MouseButtonControl(int button, int action, int mods)
 	{
 
 	}
 
-	void EngineQ::MouseControl(GLFWwindow* window, double xpos, double ypos)
+	void EngineQ::MouseControl(double xpos, double ypos)
 	{
 
 	}
@@ -92,11 +51,7 @@ namespace EngineQ
 		std::cout << "Initializing EngineQ" << std::endl;
 
 		instance = new EngineQ{ name, width, height };
-		if (instance->window == nullptr)
-		{
-			std::cout << "Initializing failed" << std::endl;
-			return false;
-		}
+
 		return true;
 	}
 
@@ -110,7 +65,6 @@ namespace EngineQ
 			return nullptr;
 		}
 	}
-
 
 	std::unique_ptr<Mesh> GenerateCube(float side = 1.0f)
 	{
@@ -162,7 +116,7 @@ namespace EngineQ
 	}
 
 
-	void EngineQ::Run() const
+	void EngineQ::Run()
 	{
 		// main engine loop
 
@@ -178,22 +132,14 @@ namespace EngineQ
 		//glCullFace(GL_BACK);
 		//glEnable(GL_CULL_FACE);
 
-
-
-		while (!glfwWindowShouldClose(window))
+		while (!window.ShouldClose())
 		{
 			//input
-			glfwPollEvents();
-
-
+			window.PollEvents();
 
 			//check input and stuff
 
-
 			//scripts & logic
-
-
-
 
 			//render
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -201,17 +147,13 @@ namespace EngineQ
 
 			tempShader.SetAsActive();
 
-
-
-
 			glBindVertexArray(mesh->vao);
 			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vbo[2]);
 			glDrawElements(GL_TRIANGLES, mesh->Count(), GL_UNSIGNED_INT, NULL);
 
 			//swapiping buffers
-			glfwSwapBuffers(window);
+			window.SwapBuffers();
 		}
-
-		glfwTerminate();
+		window.Close();
 	}
 }

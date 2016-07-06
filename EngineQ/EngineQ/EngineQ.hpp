@@ -2,8 +2,7 @@
 #define ENGINEQHPP
 #include <string>
 
-struct GLFWwindow;
-
+#include "GLFWWindow.hpp"
 namespace EngineQ
 {
 
@@ -13,7 +12,7 @@ class EngineQ
 
 private:
 	static EngineQ* instance;
-	GLFWwindow* window;
+	GLFWWindow window;
 
 public:
 #pragma endregion 
@@ -22,14 +21,14 @@ public:
 
 private:
 	EngineQ(std::string name, int width, int height);
-	static void KeyControl(GLFWwindow* window, int key, int scancode, int action, int mode);
-	static void MouseButtonControl(GLFWwindow* window, int button, int action, int mods);
-	static void MouseControl(GLFWwindow* window, double xpos, double ypos);
+	static void KeyControl(int key, int scancode, int action, int mode);
+	static void MouseButtonControl(int button, int action, int mods);
+	static void MouseControl(double xpos, double ypos);
 public:
 	static bool Initialize(std::string name, int width, int height);
 	static EngineQ* Get();
 
-	void Run() const;
+	void Run();
 
 #pragma endregion 
 
