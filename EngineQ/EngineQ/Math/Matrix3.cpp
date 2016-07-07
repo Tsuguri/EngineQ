@@ -57,9 +57,9 @@ namespace EngineQ
 		std::string Matrix3::ToString() const
 		{
 			return "[[" +
-				EngineQ::ToString(m00) + "," + EngineQ::ToString(m01) + "," + EngineQ::ToString(m02) + "],[" +
-				EngineQ::ToString(m10) + "," + EngineQ::ToString(m11) + "," + EngineQ::ToString(m12) + "],[" +
-				EngineQ::ToString(m20) + "," + EngineQ::ToString(m21) + "," + EngineQ::ToString(m22) + "]]";
+				Utilities::ToString(m00) + "," + Utilities::ToString(m01) + "," + Utilities::ToString(m02) + "],[" +
+				Utilities::ToString(m10) + "," + Utilities::ToString(m11) + "," + Utilities::ToString(m12) + "],[" +
+				Utilities::ToString(m20) + "," + Utilities::ToString(m21) + "," + Utilities::ToString(m22) + "]]";
 		}
 
 		Matrix3 Matrix3::GetTransposed() const

@@ -1,5 +1,5 @@
-#ifndef ENGINEQ_TRANSFORM_H
-#define ENGINEQ_TRANSFORM_H
+#ifndef ENGINEQ_TRANSFORM_HPP
+#define ENGINEQ_TRANSFORM_HPP
 
 #include <vector>
 #include <algorithm>
@@ -73,4 +73,4 @@ namespace EngineQ
 	};
 }
 
-#endif // !ENGINEQ_TRANSFORM_H
+#endif // !ENGINEQ_TRANSFORM_HPP

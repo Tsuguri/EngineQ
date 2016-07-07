@@ -75,7 +75,7 @@ namespace EngineQ
 		template<typename Type>
 		std::string Vector3t<Type>::ToString() const
 		{
-			return "[" + EngineQ::ToString(this->X) + "," + EngineQ::ToString(this->Y) + "," + EngineQ::ToString(this->Z) + "]";
+			return "[" + Utilities::ToString(this->X) + "," + Utilities::ToString(this->Y) + "," + Utilities::ToString(this->Z) + "]";
 		}
 
 	#pragma endregion

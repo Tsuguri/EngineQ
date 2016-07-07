@@ -1,5 +1,5 @@
-#ifndef ENGINEQ_ENTITY_H
-#define ENGINEQ_ENTITY_H
+#ifndef ENGINEQ_ENTITY_HPP
+#define ENGINEQ_ENTITY_HPP
 
 #include <cstdint>
 #include <vector>
@@ -78,4 +78,4 @@ namespace EngineQ
 	}
 }
 
-#endif // !ENGINEQ_ENTITY_H
+#endif // !ENGINEQ_ENTITY_HPP

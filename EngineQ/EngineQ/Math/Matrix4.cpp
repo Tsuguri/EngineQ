@@ -69,10 +69,10 @@ namespace EngineQ
 		std::string Matrix4::ToString() const
 		{
 			return "[[" +
-				EngineQ::ToString(m00) + "," + EngineQ::ToString(m01) + "," + EngineQ::ToString(m02) + "," + EngineQ::ToString(m03) + "],[" +
-				EngineQ::ToString(m10) + "," + EngineQ::ToString(m11) + "," + EngineQ::ToString(m12) + "," + EngineQ::ToString(m13) + "],[" +
-				EngineQ::ToString(m20) + "," + EngineQ::ToString(m21) + "," + EngineQ::ToString(m22) + "," + EngineQ::ToString(m23) + "],[" +
-				EngineQ::ToString(m30) + "," + EngineQ::ToString(m31) + "," + EngineQ::ToString(m32) + "," + EngineQ::ToString(m33) + "]]";
+				Utilities::ToString(m00) + "," + Utilities::ToString(m01) + "," + Utilities::ToString(m02) + "," + Utilities::ToString(m03) + "],[" +
+				Utilities::ToString(m10) + "," + Utilities::ToString(m11) + "," + Utilities::ToString(m12) + "," + Utilities::ToString(m13) + "],[" +
+				Utilities::ToString(m20) + "," + Utilities::ToString(m21) + "," + Utilities::ToString(m22) + "," + Utilities::ToString(m23) + "],[" +
+				Utilities::ToString(m30) + "," + Utilities::ToString(m31) + "," + Utilities::ToString(m32) + "," + Utilities::ToString(m33) + "]]";
 		}
 
 		Real Matrix4::GetDeterminant() const

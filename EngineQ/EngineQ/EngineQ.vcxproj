@@ -23,6 +23,10 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EngineQ.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Graphics\Shader.cpp" />
+    <ClCompile Include="Graphics\ShaderExceptions.cpp" />
+    <ClCompile Include="Graphics\ShaderPart.cpp" />
+    <ClCompile Include="Graphics\UniformLocation.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Math\Matrix3.cpp" />
     <ClCompile Include="Math\Matrix4.cpp" />
@@ -41,14 +45,19 @@
     <ClCompile Include="Scripting\ScriptEngine.cpp" />
     <ClCompile Include="Scripting\ScriptEngineException.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="Utilities\Nullable.cpp" />
+    <ClCompile Include="Utilities\StringHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="EngineQ.hpp" />
     <ClInclude Include="Entity.hpp" />
-    <ClInclude Include="Immovable.hpp" />
+    <ClInclude Include="Graphics\Shader.hpp" />
+    <ClInclude Include="Graphics\ShaderExceptions.hpp" />
+    <ClInclude Include="Graphics\ShaderPart.hpp" />
+    <ClInclude Include="Graphics\UniformLocation.hpp" />
+    <ClInclude Include="Utilities\Immovable.hpp" />
     <ClInclude Include="Light.hpp" />
     <ClInclude Include="Math\Matrix3.hpp" />
     <ClInclude Include="Math\Matrix4.hpp" />
@@ -69,15 +78,17 @@
     <ClInclude Include="Scripting\API_Transform.hpp" />
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
-    <ClInclude Include="ShaderPart.h" />
     <ClInclude Include="Transform.hpp" />
-    <ClInclude Include="Utilities.hpp" />
+    <ClInclude Include="Utilities\Nullable.hpp" />
+    <ClInclude Include="Utilities\StringHelpers.hpp" />
+    <ClInclude Include="Utilities\Uncopyable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />
     <None Include="Math\Vector3.inl" />
     <None Include="Math\Vector4.inl" />
-    <None Include="Utilities.inl" />
+    <None Include="Utilities\Nullable.inl" />
+    <None Include="Utilities\StringHelpers.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C9BF8FE4-F956-43A3-88F1-69D4ABEBC221}</ProjectGuid>

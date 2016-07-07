@@ -1,12 +1,12 @@
-#ifndef ENGINEQ_QOBJECT_H
-#define ENGINEQ_QOBJECT_H
+#ifndef ENGINEQ_QOBJECT_HPP
+#define ENGINEQ_QOBJECT_HPP
 
-#include "Immovable.hpp"
+#include "Utilities/Immovable.hpp"
 #include "Scripting/ScriptEngine.hpp"
 
 namespace EngineQ
 {
-	class Object : public Immovable
+	class Object : public Utilities::Immovable
 	{
 	protected:
 		const Scripting::ScriptHandle managedHandle;
@@ -24,4 +24,4 @@ namespace EngineQ
 	};
 }
 
-#endif // !ENGINEQ_QOBJECT_H
+#endif // !ENGINEQ_QOBJECT_HPP

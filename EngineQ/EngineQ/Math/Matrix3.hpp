@@ -1,7 +1,7 @@
-#ifndef ENGINEQ_MATH_MATRIX3_H
-#define ENGINEQ_MATH_MATRIX3_H
+#ifndef ENGINEQ_MATH_MATRIX3_HPP
+#define ENGINEQ_MATH_MATRIX3_HPP
 
-#include "../Utilities.hpp"
+#include "../Utilities/StringHelpers.hpp"
 #include "Types.hpp"
 
 #include "Vector3.hpp"
@@ -102,4 +102,4 @@ namespace EngineQ
 	}
 }
 
-#endif // !ENGINEQ_MATH_MATRIX3_H
+#endif // !ENGINEQ_MATH_MATRIX3_HPP

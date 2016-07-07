@@ -8,7 +8,7 @@
 #include "Scripting/ScriptEngine.hpp"
 #include "Light.hpp"
 
-#include "ShaderPart.h"
+#include "Graphics/Shader.hpp"
 
 #include "GLFW/glfw3.h"
 void Init()
@@ -62,15 +62,18 @@ void Init()
 	}
 }
 
+using namespace EngineQ;
+using namespace EngineQ::Graphics;
+
 int main(int argc, char** argv)
 {
 	// Shaders test
 	Init();
 
 	{
-		EngineQ::VertexShader vs = EngineQ::VertexShader::CreateFromFile("Shaders/Test/Simple.vert");
+		VertexShader vs = VertexShader::CreateFromFile("Shaders/Test/Simple.vert");
 	
-		EngineQ::Shader shader = { EngineQ::VertexShader::CreateFromFile("Shaders/Test/Simple.vert"), EngineQ::FragmentShader::CreateFromFile("Shaders/Test/Simple.frag") };
+		Shader shader{ VertexShader::CreateFromFile("Shaders/Test/Simple.vert"), FragmentShader::CreateFromFile("Shaders/Test/Simple.frag") };
 	}
 
 

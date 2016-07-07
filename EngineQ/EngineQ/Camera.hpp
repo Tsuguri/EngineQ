@@ -1,5 +1,5 @@
-#ifndef ENGINEQ_CAMERA_H
-#define ENGINEQ_CAMERA_H
+#ifndef ENGINEQ_CAMERA_HPP
+#define ENGINEQ_CAMERA_HPP
 
 #include "Component.hpp"
 
@@ -14,4 +14,4 @@ namespace EngineQ
 	};
 }
 
-#endif // !ENGINEQ_CAMERA_H
+#endif // !ENGINEQ_CAMERA_HPP

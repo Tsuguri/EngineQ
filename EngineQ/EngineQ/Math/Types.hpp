@@ -1,5 +1,5 @@
-#ifndef ENGINEQ_MATH_TYPES_H
-#define ENGINEQ_MATH_TYPES_H
+#ifndef ENGINEQ_MATH_TYPES_HPP
+#define ENGINEQ_MATH_TYPES_HPP
 
 #include <cmath>
 
@@ -11,4 +11,4 @@ namespace EngineQ
 	}
 }
 
-#endif // !ENGINEQ_MATH_TYPES_H
+#endif // !ENGINEQ_MATH_TYPES_HPP

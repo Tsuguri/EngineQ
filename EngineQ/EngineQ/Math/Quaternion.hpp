@@ -1,7 +1,7 @@
-#ifndef ENGINEQ_MATH_QUATERNION_H
-#define ENGINEQ_MATH_QUATERNION_H
+#ifndef ENGINEQ_MATH_QUATERNION_HPP
+#define ENGINEQ_MATH_QUATERNION_HPP
 
-#include "../Utilities.hpp"
+#include "../Utilities/StringHelpers.hpp"
 #include "Types.hpp"
 
 #include "Vector3.hpp"
@@ -85,4 +85,4 @@ namespace EngineQ
 	}
 }
 
-#endif // !ENGINEQ_MATH_QUATERNION_H
+#endif // !ENGINEQ_MATH_QUATERNION_HPP
