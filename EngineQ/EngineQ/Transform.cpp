@@ -21,8 +21,12 @@ namespace EngineQ
 		rotation{ Quaternion::GetIdentity() },
 		localMatrix{ Matrix4::GetIdentity() },
 		globalMatrix{ Matrix4::GetIdentity() },
+		localMatrixInverse{ Matrix4::GetIdentity() },
+		globalMatrixInverse{ Matrix4::GetIdentity() },
+		localMatrixChanged{ false },
 		globalMatrixChanged{ false },
-		localMatrixChanged{ false }
+		localMatrixInverseChanged{ false },
+		globalMatrixInverseChanged{ false }
 	{
 		// TMP
 		scriptEngine.InvokeConstructor(GetManagedObject());
@@ -70,6 +74,7 @@ namespace EngineQ
 			return;
 
 		globalMatrixChanged = true;
+		globalMatrixInverseChanged = true;
 		for (Transform* child : children)
 			child->VoidGlobalMatrix();
 	}
@@ -77,6 +82,7 @@ namespace EngineQ
 	void Transform::VoidLocalMatrix()
 	{
 		localMatrixChanged = true;
+		localMatrixInverseChanged = true;
 		VoidGlobalMatrix();
 	}
 
@@ -153,5 +159,29 @@ namespace EngineQ
 		}
 
 		return localMatrix;
+	}
+
+	Matrix4 Transform::GetGlobalMatrixInverse()
+	{
+		if (globalMatrixInverseChanged)
+		{
+			globalMatrixInverse = GetGlobalMatrix().GetInversed();
+			
+			globalMatrixInverseChanged = false;
+		}
+
+		return globalMatrixInverse;
+	}
+
+	Matrix4 Transform::GetLocalMatrixInverse()
+	{
+		if (localMatrixInverseChanged)
+		{
+			localMatrixInverse = GetLocalMatrix().GetInversed();
+
+			localMatrixInverseChanged = false;
+		}
+
+		return localMatrixInverse;
 	}
 }
