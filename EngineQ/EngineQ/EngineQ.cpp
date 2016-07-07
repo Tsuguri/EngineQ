@@ -145,6 +145,9 @@ namespace EngineQ
 		Scripting::ScriptEngine se{ name, (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
 
 		::EngineQ::Graphics::Shader tempShader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
+		auto view = tempShader.GetUniformLocation("ViewMat");
+		auto proj = tempShader.GetUniformLocation("ProjMat");
+
 
 		Math::Vector3(0, 0, 0);
 		auto mesh = GenerateCube(0.2f);
@@ -160,6 +163,8 @@ namespace EngineQ
 		glPolygonMode(GL_BACK, GL_FILL);
 		glCullFace(GL_BACK);
 		glEnable(GL_CULL_FACE);
+
+
 
 		while (!window.ShouldClose())
 		{
@@ -179,9 +184,9 @@ namespace EngineQ
 
 			tempShader.Activate();
 
-			tempShader.Bind(tempShader.GetUniformLocation("ViewMat"), cam->ViewMatrix());
+			tempShader.Bind(view, cam->ViewMatrix());
 
-			tempShader.Bind(tempShader.GetUniformLocation("ProjMat"), cam->ProjectionMatrix());
+			tempShader.Bind(proj, cam->ProjectionMatrix());
 
 
 
