@@ -26,6 +26,10 @@ namespace EngineQ
 			throw std::logic_error("Unable to start glfw window");
 		}
 
+		window.SetKeyFunction(KeyControl);
+		window.SetMouseButtonFunction(MouseButtonControl);
+		window.SetMouseControlFunction(MouseControl);
+
 		// Define the viewport dimensions
 		glViewport(0, 0, width, height);
 	}
@@ -73,12 +77,10 @@ namespace EngineQ
 	std::unique_ptr<Mesh> GenerateCube(float side = 1.0f)
 	{
 		std::vector<VertexPNC> vertices{
-
-
-
 			{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
 			{ Math::Vector3{ side,  side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
 			{ Math::Vector3{ side, -side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
+
 			{ Math::Vector3{ side,  side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
 			{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
 			{ Math::Vector3{ -side,  side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
@@ -86,30 +88,39 @@ namespace EngineQ
 			{ Math::Vector3{ -side, -side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
 			{ Math::Vector3{ side, -side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
 			{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
+
 			{ Math::Vector3{ -side,  side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
 			{ Math::Vector3{ -side, -side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
 			{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
+
 			{ Math::Vector3{ -side,  side, -side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
 			{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
 			{ Math::Vector3{ -side,  side,  side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
+
 			{ Math::Vector3{ -side, -side,  side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
 			{ Math::Vector3{ -side,  side,  side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
 			{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
+
 			{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
 			{ Math::Vector3{ side, -side, -side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
 			{ Math::Vector3{ side,  side, -side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
+
 			{ Math::Vector3{ side, -side, -side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
 			{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
 			{ Math::Vector3{ side, -side,  side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
+
 			{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
 			{ Math::Vector3{ side, -side, -side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
 			{ Math::Vector3{ side, -side,  side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
+
 			{ Math::Vector3{ side, -side,  side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
 			{ Math::Vector3{ -side, -side,  side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
 			{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
+
 			{ Math::Vector3{ -side,  side, -side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
 			{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
 			{ Math::Vector3{ side,  side, -side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
+
 			{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
 			{ Math::Vector3{ -side,  side, -side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
 			{ Math::Vector3{ -side,  side,  side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
@@ -140,15 +151,15 @@ namespace EngineQ
 
 		Scene sc{ se };
 		auto ent = sc.CreateEntity();
-		auto cam =ent->AddComponent<Camera>();
-		//ent->GetTransform().SetPosition(Math::Vector3(2,2,-2));
-		
-		//glEnable(GL_DEPTH_TEST);
+		auto cam = ent->AddComponent<Camera>();
+		ent->GetTransform().SetPosition(Math::Vector3(0, 0, -2.0f));
+
+		glEnable(GL_DEPTH_TEST);
 		glFrontFace(GL_CCW);
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glPolygonMode(GL_BACK, GL_FILL);
-		//glCullFace(GL_BACK);
-		//glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glEnable(GL_CULL_FACE);
 
 		while (!window.ShouldClose())
 		{
@@ -158,7 +169,10 @@ namespace EngineQ
 			//check input and stuff
 
 			//scripts & logic
-
+			auto p = ent->GetTransform().GetRotation().GetEulerAngles();
+			p.X = 0.3f*std::sin(window.GetTime());
+			ent->GetTransform().SetRotation(Math::Quaternion::CreateFromEuler(p));
+			
 			//render
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -166,11 +180,11 @@ namespace EngineQ
 			tempShader.SetAsActive();
 
 			GLint viewLocation = glGetUniformLocation(tempShader.GetProgramId(), "ViewMat");
-			glUniformMatrix4fv(viewLocation, 1, GL_FALSE,&cam->ViewMatrix().Values[0]);
-			
+			glUniformMatrix4fv(viewLocation, 1, GL_TRUE, &cam->ViewMatrix().Values[0]);
+
 			GLint projectionLocation = glGetUniformLocation(tempShader.GetProgramId(), "ProjMat");
-			glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &cam->ProjectionMatrix().GetTransposed().Values[0]);
-			
+			glUniformMatrix4fv(projectionLocation, 1, GL_TRUE, &cam->ProjectionMatrix().Values[0]);
+
 
 
 

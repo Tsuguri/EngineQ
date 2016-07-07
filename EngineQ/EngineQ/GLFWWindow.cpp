@@ -6,17 +6,24 @@
 
 namespace EngineQ
 {
+	GLFWWindow::keyfunc GLFWWindow::KeyFunction=nullptr;
+	GLFWWindow::mousebuttonfunc GLFWWindow::MouseButtonsFunction = nullptr;
+	GLFWWindow::mousecontrolfunc GLFWWindow::MouseControlFunction = nullptr;
+
 	void GLFWWindow::KeyControl(GLFWwindow * window, int key, int scancode, int action, int mode)
 	{
-
+		if (KeyFunction != nullptr)
+			KeyFunction(key, scancode, action, mode);
 	}
 	void GLFWWindow::MouseButtonControl(GLFWwindow * window, int button, int action, int mods)
 	{
-
+		if (MouseButtonsFunction != nullptr)
+			MouseButtonsFunction(button, action, mods);
 	}
 	void GLFWWindow::MouseControl(GLFWwindow * window, double xpos, double ypos)
 	{
-
+		if (MouseControlFunction != nullptr)
+			MouseControlFunction(xpos, ypos);
 	}
 	bool GLFWWindow::Initialize(std::string windowName, int width, int height)
 	{
@@ -49,7 +56,6 @@ namespace EngineQ
 		glfwSetKeyCallback(window, KeyControl);
 		glfwSetCursorPosCallback(window, MouseControl);
 		glfwSetMouseButtonCallback(window, MouseButtonControl);
-
 		//Uncomment below if want to register call on window resizing
 		//glfwSetFramebufferSizeCallback(window, WindowResized);
 
@@ -87,6 +93,26 @@ namespace EngineQ
 	void GLFWWindow::PollEvents()
 	{
 		glfwPollEvents();
+	}
+
+	void GLFWWindow::SetKeyFunction(keyfunc function)
+	{
+		KeyFunction = function;
+	}
+
+	void GLFWWindow::SetMouseButtonFunction(mousebuttonfunc function)
+	{
+		MouseButtonsFunction = function;
+	}
+
+	void GLFWWindow::SetMouseControlFunction(mousecontrolfunc function)
+	{
+		MouseControlFunction = function;
+	}
+
+	double GLFWWindow::GetTime()
+	{
+		return glfwGetTime();
 	}
 
 	GLFWWindow::GLFWWindow()

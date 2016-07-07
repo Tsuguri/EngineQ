@@ -1,5 +1,5 @@
-﻿#ifndef ENGINEQHPP
-#define ENGINEQHPP
+﻿#ifndef ENGINEQ_ENGINEQ_HPP
+#define ENGINEQ_ENGINEQ_HPP
 #include <string>
 
 #include "GLFWWindow.hpp"
@@ -20,6 +20,9 @@ public:
 #pragma region Methods
 
 private:
+
+
+
 	EngineQ(std::string name, int width, int height);
 	static void KeyControl(int key, int scancode, int action, int mode);
 	static void MouseButtonControl(int button, int action, int mods);

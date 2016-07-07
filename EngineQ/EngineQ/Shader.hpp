@@ -1,5 +1,5 @@
-#ifndef SHADERHPP
-#define SHADERHPP
+#ifndef ENGINEQ_SHADER_HPP
+#define ENGINEQ_SHADER_HPP
 #include <GL/glew.h>
 #include <string>
 #include <vector>

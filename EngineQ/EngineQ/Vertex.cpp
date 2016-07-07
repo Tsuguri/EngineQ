@@ -1,4 +1,5 @@
 #include "Vertex.hpp"
+
 namespace EngineQ
 {
 	const size_t VertexPNC::positionOffset = offsetof(VertexPNC, position);

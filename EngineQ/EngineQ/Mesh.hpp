@@ -5,10 +5,11 @@
 #include "Vertex.hpp"
 #include <vector>
 #include <GL/glew.h>
+#include "Immovable.hpp"
 
 namespace EngineQ
 {
-	class Mesh
+	class Mesh : public Immovable
 	{
 	private:
 		GLuint count;
@@ -18,6 +19,7 @@ namespace EngineQ
 		GLuint vbo[3]={0,0,0};
 		
 		GLuint Count();
+
 		Mesh(const std::vector <VertexPNC>& vertices,const std::vector <GLuint>& indices);
 		~Mesh();
 	};
