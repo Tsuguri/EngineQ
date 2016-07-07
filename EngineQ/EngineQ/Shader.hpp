@@ -19,6 +19,7 @@ namespace EngineQ
 		
 	public:
 		Shader(const char* vertexFile, const char* fragmentFile);
+		GLuint GetProgramId();
 		~Shader();
 		void SetAsActive() const;
 

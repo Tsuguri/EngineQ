@@ -35,7 +35,9 @@ int main(int argc, char** argv)
 	{
 		scriptsAssembliesPath = argv[3];
 	}
-	
+	std::cout << argv[0] << std::endl << engineAssemblyPath << std::endl << monoPath << std::endl;
+
+
 	EngineQ::Scripting::ScriptEngine se{ argv[0], (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
 
 	EngineQ::Scene scene{ se };
@@ -54,5 +56,6 @@ int main(int argc, char** argv)
 	scene.Update();
 	scene.Update();
 
+	getchar();
 	return 0;
 }

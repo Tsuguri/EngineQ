@@ -53,6 +53,11 @@ namespace EngineQ
 		FinalizeShader();
 	}
 
+	GLuint Shader::GetProgramId()
+	{
+		return programId;
+	}
+
 	void Shader::SetAsActive() const
 	{
 		glUseProgram(programId);

@@ -45,6 +45,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +79,7 @@
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="Transform.hpp" />
     <ClInclude Include="Utilities.hpp" />
+    <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Vertex.hpp" />
   </ItemGroup>
   <ItemGroup>

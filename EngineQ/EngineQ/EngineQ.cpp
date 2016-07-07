@@ -2,11 +2,15 @@
 
 #include <iostream>
 #include <fstream>
-#include "Shader.hpp"
-#include "Math/Vector3.hpp"
-#include "Mesh.hpp"
 #include <memory>
-#include <Windows.h>
+
+
+#include "Math/Vector3.hpp"
+#include "Scripting/ScriptEngine.hpp"
+#include "Shader.hpp"
+#include "Mesh.hpp"
+#include "Scene.hpp"
+
 namespace EngineQ
 {
 
@@ -69,12 +73,16 @@ namespace EngineQ
 	std::unique_ptr<Mesh> GenerateCube(float side = 1.0f)
 	{
 		std::vector<VertexPNC> vertices{
+
+
+
 			{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
 			{ Math::Vector3{ side,  side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
 			{ Math::Vector3{ side, -side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
 			{ Math::Vector3{ side,  side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
 			{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
 			{ Math::Vector3{ -side,  side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
+
 			{ Math::Vector3{ -side, -side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
 			{ Math::Vector3{ side, -side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
 			{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
@@ -116,15 +124,25 @@ namespace EngineQ
 	}
 
 
-	void EngineQ::Run()
+	void EngineQ::Run(const char* name)
 	{
 		// main engine loop
+		std::string monoPath = "./";
+		std::string engineAssemblyPath = "./";
+		std::string scriptsAssembliesPath = "./Scripts/";
+
+		Scripting::ScriptEngine se{ name, (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
 
 		Shader tempShader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
 
 		Math::Vector3(0, 0, 0);
 		auto mesh = GenerateCube(0.2f);
 
+		Scene sc{ se };
+		auto ent = sc.CreateEntity();
+		auto cam =ent->AddComponent<Camera>();
+		//ent->GetTransform().SetPosition(Math::Vector3(2,2,-2));
+		
 		//glEnable(GL_DEPTH_TEST);
 		glFrontFace(GL_CCW);
 		glPolygonMode(GL_FRONT, GL_FILL);
@@ -146,6 +164,18 @@ namespace EngineQ
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			tempShader.SetAsActive();
+
+			GLint viewLocation = glGetUniformLocation(tempShader.GetProgramId(), "ViewMat");
+			glUniformMatrix4fv(viewLocation, 1, GL_FALSE,&cam->ViewMatrix().Values[0]);
+			
+			GLint projectionLocation = glGetUniformLocation(tempShader.GetProgramId(), "ProjMat");
+			glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &cam->ProjectionMatrix().GetTransposed().Values[0]);
+			
+
+
+
+
+
 
 			glBindVertexArray(mesh->vao);
 			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vbo[2]);
