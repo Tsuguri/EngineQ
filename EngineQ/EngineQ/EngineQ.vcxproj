@@ -47,7 +47,6 @@
     <ClCompile Include="Scripting\ScriptEngine.cpp" />
     <ClCompile Include="Scripting\ScriptEngineException.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Utilities\Nullable.cpp" />

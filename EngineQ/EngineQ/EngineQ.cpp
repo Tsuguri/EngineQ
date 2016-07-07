@@ -7,9 +7,9 @@
 
 #include "Math/Vector3.hpp"
 #include "Scripting/ScriptEngine.hpp"
-#include "Shader.hpp"
 #include "Mesh.hpp"
 #include "Scene.hpp"
+#include "Graphics/Shader.hpp"
 
 namespace EngineQ
 {
@@ -179,14 +179,9 @@ namespace EngineQ
 
 			tempShader.Activate();
 
-			GLint viewLocation = glGetUniformLocation(tempShader.GetProgramId(), "ViewMat");
-			glUniformMatrix4fv(viewLocation, 1, GL_TRUE, &cam->ViewMatrix().Values[0]);
+			tempShader.Bind(tempShader.GetUniformLocation("ViewMat"), cam->ViewMatrix());
 
-			GLint projectionLocation = glGetUniformLocation(tempShader.GetProgramId(), "ProjMat");
-			glUniformMatrix4fv(projectionLocation, 1, GL_TRUE, &cam->ProjectionMatrix().Values[0]);
-
-
-
+			tempShader.Bind(tempShader.GetUniformLocation("ProjMat"), cam->ProjectionMatrix());
 
 
 

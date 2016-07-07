@@ -125,7 +125,7 @@ namespace EngineQ
 
 		void Shader::Bind(UniformLocation location, Matrix4 value)
 		{
-			glUniformMatrix4fv(location.location, 1, GL_FALSE, &value.Values[0]);
+			glUniformMatrix4fv(location.location, 1, GL_TRUE, &value.Values[0]);
 		}
 	}
 }

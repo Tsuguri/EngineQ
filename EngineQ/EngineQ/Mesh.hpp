@@ -5,11 +5,11 @@
 #include "Vertex.hpp"
 #include <vector>
 #include <GL/glew.h>
-#include "Immovable.hpp"
+#include "Utilities/Immovable.hpp"
 
 namespace EngineQ
 {
-	class Mesh : public Immovable
+	class Mesh : public Utilities::Immovable
 	{
 	private:
 		GLuint count;
