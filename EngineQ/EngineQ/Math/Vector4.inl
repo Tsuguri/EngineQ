@@ -82,7 +82,7 @@ namespace EngineQ
 		template<typename Type>
 		inline std::string Vector4t<Type>::ToString() const
 		{
-			return "[" + EngineQ::ToString(this->X) + "," + EngineQ::ToString(this->Y) + "," + EngineQ::ToString(this->Z) + "," + EngineQ::ToString(this->W) + "]";
+			return "[" + Utilities::ToString(this->X) + "," + Utilities::ToString(this->Y) + "," + Utilities::ToString(this->Z) + "," + Utilities::ToString(this->W) + "]";
 		}
 
 	#pragma endregion

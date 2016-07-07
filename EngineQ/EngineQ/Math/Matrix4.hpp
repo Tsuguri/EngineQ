@@ -1,7 +1,7 @@
-#ifndef ENGINEQ_MATH_MATRIX4_H
-#define ENGINEQ_MATH_MATRIX4_H
+#ifndef ENGINEQ_MATH_MATRIX4_HPP
+#define ENGINEQ_MATH_MATRIX4_HPP
 
-#include "../Utilities.hpp"
+#include "../Utilities/StringHelpers.hpp"
 #include "Types.hpp"
 
 #include "Quaternion.hpp"
@@ -134,4 +134,4 @@ namespace EngineQ
 	}
 }
 
-#endif // !ENGINEQ_MATH_MATRIX4_H
+#endif // !ENGINEQ_MATH_MATRIX4_HPP

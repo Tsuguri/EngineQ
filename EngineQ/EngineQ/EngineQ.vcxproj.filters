@@ -33,9 +33,6 @@
     <ClCompile Include="Math\Quaternion.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Scripting\API_Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -90,6 +87,24 @@
     <ClCompile Include="Scripting\API_Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\StringHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Nullable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ShaderPart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ShaderExceptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\UniformLocation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -124,12 +139,6 @@
     </ClInclude>
     <ClInclude Include="Math\Vector4.hpp">
       <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Immovable.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scripting\API_Component.hpp">
       <Filter>Header Files</Filter>
@@ -185,6 +194,30 @@
     <ClInclude Include="Scripting\API_Scene.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\Immovable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Uncopyable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\StringHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Nullable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ShaderPart.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ShaderExceptions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\UniformLocation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -208,7 +241,10 @@
     <None Include="Math\Vector2.inl">
       <Filter>Source Files\Math</Filter>
     </None>
-    <None Include="Utilities.inl">
+    <None Include="Utilities\StringHelpers.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Utilities\Nullable.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

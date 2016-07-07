@@ -1,11 +1,11 @@
-#ifndef ENGINEQ_SCRIPTING_SCRIPT_ENGINE_H
-#define ENGINEQ_SCRIPTING_SCRIPT_ENGINE_H
+#ifndef ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP
+#define ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP
 
 #include <iostream>
 #include <map>
 #include <string>
 
-#include "../Immovable.hpp"
+#include "../Utilities/Immovable.hpp"
 #include "ScriptEngineException.hpp"
 
 typedef struct _MonoDomain MonoDomain;
@@ -31,7 +31,7 @@ namespace EngineQ
 		using ScriptHandle = std::uint32_t;
 		using ScriptTypeClass = MonoReflectionType*;
 
-		class ScriptEngine : public Immovable
+		class ScriptEngine : public Utilities::Immovable
 		{
 		private:
 			static constexpr char* ConstructorName = ":.ctor";
@@ -109,4 +109,4 @@ namespace EngineQ
 	}
 }
 
-#endif // !ENGINEQ_SCRIPTING_SCRIPT_ENGINE_H
+#endif // !ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP

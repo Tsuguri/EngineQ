@@ -1,5 +1,5 @@
-#ifndef ENGINEQ_SCRIPTING_API_SCENE_H
-#define ENGINEQ_SCRIPTING_API_SCENE_H
+#ifndef ENGINEQ_SCRIPTING_API_SCENE_HPP
+#define ENGINEQ_SCRIPTING_API_SCENE_HPP
 
 #include "ScriptEngine.hpp"
 
@@ -24,4 +24,4 @@ namespace EngineQ
 	}
 }
 
-#endif // !ENGINEQ_SCRIPTING_API_SCENE_H
+#endif // !ENGINEQ_SCRIPTING_API_SCENE_HPP

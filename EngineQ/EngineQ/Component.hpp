@@ -1,5 +1,5 @@
-#ifndef ENGINEQ_COMPONENT_H
-#define ENGINEQ_COMPONENT_H
+#ifndef ENGINEQ_COMPONENT_HPP
+#define ENGINEQ_COMPONENT_HPP
 
 #include "Object.hpp"
 
@@ -30,4 +30,4 @@ namespace EngineQ
 	};
 }
 
-#endif // !ENGINEQ_COMPONENT_H
+#endif // !ENGINEQ_COMPONENT_HPP

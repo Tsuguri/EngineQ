@@ -1,5 +1,5 @@
-#ifndef ENGINEQ_LIGHT_H
-#define ENGINEQ_LIGHT_H
+#ifndef ENGINEQ_LIGHT_HPP
+#define ENGINEQ_LIGHT_HPP
 
 #include "Component.hpp"
 
@@ -14,4 +14,4 @@ namespace EngineQ
 	};
 }
 
-#endif // !ENGINEQ_LIGHT_H
+#endif // !ENGINEQ_LIGHT_HPP

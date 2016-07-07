@@ -1,7 +1,7 @@
-#ifndef ENGINEQ_MATH_VECTOR4_H
-#define ENGINEQ_MATH_VECTOR4_H
+#ifndef ENGINEQ_MATH_VECTOR4_HPP
+#define ENGINEQ_MATH_VECTOR4_HPP
 
-#include "../Utilities.hpp"
+#include "../Utilities/StringHelpers.hpp"
 #include "Types.hpp"
 
 #include "Vector2.hpp"
@@ -259,4 +259,4 @@ namespace EngineQ
 
 #pragma endregion
 
-#endif // !ENGINEQ_MATH_VECTOR4_H
+#endif // !ENGINEQ_MATH_VECTOR4_HPP

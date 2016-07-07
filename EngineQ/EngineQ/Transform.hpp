@@ -1,5 +1,5 @@
-#ifndef ENGINEQ_TRANSFORM_H
-#define ENGINEQ_TRANSFORM_H
+#ifndef ENGINEQ_TRANSFORM_HPP
+#define ENGINEQ_TRANSFORM_HPP
 
 #include <vector>
 #include <algorithm>
@@ -40,8 +40,13 @@ namespace EngineQ
 		Matrix4 globalMatrix;
 		Matrix4 localMatrix;
 
+		Matrix4 globalMatrixInverse;
+		Matrix4 localMatrixInverse;
+
 		bool globalMatrixChanged;
 		bool localMatrixChanged;
+		bool globalMatrixInverseChanged;
+		bool localMatrixInverseChanged;
 
 		Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity);
 
@@ -70,7 +75,10 @@ namespace EngineQ
 
 		Matrix4 GetGlobalMatrix();
 		Matrix4 GetLocalMatrix();
+
+		Matrix4 GetGlobalMatrixInverse();
+		Matrix4 GetLocalMatrixInverse();
 	};
 }
 
-#endif // !ENGINEQ_TRANSFORM_H
+#endif // !ENGINEQ_TRANSFORM_HPP

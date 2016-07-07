@@ -64,7 +64,7 @@ namespace EngineQ
 
 		std::string Quaternion::ToString() const
 		{
-			return "[" + EngineQ::ToString(this->W) + "," + EngineQ::ToString(this->X) + "," + EngineQ::ToString(this->Y) + "," + EngineQ::ToString(this->Z) + "]";
+			return "[" + Utilities::ToString(this->W) + "," + Utilities::ToString(this->X) + "," + Utilities::ToString(this->Y) + "," + Utilities::ToString(this->Z) + "]";
 		}
 
 	#pragma endregion

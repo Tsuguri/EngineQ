@@ -1,5 +1,5 @@
-#ifndef ENGINEQ_SCENE_H
-#define ENGINEQ_SCENE_H
+#ifndef ENGINEQ_SCENE_HPP
+#define ENGINEQ_SCENE_HPP
 
 #include <vector>
 
@@ -45,4 +45,4 @@ namespace EngineQ
 	};
 }
 
-#endif // !ENGINEQ_SCENE_H
+#endif // !ENGINEQ_SCENE_HPP

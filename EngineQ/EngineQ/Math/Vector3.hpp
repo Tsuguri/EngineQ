@@ -1,7 +1,7 @@
-#ifndef ENGINEQ_MATH_VECTOR3_H
-#define ENGINEQ_MATH_VECTOR3_H
+#ifndef ENGINEQ_MATH_VECTOR3_HPP
+#define ENGINEQ_MATH_VECTOR3_HPP
 
-#include "../Utilities.hpp"
+#include "../Utilities/StringHelpers.hpp"
 #include "Types.hpp"
 
 #include "Vector2.hpp"
@@ -164,4 +164,4 @@ namespace EngineQ
 
 #include "Vector3.inl"
 
-#endif // !ENGINEQ_MATH_VECTOR3_H
+#endif // !ENGINEQ_MATH_VECTOR3_HPP

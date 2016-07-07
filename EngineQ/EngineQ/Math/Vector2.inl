@@ -68,7 +68,7 @@ namespace EngineQ
 		template<typename Type>
 		std::string Vector2t<Type>::ToString() const
 		{
-			return "[" + EngineQ::ToString(this->X) + "," + EngineQ::ToString(this->Y) + "]";
+			return "[" + Utilities::ToString(this->X) + "," + Utilities::ToString(this->Y) + "]";
 		}
 
 	#pragma endregion

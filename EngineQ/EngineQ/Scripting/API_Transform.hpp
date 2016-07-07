@@ -1,5 +1,5 @@
-#ifndef ENGINEQ_SCRIPTING_API_TRANSFORM_H
-#define ENGINEQ_SCRIPTING_API_TRANSFORM_H
+#ifndef ENGINEQ_SCRIPTING_API_TRANSFORM_HPP
+#define ENGINEQ_SCRIPTING_API_TRANSFORM_HPP
 
 #include "ScriptEngine.hpp"
 #include "../Math/Vector3.hpp"
@@ -38,4 +38,4 @@ namespace EngineQ
 	}
 }
 
-#endif // !ENGINEQ_SCRIPTING_API_TRANSFORM_H
+#endif // !ENGINEQ_SCRIPTING_API_TRANSFORM_HPP
