@@ -47,6 +47,8 @@
     <ClCompile Include="Scripting\ScriptEngine.cpp" />
     <ClCompile Include="Scripting\ScriptEngineException.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Utilities\Nullable.cpp" />
     <ClCompile Include="Utilities\StringHelpers.cpp" />
@@ -71,6 +73,7 @@
     <ClInclude Include="Math\Vector3.hpp" />
     <ClInclude Include="Math\Vector4.hpp" />
     <ClInclude Include="Mesh.hpp" />
+    <ClInclude Include="Model.hpp" />
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Script.hpp" />
@@ -84,6 +87,8 @@
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Transform.hpp" />
+    <ClInclude Include="Utilities.hpp" />
+    <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="Utilities\Nullable.hpp" />
     <ClInclude Include="Utilities\StringHelpers.hpp" />

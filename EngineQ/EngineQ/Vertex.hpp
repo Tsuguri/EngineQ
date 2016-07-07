@@ -1,5 +1,5 @@
-#ifndef VERTEXHPP
-#define VERTEXHPP
+#ifndef ENGINEQ_VERTEX_HPP
+#define ENGINEQ_VERTEX_HPP
 #include "Math/Vector3.hpp"
 #include <vector>
 
