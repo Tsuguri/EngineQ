@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <fstream>
-#include "Shader.hpp"
+#include "Graphics/Shader.hpp"
 #include "Math/Vector3.hpp"
 #include "Mesh.hpp"
 #include <memory>
@@ -120,7 +120,7 @@ namespace EngineQ
 	{
 		// main engine loop
 
-		Shader tempShader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
+		::EngineQ::Graphics::Shader tempShader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
 
 		Math::Vector3(0, 0, 0);
 		auto mesh = GenerateCube(0.2f);
@@ -145,7 +145,7 @@ namespace EngineQ
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			tempShader.SetAsActive();
+			tempShader.Activate();
 
 			glBindVertexArray(mesh->vao);
 			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vbo[2]);

@@ -21,8 +21,8 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		using namespace EngineQ::Math;
-		using namespace EngineQ::Utilities;
+		using namespace ::EngineQ::Math;
+		using namespace ::EngineQ::Utilities;
 
 		class Shader : public Uncopyable
 		{

@@ -46,9 +46,7 @@
     <ClCompile Include="Scripting\API_Transform.cpp" />
     <ClCompile Include="Scripting\ScriptEngine.cpp" />
     <ClCompile Include="Scripting\ScriptEngineException.cpp" />
-    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Utilities\Nullable.cpp" />
     <ClCompile Include="Utilities\StringHelpers.cpp" />
@@ -59,7 +57,6 @@
     <ClInclude Include="EngineQ.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="GLFWWindow.hpp" />
-    <ClInclude Include="Immovable.hpp" />
     <ClInclude Include="Graphics\Shader.hpp" />
     <ClInclude Include="Graphics\ShaderExceptions.hpp" />
     <ClInclude Include="Graphics\ShaderPart.hpp" />
@@ -86,9 +83,7 @@
     <ClInclude Include="Scripting\API_Transform.hpp" />
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
-    <ClInclude Include="Shader.hpp" />
     <ClInclude Include="Transform.hpp" />
-    <ClInclude Include="Utilities.hpp" />
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="Utilities\Nullable.hpp" />
     <ClInclude Include="Utilities\StringHelpers.hpp" />
