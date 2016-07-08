@@ -10,6 +10,7 @@
 #include "Mesh.hpp"
 #include "Scene.hpp"
 #include "Graphics/Shader.hpp"
+#include "ForwardRenderer.hpp"
 
 namespace EngineQ
 {
@@ -143,7 +144,7 @@ namespace EngineQ
 		std::string scriptsAssembliesPath = "./Scripts/";
 
 		Scripting::ScriptEngine se{ name, (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
-
+		Graphics::ForwardRenderer renderer;
 		::EngineQ::Graphics::Shader tempShader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
 		auto view = tempShader.GetUniformLocation("ViewMat");
 		auto proj = tempShader.GetUniformLocation("ProjMat");
@@ -156,15 +157,6 @@ namespace EngineQ
 		auto ent = sc.CreateEntity();
 		auto cam = ent->AddComponent<Camera>();
 		ent->GetTransform().SetPosition(Math::Vector3(0, 0, -2.0f));
-
-		glEnable(GL_DEPTH_TEST);
-		glFrontFace(GL_CCW);
-		glPolygonMode(GL_FRONT, GL_FILL);
-		glPolygonMode(GL_BACK, GL_FILL);
-		glCullFace(GL_BACK);
-		glEnable(GL_CULL_FACE);
-
-
 
 		while (!window.ShouldClose())
 		{

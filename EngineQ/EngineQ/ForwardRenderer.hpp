@@ -1,12 +1,23 @@
 #ifndef ENGINEQ_FORWARDRENDERER_HPP
 #define ENGINEQ_FORWARDRENDERER_HPP
 
-class ForwardRenderer
+
+namespace EngineQ
 {
-private:
+	namespace Graphics
+	{
 
-public:
+		class ForwardRenderer
+		{
+		private:
 
-};
+		public:
+			ForwardRenderer();
+			~ForwardRenderer();
+
+
+		};
+	}
+}
 
 #endif
