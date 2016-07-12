@@ -29,6 +29,9 @@ namespace EngineQ
 			Shader* shd;
 			auto cam = scene->ActiveCamera();
 
+			//uniform vec3 lightDir = vec3(-1, -1, 0);
+			//uniform vec3 lightColor = vec3(1, 1, 1);
+
 
 			for (auto it = scene->RenderablesBegin(), end = scene->RenderablesEnd(); it != end; ++it)
 			{
@@ -37,10 +40,17 @@ namespace EngineQ
 
 				shd->Activate();
 				shd->Bind(shd->GetUniformLocation("ViewMat"), cam->ViewMatrix());
-
 				shd->Bind(shd->GetUniformLocation("ProjMat"), cam->ProjectionMatrix());
-
 				shd->Bind(shd->GetUniformLocation("ModelMat"),(*it)->GetEntity().GetTransform().GetGlobalMatrix() );
+				shd->Bind(shd->GetUniformLocation("cameraPosition"),cam->GetEntity().GetTransform().GetPosition() );
+
+				shd->Bind(shd->GetUniformLocation("ambientStrength"), 0.4f);
+			//	shd->Bind(shd->GetUniformLocation("specularStrength"), 0.05f);
+				shd->Bind(shd->GetUniformLocation("materialShininess"), 16);
+
+
+
+
 
 				glBindVertexArray(mesh->vao);
 				glDrawElements(GL_TRIANGLES, mesh->Count(), GL_UNSIGNED_INT, NULL);

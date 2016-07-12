@@ -77,7 +77,7 @@ namespace EngineQ
 
 	Math::Matrix4 Camera::ViewMatrix()
 	{
-		return GetEntity().GetTransform().GetGlobalMatrix().GetInversed();
+		return GetEntity().GetTransform().GetGlobalMatrixInverse();
 	}
 
 	Math::Matrix4 Camera::InvertedViewMatrix()

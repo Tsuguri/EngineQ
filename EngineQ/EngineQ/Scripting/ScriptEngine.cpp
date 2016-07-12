@@ -100,6 +100,10 @@ namespace EngineQ
 			API_Transform::API_Register(*this);
 			API_Entity::API_Register(*this);
 			API_Scene::API_Register(*this);
+
+			//here goes new api
+
+
 		}
 
 		ScriptEngine::~ScriptEngine()
