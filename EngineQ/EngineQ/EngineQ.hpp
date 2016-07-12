@@ -1,8 +1,11 @@
 ﻿#ifndef ENGINEQ_ENGINEQ_HPP
 #define ENGINEQ_ENGINEQ_HPP
+
 #include <string>
 
 #include "GLFWWindow.hpp"
+#include "Scripting/ScriptEngine.hpp"
+
 namespace EngineQ
 {
 

@@ -6,7 +6,7 @@
 
 
 #include "Math/Vector3.hpp"
-#include "Scripting/ScriptEngine.hpp"
+
 #include "Mesh.hpp"
 #include "Scene.hpp"
 #include "Graphics/Shader.hpp"
@@ -146,18 +146,21 @@ namespace EngineQ
 		Scripting::ScriptEngine se{ name, (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
 		Graphics::ForwardRenderer renderer;
 		::EngineQ::Graphics::Shader tempShader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
-		auto view = tempShader.GetUniformLocation("ViewMat");
-		auto proj = tempShader.GetUniformLocation("ProjMat");
-
 
 		Math::Vector3(0, 0, 0);
 		auto mesh = GenerateCube(0.2f);
 
 		Scene sc{ se };
 		auto ent = sc.CreateEntity();
+		auto ent2 = sc.CreateEntity();
+		auto renderable = ent2->AddComponent<Graphics::Renderable>();
+
 		auto cam = ent->AddComponent<Camera>();
+		renderable->Model(mesh.get());
+		renderable->ForwardShader(&tempShader);
 		ent->GetTransform().SetPosition(Math::Vector3(0, 0, -2.0f));
 
+		sc.ActiveCamera(cam);
 		while (!window.ShouldClose())
 		{
 			//input
@@ -166,28 +169,11 @@ namespace EngineQ
 			//check input and stuff
 
 			//scripts & logic
-			auto p = ent->GetTransform().GetPosition();
+			auto p = ent2->GetTransform().GetPosition();
 			p.X = 0.3f*std::sin(window.GetTime());
-			ent->GetTransform().SetPosition(p);
-			
-			//render
-			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			ent2->GetTransform().SetPosition(p);
+			renderer.Render(&sc);
 
-			tempShader.Activate();
-
-			tempShader.Bind(view, cam->ViewMatrix());
-
-			tempShader.Bind(proj, cam->ProjectionMatrix());
-
-
-
-
-			glBindVertexArray(mesh->vao);
-			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vbo[2]);
-			glDrawElements(GL_TRIANGLES, mesh->Count(), GL_UNSIGNED_INT, NULL);
-
-			//swapiping buffers
 			window.SwapBuffers();
 		}
 		window.Close();

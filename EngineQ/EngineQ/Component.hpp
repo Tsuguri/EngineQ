@@ -13,6 +13,7 @@ namespace EngineQ
 		Camera,
 		Light,
 		Script,
+		Renderable,
 	};
 
 	class Component : public Object

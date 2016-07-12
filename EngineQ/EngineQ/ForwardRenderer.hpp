@@ -1,6 +1,8 @@
 #ifndef ENGINEQ_FORWARDRENDERER_HPP
 #define ENGINEQ_FORWARDRENDERER_HPP
 
+#include "Scene.hpp"
+#include "Mesh.hpp"
 
 namespace EngineQ
 {
@@ -14,6 +16,8 @@ namespace EngineQ
 		public:
 			ForwardRenderer();
 			~ForwardRenderer();
+
+			void Render(Scene* scene);
 
 
 		};

@@ -6,6 +6,8 @@
 #include "Entity.hpp"
 #include "Light.hpp"
 #include "Camera.hpp"
+#include "Graphics/Shader.hpp"
+#include "Renderable.hpp"
 
 namespace EngineQ
 {
@@ -21,6 +23,8 @@ namespace EngineQ
 
 		std::vector<Light*> lights;
 		std::vector<Camera*> cameras;
+		std::vector<Graphics::Renderable*> renderables;
+		Camera* activeCamera;
 
 
 		void RemovedComponent(Component& component);
@@ -42,6 +46,12 @@ namespace EngineQ
 
 		Entity* GetEntity(std::size_t index) const;
 		std::size_t GetEntitiesCount() const;
+
+		void ActiveCamera(Camera* camera);
+		Camera* ActiveCamera() const;
+
+		std::vector<Graphics::Renderable*>::iterator RenderablesBegin();
+		std::vector<Graphics::Renderable*>::iterator RenderablesEnd();
 	};
 }
 
