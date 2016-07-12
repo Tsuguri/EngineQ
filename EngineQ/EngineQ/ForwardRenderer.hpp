@@ -1,12 +1,27 @@
 #ifndef ENGINEQ_FORWARDRENDERER_HPP
 #define ENGINEQ_FORWARDRENDERER_HPP
 
-class ForwardRenderer
+#include "Scene.hpp"
+#include "Mesh.hpp"
+
+namespace EngineQ
 {
-private:
+	namespace Graphics
+	{
 
-public:
+		class ForwardRenderer
+		{
+		private:
 
-};
+		public:
+			ForwardRenderer();
+			~ForwardRenderer();
+
+			void Render(Scene* scene);
+
+
+		};
+	}
+}
 
 #endif
