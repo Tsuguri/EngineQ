@@ -7,13 +7,14 @@
 #include "Light.hpp"
 #include "Camera.hpp"
 #include "Graphics/Shader.hpp"
-#include "Renderable.hpp"
+#include "Graphics/Renderable.hpp"
 
 namespace EngineQ
 {
 	class Scene : public Object
 	{
 		friend class Entity;
+		friend class Engine;
 
 	private:
 		std::vector<Entity*> entities;

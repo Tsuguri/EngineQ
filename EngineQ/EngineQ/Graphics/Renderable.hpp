@@ -1,8 +1,10 @@
 #ifndef ENGINEQ_GRAPHICS_RENDERABLE_HPP
 #define ENGINEQ_GRAPHICS_RENDERABLE_HPP
-#include "Component.hpp"
-#include "Graphics/Shader.hpp"
+
+#include "../Scripting/ScriptEngine.hpp"
+#include "../Component.hpp"
 #include "Mesh.hpp"
+#include "Shader.hpp"
 
 namespace EngineQ
 {

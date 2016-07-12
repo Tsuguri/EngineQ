@@ -1,11 +1,11 @@
-#ifndef MESHHPP
-#define MESHHPP
+#ifndef ENGINEQ_GRAPHICS_MESH_HPP
+#define ENGINEQ_GRAPHICS_MESH_HPP
 
-#include "Math/Vector3.hpp"
-#include "Vertex.hpp"
 #include <vector>
+
 #include <GL/glew.h>
-#include "Utilities/Uncopyable.hpp"
+#include "../Utilities/Uncopyable.hpp"
+#include "../Vertex.hpp"
 
 namespace EngineQ
 {

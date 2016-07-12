@@ -1,7 +1,7 @@
-#ifndef ENGINEQ_FORWARDRENDERER_HPP
-#define ENGINEQ_FORWARDRENDERER_HPP
+#ifndef ENGINEQ_GRAPHICS_FORWARDRENDERER_HPP
+#define ENGINEQ_GRAPHICS_FORWARDRENDERER_HPP
 
-#include "Scene.hpp"
+#include "../Scene.hpp"
 #include "Mesh.hpp"
 
 namespace EngineQ

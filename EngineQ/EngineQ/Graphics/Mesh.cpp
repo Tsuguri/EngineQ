@@ -1,7 +1,5 @@
 #include "Mesh.hpp"
 
-
-
 namespace EngineQ
 {
 	GLuint Mesh::Count()

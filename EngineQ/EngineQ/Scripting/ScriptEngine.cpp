@@ -17,6 +17,7 @@
 #include "API_Quaternion.hpp"
 #include "API_Matrix3.hpp"
 #include "API_Matrix4.hpp"
+#include "API_TimeCounter.hpp"
 
 namespace EngineQ
 {
@@ -100,6 +101,7 @@ namespace EngineQ
 			API_Transform::API_Register(*this);
 			API_Entity::API_Register(*this);
 			API_Scene::API_Register(*this);
+			API_TimeCounter::API_Register(*this);
 
 			//here goes new api
 
