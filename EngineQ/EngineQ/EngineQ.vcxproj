@@ -19,11 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Scripting\API_TimeCounter.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="EngineQ.cpp" />
+    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="ForwardRenderer.cpp" />
+    <ClCompile Include="Graphics\ForwardRenderer.cpp" />
     <ClCompile Include="GLFWWindow.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
     <ClCompile Include="Graphics\ShaderExceptions.cpp" />
@@ -34,9 +35,9 @@
     <ClCompile Include="Math\Matrix4.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
-    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Renderable.cpp" />
+    <ClCompile Include="Graphics\Renderable.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Scripting\API_Component.cpp" />
@@ -48,6 +49,7 @@
     <ClCompile Include="Scripting\API_Transform.cpp" />
     <ClCompile Include="Scripting\ScriptEngine.cpp" />
     <ClCompile Include="Scripting\ScriptEngineException.cpp" />
+    <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vertex.cpp" />
@@ -55,17 +57,19 @@
     <ClCompile Include="Utilities\StringHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scripting\API_TimeCounter.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Component.hpp" />
-    <ClInclude Include="EngineQ.hpp" />
+    <ClInclude Include="Engine.hpp" />
     <ClInclude Include="Entity.hpp" />
-    <ClInclude Include="ForwardRenderer.hpp" />
+    <ClInclude Include="Graphics\ForwardRenderer.hpp" />
     <ClInclude Include="GLFWWindow.hpp" />
     <ClInclude Include="Graphics\Shader.hpp" />
     <ClInclude Include="Graphics\ShaderExceptions.hpp" />
     <ClInclude Include="Graphics\ShaderPart.hpp" />
     <ClInclude Include="Graphics\UniformLocation.hpp" />
-    <ClInclude Include="Renderable.hpp" />
+    <ClInclude Include="Graphics\Renderable.hpp" />
+    <ClInclude Include="TimeCounter.hpp" />
     <ClInclude Include="Utilities\Immovable.hpp" />
     <ClInclude Include="Light.hpp" />
     <ClInclude Include="Math\Matrix3.hpp" />
@@ -75,7 +79,7 @@
     <ClInclude Include="Math\Vector2.hpp" />
     <ClInclude Include="Math\Vector3.hpp" />
     <ClInclude Include="Math\Vector4.hpp" />
-    <ClInclude Include="Mesh.hpp" />
+    <ClInclude Include="Graphics\Mesh.hpp" />
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Script.hpp" />
@@ -89,7 +93,6 @@
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Transform.hpp" />
-    <ClInclude Include="Utilities.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="Utilities\Nullable.hpp" />

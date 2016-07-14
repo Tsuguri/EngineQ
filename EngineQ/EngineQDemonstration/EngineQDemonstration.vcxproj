@@ -103,7 +103,6 @@
 COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
 
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
-COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"
 COPY "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
