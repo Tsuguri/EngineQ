@@ -59,6 +59,7 @@
     <Compile Include="Math\Vector4d.cs" />
     <Compile Include="Math\Vector4f.cs" />
     <Compile Include="Math\Vector4i.cs" />
+    <Compile Include="Input.cs" />
     <Compile Include="Object.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Camera.cs" />

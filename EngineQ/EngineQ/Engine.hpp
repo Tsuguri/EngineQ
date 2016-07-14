@@ -7,7 +7,7 @@
 #include "GLFWWindow.hpp"
 #include "Scripting/ScriptEngine.hpp"
 #include "Scene.hpp"
-
+#include "InputController.hpp"
 namespace EngineQ
 {
 
@@ -18,15 +18,15 @@ class Engine
 private:
 	static Engine* instance;
 	GLFWWindow window;
-
+	
 public:
+	InputController input;
 #pragma endregion 
 
 #pragma region Methods
 
 private:
 	std::unique_ptr<Scripting::ScriptEngine> se;
-
 
 	Engine(std::string name, int width, int height);
 	static void KeyControl(int key, int scancode, int action, int mode);
