@@ -35,7 +35,7 @@ namespace EngineQ
 
 	void Engine::KeyControl(int key, int scancode, int action, int mode)
 	{
-
+		instance->input.KeyAction(key, scancode, action, mode);
 	}
 
 	void Engine::MouseButtonControl(int button, int action, int mods)
