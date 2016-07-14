@@ -17,7 +17,10 @@ namespace QScripts
 		    base.Update();
 
 		    var p = Entity.Transform.Position;
-		    p.Y = (float)Math.Sin(1);
+		    p.Y = (float)Math.Sin(Time.TimeFromStart);
+			Console.WriteLine(p);
+		    Entity.Transform.Position = p;
+
 	    }
     }
 }

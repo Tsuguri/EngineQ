@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EngineQ
 {
-	static class Time
+	public static class Time
 	{
 		public static float DeltaTime
 		{

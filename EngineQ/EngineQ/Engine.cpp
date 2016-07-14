@@ -66,8 +66,15 @@ namespace EngineQ
 		std::string scriptsAssembliesPath = "./Scripts/";
 		auto sem = new Scripting::ScriptEngine{ assemblyName, (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
 		instance->se = std::unique_ptr<Scripting::ScriptEngine>(sem);
+		
+		instance->se->LoadAssembly((scriptsAssembliesPath + "QScripts.dll").c_str());
 
 		return true;
+	}
+
+	Scripting::ScriptClass Engine::GetClass(std::string assembly, std::string namespaceName, std::string className)
+	{
+		return se->GetScriptClass(assembly.c_str(),namespaceName.c_str(), className.c_str());
 	}
 
 	Scene* Engine::CreateScene() const
@@ -95,14 +102,17 @@ namespace EngineQ
 
 		Graphics::ForwardRenderer renderer;
 
-
+		float time=0,tmp;
 		while (!window.ShouldClose())
 		{
 			//input
 			window.PollEvents();
 
+			tmp = window.GetTime();
+			tc.Update(tmp, tmp-time);
+			time = tmp;
 			//check input and stuff
-
+			scene->Update();
 			//scripts & logic
 
 			renderer.Render(scene);

@@ -79,6 +79,11 @@ void PrepareScene(EngineQ::Scene* scene)
 	renderable->ForwardShader(tempShader);
 	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
 
+	EngineQ::Scripting::ScriptClass scriptClass = EngineQ::Engine::Get()->GetClass("QScripts", "QScripts", "CameraMoveClass");
+	ent->AddScript(scriptClass);
+
+
+
 	sc.ActiveCamera(cam);
 }
 
