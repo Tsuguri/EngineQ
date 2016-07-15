@@ -15,26 +15,29 @@ EngineQ::InputController::InputController()
 void EngineQ::InputController::InitMethods(Scripting::ScriptEngine* se)
 {
 	this->se = se;
-	pressedMethod = se->GetInputMethod(":KeyPressedEvent");
+	keyEventMethod = se->GetInputMethod(":KeyEvent");
+	mouseButtonEventMethod = se->GetInputMethod(":MouseButtonEvent");
 }
 
 void EngineQ::InputController::KeyAction(int key, int scancode, int action, int mode)
 {
-	if(action==GLFW_PRESS)
+	if (action == GLFW_PRESS)
 	{
 		keys[key] = true;
-
-		if (pressedMethod != nullptr)
-		{
-			void* args[1];
-			int p = key;
-			args[0] = static_cast<void*>( &p);
-			se->InvokeStaticMethod(pressedMethod, args);
-		}
 	}
-	if(action==GLFW_RELEASE)
+	if (action == GLFW_RELEASE)
 	{
 		keys[key] = false;
+	}
+
+	if (keyEventMethod != nullptr)
+	{
+		void* args[2];
+		int k = key;
+		int a = action;
+		args[0] = static_cast<void*>(&k);
+		args[1] = static_cast<void*>(&a);
+		se->InvokeStaticMethod(keyEventMethod, args);
 	}
 }
 
@@ -47,6 +50,15 @@ void EngineQ::InputController::MouseButtonAction(int button, int action, int mod
 	if (action == GLFW_RELEASE)
 	{
 		mouseButtons[button] = false;
+	}
+	if (mouseButtonEventMethod != nullptr)
+	{
+		void* args[2];
+		int k = button;
+		int a = action;
+		args[0] = static_cast<void*>(&k);
+		args[1] = static_cast<void*>(&a);
+		se->InvokeStaticMethod(mouseButtonEventMethod, args);
 	}
 }
 
@@ -65,7 +77,7 @@ void EngineQ::InputController::InvokeSEEvent(int key, int action)
 
 bool EngineQ::InputController::isButtonDown(int keyCode)
 {
-	if (keyCode < 0 || keyCode>=1024)
+	if (keyCode < 0 || keyCode >= 1024)
 		throw "key not in range";
 	return keys[keyCode];
 }

@@ -2,7 +2,7 @@
 {
 	public abstract class Script : Component
 	{
-		public virtual void Update()
+		protected virtual void Update()
 		{
 
 		}

@@ -16,7 +16,8 @@ namespace EngineQ
 		bool keys[512];
 		bool mouseButtons[10];
 		Scripting::ScriptEngine* se=nullptr;
-		Scripting::ScriptMethod pressedMethod=nullptr;
+		Scripting::ScriptMethod keyEventMethod=nullptr;
+		Scripting::ScriptMethod mouseButtonEventMethod=nullptr;
 
 		Math::Vector2 cursorPos;
 		Math::Vector2 cursorDeltaPos;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using EngineQ.Math;
 
@@ -133,12 +134,54 @@ namespace EngineQ
 
 		public enum MouseButton
 		{
-			Left,
-			Right,
+			Left = 0,
+			Right = 1,
+			Middle = 2
+		}
+
+		public enum KeyAction
+		{
+			Release = 0,
+			Press = 1,
+			Repeat = 2
+		}
+
+		public delegate void EventType(KeyAction action);
+
+		private class KeyEventHandler
+		{
+
+			public event EventType KeyEvent;
+
+
+			public void Add(EventType eventHandler)
+			{
+				KeyEvent += eventHandler;
+			}
+
+			public void Remove(EventType eventHandler)
+			{
+				KeyEvent -= eventHandler;
+			}
+
+			public virtual void OnKeyEvent(KeyAction action)
+			{
+				KeyEvent?.Invoke(action);
+			}
 		}
 
 		private static bool tmpBool;
 		private static Vector2 tmpVector2;
+		private static KeyEventHandler kehTmp;
+
+		private static Dictionary<Key, KeyEventHandler> keyEventDict;
+		private static Dictionary<MouseButton, KeyEventHandler> mouseEventDict;
+
+		static Input()
+		{
+			keyEventDict = new Dictionary<Key, KeyEventHandler>();
+			mouseEventDict = new Dictionary<MouseButton, KeyEventHandler>();
+		}
 
 		public static bool KeyPressed(Key key)
 		{
@@ -146,9 +189,9 @@ namespace EngineQ
 			return tmpBool;
 		}
 
-		public static bool MouseButtonDown(MouseButton button)
+		public static bool MouseButtonDown(int button)
 		{
-			API_MouseButtonDown((int)button, out tmpBool);
+			API_MouseButtonDown(button, out tmpBool);
 			return tmpBool;
 		}
 
@@ -161,9 +204,38 @@ namespace EngineQ
 			}
 		}
 
-		public static void KeyPressedEvent(Key key)
+		private static void KeyEvent(Key key, KeyAction action)
 		{
-			Console.WriteLine("key pressed: "+key);
+			//Console.WriteLine("key action: " + key + " " + action);
+
+			if (keyEventDict.TryGetValue(key, out kehTmp))
+			{
+				kehTmp.OnKeyEvent(action);
+			}
+		}
+
+
+		private static void MouseButtonEvent(int button, KeyAction action)
+		{
+			Console.WriteLine("mouse button:" + button + " " + action);
+		}
+
+		public static void ListenKey(Key key, EventType action)
+		{
+			if (!keyEventDict.TryGetValue(key, out kehTmp))
+			{
+				kehTmp = new KeyEventHandler();
+				keyEventDict.Add(key, kehTmp);
+			}
+			kehTmp.Add(action);
+		}
+
+		public static void StopListening(Key key, EventType action)
+		{
+			if (keyEventDict.TryGetValue(key, out kehTmp))
+			{
+				kehTmp.Remove(action);
+			}
 		}
 
 
