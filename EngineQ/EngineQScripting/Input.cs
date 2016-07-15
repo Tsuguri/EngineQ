@@ -8,6 +8,8 @@ namespace EngineQ
 
 	public static class Input
 	{
+		#region Types
+
 		public enum Key
 		{
 			Space = 32,
@@ -170,30 +172,19 @@ namespace EngineQ
 			}
 		}
 
+		#endregion
+
+		#region Fields
 		private static bool tmpBool;
 		private static Vector2 tmpVector2;
-		private static KeyEventHandler kehTmp;
+		private static KeyEventHandler tmpKEH;
 
 		private static Dictionary<Key, KeyEventHandler> keyEventDict;
 		private static Dictionary<MouseButton, KeyEventHandler> mouseEventDict;
 
-		static Input()
-		{
-			keyEventDict = new Dictionary<Key, KeyEventHandler>();
-			mouseEventDict = new Dictionary<MouseButton, KeyEventHandler>();
-		}
+		#endregion
 
-		public static bool KeyPressed(Key key)
-		{
-			API_KeyPressed((int)key, out tmpBool);
-			return tmpBool;
-		}
-
-		public static bool MouseButtonDown(int button)
-		{
-			API_MouseButtonDown(button, out tmpBool);
-			return tmpBool;
-		}
+		#region Properties
 
 		public static Vector2 MousePosition
 		{
@@ -204,44 +195,92 @@ namespace EngineQ
 			}
 		}
 
-		private static void KeyEvent(Key key, KeyAction action)
-		{
-			//Console.WriteLine("key action: " + key + " " + action);
+		#endregion
 
-			if (keyEventDict.TryGetValue(key, out kehTmp))
-			{
-				kehTmp.OnKeyEvent(action);
-			}
+		#region Methods
+
+		static Input()
+		{
+			keyEventDict = new Dictionary<Key, KeyEventHandler>();
+			mouseEventDict = new Dictionary<MouseButton, KeyEventHandler>();
 		}
 
+		#region Keys
 
-		private static void MouseButtonEvent(int button, KeyAction action)
+		public static bool KeyPressed(Key key)
 		{
-			Console.WriteLine("mouse button:" + button + " " + action);
+			API_KeyPressed((int)key, out tmpBool);
+			return tmpBool;
+		}
+
+		private static void KeyEvent(Key key, KeyAction action)
+		{
+			if (keyEventDict.TryGetValue(key, out tmpKEH))
+			{
+				tmpKEH.OnKeyEvent(action);
+			}
 		}
 
 		public static void ListenKey(Key key, EventType action)
 		{
-			if (!keyEventDict.TryGetValue(key, out kehTmp))
+			if (!keyEventDict.TryGetValue(key, out tmpKEH))
 			{
-				kehTmp = new KeyEventHandler();
-				keyEventDict.Add(key, kehTmp);
+				tmpKEH = new KeyEventHandler();
+				keyEventDict.Add(key, tmpKEH);
 			}
-			kehTmp.Add(action);
+			tmpKEH.Add(action);
 		}
 
 		public static void StopListening(Key key, EventType action)
 		{
-			if (keyEventDict.TryGetValue(key, out kehTmp))
+			if (keyEventDict.TryGetValue(key, out tmpKEH))
 			{
-				kehTmp.Remove(action);
+				tmpKEH.Remove(action);
 			}
 		}
 
+		#endregion
+
+		#region Mouse
+
+		public static bool MouseButtonDown(int button)
+		{
+			API_MouseButtonDown(button, out tmpBool);
+			return tmpBool;
+		}
+
+		private static void MouseButtonEvent(MouseButton button, KeyAction action)
+		{
+			if (mouseEventDict.TryGetValue(button, out tmpKEH))
+			{
+				tmpKEH.OnKeyEvent(action);
+			}
+		}
+
+		public static void ListenMouseButton(MouseButton button, EventType action)
+		{
+			if (!mouseEventDict.TryGetValue(button, out tmpKEH))
+			{
+				tmpKEH = new KeyEventHandler();
+				mouseEventDict.Add(button, tmpKEH);
+			}
+			tmpKEH.Add(action);
+		}
+
+		public static void StopListeningMouseButton(MouseButton button, EventType action)
+		{
+			if (mouseEventDict.TryGetValue(button, out tmpKEH))
+			{
+				tmpKEH.Remove(action);
+			}
+		}
+
+		#endregion
+
+		#endregion
 
 
-
-
+		#region API
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_KeyPressed(int key, out bool result);
@@ -251,5 +290,7 @@ namespace EngineQ
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_MousePosition(out Vector2 result);
+
+		#endregion
 	}
 }
