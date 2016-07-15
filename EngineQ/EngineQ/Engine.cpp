@@ -68,7 +68,7 @@ namespace EngineQ
 		instance->se = std::unique_ptr<Scripting::ScriptEngine>(sem);
 		
 		instance->se->LoadAssembly((scriptsAssembliesPath + "QScripts.dll").c_str());
-
+		instance->input.InitMethods(instance->se.get());
 		return true;
 	}
 
@@ -80,6 +80,11 @@ namespace EngineQ
 	Scene* Engine::CreateScene() const
 	{
 		return new Scene(*se.get());
+	}
+
+	void Engine::Exit()
+	{
+		running = false;
 	}
 
 	Engine* Engine::Get()
@@ -103,7 +108,7 @@ namespace EngineQ
 		Graphics::ForwardRenderer renderer;
 
 		float time=0,tmp;
-		while (!window.ShouldClose())
+		while (!window.ShouldClose() && running)
 		{
 			//input
 			window.PollEvents();

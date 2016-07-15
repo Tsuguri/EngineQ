@@ -23,6 +23,10 @@ namespace QScripts
 				Console.WriteLine(p+" "+Input.MousePosition);
 				Entity.Transform.Position = p;
 			}
+			if (Input.KeyPressed(Input.Key.Escape))
+			{
+				Application.Exit();
+			}
 		}
 	}
 }

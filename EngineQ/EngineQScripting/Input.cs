@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using EngineQ.Math;
 
 namespace EngineQ
@@ -159,6 +160,16 @@ namespace EngineQ
 				return tmpVector2;
 			}
 		}
+
+		public static void KeyPressedEvent(Key key)
+		{
+			Console.WriteLine("key pressed: "+key);
+		}
+
+
+
+
+
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_KeyPressed(int key, out bool result);

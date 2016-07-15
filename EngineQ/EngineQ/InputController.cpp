@@ -1,7 +1,10 @@
 #include <algorithm>
 
-#include "InputController.hpp"
 #include <GLFW/glfw3.h>
+#include <mono/metadata/debug-helpers.h>
+
+#include "InputController.hpp"
+#include "Scripting/ScriptEngine.hpp"
 
 EngineQ::InputController::InputController()
 {
@@ -9,11 +12,25 @@ EngineQ::InputController::InputController()
 	std::fill_n(mouseButtons, 10, false);
 }
 
+void EngineQ::InputController::InitMethods(Scripting::ScriptEngine* se)
+{
+	this->se = se;
+	pressedMethod = se->GetInputMethod(":KeyPressedEvent");
+}
+
 void EngineQ::InputController::KeyAction(int key, int scancode, int action, int mode)
 {
 	if(action==GLFW_PRESS)
 	{
 		keys[key] = true;
+
+		if (pressedMethod != nullptr)
+		{
+			void* args[1];
+			int p = key;
+			args[0] = static_cast<void*>( &p);
+			se->InvokeStaticMethod(pressedMethod, args);
+		}
 	}
 	if(action==GLFW_RELEASE)
 	{
@@ -38,6 +55,12 @@ void EngineQ::InputController::MouseMoveAction(double xpos, double ypos)
 	Math::Vector2 tmp{ static_cast<float>(xpos),static_cast<float>(ypos) };
 	cursorDeltaPos = tmp - cursorPos;
 	cursorPos = tmp;
+}
+
+void EngineQ::InputController::InvokeSEEvent(int key, int action)
+{
+	auto p = mono_method_desc_new("EgineQ.Input.KeyPressedEvent(Key key)", true);
+
 }
 
 bool EngineQ::InputController::isButtonDown(int keyCode)

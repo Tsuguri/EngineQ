@@ -16,8 +16,10 @@ class Engine
 #pragma region Fields
 
 private:
+	std::unique_ptr<Scripting::ScriptEngine> se;
 	static Engine* instance;
 	GLFWWindow window;
+	bool running = true;
 	
 public:
 	InputController input;
@@ -26,7 +28,6 @@ public:
 #pragma region Methods
 
 private:
-	std::unique_ptr<Scripting::ScriptEngine> se;
 
 	Engine(std::string name, int width, int height);
 	static void KeyControl(int key, int scancode, int action, int mode);
@@ -36,6 +37,7 @@ public:
 	static bool Initialize(std::string name, int width, int height, char* assemblyName);
 	Scripting::ScriptClass GetClass(std::string assembly, std::string namespaceName, std::string className);
 	Scene* CreateScene() const;
+	void Exit();
 	static Engine* Get();
 
 	void Run(Scene* scene);

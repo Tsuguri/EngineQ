@@ -19,6 +19,7 @@
 #include "API_Matrix4.hpp"
 #include "API_TimeCounter.hpp"
 #include "API_Input.hpp"
+#include "API_Application.hpp"
 
 namespace EngineQ
 {
@@ -87,6 +88,8 @@ namespace EngineQ
 			this->lightClass = mono_class_from_name(this->image, NamespaceName, LightClassName);
 			this->cameraClass = mono_class_from_name(this->image, NamespaceName, CameraClassName);
 			this->sceneClass = mono_class_from_name(this->image, NamespaceName, SceneClassName);
+			this->inputClass = mono_class_from_name(this->image, NamespaceName, InputClassName);
+
 
 			this->entityConstructor = GetMethod(this->entityClass, ConstructorName);
 			this->transformConstructor = GetMethod(this->transformClass, ConstructorName);
@@ -104,7 +107,7 @@ namespace EngineQ
 			API_Scene::API_Register(*this);
 			API_TimeCounter::API_Register(*this);
 			API_Input::API_Register(*this);
-
+			API_Application::API_Register(*this);
 			//here goes new api
 
 
@@ -150,6 +153,11 @@ namespace EngineQ
 		void ScriptEngine::InvokeMethod(ScriptHandle handle, ScriptMethod method, void** args) const
 		{
 			mono_runtime_invoke(method, mono_gchandle_get_target(handle), args, nullptr);
+		}
+
+		void ScriptEngine::InvokeStaticMethod(ScriptMethod method, void** args) const
+		{
+			mono_runtime_invoke(method, nullptr, args, nullptr);
 		}
 
 		void ScriptEngine::InvokeConstructor(ScriptObject object) const
@@ -242,6 +250,11 @@ namespace EngineQ
 		ScriptClass ScriptEngine::GetSceneClass() const
 		{
 			return this->sceneClass;
+		}
+
+		ScriptMethod ScriptEngine::GetInputMethod(const char* name) const
+		{
+			return GetMethod(this->inputClass, name);
 		}
 
 		ScriptClass ScriptEngine::GetObjectClass(ScriptObject object) const
