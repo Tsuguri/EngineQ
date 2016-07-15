@@ -45,6 +45,7 @@ namespace EngineQ
 			static constexpr char* LightClassName = "Light";
 			static constexpr char* CameraClassName = "Camera";
 			static constexpr char* SceneClassName = "Scene";
+			static constexpr char* InputClassName = "Input";
 
 			static constexpr char* NativeHandleFieldName = "nativeHandle";
 
@@ -61,6 +62,7 @@ namespace EngineQ
 			MonoClass* lightClass;
 			MonoClass* cameraClass;
 			MonoClass* sceneClass;
+			MonoClass* inputClass;
 
 			MonoMethod* entityConstructor;
 			MonoMethod* transformConstructor;
@@ -83,6 +85,7 @@ namespace EngineQ
 			void Throw_IndexOutOfRangeException() const;
 
 			void InvokeMethod(ScriptHandle handle, ScriptMethod method, void** args) const;
+			void InvokeStaticMethod(ScriptMethod method, void** args) const;
 			void InvokeConstructor(ScriptObject object) const;
 			
 			ScriptHandle CreateObject(ScriptClass sclass, Object* nativeHandle) const;
@@ -99,6 +102,8 @@ namespace EngineQ
 			ScriptClass GetCameraClass() const;
 			ScriptClass GetEntityClass() const;
 			ScriptClass GetSceneClass() const;
+
+			ScriptMethod GetInputMethod(const char* name) const;
 
 			ScriptClass GetObjectClass(ScriptObject object) const;
 			ScriptClass GetTypeClass(ScriptTypeClass type) const;

@@ -7,7 +7,7 @@ namespace ScriptTest
 {
     public class MyScript : Script
     {
-		public override void Update()
+	    protected override void Update()
 		{
 			Console.WriteLine("=============MY SCRIPT UPDATE =============");
 
