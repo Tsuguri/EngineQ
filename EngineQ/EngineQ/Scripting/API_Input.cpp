@@ -10,9 +10,15 @@ void EngineQ::Scripting::API_Input::API_MouseButtonDown(int buttonCode, bool& re
 	result = Engine::Get()->input.isMouseButtonDown(buttonCode);
 }
 
+void EngineQ::Scripting::API_Input::API_MousePosition(Math::Vector2& position)
+{
+	position = Engine::Get()->input.GetMousePosition();
+}
+
 void EngineQ::Scripting::API_Input::API_Register(ScriptEngine& scriptEngine)
 {
 	scriptEngine.API_Register("EngineQ.Input::API_KeyPressed",API_KeyPresed);
-	scriptEngine.API_Register("EngineQ.Entity::API_MouseButtonDown", API_MouseButtonDown);
+	scriptEngine.API_Register("EngineQ.Input::API_MouseButtonDown", API_MouseButtonDown);
+	scriptEngine.API_Register("EngineQ.Input::API_MousePosition", API_MousePosition);
 
 }

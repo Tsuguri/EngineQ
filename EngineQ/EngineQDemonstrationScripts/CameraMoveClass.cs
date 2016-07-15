@@ -20,7 +20,7 @@ namespace QScripts
 			{
 				var p = Entity.Transform.Position;
 				p.Y = (float)Math.Sin(Time.TimeFromStart);
-				Console.WriteLine(p);
+				Console.WriteLine(p+" "+Input.MousePosition);
 				Entity.Transform.Position = p;
 			}
 		}

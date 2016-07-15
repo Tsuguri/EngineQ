@@ -40,12 +40,12 @@ namespace EngineQ
 
 	void Engine::MouseButtonControl(int button, int action, int mods)
 	{
-
+		instance->input.MouseButtonAction(button, action, mods);
 	}
 
 	void Engine::MouseControl(double xpos, double ypos)
 	{
-
+		instance->input.MouseMoveAction(xpos, ypos);
 	}
 
 	bool Engine::Initialize(std::string name, int width, int height, char* assemblyName)

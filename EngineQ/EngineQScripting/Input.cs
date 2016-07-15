@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using EngineQ.Math;
 
 namespace EngineQ
 {
@@ -135,18 +136,28 @@ namespace EngineQ
 			Right,
 		}
 
-		private static bool tmp;
+		private static bool tmpBool;
+		private static Vector2 tmpVector2;
 
 		public static bool KeyPressed(Key key)
 		{
-			API_KeyPressed((int)key, out tmp);
-			return tmp;
+			API_KeyPressed((int)key, out tmpBool);
+			return tmpBool;
 		}
 
 		public static bool MouseButtonDown(MouseButton button)
 		{
-			API_MouseButtonDown((int)button, out tmp);
-			return tmp;
+			API_MouseButtonDown((int)button, out tmpBool);
+			return tmpBool;
+		}
+
+		public static Vector2 MousePosition
+		{
+			get
+			{
+				API_MousePosition(out tmpVector2);
+				return tmpVector2;
+			}
 		}
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
@@ -155,5 +166,7 @@ namespace EngineQ
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_MouseButtonDown(int button, out bool result);
 
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_MousePosition(out Vector2 result);
 	}
 }
