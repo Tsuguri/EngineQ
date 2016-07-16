@@ -4,7 +4,6 @@
 #include <fstream>
 #include <memory>
 
-#include "Math/Vector3.hpp"
 #include "Scene.hpp"
 #include "Graphics/Shader.hpp"
 #include "Graphics/ForwardRenderer.hpp"
@@ -72,7 +71,7 @@ namespace EngineQ
 		return true;
 	}
 
-	Scripting::ScriptClass Engine::GetClass(std::string assembly, std::string namespaceName, std::string className)
+	Scripting::ScriptClass Engine::GetClass(std::string assembly, std::string namespaceName, std::string className) const
 	{
 		return se->GetScriptClass(assembly.c_str(),namespaceName.c_str(), className.c_str());
 	}
@@ -121,6 +120,8 @@ namespace EngineQ
 			//scripts & logic
 
 			renderer.Render(scene);
+
+			input.ClearDelta();
 
 			window.SwapBuffers();
 		}

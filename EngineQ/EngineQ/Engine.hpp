@@ -35,7 +35,7 @@ private:
 	static void MouseControl(double xpos, double ypos);
 public:
 	static bool Initialize(std::string name, int width, int height, char* assemblyName);
-	Scripting::ScriptClass GetClass(std::string assembly, std::string namespaceName, std::string className);
+	Scripting::ScriptClass GetClass(std::string assembly, std::string namespaceName, std::string className) const;
 	Scene* CreateScene() const;
 	void Exit();
 	static Engine* Get();

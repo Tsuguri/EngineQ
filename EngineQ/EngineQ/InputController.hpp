@@ -25,13 +25,14 @@ namespace EngineQ
 		void KeyAction(int key, int scancode, int action, int mode);
 		void MouseButtonAction(int button, int action, int mode);
 		void MouseMoveAction(double xpos, double ypos);
-		void InvokeSEEvent(int key,int action);
 	public:
 		InputController();
 		void InitMethods(Scripting::ScriptEngine* se);
 		bool isButtonDown(int keyCode);
 		bool isMouseButtonDown(int keyCode);
 		Math::Vector2 GetMousePosition() const;
+		Math::Vector2 GetMouseDeltaPosition() const;
+		void ClearDelta();
 	};
 }
 

@@ -150,25 +150,14 @@ namespace EngineQ
 
 		public delegate void EventType(KeyAction action);
 
-		private class KeyEventHandler
+		private sealed class KeyEventHandler
 		{
 
-			public event EventType KeyEvent;
+			public event EventType Event;
 
-
-			public void Add(EventType eventHandler)
+			public void OnEvent(KeyAction action)
 			{
-				KeyEvent += eventHandler;
-			}
-
-			public void Remove(EventType eventHandler)
-			{
-				KeyEvent -= eventHandler;
-			}
-
-			public virtual void OnKeyEvent(KeyAction action)
-			{
-				KeyEvent?.Invoke(action);
+				Event?.Invoke(action);
 			}
 		}
 
@@ -177,7 +166,7 @@ namespace EngineQ
 		#region Fields
 		private static bool tmpBool;
 		private static Vector2 tmpVector2;
-		private static KeyEventHandler tmpKEH;
+		private static KeyEventHandler tmpKeh;
 
 		private static Dictionary<Key, KeyEventHandler> keyEventDict;
 		private static Dictionary<MouseButton, KeyEventHandler> mouseEventDict;
@@ -191,6 +180,15 @@ namespace EngineQ
 			get
 			{
 				API_MousePosition(out tmpVector2);
+				return tmpVector2;
+			}
+		}
+
+		public static Vector2 MouseDeltaPosition
+		{
+			get
+			{
+				API_MouseDeltaPosition(out tmpVector2);
 				return tmpVector2;
 			}
 		}
@@ -213,29 +211,30 @@ namespace EngineQ
 			return tmpBool;
 		}
 
+		// ReSharper disable once UnusedMember.Local
 		private static void KeyEvent(Key key, KeyAction action)
 		{
-			if (keyEventDict.TryGetValue(key, out tmpKEH))
+			if (keyEventDict.TryGetValue(key, out tmpKeh))
 			{
-				tmpKEH.OnKeyEvent(action);
+				tmpKeh.OnEvent(action);
 			}
 		}
 
 		public static void ListenKey(Key key, EventType action)
 		{
-			if (!keyEventDict.TryGetValue(key, out tmpKEH))
+			if (!keyEventDict.TryGetValue(key, out tmpKeh))
 			{
-				tmpKEH = new KeyEventHandler();
-				keyEventDict.Add(key, tmpKEH);
+				tmpKeh = new KeyEventHandler();
+				keyEventDict.Add(key, tmpKeh);
 			}
-			tmpKEH.Add(action);
+			tmpKeh.Event += action;
 		}
 
 		public static void StopListening(Key key, EventType action)
 		{
-			if (keyEventDict.TryGetValue(key, out tmpKEH))
+			if (keyEventDict.TryGetValue(key, out tmpKeh))
 			{
-				tmpKEH.Remove(action);
+				tmpKeh.Event -= action;
 			}
 		}
 
@@ -249,29 +248,30 @@ namespace EngineQ
 			return tmpBool;
 		}
 
+		// ReSharper disable once UnusedMember.Local
 		private static void MouseButtonEvent(MouseButton button, KeyAction action)
 		{
-			if (mouseEventDict.TryGetValue(button, out tmpKEH))
+			if (mouseEventDict.TryGetValue(button, out tmpKeh))
 			{
-				tmpKEH.OnKeyEvent(action);
+				tmpKeh.OnEvent(action);
 			}
 		}
 
 		public static void ListenMouseButton(MouseButton button, EventType action)
 		{
-			if (!mouseEventDict.TryGetValue(button, out tmpKEH))
+			if (!mouseEventDict.TryGetValue(button, out tmpKeh))
 			{
-				tmpKEH = new KeyEventHandler();
-				mouseEventDict.Add(button, tmpKEH);
+				tmpKeh = new KeyEventHandler();
+				mouseEventDict.Add(button, tmpKeh);
 			}
-			tmpKEH.Add(action);
+			tmpKeh.Event += action;
 		}
 
 		public static void StopListeningMouseButton(MouseButton button, EventType action)
 		{
-			if (mouseEventDict.TryGetValue(button, out tmpKEH))
+			if (mouseEventDict.TryGetValue(button, out tmpKeh))
 			{
-				tmpKEH.Remove(action);
+				tmpKeh.Event -= action;
 			}
 		}
 
@@ -290,6 +290,9 @@ namespace EngineQ
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_MousePosition(out Vector2 result);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_MouseDeltaPosition(out Vector2 result);
 
 		#endregion
 	}

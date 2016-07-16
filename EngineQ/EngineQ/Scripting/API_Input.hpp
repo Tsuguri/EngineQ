@@ -17,6 +17,8 @@ namespace EngineQ
 
 			static void API_MousePosition(Math::Vector2& position);
 
+			static void API_MouseDeltaPosition(Math::Vector2& deltaPosition);
+
 			static void API_Register(ScriptEngine& scriptEngine);
 		};
 	}

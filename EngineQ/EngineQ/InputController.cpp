@@ -1,7 +1,6 @@
 #include <algorithm>
 
 #include <GLFW/glfw3.h>
-#include <mono/metadata/debug-helpers.h>
 
 #include "InputController.hpp"
 #include "Scripting/ScriptEngine.hpp"
@@ -69,11 +68,6 @@ void EngineQ::InputController::MouseMoveAction(double xpos, double ypos)
 	cursorPos = tmp;
 }
 
-void EngineQ::InputController::InvokeSEEvent(int key, int action)
-{
-	auto p = mono_method_desc_new("EgineQ.Input.KeyPressedEvent(Key key)", true);
-
-}
 
 bool EngineQ::InputController::isButtonDown(int keyCode)
 {
@@ -93,4 +87,14 @@ bool EngineQ::InputController::isMouseButtonDown(int keyCode)
 EngineQ::Math::Vector2 EngineQ::InputController::GetMousePosition() const
 {
 	return cursorPos;
+}
+
+EngineQ::Math::Vector2 EngineQ::InputController::GetMouseDeltaPosition() const
+{
+	return cursorDeltaPos;
+}
+
+void EngineQ::InputController::ClearDelta()
+{
+	cursorDeltaPos = Math::Vector2(0);
 }

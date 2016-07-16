@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using EngineQ;
 using EngineQ.Math;
@@ -11,32 +7,42 @@ using EngineQ.Math;
 namespace QScripts
 {
 	public class CameraMoveClass : Script
-	{
+	{ 
+		private Vector3 tmp;
+		private Vector2 tmp2;
 		public CameraMoveClass()
 		{
-			Input.ListenKey(Input.Key.A, AKeyAction);
 			Input.ListenKey(Input.Key.Escape, EscapeAction);
-			Input.ListenKey(Input.Key.Space, SpaceAction);
 		}
-
 
 
 		protected override void Update()
 		{
 			base.Update();
+			tmp = Vector3.Zero;
+			if (Input.KeyPressed(Input.Key.A))
+				tmp += Vector3.Left;
+			if (Input.KeyPressed(Input.Key.D))
+				tmp += Vector3.Right;
+			if (Input.KeyPressed(Input.Key.S))
+				tmp += Vector3.Back;
+			if (Input.KeyPressed(Input.Key.W))
+				tmp += Vector3.Forward;
+			if (Input.KeyPressed(Input.Key.Space))
+				tmp += Vector3.Up;
+			if (Input.KeyPressed(Input.Key.LeftShift))
+				tmp += Vector3.Down;
+			if (tmp.LengthSquared > 0)
+				MoveInDirection(tmp.Normalized);
+			if (Input.MouseButtonDown(1) && (tmp2=Input.MouseDeltaPosition).LengthSquared > 0)
+			{
+				
+			}
+	}
 
-		}
-		private void SpaceAction(Input.KeyAction action)
+		private void MoveInDirection(Vector3 direction)
 		{
-			var p = Entity.Transform.Position;
-			p.Y = (float)Math.Sin(Time.TimeFromStart);
-			Console.WriteLine(p + " " + Input.MousePosition);
-			Entity.Transform.Position = p;
-		}
-
-		private void AKeyAction(Input.KeyAction action)
-		{
-			Console.WriteLine("a key: "+action);
+			transform.Position = transform.Position + transform.Rotation * direction * Time.DeltaTime;
 		}
 
 		private void EscapeAction(Input.KeyAction action)

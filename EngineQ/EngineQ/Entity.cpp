@@ -6,9 +6,9 @@ namespace EngineQ
 	Entity::Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine) :
 		Object{ scriptEngine, scriptEngine.GetEntityClass() },
 		scene{ scene },
+		isRemoveLocked{false},
 		components{},
-		transform{ *AddComponent<Transform>() },
-		isRemoveLocked{false}
+		transform{ *AddComponent<Transform>() }
 	{
 		// TMP
 		scriptEngine.InvokeConstructor(GetManagedObject());
