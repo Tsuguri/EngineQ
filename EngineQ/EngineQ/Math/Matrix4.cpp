@@ -362,7 +362,7 @@ namespace EngineQ
 			Real wz = q.W * z2;
 
 			return Matrix4{
-				static_cast<Real>(1) - (yy - zz), xy - wz, xz + wy, static_cast<Real>(0),
+				static_cast<Real>(1) - (yy + zz), xy - wz, xz + wy, static_cast<Real>(0),
 				xy + wz, static_cast<Real>(1) - (xx + zz), yz - wx, static_cast<Real>(0),
 				xz - wy, yz + wx, static_cast<Real>(1) - (xx + yy), static_cast<Real>(0),
 				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1)

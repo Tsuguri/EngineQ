@@ -80,8 +80,10 @@ void PrepareScene(EngineQ::Scene* scene)
 	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
 
 	EngineQ::Scripting::ScriptClass scriptClass = EngineQ::Engine::Get()->GetClass("QScripts", "QScripts", "CameraMoveClass");
-	ent->AddScript(scriptClass);
 
+	ent->AddScript(scriptClass);
+	EngineQ::Scripting::ScriptClass scriptClass2 = EngineQ::Engine::Get()->GetClass("QScripts", "QScripts", "RotateTest");
+	ent2->AddScript(scriptClass2);
 
 
 	sc.ActiveCamera(cam);
