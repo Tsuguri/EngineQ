@@ -214,6 +214,50 @@ namespace EngineQ
 			return GetScriptMethod(sclass, object, UpdateName);
 		}
 
+		void ScriptEngine::GetClassDescription(ScriptClass sclass, std::string& cassembly, std::string& cnamespace, std::string& cname) const
+		{
+			cname = mono_class_get_name(sclass);
+			cnamespace = mono_class_get_namespace(sclass);
+			
+			MonoImage* image = mono_class_get_image(sclass);
+
+			if (image != this->image)
+			{
+				for (auto& assembly : this->assemblies)
+				{
+					if (assembly.second.second == image)
+					{
+						cassembly = assembly.first;
+						break;
+					}
+				}
+			}
+			else
+			{
+				cassembly = "";
+			}
+		}
+
+		ScriptClass ScriptEngine::GetClass(const std::string& cassembly, const std::string& cnamespace, const std::string& cname) const
+		{
+			MonoImage* image = this->image;
+
+			if (cassembly != "")
+			{
+				auto it = this->assemblies.find(cassembly);
+				if (it == this->assemblies.end())
+					throw ScriptEngineException{ "Assembly " + cassembly + " not found" };
+
+				image = it->second.second;
+			}
+
+			MonoClass* mclass = mono_class_from_name(image, cnamespace.c_str(), cname.c_str());
+			if (mclass == nullptr)
+				throw ScriptEngineException{ "Class " + cnamespace + "." + cname + (cassembly == "" ? "" : " from assembly " + cassembly) + " not found" };
+		
+			return mclass;
+		}
+
 		ScriptClass ScriptEngine::GetScriptClass(const char* assembly, const char* classNamespace, const char* name) const
 		{
 			std::string assemblyName = std::string{ assembly };

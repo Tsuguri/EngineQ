@@ -1,5 +1,7 @@
 #include "Transform.hpp"
 
+#include "Serialization/SerializationRules.hpp"
+
 namespace EngineQ
 {
 	Transform::const_iterator Transform::begin() const
@@ -11,6 +13,38 @@ namespace EngineQ
 	{
 		return children.end();
 	}
+
+#pragma region Serialization
+
+	// TMP
+	Transform::Transform(Serialization::Deserializer& deserialzier) :
+		Component{deserialzier},
+		parent{ deserialzier.GetReference<Transform>("parent") },
+		children{ deserialzier.GetValue<std::vector<Transform*>>("children")},
+		position{ Vector3::GetZero() },
+		scale{ Vector3::GetOne() },
+		rotation{ Quaternion::GetIdentity() },
+		localMatrix{ Matrix4::GetIdentity() },
+		globalMatrix{ Matrix4::GetIdentity() },
+		localMatrixInverse{ Matrix4::GetIdentity() },
+		globalMatrixInverse{ Matrix4::GetIdentity() },
+		localMatrixChanged{ false },
+		globalMatrixChanged{ false },
+		localMatrixInverseChanged{ false },
+		globalMatrixInverseChanged{ false }
+	{
+
+	}
+
+	// TMP
+	void Transform::Serialize(Serialization::Serializer& serializer) const
+	{
+		Component::Serialize(serializer);
+		serializer.StoreReference("parent", parent);
+		serializer.StoreValue("children", &children);
+	}
+
+#pragma endregion
 
 	Transform::Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity) :
 		Component{ scriptEngine, scriptEngine.GetTransformClass(), entity },

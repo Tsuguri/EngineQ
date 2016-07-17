@@ -2,9 +2,28 @@
 #include "Entity.hpp"
 #include "Utils.hpp"
 
+#include "Serialization/SerializationRules.hpp"
+
 namespace EngineQ
 {
+#pragma region Serialization
 
+	Camera::Camera(Serialization::Deserializer& deserialzier) :
+		Component{ deserialzier },
+		aspectRatio{deserialzier.GetValue<float>("aspect")},
+		fov{deserialzier.GetValue<float>("fov")}
+	{
+
+	}
+
+	void Camera::Serialize(Serialization::Serializer& serializer) const
+	{
+		Component::Serialize(serializer);
+		serializer.StoreValue("aspect", &this->aspectRatio);
+		serializer.StoreValue("fov", &this->fov);
+	}
+
+#pragma endregion
 
 	bool Camera::CalculateInvertedProjectionMatrix() const
 	{

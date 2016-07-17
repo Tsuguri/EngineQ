@@ -1,0 +1,77 @@
+<SerializedObject>
+    <Root refId="0018F964"/>
+    <Object type="Scene" id="0018F964">
+        <cassembly/>
+        <cname>Scene</cname>
+        <cnamespace>EngineQ</cnamespace>
+        <entities>
+            <element0 refId="00EA5E40"/>
+            <element1 refId="06D31C18"/>
+            <size>2</size>
+        </entities>
+    </Object>
+    <Object type="Entity" id="00EA5E40">
+        <scene refId="0018F964"/>
+        <transform refId="06D2F4C0"/>
+        <cassembly/>
+        <cname>Entity</cname>
+        <cnamespace>EngineQ</cnamespace>
+        <components>
+            <element0 refId="06D2F4C0"/>
+            <size>1</size>
+        </components>
+        <updatable>
+            <size>0</size>
+        </updatable>
+    </Object>
+    <Object type="Light" id="00EC7F68">
+        <entity refId="06D31C18"/>
+        <cassembly/>
+        <cname>Light</cname>
+        <cnamespace>EngineQ</cnamespace>
+    </Object>
+    <Object type="Script" id="06C639A0">
+        <entity refId="06D31C18"/>
+        <cassembly>ScriptTest</cassembly>
+        <cname>MyScript</cname>
+        <cnamespace>ScriptTest</cnamespace>
+    </Object>
+    <Object type="Transform" id="06C9E930">
+        <entity refId="06D31C18"/>
+        <parent refId="00000000"/>
+        <cassembly/>
+        <children>
+            <size>0</size>
+        </children>
+        <cname>Transform</cname>
+        <cnamespace>EngineQ</cnamespace>
+    </Object>
+    <Object type="Transform" id="06D2F4C0">
+        <entity refId="00EA5E40"/>
+        <parent refId="00000000"/>
+        <cassembly/>
+        <children>
+            <element0 refId="06C9E930"/>
+            <size>1</size>
+        </children>
+        <cname>Transform</cname>
+        <cnamespace>EngineQ</cnamespace>
+    </Object>
+    <Object type="Entity" id="06D31C18">
+        <scene refId="0018F964"/>
+        <transform refId="06C9E930"/>
+        <cassembly/>
+        <cname>Entity</cname>
+        <cnamespace>EngineQ</cnamespace>
+        <components>
+            <element0 refId="06C9E930"/>
+            <element1 refId="00EC7F68"/>
+            <element2 refId="06C639A0"/>
+            <size>3</size>
+        </components>
+        <updatable>
+            <element0 refId="06C639A0"/>
+            <size>1</size>
+        </updatable>
+    </Object>
+</SerializedObject>

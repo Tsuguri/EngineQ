@@ -64,6 +64,8 @@ void Init()
 using namespace EngineQ;
 using namespace ::EngineQ::Graphics;
 
+#include "Serialization/XMLFormatter.hpp"
+
 int main(int argc, char** argv)
 {
 	// Shaders test
@@ -107,6 +109,18 @@ int main(int argc, char** argv)
 
 	EngineQ::Scripting::ScriptEngine se{ argv[0], (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
 
+	se.LoadAssembly((scriptsAssembliesPath + "ScriptTest.dll").c_str());
+
+
+	EngineQ::Serialization::SerializationEngine::Register<EngineQ::Scene>("Scene");
+	EngineQ::Serialization::SerializationEngine::Register<EngineQ::Entity>("Entity");
+	EngineQ::Serialization::SerializationEngine::Register<EngineQ::Transform>("Transform");
+	EngineQ::Serialization::SerializationEngine::Register<EngineQ::Camera>("Camera");
+	EngineQ::Serialization::SerializationEngine::Register<EngineQ::Script>("Script");
+	EngineQ::Serialization::SerializationEngine::Register<EngineQ::Light>("Light");
+
+//#define SERIALIZE
+#ifdef SERIALIZE
 	EngineQ::Scene scene{ se };
 
 	EngineQ::Entity* entity1 = scene.CreateEntity();
@@ -114,7 +128,6 @@ int main(int argc, char** argv)
 
 	entity1->GetTransform().SetParent(&entity2->GetTransform());
 
-	se.LoadAssembly((scriptsAssembliesPath + "ScriptTest.dll").c_str());
 	EngineQ::Scripting::ScriptClass scriptClass = se.GetScriptClass("ScriptTest", "ScriptTest", "MyScript");
 
 	entity1->AddComponent<EngineQ::Light>();
@@ -122,6 +135,30 @@ int main(int argc, char** argv)
 
 	scene.Update();
 	scene.Update();
+
+	
+
+	EngineQ::Serialization::Serializer serialzier;
+
+	auto serialized = serialzier.Serialize(scene);
+
+	EngineQ::Serialization::XMLFormatter formatter;
+
+	formatter.Save("Scene.xml", *serialized);
+#else
+
+	EngineQ::Serialization::XMLFormatter formatter;
+	auto serialized = formatter.Load("Scene.xml");
+
+	EngineQ::Serialization::Deserializer deserializer{ serialized };
+	deserializer.AddStorage("scriptEngine", &se);
+
+	EngineQ::Scene* scene2 = deserializer.Deserialize<EngineQ::Scene>();
+
+	scene2->Update();
+	scene2->Update();
+
+#endif
 
 	getchar();
 	return 0;

@@ -11,6 +11,7 @@ namespace EngineQ
 		{
 		public:
 			ScriptEngineException(const char* message);
+			ScriptEngineException(const std::string& message);
 		};
 	}
 }

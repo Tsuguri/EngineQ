@@ -96,6 +96,9 @@ namespace EngineQ
 
 			ScriptMethod GetScriptUpdateMethod(ScriptClass sclass, ScriptObject object) const;
 
+			void GetClassDescription(ScriptClass sclass, std::string& cassembly, std::string& cnamespace, std::string& cname) const;
+			ScriptClass GetClass(const std::string& cassembly, const std::string& cnamespace, const std::string& cname) const;
+
 			ScriptClass GetScriptClass(const char* assembly, const char* classNamespace, const char* name) const;
 			ScriptClass GetTransformClass() const;
 			ScriptClass GetLightClass() const;

@@ -1,12 +1,37 @@
 #include "Entity.hpp"
 #include "Scene.hpp"
 
+#include "Serialization/SerializationRules.hpp"
+
 namespace EngineQ
 {
+#pragma region Serialization
+
+	Entity::Entity(Serialization::Deserializer& deserialzier) :
+		Object{ deserialzier },
+		scene{ *deserialzier.GetReference<Scene>("scene") },
+		isRemoveLocked{ false },
+		components{ deserialzier.GetValue<std::vector<Component*>>("components") },
+		transform{ *deserialzier.GetReference<Transform>("transform") },
+		updatable{deserialzier.GetValue<std::vector<Script*>>("updatable")}
+	{
+	}
+
+	void Entity::Serialize(Serialization::Serializer& serializer) const
+	{
+		Object::Serialize(serializer);
+		serializer.StoreReference("scene", &this->scene);
+		serializer.StoreValue("components", &this->components);
+		serializer.StoreReference("transform", &this->transform);
+		serializer.StoreValue("updatable", &this->updatable);
+	}
+
+#pragma endregion
+
 	Entity::Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine) :
 		Object{ scriptEngine, scriptEngine.GetEntityClass() },
 		scene{ scene },
-		isRemoveLocked{false},
+		isRemoveLocked{ false },
 		components{},
 		transform{ *AddComponent<Transform>() }
 	{
@@ -41,7 +66,7 @@ namespace EngineQ
 	{
 		this->components.erase(it);
 		this->scene.RemovedComponent(component);
-		
+
 		// Remove from cache
 		switch (component.GetType())
 		{
@@ -91,7 +116,7 @@ namespace EngineQ
 		auto it = std::find(this->components.begin(), this->components.end(), &component);
 		if (it == this->components.end())
 			throw std::runtime_error("Component not found");
-		
+
 		if (this->isRemoveLocked)
 			this->componentsToDelete.push_back(&component);
 		else
