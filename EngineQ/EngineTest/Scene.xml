@@ -1,43 +1,43 @@
 <SerializedObject>
-    <Root refId="0018F964"/>
-    <Object type="Scene" id="0018F964">
+    <Root refId="0018F870"/>
+    <Object type="Scene" id="0018F870">
         <cassembly/>
         <cname>Scene</cname>
         <cnamespace>EngineQ</cnamespace>
         <entities>
-            <element0 refId="00EA5E40"/>
-            <element1 refId="06D31C18"/>
+            <element0 refId="00E21F28"/>
+            <element1 refId="06C808C8"/>
             <size>2</size>
         </entities>
     </Object>
-    <Object type="Entity" id="00EA5E40">
-        <scene refId="0018F964"/>
-        <transform refId="06D2F4C0"/>
+    <Object type="Entity" id="00E21F28">
+        <scene refId="0018F870"/>
+        <transform refId="06C25798"/>
         <cassembly/>
         <cname>Entity</cname>
         <cnamespace>EngineQ</cnamespace>
         <components>
-            <element0 refId="06D2F4C0"/>
+            <element0 refId="06C25798"/>
             <size>1</size>
         </components>
         <updatable>
             <size>0</size>
         </updatable>
     </Object>
-    <Object type="Light" id="00EC7F68">
-        <entity refId="06D31C18"/>
+    <Object type="Light" id="00E42748">
+        <entity refId="06C808C8"/>
         <cassembly/>
         <cname>Light</cname>
         <cnamespace>EngineQ</cnamespace>
     </Object>
-    <Object type="Script" id="06C639A0">
-        <entity refId="06D31C18"/>
+    <Object type="Script" id="06B28238">
+        <entity refId="06C808C8"/>
         <cassembly>ScriptTest</cassembly>
         <cname>MyScript</cname>
         <cnamespace>ScriptTest</cnamespace>
     </Object>
-    <Object type="Transform" id="06C9E930">
-        <entity refId="06D31C18"/>
+    <Object type="Transform" id="06BFA030">
+        <entity refId="06C808C8"/>
         <parent refId="00000000"/>
         <cassembly/>
         <children>
@@ -45,32 +45,216 @@
         </children>
         <cname>Transform</cname>
         <cnamespace>EngineQ</cnamespace>
+        <globalMatrix>
+            <m00>1.000000</m00>
+            <m01>0.000000</m01>
+            <m02>0.000000</m02>
+            <m03>0.000000</m03>
+            <m10>0.000000</m10>
+            <m11>1.000000</m11>
+            <m12>0.000000</m12>
+            <m13>0.000000</m13>
+            <m20>0.000000</m20>
+            <m21>0.000000</m21>
+            <m22>1.000000</m22>
+            <m23>0.000000</m23>
+            <m30>0.000000</m30>
+            <m31>0.000000</m31>
+            <m32>0.000000</m32>
+            <m33>1.000000</m33>
+        </globalMatrix>
+        <globalMatrixChanged>0</globalMatrixChanged>
+        <globalMatrixInverse>
+            <m00>1.000000</m00>
+            <m01>0.000000</m01>
+            <m02>0.000000</m02>
+            <m03>0.000000</m03>
+            <m10>0.000000</m10>
+            <m11>1.000000</m11>
+            <m12>0.000000</m12>
+            <m13>0.000000</m13>
+            <m20>0.000000</m20>
+            <m21>0.000000</m21>
+            <m22>1.000000</m22>
+            <m23>0.000000</m23>
+            <m30>0.000000</m30>
+            <m31>0.000000</m31>
+            <m32>0.000000</m32>
+            <m33>1.000000</m33>
+        </globalMatrixInverse>
+        <globalMatrixInverseChanged>0</globalMatrixInverseChanged>
+        <localMatrix>
+            <m00>1.000000</m00>
+            <m01>0.000000</m01>
+            <m02>0.000000</m02>
+            <m03>0.000000</m03>
+            <m10>0.000000</m10>
+            <m11>1.000000</m11>
+            <m12>0.000000</m12>
+            <m13>0.000000</m13>
+            <m20>0.000000</m20>
+            <m21>0.000000</m21>
+            <m22>1.000000</m22>
+            <m23>0.000000</m23>
+            <m30>0.000000</m30>
+            <m31>0.000000</m31>
+            <m32>0.000000</m32>
+            <m33>1.000000</m33>
+        </localMatrix>
+        <localMatrixChanged>0</localMatrixChanged>
+        <localMatrixInverse>
+            <m00>1.000000</m00>
+            <m01>0.000000</m01>
+            <m02>0.000000</m02>
+            <m03>0.000000</m03>
+            <m10>0.000000</m10>
+            <m11>1.000000</m11>
+            <m12>0.000000</m12>
+            <m13>0.000000</m13>
+            <m20>0.000000</m20>
+            <m21>0.000000</m21>
+            <m22>1.000000</m22>
+            <m23>0.000000</m23>
+            <m30>0.000000</m30>
+            <m31>0.000000</m31>
+            <m32>0.000000</m32>
+            <m33>1.000000</m33>
+        </localMatrixInverse>
+        <localMatrixInverseChanged>0</localMatrixInverseChanged>
+        <position>
+            <X>0.000000</X>
+            <Y>0.000000</Y>
+            <Z>0.000000</Z>
+        </position>
+        <rotation>
+            <W>1.000000</W>
+            <X>0.000000</X>
+            <Y>0.000000</Y>
+            <Z>0.000000</Z>
+        </rotation>
+        <scale>
+            <X>1.000000</X>
+            <Y>1.000000</Y>
+            <Z>1.000000</Z>
+        </scale>
     </Object>
-    <Object type="Transform" id="06D2F4C0">
-        <entity refId="00EA5E40"/>
+    <Object type="Transform" id="06C25798">
+        <entity refId="00E21F28"/>
         <parent refId="00000000"/>
         <cassembly/>
         <children>
-            <element0 refId="06C9E930"/>
+            <element0 refId="06BFA030"/>
             <size>1</size>
         </children>
         <cname>Transform</cname>
         <cnamespace>EngineQ</cnamespace>
+        <globalMatrix>
+            <m00>1.000000</m00>
+            <m01>0.000000</m01>
+            <m02>0.000000</m02>
+            <m03>0.000000</m03>
+            <m10>0.000000</m10>
+            <m11>1.000000</m11>
+            <m12>0.000000</m12>
+            <m13>0.000000</m13>
+            <m20>0.000000</m20>
+            <m21>0.000000</m21>
+            <m22>1.000000</m22>
+            <m23>0.000000</m23>
+            <m30>0.000000</m30>
+            <m31>0.000000</m31>
+            <m32>0.000000</m32>
+            <m33>1.000000</m33>
+        </globalMatrix>
+        <globalMatrixChanged>0</globalMatrixChanged>
+        <globalMatrixInverse>
+            <m00>1.000000</m00>
+            <m01>0.000000</m01>
+            <m02>0.000000</m02>
+            <m03>0.000000</m03>
+            <m10>0.000000</m10>
+            <m11>1.000000</m11>
+            <m12>0.000000</m12>
+            <m13>0.000000</m13>
+            <m20>0.000000</m20>
+            <m21>0.000000</m21>
+            <m22>1.000000</m22>
+            <m23>0.000000</m23>
+            <m30>0.000000</m30>
+            <m31>0.000000</m31>
+            <m32>0.000000</m32>
+            <m33>1.000000</m33>
+        </globalMatrixInverse>
+        <globalMatrixInverseChanged>0</globalMatrixInverseChanged>
+        <localMatrix>
+            <m00>1.000000</m00>
+            <m01>0.000000</m01>
+            <m02>0.000000</m02>
+            <m03>0.000000</m03>
+            <m10>0.000000</m10>
+            <m11>1.000000</m11>
+            <m12>0.000000</m12>
+            <m13>0.000000</m13>
+            <m20>0.000000</m20>
+            <m21>0.000000</m21>
+            <m22>1.000000</m22>
+            <m23>0.000000</m23>
+            <m30>0.000000</m30>
+            <m31>0.000000</m31>
+            <m32>0.000000</m32>
+            <m33>1.000000</m33>
+        </localMatrix>
+        <localMatrixChanged>0</localMatrixChanged>
+        <localMatrixInverse>
+            <m00>1.000000</m00>
+            <m01>0.000000</m01>
+            <m02>0.000000</m02>
+            <m03>0.000000</m03>
+            <m10>0.000000</m10>
+            <m11>1.000000</m11>
+            <m12>0.000000</m12>
+            <m13>0.000000</m13>
+            <m20>0.000000</m20>
+            <m21>0.000000</m21>
+            <m22>1.000000</m22>
+            <m23>0.000000</m23>
+            <m30>0.000000</m30>
+            <m31>0.000000</m31>
+            <m32>0.000000</m32>
+            <m33>1.000000</m33>
+        </localMatrixInverse>
+        <localMatrixInverseChanged>0</localMatrixInverseChanged>
+        <position>
+            <X>0.000000</X>
+            <Y>0.000000</Y>
+            <Z>0.000000</Z>
+        </position>
+        <rotation>
+            <W>1.000000</W>
+            <X>0.000000</X>
+            <Y>0.000000</Y>
+            <Z>0.000000</Z>
+        </rotation>
+        <scale>
+            <X>1.000000</X>
+            <Y>1.000000</Y>
+            <Z>1.000000</Z>
+        </scale>
     </Object>
-    <Object type="Entity" id="06D31C18">
-        <scene refId="0018F964"/>
-        <transform refId="06C9E930"/>
+    <Object type="Entity" id="06C808C8">
+        <scene refId="0018F870"/>
+        <transform refId="06BFA030"/>
         <cassembly/>
         <cname>Entity</cname>
         <cnamespace>EngineQ</cnamespace>
         <components>
-            <element0 refId="06C9E930"/>
-            <element1 refId="00EC7F68"/>
-            <element2 refId="06C639A0"/>
+            <element0 refId="06BFA030"/>
+            <element1 refId="00E42748"/>
+            <element2 refId="06B28238"/>
             <size>3</size>
         </components>
         <updatable>
-            <element0 refId="06C639A0"/>
+            <element0 refId="06B28238"/>
             <size>1</size>
         </updatable>
     </Object>

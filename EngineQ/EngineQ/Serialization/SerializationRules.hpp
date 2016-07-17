@@ -8,6 +8,13 @@
 #include "Deserializer.hpp"
 #include "Serializable.hpp"
 
+//#include "../Math/Vector2.hpp"
+#include "../Math/Vector3.hpp"
+//#include "../Math/Vector4.hpp"
+//#include "../Math/Matrix3.hpp"
+#include "../Math/Matrix4.hpp"
+#include "../Math/Quaternion.hpp"
+
 namespace EngineQ
 {
 	namespace Serialization
@@ -21,6 +28,9 @@ namespace EngineQ
 		void SerializeValue(std::size_t value, Serializer& serializer, std::string& type, std::string& serializedValue);
 		std::size_t DeserializeValue(Deserializer& deserializer, const std::size_t*);
 
+		void SerializeValue(bool value, Serializer& serializer, std::string& type, std::string& serializedValue);
+		bool DeserializeValue(Deserializer& deserializer, const bool*);
+
 		void SerializeValue(float value, Serializer& serializer, std::string& type, std::string& serializedValue);
 		float DeserializeValue(Deserializer& deserializer, const float*);
 
@@ -33,6 +43,15 @@ namespace EngineQ
 		void SerializeValue(const std::vector<Type>& value, Serializer& serializer, std::string& type, std::string& serializedValue);
 		template<typename Type>
 		std::vector<Type> DeserializeValue(Deserializer& deserializer, const std::vector<Type>*);
+
+		void SerializeValue(Math::Vector3 value, Serializer& serializer, std::string& type, std::string& serializedValue);
+		Math::Vector3 DeserializeValue(Deserializer& deserializer, const Math::Vector3*);
+
+		void SerializeValue(Math::Quaternion value, Serializer& serializer, std::string& type, std::string& serializedValue);
+		Math::Quaternion DeserializeValue(Deserializer& deserializer, const Math::Quaternion*);
+
+		void SerializeValue(Math::Matrix4 value, Serializer& serializer, std::string& type, std::string& serializedValue);
+		Math::Matrix4 DeserializeValue(Deserializer& deserializer, const Math::Matrix4*);
 	}
 }
 
