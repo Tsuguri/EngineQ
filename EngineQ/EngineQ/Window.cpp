@@ -1,4 +1,4 @@
-#include "GLFWWindow.hpp"
+#include "Window.hpp"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -6,26 +6,26 @@
 
 namespace EngineQ
 {
-	GLFWWindow::keyfunc GLFWWindow::KeyFunction=nullptr;
-	GLFWWindow::mousebuttonfunc GLFWWindow::MouseButtonsFunction = nullptr;
-	GLFWWindow::mousecontrolfunc GLFWWindow::MouseControlFunction = nullptr;
+	Window::keyfunc Window::KeyFunction=nullptr;
+	Window::mousebuttonfunc Window::MouseButtonsFunction = nullptr;
+	Window::mousecontrolfunc Window::MouseControlFunction = nullptr;
 
-	void GLFWWindow::KeyControl(GLFWwindow * window, int key, int scancode, int action, int mode)
+	void Window::KeyControl(GLFWwindow * window, int key, int scancode, int action, int mode)
 	{
 		if (KeyFunction != nullptr)
 			KeyFunction(key, scancode, action, mode);
 	}
-	void GLFWWindow::MouseButtonControl(GLFWwindow * window, int button, int action, int mods)
+	void Window::MouseButtonControl(GLFWwindow * window, int button, int action, int mods)
 	{
 		if (MouseButtonsFunction != nullptr)
 			MouseButtonsFunction(button, action, mods);
 	}
-	void GLFWWindow::MouseControl(GLFWwindow * window, double xpos, double ypos)
+	void Window::MouseControl(GLFWwindow * window, double xpos, double ypos)
 	{
 		if (MouseControlFunction != nullptr)
 			MouseControlFunction(xpos, ypos);
 	}
-	bool GLFWWindow::Initialize(std::string windowName, int width, int height)
+	bool Window::Initialize(std::string windowName, int width, int height)
 	{
 
 
@@ -74,53 +74,53 @@ namespace EngineQ
 		return true;
 	}
 
-	void GLFWWindow::Close()
+	void Window::Close()
 	{
 
 		glfwTerminate();
 	}
 
-	void GLFWWindow::SwapBuffers()
+	void Window::SwapBuffers()
 	{
 		glfwSwapBuffers(window);
 	}
 
-	bool GLFWWindow::ShouldClose()
+	bool Window::ShouldClose()
 	{
 		return glfwWindowShouldClose(window);
 	}
 
-	void GLFWWindow::PollEvents()
+	void Window::PollEvents()
 	{
 		glfwPollEvents();
 	}
 
-	void GLFWWindow::SetKeyFunction(keyfunc function)
+	void Window::SetKeyFunction(keyfunc function)
 	{
 		KeyFunction = function;
 	}
 
-	void GLFWWindow::SetMouseButtonFunction(mousebuttonfunc function)
+	void Window::SetMouseButtonFunction(mousebuttonfunc function)
 	{
 		MouseButtonsFunction = function;
 	}
 
-	void GLFWWindow::SetMouseControlFunction(mousecontrolfunc function)
+	void Window::SetMouseControlFunction(mousecontrolfunc function)
 	{
 		MouseControlFunction = function;
 	}
 
-	double GLFWWindow::GetTime()
+	double Window::GetTime()
 	{
 		return glfwGetTime();
 	}
 
-	GLFWWindow::GLFWWindow()
+	Window::Window()
 	{
 	}
 
 
-	GLFWWindow::~GLFWWindow()
+	Window::~Window()
 	{
 	}
 }

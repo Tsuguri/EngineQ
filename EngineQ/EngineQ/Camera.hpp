@@ -24,17 +24,17 @@ namespace EngineQ
 
 		bool calculateInvertedProjectionMatrix = true;
 
-		bool CalculateInvertedProjectionMatrix() const;
-		void CalculateInvertedProjectionMatrix(bool value);
+		bool GetCalculateInvertedProjectionMatrix() const;
+		void SetCalculateInvertedProjectionMatrix(bool value);
 
-		bool CalculateProjectionMatrix() const;
-		void CalculateProjectionMatrix(bool value);
+		bool GetCalculateProjectionMatrix() const;
+		void SetCalculateProjectionMatrix(bool value);
 
-		float AspectRatio() const;
-		void AspectRatio(float value);
+		float GetAspectRatio() const;
+		void SetAspectRatio(float value);
 
-		float FOV() const;
-		void FOV(float value);
+		float GetFOV() const;
+		void SetFOV(float value);
 
 	public:
 	#pragma region Serialization
@@ -47,13 +47,13 @@ namespace EngineQ
 		Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity);
 		virtual ComponentType GetType() const override;
 
-		Math::Matrix4 ProjectionMatrix();
+		Math::Matrix4 GetProjectionMatrix();
 
-		Math::Matrix4 ViewMatrix();
+		Math::Matrix4 GetViewMatrix();
 
-		Math::Matrix4 InvertedViewMatrix();
+		Math::Matrix4 GetInvertedViewMatrix();
 
-		Math::Matrix4 InvertedProjectionMatrix();
+		Math::Matrix4 GetInvertedProjectionMatrix();
 	};
 }
 

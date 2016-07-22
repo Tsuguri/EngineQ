@@ -75,8 +75,8 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto renderable = ent2->AddComponent<EngineQ::Graphics::Renderable>();
 
 	auto cam = ent->AddComponent<EngineQ::Camera>();
-	renderable->Model(mesh);
-	renderable->ForwardShader(tempShader);
+	renderable->SetModel(mesh);
+	renderable->SetForwardShader(tempShader);
 	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
 
 	EngineQ::Scripting::ScriptClass scriptClass = EngineQ::Engine::Get()->GetClass("QScripts", "QScripts", "CameraMoveClass");

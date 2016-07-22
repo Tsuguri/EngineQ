@@ -16,22 +16,22 @@ namespace EngineQ
 			return ComponentType::Renderable;
 		}
 
-		Shader* Renderable::ForwardShader() const
+		Shader* Renderable::GetForwardShader() const
 		{
 			return forwardShader;
 		}
 
-		void Renderable::ForwardShader(Shader* shader)
+		void Renderable::SetForwardShader(Shader* shader)
 		{
 			forwardShader = shader;
 		}
 
-		Mesh* Renderable::Model() const
+		Mesh* Renderable::GetModel() const
 		{
 			return model;
 		}
 
-		void Renderable::Model(EngineQ::Mesh* mesh)
+		void Renderable::SetModel(EngineQ::Mesh* mesh)
 		{
 			model = mesh;
 		}

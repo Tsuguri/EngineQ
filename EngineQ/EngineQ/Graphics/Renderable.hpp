@@ -19,10 +19,10 @@ namespace EngineQ
 			Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity);
 			virtual ComponentType GetType() const override;
 
-			Shader* ForwardShader() const;
-			void ForwardShader(Shader* shader);
-			Mesh* Model() const;
-			void Model(Mesh* mesh);
+			Shader* GetForwardShader() const;
+			void SetForwardShader(Shader* shader);
+			Mesh* GetModel() const;
+			void SetModel(Mesh* mesh);
 		};
 	}
 }

@@ -64,21 +64,21 @@ namespace EngineQ
 		std::string engineAssemblyPath = "./";
 		std::string scriptsAssembliesPath = "./Scripts/";
 		auto sem = new Scripting::ScriptEngine{ assemblyName, (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
-		instance->se = std::unique_ptr<Scripting::ScriptEngine>(sem);
+		instance->scriptingEngine = std::unique_ptr<Scripting::ScriptEngine>(sem);
 		
-		instance->se->LoadAssembly((scriptsAssembliesPath + "QScripts.dll").c_str());
-		instance->input.InitMethods(instance->se.get());
+		instance->scriptingEngine->LoadAssembly((scriptsAssembliesPath + "QScripts.dll").c_str());
+		instance->input.InitMethods(instance->scriptingEngine.get());
 		return true;
 	}
 
 	Scripting::ScriptClass Engine::GetClass(std::string assembly, std::string namespaceName, std::string className) const
 	{
-		return se->GetScriptClass(assembly.c_str(),namespaceName.c_str(), className.c_str());
+		return scriptingEngine->GetScriptClass(assembly.c_str(),namespaceName.c_str(), className.c_str());
 	}
 
 	Scene* Engine::CreateScene() const
 	{
-		return new Scene(*se.get());
+		return new Scene(*scriptingEngine.get());
 	}
 
 	void Engine::Exit()

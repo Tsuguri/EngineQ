@@ -5,7 +5,7 @@
 struct GLFWwindow;
 namespace EngineQ
 {
-	class GLFWWindow
+	class Window
 	{
 	public:
 		typedef void(*keyfunc)(int, int, int, int);
@@ -22,8 +22,8 @@ namespace EngineQ
 		static void MouseButtonControl(GLFWwindow* window, int button, int action, int mods);
 		static void MouseControl(GLFWwindow* window, double xpos, double ypos);
 	public:
-		GLFWWindow();
-		~GLFWWindow();
+		Window();
+		~Window();
 		bool Initialize(std::string windowName, int width, int height);
 		void Close();
 		void SwapBuffers();

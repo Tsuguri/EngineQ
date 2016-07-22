@@ -35,12 +35,12 @@ namespace EngineQ
 
 			for (auto it = scene->RenderablesBegin(), end = scene->RenderablesEnd(); it != end; ++it)
 			{
-				mesh = (*it)->Model();
-				shd = (*it)->ForwardShader();
+				mesh = (*it)->GetModel();
+				shd = (*it)->GetForwardShader();
 
 				shd->Activate();
-				shd->Bind(shd->GetUniformLocation("ViewMat"), cam->ViewMatrix());
-				shd->Bind(shd->GetUniformLocation("ProjMat"), cam->ProjectionMatrix());
+				shd->Bind(shd->GetUniformLocation("ViewMat"), cam->GetViewMatrix());
+				shd->Bind(shd->GetUniformLocation("ProjMat"), cam->GetProjectionMatrix());
 				shd->Bind(shd->GetUniformLocation("ModelMat"),(*it)->GetEntity().GetTransform().GetGlobalMatrix() );
 				shd->Bind(shd->GetUniformLocation("cameraPosition"),cam->GetEntity().GetTransform().GetPosition() );
 
@@ -52,8 +52,8 @@ namespace EngineQ
 
 
 
-				glBindVertexArray(mesh->vao);
-				glDrawElements(GL_TRIANGLES, mesh->Count(), GL_UNSIGNED_INT, NULL);
+				glBindVertexArray(mesh->GetVao());
+				glDrawElements(GL_TRIANGLES, mesh->Count(), GL_UNSIGNED_INT, nullptr);
 			}
 			
 		}

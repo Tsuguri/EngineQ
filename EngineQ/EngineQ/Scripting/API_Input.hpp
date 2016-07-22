@@ -11,7 +11,7 @@ namespace EngineQ
 		class API_Input
 		{
 		public:
-			static void API_KeyPresed(int keyCode,bool& result);
+			static void API_KeyPressed(InputController::Key keyCode,bool& result);
 
 			static void API_MouseButtonDown(int buttonCode, bool& result);
 

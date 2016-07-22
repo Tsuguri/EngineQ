@@ -7,6 +7,11 @@ namespace EngineQ
 		return count;
 	}
 
+	GLuint Mesh::GetVao()
+	{
+		return vao;
+	}
+
 	Mesh::Mesh(const std::vector<VertexPNC>& vertices, const std::vector<GLuint>& indices)
 	{
 
@@ -49,6 +54,7 @@ namespace EngineQ
 
 	EngineQ::Mesh::~Mesh()
 	{
-
+		glDeleteBuffers(3, vbo);
+		glDeleteVertexArrays(1, &vao);
 	}
 }
