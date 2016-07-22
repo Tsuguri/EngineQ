@@ -34,6 +34,13 @@ namespace EngineQ
 		void RemoveEntity_Internal(Entity* entity, std::vector<Entity*>::iterator it);
 
 	public:
+	#pragma region Serialization
+
+		Scene(Serialization::Deserializer& deserialzier);
+		virtual void Serialize(Serialization::Serializer& serializer) const override;
+
+	#pragma endregion
+
 		Scene(Scripting::ScriptEngine& scriptEngine);
 		~Scene();
 

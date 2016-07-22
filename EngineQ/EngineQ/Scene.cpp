@@ -1,7 +1,26 @@
 #include "Scene.hpp"
 
+#include "Serialization/SerializationRules.hpp"
+
 namespace EngineQ
 {
+#pragma region Serialization
+
+	Scene::Scene(Serialization::Deserializer& deserialzier) :
+		Object{deserialzier},
+		entities{deserialzier.GetValue<std::vector<Entity*>>("entities")}
+	{
+
+	}
+
+	void Scene::Serialize(Serialization::Serializer& serializer) const
+	{
+		Object::Serialize(serializer);
+		serializer.StoreValue("entities", &this->entities);
+	}
+
+#pragma endregion
+
 	Scene::Scene(Scripting::ScriptEngine& scriptEngine) :
 		Object{ scriptEngine, scriptEngine.GetSceneClass() },
 		isUpdating{ false }

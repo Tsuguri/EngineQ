@@ -1,9 +1,33 @@
 #include "Object.hpp"
 
+#include "Serialization/SerializationRules.hpp"
+
 namespace EngineQ
 {
+#pragma region Serialization
+
+	Object::Object(Serialization::Deserializer& deserializer) : 
+		Serialization::Serializable{ deserializer },
+		scriptEngine{ *deserializer.GetStorage<Scripting::ScriptEngine>("scriptEngine") },
+		sclass{ this->scriptEngine.GetClass(deserializer.GetValue<std::string>("cassembly"), deserializer.GetValue<std::string>("cnamespace"), deserializer.GetValue<std::string>("cname")) },
+		managedHandle{ this->scriptEngine.CreateObject(this->sclass, this) }
+	{
+	}
+
+	void Object::Serialize(Serialization::Serializer& serializer) const
+	{
+		std::string cassembly, cnamespace, cname;
+		this->scriptEngine.GetClassDescription(this->sclass, cassembly, cnamespace, cname);
+
+		serializer.StoreValue("cassembly", &cassembly);
+		serializer.StoreValue("cnamespace", &cnamespace);
+		serializer.StoreValue("cname", &cname);
+	}
+
+#pragma endregion
+
 	Object::Object(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass)
-		: scriptEngine{ scriptEngine }, managedHandle{ scriptEngine.CreateObject(sclass, this) }
+		: scriptEngine{ scriptEngine }, sclass{ sclass }, managedHandle{ scriptEngine.CreateObject(sclass, this) }
 	{
 
 	}
@@ -25,7 +49,7 @@ namespace EngineQ
 
 	Scripting::ScriptClass Object::GetManagedClass() const
 	{
-		return scriptEngine.GetObjectClass(scriptEngine.GetInstance(managedHandle));
+		return this->sclass;
 	}
 
 	const Scripting::ScriptEngine& Object::GetScriptEngine() const

@@ -11,6 +11,13 @@ namespace EngineQ
 		Scripting::ScriptMethod updateMethod;
 
 	public:
+	#pragma region Serialization
+
+		Script(Serialization::Deserializer& deserialzier);
+		virtual void Serialize(Serialization::Serializer& serializer) const override;
+
+	#pragma endregion
+
 		Script(Scripting::ScriptEngine& scriptEngine, Entity& entity, Scripting::ScriptClass sclass);
 
 		virtual ComponentType GetType() const override;

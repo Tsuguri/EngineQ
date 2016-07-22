@@ -40,6 +40,13 @@ namespace EngineQ
 		void Update();
 
 	public:
+	#pragma region Serialization
+
+		Entity(Serialization::Deserializer& deserialzier);
+		virtual void Serialize(Serialization::Serializer& serializer) const override;
+
+	#pragma endregion
+
 		virtual ~Entity() override;
 	
 		const Scene& GetScene() const;

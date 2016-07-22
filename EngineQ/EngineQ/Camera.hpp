@@ -37,6 +37,13 @@ namespace EngineQ
 		void FOV(float value);
 
 	public:
+	#pragma region Serialization
+
+		Camera(Serialization::Deserializer& deserialzier);
+		virtual void Serialize(Serialization::Serializer& serializer) const override;
+
+	#pragma endregion
+
 		Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity);
 		virtual ComponentType GetType() const override;
 

@@ -22,6 +22,13 @@ namespace EngineQ
 		Entity& entity;
 
 	public:
+	#pragma region Serialization
+
+		Component(Serialization::Deserializer& deserialzier);
+		virtual void Serialize(Serialization::Serializer& serializer) const override;
+
+	#pragma endregion
+
 		Component(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass, Entity& entity);
 		
 		Entity& GetEntity();

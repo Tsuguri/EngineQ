@@ -52,6 +52,13 @@
     <ClCompile Include="Scripting\API_Transform.cpp" />
     <ClCompile Include="Scripting\ScriptEngine.cpp" />
     <ClCompile Include="Scripting\ScriptEngineException.cpp" />
+    <ClCompile Include="Serialization\Deserializer.cpp" />
+    <ClCompile Include="Serialization\Serializable.cpp" />
+    <ClCompile Include="Serialization\SerializationEngine.cpp" />
+    <ClCompile Include="Serialization\SerializationRules.cpp" />
+    <ClCompile Include="Serialization\Serializer.cpp" />
+    <ClCompile Include="Serialization\tinyxml2.cpp" />
+    <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -75,6 +82,15 @@
     <ClInclude Include="Graphics\ShaderPart.hpp" />
     <ClInclude Include="Graphics\UniformLocation.hpp" />
     <ClInclude Include="Graphics\Renderable.hpp" />
+    <ClInclude Include="Serialization\Deserializer.hpp" />
+    <ClInclude Include="Serialization\Formatter.hpp" />
+    <ClInclude Include="Serialization\Serializable.hpp" />
+    <ClInclude Include="Serialization\SerializationEngine.hpp" />
+    <ClInclude Include="Serialization\SerializationRules.hpp" />
+    <ClInclude Include="Serialization\SerializedObject.hpp" />
+    <ClInclude Include="Serialization\Serializer.hpp" />
+    <ClInclude Include="Serialization\tinyxml2.h" />
+    <ClInclude Include="Serialization\XMLFormatter.hpp" />
     <ClInclude Include="TimeCounter.hpp" />
     <ClInclude Include="Utilities\Immovable.hpp" />
     <ClInclude Include="Light.hpp" />
@@ -109,6 +125,10 @@
     <None Include="Math\Vector2.inl" />
     <None Include="Math\Vector3.inl" />
     <None Include="Math\Vector4.inl" />
+    <None Include="Serialization\Deserializer.inl" />
+    <None Include="Serialization\SerializationEngine.inl" />
+    <None Include="Serialization\SerializationRules.inl" />
+    <None Include="Serialization\Serializer.inl" />
     <None Include="Utilities\Nullable.inl" />
     <None Include="Utilities\StringHelpers.inl" />
   </ItemGroup>

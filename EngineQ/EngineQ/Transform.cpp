@@ -1,5 +1,7 @@
 #include "Transform.hpp"
 
+#include "Serialization/SerializationRules.hpp"
+
 namespace EngineQ
 {
 	Transform::const_iterator Transform::begin() const
@@ -11,6 +13,46 @@ namespace EngineQ
 	{
 		return children.end();
 	}
+
+#pragma region Serialization
+
+	Transform::Transform(Serialization::Deserializer& deserialzier) :
+		Component{deserialzier},
+		parent{ deserialzier.GetReference<Transform>("parent") },
+		children{ deserialzier.GetValue<std::vector<Transform*>>("children")},
+		position{ deserialzier.GetValue<Vector3>("position") },
+		scale{ deserialzier.GetValue<Vector3>("scale") },
+		rotation{ deserialzier.GetValue<Quaternion>("rotation") },
+		localMatrix{ deserialzier.GetValue<Matrix4>("localMatrix") },
+		globalMatrix{ deserialzier.GetValue<Matrix4>("globalMatrix") },
+		localMatrixInverse{ deserialzier.GetValue<Matrix4>("localMatrixInverse") },
+		globalMatrixInverse{ deserialzier.GetValue<Matrix4>("globalMatrixInverse") },
+		localMatrixChanged{ deserialzier.GetValue<bool>("localMatrixChanged") },
+		globalMatrixChanged{ deserialzier.GetValue<bool>("globalMatrixChanged") },
+		localMatrixInverseChanged{ deserialzier.GetValue<bool>("localMatrixInverseChanged") },
+		globalMatrixInverseChanged{ deserialzier.GetValue<bool>("globalMatrixInverseChanged") }
+	{
+	}
+
+	void Transform::Serialize(Serialization::Serializer& serializer) const
+	{
+		Component::Serialize(serializer);
+		serializer.StoreReference("parent", parent);
+		serializer.StoreValue("children", &children);
+		serializer.StoreValue("position", &position);
+		serializer.StoreValue("scale", &scale);
+		serializer.StoreValue("rotation", &rotation);
+		serializer.StoreValue("localMatrix", &localMatrix);
+		serializer.StoreValue("globalMatrix", &globalMatrix);
+		serializer.StoreValue("localMatrixInverse", &localMatrixInverse);
+		serializer.StoreValue("globalMatrixInverse", &globalMatrixInverse);
+		serializer.StoreValue("localMatrixChanged", &localMatrixChanged);
+		serializer.StoreValue("globalMatrixChanged", &globalMatrixChanged);
+		serializer.StoreValue("localMatrixInverseChanged", &localMatrixInverseChanged);
+		serializer.StoreValue("globalMatrixInverseChanged", &globalMatrixInverseChanged);
+	}
+
+#pragma endregion
 
 	Transform::Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity) :
 		Component{ scriptEngine, scriptEngine.GetTransformClass(), entity },
