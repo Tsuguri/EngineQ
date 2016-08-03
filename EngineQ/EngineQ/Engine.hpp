@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 
-#include "GLFWWindow.hpp"
+#include "Window.hpp"
 #include "Scripting/ScriptEngine.hpp"
 #include "Scene.hpp"
 #include "InputController.hpp"
@@ -20,7 +20,7 @@ namespace EngineQ
 	private:
 		std::unique_ptr<Scripting::ScriptEngine> scriptingEngine;
 		static Engine* instance;
-		GLFWWindow window;
+		Window window;
 		bool running = true;
 
 	public:
