@@ -7,13 +7,13 @@ using EngineQ.Math;
 namespace QScripts
 {
 	public class CameraMoveClass : Script
-	{ 
+	{
 		private Vector3 tmp;
 		private Vector2 tmp2;
 		private float rotationX;
 		private float rotationY;
-		private float speed=5;
-		private bool reverseY=true;
+		private float speed = 5;
+		private bool reverseY = true;
 		private bool reverseX = true;
 		private static float pi = (float)Math.PI;
 
@@ -28,15 +28,15 @@ namespace QScripts
 
 		private float DegToRad(float val)
 		{
-			return (float)(Math.PI*val/180);
+			return (float)(Math.PI * val / 180);
 		}
 
 		private void CheckAngles()
 		{
-			if (rotationX > pi/2)
-				rotationX = pi/2;
-			if (rotationX < -pi/2)
-				rotationX = -pi/2;
+			if (rotationX > pi / 2)
+				rotationX = pi / 2;
+			if (rotationX < -pi / 2)
+				rotationX = -pi / 2;
 			if (rotationY > pi * 2)
 				rotationY -= pi * 2;
 			if (rotationY < 0)
@@ -60,16 +60,16 @@ namespace QScripts
 				tmp += Vector3.Down;
 			if (tmp.LengthSquared > 0)
 				MoveInDirection(tmp.Normalized);
-			if (Input.MouseButtonDown(1) && (tmp2=Input.MouseDeltaPosition).LengthSquared > 0)
+			if (Input.MouseButtonDown(Input.MouseButton.Right) && (tmp2 = Input.MouseDeltaPosition).LengthSquared > 0)
 			{
-				rotationX += DegToRad(tmp2.Y*(reverseX?1:-1))/speed;
-				rotationY += DegToRad(tmp2.X * (reverseY ? 1 : -1)) /speed;
+				rotationX += DegToRad(tmp2.Y * (reverseX ? 1 : -1)) / speed;
+				rotationY += DegToRad(tmp2.X * (reverseY ? 1 : -1)) / speed;
 
 				CheckAngles();
 				Console.WriteLine($"Angles: {rotationX} {rotationY}");
-				transform.Rotation =Quaternion.CreateFromEuler(rotationX,rotationY,0);
+				transform.Rotation = Quaternion.CreateFromEuler(rotationX, rotationY, 0);
 			}
-	}
+		}
 
 		private void MoveInDirection(Vector3 direction)
 		{
@@ -78,7 +78,7 @@ namespace QScripts
 
 		private void EscapeAction(Input.KeyAction action)
 		{
-			if(action== Input.KeyAction.Press)
+			if (action == Input.KeyAction.Press)
 				Application.Exit();
 		}
 

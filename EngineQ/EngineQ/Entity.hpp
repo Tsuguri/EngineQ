@@ -21,7 +21,7 @@ namespace EngineQ
 	private:
 		Scene& scene;
 
-		bool isRemoveLocked;
+		bool isRemoveLocked = false;
 
 		std::vector<Component*> components;
 		std::vector<Script*> updatable;

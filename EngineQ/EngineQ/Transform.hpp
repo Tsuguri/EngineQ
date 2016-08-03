@@ -30,23 +30,23 @@ namespace EngineQ
 
 
 	private:
-		Transform* parent;
+		Transform* parent = nullptr;
 		std::vector<Transform*> children;
 
-		Vector3 position;
-		Vector3 scale;
-		Quaternion rotation;
+		Vector3 position = Vector3::GetZero();
+		Vector3 scale = Vector3::GetOne();
+		Quaternion rotation = Quaternion::GetIdentity();
 
-		Matrix4 globalMatrix;
-		Matrix4 localMatrix;
+		Matrix4 globalMatrix = Matrix4::GetIdentity();
+		Matrix4 localMatrix = Matrix4::GetIdentity();
 
-		Matrix4 globalMatrixInverse;
-		Matrix4 localMatrixInverse;
+		Matrix4 globalMatrixInverse = Matrix4::GetIdentity();
+		Matrix4 localMatrixInverse = Matrix4::GetIdentity();
 
-		bool globalMatrixChanged;
-		bool localMatrixChanged;
-		bool globalMatrixInverseChanged;
-		bool localMatrixInverseChanged;
+		bool globalMatrixChanged = false;
+		bool localMatrixChanged = false;
+		bool globalMatrixInverseChanged = false;
+		bool localMatrixInverseChanged = false;
 
 		Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity);
 

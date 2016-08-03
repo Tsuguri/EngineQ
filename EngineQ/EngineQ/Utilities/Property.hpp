@@ -1,21 +1,19 @@
 #ifndef PROPERTY_H
 #define PROPERTY_H
 
-template<typename TType, typename TParent>
-class BaseProperty
+template<typename TParent>
+class InstanceProperty : EngineQ::Utilities::Immovable
 {
 protected:
 	TParent& parent;
 
 public:
-	using Type = TType;
-
-	BaseProperty(TParent& parent)
+	InstanceProperty(TParent& parent)
 		: parent{ parent }
 	{
 	}
 
-	BaseProperty* operator&() = delete;
+	InstanceProperty* operator&() = delete;
 };
 
 
@@ -28,6 +26,34 @@ template<
 >
 class Property;
 
+#pragma region Static
+
+#pragma region Getter
+
+// Fun1: static val Getter
+template<
+	typename TType,
+	TType(*Getter)()
+>
+class Property<TType, TType(*)(), Getter>
+{
+public:
+	inline operator TType() const
+	{
+		return Getter();
+	}
+	
+	inline const TType operator ()() const
+	{
+		return *this;
+	}
+};
+
+#pragma endregion
+
+#pragma endregion
+
+#pragma region Instance
 
 #pragma region Getter
 
@@ -37,14 +63,19 @@ template<
 	typename TParent,
 	TType(TParent::*Getter)()
 >
-class Property<TType, TType(TParent::*)(), Getter> : public BaseProperty<TType, TParent>
+class Property<TType, TType(TParent::*)(), Getter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline operator TType()
 	{
 		return (parent.*Getter)();
+	}
+
+	inline const TType operator ()()
+	{
+		return *this;
 	}
 };
 
@@ -54,14 +85,19 @@ template<
 	typename TType,
 	TType(TParent::*Getter)() const
 >
-class Property<TType, TType(TParent::*)() const, Getter> : public BaseProperty<TType, TParent>
+class Property<TType, TType(TParent::*)() const, Getter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline operator TType() const
 	{
 		return (parent.*Getter)();
+	}
+
+	inline const TType operator ()() const
+	{
+		return *this;
 	}
 };
 
@@ -75,9 +111,9 @@ template<
 	typename TType,
 	void(TParent::*Setter)(TType)
 >
-class Property<TType, void(TParent::*)(TType), Setter> : public BaseProperty<TType, TParent>
+class Property<TType, void(TParent::*)(TType), Setter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline void operator = (TType value)
@@ -92,9 +128,9 @@ template<
 	typename TType,
 	void(TParent::*Setter)(const TType&)
 >
-class Property<TType, void(TParent::*)(const TType&), Setter> : public BaseProperty<TType, TParent>
+class Property<TType, void(TParent::*)(const TType&), Setter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline void operator = (const TType& value)
@@ -115,9 +151,9 @@ template<
 	TType(TParent::*Getter)(),
 	void(TParent::*Setter)(const TType&)
 >
-class Property<TType, TType(TParent::*)(), Getter, void(TParent::*)(const TType&), Setter> : public BaseProperty<TType, TParent>
+class Property<TType, TType(TParent::*)(), Getter, void(TParent::*)(const TType&), Setter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline operator TType()
@@ -125,7 +161,12 @@ public:
 		return (parent.*Getter)();
 	}
 
-	inline TType operator = (const TType& value)
+	inline const TType operator ()()
+	{
+		return *this;
+	}
+
+	inline const TType operator = (const TType& value)
 	{
 		(parent.*Setter)(value);
 		return value;
@@ -140,14 +181,19 @@ template<
 	TType(TParent::*Getter)() const,
 	void(TParent::*Setter)(const TType&)
 >
-class Property<TType, TType(TParent::*)() const, Getter, void(TParent::*)(const TType&), Setter> : public BaseProperty<TType, TParent>
+class Property<TType, TType(TParent::*)() const, Getter, void(TParent::*)(const TType&), Setter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline operator TType() const
 	{
 		return (parent.*Getter)();
+	}
+
+	inline const TType operator ()() const
+	{
+		return *this;
 	}
 
 	inline TType operator = (const TType& value)
@@ -165,14 +211,19 @@ template<
 	void(TParent::*Setter)(const TType&),
 	TType(TParent::*Getter)() const
 >
-class Property<TType, void(TParent::*)(const TType&), Setter, TType(TParent::*)() const, Getter> : public BaseProperty<TType, TParent>
+class Property<TType, void(TParent::*)(const TType&), Setter, TType(TParent::*)() const, Getter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline operator TType() const
 	{
 		return (parent.*Getter)();
+	}
+
+	inline const TType operator ()() const
+	{
+		return *this;
 	}
 
 	inline TType operator = (const TType& value)
@@ -190,14 +241,19 @@ template<
 	void(TParent::*Setter)(const TType&),
 	TType(TParent::*Getter)()
 >
-class Property<TType, void(TParent::*)(const TType&), Setter, TType(TParent::*)(), Getter> : public BaseProperty<TType, TParent>
+class Property<TType, void(TParent::*)(const TType&), Setter, TType(TParent::*)(), Getter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline operator TType()
 	{
 		return (parent.*Getter)();
+	}
+
+	inline const TType operator ()()
+	{
+		return *this;
 	}
 
 	inline TType operator = (const TType& value)
@@ -215,14 +271,19 @@ template<
 	TType(TParent::*Getter)(),
 	void(TParent::*Setter)(TType)
 >
-class Property<TType, TType(TParent::*)(), Getter, void(TParent::*)(TType), Setter> : public BaseProperty<TType, TParent>
+class Property<TType, TType(TParent::*)(), Getter, void(TParent::*)(TType), Setter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline operator TType()
 	{
 		return (parent.*Getter)();
+	}
+
+	inline const TType operator ()()
+	{
+		return *this;
 	}
 
 	inline TType operator = (TType value)
@@ -240,14 +301,19 @@ template<
 	TType(TParent::*Getter)() const,
 	void(TParent::*Setter)(TType)
 >
-class Property<TType, TType(TParent::*)() const, Getter, void(TParent::*)(TType), Setter> : public BaseProperty<TType, TParent>
+class Property<TType, TType(TParent::*)() const, Getter, void(TParent::*)(TType), Setter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline operator TType() const
 	{
 		return (parent.*Getter)();
+	}
+
+	inline const TType operator ()() const
+	{
+		return *this;
 	}
 
 	inline TType operator = (TType value)
@@ -265,14 +331,19 @@ template<
 	void(TParent::*Setter)(TType),
 	TType(TParent::*Getter)() const
 >
-class Property<TType, void(TParent::*)(TType), Setter, TType(TParent::*)() const, Getter> : public BaseProperty<TType, TParent>
+class Property<TType, void(TParent::*)(TType), Setter, TType(TParent::*)() const, Getter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline operator TType() const
 	{
 		return (parent.*Getter)();
+	}
+
+	inline const TType operator ()() const
+	{
+		return *this;
 	}
 
 	inline TType operator = (TType value)
@@ -290,14 +361,19 @@ template<
 	void(TParent::*Setter)(TType),
 	TType(TParent::*Getter)()
 >
-class Property<TType, void(TParent::*)(TType), Setter, TType(TParent::*)(), Getter> : public BaseProperty<TType, TParent>
+class Property<TType, void(TParent::*)(TType), Setter, TType(TParent::*)(), Getter> : public InstanceProperty<TParent>
 {
-	using BaseProperty::BaseProperty;
+	using InstanceProperty::InstanceProperty;
 
 public:
 	inline operator TType()
 	{
 		return (parent.*Getter)();
+	}
+
+	inline const TType operator ()()
+	{
+		return *this;
 	}
 
 	inline TType operator = (TType value)
@@ -306,6 +382,8 @@ public:
 		return value;
 	}
 };
+
+#pragma endregion
 
 #pragma endregion
 

@@ -5,223 +5,265 @@
 #include "InputController.hpp"
 #include "Scripting/ScriptEngine.hpp"
 
-EngineQ::InputController::InputController()
+namespace EngineQ
 {
-	std::fill_n(keys, 128, false);
-	std::fill_n(mouseButtons, 10, false);
-	SetTranslateTable();
-}
+	InputController::Key keysTranslateTable[GLFW_KEY_LAST + 1] = { InputController::Key::Unknown };
+	InputController::MouseButton mouseButtonsTranslateTable[GLFW_MOUSE_BUTTON_LAST + 1] = { InputController::MouseButton::Unknown };
 
-void EngineQ::InputController::InitMethods(Scripting::ScriptEngine* se)
-{
-	this->se = se;
-	keyEventMethod = se->GetInputMethod(":KeyEvent");
-	mouseButtonEventMethod = se->GetInputMethod(":MouseButtonEvent");
-}
-
-void EngineQ::InputController::KeyAction(int key, int scancode, int action, int mode)
-{
-	key = translateTable[key];
-
-	if (action == GLFW_PRESS)
+	void InputController::SetTranslateTables()
 	{
-		keys[key] = true;
+		keysTranslateTable[GLFW_KEY_SPACE] = Key::Space;
+		keysTranslateTable[GLFW_KEY_APOSTROPHE] = Key::Apostrophe;
+		keysTranslateTable[GLFW_KEY_COMMA] = Key::Comma;
+		keysTranslateTable[GLFW_KEY_MINUS] = Key::Minus;
+		keysTranslateTable[GLFW_KEY_PERIOD] = Key::Period;
+		keysTranslateTable[GLFW_KEY_SLASH] = Key::Slash;
+		keysTranslateTable[GLFW_KEY_0] = Key::N0;
+		keysTranslateTable[GLFW_KEY_1] = Key::N1;
+		keysTranslateTable[GLFW_KEY_2] = Key::N2;
+		keysTranslateTable[GLFW_KEY_3] = Key::N3;
+		keysTranslateTable[GLFW_KEY_4] = Key::N4;
+		keysTranslateTable[GLFW_KEY_5] = Key::N5;
+		keysTranslateTable[GLFW_KEY_6] = Key::N6;
+		keysTranslateTable[GLFW_KEY_7] = Key::N7;
+		keysTranslateTable[GLFW_KEY_8] = Key::N8;
+		keysTranslateTable[GLFW_KEY_9] = Key::N9;
+		keysTranslateTable[GLFW_KEY_SEMICOLON] = Key::Semicolon;
+		keysTranslateTable[GLFW_KEY_EQUAL] = Key::Equal;
+		keysTranslateTable[GLFW_KEY_A] = Key::A;
+		keysTranslateTable[GLFW_KEY_B] = Key::B;
+		keysTranslateTable[GLFW_KEY_C] = Key::C;
+		keysTranslateTable[GLFW_KEY_D] = Key::D;
+		keysTranslateTable[GLFW_KEY_E] = Key::E;
+		keysTranslateTable[GLFW_KEY_F] = Key::F;
+		keysTranslateTable[GLFW_KEY_G] = Key::G;
+		keysTranslateTable[GLFW_KEY_H] = Key::H;
+		keysTranslateTable[GLFW_KEY_I] = Key::I;
+		keysTranslateTable[GLFW_KEY_J] = Key::J;
+		keysTranslateTable[GLFW_KEY_K] = Key::K;
+		keysTranslateTable[GLFW_KEY_L] = Key::L;
+		keysTranslateTable[GLFW_KEY_M] = Key::M;
+		keysTranslateTable[GLFW_KEY_N] = Key::N;
+		keysTranslateTable[GLFW_KEY_O] = Key::O;
+		keysTranslateTable[GLFW_KEY_P] = Key::P;
+		keysTranslateTable[GLFW_KEY_Q] = Key::Q;
+		keysTranslateTable[GLFW_KEY_R] = Key::R;
+		keysTranslateTable[GLFW_KEY_S] = Key::S;
+		keysTranslateTable[GLFW_KEY_T] = Key::T;
+		keysTranslateTable[GLFW_KEY_U] = Key::U;
+		keysTranslateTable[GLFW_KEY_V] = Key::V;
+		keysTranslateTable[GLFW_KEY_W] = Key::W;
+		keysTranslateTable[GLFW_KEY_X] = Key::X;
+		keysTranslateTable[GLFW_KEY_Y] = Key::Y;
+		keysTranslateTable[GLFW_KEY_Z] = Key::Z;
+		keysTranslateTable[GLFW_KEY_LEFT_BRACKET] = Key::LeftBracket;
+		keysTranslateTable[GLFW_KEY_BACKSLASH] = Key::Backslash;
+		keysTranslateTable[GLFW_KEY_RIGHT_BRACKET] = Key::RightBracket;
+		keysTranslateTable[GLFW_KEY_GRAVE_ACCENT] = Key::GraveAccent;
+		keysTranslateTable[GLFW_KEY_WORLD_1] = Key::World1;
+		keysTranslateTable[GLFW_KEY_WORLD_2] = Key::World2;
+		keysTranslateTable[GLFW_KEY_ESCAPE] = Key::Escape;
+		keysTranslateTable[GLFW_KEY_ENTER] = Key::Enter;
+		keysTranslateTable[GLFW_KEY_TAB] = Key::Tab;
+		keysTranslateTable[GLFW_KEY_BACKSLASH] = Key::Backslash;
+		keysTranslateTable[GLFW_KEY_INSERT] = Key::Insert;
+		keysTranslateTable[GLFW_KEY_DELETE] = Key::Delete;
+		keysTranslateTable[GLFW_KEY_RIGHT] = Key::Right;
+		keysTranslateTable[GLFW_KEY_LEFT] = Key::Left;
+		keysTranslateTable[GLFW_KEY_DOWN] = Key::Down;
+		keysTranslateTable[GLFW_KEY_UP] = Key::Up;
+		keysTranslateTable[GLFW_KEY_PAGE_UP] = Key::PageUp;
+		keysTranslateTable[GLFW_KEY_PAGE_DOWN] = Key::PageDown;
+		keysTranslateTable[GLFW_KEY_HOME] = Key::Home;
+		keysTranslateTable[GLFW_KEY_END] = Key::End;
+		keysTranslateTable[GLFW_KEY_CAPS_LOCK] = Key::CapsLock;
+		keysTranslateTable[GLFW_KEY_SCROLL_LOCK] = Key::ScrollLock;
+		keysTranslateTable[GLFW_KEY_NUM_LOCK] = Key::NumLock;
+		keysTranslateTable[GLFW_KEY_PRINT_SCREEN] = Key::PrintScreen;
+		keysTranslateTable[GLFW_KEY_PAUSE] = Key::Pause;
+		keysTranslateTable[GLFW_KEY_F1] = Key::F1;
+		keysTranslateTable[GLFW_KEY_F2] = Key::F2;
+		keysTranslateTable[GLFW_KEY_F3] = Key::F3;
+		keysTranslateTable[GLFW_KEY_F4] = Key::F4;
+		keysTranslateTable[GLFW_KEY_F5] = Key::F5;
+		keysTranslateTable[GLFW_KEY_F6] = Key::F6;
+		keysTranslateTable[GLFW_KEY_F7] = Key::F7;
+		keysTranslateTable[GLFW_KEY_F8] = Key::F8;
+		keysTranslateTable[GLFW_KEY_F9] = Key::F9;
+		keysTranslateTable[GLFW_KEY_F10] = Key::F10;
+		keysTranslateTable[GLFW_KEY_F11] = Key::F11;
+		keysTranslateTable[GLFW_KEY_F12] = Key::F12;
+		keysTranslateTable[GLFW_KEY_F13] = Key::F13;
+		keysTranslateTable[GLFW_KEY_F14] = Key::F14;
+		keysTranslateTable[GLFW_KEY_F15] = Key::F15;
+		keysTranslateTable[GLFW_KEY_F16] = Key::F16;
+		keysTranslateTable[GLFW_KEY_F17] = Key::F17;
+		keysTranslateTable[GLFW_KEY_F18] = Key::F18;
+		keysTranslateTable[GLFW_KEY_F19] = Key::F19;
+		keysTranslateTable[GLFW_KEY_F20] = Key::F20;
+		keysTranslateTable[GLFW_KEY_F21] = Key::F21;
+		keysTranslateTable[GLFW_KEY_F22] = Key::F22;
+		keysTranslateTable[GLFW_KEY_F23] = Key::F23;
+		keysTranslateTable[GLFW_KEY_F24] = Key::F24;
+		keysTranslateTable[GLFW_KEY_F25] = Key::F25;
+		keysTranslateTable[GLFW_KEY_KP_0] = Key::Kp0;
+		keysTranslateTable[GLFW_KEY_KP_1] = Key::Kp1;
+		keysTranslateTable[GLFW_KEY_KP_2] = Key::Kp2;
+		keysTranslateTable[GLFW_KEY_KP_3] = Key::Kp3;
+		keysTranslateTable[GLFW_KEY_KP_4] = Key::Kp4;
+		keysTranslateTable[GLFW_KEY_KP_5] = Key::Kp5;
+		keysTranslateTable[GLFW_KEY_KP_6] = Key::Kp6;
+		keysTranslateTable[GLFW_KEY_KP_7] = Key::Kp7;
+		keysTranslateTable[GLFW_KEY_KP_8] = Key::Kp8;
+		keysTranslateTable[GLFW_KEY_KP_9] = Key::Kp9;
+		keysTranslateTable[GLFW_KEY_KP_DECIMAL] = Key::KpDecimal;
+		keysTranslateTable[GLFW_KEY_KP_DIVIDE] = Key::KpDivide;
+		keysTranslateTable[GLFW_KEY_KP_MULTIPLY] = Key::KpMultiply;
+		keysTranslateTable[GLFW_KEY_KP_SUBTRACT] = Key::KpSubtract;
+		keysTranslateTable[GLFW_KEY_KP_ADD] = Key::KpAdd;
+		keysTranslateTable[GLFW_KEY_KP_ENTER] = Key::Enter;
+		keysTranslateTable[GLFW_KEY_KP_EQUAL] = Key::Equal;
+		keysTranslateTable[GLFW_KEY_LEFT_SHIFT] = Key::LeftShift;
+		keysTranslateTable[GLFW_KEY_LEFT_CONTROL] = Key::LeftControl;
+		keysTranslateTable[GLFW_KEY_LEFT_ALT] = Key::LeftAlt;
+		keysTranslateTable[GLFW_KEY_LEFT_SUPER] = Key::LeftSuper;
+		keysTranslateTable[GLFW_KEY_RIGHT_SHIFT] = Key::RightShift;
+		keysTranslateTable[GLFW_KEY_RIGHT_CONTROL] = Key::RightControl;
+		keysTranslateTable[GLFW_KEY_RIGHT_ALT] = Key::RightAlt;
+		keysTranslateTable[GLFW_KEY_RIGHT_SUPER] = Key::RightSuper;
+		keysTranslateTable[GLFW_KEY_MENU] = Key::Menu;
+
+		mouseButtonsTranslateTable[GLFW_MOUSE_BUTTON_LEFT] = MouseButton::Left;
+		mouseButtonsTranslateTable[GLFW_MOUSE_BUTTON_RIGHT] = MouseButton::Right;
+		mouseButtonsTranslateTable[GLFW_MOUSE_BUTTON_MIDDLE] = MouseButton::Middle;
+
+		mouseButtonsTranslateTable[GLFW_MOUSE_BUTTON_4] = MouseButton::Button4;
+		mouseButtonsTranslateTable[GLFW_MOUSE_BUTTON_5] = MouseButton::Button5;
+		mouseButtonsTranslateTable[GLFW_MOUSE_BUTTON_6] = MouseButton::Button6;
+		mouseButtonsTranslateTable[GLFW_MOUSE_BUTTON_7] = MouseButton::Button7;
+		mouseButtonsTranslateTable[GLFW_MOUSE_BUTTON_8] = MouseButton::Button8;
 	}
-	if (action == GLFW_RELEASE)
+
+	InputController::Initializer::Initializer()
 	{
-		keys[key] = false;
+		InputController::SetTranslateTables();
 	}
+	
+	InputController::Initializer InputController::initializer;
 
-	if (keyEventMethod != nullptr)
+
+
+
+	void InputController::InitMethods(Scripting::ScriptEngine* se)
 	{
-		void* args[2];
-		int k = key;
-		int a = action;
-		args[0] = static_cast<void*>(&k);
-		args[1] = static_cast<void*>(&a);
-		se->InvokeStaticMethod(keyEventMethod, args);
+		this->se = se;
+		keyEventMethod = se->GetInputMethod(":KeyEvent");
+		mouseButtonEventMethod = se->GetInputMethod(":MouseButtonEvent");
 	}
-}
 
-void EngineQ::InputController::MouseButtonAction(int button, int action, int mode)
-{
-	if (action == GLFW_PRESS)
+	void InputController::KeyAction(int key, int scancode, int action, int mode)
 	{
-		mouseButtons[button] = true;
+		key = static_cast<int>(keysTranslateTable[key]);
+
+		switch (action)
+		{
+			case GLFW_PRESS:
+			keys[key] = true;
+			action = static_cast<int>(KeyAction::Press);
+			break;
+
+			case GLFW_RELEASE:
+			keys[key] = false;
+			action = static_cast<int>(KeyAction::Release);
+			break;
+
+			case GLFW_REPEAT:
+			action = static_cast<int>(KeyAction::Repeat);
+			break;
+
+			default:
+			action = static_cast<int>(KeyAction::Unknown);
+			break;
+		}
+
+		if (keyEventMethod != nullptr)
+		{
+			void* args[2];
+			args[0] = static_cast<void*>(&key);
+			args[1] = static_cast<void*>(&action);
+			se->InvokeStaticMethod(keyEventMethod, args);
+		}
 	}
-	if (action == GLFW_RELEASE)
+
+	void InputController::MouseButtonAction(int button, int action, int mode)
 	{
-		mouseButtons[button] = false;
+		button = static_cast<int>(mouseButtonsTranslateTable[button]);
+
+		switch (action)
+		{
+			case GLFW_PRESS:
+			mouseButtons[button] = true;
+			action = static_cast<int>(KeyAction::Press);
+			break;
+
+			case GLFW_RELEASE:
+			mouseButtons[button] = false;
+			action = static_cast<int>(KeyAction::Release);
+			break;
+
+			case GLFW_REPEAT:
+			action = static_cast<int>(KeyAction::Repeat);
+			break;
+
+			default:
+			action = static_cast<int>(KeyAction::Unknown);
+			break;
+		}
+
+		if (mouseButtonEventMethod != nullptr)
+		{
+			void* args[2];
+			args[0] = static_cast<void*>(&button);
+			args[1] = static_cast<void*>(&action);
+			se->InvokeStaticMethod(mouseButtonEventMethod, args);
+		}
 	}
-	if (mouseButtonEventMethod != nullptr)
+
+	void InputController::MouseMoveAction(double xpos, double ypos)
 	{
-		void* args[2];
-		int k = button;
-		int a = action;
-		args[0] = static_cast<void*>(&k);
-		args[1] = static_cast<void*>(&a);
-		se->InvokeStaticMethod(mouseButtonEventMethod, args);
+		Math::Vector2 tmp{ static_cast<float>(xpos), static_cast<float>(ypos) };
+		cursorDeltaPos = tmp - cursorPos;
+		cursorPos = tmp;
 	}
-}
 
-void EngineQ::InputController::MouseMoveAction(double xpos, double ypos)
-{
-	Math::Vector2 tmp{ static_cast<float>(xpos),static_cast<float>(ypos) };
-	cursorDeltaPos = tmp - cursorPos;
-	cursorPos = tmp;
-}
+	bool InputController::IsButtonDown(Key keyCode)
+	{
+		if (keyCode < static_cast<Key>(0) || keyCode >= Key::Count)
+			throw "key not in range";
 
-void EngineQ::InputController::SetTranslateTable()
-{
+		return keys[static_cast<int>(keyCode)];
+	}
 
-	translateTable[GLFW_KEY_SPACE] = Space;
-	translateTable[GLFW_KEY_APOSTROPHE] = Apostrophe;
-	translateTable[GLFW_KEY_COMMA] = Comma;
-	translateTable[GLFW_KEY_MINUS] = Minus;
-	translateTable[GLFW_KEY_PERIOD] = Period;
-	translateTable[GLFW_KEY_SLASH] = Slash;
-	translateTable[GLFW_KEY_0] = N0;
-	translateTable[GLFW_KEY_1] = N1;
-	translateTable[GLFW_KEY_2] = N2;
-	translateTable[GLFW_KEY_3] = N3;
-	translateTable[GLFW_KEY_4] = N4;
-	translateTable[GLFW_KEY_5] = N5;
-	translateTable[GLFW_KEY_6] = N6;
-	translateTable[GLFW_KEY_7] = N7;
-	translateTable[GLFW_KEY_8] = N8;
-	translateTable[GLFW_KEY_9] = N9;
-	translateTable[GLFW_KEY_SEMICOLON] = Semicolon;
-	translateTable[GLFW_KEY_EQUAL] = Equal;
-	translateTable[GLFW_KEY_A] = A;
-	translateTable[GLFW_KEY_B] = B;
-	translateTable[GLFW_KEY_C] = C;
-	translateTable[GLFW_KEY_D] = D;
-	translateTable[GLFW_KEY_E] = E;
-	translateTable[GLFW_KEY_F] = F;
-	translateTable[GLFW_KEY_G] = G;
-	translateTable[GLFW_KEY_H] = H;
-	translateTable[GLFW_KEY_I] = I;
-	translateTable[GLFW_KEY_J] = J;
-	translateTable[GLFW_KEY_K] = K;
-	translateTable[GLFW_KEY_L] = L;
-	translateTable[GLFW_KEY_M] = M;
-	translateTable[GLFW_KEY_N] = N;
-	translateTable[GLFW_KEY_O] = O;
-	translateTable[GLFW_KEY_P] = P;
-	translateTable[GLFW_KEY_Q] = Q;
-	translateTable[GLFW_KEY_R] = R;
-	translateTable[GLFW_KEY_S] = S;
-	translateTable[GLFW_KEY_T] = T;
-	translateTable[GLFW_KEY_U] = U;
-	translateTable[GLFW_KEY_V] = V;
-	translateTable[GLFW_KEY_W] = W;
-	translateTable[GLFW_KEY_X] = X;
-	translateTable[GLFW_KEY_Y] = Y;
-	translateTable[GLFW_KEY_Z] = Z;
-	translateTable[GLFW_KEY_LEFT_BRACKET] = LeftBracket;
-	translateTable[GLFW_KEY_BACKSLASH] = Backslash;
-	translateTable[GLFW_KEY_RIGHT_BRACKET] = RightBracket;
-	translateTable[GLFW_KEY_GRAVE_ACCENT] = GraveAccent;
-	translateTable[GLFW_KEY_WORLD_1] = World1;
-	translateTable[GLFW_KEY_WORLD_2] = World2;
-	translateTable[GLFW_KEY_ESCAPE] = Escape;
-	translateTable[GLFW_KEY_ENTER] = Enter;
-	translateTable[GLFW_KEY_TAB] = Tab;
-	translateTable[GLFW_KEY_BACKSLASH] = Backslash;
-	translateTable[GLFW_KEY_INSERT] = Insert;
-	translateTable[GLFW_KEY_DELETE] = Delete;
-	translateTable[GLFW_KEY_RIGHT] = Right;
-	translateTable[GLFW_KEY_LEFT] = Left;
-	translateTable[GLFW_KEY_DOWN] = Down;
-	translateTable[GLFW_KEY_UP] = Up;
-	translateTable[GLFW_KEY_PAGE_UP] = PageUp;
-	translateTable[GLFW_KEY_PAGE_DOWN] = PageDown;
-	translateTable[GLFW_KEY_HOME] = Home;
-	translateTable[GLFW_KEY_END] = End;
-	translateTable[GLFW_KEY_CAPS_LOCK] = CapsLock;
-	translateTable[GLFW_KEY_SCROLL_LOCK] = ScrollLock;
-	translateTable[GLFW_KEY_NUM_LOCK] = NumLock;
-	translateTable[GLFW_KEY_PRINT_SCREEN] = PrintScreen;
-	translateTable[GLFW_KEY_PAUSE] = Pause;
-	translateTable[GLFW_KEY_F1] = F1;
-	translateTable[GLFW_KEY_F2] = F2;
-	translateTable[GLFW_KEY_F3] = F3;
-	translateTable[GLFW_KEY_F4] = F4;
-	translateTable[GLFW_KEY_F5] = F5;
-	translateTable[GLFW_KEY_F6] = F6;
-	translateTable[GLFW_KEY_F7] = F7;
-	translateTable[GLFW_KEY_F8] = F8;
-	translateTable[GLFW_KEY_F9] = F9;
-	translateTable[GLFW_KEY_F10] = F10;
-	translateTable[GLFW_KEY_F11] = F11;
-	translateTable[GLFW_KEY_F12] = F12;
-	translateTable[GLFW_KEY_F13] = F13;
-	translateTable[GLFW_KEY_F14] = F14;
-	translateTable[GLFW_KEY_F15] = F15;
-	translateTable[GLFW_KEY_F16] = F16;
-	translateTable[GLFW_KEY_F17] = F17;
-	translateTable[GLFW_KEY_F18] = F18;
-	translateTable[GLFW_KEY_F19] = F19;
-	translateTable[GLFW_KEY_F20] = F20;
-	translateTable[GLFW_KEY_F21] = F21;
-	translateTable[GLFW_KEY_F22] = F22;
-	translateTable[GLFW_KEY_F23] = F23;
-	translateTable[GLFW_KEY_F24] = F24;
-	translateTable[GLFW_KEY_F25] = F25;
-	translateTable[GLFW_KEY_KP_0] = Kp0;
-	translateTable[GLFW_KEY_KP_1] = Kp1;
-	translateTable[GLFW_KEY_KP_2] = Kp2;
-	translateTable[GLFW_KEY_KP_3] = Kp3;
-	translateTable[GLFW_KEY_KP_4] = Kp4;
-	translateTable[GLFW_KEY_KP_5] = Kp5;
-	translateTable[GLFW_KEY_KP_6] = Kp6;
-	translateTable[GLFW_KEY_KP_7] = Kp7;
-	translateTable[GLFW_KEY_KP_8] = Kp8;
-	translateTable[GLFW_KEY_KP_9] = Kp9;
-	translateTable[GLFW_KEY_KP_DECIMAL] = KpDecimal;
-	translateTable[GLFW_KEY_KP_DIVIDE] = KpDivide;
-	translateTable[GLFW_KEY_KP_MULTIPLY] = KpMultiply;
-	translateTable[GLFW_KEY_KP_SUBTRACT] = KpSubtract;
-	translateTable[GLFW_KEY_KP_ADD] = KpAdd;
-	translateTable[GLFW_KEY_KP_ENTER] = Enter;
-	translateTable[GLFW_KEY_KP_EQUAL] = Equal;
-	translateTable[GLFW_KEY_LEFT_SHIFT] = LeftShift;
-	translateTable[GLFW_KEY_LEFT_CONTROL] = LeftControl;
-	translateTable[GLFW_KEY_LEFT_ALT] = LeftAlt;
-	translateTable[GLFW_KEY_LEFT_SUPER] = LeftSuper;
-	translateTable[GLFW_KEY_RIGHT_SHIFT] = RightShift;
-	translateTable[GLFW_KEY_RIGHT_CONTROL] = RightControl;
-	translateTable[GLFW_KEY_RIGHT_ALT] = RightAlt;
-	translateTable[GLFW_KEY_RIGHT_SUPER] = RightSuper;
-	translateTable[GLFW_KEY_MENU] = Menu;
-}
+	bool InputController::IsMouseButtonDown(MouseButton keyCode)
+	{
+		if (keyCode < static_cast<MouseButton>(0) || keyCode >= MouseButton::Count)
+			throw "key not in range";
 
-bool EngineQ::InputController::isButtonDown(Key keyCode)
-{
-	if (keyCode < 0 || keyCode >= 119)
-		throw "key not in range";
-	return keys[keyCode];
-}
+		return mouseButtons[static_cast<int>(keyCode)];
+	}
 
-bool EngineQ::InputController::isMouseButtonDown(int keyCode)
-{
+	Math::Vector2 InputController::GetMousePosition() const
+	{
+		return cursorPos;
+	}
 
-	if (keyCode < 0 || keyCode >= 10)
-		throw "key not in range";
-	return mouseButtons[keyCode];
-}
+	Math::Vector2 InputController::GetMouseDeltaPosition() const
+	{
+		return cursorDeltaPos;
+	}
 
-EngineQ::Math::Vector2 EngineQ::InputController::GetMousePosition() const
-{
-	return cursorPos;
-}
-
-EngineQ::Math::Vector2 EngineQ::InputController::GetMouseDeltaPosition() const
-{
-	return cursorDeltaPos;
-}
-
-void EngineQ::InputController::ClearDelta()
-{
-	cursorDeltaPos = Math::Vector2(0);
+	void InputController::ClearDelta()
+	{
+		cursorDeltaPos = Math::Vector2::GetZero();
+	}
 }

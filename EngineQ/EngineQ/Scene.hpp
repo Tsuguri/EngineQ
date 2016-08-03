@@ -20,12 +20,12 @@ namespace EngineQ
 		std::vector<Entity*> entities;
 		std::vector<Entity*> entitiesToDelete;
 
-		bool isUpdating;
+		bool isUpdating = false;
 
 		std::vector<Light*> lights;
 		std::vector<Camera*> cameras;
 		std::vector<Graphics::Renderable*> renderables;
-		Camera* activeCamera;
+		Camera* activeCamera = nullptr;
 
 
 		void RemovedComponent(Component& component);
