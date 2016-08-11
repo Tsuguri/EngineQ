@@ -1,5 +1,6 @@
 #ifndef ENGINEQ_INPUTCONTROLLER_HPP
 #define ENGINEQ_INPUTCONTROLLER_HPP
+
 #include "Math/Vector2.hpp"
 #include "Scripting/ScriptEngine.hpp"
 
@@ -9,11 +10,23 @@ namespace EngineQ
 	{
 		class ScriptEngine;
 	}
+
 	class InputController : public Utilities::Immovable
 	{
-	public:
-		enum Key
+		friend class Engine;
+
+	private:
+		class Initializer
 		{
+		public:
+			Initializer();
+		};
+
+	public:
+		enum class Key
+		{
+			Unknown = -1,
+
 			Space,
 			Apostrophe,
 			Comma,
@@ -134,18 +147,45 @@ namespace EngineQ
 			RightAlt,
 			RightSuper,
 			Menu,
+				
+			Count,
 		};
-		
+
+		enum class MouseButton
+		{
+			Unknown = -1,
+
+			Left,
+			Right,
+			Middle,
+
+			Button4,
+			Button5,
+			Button6,
+			Button7,
+			Button8,
+
+			Count,
+		};
+
+		enum class KeyAction
+		{
+			Unknown = -1,
+
+			Release,
+			Press,
+			Repeat
+		};
+
 	private:
+		static Initializer initializer;
 
-		friend class Engine;
-
-		int translateTable[512];
-		bool keys[128];
-		bool mouseButtons[10];
-		Scripting::ScriptEngine* se=nullptr;
-		Scripting::ScriptMethod keyEventMethod=nullptr;
-		Scripting::ScriptMethod mouseButtonEventMethod=nullptr;
+		bool keys[static_cast<int>(Key::Count)] = { false };
+		bool mouseButtons[static_cast<int>(MouseButton::Count)] = { false };
+		
+		Scripting::ScriptEngine* se = nullptr;
+		Scripting::ScriptMethod keyEventMethod = nullptr;
+		Scripting::ScriptMethod mouseButtonEventMethod = nullptr;
 
 		Math::Vector2 cursorPos;
 		Math::Vector2 cursorDeltaPos;
@@ -154,12 +194,13 @@ namespace EngineQ
 		void MouseButtonAction(int button, int action, int mode);
 		void MouseMoveAction(double xpos, double ypos);
 
-		void SetTranslateTable();
+		static void SetTranslateTables();
+
 	public:
-		InputController();
 		void InitMethods(Scripting::ScriptEngine* se);
-		bool isButtonDown(Key keyCode);
-		bool isMouseButtonDown(int keyCode);
+		bool IsButtonDown(Key keyCode);
+		bool IsMouseButtonDown(MouseButton keyCode);
+
 		Math::Vector2 GetMousePosition() const;
 		Math::Vector2 GetMouseDeltaPosition() const;
 		void ClearDelta();

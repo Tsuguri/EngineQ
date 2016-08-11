@@ -56,19 +56,7 @@ namespace EngineQ
 
 	Transform::Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity) :
 		Component{ scriptEngine, scriptEngine.GetTransformClass(), entity },
-		parent{ nullptr },
-		children{},
-		position{ Vector3::GetZero() },
-		scale{ Vector3::GetOne() },
-		rotation{ Quaternion::GetIdentity() },
-		localMatrix{ Matrix4::GetIdentity() },
-		globalMatrix{ Matrix4::GetIdentity() },
-		localMatrixInverse{ Matrix4::GetIdentity() },
-		globalMatrixInverse{ Matrix4::GetIdentity() },
-		localMatrixChanged{ false },
-		globalMatrixChanged{ false },
-		localMatrixInverseChanged{ false },
-		globalMatrixInverseChanged{ false }
+		children{}
 	{
 		// TMP
 		scriptEngine.InvokeConstructor(GetManagedObject());

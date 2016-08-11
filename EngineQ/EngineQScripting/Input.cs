@@ -12,6 +12,8 @@ namespace EngineQ
 
 		public enum Key
 		{
+			Unknown = -1,
+
 			Space,
 			Apostrophe,
 			Comma,
@@ -132,20 +134,34 @@ namespace EngineQ
 			RightAlt,
 			RightSuper,
 			Menu,
+
+			Count,
 		};
 
 		public enum MouseButton
 		{
-			Left = 0,
-			Right = 1,
-			Middle = 2
+			Unknown = -1,
+
+			Left,
+			Right,
+			Middle,
+
+			Button4,
+			Button5,
+			Button6,
+			Button7,
+			Button8,
+
+			Count,
 		}
 
 		public enum KeyAction
 		{
-			Release = 0,
-			Press = 1,
-			Repeat = 2
+			Unknown = -1,
+
+			Release,
+			Press,
+			Repeat
 		}
 
 		public delegate void EventType(KeyAction action);
@@ -164,9 +180,6 @@ namespace EngineQ
 		#endregion
 
 		#region Fields
-		private static bool tmpBool;
-		private static Vector2 tmpVector2;
-		private static KeyEventHandler tmpKeh;
 
 		private static Dictionary<Key, KeyEventHandler> keyEventDict;
 		private static Dictionary<MouseButton, KeyEventHandler> mouseEventDict;
@@ -179,8 +192,9 @@ namespace EngineQ
 		{
 			get
 			{
-				API_MousePosition(out tmpVector2);
-				return tmpVector2;
+				Vector2 value;
+				API_MousePosition(out value);
+				return value;
 			}
 		}
 
@@ -188,8 +202,9 @@ namespace EngineQ
 		{
 			get
 			{
-				API_MouseDeltaPosition(out tmpVector2);
-				return tmpVector2;
+				Vector2 value;
+				API_MouseDeltaPosition(out value);
+				return value;
 			}
 		}
 
@@ -207,13 +222,15 @@ namespace EngineQ
 
 		public static bool KeyPressed(Key key)
 		{
-			API_KeyPressed((int)key, out tmpBool);
-			return tmpBool;
+			bool value;
+			API_KeyPressed((int)key, out value);
+			return value;
 		}
 
 		// ReSharper disable once UnusedMember.Local
 		private static void KeyEvent(Key key, KeyAction action)
 		{
+			KeyEventHandler tmpKeh;
 			if (keyEventDict.TryGetValue(key, out tmpKeh))
 			{
 				tmpKeh.OnEvent(action);
@@ -222,6 +239,7 @@ namespace EngineQ
 
 		public static void ListenKey(Key key, EventType action)
 		{
+			KeyEventHandler tmpKeh;
 			if (!keyEventDict.TryGetValue(key, out tmpKeh))
 			{
 				tmpKeh = new KeyEventHandler();
@@ -230,8 +248,9 @@ namespace EngineQ
 			tmpKeh.Event += action;
 		}
 
-		public static void StopListening(Key key, EventType action)
+		public static void StopListeningKey(Key key, EventType action)
 		{
+			KeyEventHandler tmpKeh;
 			if (keyEventDict.TryGetValue(key, out tmpKeh))
 			{
 				tmpKeh.Event -= action;
@@ -242,15 +261,17 @@ namespace EngineQ
 
 		#region Mouse
 
-		public static bool MouseButtonDown(int button)
+		public static bool MouseButtonDown(MouseButton button)
 		{
-			API_MouseButtonDown(button, out tmpBool);
-			return tmpBool;
+			bool value;
+			API_MouseButtonDown((int)button, out value);
+			return value;
 		}
 
 		// ReSharper disable once UnusedMember.Local
 		private static void MouseButtonEvent(MouseButton button, KeyAction action)
 		{
+			KeyEventHandler tmpKeh;
 			if (mouseEventDict.TryGetValue(button, out tmpKeh))
 			{
 				tmpKeh.OnEvent(action);
@@ -259,6 +280,7 @@ namespace EngineQ
 
 		public static void ListenMouseButton(MouseButton button, EventType action)
 		{
+			KeyEventHandler tmpKeh;
 			if (!mouseEventDict.TryGetValue(button, out tmpKeh))
 			{
 				tmpKeh = new KeyEventHandler();
@@ -269,6 +291,7 @@ namespace EngineQ
 
 		public static void StopListeningMouseButton(MouseButton button, EventType action)
 		{
+			KeyEventHandler tmpKeh;
 			if (mouseEventDict.TryGetValue(button, out tmpKeh))
 			{
 				tmpKeh.Event -= action;

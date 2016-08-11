@@ -2,12 +2,12 @@
 
 void EngineQ::Scripting::API_Input::API_KeyPressed(InputController::Key keyCode, bool& result)
 {
-	result = Engine::Get()->input.isButtonDown(keyCode);
+	result = Engine::Get()->input.IsButtonDown(keyCode);
 }
 
-void EngineQ::Scripting::API_Input::API_MouseButtonDown(int buttonCode, bool& result)
+void EngineQ::Scripting::API_Input::API_MouseButtonDown(InputController::MouseButton buttonCode, bool& result)
 {
-	result = Engine::Get()->input.isMouseButtonDown(buttonCode);
+	result = Engine::Get()->input.IsMouseButtonDown(buttonCode);
 }
 
 void EngineQ::Scripting::API_Input::API_MousePosition(Math::Vector2& position)

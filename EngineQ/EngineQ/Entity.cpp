@@ -10,7 +10,6 @@ namespace EngineQ
 	Entity::Entity(Serialization::Deserializer& deserialzier) :
 		Object{ deserialzier },
 		scene{ *deserialzier.GetReference<Scene>("scene") },
-		isRemoveLocked{ false },
 		components{ deserialzier.GetValue<std::vector<Component*>>("components") },
 		transform{ *deserialzier.GetReference<Transform>("transform") },
 		updatable{deserialzier.GetValue<std::vector<Script*>>("updatable")}
@@ -31,7 +30,6 @@ namespace EngineQ
 	Entity::Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine) :
 		Object{ scriptEngine, scriptEngine.GetEntityClass() },
 		scene{ scene },
-		isRemoveLocked{ false },
 		components{},
 		transform{ *AddComponent<Transform>() }
 	{

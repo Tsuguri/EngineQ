@@ -105,14 +105,26 @@
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)"
-COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
-
-if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
-COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"
-
-XCOPY "$(ProjectDir)Shaders" "$(OutputPath)Shaders" /E /Y /I /R</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>echo --------------------   Copying files   --------------------
+
+xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
+xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(OutputPath)" /D /Y
+
+xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D
+xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /D
+
+xcopy "$(ProjectDir)Resources\*" "$(OutputPath)" /E /Y /D
+if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
+
+xcopy "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\" /D /Y</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>none</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -130,14 +142,26 @@ XCOPY "$(ProjectDir)Shaders" "$(OutputPath)Shaders" /E /Y /I /R</Command>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)"
-COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
-
-if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
-COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"
-
-XCOPY "$(ProjectDir)Shaders" "$(OutputPath)Shaders" /E /Y /I /R</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>echo --------------------   Copying files   --------------------
+
+xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
+xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(OutputPath)" /D /Y
+
+xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D
+xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /D
+
+xcopy "$(ProjectDir)Resources\*" "$(OutputPath)" /E /Y /D
+if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
+
+xcopy "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\" /D /Y</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>none</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -159,14 +183,26 @@ XCOPY "$(ProjectDir)Shaders" "$(OutputPath)Shaders" /E /Y /I /R</Command>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)"
-COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
-
-if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
-COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"
-
-XCOPY "$(ProjectDir)Shaders" "$(OutputPath)Shaders" /E /Y /I /R</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>echo --------------------   Copying files   --------------------
+
+xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
+xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(OutputPath)" /D /Y
+
+xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D
+xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /D
+
+xcopy "$(ProjectDir)Resources\*" "$(OutputPath)" /E /Y /D
+if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
+
+xcopy "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\" /D /Y</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>none</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -188,25 +224,37 @@ XCOPY "$(ProjectDir)Shaders" "$(OutputPath)Shaders" /E /Y /I /R</Command>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>COPY "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)"
-COPY "$(SolutionDir)EngineQScripting\bin\$(Configuration)\*" "$(OutputPath)"
-
-if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
-COPY "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\"
-
-XCOPY "$(ProjectDir)Shaders" "$(OutputPath)Shaders" /E /Y /I /R</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>echo --------------------   Copying files   --------------------
+
+xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
+xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(OutputPath)" /D /Y
+
+xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D
+xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /D
+
+xcopy "$(ProjectDir)Resources\*" "$(OutputPath)" /E /Y /D
+if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
+
+xcopy "$(SolutionDir)ScriptTest\bin\$(Configuration)\ScriptTest.dll" "$(OutputPath)Scripts\" /D /Y</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>none</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\Test\Simple.frag">
+    <None Include="Resources\Shaders\Test\Simple.frag">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\Test\Simple.vert">
+    <None Include="Resources\Shaders\Test\Simple.vert">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>

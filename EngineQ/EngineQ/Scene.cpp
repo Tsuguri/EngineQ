@@ -10,7 +10,6 @@ namespace EngineQ
 		Object{deserialzier},
 		entities{deserialzier.GetValue<std::vector<Entity*>>("entities")}
 	{
-
 	}
 
 	void Scene::Serialize(Serialization::Serializer& serializer) const
@@ -22,10 +21,8 @@ namespace EngineQ
 #pragma endregion
 
 	Scene::Scene(Scripting::ScriptEngine& scriptEngine) :
-		Object{ scriptEngine, scriptEngine.GetSceneClass() },
-		isUpdating{ false }
+		Object{ scriptEngine, scriptEngine.GetSceneClass() }
 	{
-
 	}
 
 	Scene::~Scene()

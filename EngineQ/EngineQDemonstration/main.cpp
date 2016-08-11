@@ -89,9 +89,54 @@ void PrepareScene(EngineQ::Scene* scene)
 	sc.ActiveCamera(cam);
 }
 
+#include "Utilities\Property.hpp"
+
+
+class PropTest
+{
+	Math::Vector3 field{ 1, 2, 3 };
+
+	Math::Vector3 GetField()
+	{
+		return this->field;
+	}
+
+	void SetField(const Math::Vector3& field)
+	{
+		this->field = field;
+	}
+
+	static Math::Vector3 GetField2()
+	{
+		return Math::Vector3{ 153, 226, 389 };
+	}
+
+public:
+	PropTest() : 
+		Field{ *this }
+	{
+
+	}
+
+	Property<Math::Vector3, decltype(&GetField), &GetField, decltype(&SetField), &SetField> Field;
+	
+	static Property<Math::Vector3, decltype(&GetField2), &GetField2> Field2;
+};
+Property<Math::Vector3, decltype(&PropTest::GetField2), &PropTest::GetField2> PropTest::Field2;
 
 int main(int argc, char** argv)
 {
+	PropTest test;
+	Math::Vector3 temporary = test.Field;
+	int x = test.Field().X;
+	int y = test.Field().Y;
+	int z = test.Field().Z;
+	std::cout << x << " " << y << " " << z << std::endl;
+	std::cout << test.Field().ToString() << std::endl;
+
+	Math::Vector3 tmpVec = PropTest::Field2;
+	std::cout << "Temp vec: " << tmpVec.ToString() << std::endl;
+
 	EngineQ::Engine::Initialize("Turbo giera", 800, 600, argv[0]);
 
 	auto sc = EngineQ::Engine::Get()->CreateScene();
