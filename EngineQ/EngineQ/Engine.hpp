@@ -34,9 +34,12 @@ namespace EngineQ
 
 		Engine(std::string name, int width, int height);
 
+		void WindowResized(int width, int height);
+
 		static void KeyControl(int key, int scancode, int action, int mode);
 		static void MouseButtonControl(int button, int action, int mode);
 		static void MouseControl(double xpos, double ypos);
+		static void FramebufferResize(int width, int height);
 	public:
 		static bool Initialize(std::string name, int width, int height, char* assemblyName);
 		static Engine* Get();

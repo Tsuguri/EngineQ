@@ -9,6 +9,7 @@ namespace EngineQ
 	Window::keyfunc Window::KeyFunction=nullptr;
 	Window::mousebuttonfunc Window::MouseButtonsFunction = nullptr;
 	Window::mousecontrolfunc Window::MouseControlFunction = nullptr;
+	Window::framebuffersizefunc Window::FramebufferResizeFunction = nullptr;
 
 	void Window::KeyControl(GLFWwindow * window, int key, int scancode, int action, int mode)
 	{
@@ -25,6 +26,13 @@ namespace EngineQ
 		if (MouseControlFunction != nullptr)
 			MouseControlFunction(xpos, ypos);
 	}
+
+	void Window::FramebufferResize(GLFWwindow* window, int width, int height)
+	{
+		if (FramebufferResizeFunction != nullptr)
+			FramebufferResizeFunction(width, height);
+	}
+
 	bool Window::Initialize(std::string windowName, int width, int height)
 	{
 
@@ -57,7 +65,7 @@ namespace EngineQ
 		glfwSetCursorPosCallback(window, MouseControl);
 		glfwSetMouseButtonCallback(window, MouseButtonControl);
 		//Uncomment below if want to register call on window resizing
-		//glfwSetFramebufferSizeCallback(window, WindowResized);
+		glfwSetFramebufferSizeCallback(window, FramebufferResize);
 
 
 		// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
@@ -108,6 +116,11 @@ namespace EngineQ
 	void Window::SetMouseControlFunction(mousecontrolfunc function)
 	{
 		MouseControlFunction = function;
+	}
+
+	void Window::SetFramebufferResizeFunction(framebuffersizefunc function)
+	{
+		FramebufferResizeFunction = function;
 	}
 
 	double Window::GetTime()

@@ -1,4 +1,5 @@
 #include "ShaderPart.hpp"
+#include <iostream>
 
 namespace EngineQ
 {
@@ -17,9 +18,10 @@ namespace EngineQ
 
 		void ShaderPart::CreateFromFile(const char* filename, ShaderType shaderType)
 		{
-			std::ifstream stream{ filename };
+			std::ifstream stream{};
+			stream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+			stream.open(filename);
 			std::string shaderCode{ std::istreambuf_iterator<char>{ stream }, std::istreambuf_iterator<char>{} };
-
 			CreateFromCode(shaderCode.c_str(), shaderType);
 		}
 

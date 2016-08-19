@@ -61,7 +61,6 @@ EngineQ::Mesh* GenerateCube(float side = 1.0f)
 	return new EngineQ::Mesh{ vertices, indices };
 }
 
-
 void PrepareScene(EngineQ::Scene* scene)
 {
 	auto& sc{ *scene };
@@ -73,10 +72,10 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto ent = sc.CreateEntity();
 	auto ent2 = sc.CreateEntity();
 	auto renderable = ent2->AddComponent<EngineQ::Graphics::Renderable>();
-
 	auto cam = ent->AddComponent<EngineQ::Camera>();
 	renderable->SetModel(mesh);
 	renderable->SetForwardShader(tempShader);
+
 	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
 
 	EngineQ::Scripting::ScriptClass scriptClass = EngineQ::Engine::Get()->GetClass("QScripts", "QScripts", "CameraMoveClass");
