@@ -91,6 +91,7 @@
     <ClInclude Include="Serialization\tinyxml2.h" />
     <ClInclude Include="Serialization\XMLFormatter.hpp" />
     <ClInclude Include="TimeCounter.hpp" />
+    <ClInclude Include="Utilities\Event.hpp" />
     <ClInclude Include="Utilities\Immovable.hpp" />
     <ClInclude Include="Light.hpp" />
     <ClInclude Include="Math\Matrix3.hpp" />

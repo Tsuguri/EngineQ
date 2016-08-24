@@ -2,92 +2,109 @@ namespace EngineQ
 {
 	namespace Utilities
 	{
-		template<typename T>
-		Nullable<T>::Nullable() :
+		template<typename Type, bool Val>
+		void DestructHelper<Type, Val>::Destruct(Type* ptr)
+		{
+		}
+
+		template<typename Type>
+		void DestructHelper<Type, true>::Destruct(Type* ptr)
+		{
+			ptr->~Type();
+		}
+
+		template<typename Type>
+		void Nullable<Type>::Destruct(Type* ptr)
+		{
+			DestructHelper<Type, std::is_destructible<Type>::value>::Destruct(ptr);
+		}
+
+		template<typename Type>
+		Nullable<Type>::Nullable() :
 			exists{ false }
 		{
 		}
 
-		template<typename T>
-		Nullable<T>::Nullable(const T& value) :
+		template<typename Type>
+		Nullable<Type>::Nullable(const Type& value) :
 			exists{ true }
 		{
-			new(this->memory) T{ value };
+			new(this->memory) Type{ value };
 		}
 
-		template<typename T>
-		Nullable<T>& Nullable<T>::operator = (const T& value)
+		template<typename Type>
+		Nullable<Type>& Nullable<Type>::operator = (const Type& value)
 		{
 			if (this->exists)
-				*reinterpret_cast<T*>(this->memory) = value;
+				*reinterpret_cast<Type*>(this->memory) = value;
 			else
 			{
-				new(this->memory) T{ value };
+				new(this->memory) Type{ value };
 				this->exists = true;
 			}
 
 			return *this;
 		}
 
-		template<typename T>
-		Nullable<T>::Nullable(T&& value) :
+		template<typename Type>
+		Nullable<Type>::Nullable(Type&& value) :
 			exists{ true }
 		{
-			new(this->memory) T{ std::move(value) };
+			new(this->memory) Type{ std::move(value) };
 		}
 
-		template<typename T>
-		Nullable<T>& Nullable<T>::operator = (T&& value)
+		template<typename Type>
+		Nullable<Type>& Nullable<Type>::operator = (Type&& value)
 		{
 			if (this->exists)
-				*reinterpret_cast<T*>(this->memory) = std::move(value);
+				*reinterpret_cast<Type*>(this->memory) = std::move(value);
 			else
 			{
-				new(this->memory) T{ std::move(value) };
+				new(this->memory) Type{ std::move(value) };
 				this->exists = true;
 			}
 
 			return *this;
 		}
 
-		template<typename T>
-		Nullable<T>::Nullable(nullval_t) :
+		template<typename Type>
+		Nullable<Type>::Nullable(nullval_t) :
 			exists{ false }
 		{
 		}
 
-		template<typename T>
-		Nullable<T>& Nullable<T>::operator = (nullval_t)
+		template<typename Type>
+		Nullable<Type>& Nullable<Type>::operator = (nullval_t)
 		{
 			if (this->exists)
 			{
-				reinterpret_cast<T*>(this->memory)->~T();
+				Destruct(reinterpret_cast<Type*>(this->memory));
 				this->exists = false;
 			}
 
 			return *this;
 		}
 
-		template<typename T>
-		Nullable<T>::Nullable(const Nullable<T>& other) :
+		template<typename Type>
+		Nullable<Type>::Nullable(const Nullable<Type>& other) :
 			exists{ other.exists }
 		{
 			if (other.exists)
-				new(this->memory) T{ *reinterpret_cast<const T*>(other.memory) };
+				new(this->memory) Type{ *reinterpret_cast<const Type*>(other.memory) };
 		}
 
-		template<typename T>
-		Nullable<T>& Nullable<T>::operator = (const Nullable<T>& other)
+		template<typename Type>
+		Nullable<Type>& Nullable<Type>::operator = (const Nullable<Type>& other)
 		{
 			if (this->exists)
 			{
 				if (other.exists)
 				{
-					*reinterpret_cast<T*>(this->memory) = *reinterpret_cast<const T*>(other.memory);
+					*reinterpret_cast<Type*>(this->memory) = *reinterpret_cast<const Type*>(other.memory);
 				}
 				else
 				{
-					reinterpret_cast<T*>(this->memory)->~T();
+					Destruct(reinterpret_cast<Type*>(this->memory));
 					this->exists = false;
 				}
 			}
@@ -95,7 +112,7 @@ namespace EngineQ
 			{
 				if (other.exists)
 				{
-					new(this->memory) T{ *reinterpret_cast<const T*>(other.memory) };
+					new(this->memory) Type{ *reinterpret_cast<const Type*>(other.memory) };
 					this->exists = true;
 				}
 			}
@@ -103,30 +120,30 @@ namespace EngineQ
 			return *this;
 		}
 
-		template<typename T>
-		Nullable<T>::Nullable(Nullable<T>&& other) :
+		template<typename Type>
+		Nullable<Type>::Nullable(Nullable<Type>&& other) :
 			exists{ other.exists }
 		{
 			if (other.exists)
 			{
-				new(this->memory) T{ std::move(*reinterpret_cast<T*>(other.memory)) };
+				new(this->memory) Type{ std::move(*reinterpret_cast<Type*>(other.memory)) };
 				other.exists = false;
 			}
 		}
 
-		template<typename T>
-		Nullable<T>& Nullable<T>::operator = (Nullable<T>&& other)
+		template<typename Type>
+		Nullable<Type>& Nullable<Type>::operator = (Nullable<Type>&& other)
 		{
 			if (this->exists)
 			{
 				if (other.exists)
 				{
-					*reinterpret_cast<T*>(this->memory) = std::move(*reinterpret_cast<const T*>(other.memory));
+					*reinterpret_cast<Type*>(this->memory) = std::move(*reinterpret_cast<const Type*>(other.memory));
 					other.exists = false;
 				}
 				else
 				{
-					reinterpret_cast<T*>(this->memory)->~T();
+					Destruct(reinterpret_cast<Type*>(this->memory));
 					this->exists = false;
 				}
 			}
@@ -134,7 +151,7 @@ namespace EngineQ
 			{
 				if (other.exists)
 				{
-					new(this->memory) T{ std::move(*reinterpret_cast<const T*>(other.memory)) };
+					new(this->memory) Type{ std::move(*reinterpret_cast<const Type*>(other.memory)) };
 					this->exists = true;
 					other.exists = false;
 				}
@@ -143,89 +160,89 @@ namespace EngineQ
 			return *this;
 		}
 
-		template<typename T>
-		Nullable<T>::~Nullable()
+		template<typename Type>
+		Nullable<Type>::~Nullable()
 		{
 			if (this->exists)
-				reinterpret_cast<T*>(this->memory)->~T();
+				Destruct(reinterpret_cast<Type*>(this->memory));
 		}
 
-		template<typename T>
-		T* Nullable<T>::operator -> ()
+		template<typename Type>
+		Type* Nullable<Type>::operator -> ()
 		{
 			if (!this->exists)
 				throw NullValueException{};
 
-			return reinterpret_cast<T*>(this->memory);
+			return reinterpret_cast<Type*>(this->memory);
 		}
 
-		template<typename T>
-		T& Nullable<T>::operator *()
+		template<typename Type>
+		Type& Nullable<Type>::operator *()
 		{
 			if (!this->exists)
 				throw NullValueException{};
 
-			return *reinterpret_cast<T*>(this->memory);
+			return *reinterpret_cast<Type*>(this->memory);
 		}
 
-		template<typename T>
-		bool Nullable<T>::operator == (nullval_t) const
+		template<typename Type>
+		bool Nullable<Type>::operator == (nullval_t) const
 		{
 			return !this->exists;
 		}
 
-		template<typename T>
-		bool Nullable<T>::operator != (nullval_t) const
+		template<typename Type>
+		bool Nullable<Type>::operator != (nullval_t) const
 		{
 			return this->exists;
 		}
 
-		template<typename T>
-		bool Nullable<T>::operator == (const T& other) const
+		template<typename Type>
+		bool Nullable<Type>::operator == (const Type& other) const
 		{
 			if (!this->exists)
 				return false;
 
-			return *reinterpret_cast<const T*>(this->memory) == other;
+			return *reinterpret_cast<const Type*>(this->memory) == other;
 		}
 
-		template<typename T>
-		bool Nullable<T>::operator != (const T& other) const
+		template<typename Type>
+		bool Nullable<Type>::operator != (const Type& other) const
 		{
 			if (!this->exists)
 				return true;
 
-			return *reinterpret_cast<const T*>(this->memory) != other;
+			return *reinterpret_cast<const Type*>(this->memory) != other;
 		}
 
-		template<typename T>
-		Nullable<T>::operator T&() const
+		template<typename Type>
+		Nullable<Type>::operator Type&() const
 		{
 			if (!this->exists)
 				throw NullValueException{};
 
-			return *reinterpret_cast<const T*>(this->memory);
+			return *reinterpret_cast<const Type*>(this->memory);
 		}
 
-		template<typename T>
-		Nullable<T>::operator T&()
+		template<typename Type>
+		Nullable<Type>::operator Type&()
 		{
 			if (!this->exists)
 				throw NullValueException{};
 
-			return *reinterpret_cast<T*>(this->memory);
+			return *reinterpret_cast<Type*>(this->memory);
 		}
 
-		template<typename T, typename ...Args>
-		Nullable<T> MakeNullable(Args&& ...args)
+		template<typename Type, typename ...Args>
+		Nullable<Type> MakeNullable(Args&& ...args)
 		{
-			return Nullable<T>{ T{ std::forward<Args>(args)... } };
+			return Nullable<Type>{ Type{ std::forward<Args>(args)... } };
 		}
 
-		template<typename T>
-		Nullable<T> MakeNullableEmpty()
+		template<typename Type>
+		Nullable<Type> MakeNullableEmpty()
 		{
-			return Nullable<T>{};
+			return Nullable<Type>{};
 		}
 	}
 }
