@@ -11,7 +11,7 @@ namespace EngineQ
 	namespace Math
 	{
 		template<typename Type>
-		struct Vector3t
+		struct Vector3_t
 		{
 		#pragma region Fields
 			union
@@ -37,13 +37,13 @@ namespace EngineQ
 
 		#pragma region Constructors
 
-			explicit Vector3t();
+			explicit Vector3_t();
 
-			explicit Vector3t(Type value);
+			explicit Vector3_t(Type value);
 
-			explicit Vector3t(Type x, Type y, Type z);
+			explicit Vector3_t(Type x, Type y, Type z);
 
-			explicit Vector3t(const Vector2t<Type>& vector, Type z);
+			explicit Vector3_t(const Vector2_t<Type>& vector, Type z);
 
 		#pragma endregion
 
@@ -55,7 +55,7 @@ namespace EngineQ
 
 			Type GetLengthSquared() const;
 
-			Vector3t GetNormalized() const;
+			Vector3_t GetNormalized() const;
 
 			void Normalize();
 
@@ -65,50 +65,50 @@ namespace EngineQ
 
 		#pragma region Static Methods
 
-			static Type DistanceSquared(const Vector3t& vector1, const Vector3t& vector2);
+			static Type DistanceSquared(const Vector3_t& vector1, const Vector3_t& vector2);
 
-			static Real Distance(const Vector3t& vector1, const Vector3t& vector2);
+			static Real Distance(const Vector3_t& vector1, const Vector3_t& vector2);
 
-			static Type DotProduct(const Vector3t& vector1, const Vector3t& vector2);
+			static Type DotProduct(const Vector3_t& vector1, const Vector3_t& vector2);
 
-			static Vector3t CrossProduct(const Vector3t& vector1, const Vector3t& vector2);
+			static Vector3_t CrossProduct(const Vector3_t& vector1, const Vector3_t& vector2);
 
-			static Vector3t GetZero();
+			static Vector3_t GetZero();
 
-			static Vector3t GetOne();
+			static Vector3_t GetOne();
 
-			static Vector3t GetLeft();
+			static Vector3_t GetLeft();
 
-			static Vector3t GetRight();
+			static Vector3_t GetRight();
 
-			static Vector3t GetUp();
+			static Vector3_t GetUp();
 
-			static Vector3t GetDown();
+			static Vector3_t GetDown();
 
-			static Vector3t GetForward();
+			static Vector3_t GetForward();
 
-			static Vector3t GetBack();
+			static Vector3_t GetBack();
 
 		#pragma endregion
 
 		#pragma region Operators
 
-			explicit operator Vector2t<Type>() const;
+			explicit operator Vector2_t<Type>() const;
 
 			template<typename Type2>
-			explicit operator Vector3t<Type2>() const;
+			explicit operator Vector3_t<Type2>() const;
 
-			void operator += (const Vector3t& other);
+			void operator += (const Vector3_t& other);
 
-			void operator -= (const Vector3t& other);
+			void operator -= (const Vector3_t& other);
 
 			void operator *= (Type scalar);
 
-			void operator *= (const Vector3t& other);
+			void operator *= (const Vector3_t& other);
 
 			void operator /= (Type scalar);
 
-			void operator /= (const Vector3t& other);
+			void operator /= (const Vector3_t& other);
 
 		#pragma endregion
 		};
@@ -116,47 +116,59 @@ namespace EngineQ
 	#pragma region Static Operators
 
 		template<typename Type>
-		Vector3t<Type> operator -(const Vector3t<Type>& vector);
+		Vector3_t<Type> operator -(const Vector3_t<Type>& vector);
 
 		template<typename Type>
-		Vector3t<Type> operator +(const Vector3t<Type>& vector);
+		Vector3_t<Type> operator +(const Vector3_t<Type>& vector);
 
 		template<typename Type>
-		Vector3t<Type> operator +(const Vector3t<Type>& vector1, const Vector3t<Type>& vector2);
+		Vector3_t<Type> operator +(const Vector3_t<Type>& vector1, const Vector3_t<Type>& vector2);
 
 		template<typename Type>
-		Vector3t<Type> operator -(const Vector3t<Type>& vector1, const Vector3t<Type>& vector2);
+		Vector3_t<Type> operator -(const Vector3_t<Type>& vector1, const Vector3_t<Type>& vector2);
 
 		template<typename Type>
-		Vector3t<Type> operator *(const Vector3t<Type>& vector, Type scalar);
+		Vector3_t<Type> operator *(const Vector3_t<Type>& vector, Type scalar);
 
 		template<typename Type>
-		Vector3t<Type> operator *(Type scalar, const Vector3t<Type>& vector);
+		Vector3_t<Type> operator *(Type scalar, const Vector3_t<Type>& vector);
 
 		template<typename Type>
-		Vector3t<Type> operator *(const Vector3t<Type>& vector1, const Vector3t<Type>& vector2);
+		Vector3_t<Type> operator *(const Vector3_t<Type>& vector1, const Vector3_t<Type>& vector2);
 
 		template<typename Type>
-		Vector3t<Type> operator /(const Vector3t<Type>& vector, Type scalar);
+		Vector3_t<Type> operator /(const Vector3_t<Type>& vector, Type scalar);
 
 		template<typename Type>
-		Vector3t<Type> operator /(const Vector3t<Type>& vector1, const Vector3t<Type>& vector2);
+		Vector3_t<Type> operator /(const Vector3_t<Type>& vector1, const Vector3_t<Type>& vector2);
 
 		template<typename Type>
-		bool operator ==(const Vector3t<Type>& vector1, const Vector3t<Type>& vector2);
+		bool operator ==(const Vector3_t<Type>& vector1, const Vector3_t<Type>& vector2);
 
 		template<typename Type>
-		bool operator !=(const Vector3t<Type>& vector1, const Vector3t<Type>& vector2);
+		bool operator !=(const Vector3_t<Type>& vector1, const Vector3_t<Type>& vector2);
+
+		template<typename Type>
+		std::istream& operator >> (std::istream& stream, Vector3_t<Type>& vector);
+
+		template<typename Type>
+		std::istream& operator >>= (std::istream& stream, Vector3_t<Type>& vector);
+
+		template<typename Type>
+		std::ostream& operator << (std::ostream& stream, const Vector3_t<Type>& vector);
+
+		template<typename Type>
+		std::ostream& operator <<= (std::ostream& stream, const Vector3_t<Type>& vector);
 
 	#pragma endregion
 
 	#pragma region Typedefs
 
-		typedef Vector3t<int> Vector3i;
-		typedef Vector3t<float> Vector3f;
-		typedef Vector3t<double> Vector3d;
+		typedef Vector3_t<int> Vector3i;
+		typedef Vector3_t<float> Vector3f;
+		typedef Vector3_t<double> Vector3d;
 
-		typedef Vector3t<Real> Vector3;
+		typedef Vector3_t<Real> Vector3;
 
 	#pragma endregion
 	}

@@ -56,12 +56,9 @@ namespace EngineQ
 
 		std::string Matrix3::ToString() const
 		{
-			return "[[" +
-				Utilities::ToString(m00) + "," + Utilities::ToString(m01) + "," + Utilities::ToString(m02) + "],[" +
-				Utilities::ToString(m10) + "," + Utilities::ToString(m11) + "," + Utilities::ToString(m12) + "],[" +
-				Utilities::ToString(m20) + "," + Utilities::ToString(m21) + "," + Utilities::ToString(m22) + "]]";
+			return Utilities::ToString(*this);
 		}
-
+		
 		Matrix3 Matrix3::GetTransposed() const
 		{
 			return Matrix3{ m00, m10, m20, m01, m11, m21, m02, m12, m22 };
@@ -305,6 +302,49 @@ namespace EngineQ
 				lhs.m20 != rhs.m20 ||
 				lhs.m21 != rhs.m21 ||
 				lhs.m22 != rhs.m22;
+		}
+
+		std::istream& operator >> (std::istream& stream, Matrix3& matrix)
+		{
+			stream.ignore(2);
+			stream >> matrix.m00;
+			stream.ignore(1);
+			stream >> matrix.m01;
+			stream.ignore(1);
+			stream >> matrix.m02;
+			stream.ignore(3);
+			stream >> matrix.m10;
+			stream.ignore(1);
+			stream >> matrix.m11;
+			stream.ignore(1);
+			stream >> matrix.m12;
+			stream.ignore(3);
+			stream >> matrix.m20;
+			stream.ignore(1);
+			stream >> matrix.m21;
+			stream.ignore(1);
+			stream >> matrix.m22;
+			stream.ignore(2);
+
+			return stream;
+		}
+
+		std::istream& operator >>= (std::istream& stream, Matrix3& matrix)
+		{
+			return stream.read(reinterpret_cast<char*>(&matrix.Values), sizeof(matrix.Values));
+		}
+
+		std::ostream& operator << (std::ostream& stream, const Matrix3& matrix)
+		{
+			return stream << "[[" <<
+				matrix.m00 << "," << matrix.m01 << "," << matrix.m02 << "],[" <<
+				matrix.m10 << "," << matrix.m11 << "," << matrix.m12 << "],[" <<
+				matrix.m20 << "," << matrix.m21 << "," << matrix.m22 << "]]";
+		}
+
+		std::ostream& operator <<= (std::ostream& stream, const Matrix3& matrix)
+		{
+			return stream.write(reinterpret_cast<const char*>(matrix.Values), sizeof(matrix.Values));
 		}
 
 	#pragma endregion

@@ -84,9 +84,6 @@
     <ClCompile Include="Scripting\API_Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\StringHelpers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities\Nullable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

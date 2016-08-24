@@ -112,27 +112,40 @@ class PropTest
 	}
 
 public:
-	PropTest() : 
-		Field{ *this }
+	PropTest()
 	{
 
 	}
 
-	Property<Math::Vector3, decltype(&GetField), &GetField, decltype(&SetField), &SetField> Field;
+	EngineQ::Property<Math::Vector3, decltype(&GetField), &GetField, decltype(&SetField), &SetField> Field = this;
 	
-	static Property<Math::Vector3, decltype(&GetField2), &GetField2> Field2;
+	static EngineQ::Property<Math::Vector3, decltype(&GetField2), &GetField2> Field2;
 };
-Property<Math::Vector3, decltype(&PropTest::GetField2), &PropTest::GetField2> PropTest::Field2;
+EngineQ::Property<Math::Vector3, decltype(&PropTest::GetField2), &PropTest::GetField2> PropTest::Field2;
 
 int main(int argc, char** argv)
 {
 	PropTest test;
 	Math::Vector3 temporary = test.Field;
-	int x = test.Field().X;
-	int y = test.Field().Y;
-	int z = test.Field().Z;
-	std::cout << x << " " << y << " " << z << std::endl;
-	std::cout << test.Field().ToString() << std::endl;
+//	int x = test.Field().X;
+//	int y = test.Field().Y;
+//	int z = test.Field().Z;
+//	std::cout << x << " " << y << " " << z << std::endl;
+//	std::cout << test.Field().ToString() << std::endl;
+
+	Math::Vector2 testVal1{ 1.0f, 2.0f };
+	Math::Vector2 testVal2;
+	Math::Vector2 testVal3;
+
+	std::stringstream sstream;
+	sstream <<= testVal1;
+	sstream >>= testVal2;
+	sstream << testVal1;
+	sstream >> testVal3;
+
+	std::cout << testVal1 << std::endl;
+	std::cout << testVal2 << std::endl;
+	std::cout << testVal3 << std::endl;
 
 	Math::Vector3 tmpVec = PropTest::Field2;
 	std::cout << "Temp vec: " << tmpVec.ToString() << std::endl;

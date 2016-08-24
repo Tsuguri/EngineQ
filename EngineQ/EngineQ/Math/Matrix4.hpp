@@ -130,6 +130,12 @@ namespace EngineQ
 		Matrix4 operator * (const Matrix4& lhs, const Matrix4& rhs);
 		Matrix4 operator / (const Matrix4& matrix, Real scalar);
 
+		std::istream& operator >> (std::istream& stream, Matrix4& matrix);
+		std::istream& operator >>= (std::istream& stream, Matrix4& matrix);
+
+		std::ostream& operator << (std::ostream& stream, const Matrix4& matrix);
+		std::ostream& operator <<= (std::ostream& stream, const Matrix4& matrix);
+
 	#pragma endregion
 	}
 }

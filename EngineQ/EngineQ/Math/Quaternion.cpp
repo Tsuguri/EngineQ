@@ -64,7 +64,7 @@ namespace EngineQ
 
 		std::string Quaternion::ToString() const
 		{
-			return "[" + Utilities::ToString(this->W) + "," + Utilities::ToString(this->X) + "," + Utilities::ToString(this->Y) + "," + Utilities::ToString(this->Z) + "]";
+			return Utilities::ToString(*this);
 		}
 
 	#pragma endregion
@@ -249,6 +249,36 @@ namespace EngineQ
 		bool operator !=(const Quaternion& q1, const Quaternion& q2)
 		{
 			return (q1.W != q2.W || q1.X != q2.X || q1.Y != q2.Y || q1.Z != q2.Z);
+		}
+
+		std::istream& operator >> (std::istream& stream, Quaternion& quaternion)
+		{
+			stream.ignore(1);
+			stream >> quaternion.W;
+			stream.ignore(1);
+			stream >> quaternion.X;
+			stream.ignore(1);
+			stream >> quaternion.Y;
+			stream.ignore(1);
+			stream >> quaternion.Z;
+			stream.ignore(1);
+
+			return stream;
+		}
+
+		std::istream& operator >>= (std::istream& stream, Quaternion& quaternion)
+		{
+			return stream.read(reinterpret_cast<char*>(&quaternion.Values), sizeof(quaternion.Values));
+		}
+
+		std::ostream& operator << (std::ostream& stream, const Quaternion& quaternion)
+		{
+			return stream << "[" << quaternion.W << "," << quaternion.X << "," << quaternion.Y << "," << quaternion.Z << "]";
+		}
+		
+		std::ostream& operator <<= (std::ostream& stream, const Quaternion& quaternion)
+		{
+			return stream.write(reinterpret_cast<const char*>(&quaternion.Values), sizeof(quaternion.Values));
 		}
 
 	#pragma endregion

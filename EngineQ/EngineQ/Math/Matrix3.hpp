@@ -1,6 +1,8 @@
 #ifndef ENGINEQ_MATH_MATRIX3_HPP
 #define ENGINEQ_MATH_MATRIX3_HPP
 
+#include <iostream>
+
 #include "../Utilities/StringHelpers.hpp"
 #include "Types.hpp"
 
@@ -16,7 +18,7 @@ namespace EngineQ
 
 			union
 			{
-				Real Values[9];
+				Real Values[9] = { static_cast<Real>(0) };
 
 				Real Values2[3][3];
 
@@ -97,6 +99,12 @@ namespace EngineQ
 
 		bool operator == (const Matrix3& lhs, const Matrix3& rhs);
 		bool operator != (const Matrix3& lhs, const Matrix3& rhs);
+
+		std::istream& operator >> (std::istream& stream, Matrix3& matrix);
+		std::istream& operator >>= (std::istream& stream, Matrix3& matrix);
+
+		std::ostream& operator << (std::ostream& stream, const Matrix3& matrix);
+		std::ostream& operator <<= (std::ostream& stream, const Matrix3& matrix);
 
 	#pragma endregion
 	}
