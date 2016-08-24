@@ -1,4 +1,6 @@
 #include "Engine.hpp"
+#include "Graphics/RendererConfiguration.hpp"
+#include "Graphics/PostprocessingUnit.hpp"
 namespace Math = EngineQ::Math;
 
 EngineQ::Mesh* GenerateCube(float side = 1.0f)
@@ -65,7 +67,7 @@ void PrepareScene(EngineQ::Scene* scene)
 {
 	auto& sc{ *scene };
 
-	::EngineQ::Graphics::Shader* tempShader=new ::EngineQ::Graphics::Shader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
+	::EngineQ::Graphics::Shader* tempShader = new ::EngineQ::Graphics::Shader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
 
 	auto mesh = GenerateCube(0.2f);
 
@@ -111,20 +113,56 @@ class PropTest
 	}
 
 public:
-	PropTest() : 
+	PropTest() :
 		Field{ *this }
 	{
 
 	}
 
 	Property<Math::Vector3, decltype(&GetField), &GetField, decltype(&SetField), &SetField> Field;
-	
+
 	static Property<Math::Vector3, decltype(&GetField2), &GetField2> Field2;
 };
 Property<Math::Vector3, decltype(&PropTest::GetField2), &PropTest::GetField2> PropTest::Field2;
 
+void TestConfiguration()
+{
+	EngineQ::Graphics::RendererConfiguration conf;
+
+	for (int i = 0; i < 4; i++)
+	{
+		EngineQ::Graphics::FramebufferConfiguration frm;
+		frm.Name = "frm" + std::to_string(i);
+		frm.DepthTesting = false;
+
+		for (int i = 0; i < 3; i++)
+		{
+			frm.Textures.push_back(EngineQ::Graphics::TextureConfiguration{});
+		}
+	conf.Framebuffers.push_back(frm);
+	}
+	conf.DeferredEnabled = true;
+	conf.DeferredShaderName = "defShader";
+
+	EngineQ::Graphics::EffectConfiguration efc;
+
+	efc.ClassName = "TurboNamespace.TurboClass";
+	efc.ShaderName = "Shaders/superKernel.shd";
+	efc.Input.push_back(EngineQ::Graphics::InputPair(0, 2, "frm2"));
+	efc.Input.push_back(EngineQ::Graphics::InputPair(1, 3, "frm1"));
+
+
+
+
+
+
+	EngineQ::Graphics::RenderingUnit{ &conf };
+}
+
+
 int main(int argc, char** argv)
 {
+	TestConfiguration();
 	PropTest test;
 	Math::Vector3 temporary = test.Field;
 	int x = test.Field().X;

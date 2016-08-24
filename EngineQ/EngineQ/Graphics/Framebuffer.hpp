@@ -4,30 +4,40 @@
 #include <GL/glew.h>
 
 #include "../Utilities/Uncopyable.hpp"
+#include "RendererConfiguration.hpp"
 
-class Framebuffer : public EngineQ::Utilities::Uncopyable
+namespace EngineQ
 {
-	GLuint fbo=0;
-	GLuint textureColor = 0;
-	GLuint depthRbo;
+	namespace Graphics
+	{
+
+		// TODO
+		class Framebuffer : public EngineQ::Utilities::Uncopyable
+		{
+			GLuint fbo = 0;
+			GLuint textureColor = 0;
+			GLuint depthRbo;
 
 
-	bool ready = false;
+			bool ready = false;
 
-public:
-	Framebuffer();
-	~Framebuffer();
+		public:
+			Framebuffer();
+			Framebuffer(EngineQ::Graphics::FramebufferConfiguration* configuration);
+			~Framebuffer();
 
-	void Bind() const;
-	//remeber that it will automatically bind this framebuffer
-	bool Ready();
-	static void BindDefault();
+			void Bind() const;
+			//remeber that it will automatically bind this framebuffer
+			bool Ready();
+			static void BindDefault();
 
-	//remeber that it will automatically bind this framebuffer
-	void AddDepthTesting(int width, int height);
-	void AddColorAttachment(int width, int height, GLint format = GL_RGB);
+			//remeber that it will automatically bind this framebuffer
+			void AddDepthTesting(int width, int height);
+			void AddColorAttachment(int width, int height, GLint format = GL_RGB);
 
-	GLuint GetColorTexture();
-};
+			GLuint GetColorTexture();
+		};
 
+	}
+}
 #endif
