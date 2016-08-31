@@ -6,19 +6,25 @@ namespace EngineQ
 	{
 	#pragma region ShaderPart
 
-		ShaderPart::ShaderPart()
+		ShaderPart::ShaderPart(ShaderFromFile shaderPath, ShaderType shaderType)
 		{
+			CreateFromFile(shaderPath, shaderType);
 		}
 
-		ShaderPart::ShaderPart(const char* filePath, ShaderType shaderType)
+		ShaderPart::ShaderPart(ShaderFromCode shaderCode, ShaderType shaderType)
 		{
-			CreateFromFile(filePath, shaderType);
+			CreateFromCode(shaderCode, shaderType);
 		}
 
 		void ShaderPart::CreateFromFile(const char* filename, ShaderType shaderType)
 		{
-			std::ifstream stream{ filename };
+			std::ifstream stream;;
+			stream.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+			stream.open(filename);
+
 			std::string shaderCode{ std::istreambuf_iterator<char>{ stream }, std::istreambuf_iterator<char>{} };
+
+			stream.close();
 
 			CreateFromCode(shaderCode.c_str(), shaderType);
 		}
@@ -50,8 +56,8 @@ namespace EngineQ
 			return this->type;
 		}
 
-		ShaderPart::ShaderPart(ShaderPart&& other)
-			: shaderId{ other.shaderId }
+		ShaderPart::ShaderPart(ShaderPart&& other) :
+			type{ other.type }, shaderId{ other.shaderId }
 		{
 			other.shaderId = 0;
 		}
@@ -69,84 +75,56 @@ namespace EngineQ
 
 	#pragma region VertexShader
 
-		VertexShader::VertexShader(const char* shaderPath)
-			: ShaderPart{ shaderPath, ShaderType::VertexShader }
+		VertexShader::VertexShader(ShaderFromFile shaderPath) :
+			ShaderPart{ shaderPath, ShaderType::VertexShader }
 		{
 		}
 
-		VertexShader VertexShader::CreateFromFile(const char* filePath)
+		VertexShader::VertexShader(ShaderFromCode shaderCode) :
+			ShaderPart{ shaderCode, ShaderType::VertexShader }
 		{
-			return VertexShader{ filePath };
-		}
-
-		VertexShader VertexShader::CreateFromCode(const char* shaderCode)
-		{
-			VertexShader shader;
-			shader.ShaderPart::CreateFromCode(shaderCode, ShaderType::VertexShader);
-			return shader;
 		}
 
 	#pragma endregion
 
 	#pragma region FragmentShader
 
-		FragmentShader::FragmentShader(const char* shaderPath)
-			: ShaderPart{ shaderPath, ShaderType::FragmentShader }
+		FragmentShader::FragmentShader(ShaderFromFile shaderPath) :
+			ShaderPart{ shaderPath, ShaderType::FragmentShader }
 		{
 		}
 
-		FragmentShader FragmentShader::CreateFromFile(const char* filePath)
+		FragmentShader::FragmentShader(ShaderFromCode shaderCode) :
+			ShaderPart{ shaderCode, ShaderType::FragmentShader }
 		{
-			return FragmentShader{ filePath };
-		}
-
-		FragmentShader FragmentShader::CreateFromCode(const char* shaderCode)
-		{
-			FragmentShader shader;
-			shader.ShaderPart::CreateFromCode(shaderCode, ShaderType::FragmentShader);
-			return shader;
 		}
 
 	#pragma endregion
 
 	#pragma region GeometryShader
 
-		GeometryShader::GeometryShader(const char* shaderPath)
-			: ShaderPart{ shaderPath, ShaderType::GeometryShader }
+		GeometryShader::GeometryShader(ShaderFromFile shaderPath) :
+			ShaderPart{ shaderPath, ShaderType::GeometryShader }
 		{
 		}
 
-		GeometryShader GeometryShader::CreateFromFile(const char* filePath)
+		GeometryShader::GeometryShader(ShaderFromCode shaderCode) :
+			ShaderPart{ shaderCode, ShaderType::GeometryShader }
 		{
-			return GeometryShader{ filePath };
-		}
-
-		GeometryShader GeometryShader::CreateFromCode(const char* shaderCode)
-		{
-			GeometryShader shader;
-			shader.ShaderPart::CreateFromCode(shaderCode, ShaderType::GeometryShader);
-			return shader;
 		}
 
 	#pragma endregion
 
 	#pragma region ComputeShader
-	
-		ComputeShader::ComputeShader(const char* shaderPath)
-			: ShaderPart{ shaderPath, ShaderType::ComputeShader }
+
+		ComputeShader::ComputeShader(ShaderFromFile shaderPath) :
+			ShaderPart{ shaderPath, ShaderType::ComputeShader }
 		{
 		}
 
-		ComputeShader ComputeShader::CreateFromFile(const char* filePath)
+		ComputeShader::ComputeShader(ShaderFromCode shaderCode) :
+			ShaderPart{ shaderCode, ShaderType::ComputeShader }
 		{
-			return ComputeShader{ filePath };
-		}
-
-		ComputeShader ComputeShader::CreateFromCode(const char* shaderCode)
-		{
-			ComputeShader shader;
-			shader.ShaderPart::CreateFromCode(shaderCode, ShaderType::ComputeShader);
-			return shader;
 		}
 
 	#pragma endregion

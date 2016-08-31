@@ -5,10 +5,10 @@
 #include <string>
 #include <fstream>
 
-#include "../Utilities/Uncopyable.hpp"
-#include "ShaderExceptions.hpp"
+#include "../Libraries/GL/glew.h"
 
-#include "GL/glew.h"
+#include "../Utilities/Immovable.hpp"
+#include "ShaderExceptions.hpp"
 
 namespace EngineQ
 {
@@ -22,9 +22,39 @@ namespace EngineQ
 			ComputeShader = GL_COMPUTE_SHADER,
 		};
 
+		struct ShaderFromFile 
+		{
+			const char* shaderFile;
+		
+			ShaderFromFile(const char* shaderFile) :
+				shaderFile{ shaderFile }
+			{
+			}
+
+			operator const char* ()
+			{
+				return this->shaderFile;
+			}
+		};
+
+		struct ShaderFromCode 
+		{
+			const char* shaderCode;
+
+			explicit ShaderFromCode(const char* shaderCode) :
+				shaderCode{ shaderCode }
+			{
+			}
+
+			operator const char* ()
+			{
+				return this->shaderCode;
+			}
+		};
+
 		class Shader;
 
-		class ShaderPart : public Utilities::Uncopyable
+		class ShaderPart : public Utilities::Immovable
 		{
 			friend class Shader;
 
@@ -32,14 +62,13 @@ namespace EngineQ
 			GLuint shaderId;
 			ShaderType type;
 
-		protected:
-			ShaderPart();
-			ShaderPart(const char* filePath, ShaderType shaderType);
-
 			void CreateFromFile(const char* filename, ShaderType shaderType);
 			void CreateFromCode(const char* shaderCode, ShaderType shaderType);
 
 		public:
+			ShaderPart(ShaderFromFile shaderFile, ShaderType shaderType);
+			ShaderPart(ShaderFromCode shaderCode, ShaderType shaderType);
+			
 			ShaderPart(ShaderPart&& other);
 			~ShaderPart();
 
@@ -49,53 +78,33 @@ namespace EngineQ
 
 		class VertexShader : public ShaderPart
 		{
-		private:
-			VertexShader() = default;
-
 		public:
-			VertexShader(const char* shaderPath);
-
-			static VertexShader CreateFromFile(const char* filePath);
-			static VertexShader CreateFromCode(const char* shaderCode);
+			VertexShader(ShaderFromFile shaderFile);
+			VertexShader(ShaderFromCode shaderCode);
 		};
 
 
 		class FragmentShader : public ShaderPart
 		{
-		private:
-			FragmentShader() = default;
-
 		public:
-			FragmentShader(const char* shaderPath);
-
-			static FragmentShader CreateFromFile(const char* filePath);
-			static FragmentShader CreateFromCode(const char* shaderCode);
+			FragmentShader(ShaderFromFile shaderFile);
+			FragmentShader(ShaderFromCode shaderCode);
 		};
 
 
 		class GeometryShader : public ShaderPart
 		{
-		private:
-			GeometryShader() = default;
-
 		public:
-			GeometryShader(const char* shaderPath);
-
-			static GeometryShader CreateFromFile(const char* filePath);
-			static GeometryShader CreateFromCode(const char* shaderCode);
+			GeometryShader(ShaderFromFile shaderFile);
+			GeometryShader(ShaderFromCode shaderCode);
 		};
 
 
 		class ComputeShader : public ShaderPart
 		{
-		private:
-			ComputeShader() = default;
-
 		public:
-			ComputeShader(const char* shaderPath);
-
-			static ComputeShader CreateFromFile(const char* filePath);
-			static ComputeShader CreateFromCode(const char* shaderCode);
+			ComputeShader(ShaderFromFile shaderFile);
+			ComputeShader(ShaderFromCode shaderCode);
 		};
 	}
 }

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputController.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scripting\API_Application.cpp" />
     <ClCompile Include="Scripting\API_Input.cpp" />
     <ClCompile Include="Scripting\API_TimeCounter.cpp" />
@@ -56,7 +57,7 @@
     <ClCompile Include="Serialization\SerializationEngine.cpp" />
     <ClCompile Include="Serialization\SerializationRules.cpp" />
     <ClCompile Include="Serialization\Serializer.cpp" />
-    <ClCompile Include="Serialization\tinyxml2.cpp" />
+    <ClCompile Include="Libraries\TinyXML\tinyxml2.cpp" />
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -67,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputController.hpp" />
+    <ClInclude Include="ResourceManager.hpp" />
     <ClInclude Include="Scripting\API_Application.hpp" />
     <ClInclude Include="Scripting\API_Input.hpp" />
     <ClInclude Include="Scripting\API_TimeCounter.hpp" />
@@ -87,7 +89,7 @@
     <ClInclude Include="Serialization\SerializationRules.hpp" />
     <ClInclude Include="Serialization\SerializedObject.hpp" />
     <ClInclude Include="Serialization\Serializer.hpp" />
-    <ClInclude Include="Serialization\tinyxml2.h" />
+    <ClInclude Include="Libraries\TinyXML\tinyxml2.h" />
     <ClInclude Include="Serialization\XMLFormatter.hpp" />
     <ClInclude Include="TimeCounter.hpp" />
     <ClInclude Include="Utilities\Event.hpp" />
@@ -126,6 +128,7 @@
     <None Include="Math\Vector2.inl" />
     <None Include="Math\Vector3.inl" />
     <None Include="Math\Vector4.inl" />
+    <None Include="ResourceManager.inl" />
     <None Include="Serialization\Deserializer.inl" />
     <None Include="Serialization\SerializationEngine.inl" />
     <None Include="Serialization\SerializationRules.inl" />

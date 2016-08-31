@@ -3,7 +3,8 @@
 
 #include <vector>
 
-#include <GL/glew.h>
+#include "../Libraries/GL/glew.h"
+
 #include "../Utilities/Uncopyable.hpp"
 #include "../Vertex.hpp"
 
