@@ -75,7 +75,7 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto renderable = ent2->AddComponent<EngineQ::Graphics::Renderable>();
 	auto cam = ent->AddComponent<EngineQ::Camera>();
 	renderable->SetModel(mesh);
-	renderable->SetForwardShader(EngineQ::Engine::Get()->GetResourceManager()->GetResource<EngineQ::Graphics::Shader>(std::string("basic")));
+	renderable->SetForwardShader(EngineQ::Engine::Get()->GetResourceManager()->GetResource<EngineQ::Graphics::Shader>(1).get());
 
 	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
 
@@ -91,9 +91,10 @@ void PrepareScene(EngineQ::Scene* scene)
 
 void TemporaryResources(EngineQ::Engine* engine)
 {
-	::EngineQ::Graphics::Shader* tempShader = new ::EngineQ::Graphics::Shader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
 	auto rm = EngineQ::Engine::Get()->GetResourceManager();
-	rm->AddResource("basic", tempShader);
+	rm->AddResource<EngineQ::Graphics::Shader>(1, "./Shaders/basic.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(2, "./Shaders/custom.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(3, "./Shaders/quad.shd");
 }
 
 
