@@ -159,6 +159,18 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    </ClCompile>
+      <Filter>Source Files</Filter>
+    <ClCompile Include="Graphics\RendererConfiguration.cpp">
+    </ClCompile>
+      <Filter>Source Files</Filter>
+    <ClCompile Include="Graphics\PostprocessingExceptions.cpp">
+    </ClCompile>
+      <Filter>Source Files</Filter>
+    <ClCompile Include="Graphics\PostprocessingUnit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Framebuffer.cpp">
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Matrix3.hpp">
@@ -329,6 +341,18 @@
     <ClInclude Include="Libraries\TinyXML\tinyxml2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    </ClInclude>
+      <Filter>Header Files</Filter>
+    <ClInclude Include="Graphics\PostprocessingExceptions.hpp">
+    </ClInclude>
+      <Filter>Header Files</Filter>
+    <ClInclude Include="Graphics\PostprocessingUnit.hpp">
+    </ClInclude>
+      <Filter>Header Files</Filter>
+    <ClInclude Include="Graphics\PostprocessingEffect.hpp">
+    </ClInclude>
+      <Filter>Header Files</Filter>
+    <ClInclude Include="Graphics\Framebuffer.hpp">
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector4.inl">

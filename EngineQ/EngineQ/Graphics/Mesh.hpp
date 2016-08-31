@@ -13,7 +13,7 @@ namespace EngineQ
 	class Mesh : public Utilities::Uncopyable
 	{
 	private:
-		GLuint count;
+		GLuint count=0;
 		GLuint vao=0;
 		GLuint vbo[3]={0,0,0};
 	public:

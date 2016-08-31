@@ -71,11 +71,11 @@ int main(int argc, char** argv)
 	// Shaders test
 	Init();
 
-	{
-		VertexShader vs = VertexShader::CreateFromFile("Shaders/Test/Simple.vert");
+	//{
+	//	VertexShader vs = VertexShader::CreateFromFile("Shaders/Test/Simple.vert");
 
-		Shader shader{ VertexShader::CreateFromFile("Shaders/Test/Simple.vert"), FragmentShader::CreateFromFile("Shaders/Test/Simple.frag") };
-	}
+	//	Shader shader{ VertexShader::CreateFromFile("Shaders/Test/Simple.vert"), FragmentShader::CreateFromFile("Shaders/Test/Simple.frag") };
+	//}
 
 
 	// Scripting test

@@ -27,9 +27,17 @@ namespace EngineQ
 		window.SetKeyFunction(KeyControl);
 		window.SetMouseButtonFunction(MouseButtonControl);
 		window.SetMouseControlFunction(MouseControl);
+		window.SetFramebufferResizeFunction(FramebufferResize);
 
 		// Define the viewport dimensions
 		glViewport(0, 0, width, height);
+
+		resourceManager = std::make_unique<ResourceManager>();
+	}
+
+	void Engine::WindowResized(int width, int height)
+	{
+
 	}
 
 	void Engine::KeyControl(int key, int scancode, int action, int mode)
@@ -45,6 +53,11 @@ namespace EngineQ
 	void Engine::MouseControl(double xpos, double ypos)
 	{
 		instance->input.MouseMoveAction(xpos, ypos);
+	}
+
+	void Engine::FramebufferResize(int width, int height)
+	{
+		instance->WindowResized(width, height);
 	}
 
 	bool Engine::Initialize(std::string name, int width, int height, char* assemblyName)
@@ -97,6 +110,10 @@ namespace EngineQ
 		}
 	}
 
+	ResourceManager* Engine::GetResourceManager() const
+	{
+		return resourceManager.get();
+	}
 
 
 	void Engine::Run(Scene* scene)
@@ -104,7 +121,7 @@ namespace EngineQ
 		auto& tc{ *TimeCounter::Get()};
 		tc.Update(0, 0);
 
-		Graphics::ForwardRenderer renderer;
+		Graphics::ForwardRenderer renderer(this);
 
 		float time=0,tmp;
 		while (!window.ShouldClose() && running)

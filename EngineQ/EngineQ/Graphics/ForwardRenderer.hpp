@@ -3,6 +3,7 @@
 
 #include "../Scene.hpp"
 #include "Mesh.hpp"
+#include "Framebuffer.hpp"
 
 namespace EngineQ
 {
@@ -12,10 +13,15 @@ namespace EngineQ
 		class ForwardRenderer
 		{
 		private:
+			Framebuffer frm;
+			std::shared_ptr<Shader> quadShader;
+			GLuint quadVao;
 
+
+			void InitScreenQuad();
 		public:
-			ForwardRenderer();
-			~ForwardRenderer();
+			ForwardRenderer(EngineQ::Engine* engine);
+			virtual ~ForwardRenderer();
 
 			void Render(Scene* scene);
 

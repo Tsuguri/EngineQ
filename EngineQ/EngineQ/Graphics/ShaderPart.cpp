@@ -1,4 +1,5 @@
 #include "ShaderPart.hpp"
+#include <iostream>
 
 namespace EngineQ
 {

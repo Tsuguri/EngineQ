@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics\Framebuffer.cpp" />
+    <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
+    <ClCompile Include="Graphics\PostprocessingUnit.cpp" />
+    <ClCompile Include="Graphics\RendererConfiguration.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scripting\API_Application.cpp" />
@@ -67,6 +71,11 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics\Framebuffer.hpp" />
+    <ClInclude Include="Graphics\PostprocessingEffect.hpp" />
+    <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
+    <ClInclude Include="Graphics\PostprocessingUnit.hpp" />
+    <ClInclude Include="Graphics\RendererConfiguration.hpp" />
     <ClInclude Include="InputController.hpp" />
     <ClInclude Include="ResourceManager.hpp" />
     <ClInclude Include="Scripting\API_Application.hpp" />
