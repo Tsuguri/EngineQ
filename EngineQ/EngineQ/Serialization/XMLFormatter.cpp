@@ -1,6 +1,6 @@
 #include "XMLFormatter.hpp"
 
-#include "tinyxml2.h"
+#include "../Libraries/TinyXML/tinyxml2.h"
 
 namespace EngineQ
 {

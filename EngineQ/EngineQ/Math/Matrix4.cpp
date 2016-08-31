@@ -68,11 +68,7 @@ namespace EngineQ
 
 		std::string Matrix4::ToString() const
 		{
-			return "[[" +
-				Utilities::ToString(m00) + "," + Utilities::ToString(m01) + "," + Utilities::ToString(m02) + "," + Utilities::ToString(m03) + "],[" +
-				Utilities::ToString(m10) + "," + Utilities::ToString(m11) + "," + Utilities::ToString(m12) + "," + Utilities::ToString(m13) + "],[" +
-				Utilities::ToString(m20) + "," + Utilities::ToString(m21) + "," + Utilities::ToString(m22) + "," + Utilities::ToString(m23) + "],[" +
-				Utilities::ToString(m30) + "," + Utilities::ToString(m31) + "," + Utilities::ToString(m32) + "," + Utilities::ToString(m33) + "]]";
+			return Utilities::ToString(*this);
 		}
 
 		Real Matrix4::GetDeterminant() const
@@ -724,6 +720,64 @@ namespace EngineQ
 			Matrix4 ret = matrix;
 			ret *= static_cast<Real>(1) / scalar;
 			return ret;
+		}
+
+		std::istream& operator >> (std::istream& stream, Matrix4& matrix)
+		{
+			stream.ignore(2);
+			stream >> matrix.m00;
+			stream.ignore(1);
+			stream >> matrix.m01;
+			stream.ignore(1);
+			stream >> matrix.m02;
+			stream.ignore(1);
+			stream >> matrix.m03;
+			stream.ignore(3);
+			stream >> matrix.m10;
+			stream.ignore(1);
+			stream >> matrix.m11;
+			stream.ignore(1);
+			stream >> matrix.m12;
+			stream.ignore(1);
+			stream >> matrix.m13;
+			stream.ignore(3);
+			stream >> matrix.m20;
+			stream.ignore(1);
+			stream >> matrix.m21;
+			stream.ignore(1);
+			stream >> matrix.m22;
+			stream.ignore(1);
+			stream >> matrix.m23;
+			stream.ignore(3);
+			stream >> matrix.m30;
+			stream.ignore(1);
+			stream >> matrix.m31;
+			stream.ignore(1);
+			stream >> matrix.m32;
+			stream.ignore(1);
+			stream >> matrix.m33;
+			stream.ignore(2);
+
+			return stream;
+		}
+
+		std::istream& operator >>= (std::istream& stream, Matrix4& matrix)
+		{
+			return stream.read(reinterpret_cast<char*>(&matrix.Values), sizeof(matrix.Values));
+		}
+
+		std::ostream& operator << (std::ostream& stream, const Matrix4& matrix)
+		{
+			return stream << "[[" <<
+				matrix.m00 << "," << matrix.m01 << "," << matrix.m02 << "," << matrix.m03 << "],[" <<
+				matrix.m10 << "," << matrix.m11 << "," << matrix.m12 << "," << matrix.m13 << "],[" <<
+				matrix.m20 << "," << matrix.m21 << "," << matrix.m22 << "," << matrix.m23 << "],[" << 
+				matrix.m30 << "," << matrix.m31 << "," << matrix.m32 << "," << matrix.m33 << "]]";
+		}
+
+		std::ostream& operator <<= (std::ostream& stream, const Matrix4& matrix)
+		{
+			return stream.write(reinterpret_cast<const char*>(matrix.Values), sizeof(matrix.Values));
 		}
 
 	#pragma endregion

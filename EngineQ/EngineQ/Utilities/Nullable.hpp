@@ -2,11 +2,24 @@
 #define ENGINEQ_UTILITIES_NULLABLE_HPP
 
 #include <stdexcept>
+#include <type_traits>
 
 namespace EngineQ
 {
 	namespace Utilities
 	{
+		template<typename Type, bool>
+		struct DestructHelper
+		{
+			static void Destruct(Type* ptr);
+		};
+
+		template<typename Type>
+		struct DestructHelper<Type, true>
+		{
+			static void Destruct(Type* ptr);
+		};
+
 		class NullValueException : public std::runtime_error
 		{
 		public:
@@ -17,50 +30,52 @@ namespace EngineQ
 		{
 		};
 
-		template<typename T>
+		template<typename Type>
 		class Nullable
 		{
 		private:
-			char memory[sizeof(T)];
+			char memory[sizeof(Type)];
 			bool exists;
+
+			static void Destruct(Type* ptr);
 
 		public:
 			Nullable();
 
-			Nullable(const T& value);
-			Nullable<T>& operator = (const T& value);
+			Nullable(const Type& value);
+			Nullable<Type>& operator = (const Type& value);
 
-			Nullable(T&& value);
-			Nullable<T>& operator = (T&& value);
+			Nullable(Type&& value);
+			Nullable<Type>& operator = (Type&& value);
 
 			Nullable(nullval_t);
-			Nullable<T>& operator = (nullval_t);
+			Nullable<Type>& operator = (nullval_t);
 
-			Nullable(const Nullable<T>& other);
-			Nullable<T>& operator = (const Nullable<T>& other);
+			Nullable(const Nullable<Type>& other);
+			Nullable<Type>& operator = (const Nullable<Type>& other);
 
-			Nullable(Nullable<T>&& other);
-			Nullable<T>& operator = (Nullable<T>&& other);
+			Nullable(Nullable<Type>&& other);
+			Nullable<Type>& operator = (Nullable<Type>&& other);
 
 			~Nullable();
 
-			T* operator -> ();
-			T& operator *();
+			Type* operator -> ();
+			Type& operator *();
 
 			bool operator == (nullval_t) const;
 			bool operator != (nullval_t) const;
-			bool operator == (const T& other) const;
-			bool operator != (const T& other) const;
+			bool operator == (const Type& other) const;
+			bool operator != (const Type& other) const;
 
-			explicit operator T&() const;
-			explicit operator T&();
+			explicit operator Type&() const;
+			explicit operator Type&();
 		};
 
-		template<typename T, typename ...Args>
-		Nullable<T> MakeNullable(Args&& ...args);
+		template<typename Type, typename ...Args>
+		Nullable<Type> MakeNullable(Args&& ...args);
 
-		template<typename T>
-		Nullable<T> MakeNullableEmpty();
+		template<typename Type>
+		Nullable<Type> MakeNullableEmpty();
 	}
 }
 

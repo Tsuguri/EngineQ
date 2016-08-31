@@ -2,6 +2,9 @@
 
 namespace EngineQ
 {
+	using namespace Math;
+	using namespace Utilities;
+
 	namespace Graphics
 	{
 		void Shader::Create()
@@ -30,6 +33,14 @@ namespace EngineQ
 
 				throw ShaderLinkException{ buffer.get() };
 			}
+		}
+
+		Shader::Shader(const std::vector<ShaderPart>& shaders)
+		{
+			Create();
+			for (const auto& shader : shaders)
+				AttachShader(shader);
+			Link();
 		}
 
 		Shader::Shader(const VertexShader& vertexShader, const FragmentShader& fragmentShader)

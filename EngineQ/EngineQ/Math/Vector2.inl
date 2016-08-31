@@ -5,19 +5,19 @@ namespace EngineQ
 	#pragma region Constructors
 
 		template<typename Type>
-		Vector2t<Type>::Vector2t()
+		Vector2_t<Type>::Vector2_t()
 			: X{ static_cast<Type>(0) }, Y{ static_cast<Type>(0) }
 		{
 		}
 
 		template<typename Type>
-		Vector2t<Type>::Vector2t(Type value)
+		Vector2_t<Type>::Vector2_t(Type value)
 			: X{ value }, Y{ value }
 		{
 		}
 
 		template<typename Type>
-		Vector2t<Type>::Vector2t(Type x, Type y)
+		Vector2_t<Type>::Vector2_t(Type x, Type y)
 			: X{ x }, Y{ y }
 		{
 		}
@@ -27,34 +27,34 @@ namespace EngineQ
 	#pragma region Methods
 
 		template<typename Type>
-		Type Vector2t<Type>::GetSum() const
+		Type Vector2_t<Type>::GetSum() const
 		{
 			return this->X + this->Y;
 		}
 
 		template<typename Type>
-		Real Vector2t<Type>::GetLength() const
+		Real Vector2_t<Type>::GetLength() const
 		{
 			return std::sqrt(static_cast<Real>(this->X * this->X + this->Y * this->Y));
 		}
 
 		template<typename Type>
-		Type Vector2t<Type>::GetLengthSquared() const
+		Type Vector2_t<Type>::GetLengthSquared() const
 		{
 			return this->X * this->X + this->Y * this->Y;
 		}
 
 		template<typename Type>
-		Vector2t<Type> Vector2t<Type>::GetNormalized() const
+		Vector2_t<Type> Vector2_t<Type>::GetNormalized() const
 		{
-			Vector2t ret = *this;
+			Vector2_t ret = *this;
 			ret.Normalize();
 
 			return ret;
 		}
 
 		template<typename Type>
-		void Vector2t<Type>::Normalize()
+		void Vector2_t<Type>::Normalize()
 		{
 			Type length = static_cast<Type>(GetLength());
 
@@ -66,9 +66,9 @@ namespace EngineQ
 		}
 
 		template<typename Type>
-		std::string Vector2t<Type>::ToString() const
+		std::string Vector2_t<Type>::ToString() const
 		{
-			return "[" + Utilities::ToString(this->X) + "," + Utilities::ToString(this->Y) + "]";
+			return Utilities::ToString(*this);
 		}
 
 	#pragma endregion
@@ -76,57 +76,57 @@ namespace EngineQ
 	#pragma region Static Methods
 
 		template<typename Type>
-		Type Vector2t<Type>::DistanceSquared(const Vector2t& vector1, const Vector2t& vector2)
+		Type Vector2_t<Type>::DistanceSquared(const Vector2_t& vector1, const Vector2_t& vector2)
 		{
 			return (vector2 - vector1).GetLengthSquared();
 		}
 
 		template<typename Type>
-		Real Vector2t<Type>::Distance(const Vector2t& vector1, const Vector2t& vector2)
+		Real Vector2_t<Type>::Distance(const Vector2_t& vector1, const Vector2_t& vector2)
 		{
 			return (vector2 - vector1).GetLength();
 		}
 
 		template<typename Type>
-		Type Vector2t<Type>::DotProduct(const Vector2t& vector1, const Vector2t& vector2)
+		Type Vector2_t<Type>::DotProduct(const Vector2_t& vector1, const Vector2_t& vector2)
 		{
 			return vector1.X * vector2.X + vector1.Y * vector2.Y;
 		}
 
 		template<typename Type>
-		Vector2t<Type> Vector2t<Type>::GetZero()
+		Vector2_t<Type> Vector2_t<Type>::GetZero()
 		{
-			return Vector2t{ static_cast<Type>(0), static_cast<Type>(0) };
+			return Vector2_t{ static_cast<Type>(0), static_cast<Type>(0) };
 		}
 
 		template<typename Type>
-		Vector2t<Type> Vector2t<Type>::GetOne()
+		Vector2_t<Type> Vector2_t<Type>::GetOne()
 		{
-			return Vector2t{ static_cast<Type>(1), static_cast<Type>(1) };
+			return Vector2_t{ static_cast<Type>(1), static_cast<Type>(1) };
 		}
 
 		template<typename Type>
-		Vector2t<Type> Vector2t<Type>::GetLeft()
+		Vector2_t<Type> Vector2_t<Type>::GetLeft()
 		{
-			return Vector2t{ static_cast<Type>(-1), static_cast<Type>(0) };
+			return Vector2_t{ static_cast<Type>(-1), static_cast<Type>(0) };
 		}
 
 		template<typename Type>
-		Vector2t<Type> Vector2t<Type>::GetRight()
+		Vector2_t<Type> Vector2_t<Type>::GetRight()
 		{
-			return Vector2t{ static_cast<Type>(1), static_cast<Type>(0) };
+			return Vector2_t{ static_cast<Type>(1), static_cast<Type>(0) };
 		}
 
 		template<typename Type>
-		Vector2t<Type> Vector2t<Type>::GetUp()
+		Vector2_t<Type> Vector2_t<Type>::GetUp()
 		{
-			return Vector2t{ static_cast<Type>(0), static_cast<Type>(1) };
+			return Vector2_t{ static_cast<Type>(0), static_cast<Type>(1) };
 		}
 
 		template<typename Type>
-		Vector2t<Type> Vector2t<Type>::GetDown()
+		Vector2_t<Type> Vector2_t<Type>::GetDown()
 		{
-			return Vector2t{ static_cast<Type>(0), static_cast<Type>(-1) };
+			return Vector2_t{ static_cast<Type>(0), static_cast<Type>(-1) };
 		}
 
 	#pragma endregion
@@ -135,48 +135,48 @@ namespace EngineQ
 
 		template<typename Type>
 		template<typename Type2>
-		Vector2t<Type>::operator Vector2t<Type2>() const
+		Vector2_t<Type>::operator Vector2_t<Type2>() const
 		{
-			return Vector2t<Type2>{ static_cast<Type2>(this->X), static_cast<Type2>(this->Y) };
+			return Vector2_t<Type2>{ static_cast<Type2>(this->X), static_cast<Type2>(this->Y) };
 		}
 
 		template<typename Type>
-		void Vector2t<Type>::operator += (const Vector2t& other)
+		void Vector2_t<Type>::operator += (const Vector2_t& other)
 		{
 			this->X += other.X;
 			this->Y += other.Y;
 		}
 
 		template<typename Type>
-		void Vector2t<Type>::operator -= (const Vector2t& other)
+		void Vector2_t<Type>::operator -= (const Vector2_t& other)
 		{
 			this->X -= other.X;
 			this->Y -= other.Y;
 		}
 
 		template<typename Type>
-		void Vector2t<Type>::operator *= (Type scalar)
+		void Vector2_t<Type>::operator *= (Type scalar)
 		{
 			this->X *= scalar;
 			this->Y *= scalar;
 		}
 
 		template<typename Type>
-		void Vector2t<Type>::operator *= (const Vector2t& other)
+		void Vector2_t<Type>::operator *= (const Vector2_t& other)
 		{
 			this->X *= other.X;
 			this->Y *= other.Y;
 		}
 
 		template<typename Type>
-		void Vector2t<Type>::operator /= (Type scalar)
+		void Vector2_t<Type>::operator /= (Type scalar)
 		{
 			this->X /= scalar;
 			this->Y /= scalar;
 		}
 
 		template<typename Type>
-		void Vector2t<Type>::operator /= (const Vector2t& other)
+		void Vector2_t<Type>::operator /= (const Vector2_t& other)
 		{
 			this->X /= other.X;
 			this->Y /= other.Y;
@@ -187,69 +187,99 @@ namespace EngineQ
 	#pragma region Static Operators
 
 		template<typename Type>
-		Vector2t<Type> operator -(const Vector2t<Type>& vector)
+		Vector2_t<Type> operator -(const Vector2_t<Type>& vector)
 		{
-			return Vector2t<Type>{ -vector.X, -vector.Y };
+			return Vector2_t<Type>{ -vector.X, -vector.Y };
 		}
 
 		template<typename Type>
-		Vector2t<Type> operator +(const Vector2t<Type>& vector)
+		Vector2_t<Type> operator +(const Vector2_t<Type>& vector)
 		{
 			return vector;
 		}
 
 		template<typename Type>
-		Vector2t<Type> operator +(const Vector2t<Type>& vector1, const Vector2t<Type>& vector2)
+		Vector2_t<Type> operator +(const Vector2_t<Type>& vector1, const Vector2_t<Type>& vector2)
 		{
-			return Vector2t<Type>{ vector1.X + vector2.X, vector1.Y + vector2.Y };
+			return Vector2_t<Type>{ vector1.X + vector2.X, vector1.Y + vector2.Y };
 		}
 
 		template<typename Type>
-		Vector2t<Type> operator -(const Vector2t<Type>& vector1, const Vector2t<Type>& vector2)
+		Vector2_t<Type> operator -(const Vector2_t<Type>& vector1, const Vector2_t<Type>& vector2)
 		{
-			return Vector2t<Type>{ vector1.X - vector2.X, vector1.Y - vector2.Y };
+			return Vector2_t<Type>{ vector1.X - vector2.X, vector1.Y - vector2.Y };
 		}
 
 		template<typename Type>
-		Vector2t<Type> operator *(const Vector2t<Type>& vector, Type scalar)
+		Vector2_t<Type> operator *(const Vector2_t<Type>& vector, Type scalar)
 		{
-			return Vector2t<Type>{ vector.X * scalar, vector.Y * scalar };
+			return Vector2_t<Type>{ vector.X * scalar, vector.Y * scalar };
 		}
 
 		template<typename Type>
-		Vector2t<Type> operator *(Type scalar, const Vector2t<Type>& vector)
+		Vector2_t<Type> operator *(Type scalar, const Vector2_t<Type>& vector)
 		{
-			return Vector2t<Type>{ scalar * vector.X, scalar * vector.Y };
+			return Vector2_t<Type>{ scalar * vector.X, scalar * vector.Y };
 		}
 
 		template<typename Type>
-		Vector2t<Type> operator *(const Vector2t<Type>& vector1, const Vector2t<Type>& vector2)
+		Vector2_t<Type> operator *(const Vector2_t<Type>& vector1, const Vector2_t<Type>& vector2)
 		{
-			return Vector2t<Type>{ vector1.X * vector2.X, vector1.Y * vector2.Y };
+			return Vector2_t<Type>{ vector1.X * vector2.X, vector1.Y * vector2.Y };
 		}
 
 		template<typename Type>
-		Vector2t<Type> operator /(const Vector2t<Type>& vector, Type scalar)
+		Vector2_t<Type> operator /(const Vector2_t<Type>& vector, Type scalar)
 		{
-			return Vector2t<Type>{ vector.X / scalar, vector.Y / scalar };
+			return Vector2_t<Type>{ vector.X / scalar, vector.Y / scalar };
 		}
 
 		template<typename Type>
-		Vector2t<Type> operator /(const Vector2t<Type>& vector1, const Vector2t<Type>& vector2)
+		Vector2_t<Type> operator /(const Vector2_t<Type>& vector1, const Vector2_t<Type>& vector2)
 		{
-			return Vector2t<Type>{ vector1.X / vector2.X, vector1.Y / vector2.Y };
+			return Vector2_t<Type>{ vector1.X / vector2.X, vector1.Y / vector2.Y };
 		}
 
 		template<typename Type>
-		bool operator ==(const Vector2t<Type>& vector1, const Vector2t<Type>& vector2)
+		bool operator ==(const Vector2_t<Type>& vector1, const Vector2_t<Type>& vector2)
 		{
 			return (vector1.X == vector2.X && vector1.Y == vector2.Y);
 		}
 
 		template<typename Type>
-		bool operator !=(const Vector2t<Type>& vector1, const Vector2t<Type>& vector2)
+		bool operator !=(const Vector2_t<Type>& vector1, const Vector2_t<Type>& vector2)
 		{
 			return (vector1.X != vector2.X || vector1.Y != vector2.Y);
+		}
+		
+		template<typename Type>
+		std::istream& operator >> (std::istream& stream, Vector2_t<Type>& vector)
+		{
+			stream.ignore(1);
+			stream >> vector.X;
+			stream.ignore(1);
+			stream >> vector.Y;
+			stream.ignore(1);
+
+			return stream;
+		}
+
+		template<typename Type>
+		std::istream& operator >>= (std::istream& stream, Vector2_t<Type>& vector)
+		{
+			return stream.read(reinterpret_cast<char*>(&vector.Values), sizeof(vector.Values));
+		}
+
+		template<typename Type>
+		std::ostream& operator << (std::ostream& stream, const Vector2_t<Type>& vector)
+		{
+			return stream << "[" << vector.X << "," << vector.Y << "]";
+		}
+
+		template<typename Type>
+		std::ostream& operator <<= (std::ostream& stream, const Vector2_t<Type>& vector)
+		{
+			return stream.write(reinterpret_cast<const char*>(&vector.Values), sizeof(vector.Values));
 		}
 
 	#pragma endregion

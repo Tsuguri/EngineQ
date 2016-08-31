@@ -81,6 +81,12 @@ namespace EngineQ
 		bool operator ==(const Quaternion& q1, const Quaternion& q2);
 		bool operator !=(const Quaternion& q1, const Quaternion& q2);
 
+		std::istream& operator >> (std::istream& stream, Quaternion& quaternion);
+		std::istream& operator >>= (std::istream& stream, Quaternion& quaternion);
+
+		std::ostream& operator << (std::ostream& stream, const Quaternion& quaternion);
+		std::ostream& operator <<= (std::ostream& stream, const Quaternion& quaternion);
+
 	#pragma endregion
 	}
 }

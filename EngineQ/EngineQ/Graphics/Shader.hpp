@@ -2,11 +2,11 @@
 #define ENGINEQ_GRAPHICS_SHADER_HPP
 
 #include <memory>
-#include <initializer_list>
+#include <vector>
 
-#include "GL/glew.h"
+#include "../Libraries/GL/glew.h"
 
-#include "../Utilities/Uncopyable.hpp"
+#include "../Utilities/Immovable.hpp"
 #include "../Utilities/Nullable.hpp"
 #include "ShaderPart.hpp"
 #include "UniformLocation.hpp"
@@ -22,10 +22,7 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		using namespace ::EngineQ::Math;
-		using namespace ::EngineQ::Utilities;
-
-		class Shader : public Uncopyable
+		class Shader : public Utilities::Immovable
 		{
 		private:
 			GLuint programId;
@@ -35,25 +32,26 @@ namespace EngineQ
 			void Link();
 
 		public:
-			Shader::Shader(const VertexShader& vertexShader, const FragmentShader& fragmentShader);
-			Shader::Shader(const VertexShader& vertexShader, const GeometryShader& geometryShader, const FragmentShader& fragmentShader);
-			Shader::Shader(const ComputeShader& computeShader);
+			Shader(const std::vector<ShaderPart>& shaders);
+			Shader(const VertexShader& vertexShader, const FragmentShader& fragmentShader);
+			Shader(const VertexShader& vertexShader, const GeometryShader& geometryShader, const FragmentShader& fragmentShader);
+			Shader(const ComputeShader& computeShader);
 
 			~Shader();
 
 			void Activate();
 
 			UniformLocation GetUniformLocation(std::string name);
-			Nullable<UniformLocation> TryGetUniformLocation(std::string name);
+			Utilities::Nullable<UniformLocation> TryGetUniformLocation(std::string name);
 
 			void Bind(UniformLocation location, int value);
 			void Bind(UniformLocation location, float value);
 			void Bind(UniformLocation location, double value);
-			void Bind(UniformLocation location, Vector2 value);
-			void Bind(UniformLocation location, Vector3 value);
-			void Bind(UniformLocation location, Vector4 value);
-			void Bind(UniformLocation location, Matrix3 value);
-			void Bind(UniformLocation location, Matrix4 value);
+			void Bind(UniformLocation location, Math::Vector2 value);
+			void Bind(UniformLocation location, Math::Vector3 value);
+			void Bind(UniformLocation location, Math::Vector4 value);
+			void Bind(UniformLocation location, Math::Matrix3 value);
+			void Bind(UniformLocation location, Math::Matrix4 value);
 		};
 	}
 }

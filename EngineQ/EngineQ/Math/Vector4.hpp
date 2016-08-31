@@ -12,7 +12,7 @@ namespace EngineQ
 	namespace Math
 	{
 		template<typename Type>
-		struct Vector4t
+		struct Vector4_t
 		{
 		#pragma region Fields
 
@@ -41,15 +41,15 @@ namespace EngineQ
 
 		#pragma region Constructors
 
-			explicit Vector4t();
+			explicit Vector4_t();
 
-			explicit Vector4t(Type value);
+			explicit Vector4_t(Type value);
 
-			explicit Vector4t(Type x, Type y, Type z, Type w);
+			explicit Vector4_t(Type x, Type y, Type z, Type w);
 
-			explicit Vector4t(const Vector2t<Type>& vector, Type z, Type w);
+			explicit Vector4_t(const Vector2_t<Type>& vector, Type z, Type w);
 
-			explicit Vector4t(const Vector3t<Type>& vector, Type w);
+			explicit Vector4_t(const Vector3_t<Type>& vector, Type w);
 
 		#pragma endregion
 
@@ -61,7 +61,7 @@ namespace EngineQ
 
 			Type GetLengthSquared() const;
 
-			Vector4t GetNormalized() const;
+			Vector4_t GetNormalized() const;
 
 			void Normalize();
 
@@ -71,36 +71,36 @@ namespace EngineQ
 
 		#pragma region Static Methods
 
-			static Type DistanceSquared(const Vector4t& vector1, const Vector4t& vector2);
+			static Type DistanceSquared(const Vector4_t& vector1, const Vector4_t& vector2);
 
-			static Real Distance(const Vector4t& vector1, const Vector4t& vector2);
+			static Real Distance(const Vector4_t& vector1, const Vector4_t& vector2);
 
-			static Vector4t GetZero();
+			static Vector4_t GetZero();
 
-			static Vector4t GetOne();
+			static Vector4_t GetOne();
 
 		#pragma endregion
 
 		#pragma region Operators
 
-			explicit operator Vector2t<Type>() const;
+			explicit operator Vector2_t<Type>() const;
 
-			explicit operator Vector3t<Type>() const;
+			explicit operator Vector3_t<Type>() const;
 
 			template<typename Type2>
-			explicit operator Vector4t<Type2>() const;
+			explicit operator Vector4_t<Type2>() const;
 
-			void operator += (const Vector4t& other);
+			void operator += (const Vector4_t& other);
 
-			void operator -= (const Vector4t& other);
+			void operator -= (const Vector4_t& other);
 
 			void operator *= (Type scalar);
 
-			void operator *= (const Vector4t& other);
+			void operator *= (const Vector4_t& other);
 
 			void operator /= (Type scalar);
 
-			void operator /= (const Vector4t& other);
+			void operator /= (const Vector4_t& other);
 
 		#pragma endregion
 		};
@@ -109,47 +109,59 @@ namespace EngineQ
 
 	//	template<typename Type, typename std::enable_if<std::is_unsigned<Type>::value>::type* = nullptr>
 		template<typename Type>
-		Vector4t<Type> operator -(const Vector4t<Type>& vector);
+		Vector4_t<Type> operator -(const Vector4_t<Type>& vector);
 
 		template<typename Type>
-		Vector4t<Type> operator +(const Vector4t<Type>& vector);
+		Vector4_t<Type> operator +(const Vector4_t<Type>& vector);
 
 		template<typename Type>
-		Vector4t<Type> operator +(const Vector4t<Type>& vector1, const Vector4t<Type>& vector2);
+		Vector4_t<Type> operator +(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2);
 
 		template<typename Type>
-		Vector4t<Type> operator -(const Vector4t<Type>& vector1, const Vector4t<Type>& vector2);
+		Vector4_t<Type> operator -(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2);
 
 		template<typename Type>
-		Vector4t<Type> operator *(const Vector4t<Type>& vector, Type scalar);
+		Vector4_t<Type> operator *(const Vector4_t<Type>& vector, Type scalar);
 
 		template<typename Type>
-		Vector4t<Type> operator *(Type scalar, const Vector4t<Type>& vector);
+		Vector4_t<Type> operator *(Type scalar, const Vector4_t<Type>& vector);
 
 		template<typename Type>
-		Vector4t<Type> operator *(const Vector4t<Type>& vector1, const Vector4t<Type>& vector2);
+		Vector4_t<Type> operator *(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2);
 
 		template<typename Type>
-		Vector4t<Type> operator /(const Vector4t<Type>& vector, Type scalar);
+		Vector4_t<Type> operator /(const Vector4_t<Type>& vector, Type scalar);
 
 		template<typename Type>
-		Vector4t<Type> operator /(const Vector4t<Type>& vector1, const Vector4t<Type>& vector2);
+		Vector4_t<Type> operator /(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2);
 
 		template<typename Type>
-		bool operator ==(const Vector4t<Type>& vector1, const Vector4t<Type>& vector2);
+		bool operator ==(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2);
 
 		template<typename Type>
-		bool operator !=(const Vector4t<Type>& vector1, const Vector4t<Type>& vector2);
+		bool operator !=(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2);
+
+		template<typename Type>
+		std::istream& operator >> (std::istream& stream, Vector4_t<Type>& vector);
+
+		template<typename Type>
+		std::istream& operator >>= (std::istream& stream, Vector4_t<Type>& vector);
+
+		template<typename Type>
+		std::ostream& operator << (std::ostream& stream, const Vector4_t<Type>& vector);
+
+		template<typename Type>
+		std::ostream& operator <<= (std::ostream& stream, const Vector4_t<Type>& vector);
 
 	#pragma endregion
 
 	#pragma region Typedefs
 
-		using Vector4i = Vector4t<int>;
-		using Vector4f = Vector4t<float>;
-		using Vector4d = Vector4t<double>;
+		using Vector4i = Vector4_t<int>;
+		using Vector4f = Vector4_t<float>;
+		using Vector4d = Vector4_t<double>;
 
-		using Vector4 = Vector4t<Real>;
+		using Vector4 = Vector4_t<Real>;
 
 	#pragma endregion
 	}
@@ -164,95 +176,95 @@ namespace EngineQ
 	namespace Math
 	{
 	#ifdef ENGINEQ_MATH_VECTOR4_INSTANTIATE
-		template struct Vector4t<int>;
-	//	template Vector4t<int>::operator Vector4t<float>() const;
-	//	template Vector4t<int>::operator Vector4t<double>();
-		template Vector4t<int> operator -(const Vector4t<int>& vector);
-		template Vector4t<int> operator +(const Vector4t<int>& vector);
-		template Vector4t<int> operator +(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
-		template Vector4t<int> operator -(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
-		template Vector4t<int> operator *(const Vector4t<int>& vector, const int scalar);
-		template Vector4t<int> operator *(const int scalar, const Vector4t<int>& vector);
-		template Vector4t<int> operator *(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
-		template Vector4t<int> operator /(const Vector4t<int>& vector, const int scalar);
-		template Vector4t<int> operator /(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
-		template bool operator ==(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
-		template bool operator !=(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
+		template struct Vector4_t<int>;
+	//	template Vector4_t<int>::operator Vector4_t<float>() const;
+	//	template Vector4_t<int>::operator Vector4_t<double>();
+		template Vector4_t<int> operator -(const Vector4_t<int>& vector);
+		template Vector4_t<int> operator +(const Vector4_t<int>& vector);
+		template Vector4_t<int> operator +(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
+		template Vector4_t<int> operator -(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
+		template Vector4_t<int> operator *(const Vector4_t<int>& vector, const int scalar);
+		template Vector4_t<int> operator *(const int scalar, const Vector4_t<int>& vector);
+		template Vector4_t<int> operator *(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
+		template Vector4_t<int> operator /(const Vector4_t<int>& vector, const int scalar);
+		template Vector4_t<int> operator /(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
+		template bool operator ==(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
+		template bool operator !=(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
 		
-		template struct Vector4t<float>;
-	//	template Vector4t<float>::operator Vector4t<int>() const;
-	//	template Vector4t<float>::operator Vector4t<double>() const;
-		template Vector4t<float> operator -(const Vector4t<float>& vector);
-		template Vector4t<float> operator +(const Vector4t<float>& vector);
-		template Vector4t<float> operator +(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
-		template Vector4t<float> operator -(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
-		template Vector4t<float> operator *(const Vector4t<float>& vector, const float scalar);
-		template Vector4t<float> operator *(const float scalar, const Vector4t<float>& vector);
-		template Vector4t<float> operator *(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
-		template Vector4t<float> operator /(const Vector4t<float>& vector, const float scalar);
-		template Vector4t<float> operator /(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
-		template bool operator ==(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
-		template bool operator !=(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
+		template struct Vector4_t<float>;
+	//	template Vector4_t<float>::operator Vector4_t<int>() const;
+	//	template Vector4_t<float>::operator Vector4_t<double>() const;
+		template Vector4_t<float> operator -(const Vector4_t<float>& vector);
+		template Vector4_t<float> operator +(const Vector4_t<float>& vector);
+		template Vector4_t<float> operator +(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
+		template Vector4_t<float> operator -(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
+		template Vector4_t<float> operator *(const Vector4_t<float>& vector, const float scalar);
+		template Vector4_t<float> operator *(const float scalar, const Vector4_t<float>& vector);
+		template Vector4_t<float> operator *(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
+		template Vector4_t<float> operator /(const Vector4_t<float>& vector, const float scalar);
+		template Vector4_t<float> operator /(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
+		template bool operator ==(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
+		template bool operator !=(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
 
-		template struct Vector4t<double>;
-	//	template Vector4t<double>::operator Vector4t<int>() const;
-	//	template Vector4t<double>::operator Vector4t<float>() const;
-		template Vector4t<double> operator -(const Vector4t<double>& vector);
-		template Vector4t<double> operator +(const Vector4t<double>& vector);
-		template Vector4t<double> operator +(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
-		template Vector4t<double> operator -(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
-		template Vector4t<double> operator *(const Vector4t<double>& vector, const double scalar);
-		template Vector4t<double> operator *(const double scalar, const Vector4t<double>& vector);
-		template Vector4t<double> operator *(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
-		template Vector4t<double> operator /(const Vector4t<double>& vector, const double scalar);
-		template Vector4t<double> operator /(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
-		template bool operator ==(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
-		template bool operator !=(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
+		template struct Vector4_t<double>;
+	//	template Vector4_t<double>::operator Vector4_t<int>() const;
+	//	template Vector4_t<double>::operator Vector4_t<float>() const;
+		template Vector4_t<double> operator -(const Vector4_t<double>& vector);
+		template Vector4_t<double> operator +(const Vector4_t<double>& vector);
+		template Vector4_t<double> operator +(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
+		template Vector4_t<double> operator -(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
+		template Vector4_t<double> operator *(const Vector4_t<double>& vector, const double scalar);
+		template Vector4_t<double> operator *(const double scalar, const Vector4_t<double>& vector);
+		template Vector4_t<double> operator *(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
+		template Vector4_t<double> operator /(const Vector4_t<double>& vector, const double scalar);
+		template Vector4_t<double> operator /(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
+		template bool operator ==(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
+		template bool operator !=(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
 	#else
-		extern template struct Vector4t<int>;
-		//	extern template Vector4t<int>::operator Vector4t<float>() const;
-		//	extern template Vector4t<int>::operator Vector4t<double>();
-		extern template Vector4t<int> operator -(const Vector4t<int>& vector);
-		extern template Vector4t<int> operator +(const Vector4t<int>& vector);
-		extern template Vector4t<int> operator +(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
-		extern template Vector4t<int> operator -(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
-		extern template Vector4t<int> operator *(const Vector4t<int>& vector, const int scalar);
-		extern template Vector4t<int> operator *(const int scalar, const Vector4t<int>& vector);
-		extern template Vector4t<int> operator *(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
-		extern template Vector4t<int> operator /(const Vector4t<int>& vector, const int scalar);
-		extern template Vector4t<int> operator /(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
-		extern template bool operator ==(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
-		extern template bool operator !=(const Vector4t<int>& vector1, const Vector4t<int>& vector2);
+		extern template struct Vector4_t<int>;
+		//	extern template Vector4_t<int>::operator Vector4_t<float>() const;
+		//	extern template Vector4_t<int>::operator Vector4_t<double>();
+		extern template Vector4_t<int> operator -(const Vector4_t<int>& vector);
+		extern template Vector4_t<int> operator +(const Vector4_t<int>& vector);
+		extern template Vector4_t<int> operator +(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
+		extern template Vector4_t<int> operator -(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
+		extern template Vector4_t<int> operator *(const Vector4_t<int>& vector, const int scalar);
+		extern template Vector4_t<int> operator *(const int scalar, const Vector4_t<int>& vector);
+		extern template Vector4_t<int> operator *(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
+		extern template Vector4_t<int> operator /(const Vector4_t<int>& vector, const int scalar);
+		extern template Vector4_t<int> operator /(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
+		extern template bool operator ==(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
+		extern template bool operator !=(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
 
-		extern template struct Vector4t<float>;
-		//	extern template Vector4t<float>::operator Vector4t<int>() const;
-		//	extern template Vector4t<float>::operator Vector4t<double>() const;
-		extern template Vector4t<float> operator -(const Vector4t<float>& vector);
-		extern template Vector4t<float> operator +(const Vector4t<float>& vector);
-		extern template Vector4t<float> operator +(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
-		extern template Vector4t<float> operator -(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
-		extern template Vector4t<float> operator *(const Vector4t<float>& vector, const float scalar);
-		extern template Vector4t<float> operator *(const float scalar, const Vector4t<float>& vector);
-		extern template Vector4t<float> operator *(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
-		extern template Vector4t<float> operator /(const Vector4t<float>& vector, const float scalar);
-		extern template Vector4t<float> operator /(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
-		extern template bool operator ==(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
-		extern template bool operator !=(const Vector4t<float>& vector1, const Vector4t<float>& vector2);
+		extern template struct Vector4_t<float>;
+		//	extern template Vector4_t<float>::operator Vector4_t<int>() const;
+		//	extern template Vector4_t<float>::operator Vector4_t<double>() const;
+		extern template Vector4_t<float> operator -(const Vector4_t<float>& vector);
+		extern template Vector4_t<float> operator +(const Vector4_t<float>& vector);
+		extern template Vector4_t<float> operator +(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
+		extern template Vector4_t<float> operator -(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
+		extern template Vector4_t<float> operator *(const Vector4_t<float>& vector, const float scalar);
+		extern template Vector4_t<float> operator *(const float scalar, const Vector4_t<float>& vector);
+		extern template Vector4_t<float> operator *(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
+		extern template Vector4_t<float> operator /(const Vector4_t<float>& vector, const float scalar);
+		extern template Vector4_t<float> operator /(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
+		extern template bool operator ==(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
+		extern template bool operator !=(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
 
-		extern template struct Vector4t<double>;
-		//	extern template Vector4t<double>::operator Vector4t<int>() const;
-		//	extern template Vector4t<double>::operator Vector4t<float>() const;
-		extern template Vector4t<double> operator -(const Vector4t<double>& vector);
-		extern template Vector4t<double> operator +(const Vector4t<double>& vector);
-		extern template Vector4t<double> operator +(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
-		extern template Vector4t<double> operator -(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
-		extern template Vector4t<double> operator *(const Vector4t<double>& vector, const double scalar);
-		extern template Vector4t<double> operator *(const double scalar, const Vector4t<double>& vector);
-		extern template Vector4t<double> operator *(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
-		extern template Vector4t<double> operator /(const Vector4t<double>& vector, const double scalar);
-		extern template Vector4t<double> operator /(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
-		extern template bool operator ==(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
-		extern template bool operator !=(const Vector4t<double>& vector1, const Vector4t<double>& vector2);
+		extern template struct Vector4_t<double>;
+		//	extern template Vector4_t<double>::operator Vector4_t<int>() const;
+		//	extern template Vector4_t<double>::operator Vector4_t<float>() const;
+		extern template Vector4_t<double> operator -(const Vector4_t<double>& vector);
+		extern template Vector4_t<double> operator +(const Vector4_t<double>& vector);
+		extern template Vector4_t<double> operator +(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
+		extern template Vector4_t<double> operator -(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
+		extern template Vector4_t<double> operator *(const Vector4_t<double>& vector, const double scalar);
+		extern template Vector4_t<double> operator *(const double scalar, const Vector4_t<double>& vector);
+		extern template Vector4_t<double> operator *(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
+		extern template Vector4_t<double> operator /(const Vector4_t<double>& vector, const double scalar);
+		extern template Vector4_t<double> operator /(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
+		extern template bool operator ==(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
+		extern template bool operator !=(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
 	#endif
 	}
 }

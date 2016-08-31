@@ -39,8 +39,8 @@ namespace QScripts
 		{
 			base.Update();
 
-			X += 1;
-			Y += 1;
+			X += 30 * Time.DeltaTime;
+			Y += 30 * Time.DeltaTime;
 			CheckAngles();
 			switch (mode)
 			{
