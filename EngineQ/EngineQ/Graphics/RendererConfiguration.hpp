@@ -15,9 +15,11 @@ namespace EngineQ
 			GLuint Format = GL_RGB;
 			GLuint DataType = GL_FLOAT;
 		};
+
 		class FramebufferConfiguration
 		{
 		public:
+			FramebufferConfiguration();
 			FramebufferConfiguration(std::string name, bool depthTesting, std::vector<TextureConfiguration> textures);
 			std::string Name;
 			bool DepthTesting=false;

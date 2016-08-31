@@ -67,7 +67,6 @@ void PrepareScene(EngineQ::Scene* scene)
 {
 	auto& sc{ *scene };
 
-	::EngineQ::Graphics::Shader* tempShader = new ::EngineQ::Graphics::Shader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
 
 	auto mesh = GenerateCube(0.2f);
 
@@ -76,7 +75,7 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto renderable = ent2->AddComponent<EngineQ::Graphics::Renderable>();
 	auto cam = ent->AddComponent<EngineQ::Camera>();
 	renderable->SetModel(mesh);
-	renderable->SetForwardShader(tempShader);
+	renderable->SetForwardShader(EngineQ::Engine::Get()->GetResourceManager()->GetResource<EngineQ::Graphics::Shader>(std::string("basic")));
 
 	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
 
@@ -90,91 +89,22 @@ void PrepareScene(EngineQ::Scene* scene)
 	sc.ActiveCamera(cam);
 }
 
-#include "Utilities\Property.hpp"
-
-
-class PropTest
+void TemporaryResources(EngineQ::Engine* engine)
 {
-	Math::Vector3 field{ 1, 2, 3 };
-
-	Math::Vector3 GetField()
-	{
-		return this->field;
-	}
-
-	void SetField(const Math::Vector3& field)
-	{
-		this->field = field;
-	}
-
-	static Math::Vector3 GetField2()
-	{
-		return Math::Vector3{ 153, 226, 389 };
-	}
-
-public:
-	PropTest() :
-		Field{ *this }
-	{
-
-	}
-
-	Property<Math::Vector3, decltype(&GetField), &GetField, decltype(&SetField), &SetField> Field;
-
-	static Property<Math::Vector3, decltype(&GetField2), &GetField2> Field2;
-};
-Property<Math::Vector3, decltype(&PropTest::GetField2), &PropTest::GetField2> PropTest::Field2;
-
-void TestConfiguration()
-{
-	EngineQ::Graphics::RendererConfiguration conf;
-
-	for (int i = 0; i < 4; i++)
-	{
-		EngineQ::Graphics::FramebufferConfiguration frm;
-		frm.Name = "frm" + std::to_string(i);
-		frm.DepthTesting = false;
-
-		for (int i = 0; i < 3; i++)
-		{
-			frm.Textures.push_back(EngineQ::Graphics::TextureConfiguration{});
-		}
-	conf.Framebuffers.push_back(frm);
-	}
-	conf.DeferredEnabled = true;
-	conf.DeferredShaderName = "defShader";
-
-	EngineQ::Graphics::EffectConfiguration efc;
-
-	efc.ClassName = "TurboNamespace.TurboClass";
-	efc.ShaderName = "Shaders/superKernel.shd";
-	efc.Input.push_back(EngineQ::Graphics::InputPair(0, 2, "frm2"));
-	efc.Input.push_back(EngineQ::Graphics::InputPair(1, 3, "frm1"));
-
-
-
-
-
-
-	EngineQ::Graphics::RenderingUnit{ &conf };
+	::EngineQ::Graphics::Shader* tempShader = new ::EngineQ::Graphics::Shader{ "Shaders/BasicVertex.vsh","Shaders/BasicFragment.fsh" };
+	auto rm = EngineQ::Engine::Get()->GetResourceManager();
+	rm->AddResource("basic", tempShader);
 }
 
 
 int main(int argc, char** argv)
 {
-	TestConfiguration();
-	PropTest test;
-	Math::Vector3 temporary = test.Field;
-	int x = test.Field().X;
-	int y = test.Field().Y;
-	int z = test.Field().Z;
-	std::cout << x << " " << y << " " << z << std::endl;
-	std::cout << test.Field().ToString() << std::endl;
-
-	Math::Vector3 tmpVec = PropTest::Field2;
-	std::cout << "Temp vec: " << tmpVec.ToString() << std::endl;
-
+	
 	EngineQ::Engine::Initialize("Turbo giera", 800, 600, argv[0]);
+	TemporaryResources(EngineQ::Engine::Get());
+
+
+
 
 	auto sc = EngineQ::Engine::Get()->CreateScene();
 	PrepareScene(sc);

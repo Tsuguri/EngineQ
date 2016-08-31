@@ -1,0 +1,9 @@
+#ifndef ENGINEQ_RESOURCE_EXCEPTIONS_HPP
+#define ENGINEQ_RESOURCE_EXCEPTIONS_HPP
+
+namespace EngineQ
+{
+	
+}
+
+#endif

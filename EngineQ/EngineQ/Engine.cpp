@@ -31,6 +31,8 @@ namespace EngineQ
 
 		// Define the viewport dimensions
 		glViewport(0, 0, width, height);
+
+		resourceManager = std::make_unique<ResourceManager>();
 	}
 
 	void Engine::WindowResized(int width, int height)
@@ -108,6 +110,10 @@ namespace EngineQ
 		}
 	}
 
+	ResourceManager* Engine::GetResourceManager() const
+	{
+		return resourceManager.get();
+	}
 
 
 	void Engine::Run(Scene* scene)

@@ -171,6 +171,9 @@
     <ClCompile Include="Graphics\RendererConfiguration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Matrix3.hpp">
@@ -348,6 +351,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\PostprocessingExceptions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceExceptions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

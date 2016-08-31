@@ -24,6 +24,7 @@
     <ClCompile Include="Graphics\PostprocessingUnit.cpp" />
     <ClCompile Include="Graphics\RendererConfiguration.cpp" />
     <ClCompile Include="InputController.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scripting\API_Application.cpp" />
     <ClCompile Include="Scripting\API_Input.cpp" />
     <ClCompile Include="Scripting\API_TimeCounter.cpp" />
@@ -77,6 +78,8 @@
     <ClInclude Include="Graphics\PostprocessingUnit.hpp" />
     <ClInclude Include="Graphics\RendererConfiguration.hpp" />
     <ClInclude Include="InputController.hpp" />
+    <ClInclude Include="ResourceExceptions.hpp" />
+    <ClInclude Include="ResourceManager.hpp" />
     <ClInclude Include="Scripting\API_Application.hpp" />
     <ClInclude Include="Scripting\API_Input.hpp" />
     <ClInclude Include="Scripting\API_TimeCounter.hpp" />
