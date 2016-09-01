@@ -79,7 +79,7 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto renderable2 = ent3->AddComponent<EngineQ::Graphics::Renderable>();
 
 	auto cam = ent->AddComponent<EngineQ::Camera>();
-	auto shd = EngineQ::Engine::Get()->GetResourceManager()->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader).get();
+	auto shd = EngineQ::Engine::Get()->GetResourceManager()->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader);
 	renderable->SetModel(mesh);
 	renderable->SetForwardShader(shd);
 	renderable2->SetModel(mesh);

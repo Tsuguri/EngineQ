@@ -28,12 +28,13 @@ namespace EngineQ
 			EventHandler<void(int, int)> handler;
 
 
-			void CreateTexture(int location, TextureConfiguration);
+			void CreateTexture(int location, TextureConfiguration configuration);
 			void DeleteTexture(int location);
 			void ResetTextures();
 
+			void CreateDepthTesting();
 
-			void Init();
+			void Init(FramebufferConfiguration* configuration);
 		public:
 			Framebuffer();
 			Framebuffer(EngineQ::Graphics::FramebufferConfiguration* configuration);
@@ -48,7 +49,7 @@ namespace EngineQ
 			void AddDepthTesting();
 			void AddColorAttachment(GLint format = GL_RGB);
 			void Resize(int width, int height);
-			GLuint GetColorTexture();
+			GLuint GetColorTexture(int location);
 		};
 
 	}

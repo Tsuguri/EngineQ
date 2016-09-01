@@ -39,12 +39,16 @@ namespace EngineQ
 			glEnable(GL_DEPTH_TEST);
 			glFrontFace(GL_CCW);
 			glPolygonMode(GL_FRONT, GL_FILL);
-			glPolygonMode(GL_BACK, GL_FILL);
-			glCullFace(GL_BACK);
-			glEnable(GL_CULL_FACE);
+			glPolygonMode(GL_BACK, GL_LINE);
+		//	glCullFace(GL_BACK);
+			//glEnable(GL_CULL_FACE);
+			//frm.AddColorAttachment();
+			//frm.AddDepthTesting();
+			glClearDepth(0);
+			glDepthFunc(GL_GREATER);
 
-			frm.AddColorAttachment();
-			frm.AddDepthTesting();
+
+
 			if (!frm.Ready())
 				std::cout << "framebuffer is still not complete!" << std::endl;
 			Framebuffer::BindDefault();
@@ -62,11 +66,11 @@ namespace EngineQ
 		void ForwardRenderer::Render(Scene* scene)
 		{
 
-			frm.Bind();
+			//frm.Bind();
 
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glEnable(GL_DEPTH_TEST);
+			//glEnable(GL_DEPTH_TEST);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT	);
 			Mesh* mesh;
 			Shader* shd;
 			auto cam = scene->ActiveCamera();
@@ -99,17 +103,17 @@ namespace EngineQ
 				glDrawElements(GL_TRIANGLES, mesh->Count(), GL_UNSIGNED_INT, nullptr);
 			}
 
-			Framebuffer::BindDefault();
+			//Framebuffer::BindDefault();
 
-			glClear(GL_COLOR_BUFFER_BIT);
-			glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
-			glDisable(GL_DEPTH_TEST);
+			//glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+			//glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
+			//glDisable(GL_DEPTH_TEST);
 
-			quadShader->Activate();
-			glBindVertexArray(quadVao);
-			glBindTexture(GL_TEXTURE_2D, frm.GetColorTexture());
-			glDrawArrays(GL_TRIANGLES, 0, 6);
-			glBindVertexArray(0);
+			//quadShader->Activate();
+			//glBindVertexArray(quadVao);
+			//glBindTexture(GL_TEXTURE_2D, frm.GetColorTexture(0));
+			//glDrawArrays(GL_TRIANGLES, 0, 6);
+			//glBindVertexArray(0);
 
 		}
 	}

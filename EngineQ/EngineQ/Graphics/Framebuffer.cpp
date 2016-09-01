@@ -5,11 +5,24 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
+		void Framebuffer::CreateTexture(int location, TextureConfiguration configuration)
+		{
+			glGenTextures(1, &textures[location]);
+			glBindTexture(GL_TEXTURE_2D, textures[location]);
+			auto size = Engine::Get()->GetScreenSize();
+			glTexImage2D(GL_TEXTURE_2D, 0, configuration.Format, size.X, size.Y, 0, configuration.Format, configuration.DataType, nullptr);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0+location, GL_TEXTURE_2D, textures[location], 0);
+		}
+
 		void Framebuffer::CreateDepthTesting()
 		{
 			glGenRenderbuffers(1, &depthRbo);
 			glBindRenderbuffer(GL_RENDERBUFFER, depthRbo);
-			auto size = EngineQ::Engine::Get()->GetScreenSize();
+			auto size = Engine::Get()->GetScreenSize();
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, size.X, size.Y);
 			glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
@@ -25,7 +38,7 @@ namespace EngineQ
 				glDeleteRenderbuffers(1, &depthRbo);
 				CreateDepthTesting();
 			}
-			if(textureColor>0)
+			if (textureColor > 0)
 			{
 				glBindTexture(GL_TEXTURE_2D, textureColor);
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
@@ -33,26 +46,41 @@ namespace EngineQ
 
 		}
 
-		void Framebuffer::Init()
+		void Framebuffer::Init(FramebufferConfiguration* configuration)
 		{
 			glGenFramebuffers(1, &fbo);
-			EngineQ::Engine::Get()->resizeEvent += handler;
+			Bind();
+			int j = 0;
+			for (auto i : configuration->Textures)
+			{
+				texturesConfiguration.push_back(i);
+				CreateTexture(j, i);
+				j++;
+			}
+			if (configuration->DepthTesting)
+				CreateDepthTesting();
+
+			Engine::Get()->resizeEvent += handler;
 		}
 
-		Framebuffer::Framebuffer() : handler(*this, &Framebuffer::Resize)//handler([&](int a, int b) {Resize(a, b); })
+		Framebuffer::Framebuffer() : handler(*this, &Framebuffer::Resize), textures(1, 0), size(1), texturesConfiguration(1)
 		{
-			Init();
+			FramebufferConfiguration conf;
+			conf.DepthTesting = true;
+			conf.Textures.push_back(TextureConfiguration());
+
+			Init(&conf);
 		}
 
 		//TODO
-		Framebuffer::Framebuffer(FramebufferConfiguration* configuration) : texturesConfiguration(configuration->Textures), size(configuration->Textures.size()), textures(configuration->Textures.size(), 0), handler(*this, &Framebuffer::Resize)
+		Framebuffer::Framebuffer(FramebufferConfiguration* configuration) : texturesConfiguration(configuration->Textures.size()), size(configuration->Textures.size()), textures(configuration->Textures.size(), 0), handler(*this, &Framebuffer::Resize)
 		{
-			Init();
+			Init(configuration);
 		}
 
 		Framebuffer::~Framebuffer()
 		{
-			EngineQ::Engine::Get()->resizeEvent -= handler;
+			Engine::Get()->resizeEvent -= handler;
 			if (textures.size() > 0)
 				glDeleteTextures(textures.size(), &textures[0]);
 			glDeleteFramebuffers(1, &fbo);
@@ -87,17 +115,17 @@ namespace EngineQ
 			CreateDepthTesting();
 		}
 
-		void Framebuffer::AddColorAttachment( GLint format)
+		void Framebuffer::AddColorAttachment(GLint format)
 		{
 			if (ready)
 				throw "framebuffer is already ready";
 			Bind();
-			auto size =  EngineQ::Engine::Get()->GetScreenSize();
+			auto size = Engine::Get()->GetScreenSize();
 
 			glGenTextures(1, &textureColor);
 			glBindTexture(GL_TEXTURE_2D, textureColor);
 
-			glTexImage2D(GL_TEXTURE_2D, 0, format, size.X,size.Y, 0, format, GL_UNSIGNED_BYTE, nullptr);
+			glTexImage2D(GL_TEXTURE_2D, 0, format, size.X, size.Y, 0, format, GL_UNSIGNED_BYTE, nullptr);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -105,11 +133,11 @@ namespace EngineQ
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColor, 0);
 		}
 
-		GLuint Framebuffer::GetColorTexture()
+		GLuint Framebuffer::GetColorTexture(int location)
 		{
-			if (textureColor == 0)
+			if (textures.size()<location || textures[location] == 0)
 				throw "Color texture does not exist!";
-			return textureColor;
+			return textures[location];
 		}
 	}
 }

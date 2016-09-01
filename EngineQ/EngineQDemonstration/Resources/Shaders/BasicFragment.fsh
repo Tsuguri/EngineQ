@@ -19,6 +19,10 @@ void main(void)
 vec3 colorTmp;
 
 		colorTmp=color;
+
+		if(worldPosition.x>1)
+		colorTmp=vec3(1.0f);
+
 	//ambient
 		vec3 ambient = ambientStrength*lightColor;
 

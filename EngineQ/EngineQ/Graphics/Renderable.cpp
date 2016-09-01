@@ -18,10 +18,10 @@ namespace EngineQ
 
 		Shader* Renderable::GetForwardShader() const
 		{
-			return forwardShader;
+			return forwardShader.get();
 		}
 
-		void Renderable::SetForwardShader(Shader* shader)
+		void Renderable::SetForwardShader(std::shared_ptr<Shader> shader)
 		{
 			forwardShader = shader;
 		}
