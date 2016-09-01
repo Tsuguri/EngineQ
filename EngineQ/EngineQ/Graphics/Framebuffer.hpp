@@ -3,8 +3,9 @@
 
 #include "../Libraries/GL/glew.h"
 
-#include "../Utilities/Uncopyable.hpp"
+#include "../Utilities/Immovable.hpp"
 #include "RendererConfiguration.hpp"
+#include "../Utilities/Event.hpp"
 
 namespace EngineQ
 {
@@ -12,15 +13,27 @@ namespace EngineQ
 	{
 
 		// TODO
-		class Framebuffer : public EngineQ::Utilities::Uncopyable
+		class Framebuffer : public EngineQ::Utilities::Immovable
 		{
 			GLuint fbo = 0;
 			GLuint textureColor = 0;
-			GLuint depthRbo;
+			GLuint depthRbo=0;
 
+			std::vector<TextureConfiguration> texturesConfiguration;
+			std::vector<GLuint> textures;
+			int size;
 
 			bool ready = false;
 
+			EventHandler<void(int, int)> handler;
+
+
+			void CreateTexture(int location, TextureConfiguration);
+			void DeleteTexture(int location);
+			void ResetTextures();
+
+
+			void Init();
 		public:
 			Framebuffer();
 			Framebuffer(EngineQ::Graphics::FramebufferConfiguration* configuration);
@@ -32,9 +45,9 @@ namespace EngineQ
 			static void BindDefault();
 
 			//remeber that it will automatically bind this framebuffer
-			void AddDepthTesting(int width, int height);
-			void AddColorAttachment(int width, int height, GLint format = GL_RGB);
-
+			void AddDepthTesting();
+			void AddColorAttachment(GLint format = GL_RGB);
+			void Resize(int width, int height);
 			GLuint GetColorTexture();
 		};
 

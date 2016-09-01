@@ -3,6 +3,7 @@
 #include "../TimeCounter.hpp"
 #include "ForwardRenderer.hpp"
 #include "../Engine.hpp"
+#include "../Utilities/ResourcesIDs.hpp"
 
 
 namespace EngineQ
@@ -42,13 +43,13 @@ namespace EngineQ
 			glCullFace(GL_BACK);
 			glEnable(GL_CULL_FACE);
 
-			frm.AddColorAttachment(800, 600);
-			frm.AddDepthTesting(800, 600);
+			frm.AddColorAttachment();
+			frm.AddDepthTesting();
 			if (!frm.Ready())
 				std::cout << "framebuffer is still not complete!" << std::endl;
 			Framebuffer::BindDefault();
 
-			quadShader = engine->GetResourceManager()->GetResource<Shader>(3);
+			quadShader = engine->GetResourceManager()->GetResource<Shader>(Utilities::ResourcesIDs::QuadShader);
 
 			InitScreenQuad();
 

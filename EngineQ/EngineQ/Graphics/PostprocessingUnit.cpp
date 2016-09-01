@@ -59,11 +59,22 @@ namespace EngineQ
 
 		void RenderingUnit::CreateFramebuffers(RendererConfiguration* configuration)
 		{
+			for (auto i : configuration->Framebuffers)
+			{
+				framebuffers.push_back(new Framebuffer(&i));
+			}
+
+
+
 
 		}
 
 		void RenderingUnit::CreateEffects(RendererConfiguration* configuration)
 		{
+
+
+
+
 
 		}
 
@@ -75,6 +86,12 @@ namespace EngineQ
 		RenderingUnit::RenderingUnit(RendererConfiguration* configuration)
 		{
 			ValidateConfiguration(configuration);
+
+		}
+
+		void RenderingUnit::Render(Scene* scene)
+		{
+
 
 		}
 	}

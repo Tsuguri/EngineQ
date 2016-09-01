@@ -65,6 +65,7 @@
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Utilities\ResourcesIDs.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Utilities\Nullable.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Transform.hpp" />
     <ClInclude Include="Utilities\Property.hpp" />
+    <ClInclude Include="Utilities\ResourcesIDs.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="Utilities\Nullable.hpp" />

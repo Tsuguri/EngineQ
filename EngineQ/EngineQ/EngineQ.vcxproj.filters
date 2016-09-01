@@ -1,389 +1,132 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Source Files\Math">
-      <UniqueIdentifier>{6171c780-34e8-4745-a819-9dac31ebdae1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Math">
-      <UniqueIdentifier>{7753b395-eba8-4153-80fa-4b962a4de0e5}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="Graphics\Framebuffer.cpp" />
+    <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
+    <ClCompile Include="Graphics\PostprocessingUnit.cpp" />
+    <ClCompile Include="Graphics\RendererConfiguration.cpp" />
+    <ClCompile Include="InputController.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Scripting\API_Application.cpp" />
+    <ClCompile Include="Scripting\API_Input.cpp" />
+    <ClCompile Include="Scripting\API_TimeCounter.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Graphics\ForwardRenderer.cpp" />
+    <ClCompile Include="Graphics\Shader.cpp" />
+    <ClCompile Include="Graphics\ShaderExceptions.cpp" />
+    <ClCompile Include="Graphics\ShaderPart.cpp" />
+    <ClCompile Include="Graphics\UniformLocation.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Math\Matrix3.cpp" />
+    <ClCompile Include="Math\Matrix4.cpp" />
+    <ClCompile Include="Math\Quaternion.cpp" />
+    <ClCompile Include="Math\Vector4.cpp" />
+    <ClCompile Include="Graphics\Mesh.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Graphics\Renderable.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Script.cpp" />
+    <ClCompile Include="Scripting\API_Component.cpp" />
+    <ClCompile Include="Scripting\API_Entity.cpp" />
+    <ClCompile Include="Scripting\API_Matrix3.cpp" />
+    <ClCompile Include="Scripting\API_Matrix4.cpp" />
+    <ClCompile Include="Scripting\API_Quaternion.cpp" />
+    <ClCompile Include="Scripting\API_Scene.cpp" />
+    <ClCompile Include="Scripting\API_Transform.cpp" />
+    <ClCompile Include="Scripting\ScriptEngine.cpp" />
+    <ClCompile Include="Scripting\ScriptEngineException.cpp" />
+    <ClCompile Include="Serialization\Deserializer.cpp" />
+    <ClCompile Include="Serialization\Serializable.cpp" />
+    <ClCompile Include="Serialization\SerializationEngine.cpp" />
+    <ClCompile Include="Serialization\SerializationRules.cpp" />
+    <ClCompile Include="Serialization\Serializer.cpp" />
+    <ClCompile Include="Libraries\TinyXML\tinyxml2.cpp" />
+    <ClCompile Include="Serialization\XMLFormatter.cpp" />
+    <ClCompile Include="TimeCounter.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Vertex.cpp" />
+    <ClCompile Include="Utilities\Nullable.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Utilities\ResourcesIDs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Math\Vector4.cpp">
-      <Filter>Source Files\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Matrix3.cpp">
-      <Filter>Source Files\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Matrix4.cpp">
-      <Filter>Source Files\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Quaternion.cpp">
-      <Filter>Source Files\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\API_Component.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\API_Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\API_Matrix3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\API_Matrix4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\API_Quaternion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\API_Transform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\ScriptEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\ScriptEngineException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Script.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\API_Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities\Nullable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ShaderPart.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ShaderExceptions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\UniformLocation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vertex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>Source Files\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\API_TimeCounter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ForwardRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Renderable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeCounter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\API_Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\API_Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Serialization\Deserializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Serialization\Serializable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Serialization\SerializationEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Serialization\SerializationRules.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Serialization\Serializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Serialization\XMLFormatter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Libraries\TinyXML\tinyxml2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    </ClCompile>
-      <Filter>Source Files</Filter>
-    <ClCompile Include="Graphics\RendererConfiguration.cpp">
-    </ClCompile>
-      <Filter>Source Files</Filter>
-    <ClCompile Include="Graphics\PostprocessingExceptions.cpp">
-    </ClCompile>
-      <Filter>Source Files</Filter>
-    <ClCompile Include="Graphics\PostprocessingUnit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Framebuffer.cpp">
+    <ClInclude Include="Graphics\Framebuffer.hpp" />
+    <ClInclude Include="Graphics\PostprocessingEffect.hpp" />
+    <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
+    <ClInclude Include="Graphics\PostprocessingUnit.hpp" />
+    <ClInclude Include="Graphics\RendererConfiguration.hpp" />
+    <ClInclude Include="InputController.hpp" />
+    <ClInclude Include="ResourceManager.hpp" />
+    <ClInclude Include="Scripting\API_Application.hpp" />
+    <ClInclude Include="Scripting\API_Input.hpp" />
+    <ClInclude Include="Scripting\API_TimeCounter.hpp" />
+    <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="Component.hpp" />
+    <ClInclude Include="Engine.hpp" />
+    <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="Graphics\ForwardRenderer.hpp" />
+    <ClInclude Include="Graphics\Shader.hpp" />
+    <ClInclude Include="Graphics\ShaderExceptions.hpp" />
+    <ClInclude Include="Graphics\ShaderPart.hpp" />
+    <ClInclude Include="Graphics\UniformLocation.hpp" />
+    <ClInclude Include="Graphics\Renderable.hpp" />
+    <ClInclude Include="Serialization\Deserializer.hpp" />
+    <ClInclude Include="Serialization\Formatter.hpp" />
+    <ClInclude Include="Serialization\Serializable.hpp" />
+    <ClInclude Include="Serialization\SerializationEngine.hpp" />
+    <ClInclude Include="Serialization\SerializationRules.hpp" />
+    <ClInclude Include="Serialization\SerializedObject.hpp" />
+    <ClInclude Include="Serialization\Serializer.hpp" />
+    <ClInclude Include="Libraries\TinyXML\tinyxml2.h" />
+    <ClInclude Include="Serialization\XMLFormatter.hpp" />
+    <ClInclude Include="TimeCounter.hpp" />
+    <ClInclude Include="Utilities\Event.hpp" />
+    <ClInclude Include="Utilities\Immovable.hpp" />
+    <ClInclude Include="Light.hpp" />
+    <ClInclude Include="Math\Matrix3.hpp" />
+    <ClInclude Include="Math\Matrix4.hpp" />
+    <ClInclude Include="Math\Quaternion.hpp" />
+    <ClInclude Include="Math\Types.hpp" />
+    <ClInclude Include="Math\Vector2.hpp" />
+    <ClInclude Include="Math\Vector3.hpp" />
+    <ClInclude Include="Math\Vector4.hpp" />
+    <ClInclude Include="Graphics\Mesh.hpp" />
+    <ClInclude Include="Object.hpp" />
+    <ClInclude Include="Scene.hpp" />
+    <ClInclude Include="Script.hpp" />
+    <ClInclude Include="Scripting\API_Component.hpp" />
+    <ClInclude Include="Scripting\API_Entity.hpp" />
+    <ClInclude Include="Scripting\API_Matrix3.hpp" />
+    <ClInclude Include="Scripting\API_Matrix4.hpp" />
+    <ClInclude Include="Scripting\API_Quaternion.hpp" />
+    <ClInclude Include="Scripting\API_Scene.hpp" />
+    <ClInclude Include="Scripting\API_Transform.hpp" />
+    <ClInclude Include="Scripting\ScriptEngine.hpp" />
+    <ClInclude Include="Scripting\ScriptEngineException.hpp" />
+    <ClInclude Include="Transform.hpp" />
+    <ClInclude Include="Utilities\Property.hpp" />
+    <ClInclude Include="Utils.hpp" />
+    <ClInclude Include="Vertex.hpp" />
+    <ClInclude Include="Utilities\Nullable.hpp" />
+    <ClInclude Include="Utilities\StringHelpers.hpp" />
+    <ClInclude Include="Utilities\Uncopyable.hpp" />
+    <ClInclude Include="Window.hpp" />
+    <ClInclude Include="Utilities\ResourcesIDs.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Math\Matrix3.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix4.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Quaternion.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Types.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector2.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector3.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector4.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\API_Component.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\API_Entity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\API_Matrix3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\API_Matrix4.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\API_Quaternion.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\API_Transform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\ScriptEngine.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\ScriptEngineException.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Script.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\API_Scene.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\Immovable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\Uncopyable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\StringHelpers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\Nullable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ShaderPart.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ShaderExceptions.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\UniformLocation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Shader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.hpp">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeCounter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\API_TimeCounter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ForwardRenderer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Renderable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Mesh.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputController.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\API_Input.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripting\API_Application.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\Deserializer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\Formatter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\Serializable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\SerializationEngine.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\SerializationRules.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\SerializedObject.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\Serializer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Serialization\XMLFormatter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\Property.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\Event.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\TinyXML\tinyxml2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    </ClInclude>
-      <Filter>Header Files</Filter>
-    <ClInclude Include="Graphics\PostprocessingExceptions.hpp">
-    </ClInclude>
-      <Filter>Header Files</Filter>
-    <ClInclude Include="Graphics\PostprocessingUnit.hpp">
-    </ClInclude>
-      <Filter>Header Files</Filter>
-    <ClInclude Include="Graphics\PostprocessingEffect.hpp">
-    </ClInclude>
-      <Filter>Header Files</Filter>
-    <ClInclude Include="Graphics\Framebuffer.hpp">
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Math\Vector4.inl">
-      <Filter>Source Files\Math</Filter>
-    </None>
-    <None Include="Math\Vector3.inl">
-      <Filter>Source Files\Math</Filter>
-    </None>
-    <None Include="Math\Vector2.inl">
-      <Filter>Source Files\Math</Filter>
-    </None>
-    <None Include="Utilities\StringHelpers.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Utilities\Nullable.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Serialization\Deserializer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Serialization\SerializationEngine.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Serialization\SerializationRules.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Serialization\Serializer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="ResourceManager.inl">
-      <Filter>Header Files</Filter>
-    </None>
+    <None Include="Math\Vector2.inl" />
+    <None Include="Math\Vector3.inl" />
+    <None Include="Math\Vector4.inl" />
+    <None Include="ResourceManager.inl" />
+    <None Include="Serialization\Deserializer.inl" />
+    <None Include="Serialization\SerializationEngine.inl" />
+    <None Include="Serialization\SerializationRules.inl" />
+    <None Include="Serialization\Serializer.inl" />
+    <None Include="Utilities\Nullable.inl" />
+    <None Include="Utilities\StringHelpers.inl" />
   </ItemGroup>
 </Project>

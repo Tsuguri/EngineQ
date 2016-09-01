@@ -56,7 +56,7 @@ namespace EngineQ
 		{
 		public:
 			bool DeferredEnabled=false;
-			std::string DeferredShaderName;
+			int DeferredShaderID;
 			std::vector<FramebufferConfiguration> Framebuffers;
 			std::vector<EffectConfiguration> Effects;
 		};

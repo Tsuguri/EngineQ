@@ -3,9 +3,11 @@
 
 #include <vector>
 
+#include "../Scene.hpp"
 #include "PostprocessingEffect.hpp"
 #include "Framebuffer.hpp"
 #include "RendererConfiguration.hpp"
+#include "ForwardRenderer.hpp"
 
 namespace EngineQ
 {
@@ -14,8 +16,11 @@ namespace EngineQ
 		class RenderingUnit
 		{
 		private:
+			ForwardRenderer* renderer;
+
+
 			std::vector<PostprocessingEffect> effects;
-			std::vector<Framebuffer> framebuffers;
+			std::vector<Framebuffer*> framebuffers;
 			
 			bool ValidateConfiguration(RendererConfiguration* configuration);
 			void CreateFramebuffers(RendererConfiguration* configuration);
@@ -24,6 +29,8 @@ namespace EngineQ
 
 		public:
 			RenderingUnit(RendererConfiguration* configuration);
+
+			void Render(Scene* scene);
 
 		};
 	}

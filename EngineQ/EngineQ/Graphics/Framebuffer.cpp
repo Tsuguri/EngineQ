@@ -1,22 +1,60 @@
 #include "Framebuffer.hpp"
+#include "../Engine.hpp"
+
 namespace EngineQ
 {
 	namespace Graphics
 	{
-		Framebuffer::Framebuffer()
+		void Framebuffer::CreateDepthTesting()
 		{
-			glGenFramebuffers(1, &fbo);
+			glGenRenderbuffers(1, &depthRbo);
+			glBindRenderbuffer(GL_RENDERBUFFER, depthRbo);
+			auto size = EngineQ::Engine::Get()->GetScreenSize();
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, size.X, size.Y);
+			glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthRbo);
+		}
+
+		void Framebuffer::Resize(int width, int height)
+		{
+			std::cout << "framebuffer resized :)" << std::endl;
+			Bind();
+			if (depthRbo > 0)
+			{
+				glDeleteRenderbuffers(1, &depthRbo);
+				CreateDepthTesting();
+			}
+			if(textureColor>0)
+			{
+				glBindTexture(GL_TEXTURE_2D, textureColor);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+			}
 
 		}
 
-		//TODO
-		Framebuffer::Framebuffer(FramebufferConfiguration* configuration)
+		void Framebuffer::Init()
 		{
 			glGenFramebuffers(1, &fbo);
+			EngineQ::Engine::Get()->resizeEvent += handler;
+		}
+
+		Framebuffer::Framebuffer() : handler(*this, &Framebuffer::Resize)//handler([&](int a, int b) {Resize(a, b); })
+		{
+			Init();
+		}
+
+		//TODO
+		Framebuffer::Framebuffer(FramebufferConfiguration* configuration) : texturesConfiguration(configuration->Textures), size(configuration->Textures.size()), textures(configuration->Textures.size(), 0), handler(*this, &Framebuffer::Resize)
+		{
+			Init();
 		}
 
 		Framebuffer::~Framebuffer()
 		{
+			EngineQ::Engine::Get()->resizeEvent -= handler;
+			if (textures.size() > 0)
+				glDeleteTextures(textures.size(), &textures[0]);
 			glDeleteFramebuffers(1, &fbo);
 		}
 
@@ -41,28 +79,25 @@ namespace EngineQ
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
 
-		void Framebuffer::AddDepthTesting(int width, int height)
+		void Framebuffer::AddDepthTesting()
 		{
 			if (ready)
 				throw "framebuffer is already ready";
 			Bind();
-			glGenRenderbuffers(1, &depthRbo);
-			glBindRenderbuffer(GL_RENDERBUFFER, depthRbo);
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-			glBindRenderbuffer(GL_RENDERBUFFER, 0);
-
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthRbo);
+			CreateDepthTesting();
 		}
 
-		void Framebuffer::AddColorAttachment(int width, int height, GLint format)
+		void Framebuffer::AddColorAttachment( GLint format)
 		{
 			if (ready)
 				throw "framebuffer is already ready";
 			Bind();
+			auto size =  EngineQ::Engine::Get()->GetScreenSize();
+
 			glGenTextures(1, &textureColor);
 			glBindTexture(GL_TEXTURE_2D, textureColor);
 
-			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
+			glTexImage2D(GL_TEXTURE_2D, 0, format, size.X,size.Y, 0, format, GL_UNSIGNED_BYTE, nullptr);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
