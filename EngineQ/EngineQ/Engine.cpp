@@ -125,6 +125,11 @@ namespace EngineQ
 		return resourceManager.get();
 	}
 
+	Graphics::RendererConfiguration* GenerateDefaultConfiguration()
+	{
+		auto p = new Graphics::RendererConfiguration{};
+	}
+
 
 	void Engine::Run(Scene* scene)
 	{

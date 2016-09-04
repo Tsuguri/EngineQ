@@ -9,19 +9,36 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
+		struct InputConfiguration
+		{
+			GLenum Position;
+			GLuint Texture;
+
+			InputConfiguration(GLuint position, GLuint texture);
+		};
+
+
 		class PostprocessingEffect
 		{
+			
+
 			std::shared_ptr<Shader> shader;
+
+			std::vector<InputConfiguration> inputTextures;
+			Framebuffer* framebuffer=nullptr;
 		public:
-			PostprocessingEffect(int shaderId);
+			static GLenum textureLocations[10];
 			PostprocessingEffect(std::shared_ptr<Shader> shader);
-			PostprocessingEffect(EffectConfiguration* conf);
 
 			void BindTextures();
-			void BindTargetBuffer();
+			void UnbindTextures();
+
+			void BindTargetBuffer() const;
 			void SetTargetBuffer(Framebuffer* buffer);
 
-			void Activate();
+			void AddInput(InputConfiguration input);
+
+			void Activate() const;
 
 		};
 	}

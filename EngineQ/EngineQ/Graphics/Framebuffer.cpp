@@ -30,6 +30,11 @@ namespace EngineQ
 			glFramebufferTexture2D(GL_FRAMEBUFFER, locations[location], GL_TEXTURE_2D, textures[location], 0);
 		}
 
+		void Framebuffer::AddTexture(int location, GLuint texture)
+		{
+			glFramebufferTexture2D(GL_FRAMEBUFFER, locations[location], GL_TEXTURE_2D, texture, 0);
+		}
+
 		void Framebuffer::CreateDepthTesting()
 		{
 			glGenRenderbuffers(1, &depthRbo);
@@ -43,58 +48,35 @@ namespace EngineQ
 
 		void Framebuffer::Resize(int width, int height)
 		{
-			std::cout << "framebuffer resized :)" << std::endl;
-			Bind();
 			if (depthRbo > 0)
 			{
+				Bind();
 				glDeleteRenderbuffers(1, &depthRbo);
 				CreateDepthTesting();
 			}
-			if (textureColor > 0)
-			{
-				glBindTexture(GL_TEXTURE_2D, textureColor);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
-			}
-
 		}
 
-		void Framebuffer::Init(FramebufferConfiguration* configuration)
+
+		void Framebuffer::Init(bool depth, std::vector<GLuint> textures)
 		{
-			glGenFramebuffers(1, &fbo);
+			glGenBuffers(1, &fbo);
 			Bind();
 			int j = 0;
-			for (auto i : configuration->Textures)
-			{
-				texturesConfiguration.push_back(i);
-				CreateTexture(j, i);
-				j++;
-			}
-			if (configuration->DepthTesting)
+			for (auto i : textures)
+				AddTexture(j++, i);
+
+			if (depth)
 				CreateDepthTesting();
-
-			Engine::Get()->resizeEvent += handler;
 		}
 
-		Framebuffer::Framebuffer() : handler(*this, &Framebuffer::Resize), textures(1, 0), size(1), texturesConfiguration(1)
-		{
-			FramebufferConfiguration conf;
-			conf.DepthTesting = true;
-			conf.Textures.push_back(TextureConfiguration());
 
-			Init(&conf);
-		}
-
-		//TODO
-		Framebuffer::Framebuffer(FramebufferConfiguration* configuration) : texturesConfiguration(configuration->Textures.size()), size(configuration->Textures.size()), textures(configuration->Textures.size(), 0), handler(*this, &Framebuffer::Resize)
+		Framebuffer::Framebuffer(bool depth, std::vector<GLuint> textures)
 		{
-			Init(configuration);
+			Init(depth, textures);
 		}
 
 		Framebuffer::~Framebuffer()
 		{
-			Engine::Get()->resizeEvent -= handler;
-			if (textures.size() > 0)
-				glDeleteTextures(textures.size(), &textures[0]);
 			glDeleteFramebuffers(1, &fbo);
 		}
 
@@ -117,13 +99,6 @@ namespace EngineQ
 		void Framebuffer::BindDefault()
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		}
-
-		GLuint Framebuffer::GetColorTexture(int location)
-		{
-			if (textures.size()<location || textures[location] == 0)
-				throw "Color texture does not exist!";
-			return textures[location];
 		}
 	}
 }

@@ -21,7 +21,12 @@ namespace EngineQ
 
 		void ForwardRenderer::Render(Scene* scene)
 		{
-
+			if (framebuffer == nullptr)
+			{
+				Framebuffer::BindDefault();
+			}
+			else
+				framebuffer->Bind();
 
 			Mesh* mesh;
 			Shader* shd;
@@ -54,6 +59,11 @@ namespace EngineQ
 				glBindVertexArray(mesh->GetVao());
 				glDrawElements(GL_TRIANGLES, mesh->Count(), GL_UNSIGNED_INT, nullptr);
 			}
+		}
+
+		void ForwardRenderer::SetTargetBuffer(Framebuffer* buffer)
+		{
+			framebuffer = buffer;
 		}
 	}
 }

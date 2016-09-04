@@ -17,9 +17,7 @@ namespace EngineQ
 		{
 		}
 
-
-
-		OutputPair::OutputPair(std::string uniformName, std::string framebuffer, GLuint textureNumber) : UniformName(uniformName), Framebuffer(framebuffer), TextureNumber(textureNumber)
+		Output::Output(std::string texture) : Texture(texture)
 		{
 		}
 	}

@@ -18,37 +18,32 @@ namespace EngineQ
 			static GLuint locations[8];
 
 			GLuint fbo = 0;
-			GLuint textureColor = 0;
 			GLuint depthRbo=0;
 
-			std::vector<TextureConfiguration> texturesConfiguration;
 			std::vector<GLuint> textures;
 			int size;
 
 			bool ready = false;
 
-			EventHandler<void(int, int)> handler;
-
-
 			void CreateTexture(int location, TextureConfiguration configuration);
-			void DeleteTexture(int location);
-			void ResetTextures();
+
+			void AddTexture(int location, GLuint texture);
 
 			void CreateDepthTesting();
 
-			void Init(FramebufferConfiguration* configuration);
-			void Resize(int width, int height);
+			void Init(bool depth, std::vector<GLuint> textures);
+
+
 		public:
-			Framebuffer();
-			Framebuffer(EngineQ::Graphics::FramebufferConfiguration* configuration);
+			Framebuffer(bool depth, std::vector<GLuint> textures);
 			~Framebuffer();
 
 			void Bind() const;
 			//remeber that it will automatically bind this framebuffer
 			bool Ready();
 			static void BindDefault();
+			void Resize(int width, int height);
 
-			GLuint GetColorTexture(int location);
 		};
 
 	}

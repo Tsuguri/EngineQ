@@ -31,26 +31,25 @@ namespace EngineQ
 		{
 		public:
 			InputPair(GLuint location, GLuint textureNumber, std::string framebuffer);
-			GLuint Location=0;
+			int Location=0;
 			std::string Texture;
 		};
 
-		class OutputPair
+		class Output
 		{
-			OutputPair(std::string uniformName, std::string framebuffer, GLuint textureNumber);
-			std::string UniformName;
-			std::string Framebuffer;
-			GLuint TextureNumber=0;
+		public:
+			Output(std::string texture);
+			std::string Texture;
 		};
 
 		class EffectConfiguration
 		{
 		public:
-			std::string ShaderName;//for resource manager
+			int  Shader;//for resource manager
 			std::string ClassName;//C# class name
 			bool DepthTesting;
 			std::vector<InputPair> Input;
-			std::vector<OutputPair> Output;
+			std::vector<Output> Output;
 		};
 
 		class RendererConfiguration
@@ -58,8 +57,10 @@ namespace EngineQ
 		public:
 			bool DeferredEnabled=false;
 			int DeferredShaderID;
-			std::vector<FramebufferConfiguration> Framebuffers;
+			std::vector<TextureConfiguration> Textures;
 			std::vector<EffectConfiguration> Effects;
+
+			std::vector<FramebufferConfiguration> Framebuffers;
 		};
 
 
