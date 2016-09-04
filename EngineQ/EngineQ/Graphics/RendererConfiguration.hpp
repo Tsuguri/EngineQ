@@ -14,6 +14,7 @@ namespace EngineQ
 			TextureConfiguration(GLuint format = GL_RGB, GLuint dataType = GL_FLOAT);
 			GLuint Format = GL_RGB;
 			GLuint DataType = GL_FLOAT;
+			std::string name;
 		};
 
 		class FramebufferConfiguration
@@ -31,8 +32,7 @@ namespace EngineQ
 		public:
 			InputPair(GLuint location, GLuint textureNumber, std::string framebuffer);
 			GLuint Location=0;
-			std::string Framebuffer;
-			GLuint TextureNumber=0;
+			std::string Texture;
 		};
 
 		class OutputPair
@@ -48,6 +48,7 @@ namespace EngineQ
 		public:
 			std::string ShaderName;//for resource manager
 			std::string ClassName;//C# class name
+			bool DepthTesting;
 			std::vector<InputPair> Input;
 			std::vector<OutputPair> Output;
 		};
