@@ -16,8 +16,10 @@ namespace EngineQ
 		class RenderingUnit
 		{
 		private:
-			ForwardRenderer* renderer;
-
+			ForwardRenderer* renderer=nullptr;
+			Graphics::Framebuffer frm;
+			Graphics::PostprocessingEffect effect;
+			GLuint quadVao=0;
 
 			std::vector<PostprocessingEffect> effects;
 			std::vector<Framebuffer*> framebuffers;
@@ -29,6 +31,8 @@ namespace EngineQ
 
 		public:
 			RenderingUnit(RendererConfiguration* configuration);
+			RenderingUnit(Engine* engine);
+			~RenderingUnit();
 
 			void Render(Scene* scene);
 

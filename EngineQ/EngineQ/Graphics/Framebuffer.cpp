@@ -5,6 +5,18 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
+		GLuint Framebuffer::locations[8] = {
+			GL_COLOR_ATTACHMENT0,
+			GL_COLOR_ATTACHMENT1,
+			GL_COLOR_ATTACHMENT2,
+			GL_COLOR_ATTACHMENT3,
+			GL_COLOR_ATTACHMENT4,
+			GL_COLOR_ATTACHMENT5,
+			GL_COLOR_ATTACHMENT6,
+			GL_COLOR_ATTACHMENT7
+		};
+
+
 		void Framebuffer::CreateTexture(int location, TextureConfiguration configuration)
 		{
 			glGenTextures(1, &textures[location]);
@@ -15,7 +27,7 @@ namespace EngineQ
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0+location, GL_TEXTURE_2D, textures[location], 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, locations[location], GL_TEXTURE_2D, textures[location], 0);
 		}
 
 		void Framebuffer::CreateDepthTesting()
@@ -105,32 +117,6 @@ namespace EngineQ
 		void Framebuffer::BindDefault()
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		}
-
-		void Framebuffer::AddDepthTesting()
-		{
-			if (ready)
-				throw "framebuffer is already ready";
-			Bind();
-			CreateDepthTesting();
-		}
-
-		void Framebuffer::AddColorAttachment(GLint format)
-		{
-			if (ready)
-				throw "framebuffer is already ready";
-			Bind();
-			auto size = Engine::Get()->GetScreenSize();
-
-			glGenTextures(1, &textureColor);
-			glBindTexture(GL_TEXTURE_2D, textureColor);
-
-			glTexImage2D(GL_TEXTURE_2D, 0, format, size.X, size.Y, 0, format, GL_UNSIGNED_BYTE, nullptr);
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColor, 0);
 		}
 
 		GLuint Framebuffer::GetColorTexture(int location)

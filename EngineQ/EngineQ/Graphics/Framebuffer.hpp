@@ -15,6 +15,8 @@ namespace EngineQ
 		// TODO
 		class Framebuffer : public EngineQ::Utilities::Immovable
 		{
+			static GLuint locations[8];
+
 			GLuint fbo = 0;
 			GLuint textureColor = 0;
 			GLuint depthRbo=0;
@@ -35,6 +37,7 @@ namespace EngineQ
 			void CreateDepthTesting();
 
 			void Init(FramebufferConfiguration* configuration);
+			void Resize(int width, int height);
 		public:
 			Framebuffer();
 			Framebuffer(EngineQ::Graphics::FramebufferConfiguration* configuration);
@@ -45,10 +48,6 @@ namespace EngineQ
 			bool Ready();
 			static void BindDefault();
 
-			//remeber that it will automatically bind this framebuffer
-			void AddDepthTesting();
-			void AddColorAttachment(GLint format = GL_RGB);
-			void Resize(int width, int height);
 			GLuint GetColorTexture(int location);
 		};
 

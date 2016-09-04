@@ -1,6 +1,5 @@
 #include "Engine.hpp"
-#include "Graphics/RendererConfiguration.hpp"
-#include "Graphics/PostprocessingUnit.hpp"
+
 #include "Utilities/ResourcesIDs.hpp"
 namespace Math = EngineQ::Math;
 

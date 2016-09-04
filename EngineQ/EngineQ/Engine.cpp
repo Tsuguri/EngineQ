@@ -6,8 +6,10 @@
 
 #include "Scene.hpp"
 #include "Graphics/Shader.hpp"
-#include "Graphics/ForwardRenderer.hpp"
+
 #include "TimeCounter.hpp"
+
+#include "Graphics/RenderingUnit.hpp"
 
 namespace EngineQ
 {
@@ -92,7 +94,7 @@ namespace EngineQ
 		return scriptingEngine->GetScriptClass(assembly.c_str(), namespaceName.c_str(), className.c_str());
 	}
 
-	Vector2i Engine::GetScreenSize()
+	Vector2i Engine::GetScreenSize() const
 	{
 		return screenSize;
 	}
@@ -129,7 +131,8 @@ namespace EngineQ
 		auto& tc{ *TimeCounter::Get() };
 		tc.Update(0, 0);
 
-		Graphics::ForwardRenderer renderer(this);
+		//temporary rendering system
+		Graphics::RenderingUnit ppUnit{ this };
 
 		float time = 0, tmp;
 		while (!window.ShouldClose() && running)
@@ -137,17 +140,21 @@ namespace EngineQ
 			//input
 			window.PollEvents();
 
+			//update time
 			tmp = window.GetTime();
 			tc.Update(tmp, tmp - time);
 			time = tmp;
-			//check input and stuff
+
+			//update scene logic (scripts)
 			scene->Update();
-			//scripts & logic
 
-			renderer.Render(scene);
+			// render scene
+			ppUnit.Render(scene);
 
+			// clear frame-characteristic data
 			input.ClearDelta();
-
+			
+			//show result on screen
 			window.SwapBuffers();
 		}
 		window.Close();

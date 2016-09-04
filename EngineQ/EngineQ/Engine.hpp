@@ -50,7 +50,7 @@ namespace EngineQ
 		static Engine* Get();
 		ResourceManager* GetResourceManager() const;
 		Scripting::ScriptClass GetClass(std::string assembly, std::string namespaceName, std::string className) const;
-		Vector2i GetScreenSize();
+		Vector2i GetScreenSize() const;
 
 		Scene* CreateScene() const;
 		void Exit();

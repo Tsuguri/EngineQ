@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="Graphics\Framebuffer.cpp" />
     <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
-    <ClCompile Include="Graphics\PostprocessingUnit.cpp" />
     <ClCompile Include="Graphics\RendererConfiguration.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -52,12 +51,13 @@
     <ClCompile Include="Utilities\Nullable.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Utilities\ResourcesIDs.cpp" />
+    <ClCompile Include="Graphics\PostprocessingEffect.cpp" />
+    <ClCompile Include="Graphics\RenderingUnit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
     <ClInclude Include="Graphics\PostprocessingEffect.hpp" />
     <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
-    <ClInclude Include="Graphics\PostprocessingUnit.hpp" />
     <ClInclude Include="Graphics\RendererConfiguration.hpp" />
     <ClInclude Include="InputController.hpp" />
     <ClInclude Include="ResourceManager.hpp" />
@@ -116,6 +116,7 @@
     <ClInclude Include="Utilities\Uncopyable.hpp" />
     <ClInclude Include="Window.hpp" />
     <ClInclude Include="Utilities\ResourcesIDs.hpp" />
+    <ClInclude Include="Graphics\RenderingUnit.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />
