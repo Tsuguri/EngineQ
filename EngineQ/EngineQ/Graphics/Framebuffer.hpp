@@ -17,31 +17,26 @@ namespace EngineQ
 		class Framebuffer : public EngineQ::Utilities::Immovable
 		{
 			static GLuint locations[8];
-
-			GLuint fbo = 0;
-			GLuint depthRbo=0;
-
-			bool ready = false;
-
-			EventHandler<void(int, int)> handler;
+			//GLuint textureColor;
+			GLuint fbo;
+			GLuint depthRbo;
 
 			Engine* engine;
-
-			void AddTexture(int location, GLuint texture);
+			EventHandler<void(int, int)> handler;
 
 			void CreateDepthTesting();
-
-			void Init(bool depth, std::vector<GLuint> textures);
-
 			void Resize(int width, int height);
-
 		public:
-			Framebuffer(bool depth, std::vector<GLuint> textures, EngineQ::Engine* engine);
+			Framebuffer(Engine* engine);
 			~Framebuffer();
 
-			void Bind() const;
-			//remeber that it will automatically bind this framebuffer
-			bool Ready();
+			void Bind();
+
+			//GLuint GetTexture();
+
+			void SetTexture(GLuint tex);
+
+
 			static void BindDefault();
 
 		};

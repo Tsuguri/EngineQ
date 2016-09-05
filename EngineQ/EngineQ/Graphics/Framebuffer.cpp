@@ -17,17 +17,11 @@ namespace EngineQ
 		};
 
 
-		void Framebuffer::AddTexture(int location, GLuint texture)
-		{
-			glBindTexture(GL_TEXTURE_2D, texture);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);//locations[location]
-		}
-
 		void Framebuffer::CreateDepthTesting()
 		{
 			glGenRenderbuffers(1, &depthRbo);
 			glBindRenderbuffer(GL_RENDERBUFFER, depthRbo);
-			auto size = Engine::Get()->GetScreenSize();
+			auto size = engine->GetScreenSize();
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, size.X, size.Y);
 			glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
@@ -36,57 +30,42 @@ namespace EngineQ
 
 		void Framebuffer::Resize(int width, int height)
 		{
-			if (depthRbo > 0)
+			if(depthRbo>0)
 			{
-				Bind();
 				glDeleteRenderbuffers(1, &depthRbo);
 				CreateDepthTesting();
 			}
 		}
 
-
-		void Framebuffer::Init(bool depth, std::vector<GLuint> textures)
+		Framebuffer::Framebuffer(Engine* engine) : engine(engine), handler(*this,&Framebuffer::Resize)
 		{
-			glGenBuffers(1, &fbo);
-			Bind();
-			int j = 0;
-			//for (auto i : textures)
-			//	AddTexture(j++, i);
+			glGenFramebuffers(1, &fbo);
+			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
-			if (depth)
-				CreateDepthTesting();
+			CreateDepthTesting();
 
 			engine->resizeEvent += handler;
-		}
-
-
-		Framebuffer::Framebuffer(bool depth, std::vector<GLuint> textures, EngineQ::Engine* engine): handler(*this, &Framebuffer::Resize), engine(engine)
-		{
-			Init(depth, textures);
+			
 		}
 
 		Framebuffer::~Framebuffer()
 		{
-			engine->resizeEvent -= handler;
-
-			//delete depthRbo?
+			if (depthRbo > 0)
+				glDeleteRenderbuffers(1, &depthRbo);
 			glDeleteFramebuffers(1, &fbo);
+
+			engine->resizeEvent -= handler;
 		}
 
-		void Framebuffer::Bind() const
+		void Framebuffer::Bind()
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 		}
 
-		bool Framebuffer::Ready()
+		void Framebuffer::SetTexture(GLuint tex)
 		{
-			if (!ready)
-			{
-				ready = glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
-				if (!ready)
-					throw "Framebuffer is not complete!";
-			}
-			return ready;
+			Bind();
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex, 0);
 		}
 
 		void Framebuffer::BindDefault()

@@ -140,7 +140,7 @@ namespace EngineQ
 		e.Output.push_back(Graphics::Output{ "Screen" });
 		e.Shader = Utilities::ResourcesIDs::QuadShader;
 
-		//p->Effects.push_back(e);
+		p->Effects.push_back(e);
 		return p;
 	}
 

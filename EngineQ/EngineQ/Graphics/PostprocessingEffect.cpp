@@ -31,7 +31,7 @@ namespace EngineQ
 		{
 			for(auto& i : inputTextures)
 			{
-				//glActiveTexture(i.Position);
+				glActiveTexture(i.Position);
 				glBindTexture(GL_TEXTURE_2D, i.Texture);
 			}
 		}
@@ -40,7 +40,7 @@ namespace EngineQ
 		{
 			for(auto& i : inputTextures)
 			{
-				//glActiveTexture(i.Position);
+				glActiveTexture(i.Position);
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 		}

@@ -54,7 +54,7 @@ namespace EngineQ
 
 		std::shared_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting)
 		{
-			return std::make_shared<Framebuffer>(depthTesting, textures, engine);
+			return nullptr;// std::make_shared<Framebuffer>(depthTesting, textures, engine);
 
 		}
 
@@ -71,26 +71,29 @@ namespace EngineQ
 				++j;
 			}
 
-			if (configuration->Renderer.Deffered)
-			{
-				//should never happen as for now
-			}
-			else
-			{
+			auto p = new Framebuffer{engine};
+			p->SetTexture(textures[0]);
+
+			//if (configuration->Renderer.Deffered)
+			//{
+			//	//should never happen as for now
+			//}
+			//else
+			//{
 				renderer = new ForwardRenderer{};
-				if (configuration->Renderer.Output.size() == 0 || (configuration->Renderer.Output.size() == 1 && configuration->Renderer.Output[0].Texture == "Screen"))
-					renderer->SetTargetBuffer(nullptr);
-				else
-				{
-					std::vector<GLuint> output;
-					output.reserve(configuration->Renderer.Output.size());
-					for (auto k : configuration->Renderer.Output)
-						output.push_back(textures[texName[k.Texture]]);
-					renderer->SetTargetBuffer(CreateFramebuffer(output, true));
-				}
-			}
+			//	if (configuration->Renderer.Output.size() == 0 || (configuration->Renderer.Output.size() == 1 && configuration->Renderer.Output[0].Texture == "Screen"))
+			//		renderer->SetTargetBuffer(nullptr);
+			//	else
+			//	{
+			//		std::vector<GLuint> output;
+			//		output.reserve(configuration->Renderer.Output.size());
+			//		for (auto k : configuration->Renderer.Output)
+			//			output.push_back(textures[texName[k.Texture]]);
+			//		renderer->SetTargetBuffer(CreateFramebuffer(output, true));
+			//	}
+			//}
 
-
+				renderer->SetTargetBuffer(std::shared_ptr<Framebuffer>{p});
 
 			auto rm = engine->GetResourceManager();
 			//effects
@@ -135,22 +138,6 @@ namespace EngineQ
 
 			engine->resizeEvent += handler;
 
-			std::vector<GLuint> txtrs;
-			textures.push_back(0);
-			CreateTexture(&textures[textures.size()-1], TextureConfiguration{ "turbi" });
-			txtrs.push_back(textures[textures.size() - 1]);
-			frmbfr = new Framebuffer(true, txtrs, engine);
-
-			if (!frmbfr->Ready())
-				throw 1;
-			glGenBuffers(1, &testbuffer);
-
-			CreateTexture(&texx, TextureConfiguration{});
-			glBindBuffer(GL_FRAMEBUFFER, testbuffer);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texx, 0);//locations[location]
-
-
-			Framebuffer::BindDefault();
 			InitScreenQuad(&quadVao);
 
 			Init(configuration);
@@ -170,47 +157,25 @@ namespace EngineQ
 		void RenderingUnit::Render(Scene* scene)
 		{
 
-
-			glBindBuffer(GL_FRAMEBUFFER, testbuffer);
-
-			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			glEnable(GL_DEPTH_TEST);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
 			renderer->Render(scene);
 
-			//if (effects.size() > 0)
-			//	for (auto& i : effects)
-			//	{
-			//		i->BindTargetBuffer();
+			if (effects.size() > 0)
+				for (auto& i : effects)
+				{
+					i->BindTargetBuffer();
 
-			//		glClear(GL_COLOR_BUFFER_BIT);
-			//		glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
-			//		glDisable(GL_DEPTH_TEST);
-			//		i->Activate();
-			//		glBindVertexArray(quadVao);
-			//		i->BindTextures();
-			//		glDrawArrays(GL_TRIANGLES, 0, 6);
-			//		glBindVertexArray(0);
-			//		//i->UnbindTextures();
-			//	}
+					glClear(GL_COLOR_BUFFER_BIT);
+					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
+					glDisable(GL_DEPTH_TEST);
+					i->Activate();
+					glBindVertexArray(quadVao);
+
+					i->BindTextures();
+					glDrawArrays(GL_TRIANGLES, 0, 6);
+					glBindVertexArray(0);
+					i->UnbindTextures();
+				}
 			Framebuffer::BindDefault();
-
-			//OLD
-			/*Framebuffer::BindDefault();
-
-			glClear(GL_COLOR_BUFFER_BIT);
-			glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
-			glDisable(GL_DEPTH_TEST);
-
-			effect.Activate();
-			glBindVertexArray(quadVao);
-			glBindTexture(GL_TEXTURE_2D, frm.GetColorTexture(0));
-			glDrawArrays(GL_TRIANGLES, 0, 6);
-			glBindVertexArray(0);*/
-
-
 
 
 		}
