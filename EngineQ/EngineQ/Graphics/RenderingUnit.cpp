@@ -160,27 +160,27 @@ namespace EngineQ
 		{
 
 
-			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			glEnable(GL_DEPTH_TEST);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			renderer->Render(scene);
 
-			if (effects.size() > 0)
-				for (auto& i : effects)
-				{
-					i->BindTargetBuffer();
+			//if (effects.size() > 0)
+			//	for (auto& i : effects)
+			//	{
+			//		i->BindTargetBuffer();
 
-					glClear(GL_COLOR_BUFFER_BIT);
-					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
-					glDisable(GL_DEPTH_TEST);
-					i->Activate();
-					glBindVertexArray(quadVao);
-					i->BindTextures();
-					glDrawArrays(GL_TRIANGLES, 0, 6);
-					glBindVertexArray(0);
-					//i->UnbindTextures();
-				}
+			//		glClear(GL_COLOR_BUFFER_BIT);
+			//		glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
+			//		glDisable(GL_DEPTH_TEST);
+			//		i->Activate();
+			//		glBindVertexArray(quadVao);
+			//		i->BindTextures();
+			//		glDrawArrays(GL_TRIANGLES, 0, 6);
+			//		glBindVertexArray(0);
+			//		//i->UnbindTextures();
+			//	}
+
+
+			//OLD
 			/*Framebuffer::BindDefault();
 
 			glClear(GL_COLOR_BUFFER_BIT);
