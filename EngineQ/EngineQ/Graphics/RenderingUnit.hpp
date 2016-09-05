@@ -18,8 +18,6 @@ namespace EngineQ
 		private:
 			Engine* engine;
 			ForwardRenderer* renderer=nullptr;
-			Graphics::Framebuffer frm;
-			Graphics::PostprocessingEffect effect;
 			GLuint quadVao=0;
 
 			std::vector<std::shared_ptr <PostprocessingEffect>> effects;
@@ -34,10 +32,11 @@ namespace EngineQ
 
 			void Resize(int width, int height);
 			void ResizeTexture(GLuint texture, int width, int height);
-			void Init(RendererConfiguration* configuration);
+			std::shared_ptr<Framebuffer> CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting);
+			void Init(RenderingUnitConfiguration* configuration);
 		public:
 
-			RenderingUnit(Engine* engine, RendererConfiguration* configuration);
+			RenderingUnit(Engine* engine, RenderingUnitConfiguration* configuration);
 			~RenderingUnit();
 
 			void Render(Scene* scene);

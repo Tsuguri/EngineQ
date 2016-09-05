@@ -14,7 +14,7 @@ namespace EngineQ
 			GLenum Position;
 			GLuint Texture;
 
-			InputConfiguration(GLuint position, GLuint texture);
+			InputConfiguration(GLenum position, GLuint texture);
 		};
 
 
@@ -25,7 +25,7 @@ namespace EngineQ
 			std::shared_ptr<Shader> shader;
 
 			std::vector<InputConfiguration> inputTextures;
-			Framebuffer* framebuffer=nullptr;
+			std::shared_ptr<Framebuffer> framebuffer;
 		public:
 			static GLenum textureLocations[10];
 			PostprocessingEffect(std::shared_ptr<Shader> shader);
@@ -34,7 +34,7 @@ namespace EngineQ
 			void UnbindTextures();
 
 			void BindTargetBuffer() const;
-			void SetTargetBuffer(Framebuffer* buffer);
+			void SetTargetBuffer(std::shared_ptr<Framebuffer> buffer);
 
 			void AddInput(InputConfiguration input);
 

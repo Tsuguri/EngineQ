@@ -61,7 +61,7 @@ namespace EngineQ
 			}
 		}
 
-		void ForwardRenderer::SetTargetBuffer(Framebuffer* buffer)
+		void ForwardRenderer::SetTargetBuffer(std::shared_ptr<Framebuffer> buffer)
 		{
 			framebuffer = buffer;
 		}

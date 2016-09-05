@@ -4,16 +4,11 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		TextureConfiguration::TextureConfiguration(GLuint format, GLuint dataType) : Format(format), DataType(dataType)
+		TextureConfiguration::TextureConfiguration(std::string name,GLuint format, GLuint dataType) : Format(format), DataType(dataType), Name(name)
 		{
 		}
 
-		FramebufferConfiguration::FramebufferConfiguration() : Name(""), DepthTesting(false)
-		{
-
-		}
-
-		FramebufferConfiguration::FramebufferConfiguration(std::string name, bool depthTesting, std::vector<TextureConfiguration> textures) : Name(name), DepthTesting(depthTesting), Textures(textures)
+		InputPair::InputPair(GLuint location, std::string texture) : Location(location), Texture(texture)
 		{
 		}
 

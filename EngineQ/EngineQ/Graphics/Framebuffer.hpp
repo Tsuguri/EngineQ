@@ -6,6 +6,7 @@
 #include "../Utilities/Immovable.hpp"
 #include "RendererConfiguration.hpp"
 #include "../Utilities/Event.hpp"
+#include "../Engine.hpp"
 
 namespace EngineQ
 {
@@ -25,6 +26,10 @@ namespace EngineQ
 
 			bool ready = false;
 
+			EventHandler<void(int, int)> handler;
+
+			Engine* engine;
+
 			void CreateTexture(int location, TextureConfiguration configuration);
 
 			void AddTexture(int location, GLuint texture);
@@ -35,7 +40,7 @@ namespace EngineQ
 
 
 		public:
-			Framebuffer(bool depth, std::vector<GLuint> textures);
+			Framebuffer(bool depth, std::vector<GLuint> textures, EngineQ::Engine* engine);
 			~Framebuffer();
 
 			void Bind() const;

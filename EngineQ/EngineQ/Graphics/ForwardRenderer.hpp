@@ -12,13 +12,13 @@ namespace EngineQ
 		class ForwardRenderer
 		{
 		private:
-			Framebuffer* framebuffer=nullptr;
+			std::shared_ptr<Framebuffer> framebuffer;
 		public:
 			ForwardRenderer();
 			virtual ~ForwardRenderer();
 
 			void Render(Scene* scene);
-			void SetTargetBuffer(Framebuffer* buffer);
+			void SetTargetBuffer(std::shared_ptr<Framebuffer> buffer);
 
 
 		};

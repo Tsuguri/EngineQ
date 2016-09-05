@@ -55,7 +55,14 @@ namespace EngineQ
 			}
 		}
 
-		void RenderingUnit::Init(RendererConfiguration* configuration)
+
+		std::shared_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting)
+		{
+			return std::make_shared<Framebuffer>(depthTesting, textures, engine);
+
+		}
+
+		void RenderingUnit::Init(RenderingUnitConfiguration* configuration)
 		{
 			//textures
 			std::map<std::string, int> texName;
@@ -64,9 +71,31 @@ namespace EngineQ
 			{
 				CreateTexture(&textures[j], i);
 				texturesConfigurations.push_back(i);
-				texName.emplace(std::string(i.name), j);
+				texName.emplace(std::string(i.Name), j);
 				++j;
 			}
+
+			if (configuration->Renderer.Deffered)
+			{
+				//should never happen as for now
+			}
+			else
+			{
+				renderer = new ForwardRenderer{};
+				if (configuration->Renderer.Output.size() == 0 || (configuration->Renderer.Output.size() == 1 && configuration->Renderer.Output[0].Texture == "Screen"))
+					renderer->SetTargetBuffer(nullptr);
+				else
+				{
+					std::vector<GLuint> output;
+					output.reserve(configuration->Renderer.Output.size());
+					for (auto k : configuration->Renderer.Output)
+						output.push_back(textures[texName[k.Texture]]);
+					renderer->SetTargetBuffer(CreateFramebuffer(output, true));
+				}
+			}
+
+
+
 			auto rm = engine->GetResourceManager();
 			//effects
 			for (auto i : configuration->Effects)
@@ -74,21 +103,30 @@ namespace EngineQ
 				auto p = new PostprocessingEffect{ rm->GetResource<Shader>(i.Shader) };
 				for (auto k : i.Input)
 				{
-					p->AddInput(InputConfiguration{ PostprocessingEffect::textureLocations[k.Location],textures[texName[k.Texture]] });
+					auto g = texName[k.Texture];
+					auto z = textures[g];
+					p->AddInput(InputConfiguration{ PostprocessingEffect::textureLocations[k.Location],z });
 				}
+				if (i.Output.size() == 0 || (i.Output.size() == 1 && i.Output[0].Texture == "Screen"))
+					p->SetTargetBuffer(nullptr);
+				else
+				{
 
-				std::vector<GLuint> output(i.Output.size());
-				for (auto k : i.Output)
-					output.push_back(textures[texName[k.Texture]]);//check if output is set  to "screen", or check this for last effect?
-				auto fb = new Framebuffer(i.DepthTesting, output);
-				p->SetTargetBuffer(fb);
-				framebuffers.push_back(std::shared_ptr<Framebuffer>{fb});
-				effects.push_back(std::shared_ptr<PostprocessingEffect>{p});
+					std::vector<GLuint> output;
+					output.reserve(i.Output.size());
+					for (auto k : i.Output)
+						output.push_back(textures[texName[k.Texture]]);//check if output is set  to "screen", or check this for last effect?
+					auto fb = CreateFramebuffer(output, i.DepthTesting);
+
+					p->SetTargetBuffer(fb);
+
+				}
+				effects.push_back(std::shared_ptr<PostprocessingEffect>(p));
 				//tutaj ogarn¹æ wynik ostatniego efektu
 			}
 		}
 
-		RenderingUnit::RenderingUnit(Engine* engine, RendererConfiguration* configuration) : engine(engine), renderer(new ForwardRenderer{}), effect(engine->GetResourceManager()->GetResource<Shader>(Utilities::ResourcesIDs::QuadShader)), textures(configuration->Textures.size(), 0), texturesConfigurations(configuration->Textures.size()), handler(*this, &RenderingUnit::Resize)
+		RenderingUnit::RenderingUnit(Engine* engine, RenderingUnitConfiguration* configuration) : engine(engine), textures(configuration->Textures.size(), 0), texturesConfigurations(configuration->Textures.size()), handler(*this, &RenderingUnit::Resize)
 		{
 			glEnable(GL_DEPTH_TEST);
 			glFrontFace(GL_CCW);
@@ -101,8 +139,6 @@ namespace EngineQ
 
 			engine->resizeEvent += handler;
 
-			if (!frm.Ready())
-				std::cout << "framebuffer is still not complete!" << std::endl;
 			Framebuffer::BindDefault();
 			InitScreenQuad(&quadVao);
 
@@ -113,7 +149,8 @@ namespace EngineQ
 		{
 			engine->resizeEvent -= handler;
 
-			glDeleteTextures(textures.size(), &textures[0]);
+			if (textures.size() > 0)
+				glDeleteTextures(textures.size(), &textures[0]);
 
 			if (renderer != nullptr)
 				delete renderer;
@@ -122,13 +159,28 @@ namespace EngineQ
 		void RenderingUnit::Render(Scene* scene)
 		{
 
-			frm.Bind();
 
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glEnable(GL_DEPTH_TEST);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			renderer->Render(scene);
+
+			if (effects.size() > 0)
+				for (auto& i : effects)
+				{
+					i->BindTargetBuffer();
+
+					glClear(GL_COLOR_BUFFER_BIT);
+					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
+					glDisable(GL_DEPTH_TEST);
+					i->Activate();
+					glBindVertexArray(quadVao);
+					i->BindTextures();
+					glDrawArrays(GL_TRIANGLES, 0, 6);
+					glBindVertexArray(0);
+					//i->UnbindTextures();
+				}
 			/*Framebuffer::BindDefault();
 
 			glClear(GL_COLOR_BUFFER_BIT);

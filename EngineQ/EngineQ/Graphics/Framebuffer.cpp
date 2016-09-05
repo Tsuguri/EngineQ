@@ -32,7 +32,7 @@ namespace EngineQ
 
 		void Framebuffer::AddTexture(int location, GLuint texture)
 		{
-			glFramebufferTexture2D(GL_FRAMEBUFFER, locations[location], GL_TEXTURE_2D, texture, 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);//locations[location]
 		}
 
 		void Framebuffer::CreateDepthTesting()
@@ -67,16 +67,21 @@ namespace EngineQ
 
 			if (depth)
 				CreateDepthTesting();
+
+			engine->resizeEvent += handler;
 		}
 
 
-		Framebuffer::Framebuffer(bool depth, std::vector<GLuint> textures)
+		Framebuffer::Framebuffer(bool depth, std::vector<GLuint> textures, EngineQ::Engine* engine): handler(*this, &Framebuffer::Resize), engine(engine)
 		{
 			Init(depth, textures);
 		}
 
 		Framebuffer::~Framebuffer()
 		{
+			engine->resizeEvent -= handler;
+
+			//delete depthRbo?
 			glDeleteFramebuffers(1, &fbo);
 		}
 

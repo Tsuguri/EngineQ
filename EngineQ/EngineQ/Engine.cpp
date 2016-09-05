@@ -10,6 +10,7 @@
 #include "TimeCounter.hpp"
 
 #include "Graphics/RenderingUnit.hpp"
+#include "Utilities/ResourcesIDs.hpp"
 
 namespace EngineQ
 {
@@ -125,9 +126,22 @@ namespace EngineQ
 		return resourceManager.get();
 	}
 
-	Graphics::RendererConfiguration* GenerateDefaultConfiguration()
+	Graphics::RenderingUnitConfiguration* GenerateDefaultConfiguration()
 	{
-		auto p = new Graphics::RendererConfiguration{};
+		std::string tex1Name = "tex1";
+		auto p = new Graphics::RenderingUnitConfiguration{};
+		p->Renderer.Output.push_back(Graphics::Output{ tex1Name});
+
+		p->Textures.push_back(Graphics::TextureConfiguration(tex1Name));
+
+		auto e = Graphics::EffectConfiguration{};
+
+		e.Input.push_back(Graphics::InputPair{ 0,tex1Name });
+		e.Output.push_back(Graphics::Output{ "Screen" });
+		e.Shader = Utilities::ResourcesIDs::QuadShader;
+
+		//p->Effects.push_back(e);
+		return p;
 	}
 
 
@@ -137,7 +151,7 @@ namespace EngineQ
 		tc.Update(0, 0);
 
 		//temporary rendering system
-		Graphics::RenderingUnit ppUnit{ this };
+		Graphics::RenderingUnit ppUnit{ this,GenerateDefaultConfiguration() };
 
 		float time = 0, tmp;
 		while (!window.ShouldClose() && running)

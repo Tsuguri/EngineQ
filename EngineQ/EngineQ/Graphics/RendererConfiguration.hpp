@@ -11,27 +11,17 @@ namespace EngineQ
 		class TextureConfiguration
 		{
 		public:
-			TextureConfiguration(GLuint format = GL_RGB, GLuint dataType = GL_FLOAT);
+			TextureConfiguration(std::string name="",GLuint format = GL_RGB, GLuint dataType = GL_FLOAT);
 			GLuint Format = GL_RGB;
 			GLuint DataType = GL_FLOAT;
-			std::string name;
-		};
-
-		class FramebufferConfiguration
-		{
-		public:
-			FramebufferConfiguration();
-			FramebufferConfiguration(std::string name, bool depthTesting, std::vector<TextureConfiguration> textures);
 			std::string Name;
-			bool DepthTesting=false;
-			std::vector<TextureConfiguration> Textures;
 		};
 
 		class InputPair
 		{
 		public:
-			InputPair(GLuint location, GLuint textureNumber, std::string framebuffer);
-			int Location=0;
+			InputPair(GLuint location, std::string texture);
+			int Location = 0;
 			std::string Texture;
 		};
 
@@ -55,12 +45,16 @@ namespace EngineQ
 		class RendererConfiguration
 		{
 		public:
-			bool DeferredEnabled=false;
-			int DeferredShaderID;
+			bool Deffered = false;
+			std::vector<Output> Output;
+		};
+
+		class RenderingUnitConfiguration
+		{
+		public:
+			RendererConfiguration Renderer;
 			std::vector<TextureConfiguration> Textures;
 			std::vector<EffectConfiguration> Effects;
-
-			std::vector<FramebufferConfiguration> Framebuffers;
 		};
 
 

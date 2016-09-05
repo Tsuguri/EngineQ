@@ -19,7 +19,7 @@ namespace EngineQ
 
 
 
-		InputConfiguration::InputConfiguration(GLuint position, GLuint texture) : Position(position), Texture(texture)
+		InputConfiguration::InputConfiguration(GLenum position, GLuint texture) : Position(position), Texture(texture)
 		{
 		}
 
@@ -31,7 +31,7 @@ namespace EngineQ
 		{
 			for(auto& i : inputTextures)
 			{
-				glActiveTexture(i.Position);
+				//glActiveTexture(i.Position);
 				glBindTexture(GL_TEXTURE_2D, i.Texture);
 			}
 		}
@@ -40,7 +40,7 @@ namespace EngineQ
 		{
 			for(auto& i : inputTextures)
 			{
-				glActiveTexture(i.Position);
+				//glActiveTexture(i.Position);
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 		}
@@ -53,7 +53,7 @@ namespace EngineQ
 				framebuffer->Bind();
 		}
 
-		void PostprocessingEffect::SetTargetBuffer(Framebuffer* buffer)
+		void PostprocessingEffect::SetTargetBuffer(std::shared_ptr<Framebuffer>  buffer)
 		{
 			framebuffer = buffer;
 		}
