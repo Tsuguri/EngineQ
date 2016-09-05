@@ -35,7 +35,7 @@ namespace EngineQ
 		{
 			glGenTextures(1, texture);
 			glBindTexture(GL_TEXTURE_2D, *texture);
-			auto size = Engine::Get()->GetScreenSize();
+			auto size = engine->GetScreenSize();
 			glTexImage2D(GL_TEXTURE_2D, 0, configuration.Format, size.X, size.Y, 0, configuration.Format, configuration.DataType, nullptr);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -47,14 +47,14 @@ namespace EngineQ
 			for (int i = 0; i < textures.size(); i++)
 			{
 				glBindTexture(GL_TEXTURE_2D, textures[i]);
-				glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].Format, width, height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
+				glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].Format,width,height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
 			}
 		}
 
 
 		std::shared_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting)
 		{
-			return nullptr;// std::make_shared<Framebuffer>(depthTesting, textures, engine);
+			return std::make_shared<Framebuffer>(depthTesting, textures, engine);
 
 		}
 
@@ -71,31 +71,28 @@ namespace EngineQ
 				++j;
 			}
 
-			auto p = new Framebuffer{engine};
-			p->SetTexture(textures[0]);
-
-			//if (configuration->Renderer.Deffered)
-			//{
-			//	//should never happen as for now
-			//}
-			//else
-			//{
+			//renderer
+			if (configuration->Renderer.Deffered)
+			{
+				//should never happen as for now
+			}
+			else
+			{
 				renderer = new ForwardRenderer{};
-			//	if (configuration->Renderer.Output.size() == 0 || (configuration->Renderer.Output.size() == 1 && configuration->Renderer.Output[0].Texture == "Screen"))
-			//		renderer->SetTargetBuffer(nullptr);
-			//	else
-			//	{
-			//		std::vector<GLuint> output;
-			//		output.reserve(configuration->Renderer.Output.size());
-			//		for (auto k : configuration->Renderer.Output)
-			//			output.push_back(textures[texName[k.Texture]]);
-			//		renderer->SetTargetBuffer(CreateFramebuffer(output, true));
-			//	}
-			//}
-
-				renderer->SetTargetBuffer(std::shared_ptr<Framebuffer>{p});
+				if (configuration->Renderer.Output.size() == 0 || (configuration->Renderer.Output.size() == 1 && configuration->Renderer.Output[0].Texture == "Screen"))
+					renderer->SetTargetBuffer(nullptr);
+				else
+				{
+					std::vector<GLuint> output;
+					output.reserve(configuration->Renderer.Output.size());
+					for (auto k : configuration->Renderer.Output)
+						output.push_back(textures[texName[k.Texture]]);
+					renderer->SetTargetBuffer(CreateFramebuffer(output, true));
+				}
+			}
 
 			auto rm = engine->GetResourceManager();
+
 			//effects
 			for (auto i : configuration->Effects)
 			{
@@ -110,18 +107,15 @@ namespace EngineQ
 					p->SetTargetBuffer(nullptr);
 				else
 				{
-
 					std::vector<GLuint> output;
 					output.reserve(i.Output.size());
 					for (auto k : i.Output)
 						output.push_back(textures[texName[k.Texture]]);//check if output is set  to "screen", or check this for last effect?
 					auto fb = CreateFramebuffer(output, i.DepthTesting);
-
 					p->SetTargetBuffer(fb);
 
 				}
 				effects.push_back(std::shared_ptr<PostprocessingEffect>(p));
-				//tutaj ogarn¹æ wynik ostatniego efektu
 			}
 		}
 

@@ -11,7 +11,7 @@ namespace EngineQ
 		class TextureConfiguration
 		{
 		public:
-			TextureConfiguration(std::string name="",GLuint format = GL_RGB, GLuint dataType = GL_UNSIGNED_BYTE);
+			TextureConfiguration(std::string name="",GLuint format = GL_RGB, GLuint dataType = GL_FLOAT);
 			GLuint Format = GL_RGB;
 			GLuint DataType = GL_UNSIGNED_BYTE;
 			std::string Name;

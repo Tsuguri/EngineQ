@@ -5,7 +5,7 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		GLuint Framebuffer::locations[8] = {
+		GLenum Framebuffer::locations[8] = {
 			GL_COLOR_ATTACHMENT0,
 			GL_COLOR_ATTACHMENT1,
 			GL_COLOR_ATTACHMENT2,
@@ -22,7 +22,7 @@ namespace EngineQ
 			glGenRenderbuffers(1, &depthRbo);
 			glBindRenderbuffer(GL_RENDERBUFFER, depthRbo);
 			auto size = engine->GetScreenSize();
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, size.X, size.Y);
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8,size.X,size.Y);
 			glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthRbo);
@@ -30,22 +30,34 @@ namespace EngineQ
 
 		void Framebuffer::Resize(int width, int height)
 		{
-			if(depthRbo>0)
+			if (depthRbo > 0)
 			{
+				Bind();
 				glDeleteRenderbuffers(1, &depthRbo);
 				CreateDepthTesting();
 			}
 		}
 
-		Framebuffer::Framebuffer(Engine* engine) : engine(engine), handler(*this,&Framebuffer::Resize)
+		void Framebuffer::AddTexture(GLuint texture, GLenum location)
+		{
+			glFramebufferTexture2D(GL_FRAMEBUFFER, location, GL_TEXTURE_2D, texture, 0);
+		}
+
+		Framebuffer::Framebuffer(bool depthTesting, std::vector<GLuint>& textures, Engine* engine) : engine(engine), handler(*this, &Framebuffer::Resize)
 		{
 			glGenFramebuffers(1, &fbo);
-			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+			Bind();
 
-			CreateDepthTesting();
+			if (depthTesting)
+				CreateDepthTesting();
+
+			for (int i = 0; i < textures.size();++i)
+			{
+				AddTexture(textures[i], locations[i]);
+			}
+
 
 			engine->resizeEvent += handler;
-			
 		}
 
 		Framebuffer::~Framebuffer()
@@ -57,15 +69,9 @@ namespace EngineQ
 			engine->resizeEvent -= handler;
 		}
 
-		void Framebuffer::Bind()
+		void Framebuffer::Bind() const
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-		}
-
-		void Framebuffer::SetTexture(GLuint tex)
-		{
-			Bind();
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex, 0);
 		}
 
 		void Framebuffer::BindDefault()

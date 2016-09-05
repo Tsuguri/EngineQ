@@ -16,8 +16,8 @@ namespace EngineQ
 		// TODO
 		class Framebuffer : public EngineQ::Utilities::Immovable
 		{
-			static GLuint locations[8];
-			//GLuint textureColor;
+			static GLenum locations[8];
+
 			GLuint fbo;
 			GLuint depthRbo;
 
@@ -26,19 +26,14 @@ namespace EngineQ
 
 			void CreateDepthTesting();
 			void Resize(int width, int height);
+			void AddTexture(GLuint texture, GLenum location);
 		public:
-			Framebuffer(Engine* engine);
+			Framebuffer(bool depthTesting,std::vector<GLuint>& textures,Engine* engine);
 			~Framebuffer();
 
-			void Bind();
-
-			//GLuint GetTexture();
-
-			void SetTexture(GLuint tex);
-
+			void Bind() const;
 
 			static void BindDefault();
-
 		};
 
 	}
