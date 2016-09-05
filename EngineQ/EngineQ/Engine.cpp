@@ -129,18 +129,25 @@ namespace EngineQ
 	Graphics::RenderingUnitConfiguration* GenerateDefaultConfiguration()
 	{
 		std::string tex1Name = "tex1";
+		std::string tex2Name = "tex2";
 		auto p = new Graphics::RenderingUnitConfiguration{};
-		p->Renderer.Output.push_back(Graphics::Output{ tex1Name});
+		p->Renderer.Output.push_back(Graphics::Output{ tex1Name });
 
-		p->Textures.push_back(Graphics::TextureConfiguration(tex1Name));
+		p->Textures.push_back(Graphics::TextureConfiguration{ tex1Name });
+		p->Textures.push_back(Graphics::TextureConfiguration{ tex2Name });
 
 		auto e = Graphics::EffectConfiguration{};
-
 		e.Input.push_back(Graphics::InputPair{ 0,tex1Name });
-		e.Output.push_back(Graphics::Output{ "Screen" });
+		e.Output.push_back(Graphics::Output{ tex2Name });
 		e.Shader = Utilities::ResourcesIDs::QuadShader;
-
 		p->Effects.push_back(e);
+
+		auto e2 = Graphics::EffectConfiguration{};
+		e2.Input.push_back(Graphics::InputPair{ 0,tex2Name });
+		e2.Output.push_back(Graphics::Output{ "Screen" });
+		e2.Shader = Utilities::ResourcesIDs::QuadShader;
+
+		p->Effects.push_back(e2);
 		return p;
 	}
 
@@ -172,7 +179,7 @@ namespace EngineQ
 
 			// clear frame-characteristic data
 			input.ClearDelta();
-			
+
 			//show result on screen
 			window.SwapBuffers();
 		}
