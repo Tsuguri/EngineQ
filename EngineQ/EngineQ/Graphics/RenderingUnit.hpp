@@ -23,6 +23,9 @@ namespace EngineQ
 			std::vector<std::shared_ptr <PostprocessingEffect>> effects;
 			std::vector<std::shared_ptr<Framebuffer>> framebuffers;
 
+			Framebuffer* frmbfr;
+			GLuint testbuffer;
+			GLuint texx;
 			std::vector<GLuint> textures;
 			std::vector<TextureConfiguration> texturesConfigurations;
 			

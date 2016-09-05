@@ -17,21 +17,9 @@ namespace EngineQ
 		};
 
 
-		void Framebuffer::CreateTexture(int location, TextureConfiguration configuration)
-		{
-			glGenTextures(1, &textures[location]);
-			glBindTexture(GL_TEXTURE_2D, textures[location]);
-			auto size = Engine::Get()->GetScreenSize();
-			glTexImage2D(GL_TEXTURE_2D, 0, configuration.Format, size.X, size.Y, 0, configuration.Format, configuration.DataType, nullptr);
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-			glFramebufferTexture2D(GL_FRAMEBUFFER, locations[location], GL_TEXTURE_2D, textures[location], 0);
-		}
-
 		void Framebuffer::AddTexture(int location, GLuint texture)
 		{
+			glBindTexture(GL_TEXTURE_2D, texture);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);//locations[location]
 		}
 
@@ -62,8 +50,8 @@ namespace EngineQ
 			glGenBuffers(1, &fbo);
 			Bind();
 			int j = 0;
-			for (auto i : textures)
-				AddTexture(j++, i);
+			//for (auto i : textures)
+			//	AddTexture(j++, i);
 
 			if (depth)
 				CreateDepthTesting();

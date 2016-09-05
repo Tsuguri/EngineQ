@@ -49,10 +49,6 @@ namespace EngineQ
 				glBindTexture(GL_TEXTURE_2D, textures[i]);
 				glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].Format, width, height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
 			}
-			for (auto it = framebuffers.begin(); it != framebuffers.end(); ++it)
-			{
-				(*it)->Resize(width, height);
-			}
 		}
 
 
@@ -126,7 +122,7 @@ namespace EngineQ
 			}
 		}
 
-		RenderingUnit::RenderingUnit(Engine* engine, RenderingUnitConfiguration* configuration) : engine(engine), textures(configuration->Textures.size(), 0), texturesConfigurations(configuration->Textures.size()), handler(*this, &RenderingUnit::Resize)
+		RenderingUnit::RenderingUnit(Engine* engine, RenderingUnitConfiguration* configuration) : engine(engine), textures(configuration->Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
 		{
 			glEnable(GL_DEPTH_TEST);
 			glFrontFace(GL_CCW);
@@ -138,6 +134,21 @@ namespace EngineQ
 			glDepthFunc(GL_GREATER);
 
 			engine->resizeEvent += handler;
+
+			std::vector<GLuint> txtrs;
+			textures.push_back(0);
+			CreateTexture(&textures[textures.size()-1], TextureConfiguration{ "turbi" });
+			txtrs.push_back(textures[textures.size() - 1]);
+			frmbfr = new Framebuffer(true, txtrs, engine);
+
+			if (!frmbfr->Ready())
+				throw 1;
+			glGenBuffers(1, &testbuffer);
+
+			CreateTexture(&texx, TextureConfiguration{});
+			glBindBuffer(GL_FRAMEBUFFER, testbuffer);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texx, 0);//locations[location]
+
 
 			Framebuffer::BindDefault();
 			InitScreenQuad(&quadVao);
@@ -160,6 +171,12 @@ namespace EngineQ
 		{
 
 
+			glBindBuffer(GL_FRAMEBUFFER, testbuffer);
+
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			glEnable(GL_DEPTH_TEST);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
 			renderer->Render(scene);
 
@@ -178,7 +195,7 @@ namespace EngineQ
 			//		glBindVertexArray(0);
 			//		//i->UnbindTextures();
 			//	}
-
+			Framebuffer::BindDefault();
 
 			//OLD
 			/*Framebuffer::BindDefault();

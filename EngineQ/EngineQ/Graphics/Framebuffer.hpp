@@ -21,16 +21,11 @@ namespace EngineQ
 			GLuint fbo = 0;
 			GLuint depthRbo=0;
 
-			std::vector<GLuint> textures;
-			int size;
-
 			bool ready = false;
 
 			EventHandler<void(int, int)> handler;
 
 			Engine* engine;
-
-			void CreateTexture(int location, TextureConfiguration configuration);
 
 			void AddTexture(int location, GLuint texture);
 
@@ -38,6 +33,7 @@ namespace EngineQ
 
 			void Init(bool depth, std::vector<GLuint> textures);
 
+			void Resize(int width, int height);
 
 		public:
 			Framebuffer(bool depth, std::vector<GLuint> textures, EngineQ::Engine* engine);
@@ -47,7 +43,6 @@ namespace EngineQ
 			//remeber that it will automatically bind this framebuffer
 			bool Ready();
 			static void BindDefault();
-			void Resize(int width, int height);
 
 		};
 
