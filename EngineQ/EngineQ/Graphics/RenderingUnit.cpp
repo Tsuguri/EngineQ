@@ -18,6 +18,7 @@ namespace EngineQ
 				1.0f, -1.0f,  1.0f, 0.0f,
 				1.0f,  1.0f,  1.0f, 1.0f
 			};
+
 			GLuint  quadVBO;
 			glGenVertexArrays(1, quadVao);
 			glGenBuffers(1, &quadVBO);
@@ -31,7 +32,7 @@ namespace EngineQ
 			glBindVertexArray(0);
 		}
 
-		void RenderingUnit::CreateTexture(GLuint* texture, TextureConfiguration configuration)
+		void RenderingUnit::CreateTexture(GLuint* texture,const TextureConfiguration& configuration) const
 		{
 			glGenTextures(1, texture);
 			glBindTexture(GL_TEXTURE_2D, *texture);
@@ -52,74 +53,71 @@ namespace EngineQ
 		}
 
 
-		std::shared_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting)
+		std::unique_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting)
 		{
-			return std::make_shared<Framebuffer>(depthTesting, textures, engine);
+			return std::make_unique<Framebuffer>(depthTesting, textures, engine);
 
 		}
 
-		void RenderingUnit::Init(RenderingUnitConfiguration* configuration)
+		void RenderingUnit::Init(const RenderingUnitConfiguration& configuration)
 		{
 			//textures
-			std::map<std::string, int> texName;
+			std::map<std::string, int> texturesNames;
 			int j = 0;
-			for (auto i : configuration->Textures)
+			for (auto texConfiguration : configuration.Textures)
 			{
-				CreateTexture(&textures[j], i);
-				texturesConfigurations.push_back(i);
-				texName.emplace(std::string(i.Name), j);
+				CreateTexture(&textures[j], texConfiguration);
+				texturesConfigurations.push_back(texConfiguration);
+				texturesNames.emplace(std::string(texConfiguration.Name), j);
 				++j;
 			}
 
 			//renderer
-			if (configuration->Renderer.Deffered)
+			if (configuration.Renderer.Deffered)
 			{
 				//should never happen as for now
 			}
 			else
 			{
 				renderer = new ForwardRenderer{};
-				if (configuration->Renderer.Output.size() == 0 || (configuration->Renderer.Output.size() == 1 && configuration->Renderer.Output[0].Texture == "Screen"))
+				if (configuration.Renderer.Output.size() == 0 || (configuration.Renderer.Output.size() == 1 && configuration.Renderer.Output[0].Texture == "Screen"))
 					renderer->SetTargetBuffer(nullptr);
 				else
 				{
-					std::vector<GLuint> output;
-					output.reserve(configuration->Renderer.Output.size());
-					for (auto k : configuration->Renderer.Output)
-						output.push_back(textures[texName[k.Texture]]);
-					renderer->SetTargetBuffer(CreateFramebuffer(output, true));
+					std::vector<GLuint> rendererOutput;
+					rendererOutput.reserve(configuration.Renderer.Output.size());
+					for (auto outputConfiguration : configuration.Renderer.Output)
+						rendererOutput.push_back(textures[texturesNames[outputConfiguration.Texture]]);
+					renderer->SetTargetBuffer(CreateFramebuffer(rendererOutput, true));
 				}
 			}
 
 			auto rm = engine->GetResourceManager();
 
 			//effects
-			for (auto i : configuration->Effects)
+			for (auto shaderPass : configuration.Effects)
 			{
-				auto p = new PostprocessingEffect{ rm->GetResource<Shader>(i.Shader) };
-				for (auto k : i.Input)
-				{
-					auto g = texName[k.Texture];
-					auto z = textures[g];
-					p->AddInput(InputConfiguration{ PostprocessingEffect::textureLocations[k.Location],z });
-				}
-				if (i.Output.size() == 0 || (i.Output.size() == 1 && i.Output[0].Texture == "Screen"))
+				auto p =std::make_unique<ShaderPass>(rm->GetResource<Shader>(shaderPass.Shader) );
+				for (auto inputConfiguration : shaderPass.Input)
+					p->AddInput(InputConfiguration{ inputConfiguration.Location,textures[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
+
+				if (shaderPass.Output.size() == 0 || (shaderPass.Output.size() == 1 && shaderPass.Output[0].Texture == "Screen"))
 					p->SetTargetBuffer(nullptr);
 				else
 				{
 					std::vector<GLuint> output;
-					output.reserve(i.Output.size());
-					for (auto k : i.Output)
-						output.push_back(textures[texName[k.Texture]]);//check if output is set  to "screen", or check this for last effect?
-					auto fb = CreateFramebuffer(output, i.DepthTesting);
-					p->SetTargetBuffer(fb);
+					output.reserve(shaderPass.Output.size());
+					for (auto k : shaderPass.Output)
+						output.push_back(textures[texturesNames[k.Texture]]);//check if output is set  to "screen", or check this for last effect?
+					auto fb = CreateFramebuffer(output, shaderPass.DepthTesting);
+					p->SetTargetBuffer(std::move(fb));
 
 				}
-				effects.push_back(std::shared_ptr<PostprocessingEffect>(p));
+				effects.push_back(std::move(p));
 			}
 		}
 
-		RenderingUnit::RenderingUnit(Engine* engine, RenderingUnitConfiguration* configuration) : engine(engine), textures(configuration->Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
+		RenderingUnit::RenderingUnit(Engine* engine, const RenderingUnitConfiguration& configuration) : engine(engine), textures(configuration.Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
 		{
 			glEnable(GL_DEPTH_TEST);
 			glFrontFace(GL_CCW);

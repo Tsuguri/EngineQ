@@ -126,28 +126,49 @@ namespace EngineQ
 		return resourceManager.get();
 	}
 
-	Graphics::RenderingUnitConfiguration* GenerateDefaultConfiguration()
+	Graphics::RenderingUnitConfiguration GenerateDefaultConfiguration()
 	{
 		std::string tex1Name = "tex1";
 		std::string tex2Name = "tex2";
-		auto p = new Graphics::RenderingUnitConfiguration{};
-		p->Renderer.Output.push_back(Graphics::Output{ tex1Name });
+		std::string tex3Name = "tex3";
+		Graphics::RenderingUnitConfiguration p{};
+		p.Renderer.Output.push_back(Graphics::Output{ tex1Name });
 
-		p->Textures.push_back(Graphics::TextureConfiguration{ tex1Name });
-		p->Textures.push_back(Graphics::TextureConfiguration{ tex2Name });
+		p.Textures.push_back(Graphics::TextureConfiguration{ tex1Name });
+		p.Textures.push_back(Graphics::TextureConfiguration{ tex2Name });
+		p.Textures.push_back(Graphics::TextureConfiguration{ tex3Name });
 
-		auto e = Graphics::EffectConfiguration{};
-		e.Input.push_back(Graphics::InputPair{ 0,tex1Name });
-		e.Output.push_back(Graphics::Output{ tex2Name });
-		e.Shader = Utilities::ResourcesIDs::QuadShader;
-		p->Effects.push_back(e);
+		auto extract = Graphics::EffectConfiguration{};
+		extract.Input.push_back(Graphics::InputPair{ 0,tex1Name });
+		extract.Output.push_back(Graphics::Output{ tex2Name });
+		extract.Shader = Utilities::ResourcesIDs::BrightExtract;
+		p.Effects.push_back(extract);
 
-		auto e2 = Graphics::EffectConfiguration{};
-		e2.Input.push_back(Graphics::InputPair{ 0,tex2Name });
-		e2.Output.push_back(Graphics::Output{ "Screen" });
-		e2.Shader = Utilities::ResourcesIDs::QuadShader;
+		auto blurVertical = Graphics::EffectConfiguration{};
+		blurVertical.Input.push_back(Graphics::InputPair{ 0,tex2Name });
+		blurVertical.Output.push_back(Graphics::Output{ tex3Name});
+		blurVertical.Shader = Utilities::ResourcesIDs::BlurVShader;
+		
 
-		p->Effects.push_back(e2);
+		auto blur = Graphics::EffectConfiguration{};
+		blur.Input.push_back(Graphics::InputPair{ 0,tex3Name });
+		blur.Output.push_back(Graphics::Output{ tex2Name});
+		blur.Shader = Utilities::ResourcesIDs::BlurShader;
+		
+
+		for (int i = 0; i < 5; i++)
+		{
+			p.Effects.push_back(blurVertical);
+			p.Effects.push_back(blur);
+		}
+
+		auto quad = Graphics::EffectConfiguration{};
+		quad.Input.push_back(Graphics::InputPair{ 0, tex1Name, "scene" });
+		quad.Input.push_back(Graphics::InputPair{ 1,tex2Name, "bloomBlur" });
+		quad.Output.push_back(Graphics::Output{ "Screen" });
+		quad.Shader = Utilities::ResourcesIDs::CombineShader;
+		p.Effects.push_back(quad);
+
 		return p;
 	}
 
@@ -156,7 +177,6 @@ namespace EngineQ
 	{
 		auto& tc{ *TimeCounter::Get() };
 		tc.Update(0, 0);
-
 		//temporary rendering system
 		Graphics::RenderingUnit ppUnit{ this,GenerateDefaultConfiguration() };
 

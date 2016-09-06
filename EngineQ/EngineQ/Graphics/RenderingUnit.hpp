@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "../Scene.hpp"
-#include "PostprocessingEffect.hpp"
+#include "ShaderPass.hpp"
 #include "Framebuffer.hpp"
 #include "RendererConfiguration.hpp"
 #include "ForwardRenderer.hpp"
@@ -20,23 +20,21 @@ namespace EngineQ
 			ForwardRenderer* renderer=nullptr;
 			GLuint quadVao=0;
 
-			std::vector<std::shared_ptr <PostprocessingEffect>> effects;
-			std::vector<std::shared_ptr<Framebuffer>> framebuffers;
+			std::vector<std::unique_ptr<ShaderPass>> effects;
 
 			std::vector<GLuint> textures;
 			std::vector<TextureConfiguration> texturesConfigurations;
 			
 			EventHandler<void(int, int)> handler;
 
-			void CreateTexture(GLuint* texture, TextureConfiguration configuration);
+			void CreateTexture(GLuint* texture, const TextureConfiguration& configuration) const;
 
 			void Resize(int width, int height);
-			void ResizeTexture(GLuint texture, int width, int height);
-			std::shared_ptr<Framebuffer> CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting);
-			void Init(RenderingUnitConfiguration* configuration);
+			std::unique_ptr<Framebuffer> CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting);
+			void Init(const RenderingUnitConfiguration&configuration);
 		public:
 
-			RenderingUnit(Engine* engine, RenderingUnitConfiguration* configuration);
+			RenderingUnit(Engine* engine,const RenderingUnitConfiguration& configuration);
 			~RenderingUnit();
 
 			void Render(Scene* scene);

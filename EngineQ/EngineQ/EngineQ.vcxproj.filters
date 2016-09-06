@@ -51,12 +51,11 @@
     <ClCompile Include="Utilities\Nullable.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Utilities\ResourcesIDs.cpp" />
-    <ClCompile Include="Graphics\PostprocessingEffect.cpp" />
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
+    <ClCompile Include="Graphics\ShaderPass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
-    <ClInclude Include="Graphics\PostprocessingEffect.hpp" />
     <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
     <ClInclude Include="Graphics\RendererConfiguration.hpp" />
     <ClInclude Include="InputController.hpp" />
@@ -117,6 +116,7 @@
     <ClInclude Include="Window.hpp" />
     <ClInclude Include="Utilities\ResourcesIDs.hpp" />
     <ClInclude Include="Graphics\RenderingUnit.hpp" />
+    <ClInclude Include="Graphics\ShaderPass.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />

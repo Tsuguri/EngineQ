@@ -100,9 +100,13 @@ void PrepareScene(EngineQ::Scene* scene)
 void TemporaryResources(EngineQ::Engine* engine)
 {
 	auto rm = EngineQ::Engine::Get()->GetResourceManager();
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader, "./Shaders/basic.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::CustomShader, "./Shaders/custom.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::QuadShader, "./Shaders/quad.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader, "./Shaders/Basic.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::CustomShader, "./Shaders/Custom.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::QuadShader, "./Shaders/Quad.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BlurShader, "./Shaders/Bloom/Blur.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BlurVShader, "./Shaders/Bloom/BlurV.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BrightExtract, "./Shaders/Bloom/BrightExtract.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::CombineShader, "./Shaders/Bloom/Combine.shd");
 }
 
 

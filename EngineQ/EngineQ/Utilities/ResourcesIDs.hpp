@@ -13,6 +13,11 @@ namespace EngineQ
 			static int QuadShader;
 			static int BasicShader;
 			static int CustomShader;
+
+			static int BlurShader;
+			static int BlurVShader;
+			static int BrightExtract;
+			static int CombineShader;
 		};
 
 

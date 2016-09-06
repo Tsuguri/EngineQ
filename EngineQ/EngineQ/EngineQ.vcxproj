@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics\Framebuffer.cpp" />
-    <ClCompile Include="Graphics\PostprocessingEffect.cpp" />
+    <ClCompile Include="Graphics\ShaderPass.cpp" />
     <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
     <ClCompile Include="Graphics\RendererConfiguration.cpp" />
@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
-    <ClInclude Include="Graphics\PostprocessingEffect.hpp" />
+    <ClInclude Include="Graphics\ShaderPass.hpp" />
     <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
     <ClInclude Include="Graphics\RenderingUnit.hpp" />
     <ClInclude Include="Graphics\RendererConfiguration.hpp" />

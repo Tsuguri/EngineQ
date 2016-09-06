@@ -20,8 +20,9 @@ namespace EngineQ
 		class InputPair
 		{
 		public:
-			InputPair(GLuint location, std::string texture);
-			int Location = 0;
+			InputPair(GLuint location, std::string texture, std::string locationName="");
+			unsigned int Location = 0;
+			std::string LocationName;
 			std::string Texture;
 		};
 
