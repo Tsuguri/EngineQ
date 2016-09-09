@@ -1,6 +1,7 @@
 #include "Engine.hpp"
 
 #include "Utilities/ResourcesIDs.hpp"
+#include <Graphics/RenderingUnit.hpp>
 namespace Math = EngineQ::Math;
 
 EngineQ::Mesh* GenerateCube(float side = 1.0f)
@@ -116,7 +117,7 @@ int main(int argc, char** argv)
 	EngineQ::Engine::Initialize("Turbo giera", 800, 600, argv[0]);
 	TemporaryResources(EngineQ::Engine::Get());
 
-
+	EngineQ::Graphics::RenderingUnitConfiguration::Load("./postprocessing.conf");
 
 
 	auto sc = EngineQ::Engine::Get()->CreateScene();

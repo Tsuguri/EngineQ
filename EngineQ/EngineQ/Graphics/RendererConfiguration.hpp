@@ -1,8 +1,11 @@
 #ifndef ENGINEQ_GRAPHICS_RENDERER_CONFIGURATION_HPP
 #define ENGINEQ_GRAPHICS_RENDERER_CONFIGURATION_HPP
 #include "../Libraries/GL/glew.h"
+#include "../Libraries/TinyXML/tinyxml2.h"
+
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 namespace EngineQ
 {
@@ -10,9 +13,14 @@ namespace EngineQ
 	{
 		class TextureConfiguration
 		{
+			static const std::unordered_map<std::string, GLuint> internalFormats;
+			static const std::unordered_map<std::string, GLuint> formats;
+			static const std::unordered_map<std::string, GLuint> dataTypes;
 		public:
+			static TextureConfiguration Load(tinyxml2::XMLElement * node);
 			TextureConfiguration(std::string name="",GLuint format = GL_RGB, GLuint dataType = GL_UNSIGNED_BYTE);
 			GLuint Format = GL_RGB;
+			GLuint InternalFormat = GL_RGB;
 			GLuint DataType = GL_UNSIGNED_BYTE;
 			std::string Name;
 		};
@@ -26,10 +34,10 @@ namespace EngineQ
 			std::string Texture;
 		};
 
-		class Output
+		class OutputTexture
 		{
 		public:
-			Output(std::string texture);
+			OutputTexture(std::string texture);
 			std::string Texture;
 		};
 
@@ -40,14 +48,16 @@ namespace EngineQ
 			std::string ClassName;//C# class name
 			bool DepthTesting;
 			std::vector<InputPair> Input;
-			std::vector<Output> Output;
+			std::vector<OutputTexture> Output;
 		};
 
 		class RendererConfiguration
 		{
 		public:
 			bool Deffered = false;
-			std::vector<Output> Output;
+			std::vector<OutputTexture> Output;
+			
+			static RendererConfiguration Load(tinyxml2::XMLElement* element);
 		};
 
 		class RenderingUnitConfiguration
@@ -56,6 +66,9 @@ namespace EngineQ
 			RendererConfiguration Renderer;
 			std::vector<TextureConfiguration> Textures;
 			std::vector<EffectConfiguration> Effects;
+
+			static RenderingUnitConfiguration Load(tinyxml2::XMLElement* element);
+			static RenderingUnitConfiguration Load(std::string filePath);
 		};
 
 

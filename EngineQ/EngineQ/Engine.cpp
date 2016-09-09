@@ -132,7 +132,7 @@ namespace EngineQ
 		std::string tex2Name = "tex2";
 		std::string tex3Name = "tex3";
 		Graphics::RenderingUnitConfiguration p{};
-		p.Renderer.Output.push_back(Graphics::Output{ tex1Name });
+		p.Renderer.Output.push_back(Graphics::OutputTexture{ tex1Name });
 
 		p.Textures.push_back(Graphics::TextureConfiguration{ tex1Name });
 		p.Textures.push_back(Graphics::TextureConfiguration{ tex2Name });
@@ -140,19 +140,19 @@ namespace EngineQ
 
 		auto extract = Graphics::EffectConfiguration{};
 		extract.Input.push_back(Graphics::InputPair{ 0,tex1Name });
-		extract.Output.push_back(Graphics::Output{ tex2Name });
+		extract.Output.push_back(Graphics::OutputTexture{ tex2Name });
 		extract.Shader = Utilities::ResourcesIDs::BrightExtract;
 		p.Effects.push_back(extract);
 
 		auto blurVertical = Graphics::EffectConfiguration{};
 		blurVertical.Input.push_back(Graphics::InputPair{ 0,tex2Name });
-		blurVertical.Output.push_back(Graphics::Output{ tex3Name});
+		blurVertical.Output.push_back(Graphics::OutputTexture{ tex3Name});
 		blurVertical.Shader = Utilities::ResourcesIDs::BlurVShader;
 		
 
 		auto blur = Graphics::EffectConfiguration{};
 		blur.Input.push_back(Graphics::InputPair{ 0,tex3Name });
-		blur.Output.push_back(Graphics::Output{ tex2Name});
+		blur.Output.push_back(Graphics::OutputTexture{ tex2Name});
 		blur.Shader = Utilities::ResourcesIDs::BlurShader;
 		
 
@@ -165,7 +165,7 @@ namespace EngineQ
 		auto quad = Graphics::EffectConfiguration{};
 		quad.Input.push_back(Graphics::InputPair{ 0, tex1Name, "scene" });
 		quad.Input.push_back(Graphics::InputPair{ 1,tex2Name, "bloomBlur" });
-		quad.Output.push_back(Graphics::Output{ "Screen" });
+		quad.Output.push_back(Graphics::OutputTexture{ "Screen" });
 		quad.Shader = Utilities::ResourcesIDs::CombineShader;
 		p.Effects.push_back(quad);
 

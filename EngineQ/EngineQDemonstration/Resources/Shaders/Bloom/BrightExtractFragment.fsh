@@ -9,6 +9,6 @@ void main()
     vec3 result = texture(image, TexCoords).rgb;
 
     float brightness = dot(result, vec3(0.2126, 0.7152, 0.0722));
-    if(brightness > 0.5)
+    if(brightness > 0.75)
         FragColor = vec4(result, 1.0);
 }

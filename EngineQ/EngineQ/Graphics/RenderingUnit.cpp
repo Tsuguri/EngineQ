@@ -48,7 +48,7 @@ namespace EngineQ
 			for (int i = 0; i < textures.size(); i++)
 			{
 				glBindTexture(GL_TEXTURE_2D, textures[i]);
-				glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].Format,width,height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
+				glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].InternalFormat,width,height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
 			}
 		}
 
