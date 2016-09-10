@@ -33,19 +33,19 @@ namespace EngineQ
 
 		template<typename TType>
 		EventHandler(TType& object, TReturn(TType::*method)(TArgs...)) :
-			function{ [&](TArgs... args) { return (object.*method)(args...); } }
+			function{ [&object,method](TArgs... args) { return (object.*method)(args...); } }
 		{
 		}
 
 		template<typename TType>
 		EventHandler(TType& object, TReturn(TType::*method)(TArgs...) const) :
-			function{ [&](TArgs... args) { return (object.*method)(args...); } }
+			function{ [&object,method](TArgs... args) { return (object.*method)(args...); } }
 		{
 		}
 
 		template<typename TType>
 		EventHandler(const TType& object, TReturn(TType::*method)(TArgs...) const) :
-			function{ [&](TArgs... args) { return (object.*method)(args...); } }
+			function{ [&object,method](TArgs... args) { return (object.*method)(args...); } }
 		{
 		}
 

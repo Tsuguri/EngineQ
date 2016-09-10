@@ -1,6 +1,7 @@
 #include "Engine.hpp"
-#include "Graphics/RendererConfiguration.hpp"
-#include "Graphics/PostprocessingUnit.hpp"
+
+#include "Utilities/ResourcesIDs.hpp"
+#include <Graphics/RenderingUnit.hpp>
 namespace Math = EngineQ::Math;
 
 EngineQ::Mesh* GenerateCube(float side = 1.0f)
@@ -72,11 +73,19 @@ void PrepareScene(EngineQ::Scene* scene)
 
 	auto ent = sc.CreateEntity();
 	auto ent2 = sc.CreateEntity();
-	auto renderable = ent2->AddComponent<EngineQ::Graphics::Renderable>();
-	auto cam = ent->AddComponent<EngineQ::Camera>();
-	renderable->SetModel(mesh);
-	renderable->SetForwardShader(EngineQ::Engine::Get()->GetResourceManager()->GetResource<EngineQ::Graphics::Shader>(1).get());
+	auto ent3 = sc.CreateEntity();
 
+	auto renderable = ent2->AddComponent<EngineQ::Graphics::Renderable>();
+	auto renderable2 = ent3->AddComponent<EngineQ::Graphics::Renderable>();
+
+	auto cam = ent->AddComponent<EngineQ::Camera>();
+	auto shd = EngineQ::Engine::Get()->GetResourceManager()->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader);
+	renderable->SetModel(mesh);
+	renderable->SetForwardShader(shd);
+	renderable2->SetModel(mesh);
+	renderable2->SetForwardShader(shd);
+
+	ent3->GetTransform().SetPosition(EngineQ::Math::Vector3(1.0f,0,0));
 	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
 
 	EngineQ::Scripting::ScriptClass scriptClass = EngineQ::Engine::Get()->GetClass("QScripts", "QScripts", "CameraMoveClass");
@@ -92,9 +101,13 @@ void PrepareScene(EngineQ::Scene* scene)
 void TemporaryResources(EngineQ::Engine* engine)
 {
 	auto rm = EngineQ::Engine::Get()->GetResourceManager();
-	rm->AddResource<EngineQ::Graphics::Shader>(1, "./Shaders/basic.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(2, "./Shaders/custom.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(3, "./Shaders/quad.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader, "./Shaders/Basic.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::CustomShader, "./Shaders/Custom.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::QuadShader, "./Shaders/Quad.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BlurShader, "./Shaders/Bloom/Blur.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BlurVShader, "./Shaders/Bloom/BlurV.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BrightExtract, "./Shaders/Bloom/BrightExtract.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::CombineShader, "./Shaders/Bloom/Combine.shd");
 }
 
 
@@ -103,9 +116,7 @@ int main(int argc, char** argv)
 	
 	EngineQ::Engine::Initialize("Turbo giera", 800, 600, argv[0]);
 	TemporaryResources(EngineQ::Engine::Get());
-
-
-
+	EngineQ::Engine::Get()->SetPostprocessingConfiguration("./postprocessing.conf");
 
 	auto sc = EngineQ::Engine::Get()->CreateScene();
 	PrepareScene(sc);

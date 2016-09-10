@@ -1,7 +1,7 @@
 #ifndef ENGINEQ_RESOURCE_MANAGER_HPP
 #define ENGINEQ_RESOURCE_MANAGER_HPP
 
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <string>
 #include <memory>
@@ -62,7 +62,7 @@ namespace EngineQ
 
 		static constexpr int GarbageUpdates = 10;
 		
-		std::vector<std::map<int, std::unique_ptr<BaseResource>>> resources{ static_cast<int>(ResourceType::Count) };
+		std::vector<std::unordered_map<int, std::unique_ptr<BaseResource>>> resources{ static_cast<int>(ResourceType::Count) };
 
 	public:
 		void Update();

@@ -14,7 +14,7 @@ namespace EngineQ
 
 	void ResourceManager::Resource<Graphics::Shader>::Load()
 	{
-		static const std::map<std::string, Graphics::ShaderType> shaderTypeMap = {
+		static const std::unordered_map<std::string, Graphics::ShaderType> shaderTypeMap = {
 			{ "VertexShader", Graphics::ShaderType::VertexShader },
 			{ "FragmentShader", Graphics::ShaderType::FragmentShader },
 			{ "GeometryShader", Graphics::ShaderType::GeometryShader },
@@ -24,9 +24,9 @@ namespace EngineQ
 
 		tinyxml2::XMLDocument doc{};
 		doc.LoadFile(this->path.c_str());
-		std::cout << "Loaded " << this->path << ":" << std::endl;
-		doc.Print();
-		std::cout << std::endl;
+		//std::cout << "Loaded " << this->path << ":" << std::endl;
+		//doc.Print();
+		//std::cout << std::endl;
 
 		if (doc.Error())
 			throw ResourceFileLoadingException{ doc.GetErrorStr1() };

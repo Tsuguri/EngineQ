@@ -20,8 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics\Framebuffer.cpp" />
+    <ClCompile Include="Graphics\ShaderPass.cpp" />
     <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
-    <ClCompile Include="Graphics\PostprocessingUnit.cpp" />
+    <ClCompile Include="Graphics\RenderingUnit.cpp" />
     <ClCompile Include="Graphics\RendererConfiguration.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -65,6 +66,7 @@
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Utilities\ResourcesIDs.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Utilities\Nullable.cpp" />
@@ -72,9 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
-    <ClInclude Include="Graphics\PostprocessingEffect.hpp" />
+    <ClInclude Include="Graphics\ShaderPass.hpp" />
     <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
-    <ClInclude Include="Graphics\PostprocessingUnit.hpp" />
+    <ClInclude Include="Graphics\RenderingUnit.hpp" />
     <ClInclude Include="Graphics\RendererConfiguration.hpp" />
     <ClInclude Include="InputController.hpp" />
     <ClInclude Include="ResourceManager.hpp" />
@@ -126,6 +128,7 @@
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Transform.hpp" />
     <ClInclude Include="Utilities\Property.hpp" />
+    <ClInclude Include="Utilities\ResourcesIDs.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="Utilities\Nullable.hpp" />

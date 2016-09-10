@@ -2,7 +2,6 @@
 #define ENGINEQ_GRAPHICS_FORWARDRENDERER_HPP
 
 #include "../Scene.hpp"
-#include "Mesh.hpp"
 #include "Framebuffer.hpp"
 
 namespace EngineQ
@@ -13,17 +12,13 @@ namespace EngineQ
 		class ForwardRenderer
 		{
 		private:
-			Framebuffer frm;
-			std::shared_ptr<Shader> quadShader;
-			GLuint quadVao;
-
-
-			void InitScreenQuad();
+			std::shared_ptr<Framebuffer> framebuffer;
 		public:
-			ForwardRenderer(EngineQ::Engine* engine);
+			ForwardRenderer();
 			virtual ~ForwardRenderer();
 
 			void Render(Scene* scene);
+			void SetTargetBuffer(std::shared_ptr<Framebuffer> buffer);
 
 
 		};
