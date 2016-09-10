@@ -49,6 +49,8 @@ namespace EngineQ
 			bool DepthTesting;
 			std::vector<InputPair> Input;
 			std::vector<OutputTexture> Output;
+
+			static EffectConfiguration Load(tinyxml2::XMLElement* element);
 		};
 
 		class RendererConfiguration

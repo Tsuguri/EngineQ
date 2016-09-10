@@ -110,7 +110,7 @@ namespace EngineQ
 				tex.Name = name;
 			else
 				throw "Brak nazwy tekstury";
-			
+
 
 			auto internalFormat = element->Attribute("InternalFormat");
 			if (internalFormat != nullptr)
@@ -120,7 +120,7 @@ namespace EngineQ
 					throw "Brak takiego formatu!";
 				tex.InternalFormat = tmp->second;
 			}
-			
+
 			auto format = element->Attribute("Format");
 			if (format != nullptr)
 			{
@@ -154,6 +154,54 @@ namespace EngineQ
 		{
 		}
 
+		EffectConfiguration EffectConfiguration::Load(tinyxml2::XMLElement* element)
+		{
+			auto configuration = EffectConfiguration{};
+
+			auto shader = element->IntAttribute("Shader");
+			if (shader == 0)//default value if not exist or set to 0 - both not wanted
+				throw "Shader attribute not found or equal to 0";
+			configuration.Shader = shader;
+
+			auto depth = element->BoolAttribute("DeptTesting");//default false if not exist
+			configuration.DepthTesting = depth;
+
+			auto input = element->FirstChildElement("Input");
+			if (input != nullptr)
+			{
+				for (auto inputInfo = input->FirstChildElement(); inputInfo != nullptr; inputInfo = inputInfo->NextSiblingElement())
+				{
+					auto texture = inputInfo->Attribute("Texture");
+					auto location = inputInfo->Attribute("Location");
+					auto locationName = input->Attribute("LocationName");
+					if (texture == nullptr || location == nullptr)
+						throw "Missing one or both of required input info!";
+					int loc = std::stoi(location);
+					if (locationName == nullptr)
+						configuration.Input.push_back(InputPair{ static_cast<GLuint>(loc),texture });
+					else
+						configuration.Input.push_back(InputPair{ static_cast<GLuint>(loc),location,locationName });
+				}
+			}
+
+			auto output = element->FirstChildElement("Output");
+			if (output == nullptr || output->FirstChildElement() == nullptr)
+				throw "Shader without output found";
+			for (auto outputInfo = output->FirstChildElement(); outputInfo != nullptr; outputInfo = outputInfo->NextSiblingElement())
+			{
+				auto texture = outputInfo->Attribute("Texture");
+				if (texture == nullptr)
+				{
+					configuration.Output.push_back(OutputTexture{ std::string("Screen") });
+				}
+				else
+					configuration.Output.push_back(OutputTexture{ std::string(texture) });
+			}
+
+
+			return configuration;
+		}
+
 		RendererConfiguration RendererConfiguration::Load(tinyxml2::XMLElement* element)
 		{
 			RendererConfiguration configuration;
@@ -165,11 +213,11 @@ namespace EngineQ
 			}
 
 			auto output = element->FirstChildElement();
-			if(output!=nullptr)
+			if (output != nullptr)
 			{
 				if (std::string(output->Name()) != "Output")
 					throw "Wrong renderer configuration element!";
-				for (auto outputInfo = output->FirstChildElement(); outputInfo != nullptr;outputInfo=outputInfo->NextSiblingElement())
+				for (auto outputInfo = output->FirstChildElement(); outputInfo != nullptr; outputInfo = outputInfo->NextSiblingElement())
 				{
 					auto texture = outputInfo->Attribute("Texture");
 					if (texture == nullptr)
@@ -184,38 +232,47 @@ namespace EngineQ
 
 		RenderingUnitConfiguration RenderingUnitConfiguration::Load(tinyxml2::XMLElement* element)
 		{
-			std::cout << element->Name() << std::endl;
-			return RenderingUnitConfiguration{};
+			RenderingUnitConfiguration configuration{};
+
+
+			if (std::string(element->Name()) != "RenderingUnitConfiguration")
+				throw "Wrong element name";
+
+
+			auto textures = element->FirstChildElement("Textures");
+			if (textures != nullptr)
+			{
+				for (auto textureInfo = textures->FirstChildElement(); textureInfo != nullptr; textureInfo = textureInfo->NextSiblingElement())
+				{
+					std::cout << "	" << textureInfo->Name() << std::endl;
+					configuration.Textures.push_back(TextureConfiguration::Load(textureInfo));
+				}
+			}
+			auto renderer = element->FirstChildElement("Renderer");
+			if (renderer != nullptr)
+			{
+				configuration.Renderer = RendererConfiguration::Load(renderer);
+			}
+			auto effects = element->FirstChildElement("Effects");
+			if (effects != nullptr)
+			{
+				for (auto effectInfo = effects->FirstChildElement(); effectInfo != nullptr; effectInfo = effectInfo->NextSiblingElement())
+				{
+					std::cout << "	" << effectInfo->Name() << std::endl;
+					configuration.Effects.push_back(EffectConfiguration::Load(effectInfo));
+				}
+			}
+
+			return configuration;
 		}
 
 		RenderingUnitConfiguration RenderingUnitConfiguration::Load(std::string filePath)
 		{// add error checking
 			tinyxml2::XMLDocument xmlDoc;
 			tinyxml2::XMLError eResult = xmlDoc.LoadFile(filePath.c_str());
-
-			RenderingUnitConfiguration configuration{};
-
-			auto root = xmlDoc.RootElement();
-
-			for (auto child = root->FirstChildElement(); child != nullptr; child = child->NextSiblingElement())
-			{
-				std::cout << child->Name() << std::endl;
-				if(std::string(child->Name())=="Textures")
-				{
-					std::cout << "	loading textures!" << std::endl;
-					for (auto textureInfo = child->FirstChildElement(); textureInfo != nullptr;textureInfo=textureInfo->NextSiblingElement())
-					{
-						std::cout << "	" << textureInfo->Name() << std::endl;
-						configuration.Textures.push_back(TextureConfiguration::Load(textureInfo));
-					}
-				}
-				if(std::string(child->Name())=="Renderer")
-				{
-					configuration.Renderer = RendererConfiguration::Load(child);
-				}
-			}
-
-			return configuration;
+			if (eResult != tinyxml2::XML_SUCCESS)
+				throw "Error parsing XML file";
+			return Load(xmlDoc.RootElement());
 		}
 	}
 }
