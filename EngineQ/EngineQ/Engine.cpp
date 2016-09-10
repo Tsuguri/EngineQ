@@ -9,8 +9,8 @@
 
 #include "TimeCounter.hpp"
 
-#include "Graphics/RenderingUnit.hpp"
 #include "Utilities/ResourcesIDs.hpp"
+#include "Graphics/RenderingUnit.hpp"
 
 namespace EngineQ
 {
@@ -100,6 +100,11 @@ namespace EngineQ
 		return screenSize;
 	}
 
+	void Engine::SetPostprocessingConfiguration(std::string filePath)
+	{
+		renderingUnit = std::make_shared<Graphics::RenderingUnit>(this, Graphics::RenderingUnitConfiguration::Load(filePath));
+	}
+
 	Scene* Engine::CreateScene() const
 	{
 		return new Scene(*scriptingEngine.get());
@@ -177,8 +182,6 @@ namespace EngineQ
 	{
 		auto& tc{ *TimeCounter::Get() };
 		tc.Update(0, 0);
-		//temporary rendering system
-		Graphics::RenderingUnit ppUnit{ this,GenerateDefaultConfiguration() };
 
 		float time = 0, tmp;
 		while (!window.ShouldClose() && running)
@@ -195,7 +198,7 @@ namespace EngineQ
 			scene->Update();
 
 			// render scene
-			ppUnit.Render(scene);
+			renderingUnit->Render(scene);
 
 			// clear frame-characteristic data
 			input.ClearDelta();

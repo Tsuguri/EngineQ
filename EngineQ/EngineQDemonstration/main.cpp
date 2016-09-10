@@ -116,9 +116,7 @@ int main(int argc, char** argv)
 	
 	EngineQ::Engine::Initialize("Turbo giera", 800, 600, argv[0]);
 	TemporaryResources(EngineQ::Engine::Get());
-
-	EngineQ::Graphics::RenderingUnitConfiguration::Load("./postprocessing.conf");
-
+	EngineQ::Engine::Get()->SetPostprocessingConfiguration("./postprocessing.conf");
 
 	auto sc = EngineQ::Engine::Get()->CreateScene();
 	PrepareScene(sc);

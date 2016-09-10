@@ -14,6 +14,10 @@
 namespace EngineQ
 {
 
+	namespace Graphics
+	{
+		class RenderingUnit;
+	}
 	class Engine
 	{
 #pragma region Fields
@@ -21,6 +25,7 @@ namespace EngineQ
 	private:
 		std::unique_ptr<Scripting::ScriptEngine> scriptingEngine;
 		std::unique_ptr<ResourceManager> resourceManager;
+		std::shared_ptr<Graphics::RenderingUnit> renderingUnit;
 		static Engine* instance;
 		Window window;
 		bool running = true;
@@ -51,6 +56,8 @@ namespace EngineQ
 		ResourceManager* GetResourceManager() const;
 		Scripting::ScriptClass GetClass(std::string assembly, std::string namespaceName, std::string className) const;
 		Vector2i GetScreenSize() const;
+
+		void SetPostprocessingConfiguration(std::string filePath);
 
 		Scene* CreateScene() const;
 		void Exit();

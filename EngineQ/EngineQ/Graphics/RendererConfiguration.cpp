@@ -173,14 +173,14 @@ namespace EngineQ
 				{
 					auto texture = inputInfo->Attribute("Texture");
 					auto location = inputInfo->Attribute("Location");
-					auto locationName = input->Attribute("LocationName");
+					auto locationName = inputInfo->Attribute("LocationName");
 					if (texture == nullptr || location == nullptr)
 						throw "Missing one or both of required input info!";
 					int loc = std::stoi(location);
 					if (locationName == nullptr)
 						configuration.Input.push_back(InputPair{ static_cast<GLuint>(loc),texture });
 					else
-						configuration.Input.push_back(InputPair{ static_cast<GLuint>(loc),location,locationName });
+						configuration.Input.push_back(InputPair{ static_cast<GLuint>(loc),texture,locationName });
 				}
 			}
 
