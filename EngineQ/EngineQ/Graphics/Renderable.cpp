@@ -21,9 +21,19 @@ namespace EngineQ
 			return forwardShader.get();
 		}
 
+		Shader* Renderable::GetDeferredShader() const
+		{
+			return deferredShader.get();
+		}
+
 		void Renderable::SetForwardShader(std::shared_ptr<Shader> shader)
 		{
 			forwardShader = shader;
+		}
+
+		void Renderable::SetDeferredShader(std::shared_ptr<Shader> shader)
+		{
+			deferredShader = shader;
 		}
 
 		Mesh* Renderable::GetModel() const

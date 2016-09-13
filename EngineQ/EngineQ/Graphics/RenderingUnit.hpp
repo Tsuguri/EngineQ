@@ -7,7 +7,7 @@
 #include "ShaderPass.hpp"
 #include "Framebuffer.hpp"
 #include "RendererConfiguration.hpp"
-#include "ForwardRenderer.hpp"
+#include "Renderer.hpp"
 
 namespace EngineQ
 {
@@ -17,7 +17,7 @@ namespace EngineQ
 		{
 		private:
 			Engine* engine;
-			ForwardRenderer* renderer=nullptr;
+			Renderer renderer;
 			GLuint quadVao=0;
 
 			std::vector<std::unique_ptr<ShaderPass>> effects;

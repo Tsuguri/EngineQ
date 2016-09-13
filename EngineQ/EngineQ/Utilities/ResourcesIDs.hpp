@@ -18,6 +18,11 @@ namespace EngineQ
 			static int BlurVShader;
 			static int BrightExtract;
 			static int CombineShader;
+		
+			static int DeferredGeometry;
+			static int DeferredLightning;
+
+			static int CustomDeferred;
 		};
 
 

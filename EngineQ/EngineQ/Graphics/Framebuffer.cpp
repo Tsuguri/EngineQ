@@ -22,7 +22,7 @@ namespace EngineQ
 			glGenRenderbuffers(1, &depthRbo);
 			glBindRenderbuffer(GL_RENDERBUFFER, depthRbo);
 			auto size = engine->GetScreenSize();
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8,size.X,size.Y);
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, size.X, size.Y);
 			glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthRbo);
@@ -51,10 +51,16 @@ namespace EngineQ
 			if (depthTesting)
 				CreateDepthTesting();
 
-			for (int i = 0; i < textures.size();++i)
+			std::vector<GLenum> attachmentOrder;
+			attachmentOrder.reserve(textures.size());
+			for (int i = 0; i < textures.size(); ++i)
 			{
 				AddTexture(textures[i], locations[i]);
+				attachmentOrder.push_back(GL_COLOR_ATTACHMENT0 + i);
 			}
+			if (attachmentOrder.size() > 1)
+				glDrawBuffers(attachmentOrder.size(), &attachmentOrder[0]);
+
 
 
 			engine->resizeEvent += handler;
