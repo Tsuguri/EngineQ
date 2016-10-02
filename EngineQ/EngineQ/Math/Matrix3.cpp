@@ -6,17 +6,10 @@ namespace EngineQ
 	{
 	#pragma region Constructors
 
-		Matrix3::Matrix3() :
-			m00{ static_cast<Real>(0) }, m01{ static_cast<Real>(0) }, m02{ static_cast<Real>(0) },
-			m10{ static_cast<Real>(0) }, m11{ static_cast<Real>(0) }, m12{ static_cast<Real>(0) },
-			m20{ static_cast<Real>(0) }, m21{ static_cast<Real>(0) }, m22{ static_cast<Real>(0) }
-		{
-		}
-
 		Matrix3::Matrix3(Real value) :
-			m00{ value }, m01{ value }, m02{ value },
-			m10{ value }, m11{ value }, m12{ value },
-			m20{ value }, m21{ value }, m22{ value }
+			M00{ value }, M01{ value }, M02{ value },
+			M10{ value }, M11{ value }, M12{ value },
+			M20{ value }, M21{ value }, M22{ value }
 		{
 		}
 
@@ -24,16 +17,16 @@ namespace EngineQ
 			Real m00, Real m01, Real m02,
 			Real m10, Real m11, Real m12,
 			Real m20, Real m21, Real m22) :
-			m00{ m00 }, m01{ m01 }, m02{ m02 },
-			m10{ m10 }, m11{ m11 }, m12{ m12 },
-			m20{ m20 }, m21{ m21 }, m22{ m22 }
+			M00{ m00 }, M01{ m01 }, M02{ m02 },
+			M10{ m10 }, M11{ m11 }, M12{ m12 },
+			M20{ m20 }, M21{ m21 }, M22{ m22 }
 		{
 		}
 
 		Matrix3::Matrix3(const Vector3& row0, const Vector3& row1, const Vector3& row2) :
-			m00{ row0.X }, m01{ row0.Y }, m02{ row0.Z },
-			m10{ row1.X }, m11{ row1.Y }, m12{ row1.Z },
-			m20{ row2.X }, m21{ row2.Y }, m22{ row2.Z }
+			M00{ row0.X }, M01{ row0.Y }, M02{ row0.Z },
+			M10{ row1.X }, M11{ row1.Y }, M12{ row1.Z },
+			M20{ row2.X }, M21{ row2.Y }, M22{ row2.Z }
 		{
 		}
 
@@ -44,9 +37,9 @@ namespace EngineQ
 		void Matrix3::Transpose()
 		{
 			Real tmp;
-			tmp = m01; m01 = m10; m10 = tmp;
-			tmp = m02; m02 = m20; m20 = tmp;
-			tmp = m12; m12 = m21; m21 = tmp;
+			tmp = M01; M01 = M10; M10 = tmp;
+			tmp = M02; M02 = M20; M20 = tmp;
+			tmp = M12; M12 = M21; M21 = tmp;
 		}
 
 		void Matrix3::Inverse()
@@ -61,16 +54,16 @@ namespace EngineQ
 		
 		Matrix3 Matrix3::GetTransposed() const
 		{
-			return Matrix3{ m00, m10, m20, m01, m11, m21, m02, m12, m22 };
+			return Matrix3{ M00, M10, M20, M01, M11, M21, M02, M12, M22 };
 		}
 
 		Matrix3 Matrix3::GetInversed() const
 		{
-			Real tmp1 = m11 * m22 - m12 * m21;
-			Real tmp2 = m12 * m20 - m10 * m22;
-			Real tmp3 = m10 * m21 - m11 * m20;
+			Real tmp1 = M11 * M22 - M12 * M21;
+			Real tmp2 = M12 * M20 - M10 * M22;
+			Real tmp3 = M10 * M21 - M11 * M20;
 
-			Real det = m00 * tmp1 + m01 * tmp2 + m02 * tmp3;
+			Real det = M00 * tmp1 + M01 * tmp2 + M02 * tmp3;
 			
 			if (det == static_cast<Real>(0))
 				return Matrix3{};
@@ -78,26 +71,26 @@ namespace EngineQ
 			Real invdet = static_cast<Real>(1) / det;
 
 			return Matrix3{
-				tmp1 * invdet, (m02 * m21 - m01 * m22) * invdet, (m01 * m12 - m02 * m11) * invdet,
-				tmp2 * invdet, (m00 * m22 - m02 * m20) * invdet, (m02 * m10 - m00 * m12) * invdet,
-				tmp3 * invdet, (m01 * m20 - m00 * m21) * invdet, (m00 * m11 - m01 * m10) * invdet };
+				tmp1 * invdet, (M02 * M21 - M01 * M22) * invdet, (M01 * M12 - M02 * M11) * invdet,
+				tmp2 * invdet, (M00 * M22 - M02 * M20) * invdet, (M02 * M10 - M00 * M12) * invdet,
+				tmp3 * invdet, (M01 * M20 - M00 * M21) * invdet, (M00 * M11 - M01 * M10) * invdet };
 		}
 
 		Real Matrix3::GetDeterminant() const
 		{
-			return (m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20));
+			return (M00 * (M11 * M22 - M12 * M21) + M01 * (M12 * M20 - M10 * M22) + M02 * (M10 * M21 - M11 * M20));
 		}
 
 		Vector3 Matrix3::GetDiagonal() const
 		{
-			return Vector3{ m00, m11, m22 };
+			return Vector3{ M00, M11, M22 };
 		}
 
 		void Matrix3::SetDiagonal(const Vector3& diagonal)
 		{
-			m00 = diagonal.X;
-			m11 = diagonal.Y;
-			m22 = diagonal.Z;
+			M00 = diagonal.X;
+			M11 = diagonal.Y;
+			M22 = diagonal.Z;
 		}
 
 		Vector3 Matrix3::GetColumn(std::size_t column) const
@@ -126,16 +119,16 @@ namespace EngineQ
 
 		void Matrix3::GetRows(Vector3& row0, Vector3& row1, Vector3& row2) const
 		{
-			row0.X = m00; row0.Y = m01; row0.Z = m02;
-			row1.X = m10; row1.Y = m11; row1.Z = m12;
-			row2.X = m20; row2.Y = m21; row2.Z = m22;
+			row0.X = M00; row0.Y = M01; row0.Z = M02;
+			row1.X = M10; row1.Y = M11; row1.Z = M12;
+			row2.X = M20; row2.Y = M21; row2.Z = M22;
 		}
 
 		void Matrix3::GetColumns(Vector3& column0, Vector3& column1, Vector3& column2) const
 		{
-			column0.X = m00; column0.Y = m10; column0.Z = m20;
-			column1.X = m01; column1.Y = m11; column1.Z = m21;
-			column2.X = m02; column2.Y = m12; column2.Z = m22;
+			column0.X = M00; column0.Y = M10; column0.Z = M20;
+			column1.X = M01; column1.Y = M11; column1.Z = M21;
+			column2.X = M02; column2.Y = M12; column2.Z = M22;
 		}
 
 	#pragma endregion
@@ -179,15 +172,15 @@ namespace EngineQ
 
 		void Matrix3::operator *= (Real scalar)
 		{
-			m00 *= scalar;
-			m01 *= scalar;
-			m02 *= scalar;
-			m10 *= scalar;
-			m11 *= scalar;
-			m12 *= scalar;
-			m20 *= scalar;
-			m21 *= scalar;
-			m22 *= scalar;
+			M00 *= scalar;
+			M01 *= scalar;
+			M02 *= scalar;
+			M10 *= scalar;
+			M11 *= scalar;
+			M12 *= scalar;
+			M20 *= scalar;
+			M21 *= scalar;
+			M22 *= scalar;
 		}
 
 		void Matrix3::operator /= (Real scalar)
@@ -232,26 +225,26 @@ namespace EngineQ
 		Matrix3 operator * (const Matrix3& lhs, const Matrix3& rhs)
 		{
 			return Matrix3{
-				lhs.m00 * rhs.m00 + lhs.m01 * rhs.m10 + lhs.m02 * rhs.m20,
-				lhs.m00 * rhs.m01 + lhs.m01 * rhs.m11 + lhs.m02 * rhs.m21,
-				lhs.m00 * rhs.m02 + lhs.m01 * rhs.m12 + lhs.m02 * rhs.m22,
+				lhs.M00 * rhs.M00 + lhs.M01 * rhs.M10 + lhs.M02 * rhs.M20,
+				lhs.M00 * rhs.M01 + lhs.M01 * rhs.M11 + lhs.M02 * rhs.M21,
+				lhs.M00 * rhs.M02 + lhs.M01 * rhs.M12 + lhs.M02 * rhs.M22,
 
-				lhs.m10 * rhs.m00 + lhs.m11 * rhs.m10 + lhs.m12 * rhs.m20,
-				lhs.m10 * rhs.m01 + lhs.m11 * rhs.m11 + lhs.m12 * rhs.m21,
-				lhs.m10 * rhs.m02 + lhs.m11 * rhs.m12 + lhs.m12 * rhs.m22,
+				lhs.M10 * rhs.M00 + lhs.M11 * rhs.M10 + lhs.M12 * rhs.M20,
+				lhs.M10 * rhs.M01 + lhs.M11 * rhs.M11 + lhs.M12 * rhs.M21,
+				lhs.M10 * rhs.M02 + lhs.M11 * rhs.M12 + lhs.M12 * rhs.M22,
 
-				lhs.m20 * rhs.m00 + lhs.m21 * rhs.m10 + lhs.m22 * rhs.m20,
-				lhs.m20 * rhs.m01 + lhs.m21 * rhs.m11 + lhs.m22 * rhs.m21,
-				lhs.m20 * rhs.m02 + lhs.m21 * rhs.m12 + lhs.m22 * rhs.m22
+				lhs.M20 * rhs.M00 + lhs.M21 * rhs.M10 + lhs.M22 * rhs.M20,
+				lhs.M20 * rhs.M01 + lhs.M21 * rhs.M11 + lhs.M22 * rhs.M21,
+				lhs.M20 * rhs.M02 + lhs.M21 * rhs.M12 + lhs.M22 * rhs.M22
 			};
 		}
 
 		Vector3 operator * (const Matrix3& matrix, const Vector3& vector)
 		{
 			return Vector3{
-				matrix.m00 * vector.X + matrix.m01 * vector.Y + matrix.m02 * vector.Z,
-				matrix.m10 * vector.X + matrix.m11 * vector.Y + matrix.m12 * vector.Z,
-				matrix.m20 * vector.X + matrix.m21 * vector.Y + matrix.m22 * vector.Z
+				matrix.M00 * vector.X + matrix.M01 * vector.Y + matrix.M02 * vector.Z,
+				matrix.M10 * vector.X + matrix.M11 * vector.Y + matrix.M12 * vector.Z,
+				matrix.M20 * vector.X + matrix.M21 * vector.Y + matrix.M22 * vector.Z
 			};
 		}
 
@@ -279,51 +272,51 @@ namespace EngineQ
 		bool operator == (const Matrix3& lhs, const Matrix3& rhs)
 		{
 			return
-				lhs.m00 == rhs.m00 &&
-				lhs.m01 == rhs.m01 &&
-				lhs.m02 == rhs.m02 &&
-				lhs.m10 == rhs.m10 &&
-				lhs.m11 == rhs.m11 &&
-				lhs.m12 == rhs.m12 &&
-				lhs.m20 == rhs.m20 &&
-				lhs.m21 == rhs.m21 &&
-				lhs.m22 == rhs.m22;
+				lhs.M00 == rhs.M00 &&
+				lhs.M01 == rhs.M01 &&
+				lhs.M02 == rhs.M02 &&
+				lhs.M10 == rhs.M10 &&
+				lhs.M11 == rhs.M11 &&
+				lhs.M12 == rhs.M12 &&
+				lhs.M20 == rhs.M20 &&
+				lhs.M21 == rhs.M21 &&
+				lhs.M22 == rhs.M22;
 		}
 
 		bool operator != (const Matrix3& lhs, const Matrix3& rhs)
 		{
 			return
-				lhs.m00 != rhs.m00 ||
-				lhs.m01 != rhs.m01 ||
-				lhs.m02 != rhs.m02 ||
-				lhs.m10 != rhs.m10 ||
-				lhs.m11 != rhs.m11 ||
-				lhs.m12 != rhs.m12 ||
-				lhs.m20 != rhs.m20 ||
-				lhs.m21 != rhs.m21 ||
-				lhs.m22 != rhs.m22;
+				lhs.M00 != rhs.M00 ||
+				lhs.M01 != rhs.M01 ||
+				lhs.M02 != rhs.M02 ||
+				lhs.M10 != rhs.M10 ||
+				lhs.M11 != rhs.M11 ||
+				lhs.M12 != rhs.M12 ||
+				lhs.M20 != rhs.M20 ||
+				lhs.M21 != rhs.M21 ||
+				lhs.M22 != rhs.M22;
 		}
 
 		std::istream& operator >> (std::istream& stream, Matrix3& matrix)
 		{
 			stream.ignore(2);
-			stream >> matrix.m00;
+			stream >> matrix.M00;
 			stream.ignore(1);
-			stream >> matrix.m01;
+			stream >> matrix.M01;
 			stream.ignore(1);
-			stream >> matrix.m02;
+			stream >> matrix.M02;
 			stream.ignore(3);
-			stream >> matrix.m10;
+			stream >> matrix.M10;
 			stream.ignore(1);
-			stream >> matrix.m11;
+			stream >> matrix.M11;
 			stream.ignore(1);
-			stream >> matrix.m12;
+			stream >> matrix.M12;
 			stream.ignore(3);
-			stream >> matrix.m20;
+			stream >> matrix.M20;
 			stream.ignore(1);
-			stream >> matrix.m21;
+			stream >> matrix.M21;
 			stream.ignore(1);
-			stream >> matrix.m22;
+			stream >> matrix.M22;
 			stream.ignore(2);
 
 			return stream;
@@ -337,9 +330,9 @@ namespace EngineQ
 		std::ostream& operator << (std::ostream& stream, const Matrix3& matrix)
 		{
 			return stream << "[[" <<
-				matrix.m00 << "," << matrix.m01 << "," << matrix.m02 << "],[" <<
-				matrix.m10 << "," << matrix.m11 << "," << matrix.m12 << "],[" <<
-				matrix.m20 << "," << matrix.m21 << "," << matrix.m22 << "]]";
+				matrix.M00 << "," << matrix.M01 << "," << matrix.M02 << "],[" <<
+				matrix.M10 << "," << matrix.M11 << "," << matrix.M12 << "],[" <<
+				matrix.M20 << "," << matrix.M21 << "," << matrix.M22 << "]]";
 		}
 
 		std::ostream& operator <<= (std::ostream& stream, const Matrix3& matrix)

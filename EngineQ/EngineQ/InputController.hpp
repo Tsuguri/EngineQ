@@ -11,7 +11,7 @@ namespace EngineQ
 		class ScriptEngine;
 	}
 
-	class InputController : public Utilities::Immovable
+	class InputController : private Utilities::Immovable
 	{
 		friend class Engine;
 

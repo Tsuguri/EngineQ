@@ -6,19 +6,11 @@ namespace EngineQ
 	{
 	#pragma region Constructors
 
-		Matrix4::Matrix4() :
-			m00{ static_cast<Real>(0) }, m01{ static_cast<Real>(0) }, m02{ static_cast<Real>(0) }, m03{ static_cast<Real>(0) },
-			m10{ static_cast<Real>(0) }, m11{ static_cast<Real>(0) }, m12{ static_cast<Real>(0) }, m13{ static_cast<Real>(0) },
-			m20{ static_cast<Real>(0) }, m21{ static_cast<Real>(0) }, m22{ static_cast<Real>(0) }, m23{ static_cast<Real>(0) },
-			m30{ static_cast<Real>(0) }, m31{ static_cast<Real>(0) }, m32{ static_cast<Real>(0) }, m33{ static_cast<Real>(0) }
-		{
-		}
-
 		Matrix4::Matrix4(Real value) :
-			m00{ value }, m01{ value }, m02{ value }, m03{ value },
-			m10{ value }, m11{ value }, m12{ value }, m13{ value },
-			m20{ value }, m21{ value }, m22{ value }, m23{ value },
-			m30{ value }, m31{ value }, m32{ value }, m33{ value }
+			M00{ value }, M01{ value }, M02{ value }, M03{ value },
+			M10{ value }, M11{ value }, M12{ value }, M13{ value },
+			M20{ value }, M21{ value }, M22{ value }, M23{ value },
+			M30{ value }, M31{ value }, M32{ value }, M33{ value }
 		{
 		}
 
@@ -27,10 +19,10 @@ namespace EngineQ
 			Real m10, Real m11, Real m12, Real m13,
 			Real m20, Real m21, Real m22, Real m23,
 			Real m30, Real m31, Real m32, Real m33) :
-			m00{ m00 }, m01{ m01 }, m02{ m02 }, m03{ m03 },
-			m10{ m10 }, m11{ m11 }, m12{ m12 }, m13{ m13 },
-			m20{ m20 }, m21{ m21 }, m22{ m22 }, m23{ m23 },
-			m30{ m30 }, m31{ m31 }, m32{ m32 }, m33{ m33 }
+			M00{ m00 }, M01{ m01 }, M02{ m02 }, M03{ m03 },
+			M10{ m10 }, M11{ m11 }, M12{ m12 }, M13{ m13 },
+			M20{ m20 }, M21{ m21 }, M22{ m22 }, M23{ m23 },
+			M30{ m30 }, M31{ m31 }, M32{ m32 }, M33{ m33 }
 		{
 		}
 
@@ -39,10 +31,10 @@ namespace EngineQ
 			const Vector4& row1,
 			const Vector4& row2,
 			const Vector4& row3) :
-			m00{ row0.X }, m01{ row0.Y }, m02{ row0.Z }, m03{ row0.W },
-			m10{ row1.X }, m11{ row1.Y }, m12{ row1.Z }, m13{ row1.W },
-			m20{ row2.X }, m21{ row2.Y }, m22{ row2.Z }, m23{ row2.W },
-			m30{ row3.X }, m31{ row3.Y }, m32{ row3.Z }, m33{ row3.W }
+			M00{ row0.X }, M01{ row0.Y }, M02{ row0.Z }, M03{ row0.W },
+			M10{ row1.X }, M11{ row1.Y }, M12{ row1.Z }, M13{ row1.W },
+			M20{ row2.X }, M21{ row2.Y }, M22{ row2.Z }, M23{ row2.W },
+			M30{ row3.X }, M31{ row3.Y }, M32{ row3.Z }, M33{ row3.W }
 		{
 		}
 
@@ -53,12 +45,12 @@ namespace EngineQ
 		void Matrix4::Transpose()
 		{
 			Real tmp;
-			tmp = m01; m01 = m10; m10 = tmp;
-			tmp = m02; m02 = m20; m20 = tmp;
-			tmp = m03; m03 = m30; m30 = tmp;
-			tmp = m12; m12 = m21; m21 = tmp;
-			tmp = m13; m13 = m31; m31 = tmp;
-			tmp = m23; m23 = m32; m32 = tmp;
+			tmp = M01; M01 = M10; M10 = tmp;
+			tmp = M02; M02 = M20; M20 = tmp;
+			tmp = M03; M03 = M30; M30 = tmp;
+			tmp = M12; M12 = M21; M21 = tmp;
+			tmp = M13; M13 = M31; M31 = tmp;
+			tmp = M23; M23 = M32; M32 = tmp;
 		}
 
 		void Matrix4::Inverse()
@@ -74,84 +66,84 @@ namespace EngineQ
 		Real Matrix4::GetDeterminant() const
 		{
 			Real tmp1 =
-				m11 * m22 * m33 -
-				m11 * m23 * m32 -
-				m21 * m12 * m33 +
-				m21 * m13 * m32 +
-				m31 * m12 * m23 -
-				m31 * m13 * m22;
+				M11 * M22 * M33 -
+				M11 * M23 * M32 -
+				M21 * M12 * M33 +
+				M21 * M13 * M32 +
+				M31 * M12 * M23 -
+				M31 * M13 * M22;
 
 			Real tmp2 =
-				-m10 * m22 * m33 +
-				m10 * m23 * m32 +
-				m20 * m12 * m33 -
-				m20 * m13 * m32 -
-				m30 * m12 * m23 +
-				m30 * m13 * m22;
+				-M10 * M22 * M33 +
+				M10 * M23 * M32 +
+				M20 * M12 * M33 -
+				M20 * M13 * M32 -
+				M30 * M12 * M23 +
+				M30 * M13 * M22;
 
 			Real tmp3 =
-				m10 * m21 * m33 -
-				m10 * m23 * m31 -
-				m20 * m11 * m33 +
-				m20 * m13 * m31 +
-				m30 * m11 * m23 -
-				m30 * m13 * m21;
+				M10 * M21 * M33 -
+				M10 * M23 * M31 -
+				M20 * M11 * M33 +
+				M20 * M13 * M31 +
+				M30 * M11 * M23 -
+				M30 * M13 * M21;
 
 			Real tmp4 =
-				-m10 * m21 * m32 +
-				m10 * m22 * m31 +
-				m20 * m11 * m32 -
-				m20 * m12 * m31 -
-				m30 * m11 * m22 +
-				m30 * m12 * m21;
+				-M10 * M21 * M32 +
+				M10 * M22 * M31 +
+				M20 * M11 * M32 -
+				M20 * M12 * M31 -
+				M30 * M11 * M22 +
+				M30 * M12 * M21;
 
-			return m00 * tmp1 + m01 * tmp2 + m02 * tmp3 + m03 * tmp4;
+			return M00 * tmp1 + M01 * tmp2 + M02 * tmp3 + M03 * tmp4;
 		}
 
 		Matrix4 Matrix4::GetTransposed() const
 		{
 			return Matrix4{
-				m00, m10, m20, m30,
-				m01, m11, m21, m31,
-				m02, m12, m22, m32,
-				m03, m13, m23, m33 };
+				M00, M10, M20, M30,
+				M01, M11, M21, M31,
+				M02, M12, M22, M32,
+				M03, M13, M23, M33 };
 		}
 
 		Matrix4 Matrix4::GetInversed() const
 		{
 			Real tmp1 =
-				m11 * m22 * m33 -
-				m11 * m23 * m32 -
-				m21 * m12 * m33 +
-				m21 * m13 * m32 +
-				m31 * m12 * m23 -
-				m31 * m13 * m22;
+				M11 * M22 * M33 -
+				M11 * M23 * M32 -
+				M21 * M12 * M33 +
+				M21 * M13 * M32 +
+				M31 * M12 * M23 -
+				M31 * M13 * M22;
 
 			Real tmp2 =
-				-m10 * m22 * m33 +
-				m10 * m23 * m32 +
-				m20 * m12 * m33 -
-				m20 * m13 * m32 -
-				m30 * m12 * m23 +
-				m30 * m13 * m22;
+				-M10 * M22 * M33 +
+				M10 * M23 * M32 +
+				M20 * M12 * M33 -
+				M20 * M13 * M32 -
+				M30 * M12 * M23 +
+				M30 * M13 * M22;
 
 			Real tmp3 =
-				m10 * m21 * m33 -
-				m10 * m23 * m31 -
-				m20 * m11 * m33 +
-				m20 * m13 * m31 +
-				m30 * m11 * m23 -
-				m30 * m13 * m21;
+				M10 * M21 * M33 -
+				M10 * M23 * M31 -
+				M20 * M11 * M33 +
+				M20 * M13 * M31 +
+				M30 * M11 * M23 -
+				M30 * M13 * M21;
 
 			Real tmp4 =
-				-m10 * m21 * m32 +
-				m10 * m22 * m31 +
-				m20 * m11 * m32 -
-				m20 * m12 * m31 -
-				m30 * m11 * m22 +
-				m30 * m12 * m21;
+				-M10 * M21 * M32 +
+				M10 * M22 * M31 +
+				M20 * M11 * M32 -
+				M20 * M12 * M31 -
+				M30 * M11 * M22 +
+				M30 * M12 * M21;
 
-			Real det = m00 * tmp1 + m01 * tmp2 + m02 * tmp3 + m03 * tmp4;
+			Real det = M00 * tmp1 + M01 * tmp2 + M02 * tmp3 + M03 * tmp4;
 
 			if (det == static_cast<Real>(0))
 				return Matrix4{};
@@ -161,109 +153,109 @@ namespace EngineQ
 			return Matrix4{
 				tmp1 * invdet,
 
-				(-m01 * m22 * m33 +
-				m01 * m23 * m32 +
-				m21 * m02 * m33 -
-				m21 * m03 * m32 -
-				m31 * m02 * m23 +
-				m31 * m03 * m22) * invdet,
+				(-M01 * M22 * M33 +
+				M01 * M23 * M32 +
+				M21 * M02 * M33 -
+				M21 * M03 * M32 -
+				M31 * M02 * M23 +
+				M31 * M03 * M22) * invdet,
 
-				(m01 * m12 * m33 -
-				m01 * m13 * m32 -
-				m11 * m02 * m33 +
-				m11 * m03 * m32 +
-				m31 * m02 * m13 -
-				m31 * m03 * m12) * invdet,
+				(M01 * M12 * M33 -
+				M01 * M13 * M32 -
+				M11 * M02 * M33 +
+				M11 * M03 * M32 +
+				M31 * M02 * M13 -
+				M31 * M03 * M12) * invdet,
 
-				(-m01 * m12 * m23 +
-				m01 * m13 * m22 +
-				m11 * m02 * m23 -
-				m11 * m03 * m22 -
-				m21 * m02 * m13 +
-				m21 * m03 * m12) * invdet,
+				(-M01 * M12 * M23 +
+				M01 * M13 * M22 +
+				M11 * M02 * M23 -
+				M11 * M03 * M22 -
+				M21 * M02 * M13 +
+				M21 * M03 * M12) * invdet,
 
 				tmp2 * invdet,
 
-				(m00 * m22 * m33 -
-				m00 * m23 * m32 -
-				m20 * m02 * m33 +
-				m20 * m03 * m32 +
-				m30 * m02 * m23 -
-				m30 * m03 * m22) * invdet,
+				(M00 * M22 * M33 -
+				M00 * M23 * M32 -
+				M20 * M02 * M33 +
+				M20 * M03 * M32 +
+				M30 * M02 * M23 -
+				M30 * M03 * M22) * invdet,
 
-				(-m00 * m12 * m33 +
-				m00 * m13 * m32 +
-				m10 * m02 * m33 -
-				m10 * m03 * m32 -
-				m30 * m02 * m13 +
-				m30 * m03 * m12) * invdet,
+				(-M00 * M12 * M33 +
+				M00 * M13 * M32 +
+				M10 * M02 * M33 -
+				M10 * M03 * M32 -
+				M30 * M02 * M13 +
+				M30 * M03 * M12) * invdet,
 
-				(m00 * m12 * m23 -
-				m00 * m13 * m22 -
-				m10 * m02 * m23 +
-				m10 * m03 * m22 +
-				m20 * m02 * m13 -
-				m20 * m03 * m12) * invdet,
+				(M00 * M12 * M23 -
+				M00 * M13 * M22 -
+				M10 * M02 * M23 +
+				M10 * M03 * M22 +
+				M20 * M02 * M13 -
+				M20 * M03 * M12) * invdet,
 
 				tmp3 * invdet,
 
-				(-m00 * m21 * m33 +
-				m00 * m23 * m31 +
-				m20 * m01 * m33 -
-				m20 * m03 * m31 -
-				m30 * m01 * m23 +
-				m30 * m03 * m21) * invdet,
+				(-M00 * M21 * M33 +
+				M00 * M23 * M31 +
+				M20 * M01 * M33 -
+				M20 * M03 * M31 -
+				M30 * M01 * M23 +
+				M30 * M03 * M21) * invdet,
 
-				(m00 * m11 * m33 -
-				m00 * m13 * m31 -
-				m10 * m01 * m33 +
-				m10 * m03 * m31 +
-				m30 * m01 * m13 -
-				m30 * m03 * m11) * invdet,
+				(M00 * M11 * M33 -
+				M00 * M13 * M31 -
+				M10 * M01 * M33 +
+				M10 * M03 * M31 +
+				M30 * M01 * M13 -
+				M30 * M03 * M11) * invdet,
 
-				(-m00 * m11 * m23 +
-				m00 * m13 * m21 +
-				m10 * m01 * m23 -
-				m10 * m03 * m21 -
-				m20 * m01 * m13 +
-				m20 * m03 * m11) * invdet,
+				(-M00 * M11 * M23 +
+				M00 * M13 * M21 +
+				M10 * M01 * M23 -
+				M10 * M03 * M21 -
+				M20 * M01 * M13 +
+				M20 * M03 * M11) * invdet,
 
 				tmp4 * invdet,
 
-				(m00 * m21 * m32 -
-				m00 * m22 * m31 -
-				m20 * m01 * m32 +
-				m20 * m02 * m31 +
-				m30 * m01 * m22 -
-				m30 * m02 * m21) * invdet,
+				(M00 * M21 * M32 -
+				M00 * M22 * M31 -
+				M20 * M01 * M32 +
+				M20 * M02 * M31 +
+				M30 * M01 * M22 -
+				M30 * M02 * M21) * invdet,
 
-				(-m00 * m11 * m32 +
-				m00 * m12 * m31 +
-				m10 * m01 * m32 -
-				m10 * m02 * m31 -
-				m30 * m01 * m12 +
-				m30 * m02 * m11) * invdet,
+				(-M00 * M11 * M32 +
+				M00 * M12 * M31 +
+				M10 * M01 * M32 -
+				M10 * M02 * M31 -
+				M30 * M01 * M12 +
+				M30 * M02 * M11) * invdet,
 
-				(m00 * m11 * m22 -
-				m00 * m12 * m21 -
-				m10 * m01 * m22 +
-				m10 * m02 * m21 +
-				m20 * m01 * m12 -
-				m20 * m02 * m11) * invdet
+				(M00 * M11 * M22 -
+				M00 * M12 * M21 -
+				M10 * M01 * M22 +
+				M10 * M02 * M21 +
+				M20 * M01 * M12 -
+				M20 * M02 * M11) * invdet
 			};
 		}
 
 		Vector4 Matrix4::GetDiagonal() const
 		{
-			return Vector4{ m00, m11, m22, m33 };
+			return Vector4{ M00, M11, M22, M33 };
 		}
 
 		void Matrix4::SetDiagonal(const Vector4& diagonal)
 		{
-			m00 = diagonal.X;
-			m11 = diagonal.Y;
-			m22 = diagonal.Z;
-			m33 = diagonal.W;
+			M00 = diagonal.X;
+			M11 = diagonal.Y;
+			M22 = diagonal.Z;
+			M33 = diagonal.W;
 		}
 
 		Vector4 Matrix4::GetColumn(std::size_t column) const
@@ -294,18 +286,18 @@ namespace EngineQ
 
 		void Matrix4::GetRows(Vector4& row0, Vector4& row1, Vector4& row2, Vector4& row3) const
 		{
-			row0.X = m00; row0.Y = m01; row0.Z = m02; row0.W = m03;
-			row1.X = m10; row1.Y = m11; row1.Z = m12; row1.W = m13;
-			row2.X = m20; row2.Y = m21; row2.Z = m22; row2.W = m23;
-			row3.X = m30; row3.Y = m31; row3.Z = m32; row3.W = m33;
+			row0.X = M00; row0.Y = M01; row0.Z = M02; row0.W = M03;
+			row1.X = M10; row1.Y = M11; row1.Z = M12; row1.W = M13;
+			row2.X = M20; row2.Y = M21; row2.Z = M22; row2.W = M23;
+			row3.X = M30; row3.Y = M31; row3.Z = M32; row3.W = M33;
 		}
 
 		void Matrix4::GetColumns(Vector4& column0, Vector4& column1, Vector4& column2, Vector4& column3) const
 		{
-			column0.X = m00; column0.Y = m10; column0.Z = m20; column0.W = m30;
-			column1.X = m01; column1.Y = m11; column1.Z = m21; column1.W = m31;
-			column2.X = m02; column2.Y = m12; column2.Z = m22; column2.W = m32;
-			column3.X = m03; column3.Y = m13; column3.Z = m23; column3.W = m33;
+			column0.X = M00; column0.Y = M10; column0.Z = M20; column0.W = M30;
+			column1.X = M01; column1.Y = M11; column1.Z = M21; column1.W = M31;
+			column2.X = M02; column2.Y = M12; column2.Z = M22; column2.W = M32;
+			column3.X = M03; column3.Y = M13; column3.Z = M23; column3.W = M33;
 		}
 
 	#pragma endregion
@@ -491,18 +483,18 @@ namespace EngineQ
 		Vector3 Matrix4::TransformVector(const Matrix4& matrix, const Vector3& vector)
 		{
 			return Vector3{
-				matrix.m00 * vector.X + matrix.m01 * vector.Y + matrix.m02 * vector.Z,
-				matrix.m10 * vector.X + matrix.m11 * vector.Y + matrix.m12 * vector.Z,
-				matrix.m20 * vector.X + matrix.m21 * vector.Y + matrix.m22 * vector.Z
+				matrix.M00 * vector.X + matrix.M01 * vector.Y + matrix.M02 * vector.Z,
+				matrix.M10 * vector.X + matrix.M11 * vector.Y + matrix.M12 * vector.Z,
+				matrix.M20 * vector.X + matrix.M21 * vector.Y + matrix.M22 * vector.Z
 			};
 		}
 
 		Vector3 Matrix4::TransformPosition(const Matrix4& matrix, const Vector3& position)
 		{
 			return Vector3{
-				matrix.m00 * position.X + matrix.m01 * position.Y + matrix.m02 * position.Z + matrix.m03,
-				matrix.m10 * position.X + matrix.m11 * position.Y + matrix.m12 * position.Z + matrix.m13,
-				matrix.m20 * position.X + matrix.m21 * position.Y + matrix.m22 * position.Z + matrix.m23
+				matrix.M00 * position.X + matrix.M01 * position.Y + matrix.M02 * position.Z + matrix.M03,
+				matrix.M10 * position.X + matrix.M11 * position.Y + matrix.M12 * position.Z + matrix.M13,
+				matrix.M20 * position.X + matrix.M21 * position.Y + matrix.M22 * position.Z + matrix.M23
 			};
 		}
 
@@ -510,9 +502,9 @@ namespace EngineQ
 		{
 			Matrix4 matInv = matrix.GetInversed();
 			return Vector3{
-				matInv.m00 * normal.X + matInv.m10 * normal.Y + matInv.m20 * normal.Z,
-				matInv.m01 * normal.X + matInv.m11 * normal.Y + matInv.m21 * normal.Z,
-				matInv.m02 * normal.X + matInv.m12 * normal.Y + matInv.m22 * normal.Z
+				matInv.M00 * normal.X + matInv.M10 * normal.Y + matInv.M20 * normal.Z,
+				matInv.M01 * normal.X + matInv.M11 * normal.Y + matInv.M21 * normal.Z,
+				matInv.M02 * normal.X + matInv.M12 * normal.Y + matInv.M22 * normal.Z
 			};
 		}
 
@@ -529,68 +521,68 @@ namespace EngineQ
 
 		Matrix4::operator Matrix3()
 		{
-			return Matrix3{ m00, m01, m02, m10, m11, m12, m20, m21, m22 };
+			return Matrix3{ M00, M01, M02, M10, M11, M12, M20, M21, M22 };
 		}
 
 		void Matrix4::operator += (const Matrix4& matrix)
 		{
-			m00 += matrix.m00;
-			m01 += matrix.m01;
-			m02 += matrix.m02;
-			m03 += matrix.m03;
-			m10 += matrix.m10;
-			m11 += matrix.m11;
-			m12 += matrix.m12;
-			m13 += matrix.m13;
-			m20 += matrix.m20;
-			m21 += matrix.m21;
-			m22 += matrix.m22;
-			m23 += matrix.m23;
-			m30 += matrix.m30;
-			m31 += matrix.m31;
-			m32 += matrix.m32;
-			m33 += matrix.m33;
+			M00 += matrix.M00;
+			M01 += matrix.M01;
+			M02 += matrix.M02;
+			M03 += matrix.M03;
+			M10 += matrix.M10;
+			M11 += matrix.M11;
+			M12 += matrix.M12;
+			M13 += matrix.M13;
+			M20 += matrix.M20;
+			M21 += matrix.M21;
+			M22 += matrix.M22;
+			M23 += matrix.M23;
+			M30 += matrix.M30;
+			M31 += matrix.M31;
+			M32 += matrix.M32;
+			M33 += matrix.M33;
 
 		}
 
 		void Matrix4::operator -= (const Matrix4& matrix)
 		{
-			m00 -= matrix.m00;
-			m01 -= matrix.m01;
-			m02 -= matrix.m02;
-			m03 -= matrix.m03;
-			m10 -= matrix.m10;
-			m11 -= matrix.m11;
-			m12 -= matrix.m12;
-			m13 -= matrix.m13;
-			m20 -= matrix.m20;
-			m21 -= matrix.m21;
-			m22 -= matrix.m22;
-			m23 -= matrix.m23;
-			m30 -= matrix.m30;
-			m31 -= matrix.m31;
-			m32 -= matrix.m32;
-			m33 -= matrix.m33;
+			M00 -= matrix.M00;
+			M01 -= matrix.M01;
+			M02 -= matrix.M02;
+			M03 -= matrix.M03;
+			M10 -= matrix.M10;
+			M11 -= matrix.M11;
+			M12 -= matrix.M12;
+			M13 -= matrix.M13;
+			M20 -= matrix.M20;
+			M21 -= matrix.M21;
+			M22 -= matrix.M22;
+			M23 -= matrix.M23;
+			M30 -= matrix.M30;
+			M31 -= matrix.M31;
+			M32 -= matrix.M32;
+			M33 -= matrix.M33;
 		}
 
 		void Matrix4::operator *= (Real scalar)
 		{
-			m00 *= scalar;
-			m01 *= scalar;
-			m02 *= scalar;
-			m03 *= scalar;
-			m10 *= scalar;
-			m11 *= scalar;
-			m12 *= scalar;
-			m13 *= scalar;
-			m20 *= scalar;
-			m21 *= scalar;
-			m22 *= scalar;
-			m23 *= scalar;
-			m30 *= scalar;
-			m31 *= scalar;
-			m32 *= scalar;
-			m33 *= scalar;
+			M00 *= scalar;
+			M01 *= scalar;
+			M02 *= scalar;
+			M03 *= scalar;
+			M10 *= scalar;
+			M11 *= scalar;
+			M12 *= scalar;
+			M13 *= scalar;
+			M20 *= scalar;
+			M21 *= scalar;
+			M22 *= scalar;
+			M23 *= scalar;
+			M30 *= scalar;
+			M31 *= scalar;
+			M32 *= scalar;
+			M33 *= scalar;
 		}
 
 		void Matrix4::operator /= (Real scalar)
@@ -645,10 +637,10 @@ namespace EngineQ
 		Matrix4 operator - (const Matrix4& matrix)
 		{
 			return Matrix4{
-				-matrix.m00, -matrix.m01, -matrix.m02, -matrix.m03,
-				-matrix.m10, -matrix.m11, -matrix.m12, -matrix.m13,
-				-matrix.m20, -matrix.m21, -matrix.m22, -matrix.m23,
-				-matrix.m30, -matrix.m31, -matrix.m32, -matrix.m33
+				-matrix.M00, -matrix.M01, -matrix.M02, -matrix.M03,
+				-matrix.M10, -matrix.M11, -matrix.M12, -matrix.M13,
+				-matrix.M20, -matrix.M21, -matrix.M22, -matrix.M23,
+				-matrix.M30, -matrix.M31, -matrix.M32, -matrix.M33
 			};
 		}
 
@@ -683,35 +675,35 @@ namespace EngineQ
 		Vector4 operator * (const Matrix4& lhs, const Vector4& rhs)
 		{
 			return Vector4{
-				lhs.m00 * rhs.X + lhs.m01 * rhs.Y + lhs.m02 * rhs.Z + lhs.m03 * rhs.W,
-				lhs.m10 * rhs.X + lhs.m11 * rhs.Y + lhs.m12 * rhs.Z + lhs.m13 * rhs.W,
-				lhs.m20 * rhs.X + lhs.m21 * rhs.Y + lhs.m22 * rhs.Z + lhs.m23 * rhs.W,
-				lhs.m30 * rhs.X + lhs.m31 * rhs.Y + lhs.m32 * rhs.Z + lhs.m33 * rhs.W
+				lhs.M00 * rhs.X + lhs.M01 * rhs.Y + lhs.M02 * rhs.Z + lhs.M03 * rhs.W,
+				lhs.M10 * rhs.X + lhs.M11 * rhs.Y + lhs.M12 * rhs.Z + lhs.M13 * rhs.W,
+				lhs.M20 * rhs.X + lhs.M21 * rhs.Y + lhs.M22 * rhs.Z + lhs.M23 * rhs.W,
+				lhs.M30 * rhs.X + lhs.M31 * rhs.Y + lhs.M32 * rhs.Z + lhs.M33 * rhs.W
 			};
 		}
 
 		Matrix4 operator * (const Matrix4& lhs, const Matrix4& rhs)
 		{
 			return Matrix4{
-				lhs.m00 * rhs.m00 + lhs.m01 * rhs.m10 + lhs.m02 * rhs.m20 + lhs.m03 * rhs.m30,
-				lhs.m00 * rhs.m01 + lhs.m01 * rhs.m11 + lhs.m02 * rhs.m21 + lhs.m03 * rhs.m31,
-				lhs.m00 * rhs.m02 + lhs.m01 * rhs.m12 + lhs.m02 * rhs.m22 + lhs.m03 * rhs.m32,
-				lhs.m00 * rhs.m03 + lhs.m01 * rhs.m13 + lhs.m02 * rhs.m23 + lhs.m03 * rhs.m33,
+				lhs.M00 * rhs.M00 + lhs.M01 * rhs.M10 + lhs.M02 * rhs.M20 + lhs.M03 * rhs.M30,
+				lhs.M00 * rhs.M01 + lhs.M01 * rhs.M11 + lhs.M02 * rhs.M21 + lhs.M03 * rhs.M31,
+				lhs.M00 * rhs.M02 + lhs.M01 * rhs.M12 + lhs.M02 * rhs.M22 + lhs.M03 * rhs.M32,
+				lhs.M00 * rhs.M03 + lhs.M01 * rhs.M13 + lhs.M02 * rhs.M23 + lhs.M03 * rhs.M33,
 
-				lhs.m10 * rhs.m00 + lhs.m11 * rhs.m10 + lhs.m12 * rhs.m20 + lhs.m13 * rhs.m30,
-				lhs.m10 * rhs.m01 + lhs.m11 * rhs.m11 + lhs.m12 * rhs.m21 + lhs.m13 * rhs.m31,
-				lhs.m10 * rhs.m02 + lhs.m11 * rhs.m12 + lhs.m12 * rhs.m22 + lhs.m13 * rhs.m32,
-				lhs.m10 * rhs.m03 + lhs.m11 * rhs.m13 + lhs.m12 * rhs.m23 + lhs.m13 * rhs.m33,
+				lhs.M10 * rhs.M00 + lhs.M11 * rhs.M10 + lhs.M12 * rhs.M20 + lhs.M13 * rhs.M30,
+				lhs.M10 * rhs.M01 + lhs.M11 * rhs.M11 + lhs.M12 * rhs.M21 + lhs.M13 * rhs.M31,
+				lhs.M10 * rhs.M02 + lhs.M11 * rhs.M12 + lhs.M12 * rhs.M22 + lhs.M13 * rhs.M32,
+				lhs.M10 * rhs.M03 + lhs.M11 * rhs.M13 + lhs.M12 * rhs.M23 + lhs.M13 * rhs.M33,
 
-				lhs.m20 * rhs.m00 + lhs.m21 * rhs.m10 + lhs.m22 * rhs.m20 + lhs.m23 * rhs.m30,
-				lhs.m20 * rhs.m01 + lhs.m21 * rhs.m11 + lhs.m22 * rhs.m21 + lhs.m23 * rhs.m31,
-				lhs.m20 * rhs.m02 + lhs.m21 * rhs.m12 + lhs.m22 * rhs.m22 + lhs.m23 * rhs.m32,
-				lhs.m20 * rhs.m03 + lhs.m21 * rhs.m13 + lhs.m22 * rhs.m23 + lhs.m23 * rhs.m33,
+				lhs.M20 * rhs.M00 + lhs.M21 * rhs.M10 + lhs.M22 * rhs.M20 + lhs.M23 * rhs.M30,
+				lhs.M20 * rhs.M01 + lhs.M21 * rhs.M11 + lhs.M22 * rhs.M21 + lhs.M23 * rhs.M31,
+				lhs.M20 * rhs.M02 + lhs.M21 * rhs.M12 + lhs.M22 * rhs.M22 + lhs.M23 * rhs.M32,
+				lhs.M20 * rhs.M03 + lhs.M21 * rhs.M13 + lhs.M22 * rhs.M23 + lhs.M23 * rhs.M33,
 
-				lhs.m30 * rhs.m00 + lhs.m31 * rhs.m10 + lhs.m32 * rhs.m20 + lhs.m33 * rhs.m30,
-				lhs.m30 * rhs.m01 + lhs.m31 * rhs.m11 + lhs.m32 * rhs.m21 + lhs.m33 * rhs.m31,
-				lhs.m30 * rhs.m02 + lhs.m31 * rhs.m12 + lhs.m32 * rhs.m22 + lhs.m33 * rhs.m32,
-				lhs.m30 * rhs.m03 + lhs.m31 * rhs.m13 + lhs.m32 * rhs.m23 + lhs.m33 * rhs.m33
+				lhs.M30 * rhs.M00 + lhs.M31 * rhs.M10 + lhs.M32 * rhs.M20 + lhs.M33 * rhs.M30,
+				lhs.M30 * rhs.M01 + lhs.M31 * rhs.M11 + lhs.M32 * rhs.M21 + lhs.M33 * rhs.M31,
+				lhs.M30 * rhs.M02 + lhs.M31 * rhs.M12 + lhs.M32 * rhs.M22 + lhs.M33 * rhs.M32,
+				lhs.M30 * rhs.M03 + lhs.M31 * rhs.M13 + lhs.M32 * rhs.M23 + lhs.M33 * rhs.M33
 			};
 		}
 
@@ -725,37 +717,37 @@ namespace EngineQ
 		std::istream& operator >> (std::istream& stream, Matrix4& matrix)
 		{
 			stream.ignore(2);
-			stream >> matrix.m00;
+			stream >> matrix.M00;
 			stream.ignore(1);
-			stream >> matrix.m01;
+			stream >> matrix.M01;
 			stream.ignore(1);
-			stream >> matrix.m02;
+			stream >> matrix.M02;
 			stream.ignore(1);
-			stream >> matrix.m03;
+			stream >> matrix.M03;
 			stream.ignore(3);
-			stream >> matrix.m10;
+			stream >> matrix.M10;
 			stream.ignore(1);
-			stream >> matrix.m11;
+			stream >> matrix.M11;
 			stream.ignore(1);
-			stream >> matrix.m12;
+			stream >> matrix.M12;
 			stream.ignore(1);
-			stream >> matrix.m13;
+			stream >> matrix.M13;
 			stream.ignore(3);
-			stream >> matrix.m20;
+			stream >> matrix.M20;
 			stream.ignore(1);
-			stream >> matrix.m21;
+			stream >> matrix.M21;
 			stream.ignore(1);
-			stream >> matrix.m22;
+			stream >> matrix.M22;
 			stream.ignore(1);
-			stream >> matrix.m23;
+			stream >> matrix.M23;
 			stream.ignore(3);
-			stream >> matrix.m30;
+			stream >> matrix.M30;
 			stream.ignore(1);
-			stream >> matrix.m31;
+			stream >> matrix.M31;
 			stream.ignore(1);
-			stream >> matrix.m32;
+			stream >> matrix.M32;
 			stream.ignore(1);
-			stream >> matrix.m33;
+			stream >> matrix.M33;
 			stream.ignore(2);
 
 			return stream;
@@ -769,10 +761,10 @@ namespace EngineQ
 		std::ostream& operator << (std::ostream& stream, const Matrix4& matrix)
 		{
 			return stream << "[[" <<
-				matrix.m00 << "," << matrix.m01 << "," << matrix.m02 << "," << matrix.m03 << "],[" <<
-				matrix.m10 << "," << matrix.m11 << "," << matrix.m12 << "," << matrix.m13 << "],[" <<
-				matrix.m20 << "," << matrix.m21 << "," << matrix.m22 << "," << matrix.m23 << "],[" << 
-				matrix.m30 << "," << matrix.m31 << "," << matrix.m32 << "," << matrix.m33 << "]]";
+				matrix.M00 << "," << matrix.M01 << "," << matrix.M02 << "," << matrix.M03 << "],[" <<
+				matrix.M10 << "," << matrix.M11 << "," << matrix.M12 << "," << matrix.M13 << "],[" <<
+				matrix.M20 << "," << matrix.M21 << "," << matrix.M22 << "," << matrix.M23 << "],[" << 
+				matrix.M30 << "," << matrix.M31 << "," << matrix.M32 << "," << matrix.M33 << "]]";
 		}
 
 		std::ostream& operator <<= (std::ostream& stream, const Matrix4& matrix)

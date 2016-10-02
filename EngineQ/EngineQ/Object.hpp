@@ -10,7 +10,7 @@
 
 namespace EngineQ
 {
-	class Object : public Serialization::Serializable, public Utilities::Immovable
+	class Object : public Serialization::Serializable, private Utilities::Immovable
 	{
 	protected:
 		Scripting::ScriptEngine& scriptEngine;

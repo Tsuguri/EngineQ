@@ -22,7 +22,7 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		class Shader : public Utilities::Immovable
+		class Shader : private Utilities::Immovable
 		{
 		private:
 			GLuint programId;
@@ -47,11 +47,17 @@ namespace EngineQ
 			void Bind(UniformLocation location, int value);
 			void Bind(UniformLocation location, float value);
 			void Bind(UniformLocation location, double value);
-			void Bind(UniformLocation location, Math::Vector2 value);
-			void Bind(UniformLocation location, Math::Vector3 value);
-			void Bind(UniformLocation location, Math::Vector4 value);
-			void Bind(UniformLocation location, Math::Matrix3 value);
-			void Bind(UniformLocation location, Math::Matrix4 value);
+			void Bind(UniformLocation location, const Math::Vector2i& value);
+			void Bind(UniformLocation location, const Math::Vector3i& value);
+			void Bind(UniformLocation location, const Math::Vector4i& value);
+			void Bind(UniformLocation location, const Math::Vector2f& value);
+			void Bind(UniformLocation location, const Math::Vector3f& value);
+			void Bind(UniformLocation location, const Math::Vector4f& value);
+			void Bind(UniformLocation location, const Math::Vector2d& value);
+			void Bind(UniformLocation location, const Math::Vector3d& value);
+			void Bind(UniformLocation location, const Math::Vector4d& value);
+			void Bind(UniformLocation location, const Math::Matrix3& value);
+			void Bind(UniformLocation location, const Math::Matrix4& value);
 		};
 	}
 }

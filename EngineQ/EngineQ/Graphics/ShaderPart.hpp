@@ -54,7 +54,7 @@ namespace EngineQ
 
 		class Shader;
 
-		class ShaderPart : public Utilities::Immovable
+		class ShaderPart : private Utilities::Immovable
 		{
 			friend class Shader;
 

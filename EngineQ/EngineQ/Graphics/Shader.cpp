@@ -114,29 +114,59 @@ namespace EngineQ
 			glUniform1d(location.location, value);
 		}
 
-		void Shader::Bind(UniformLocation location, Vector2 value)
+		void Shader::Bind(UniformLocation location, const Vector2i& value)
 		{
-			glUniform2f(location.location, value.X, value.Y);
+			glUniform2iv(location.location, 1, value.Values);
 		}
 
-		void Shader::Bind(UniformLocation location, Vector3 value)
+		void Shader::Bind(UniformLocation location, const Vector3i& value)
 		{
-			glUniform3f(location.location, value.X, value.Y, value.Z);
+			glUniform3iv(location.location, 1, value.Values);
 		}
 
-		void Shader::Bind(UniformLocation location, Vector4 value)
+		void Shader::Bind(UniformLocation location, const Vector4i& value)
 		{
-			glUniform4f(location.location, value.X, value.Y, value.Z, value.W);
+			glUniform4iv(location.location, 1, value.Values);
 		}
 
-		void Shader::Bind(UniformLocation location, Matrix3 value)
+		void Shader::Bind(UniformLocation location, const Vector2f& value)
 		{
-			glUniformMatrix3fv(location.location, 1, GL_FALSE, &value.Values[0]);
+			glUniform2fv(location.location, 1, value.Values);
 		}
 
-		void Shader::Bind(UniformLocation location, Matrix4 value)
+		void Shader::Bind(UniformLocation location, const Vector3f& value)
 		{
-			glUniformMatrix4fv(location.location, 1, GL_TRUE, &value.Values[0]);
+			glUniform3fv(location.location, 1, value.Values);
+		}
+
+		void Shader::Bind(UniformLocation location, const Vector4f& value)
+		{
+			glUniform4fv(location.location, 1, value.Values);
+		}
+
+		void Shader::Bind(UniformLocation location, const Vector2d& value)
+		{
+			glUniform2dv(location.location, 1, value.Values);
+		}
+
+		void Shader::Bind(UniformLocation location, const Vector3d& value)
+		{
+			glUniform3dv(location.location, 1, value.Values);
+		}
+
+		void Shader::Bind(UniformLocation location, const Vector4d& value)
+		{
+			glUniform4dv(location.location, 1, value.Values);
+		}
+
+		void Shader::Bind(UniformLocation location, const Matrix3& value)
+		{
+			glUniformMatrix3fv(location.location, 1, GL_TRUE, value.Values);
+		}
+
+		void Shader::Bind(UniformLocation location, const Matrix4& value)
+		{
+			glUniformMatrix4fv(location.location, 1, GL_TRUE, value.Values);
 		}
 	}
 }

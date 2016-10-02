@@ -32,7 +32,7 @@ namespace EngineQ
 		using ScriptHandle = std::uint32_t;
 		using ScriptTypeClass = MonoReflectionType*;
 
-		class ScriptEngine : public Utilities::Immovable
+		class ScriptEngine : private Utilities::Immovable
 		{
 		private:
 			static constexpr const char* ConstructorName = ":.ctor";

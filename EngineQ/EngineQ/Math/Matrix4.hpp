@@ -18,15 +18,14 @@ namespace EngineQ
 
 			union
 			{
-				Real Values[16];
+				Real Values[16] = { static_cast<Real>(0) };
 				Real Values2[4][4];
-
 				struct
 				{
-					Real m00, m01, m02, m03;
-					Real m10, m11, m12, m13;
-					Real m20, m21, m22, m23;
-					Real m30, m31, m32, m33;
+					Real M00, M01, M02, M03;
+					Real M10, M11, M12, M13;
+					Real M20, M21, M22, M23;
+					Real M30, M31, M32, M33;
 				};
 			};
 
@@ -34,7 +33,7 @@ namespace EngineQ
 
 		#pragma region Constructors
 
-			explicit Matrix4();
+			explicit Matrix4() = default;
 			explicit Matrix4(Real value);
 			explicit Matrix4(
 				Real m00, Real m01, Real m02, Real m03,

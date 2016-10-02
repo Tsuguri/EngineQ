@@ -107,43 +107,43 @@ namespace EngineQ
 
 		void SerializeValue(Math::Matrix4 value, Serializer& serializer, std::string& type, std::string& serializedValue)
 		{
-			serializer.StoreValue("m00", &value.m00);
-			serializer.StoreValue("m01", &value.m01);
-			serializer.StoreValue("m02", &value.m02);
-			serializer.StoreValue("m03", &value.m03);
-			serializer.StoreValue("m10", &value.m10);
-			serializer.StoreValue("m11", &value.m11);
-			serializer.StoreValue("m12", &value.m12);
-			serializer.StoreValue("m13", &value.m13);
-			serializer.StoreValue("m20", &value.m20);
-			serializer.StoreValue("m21", &value.m21);
-			serializer.StoreValue("m22", &value.m22);
-			serializer.StoreValue("m23", &value.m23);
-			serializer.StoreValue("m30", &value.m30);
-			serializer.StoreValue("m31", &value.m31);
-			serializer.StoreValue("m32", &value.m32);
-			serializer.StoreValue("m33", &value.m33);
+			serializer.StoreValue("M00", &value.M00);
+			serializer.StoreValue("M01", &value.M01);
+			serializer.StoreValue("M02", &value.M02);
+			serializer.StoreValue("M03", &value.M03);
+			serializer.StoreValue("M10", &value.M10);
+			serializer.StoreValue("M11", &value.M11);
+			serializer.StoreValue("M12", &value.M12);
+			serializer.StoreValue("M13", &value.M13);
+			serializer.StoreValue("M20", &value.M20);
+			serializer.StoreValue("M21", &value.M21);
+			serializer.StoreValue("M22", &value.M22);
+			serializer.StoreValue("M23", &value.M23);
+			serializer.StoreValue("M30", &value.M30);
+			serializer.StoreValue("M31", &value.M31);
+			serializer.StoreValue("M32", &value.M32);
+			serializer.StoreValue("M33", &value.M33);
 		}
 
 		Math::Matrix4 DeserializeValue(Deserializer& deserializer, const Math::Matrix4*)
 		{
 			Math::Matrix4 ret;
-			ret.m00 = deserializer.GetValue<Math::Real>("m00");
-			ret.m01 = deserializer.GetValue<Math::Real>("m01");
-			ret.m02 = deserializer.GetValue<Math::Real>("m02");
-			ret.m03 = deserializer.GetValue<Math::Real>("m03");
-			ret.m10 = deserializer.GetValue<Math::Real>("m10");
-			ret.m11 = deserializer.GetValue<Math::Real>("m11");
-			ret.m12 = deserializer.GetValue<Math::Real>("m12");
-			ret.m13 = deserializer.GetValue<Math::Real>("m13");
-			ret.m20 = deserializer.GetValue<Math::Real>("m20");
-			ret.m21 = deserializer.GetValue<Math::Real>("m21");
-			ret.m22 = deserializer.GetValue<Math::Real>("m22");
-			ret.m23 = deserializer.GetValue<Math::Real>("m23");
-			ret.m30 = deserializer.GetValue<Math::Real>("m30");
-			ret.m31 = deserializer.GetValue<Math::Real>("m31");
-			ret.m32 = deserializer.GetValue<Math::Real>("m32");
-			ret.m33 = deserializer.GetValue<Math::Real>("m33");
+			ret.M00 = deserializer.GetValue<Math::Real>("M00");
+			ret.M01 = deserializer.GetValue<Math::Real>("M01");
+			ret.M02 = deserializer.GetValue<Math::Real>("M02");
+			ret.M03 = deserializer.GetValue<Math::Real>("M03");
+			ret.M10 = deserializer.GetValue<Math::Real>("M10");
+			ret.M11 = deserializer.GetValue<Math::Real>("M11");
+			ret.M12 = deserializer.GetValue<Math::Real>("M12");
+			ret.M13 = deserializer.GetValue<Math::Real>("M13");
+			ret.M20 = deserializer.GetValue<Math::Real>("M20");
+			ret.M21 = deserializer.GetValue<Math::Real>("M21");
+			ret.M22 = deserializer.GetValue<Math::Real>("M22");
+			ret.M23 = deserializer.GetValue<Math::Real>("M23");
+			ret.M30 = deserializer.GetValue<Math::Real>("M30");
+			ret.M31 = deserializer.GetValue<Math::Real>("M31");
+			ret.M32 = deserializer.GetValue<Math::Real>("M32");
+			ret.M33 = deserializer.GetValue<Math::Real>("M33");
 			return ret;
 		}
 	}

@@ -14,7 +14,7 @@ namespace EngineQ
 	{
 
 		// TODO
-		class Framebuffer : public EngineQ::Utilities::Immovable
+		class Framebuffer : private EngineQ::Utilities::Immovable
 		{
 			static GLenum locations[8];
 
