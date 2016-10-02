@@ -55,15 +55,17 @@ namespace EngineQ
 			// Object not found
 			this->data->createdObjects.insert(std::make_pair(node->id, SerializationEngine::GetId(&value)));
 
-			return DeserializeValue(Deserializer{ *this, node }, static_cast<const Type*>(nullptr));
+			Deserializer deserializer{ *this, node };
+			return DeserializeValue(deserializer, static_cast<const Type*>(nullptr));
 		}
 
 		template<typename Type>
 		Type Deserializer::GetValue(const std::string& name)
 		{
 			SerializedObjectNode* node = this->currentNode->unreferencedValues.at(name).get();
-
-			return DeserializeValue(Deserializer{ *this, node }, static_cast<const Type*>(nullptr));
+			
+			Deserializer deserializer{ *this, node };
+			return DeserializeValue(deserializer, static_cast<const Type*>(nullptr));
 		}
 	}
 }

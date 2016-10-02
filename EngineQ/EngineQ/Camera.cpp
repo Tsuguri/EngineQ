@@ -10,8 +10,8 @@ namespace EngineQ
 
 	Camera::Camera(Serialization::Deserializer& deserialzier) :
 		Component{ deserialzier },
-		aspectRatio{deserialzier.GetValue<float>("aspect")},
-		fov{deserialzier.GetValue<float>("fov")}
+		fov{ deserialzier.GetValue<float>("fov") },
+		aspectRatio{ deserialzier.GetValue<float>("aspect") }
 	{
 
 	}

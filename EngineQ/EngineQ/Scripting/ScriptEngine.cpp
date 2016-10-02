@@ -192,9 +192,9 @@ namespace EngineQ
 			mono_gchandle_free(handle);
 		}
 
-		void ScriptEngine::API_Register(const char* name, const void* method)
+		void ScriptEngine::API_Register(const char* name, const void* function)
 		{
-			mono_add_internal_call(name, method);
+			mono_add_internal_call(name, function);
 		}
 
 		void ScriptEngine::LoadAssembly(const char* path)

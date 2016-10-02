@@ -22,7 +22,7 @@ void EngineQ::Scripting::API_Input::API_MouseDeltaPosition(Math::Vector2& deltaP
 
 void EngineQ::Scripting::API_Input::API_Register(ScriptEngine& scriptEngine)
 {
-	scriptEngine.API_Register("EngineQ.Input::API_KeyPressed",API_KeyPressed);
+	scriptEngine.API_Register("EngineQ.Input::API_KeyPressed", API_KeyPressed);
 	scriptEngine.API_Register("EngineQ.Input::API_MouseButtonDown", API_MouseButtonDown);
 	scriptEngine.API_Register("EngineQ.Input::API_MousePosition", API_MousePosition);
 	scriptEngine.API_Register("EngineQ.Input::API_MouseDeltaPosition", API_MouseDeltaPosition);

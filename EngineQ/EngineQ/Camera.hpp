@@ -15,12 +15,12 @@ namespace EngineQ
 		Math::Matrix4 invertedProjectionMatrix;
 
 		bool calculateProjectionMatrix = true;
-		bool calculateViewProjectionMatrix = true;
+	//	bool calculateViewProjectionMatrix = true;
 
 		float fov;
 		float aspectRatio;
 
-		bool calculateRotation = true;
+	//	bool calculateRotation = true;
 
 		bool calculateInvertedProjectionMatrix = true;
 

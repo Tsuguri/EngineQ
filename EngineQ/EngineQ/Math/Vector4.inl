@@ -5,31 +5,31 @@ namespace EngineQ
 	#pragma region Constructors
 
 		template<typename Type>
-		inline Vector4_t<Type>::Vector4_t()
+		Vector4_t<Type>::Vector4_t()
 			: X{ static_cast<Type>(0) }, Y{ static_cast<Type>(0) }, Z{ static_cast<Type>(0) }, W{ static_cast<Type>(0) }
 		{
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type>::Vector4_t(Type value)
+		Vector4_t<Type>::Vector4_t(Type value)
 			: X{ value }, Y{ value }, Z{ value }, W{ value }
 		{
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type>::Vector4_t(Type x, Type y, Type z, Type w)
+		Vector4_t<Type>::Vector4_t(Type x, Type y, Type z, Type w)
 			: X{ x }, Y{ y }, Z{ z }, W{ w }
 		{
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type>::Vector4_t(const Vector2_t<Type>& vector, Type z, Type w)
+		Vector4_t<Type>::Vector4_t(const Vector2_t<Type>& vector, Type z, Type w)
 			: X{ vector.X }, Y{ vector.Y }, Z{ z }, W{ w }
 		{
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type>::Vector4_t(const Vector3_t<Type>& vector, Type w)
+		Vector4_t<Type>::Vector4_t(const Vector3_t<Type>& vector, Type w)
 			: X{ vector.X }, Y{ vector.Y }, Z{ vector.Z }, W{ w }
 		{
 		}
@@ -39,25 +39,25 @@ namespace EngineQ
 	#pragma region Methods
 
 		template<typename Type>
-		inline Type Vector4_t<Type>::GetSum() const
+		Type Vector4_t<Type>::GetSum() const
 		{
 			return this->X + this->Y + this->Z + this->W;
 		}
 
 		template<typename Type>
-		inline Real Vector4_t<Type>::GetLength() const
+		Real Vector4_t<Type>::GetLength() const
 		{
 			return std::sqrt(static_cast<Real>(this->X * this->X + this->Y * this->Y + this->Z * this->Z + this->W * this->W));
 		}
 
 		template<typename Type>
-		inline Type Vector4_t<Type>::GetLengthSquared() const
+		Type Vector4_t<Type>::GetLengthSquared() const
 		{
 			return this->X * this->X + this->Y * this->Y + this->Z * this->Z + this->W * this->W;
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type> Vector4_t<Type>::GetNormalized() const
+		Vector4_t<Type> Vector4_t<Type>::GetNormalized() const
 		{
 			Vector4_t ret = *this;
 			ret.Normalize();
@@ -66,7 +66,7 @@ namespace EngineQ
 		}
 
 		template<typename Type>
-		inline void Vector4_t<Type>::Normalize()
+		void Vector4_t<Type>::Normalize()
 		{
 			Type length = static_cast<Type>(GetLength());
 
@@ -80,7 +80,7 @@ namespace EngineQ
 		}
 
 		template<typename Type>
-		inline std::string Vector4_t<Type>::ToString() const
+		std::string Vector4_t<Type>::ToString() const
 		{
 			return Utilities::ToString(*this);
 		}
@@ -90,25 +90,25 @@ namespace EngineQ
 	#pragma region Static Methods
 
 		template<typename Type>
-		inline Type Vector4_t<Type>::DistanceSquared(const Vector4_t& vector1, const Vector4_t& vector2)
+		Type Vector4_t<Type>::DistanceSquared(const Vector4_t& vector1, const Vector4_t& vector2)
 		{
 			return (vector2 - vector1).GetLengthSquared();
 		}
 
 		template<typename Type>
-		inline Real Vector4_t<Type>::Distance(const Vector4_t& vector1, const Vector4_t& vector2)
+		Real Vector4_t<Type>::Distance(const Vector4_t& vector1, const Vector4_t& vector2)
 		{
 			return (vector2 - vector1).GetLength();
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type> Vector4_t<Type>::GetZero()
+		Vector4_t<Type> Vector4_t<Type>::GetZero()
 		{
 			return Vector4_t{ static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(0) };
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type> Vector4_t<Type>::GetOne()
+		Vector4_t<Type> Vector4_t<Type>::GetOne()
 		{
 			return Vector4_t{ static_cast<Type>(1), static_cast<Type>(1), static_cast<Type>(1), static_cast<Type>(1) };
 		}
@@ -118,26 +118,26 @@ namespace EngineQ
 	#pragma region Operators
 
 		template<typename Type>
-		inline Vector4_t<Type>::operator Vector2_t<Type>() const
+		Vector4_t<Type>::operator Vector2_t<Type>() const
 		{
 			return Vector2_t<Type>{ this->X, this->Y };
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type>::operator Vector3_t<Type>() const
+		Vector4_t<Type>::operator Vector3_t<Type>() const
 		{
 			return Vector3_t<Type>{ this->X, this->Y, this->Z };
 		}
 
 		template<typename Type>
 		template<typename Type2>
-		inline Vector4_t<Type>::operator Vector4_t<Type2>() const
+		Vector4_t<Type>::operator Vector4_t<Type2>() const
 		{
 			return Vector4_t<Type2>{ static_cast<Type2>(this->X), static_cast<Type2>(this->Y), static_cast<Type2>(this->Z), static_cast<Type2>(this->W) };
 		}
 
 		template<typename Type>
-		inline void Vector4_t<Type>::operator += (const Vector4_t& other)
+		void Vector4_t<Type>::operator += (const Vector4_t& other)
 		{
 			this->X += other.X;
 			this->Y += other.Y;
@@ -146,7 +146,7 @@ namespace EngineQ
 		}
 
 		template<typename Type>
-		inline void Vector4_t<Type>::operator -= (const Vector4_t& other)
+		void Vector4_t<Type>::operator -= (const Vector4_t& other)
 		{
 			this->X -= other.X;
 			this->Y -= other.Y;
@@ -155,7 +155,7 @@ namespace EngineQ
 		}
 
 		template<typename Type>
-		inline void Vector4_t<Type>::operator *= (Type scalar)
+		void Vector4_t<Type>::operator *= (Type scalar)
 		{
 			this->X *= scalar;
 			this->Y *= scalar;
@@ -164,7 +164,7 @@ namespace EngineQ
 		}
 
 		template<typename Type>
-		inline void Vector4_t<Type>::operator *= (const Vector4_t& other)
+		void Vector4_t<Type>::operator *= (const Vector4_t& other)
 		{
 			this->X *= other.X;
 			this->Y *= other.Y;
@@ -173,7 +173,7 @@ namespace EngineQ
 		}
 
 		template<typename Type>
-		inline void Vector4_t<Type>::operator /= (Type scalar)
+		void Vector4_t<Type>::operator /= (Type scalar)
 		{
 			this->X /= scalar;
 			this->Y /= scalar;
@@ -182,7 +182,7 @@ namespace EngineQ
 		}
 
 		template<typename Type>
-		inline void Vector4_t<Type>::operator /= (const Vector4_t& other)
+		void Vector4_t<Type>::operator /= (const Vector4_t& other)
 		{
 			this->X /= other.X;
 			this->Y /= other.Y;
@@ -195,73 +195,73 @@ namespace EngineQ
 	#pragma region Static Operators
 
 		template<typename Type>
-		inline Vector4_t<Type> operator -(const Vector4_t<Type>& vector)
+		Vector4_t<Type> operator -(const Vector4_t<Type>& vector)
 		{
 			return Vector4_t<Type>{ -vector.X, -vector.Y, -vector.Z, -vector.W };
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type> operator +(const Vector4_t<Type>& vector)
+		Vector4_t<Type> operator +(const Vector4_t<Type>& vector)
 		{
 			return vector;
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type> operator +(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
+		Vector4_t<Type> operator +(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
 		{
 			return Vector4_t<Type>{ vector1.X + vector2.X, vector1.Y + vector2.Y, vector1.Z + vector2.Z, vector1.W + vector2.W };
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type> operator -(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
+		Vector4_t<Type> operator -(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
 		{
 			return Vector4_t<Type>{ vector1.X - vector2.X, vector1.Y - vector2.Y, vector1.Z - vector2.Z, vector1.W - vector2.W };
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type> operator *(const Vector4_t<Type>& vector, Type scalar)
+		Vector4_t<Type> operator *(const Vector4_t<Type>& vector, Type scalar)
 		{
 			return Vector4_t<Type>{ vector.X * scalar, vector.Y * scalar, vector.Z * scalar, vector.W * scalar };
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type> operator *(Type scalar, const Vector4_t<Type>& vector)
+		Vector4_t<Type> operator *(Type scalar, const Vector4_t<Type>& vector)
 		{
 			return Vector4_t<Type>{ scalar * vector.X, scalar * vector.Y, scalar * vector.Z, scalar * vector.W };
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type> operator *(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
+		Vector4_t<Type> operator *(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
 		{
 			return Vector4_t<Type>{ vector1.X * vector2.X, vector1.Y * vector2.Y, vector1.Z * vector2.Z, vector1.W * vector2.W };
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type> operator /(const Vector4_t<Type>& vector, Type scalar)
+		Vector4_t<Type> operator /(const Vector4_t<Type>& vector, Type scalar)
 		{
 			return Vector4_t<Type>{ vector.X / scalar, vector.Y / scalar, vector.Z / scalar, vector.W / scalar };
 		}
 
 		template<typename Type>
-		inline Vector4_t<Type> operator /(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
+		Vector4_t<Type> operator /(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
 		{
 			return Vector4_t<Type>{ vector1.X / vector2.X, vector1.Y / vector2.Y, vector1.Z / vector2.Z, vector1.W / vector2.W };
 		}
 
 		template<typename Type>
-		inline bool operator ==(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
+		bool operator ==(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
 		{
 			return (vector1.X == vector2.X && vector1.Y == vector2.Y && vector1.Z == vector2.Z && vector1.W == vector2.W);
 		}
 
 		template<typename Type>
-		inline bool operator !=(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
+		bool operator !=(const Vector4_t<Type>& vector1, const Vector4_t<Type>& vector2)
 		{
 			return (vector1.X != vector2.X || vector1.Y != vector2.Y || vector1.Z != vector2.Z || vector1.W != vector2.W);
 		}
 		
 		template<typename Type>
-		inline std::istream& operator >> (std::istream& stream, Vector4_t<Type>& vector)
+		std::istream& operator >> (std::istream& stream, Vector4_t<Type>& vector)
 		{
 			stream.ignore(1);
 			stream >> vector.X;
@@ -277,19 +277,19 @@ namespace EngineQ
 		}
 
 		template<typename Type>
-		inline std::istream& operator >>= (std::istream& stream, Vector4_t<Type>& vector)
+		std::istream& operator >>= (std::istream& stream, Vector4_t<Type>& vector)
 		{
 			return stream.read(reinterpret_cast<char*>(&vector.Values), sizeof(vector.Values));
 		}
 
 		template<typename Type>
-		inline std::ostream& operator << (std::ostream& stream, const Vector4_t<Type>& vector)
+		std::ostream& operator << (std::ostream& stream, const Vector4_t<Type>& vector)
 		{
 			return stream << "[" << vector.X << "," << vector.Y << "," << vector.Z << "," << vector.W << "]";
 		}
 
 		template<typename Type>
-		inline std::ostream& operator <<= (std::ostream& stream, const Vector4_t<Type>& vector)
+		std::ostream& operator <<= (std::ostream& stream, const Vector4_t<Type>& vector)
 		{
 			return stream.write(reinterpret_cast<const char*>(&vector.Values), sizeof(vector.Values));
 		}

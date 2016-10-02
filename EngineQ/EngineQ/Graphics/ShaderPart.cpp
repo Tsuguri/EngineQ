@@ -58,7 +58,7 @@ namespace EngineQ
 		}
 
 		ShaderPart::ShaderPart(ShaderPart&& other) :
-			type{ other.type }, shaderId{ other.shaderId }
+			shaderId{ other.shaderId }, type{ other.type }
 		{
 			other.shaderId = 0;
 		}

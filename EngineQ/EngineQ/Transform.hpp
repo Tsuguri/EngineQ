@@ -37,16 +37,16 @@ namespace EngineQ
 		Vector3 scale = Vector3::GetOne();
 		Quaternion rotation = Quaternion::GetIdentity();
 
-		Matrix4 globalMatrix = Matrix4::GetIdentity();
 		Matrix4 localMatrix = Matrix4::GetIdentity();
+		Matrix4 globalMatrix = Matrix4::GetIdentity();
 
-		Matrix4 globalMatrixInverse = Matrix4::GetIdentity();
 		Matrix4 localMatrixInverse = Matrix4::GetIdentity();
+		Matrix4 globalMatrixInverse = Matrix4::GetIdentity();
 
-		bool globalMatrixChanged = false;
 		bool localMatrixChanged = false;
-		bool globalMatrixInverseChanged = false;
+		bool globalMatrixChanged = false;
 		bool localMatrixInverseChanged = false;
+		bool globalMatrixInverseChanged = false;
 
 		Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity);
 

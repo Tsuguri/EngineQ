@@ -1,6 +1,7 @@
 #ifndef ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP
 #define ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP
 
+#include <cstdint>
 #include <iostream>
 #include <map>
 #include <string>
@@ -34,20 +35,20 @@ namespace EngineQ
 		class ScriptEngine : public Utilities::Immovable
 		{
 		private:
-			static constexpr char* ConstructorName = ":.ctor";
-			static constexpr char* UpdateName = ":Update";
+			static constexpr const char* ConstructorName = ":.ctor";
+			static constexpr const char* UpdateName = ":Update";
 
-			static constexpr char* NamespaceName = "EngineQ";
-			static constexpr char* ObjectClassName = "Object";
-			static constexpr char* EntityClassName = "Entity";
-			static constexpr char* ScriptClassName = "Script";
-			static constexpr char* TransformClassName = "Transform";
-			static constexpr char* LightClassName = "Light";
-			static constexpr char* CameraClassName = "Camera";
-			static constexpr char* SceneClassName = "Scene";
-			static constexpr char* InputClassName = "Input";
+			static constexpr const char* NamespaceName = "EngineQ";
+			static constexpr const char* ObjectClassName = "Object";
+			static constexpr const char* EntityClassName = "Entity";
+			static constexpr const char* ScriptClassName = "Script";
+			static constexpr const char* TransformClassName = "Transform";
+			static constexpr const char* LightClassName = "Light";
+			static constexpr const char* CameraClassName = "Camera";
+			static constexpr const char* SceneClassName = "Scene";
+			static constexpr const char* InputClassName = "Input";
 
-			static constexpr char* NativeHandleFieldName = "nativeHandle";
+			static constexpr const char* NativeHandleFieldName = "nativeHandle";
 
 			MonoDomain* domain;
 			MonoAssembly* assembly;
@@ -74,6 +75,8 @@ namespace EngineQ
 			static MonoMethod* GetMethod(MonoClass* mclass, const char* name);
 			MonoMethod* GetScriptMethod(MonoClass* mclass, MonoObject* object, const char* name) const;
 
+			void API_Register(const char* name, const void* function);
+
 		public:
 			ScriptEngine(const char* name, const char* assemblyPath, const char* libPath, const char* configPath);
 			~ScriptEngine();
@@ -91,7 +94,8 @@ namespace EngineQ
 			ScriptHandle CreateObject(ScriptClass sclass, Object* nativeHandle) const;
 			void DestroyObject(ScriptHandle handle) const;
 
-			void API_Register(const char* name, const void* method);
+			template<typename TReturn, typename... TArgs>
+			void API_Register(const char* name, TReturn(*function)(TArgs...));
 			void LoadAssembly(const char* path);
 
 			ScriptMethod GetScriptUpdateMethod(ScriptClass sclass, ScriptObject object) const;
@@ -116,5 +120,7 @@ namespace EngineQ
 		};
 	}
 }
+
+#include "ScriptEngine.inl"
 
 #endif // !ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP

@@ -7,11 +7,13 @@ namespace EngineQ
 	{
 	}
 
+	template<>
 	ResourceManager::ResourceType ResourceManager::Resource<Graphics::Shader>::GetType()
 	{
 		return ResourceType::Shader;
 	}
 
+	template<>
 	void ResourceManager::Resource<Graphics::Shader>::Load()
 	{
 		static const std::unordered_map<std::string, Graphics::ShaderType> shaderTypeMap = {

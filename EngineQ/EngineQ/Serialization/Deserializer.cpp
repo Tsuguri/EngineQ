@@ -39,8 +39,8 @@ namespace EngineQ
 			if (it2 != this->data->createdObjects.end())
 				throw std::logic_error{ "Invalid declaration order of \"" + name + "\" in \"" + dependedNode->type + "\"" };
 
-			// Create depended object cd...
-			void* object = GetReferenceToReference(dependedNode);
+			// Create depended object cont...
+			GetReferenceToReference(dependedNode);
 
 			auto it3 = this->data->createdObjects.find(node->id);
 			// Object not found

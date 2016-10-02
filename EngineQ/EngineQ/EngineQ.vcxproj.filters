@@ -129,5 +129,6 @@
     <None Include="Serialization\Serializer.inl" />
     <None Include="Utilities\Nullable.inl" />
     <None Include="Utilities\StringHelpers.inl" />
+    <None Include="Scripting\ScriptEngine.inl" />
   </ItemGroup>
 </Project>

@@ -74,13 +74,13 @@ namespace EngineQ
 	class FunctionNotFoundException : public std::runtime_error
 	{
 	public:
-		std::runtime_error::runtime_error;
+		using std::runtime_error::runtime_error;
 	};
 
 	class EmptyEventException : public std::runtime_error
 	{
 	public:
-		std::runtime_error::runtime_error;
+		using std::runtime_error::runtime_error;
 	};
 
 	template<typename TParent, typename TFunctor>
@@ -89,7 +89,7 @@ namespace EngineQ
 	template<typename TParent, typename TReturn, typename... TArgs>
 	class Event<TParent, TReturn(TArgs...)>
 	{
-		friend typename TParent;
+		friend TParent;
 
 	private:
 		class

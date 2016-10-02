@@ -7,8 +7,8 @@ namespace EngineQ
 #pragma region Serialization
 
 	Scene::Scene(Serialization::Deserializer& deserialzier) :
-		Object{deserialzier},
-		entities{deserialzier.GetValue<std::vector<Entity*>>("entities")}
+		Object{ deserialzier },
+		entities{ deserialzier.GetValue<std::vector<Entity*>>("entities") }
 	{
 	}
 
@@ -104,25 +104,28 @@ namespace EngineQ
 	{
 		switch (component.GetType())
 		{
-		case ComponentType::Camera:
-		{
-			Camera& camera = static_cast<Camera&>(component);
-			this->cameras.erase(std::remove(this->cameras.begin(), this->cameras.end(), &camera), this->cameras.end());
-		}
-		break;
+			case ComponentType::Camera:
+			{
+				Camera& camera = static_cast<Camera&>(component);
+				this->cameras.erase(std::remove(this->cameras.begin(), this->cameras.end(), &camera), this->cameras.end());
+			}
+			break;
 
-		case ComponentType::Light:
-		{
-			Light& light = static_cast<Light&>(component);
-			this->lights.erase(std::remove(this->lights.begin(), this->lights.end(), &light), this->lights.end());
-		}
-		break;
-		case ComponentType::Renderable:
-		{
-			Graphics::Renderable& renderable = static_cast<Graphics::Renderable&>(component);
-			this->renderables.erase(std::remove(this->renderables.begin(),this->renderables.end(),&renderable),this->renderables.end());
-		}
-		break;
+			case ComponentType::Light:
+			{
+				Light& light = static_cast<Light&>(component);
+				this->lights.erase(std::remove(this->lights.begin(), this->lights.end(), &light), this->lights.end());
+			}
+			break;
+			case ComponentType::Renderable:
+			{
+				Graphics::Renderable& renderable = static_cast<Graphics::Renderable&>(component);
+				this->renderables.erase(std::remove(this->renderables.begin(), this->renderables.end(), &renderable), this->renderables.end());
+			}
+			break;
+
+			default:
+			break;
 		}
 	}
 
@@ -130,15 +133,19 @@ namespace EngineQ
 	{
 		switch (component.GetType())
 		{
-		case ComponentType::Camera:
+			case ComponentType::Camera:
 			this->cameras.push_back(static_cast<Camera*>(&component));
 			break;
 
-		case ComponentType::Light:
+			case ComponentType::Light:
 			this->lights.push_back(static_cast<Light*>(&component));
 			break;
-		case ComponentType::Renderable:
+
+			case ComponentType::Renderable:
 			this->renderables.push_back(static_cast<Graphics::Renderable*>(&component));
+
+			default:
+			break;
 		}
 	}
 
