@@ -36,8 +36,10 @@ namespace EngineQ
 		void UnlockRemove();
 
 		void RemoveComponent_Internal(Component& component, std::vector<Component*>::iterator it);
-		
+
 		void Update();
+
+		void AddComponent(Component* component);
 
 	public:
 	#pragma region Serialization
@@ -48,14 +50,14 @@ namespace EngineQ
 	#pragma endregion
 
 		virtual ~Entity() override;
-	
+
 		const Scene& GetScene() const;
 		Scene& GetScene();
 
 		const Transform& GetTransform() const;
 		Transform& GetTransform();
 
-		
+
 
 		std::size_t GetComponentsCount() const;
 		Component* GetComponent(std::size_t index) const;
@@ -77,9 +79,7 @@ namespace EngineQ
 	{
 		Type* component = new Type{ this->scriptEngine, *this };
 
-		components.push_back(component);
-
-		this->scene.AddedComponent(*component);
+		this->AddComponent(component);
 
 		return component;
 	}

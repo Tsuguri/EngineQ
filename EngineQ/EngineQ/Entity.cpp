@@ -44,6 +44,12 @@ namespace EngineQ
 				delete component;
 		}
 
+		void Entity::AddComponent(Component* component)
+		{
+			this->components.push_back(component);
+			this->scene.AddedComponent(*component);
+		}
+
 		void Entity::LockRemove()
 		{
 			isRemoveLocked = true;
