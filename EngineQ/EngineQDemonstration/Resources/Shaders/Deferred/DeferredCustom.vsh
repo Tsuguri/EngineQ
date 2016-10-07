@@ -36,7 +36,7 @@ void main()
 
  //  Position = worldPos.xyz; 
   //  gl_Position = ProjMat * ViewMat * worldPos;
-  //  TexCoords = colorIn;
+    TexCoords = colorIn;
 
  //   Normal = NormalMat * normalIn;
 
@@ -48,12 +48,13 @@ void main()
 	Normal = NormalMat* normalIn; // przekazujemy wektory normalne fragment shaderowi
     vec4 worldPos = ModelMat * vec4(positionIn, 1.0f);
 	Position = worldPos.xyz; // przekazujemy pozycjÄ™ fragment shaderowi
-		
-	gl_Position = MVP
-				* vec4(
+	vec4 pos = vec4(
 					positionIn.x + A * sin(w * time - k * (positionIn.y + positionIn.z)),
 					positionIn.y + A * sin(w * time - k * (positionIn.x + positionIn.z)),
 					positionIn.z + A * sin(w * time - k * (positionIn.x + positionIn.y)),
 				1.0);
+	gl_Position = MVP * pos;
+	Position=pos.xyz;
+
 
 }  

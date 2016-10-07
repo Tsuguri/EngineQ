@@ -3,6 +3,7 @@
 #include "../Utilities/ResourcesIDs.hpp"
 #include "../Engine.hpp"
 #include "Renderer.hpp"
+#include "../TimeCounter.hpp"
 
 namespace EngineQ
 {
@@ -154,7 +155,7 @@ namespace EngineQ
 					glClear(GL_COLOR_BUFFER_BIT);
 					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
 					glDisable(GL_DEPTH_TEST);
-					i->Activate();
+					i->Activate(scene->ActiveCamera(),TimeCounter::Get()->TimeFromStart());
 					glBindVertexArray(quadVao);
 
 					i->BindTextures();

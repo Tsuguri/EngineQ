@@ -39,7 +39,7 @@ namespace EngineQ
 
 			void AddInput(const InputConfiguration& input);
 
-			void Activate() const;
+			void Activate(Camera* cam, float time) const;
 
 		};
 	}
