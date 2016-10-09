@@ -1,7 +1,7 @@
 #include "Engine.hpp"
 
 #include "Utilities/ResourcesIDs.hpp"
-
+#include <Resources/ModelLoader.hpp>
 namespace Math = EngineQ::Math;
 
 EngineQ::Mesh* GenerateCube(float side = 1.0f)
@@ -117,6 +117,13 @@ void PrepareScene(EngineQ::Scene* scene)
 
 
 	sc.ActiveCamera(cam);
+
+	auto lightEntity = sc.CreateEntity();
+	auto light = lightEntity->AddComponent<EngineQ::Light>();
+	
+
+	EngineQ::Resources::ModelLoader loader;
+	
 }
 
 void TemporaryResources(EngineQ::Engine* engine)

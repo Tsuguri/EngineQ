@@ -17,6 +17,8 @@ namespace EngineQ
 
 		Light(Scripting::ScriptEngine& scriptEngine, Entity& entity);
 
+
+
 		virtual ComponentType GetType() const override;
 	};
 }

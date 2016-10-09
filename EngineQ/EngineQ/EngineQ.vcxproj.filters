@@ -53,6 +53,7 @@
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
     <ClCompile Include="Graphics\ShaderPass.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
+    <ClCompile Include="Resources\ModelLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
@@ -117,6 +118,8 @@
     <ClInclude Include="Graphics\RenderingUnit.hpp" />
     <ClInclude Include="Graphics\ShaderPass.hpp" />
     <ClInclude Include="Graphics\Renderer.hpp" />
+    <ClInclude Include="Resources\ModelLoader.hpp" />
+    <ClInclude Include="Resources\Model.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />
