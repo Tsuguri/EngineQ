@@ -98,17 +98,6 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto shd = rm->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader);
 	auto deffShd = rm->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::DeferredGeometry);
 
-	for(int i=0;i<10;i++)
-		for (int j = 0; j < 10; j++)
-		{
-			auto entity = sc.CreateEntity();
-			auto rend = entity->AddComponent<EngineQ::Graphics::Renderable>();
-			rend->SetModel(mesh);
-			rend->SetForwardShader(shd);
-			rend->SetDeferredShader(deffShd);
-			entity->GetTransform().SetPosition(EngineQ::Math::Vector3(2+i*1,0,2+j*1));
-
-		}
 	auto cam = ent->AddComponent<EngineQ::Camera>();
 	
 	auto deffShdCustom = rm->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::DeferredGeometry);
