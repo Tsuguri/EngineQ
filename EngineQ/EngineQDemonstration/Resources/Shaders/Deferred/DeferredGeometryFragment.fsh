@@ -20,5 +20,5 @@ void main()
 
     gAlbedoSpec.rgb = TexCoords;//texture(diffuseTexture, TexCoords).rgb;
 
-    gAlbedoSpec.a = texture(specularTexture, TexCoords.xy).r;
+    gAlbedoSpec.a = 1;//texture(specularTexture, TexCoords.xy).r;
 }

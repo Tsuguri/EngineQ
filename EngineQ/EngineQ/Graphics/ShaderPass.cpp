@@ -72,9 +72,15 @@ namespace EngineQ
 			inputTextures.push_back(input);
 		}
 
-		void ShaderPass::Activate() const
+		void ShaderPass::Activate(Camera* cam,float time) const
 		{
 			shader->Activate();
+			auto tmp = shader->TryGetUniformLocation("cameraPosition");
+			if (tmp != nullval)
+				shader->Bind(*tmp, cam->GetEntity().GetTransform().GetPosition());
+			tmp = shader->TryGetUniformLocation("time");
+			if (tmp != nullval)
+				shader->Bind(*tmp, time);
 		}
 	}
 }

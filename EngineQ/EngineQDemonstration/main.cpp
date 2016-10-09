@@ -93,12 +93,14 @@ void PrepareScene(EngineQ::Scene* scene)
 
 	auto renderable = ent2->AddComponent<EngineQ::Graphics::Renderable>();
 	auto renderable2 = ent3->AddComponent<EngineQ::Graphics::Renderable>();
-
-	auto cam = ent->AddComponent<EngineQ::Camera>();
 	auto rm = EngineQ::Engine::Get()->GetResourceManager();
+
 	auto shd = rm->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader);
 	auto deffShd = rm->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::DeferredGeometry);
-	auto deffShdCustom = rm->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::CustomDeferred);
+
+	auto cam = ent->AddComponent<EngineQ::Camera>();
+	
+	auto deffShdCustom = rm->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::DeferredGeometry);
 	renderable->SetModel(mesh);
 	renderable->SetForwardShader(shd);
 	renderable->SetDeferredShader(deffShd);
