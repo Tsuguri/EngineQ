@@ -1,7 +1,6 @@
 #ifndef ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP
 #define ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP
 
-#include <iostream>
 #include <map>
 #include <string>
 
@@ -9,7 +8,6 @@
 #include "../Objects/Types.hpp"
 
 #include "../Utilities/Immovable.hpp"
-#include "ScriptingExceptions.hpp"
 
 namespace EngineQ
 {

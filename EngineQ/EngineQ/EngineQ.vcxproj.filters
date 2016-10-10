@@ -35,7 +35,6 @@
     <ClCompile Include="Libraries\TinyXML\tinyxml2.cpp" />
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
-    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Utilities\Nullable.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -96,7 +95,6 @@
     <ClInclude Include="Scripting\API_Transform.hpp" />
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
     <ClInclude Include="Utilities\Property.hpp" />
-    <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="Utilities\Nullable.hpp" />
     <ClInclude Include="Utilities\StringHelpers.hpp" />

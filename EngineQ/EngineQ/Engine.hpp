@@ -11,7 +11,7 @@
 #include "ResourceManager.hpp"
 #include "Utilities/Event.hpp"
 
-#include "Math\Vector2.hpp"
+#include "Math/Vector2.hpp"
 
 namespace EngineQ
 {
