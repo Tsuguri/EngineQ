@@ -10,19 +10,22 @@
 
 namespace EngineQ
 {
-	class Mesh : public Utilities::Uncopyable
+	namespace Graphics
 	{
-	private:
-		GLuint count=0;
-		GLuint vao=0;
-		GLuint vbo[3]={0,0,0};
-	public:
-		
-		
-		GLuint Count();
-		GLuint GetVao();
-		Mesh(const std::vector <VertexPNC>& vertices,const std::vector <GLuint>& indices);
-		~Mesh();
-	};
+		class Mesh : public Utilities::Uncopyable
+		{
+		private:
+			GLuint count = 0;
+			GLuint vao = 0;
+			GLuint vbo[3] = { 0,0,0 };
+		public:
+
+
+			GLuint Count() const;
+			GLuint GetVao() const;
+			Mesh(const std::vector <VertexPNC>& vertices, const std::vector <GLuint>& indices);
+			~Mesh();
+		};
+	}
 }
 #endif

@@ -13,6 +13,13 @@ namespace EngineQ
 		return ResourceType::Shader;
 	}
 
+	template <>
+	ResourceManager::ResourceType ResourceManager::Resource<Resources::Model>::GetType()
+	{
+		return ResourceType::Model;
+	}
+
+
 	template<>
 	void ResourceManager::Resource<Graphics::Shader>::Load()
 	{
@@ -26,9 +33,6 @@ namespace EngineQ
 
 		tinyxml2::XMLDocument doc{};
 		doc.LoadFile(this->path.c_str());
-		//std::cout << "Loaded " << this->path << ":" << std::endl;
-		//doc.Print();
-		//std::cout << std::endl;
 
 		if (doc.Error())
 			throw ResourceFileLoadingException{ doc.GetErrorStr1() };
@@ -45,6 +49,17 @@ namespace EngineQ
 		}
 
 		this->resource = std::make_shared<Graphics::Shader>(shaders);
+	}
+
+	template<>
+	void ResourceManager::Resource<Resources::Model>::Load()
+	{
+		tinyxml2::XMLDocument doc{};
+
+		if (doc.Error())
+			throw ResourceFileLoadingException{ doc.GetErrorStr1() };
+
+		auto rootElement = doc.RootElement();
 	}
 
 	void ResourceManager::Update()

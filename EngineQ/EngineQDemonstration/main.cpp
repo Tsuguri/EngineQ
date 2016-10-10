@@ -4,7 +4,7 @@
 #include <Resources/ModelLoader.hpp>
 namespace Math = EngineQ::Math;
 
-EngineQ::Mesh* GenerateCube(float side = 1.0f)
+EngineQ::Graphics::Mesh* GenerateCube(float side = 1.0f)
 {
 	std::vector<EngineQ::VertexPNC> vertices{
 		{Math::Vector3{ side, -side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
@@ -61,10 +61,10 @@ EngineQ::Mesh* GenerateCube(float side = 1.0f)
 	for (unsigned int i = 0; i < vertices.size(); ++i)
 		indices.push_back(i);
 
-	return new EngineQ::Mesh{ vertices, indices };
+	return new EngineQ::Graphics::Mesh{ vertices, indices };
 }
 
-EngineQ::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep = 10.0f, float horizontalStep = 10.0f)
+EngineQ::Graphics::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep = 10.0f, float horizontalStep = 10.0f)
 {
 	std::vector<EngineQ::VertexPNC> vertices{};
 
@@ -78,7 +78,7 @@ EngineQ::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep = 10.0f, f
 	for (unsigned int i = 0; i < vertices.size(); ++i)
 		indices.push_back(i);
 
-	return new EngineQ::Mesh{ vertices,indices };
+	return new EngineQ::Graphics::Mesh{ vertices,indices };
 }
 void PrepareScene(EngineQ::Scene* scene)
 {

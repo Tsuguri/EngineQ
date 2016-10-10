@@ -41,7 +41,7 @@ namespace EngineQ
 			return model;
 		}
 
-		void Renderable::SetModel(EngineQ::Mesh* mesh)
+		void Renderable::SetModel(EngineQ::Graphics::Mesh* mesh)
 		{
 			model = mesh;
 		}

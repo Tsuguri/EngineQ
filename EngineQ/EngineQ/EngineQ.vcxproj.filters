@@ -54,6 +54,7 @@
     <ClCompile Include="Graphics\ShaderPass.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Resources\ModelLoader.cpp" />
+    <ClCompile Include="Resources\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
