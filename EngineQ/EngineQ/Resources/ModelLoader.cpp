@@ -11,7 +11,7 @@ namespace EngineQ
 			{
 				Assimp::Importer importer;
 				char* path = nullptr;
-				const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+				//const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 			}
 	}
 }
