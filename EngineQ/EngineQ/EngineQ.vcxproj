@@ -24,6 +24,7 @@
     <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
     <ClCompile Include="Graphics\RendererConfiguration.cpp" />
+    <ClCompile Include="Graphics\ShaderProperties.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scripting\API_Application.cpp" />
@@ -35,7 +36,6 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Graphics\ForwardRenderer.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
-    <ClCompile Include="Graphics\ShaderExceptions.cpp" />
     <ClCompile Include="Graphics\ShaderPart.cpp" />
     <ClCompile Include="Graphics\UniformLocation.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -78,6 +78,9 @@
     <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
     <ClInclude Include="Graphics\RenderingUnit.hpp" />
     <ClInclude Include="Graphics\RendererConfiguration.hpp" />
+    <ClInclude Include="Graphics\ShaderProperties.hpp" />
+    <ClInclude Include="Graphics\ShaderProperty.hpp" />
+    <ClInclude Include="Graphics\ShaderUniformData.hpp" />
     <ClInclude Include="InputController.hpp" />
     <ClInclude Include="ResourceManager.hpp" />
     <ClInclude Include="Scripting\API_Application.hpp" />
@@ -127,6 +130,7 @@
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Transform.hpp" />
+    <ClInclude Include="Utilities\Metaprogramming.hpp" />
     <ClInclude Include="Utilities\Property.hpp" />
     <ClInclude Include="Utilities\ResourcesIDs.hpp" />
     <ClInclude Include="Utils.hpp" />
@@ -137,6 +141,7 @@
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Graphics\ShaderProperties.inl" />
     <None Include="Math\Vector2.inl" />
     <None Include="Math\Vector3.inl" />
     <None Include="Math\Vector4.inl" />

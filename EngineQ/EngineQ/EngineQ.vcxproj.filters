@@ -15,7 +15,6 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Graphics\ForwardRenderer.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
-    <ClCompile Include="Graphics\ShaderExceptions.cpp" />
     <ClCompile Include="Graphics\ShaderPart.cpp" />
     <ClCompile Include="Graphics\UniformLocation.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -53,6 +52,7 @@
     <ClCompile Include="Utilities\ResourcesIDs.cpp" />
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
     <ClCompile Include="Graphics\ShaderPass.cpp" />
+    <ClCompile Include="Graphics\ShaderProperties.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
@@ -117,6 +117,10 @@
     <ClInclude Include="Utilities\ResourcesIDs.hpp" />
     <ClInclude Include="Graphics\RenderingUnit.hpp" />
     <ClInclude Include="Graphics\ShaderPass.hpp" />
+    <ClInclude Include="Utilities\Metaprogramming.hpp" />
+    <ClInclude Include="Graphics\ShaderProperty.hpp" />
+    <ClInclude Include="Graphics\ShaderUniformData.hpp" />
+    <ClInclude Include="Graphics\ShaderProperties.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />
@@ -130,5 +134,6 @@
     <None Include="Utilities\Nullable.inl" />
     <None Include="Utilities\StringHelpers.inl" />
     <None Include="Scripting\ScriptEngine.inl" />
+    <None Include="Graphics\ShaderProperties.inl" />
   </ItemGroup>
 </Project>
