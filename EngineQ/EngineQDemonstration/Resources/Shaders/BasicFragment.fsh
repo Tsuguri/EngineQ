@@ -12,6 +12,8 @@ uniform float ambientStrength=0.3f;
 uniform float specularStrength=0.1f;
 uniform float materialShininess=32;
 
+//uniform float myRandomValue = 1.0f;
+
 out vec4 ColorOut;
 
 void main(void)
@@ -39,4 +41,5 @@ vec3 colorTmp;
 		vec3 specular = lightColor * spec;
 		vec3 result = (ambient+diffuse+specular)*colorTmp;
 		ColorOut=vec4(result,1.0);
+		//ColorOut=vec4(vec3(result.xy, result.z * myRandomValue),1.0);
 }

@@ -8,6 +8,8 @@
 #include "ShaderUniformData.hpp"
 #include "ShaderProperty.hpp"
 
+#include "../Math/Matrix4.hpp"
+
 namespace EngineQ
 {
 	namespace Graphics
@@ -15,7 +17,7 @@ namespace EngineQ
 		class ShaderProperties
 		{
 		private:
-			using UniformData = ShaderUniformData<int, float>;
+			using UniformData = ShaderUniformData<float, Math::Matrix4>;
 			
 			Shader* shader;
 			

@@ -64,6 +64,8 @@ EngineQ::Mesh* GenerateCube(float side = 1.0f)
 	return new EngineQ::Mesh{ vertices, indices };
 }
 
+#include "Graphics/ShaderProperties.hpp"
+
 void PrepareScene(EngineQ::Scene* scene)
 {
 	auto& sc{ *scene };
@@ -80,6 +82,15 @@ void PrepareScene(EngineQ::Scene* scene)
 
 	auto cam = ent->AddComponent<EngineQ::Camera>();
 	auto shd = EngineQ::Engine::Get()->GetResourceManager()->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader);
+	
+	EngineQ::Graphics::ShaderProperties shaderProperty{ *shd };
+
+//	auto property = shaderProperty.GetProperty<float>("myRandomValue");
+//	property = 0.5f;
+
+	shaderProperty.Apply();
+
+
 	renderable->SetModel(mesh);
 	renderable->SetForwardShader(shd);
 	renderable2->SetModel(mesh);
