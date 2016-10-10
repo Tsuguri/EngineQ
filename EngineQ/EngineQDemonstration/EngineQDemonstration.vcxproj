@@ -114,6 +114,7 @@
       <Command>echo --------------------   Copying files   --------------------
 
 xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
+xcopy "$(SolutionDir)Libraries\Assimp\bin\$(Platform)\*" "$(OutputPath)" /D /Y
 xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(OutputPath)" /D /Y
 
 xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D
@@ -151,6 +152,7 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
       <Command>echo --------------------   Copying files   --------------------
 
 xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
+xcopy "$(SolutionDir)Libraries\Assimp\bin\$(Platform)\*" "$(OutputPath)" /D /Y
 xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(OutputPath)" /D /Y
 
 xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D
@@ -192,6 +194,7 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
       <Command>echo --------------------   Copying files   --------------------
 
 xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
+xcopy "$(SolutionDir)Libraries\Assimp\bin\$(Platform)\*" "$(OutputPath)" /D /Y
 xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(OutputPath)" /D /Y
 
 xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D
@@ -233,6 +236,7 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
       <Command>echo --------------------   Copying files   --------------------
 
 xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
+xcopy "$(SolutionDir)Libraries\Assimp\bin\$(Platform)\*" "$(OutputPath)" /D /Y
 xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(OutputPath)" /D /Y
 
 xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D

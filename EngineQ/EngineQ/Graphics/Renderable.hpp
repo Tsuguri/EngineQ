@@ -13,6 +13,7 @@ namespace EngineQ
 		class Renderable : public Component
 		{
 			std::shared_ptr<Shader> forwardShader;
+			std::shared_ptr<Shader> deferredShader;
 			Mesh* model;
 
 		public:
@@ -20,7 +21,9 @@ namespace EngineQ
 			virtual ComponentType GetType() const override;
 
 			Shader* GetForwardShader() const;
+			Shader* GetDeferredShader() const;
 			void SetForwardShader(std::shared_ptr<Shader> shader);
+			void SetDeferredShader(std::shared_ptr<Shader> shader);
 			Mesh* GetModel() const;
 			void SetModel(Mesh* mesh);
 		};

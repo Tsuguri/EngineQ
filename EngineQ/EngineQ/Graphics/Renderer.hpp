@@ -3,21 +3,24 @@
 
 #include "../Scene.hpp"
 #include "Framebuffer.hpp"
+#include "Renderer.hpp"
 
 namespace EngineQ
 {
 	namespace Graphics
 	{
 
-		class ForwardRenderer
+		class Renderer
 		{
 		private:
+			bool deferred;
 			std::shared_ptr<Framebuffer> framebuffer;
-		public:
-			ForwardRenderer();
-			virtual ~ForwardRenderer();
 
-			void Render(Scene* scene);
+			Shader* (Renderable::*shaderMethod)() const;
+
+		public:
+			void SetDeferred(bool state);
+			void Render(Scene* scene) const;
 			void SetTargetBuffer(std::shared_ptr<Framebuffer> buffer);
 
 

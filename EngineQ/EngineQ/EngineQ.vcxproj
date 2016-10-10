@@ -26,6 +26,7 @@
     <ClCompile Include="Graphics\RendererConfiguration.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Resources\ModelLoader.cpp" />
     <ClCompile Include="Scripting\API_Application.cpp" />
     <ClCompile Include="Scripting\API_Input.cpp" />
     <ClCompile Include="Scripting\API_TimeCounter.cpp" />
@@ -33,7 +34,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Graphics\ForwardRenderer.cpp" />
+    <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
     <ClCompile Include="Graphics\ShaderExceptions.cpp" />
     <ClCompile Include="Graphics\ShaderPart.cpp" />
@@ -80,6 +81,8 @@
     <ClInclude Include="Graphics\RendererConfiguration.hpp" />
     <ClInclude Include="InputController.hpp" />
     <ClInclude Include="ResourceManager.hpp" />
+    <ClInclude Include="Resources\Model.hpp" />
+    <ClInclude Include="Resources\ModelLoader.hpp" />
     <ClInclude Include="Scripting\API_Application.hpp" />
     <ClInclude Include="Scripting\API_Input.hpp" />
     <ClInclude Include="Scripting\API_TimeCounter.hpp" />
@@ -87,7 +90,7 @@
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="Entity.hpp" />
-    <ClInclude Include="Graphics\ForwardRenderer.hpp" />
+    <ClInclude Include="Graphics\Renderer.hpp" />
     <ClInclude Include="Graphics\Shader.hpp" />
     <ClInclude Include="Graphics\ShaderExceptions.hpp" />
     <ClInclude Include="Graphics\ShaderPart.hpp" />
@@ -229,7 +232,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\Assimp\include\</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
@@ -239,11 +242,11 @@
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -256,8 +259,6 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -265,11 +266,11 @@
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -284,8 +285,6 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -295,11 +294,11 @@
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -313,8 +312,6 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -324,11 +321,11 @@
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

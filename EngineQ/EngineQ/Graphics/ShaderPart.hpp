@@ -72,7 +72,7 @@ namespace EngineQ
 			ShaderPart(ShaderPart&& other);
 			~ShaderPart();
 
-			ShaderType GetType();
+			ShaderType GetType() const;
 		};
 
 

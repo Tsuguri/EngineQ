@@ -2,6 +2,9 @@
 #include "PostprocessingExceptions.hpp"
 #include "../Utilities/ResourcesIDs.hpp"
 #include "../Engine.hpp"
+#include "Renderer.hpp"
+#include "../TimeCounter.hpp"
+
 namespace EngineQ
 {
 	namespace Graphics
@@ -32,12 +35,12 @@ namespace EngineQ
 			glBindVertexArray(0);
 		}
 
-		void RenderingUnit::CreateTexture(GLuint* texture,const TextureConfiguration& configuration) const
+		void RenderingUnit::CreateTexture(GLuint* texture, const TextureConfiguration& configuration) const
 		{
 			glGenTextures(1, texture);
 			glBindTexture(GL_TEXTURE_2D, *texture);
 			auto size = engine->GetScreenSize();
-			glTexImage2D(GL_TEXTURE_2D, 0, configuration.Format, size.X, size.Y, 0, configuration.Format, configuration.DataType, nullptr);
+			glTexImage2D(GL_TEXTURE_2D, 0, configuration.InternalFormat, size.X, size.Y, 0, configuration.Format, configuration.DataType, nullptr);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -48,7 +51,7 @@ namespace EngineQ
 			for (int i = 0; i < textures.size(); i++)
 			{
 				glBindTexture(GL_TEXTURE_2D, textures[i]);
-				glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].InternalFormat,width,height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
+				glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].InternalFormat, width, height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
 			}
 		}
 
@@ -73,23 +76,18 @@ namespace EngineQ
 			}
 
 			//renderer
-			if (configuration.Renderer.Deffered)
-			{
-				//should never happen as for now
-			}
+
+			renderer.SetDeferred(!configuration.Renderer.Deffered);
+
+			if (configuration.Renderer.Output.size() == 0 || (configuration.Renderer.Output.size() == 1 && configuration.Renderer.Output[0].Texture == "Screen"))
+				renderer.SetTargetBuffer(nullptr);
 			else
 			{
-				renderer = new ForwardRenderer{};
-				if (configuration.Renderer.Output.size() == 0 || (configuration.Renderer.Output.size() == 1 && configuration.Renderer.Output[0].Texture == "Screen"))
-					renderer->SetTargetBuffer(nullptr);
-				else
-				{
-					std::vector<GLuint> rendererOutput;
-					rendererOutput.reserve(configuration.Renderer.Output.size());
-					for (auto outputConfiguration : configuration.Renderer.Output)
-						rendererOutput.push_back(textures[texturesNames[outputConfiguration.Texture]]);
-					renderer->SetTargetBuffer(CreateFramebuffer(rendererOutput, true));
-				}
+				std::vector<GLuint> rendererOutput;
+				rendererOutput.reserve(configuration.Renderer.Output.size());
+				for (auto outputConfiguration : configuration.Renderer.Output)
+					rendererOutput.push_back(textures[texturesNames[outputConfiguration.Texture]]);
+				renderer.SetTargetBuffer(CreateFramebuffer(rendererOutput, true));
 			}
 
 			auto rm = engine->GetResourceManager();
@@ -97,7 +95,7 @@ namespace EngineQ
 			//effects
 			for (auto shaderPass : configuration.Effects)
 			{
-				auto p =std::make_unique<ShaderPass>(rm->GetResource<Shader>(shaderPass.Shader) );
+				auto p = std::make_unique<ShaderPass>(rm->GetResource<Shader>(shaderPass.Shader));
 				for (auto inputConfiguration : shaderPass.Input)
 					p->AddInput(InputConfiguration{ inputConfiguration.Location,textures[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
 
@@ -142,14 +140,12 @@ namespace EngineQ
 			if (textures.size() > 0)
 				glDeleteTextures(textures.size(), &textures[0]);
 
-			if (renderer != nullptr)
-				delete renderer;
 		}
 
 		void RenderingUnit::Render(Scene* scene)
 		{
 
-			renderer->Render(scene);
+			renderer.Render(scene);
 
 			if (effects.size() > 0)
 				for (auto& i : effects)
@@ -159,7 +155,7 @@ namespace EngineQ
 					glClear(GL_COLOR_BUFFER_BIT);
 					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
 					glDisable(GL_DEPTH_TEST);
-					i->Activate();
+					i->Activate(scene->ActiveCamera(),TimeCounter::Get()->TimeFromStart());
 					glBindVertexArray(quadVao);
 
 					i->BindTextures();

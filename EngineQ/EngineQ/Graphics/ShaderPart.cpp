@@ -52,7 +52,7 @@ namespace EngineQ
 			}
 		}
 
-		ShaderType ShaderPart::GetType()
+		ShaderType ShaderPart::GetType() const
 		{
 			return this->type;
 		}
