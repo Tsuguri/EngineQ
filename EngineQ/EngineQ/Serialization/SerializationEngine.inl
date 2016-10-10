@@ -1,3 +1,5 @@
+#include "Serializable.hpp"
+
 namespace EngineQ
 {
 	namespace Serialization

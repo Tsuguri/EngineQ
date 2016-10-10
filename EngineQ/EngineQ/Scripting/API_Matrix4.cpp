@@ -1,11 +1,17 @@
 #include "API_Matrix4.hpp"
 
+#include "ScriptEngine.hpp"
+
+#include "../Math/Vector3.hpp"
+#include "../Math/Vector4.hpp"
+#include "../Math/Matrix4.hpp"
+
+using namespace EngineQ::Math;
+
 namespace EngineQ
 {
 	namespace Scripting
 	{
-		using namespace EngineQ::Math;
-
 		void API_Matrix4::API_Determinant(const Matrix4& matrix, Real& value)
 		{
 			value = matrix.GetDeterminant();

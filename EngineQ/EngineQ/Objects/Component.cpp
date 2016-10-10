@@ -1,7 +1,9 @@
 #include "Component.hpp"
 
 #include "Entity.hpp"
-#include "Serialization/SerializationRules.hpp"
+
+#include "../Serialization/Serializer.hpp"
+#include "../Serialization/Deserializer.hpp"
 
 namespace EngineQ
 {

@@ -1,7 +1,15 @@
 #include "Entity.hpp"
-#include "Scene.hpp"
 
-#include "Serialization/SerializationRules.hpp"
+#include <algorithm>
+
+#include "Scene.hpp"
+#include "Script.hpp"
+#include "Transform.hpp"
+
+#include "../Scripting/ScriptEngine.hpp"
+#include "../Serialization/Serializer.hpp"
+#include "../Serialization/Deserializer.hpp"
+#include "../Serialization/SerializationRules.hpp"
 
 namespace EngineQ
 {

@@ -1,12 +1,11 @@
 #ifndef ENGINEQ_QOBJECT_HPP
 #define ENGINEQ_QOBJECT_HPP
 
-#include "Utilities/Immovable.hpp"
-#include "Scripting/ScriptEngine.hpp"
+#include "../Serialization/Types.hpp"
+#include "../Scripting/Types.hpp"
 
-#include "Serialization/Serializable.hpp"
-#include "Serialization/Serializer.hpp"
-#include "Serialization/Deserializer.hpp"
+#include "../Utilities/Immovable.hpp"
+#include "../Serialization/Serializable.hpp"
 
 namespace EngineQ
 {

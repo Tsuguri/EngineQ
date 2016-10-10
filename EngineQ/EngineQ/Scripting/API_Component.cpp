@@ -1,6 +1,11 @@
 #include "API_Component.hpp"
 
-#include "../Entity.hpp"
+#include "Types.hpp"
+
+#include "ScriptEngine.hpp"
+
+#include "../Objects/Component.hpp"
+#include "../Objects/Entity.hpp"
 
 namespace EngineQ
 {

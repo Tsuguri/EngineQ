@@ -1,12 +1,12 @@
-#ifndef ENGINEQ_EVENT_HPP
-#define ENGINEQ_EVENT_HPP
+#ifndef UTILITIES_EVENT_HPP
+#define UTILITIES_EVENT_HPP
 
 #include <vector>
 #include <functional>
 #include <stdexcept>
 #include <memory>
 
-namespace EngineQ
+namespace Utilities
 {
 	template<typename TFunctor>
 	class EventHandler;
@@ -178,4 +178,4 @@ namespace EngineQ
 	*/
 }
 
-#endif // !ENGINEQ_EVENT_HPP
+#endif // !UTILITIES_EVENT_HPP

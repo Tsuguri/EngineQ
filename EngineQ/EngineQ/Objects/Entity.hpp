@@ -1,18 +1,14 @@
 #ifndef ENGINEQ_ENTITY_HPP
 #define ENGINEQ_ENTITY_HPP
 
-#include <cstdint>
 #include <vector>
 
+#include "Types.hpp"
+
 #include "Object.hpp"
-#include "Transform.hpp"
-#include "Scripting/ScriptEngine.hpp"
-#include "Script.hpp"
 
 namespace EngineQ
 {
-	class Scene;
-
 	class Entity : public Object
 	{
 		friend class Transform;

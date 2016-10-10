@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "SerializedObject.hpp"
+#include "Types.hpp"
 
 namespace EngineQ
 {

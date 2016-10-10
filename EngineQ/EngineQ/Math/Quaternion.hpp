@@ -2,10 +2,8 @@
 #define ENGINEQ_MATH_QUATERNION_HPP
 
 #include "../Utilities/StringHelpers.hpp"
-#include "Types.hpp"
 
-#include "Vector3.hpp"
-#include "Vector4.hpp"
+#include "Types.hpp"
 
 namespace EngineQ
 {

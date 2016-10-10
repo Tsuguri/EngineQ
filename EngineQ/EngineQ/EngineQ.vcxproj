@@ -25,30 +25,31 @@
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
     <ClCompile Include="Graphics\RendererConfiguration.cpp" />
     <ClCompile Include="InputController.cpp" />
+    <ClCompile Include="Math\Utilities.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Resources\ModelLoader.cpp" />
     <ClCompile Include="Scripting\API_Application.cpp" />
     <ClCompile Include="Scripting\API_Input.cpp" />
     <ClCompile Include="Scripting\API_TimeCounter.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Objects\Camera.cpp" />
+    <ClCompile Include="Objects\Component.cpp" />
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Objects\Entity.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
     <ClCompile Include="Graphics\ShaderExceptions.cpp" />
     <ClCompile Include="Graphics\ShaderPart.cpp" />
     <ClCompile Include="Graphics\UniformLocation.cpp" />
-    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Objects\Light.cpp" />
     <ClCompile Include="Math\Matrix3.cpp" />
     <ClCompile Include="Math\Matrix4.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Graphics\Mesh.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Graphics\Renderable.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Script.cpp" />
+    <ClCompile Include="Objects\Object.cpp" />
+    <ClCompile Include="Objects\Renderable.cpp" />
+    <ClCompile Include="Objects\Scene.cpp" />
+    <ClCompile Include="Objects\Script.cpp" />
     <ClCompile Include="Scripting\API_Component.cpp" />
     <ClCompile Include="Scripting\API_Entity.cpp" />
     <ClCompile Include="Scripting\API_Matrix3.cpp" />
@@ -57,7 +58,6 @@
     <ClCompile Include="Scripting\API_Scene.cpp" />
     <ClCompile Include="Scripting\API_Transform.cpp" />
     <ClCompile Include="Scripting\ScriptEngine.cpp" />
-    <ClCompile Include="Scripting\ScriptEngineException.cpp" />
     <ClCompile Include="Serialization\Deserializer.cpp" />
     <ClCompile Include="Serialization\Serializable.cpp" />
     <ClCompile Include="Serialization\SerializationEngine.cpp" />
@@ -66,8 +66,7 @@
     <ClCompile Include="Libraries\TinyXML\tinyxml2.cpp" />
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Utilities\ResourcesIDs.cpp" />
+    <ClCompile Include="Objects\Transform.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Utilities\Nullable.cpp" />
@@ -79,23 +78,28 @@
     <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
     <ClInclude Include="Graphics\RenderingUnit.hpp" />
     <ClInclude Include="Graphics\RendererConfiguration.hpp" />
+    <ClInclude Include="Graphics\Types.hpp" />
     <ClInclude Include="InputController.hpp" />
+    <ClInclude Include="Math\Types.hpp" />
+    <ClInclude Include="Math\Utilities.hpp" />
+    <ClInclude Include="Objects\Types.hpp" />
     <ClInclude Include="ResourceManager.hpp" />
     <ClInclude Include="Resources\Model.hpp" />
     <ClInclude Include="Resources\ModelLoader.hpp" />
     <ClInclude Include="Scripting\API_Application.hpp" />
     <ClInclude Include="Scripting\API_Input.hpp" />
     <ClInclude Include="Scripting\API_TimeCounter.hpp" />
-    <ClInclude Include="Camera.hpp" />
-    <ClInclude Include="Component.hpp" />
+    <ClInclude Include="Objects\Camera.hpp" />
+    <ClInclude Include="Objects\Component.hpp" />
     <ClInclude Include="Engine.hpp" />
-    <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="Objects\Entity.hpp" />
     <ClInclude Include="Graphics\Renderer.hpp" />
     <ClInclude Include="Graphics\Shader.hpp" />
     <ClInclude Include="Graphics\ShaderExceptions.hpp" />
     <ClInclude Include="Graphics\ShaderPart.hpp" />
     <ClInclude Include="Graphics\UniformLocation.hpp" />
-    <ClInclude Include="Graphics\Renderable.hpp" />
+    <ClInclude Include="Objects\Renderable.hpp" />
+    <ClInclude Include="Scripting\Types.hpp" />
     <ClInclude Include="Serialization\Deserializer.hpp" />
     <ClInclude Include="Serialization\Formatter.hpp" />
     <ClInclude Include="Serialization\Serializable.hpp" />
@@ -104,22 +108,22 @@
     <ClInclude Include="Serialization\SerializedObject.hpp" />
     <ClInclude Include="Serialization\Serializer.hpp" />
     <ClInclude Include="Libraries\TinyXML\tinyxml2.h" />
+    <ClInclude Include="Serialization\Types.hpp" />
     <ClInclude Include="Serialization\XMLFormatter.hpp" />
     <ClInclude Include="TimeCounter.hpp" />
     <ClInclude Include="Utilities\Event.hpp" />
     <ClInclude Include="Utilities\Immovable.hpp" />
-    <ClInclude Include="Light.hpp" />
+    <ClInclude Include="Objects\Light.hpp" />
     <ClInclude Include="Math\Matrix3.hpp" />
     <ClInclude Include="Math\Matrix4.hpp" />
     <ClInclude Include="Math\Quaternion.hpp" />
-    <ClInclude Include="Math\Types.hpp" />
     <ClInclude Include="Math\Vector2.hpp" />
     <ClInclude Include="Math\Vector3.hpp" />
     <ClInclude Include="Math\Vector4.hpp" />
     <ClInclude Include="Graphics\Mesh.hpp" />
-    <ClInclude Include="Object.hpp" />
-    <ClInclude Include="Scene.hpp" />
-    <ClInclude Include="Script.hpp" />
+    <ClInclude Include="Objects\Object.hpp" />
+    <ClInclude Include="Objects\Scene.hpp" />
+    <ClInclude Include="Objects\Script.hpp" />
     <ClInclude Include="Scripting\API_Component.hpp" />
     <ClInclude Include="Scripting\API_Entity.hpp" />
     <ClInclude Include="Scripting\API_Matrix3.hpp" />
@@ -128,15 +132,14 @@
     <ClInclude Include="Scripting\API_Scene.hpp" />
     <ClInclude Include="Scripting\API_Transform.hpp" />
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
-    <ClInclude Include="Scripting\ScriptEngineException.hpp" />
-    <ClInclude Include="Transform.hpp" />
+    <ClInclude Include="Scripting\ScriptingExceptions.hpp" />
+    <ClInclude Include="Objects\Transform.hpp" />
     <ClInclude Include="Utilities\Property.hpp" />
     <ClInclude Include="Utilities\ResourcesIDs.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="Utilities\Nullable.hpp" />
     <ClInclude Include="Utilities\StringHelpers.hpp" />
-    <ClInclude Include="Utilities\Uncopyable.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -207,21 +210,25 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Platform)\$(Configuration)\</IntDir>
+    <UseMultiToolTask>true</UseMultiToolTask>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Platform)\$(Configuration)\</IntDir>
+    <UseMultiToolTask>true</UseMultiToolTask>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Platform)\$(Configuration)\</IntDir>
+    <UseMultiToolTask>true</UseMultiToolTask>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(Platform)\$(Configuration)\</IntDir>
+    <UseMultiToolTask>true</UseMultiToolTask>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -4,9 +4,8 @@
 #include <iostream>
 
 #include "../Utilities/StringHelpers.hpp"
-#include "Types.hpp"
 
-#include "Vector3.hpp"
+#include "Types.hpp"
 
 namespace EngineQ
 {

@@ -1,6 +1,11 @@
 #include "Transform.hpp"
 
-#include "Serialization/SerializationRules.hpp"
+#include <algorithm>
+
+#include "../Scripting/ScriptEngine.hpp"
+#include "../Serialization/Serializer.hpp"
+#include "../Serialization/Deserializer.hpp"
+#include "../Serialization/SerializationRules.hpp"
 
 namespace EngineQ
 {
@@ -17,16 +22,16 @@ namespace EngineQ
 #pragma region Serialization
 
 	Transform::Transform(Serialization::Deserializer& deserialzier) :
-		Component{deserialzier},
+		Component{ deserialzier },
 		parent{ deserialzier.GetReference<Transform>("parent") },
-		children{ deserialzier.GetValue<std::vector<Transform*>>("children")},
-		position{ deserialzier.GetValue<Vector3>("position") },
-		scale{ deserialzier.GetValue<Vector3>("scale") },
-		rotation{ deserialzier.GetValue<Quaternion>("rotation") },
-		localMatrix{ deserialzier.GetValue<Matrix4>("localMatrix") },
-		globalMatrix{ deserialzier.GetValue<Matrix4>("globalMatrix") },
-		localMatrixInverse{ deserialzier.GetValue<Matrix4>("localMatrixInverse") },
-		globalMatrixInverse{ deserialzier.GetValue<Matrix4>("globalMatrixInverse") },
+		children{ deserialzier.GetValue<std::vector<Transform*>>("children") },
+		position{ deserialzier.GetValue<Math::Vector3>("position") },
+		scale{ deserialzier.GetValue<Math::Vector3>("scale") },
+		rotation{ deserialzier.GetValue<Math::Quaternion>("rotation") },
+		localMatrix{ deserialzier.GetValue<Math::Matrix4>("localMatrix") },
+		globalMatrix{ deserialzier.GetValue<Math::Matrix4>("globalMatrix") },
+		localMatrixInverse{ deserialzier.GetValue<Math::Matrix4>("localMatrixInverse") },
+		globalMatrixInverse{ deserialzier.GetValue<Math::Matrix4>("globalMatrixInverse") },
 		localMatrixChanged{ deserialzier.GetValue<bool>("localMatrixChanged") },
 		globalMatrixChanged{ deserialzier.GetValue<bool>("globalMatrixChanged") },
 		localMatrixInverseChanged{ deserialzier.GetValue<bool>("localMatrixInverseChanged") },
@@ -86,8 +91,8 @@ namespace EngineQ
 
 		if (this->parent != nullptr)
 		{
-			std::vector<Transform*>& v = this->parent->children;
-			v.erase(std::remove(v.begin(), v.end(), this), v.end());
+			std::vector<Transform*>& children = this->parent->children;
+			children.erase(std::remove(children.begin(), children.end(), this), children.end());
 		}
 
 		this->parent = parent;
@@ -121,35 +126,35 @@ namespace EngineQ
 		return this->parent;
 	}
 
-	void Transform::SetPosition(const Vector3& position)
+	void Transform::SetPosition(const Math::Vector3& position)
 	{
 		this->position = position;
 		VoidLocalMatrix();
 	}
 
-	Vector3 Transform::GetPosition() const
+	Math::Vector3 Transform::GetPosition() const
 	{
 		return this->position;
 	}
 
-	void Transform::SetScale(const Vector3& scale)
+	void Transform::SetScale(const Math::Vector3& scale)
 	{
 		this->scale = scale;
 		VoidLocalMatrix();
 	}
 
-	Vector3 Transform::GetScale() const
+	Math::Vector3 Transform::GetScale() const
 	{
 		return this->scale;
 	}
 
-	void Transform::SetRotation(const Quaternion& rotation)
+	void Transform::SetRotation(const Math::Quaternion& rotation)
 	{
 		this->rotation = rotation;
 		VoidLocalMatrix();
 	}
 
-	Quaternion Transform::GetRotation() const
+	Math::Quaternion Transform::GetRotation() const
 	{
 		return this->rotation;
 	}
@@ -164,7 +169,7 @@ namespace EngineQ
 		return children[child];
 	}
 
-	Matrix4 Transform::GetGlobalMatrix()
+	Math::Matrix4 Transform::GetGlobalMatrix()
 	{
 		if (globalMatrixChanged)
 		{
@@ -179,11 +184,11 @@ namespace EngineQ
 		return globalMatrix;
 	}
 
-	Matrix4 Transform::GetLocalMatrix()
+	Math::Matrix4 Transform::GetLocalMatrix()
 	{
 		if (localMatrixChanged)
 		{
-			localMatrix = Matrix4::CreateTranslation(position) * Matrix4::CreateRotation(rotation) * Matrix4::CreateScale(scale);
+			localMatrix = Math::Matrix4::CreateTranslation(position) * Math::Matrix4::CreateRotation(rotation) * Math::Matrix4::CreateScale(scale);
 
 			localMatrixChanged = false;
 		}
@@ -191,19 +196,19 @@ namespace EngineQ
 		return localMatrix;
 	}
 
-	Matrix4 Transform::GetGlobalMatrixInverse()
+	Math::Matrix4 Transform::GetGlobalMatrixInverse()
 	{
 		if (globalMatrixInverseChanged)
 		{
 			globalMatrixInverse = GetGlobalMatrix().GetInversed();
-			
+
 			globalMatrixInverseChanged = false;
 		}
 
 		return globalMatrixInverse;
 	}
 
-	Matrix4 Transform::GetLocalMatrixInverse()
+	Math::Matrix4 Transform::GetLocalMatrixInverse()
 	{
 		if (localMatrixInverseChanged)
 		{
