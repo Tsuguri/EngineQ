@@ -1,5 +1,10 @@
 #include "API_Scene.hpp"
 
+#include "ScriptEngine.hpp"
+
+#include "../Objects/Scene.hpp"
+#include "../Objects/Entity.hpp"
+
 namespace EngineQ
 {
 	namespace Scripting

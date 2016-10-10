@@ -1,7 +1,9 @@
 #include "API_Transform.hpp"
 
-#include "../Transform.hpp"
-#include "../Entity.hpp"
+#include "ScriptEngine.hpp"
+
+#include "../Objects/Transform.hpp"
+#include "../Math/Vector3.hpp"
 
 namespace EngineQ
 {
@@ -33,42 +35,42 @@ namespace EngineQ
 			}
 		}
 
-		void API_Transform::API_GetPosition(const Transform& transform, Vector3& position)
+		void API_Transform::API_GetPosition(const Transform& transform, Math::Vector3& position)
 		{
 			position = transform.GetPosition();
 		}
 
-		void API_Transform::API_SetPosition(Transform& transform, const Vector3& position)
+		void API_Transform::API_SetPosition(Transform& transform, const Math::Vector3& position)
 		{
 			transform.SetPosition(position);
 		}
 
-		void API_Transform::API_GetScale(const Transform& transform, Vector3& scale)
+		void API_Transform::API_GetScale(const Transform& transform, Math::Vector3& scale)
 		{
 			scale = transform.GetScale();
 		}
 
-		void API_Transform::API_SetScale(Transform& transform, const Vector3& scale)
+		void API_Transform::API_SetScale(Transform& transform, const Math::Vector3& scale)
 		{
 			transform.SetScale(scale);
 		}
 
-		void API_Transform::API_GetRotation(const Transform& transform, Quaternion& rotation)
+		void API_Transform::API_GetRotation(const Transform& transform, Math::Quaternion& rotation)
 		{
 			rotation = transform.GetRotation();
 		}
 
-		void API_Transform::API_SetRotation(Transform& transform, const Quaternion& rotation)
+		void API_Transform::API_SetRotation(Transform& transform, const Math::Quaternion& rotation)
 		{
 			transform.SetRotation(rotation);
 		}
 
-		void API_Transform::API_GetLocalMatrix(Transform& transform, Matrix4& matrix)
+		void API_Transform::API_GetLocalMatrix(Transform& transform, Math::Matrix4& matrix)
 		{
 			matrix = transform.GetLocalMatrix();
 		}
 
-		void API_Transform::API_GetGlobalMatrix(Transform& transform, Matrix4& matrix)
+		void API_Transform::API_GetGlobalMatrix(Transform& transform, Math::Matrix4& matrix)
 		{
 			matrix = transform.GetGlobalMatrix();
 		}

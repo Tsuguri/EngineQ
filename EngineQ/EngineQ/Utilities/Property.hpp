@@ -1,9 +1,9 @@
-#ifndef ENGINEQ_PROPERTY_HPP
-#define ENGINEQ_PROPERTY_HPP
+#ifndef UTILITIES_PROPERTY_HPP
+#define UTILITIES_PROPERTY_HPP
 
 #include <cstddef>
 
-namespace EngineQ
+namespace Utilities
 {
 	namespace Experimental
 	{
@@ -398,4 +398,4 @@ namespace EngineQ
 
 #pragma endregion
 
-#endif // !ENGINEQ_PROPERTY_HPP
+#endif // !UTILITIES_PROPERTY_HPP

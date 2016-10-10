@@ -2,22 +2,17 @@
 #define ENGINEQ_TRANSFORM_HPP
 
 #include <vector>
-#include <algorithm>
+
+#include "Types.hpp"
 
 #include "Component.hpp"
 
-#include "Math/Vector3.hpp"
-#include "Math/Quaternion.hpp"
-#include "Math/Matrix4.hpp"
-
-#include "Scripting/ScriptEngine.hpp"
+#include "../Math/Vector3.hpp"
+#include "../Math/Matrix4.hpp"
+#include "../Math/Quaternion.hpp"
 
 namespace EngineQ
 {
-	using namespace Math;
-
-	class Entity;
-
 	class Transform final : public Component
 	{
 		friend class Entity;
@@ -33,15 +28,15 @@ namespace EngineQ
 		Transform* parent = nullptr;
 		std::vector<Transform*> children;
 
-		Vector3 position = Vector3::GetZero();
-		Vector3 scale = Vector3::GetOne();
-		Quaternion rotation = Quaternion::GetIdentity();
+		Math::Vector3 position = Math::Vector3::GetZero();
+		Math::Vector3 scale = Math::Vector3::GetOne();
+		Math::Quaternion rotation = Math::Quaternion::GetIdentity();
 
-		Matrix4 localMatrix = Matrix4::GetIdentity();
-		Matrix4 globalMatrix = Matrix4::GetIdentity();
+		Math::Matrix4 localMatrix = Math::Matrix4::GetIdentity();
+		Math::Matrix4 globalMatrix = Math::Matrix4::GetIdentity();
 
-		Matrix4 localMatrixInverse = Matrix4::GetIdentity();
-		Matrix4 globalMatrixInverse = Matrix4::GetIdentity();
+		Math::Matrix4 localMatrixInverse = Math::Matrix4::GetIdentity();
+		Math::Matrix4 globalMatrixInverse = Math::Matrix4::GetIdentity();
 
 		bool localMatrixChanged = false;
 		bool globalMatrixChanged = false;
@@ -71,20 +66,20 @@ namespace EngineQ
 		std::size_t GetChildCount() const;
 		Transform* GetChild(std::size_t child) const;
 
-		void SetPosition(const Vector3& position);
-		Vector3 GetPosition() const;
+		void SetPosition(const Math::Vector3& position);
+		Math::Vector3 GetPosition() const;
 
-		void SetScale(const Vector3& scale);
-		Vector3 GetScale() const;
+		void SetScale(const Math::Vector3& scale);
+		Math::Vector3 GetScale() const;
 
-		void SetRotation(const Quaternion& rotation);
-		Quaternion GetRotation() const;
+		void SetRotation(const Math::Quaternion& rotation);
+		Math::Quaternion GetRotation() const;
 
-		Matrix4 GetGlobalMatrix();
-		Matrix4 GetLocalMatrix();
+		Math::Matrix4 GetGlobalMatrix();
+		Math::Matrix4 GetLocalMatrix();
 
-		Matrix4 GetGlobalMatrixInverse();
-		Matrix4 GetLocalMatrixInverse();
+		Math::Matrix4 GetGlobalMatrixInverse();
+		Math::Matrix4 GetLocalMatrixInverse();
 	};
 }
 

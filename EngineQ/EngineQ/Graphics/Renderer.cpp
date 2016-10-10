@@ -1,7 +1,13 @@
 #include <GL/glew.h>
 
+#include "Mesh.hpp"
 #include "../TimeCounter.hpp"
 #include "Renderer.hpp"
+#include "../Objects/Renderable.hpp"
+#include "../Objects/Camera.hpp"
+#include "../Objects/Entity.hpp"
+#include "../Objects/Transform.hpp"
+#include "../Objects/Renderable.hpp"
 
 namespace EngineQ
 {

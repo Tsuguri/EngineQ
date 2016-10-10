@@ -6,10 +6,12 @@
 
 #include "Window.hpp"
 #include "Scripting/ScriptEngine.hpp"
-#include "Scene.hpp"
+#include "Objects/Scene.hpp"
 #include "InputController.hpp"
 #include "ResourceManager.hpp"
 #include "Utilities/Event.hpp"
+
+#include "Math/Vector2.hpp"
 
 namespace EngineQ
 {
@@ -29,10 +31,10 @@ namespace EngineQ
 		static Engine* instance;
 		Window window;
 		bool running = true;
-		Vector2i screenSize;
+		Math::Vector2i screenSize;
 		
 	public:
-		Event<Engine, void(int, int)> resizeEvent;
+		Utilities::Event<Engine, void(int, int)> resizeEvent;
 		InputController input;
 
 #pragma endregion 
@@ -55,7 +57,7 @@ namespace EngineQ
 		static Engine* Get();
 		ResourceManager* GetResourceManager() const;
 		Scripting::ScriptClass GetClass(std::string assembly, std::string namespaceName, std::string className) const;
-		Vector2i GetScreenSize() const;
+		Math::Vector2i GetScreenSize() const;
 
 		void SetPostprocessingConfiguration(std::string filePath);
 

@@ -1,6 +1,8 @@
 #include "Light.hpp"
 
-#include "Serialization/SerializationRules.hpp"
+#include "../Scripting/ScriptEngine.hpp"
+#include "../Serialization/Serializer.hpp"
+#include "../Serialization/Deserializer.hpp"
 
 namespace EngineQ
 {

@@ -1,8 +1,8 @@
 #ifndef ENGINEQ_SCRIPTING_API_COMPONENT_HPP
 #define ENGINEQ_SCRIPTING_API_COMPONENT_HPP
 
-#include "ScriptEngine.hpp"
-#include "../Component.hpp"
+#include "Types.hpp"
+#include "../Objects/Types.hpp"
 
 namespace EngineQ
 {

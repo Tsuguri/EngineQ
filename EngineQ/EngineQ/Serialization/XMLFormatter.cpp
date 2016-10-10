@@ -2,6 +2,8 @@
 
 #include "../Libraries/TinyXML/tinyxml2.h"
 
+#include "SerializedObject.hpp"
+
 namespace EngineQ
 {
 	namespace Serialization

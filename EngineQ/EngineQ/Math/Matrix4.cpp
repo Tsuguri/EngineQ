@@ -1,5 +1,9 @@
 #include "Matrix4.hpp"
 
+#include "Matrix3.hpp"
+#include "Quaternion.hpp"
+#include "Vector4.hpp"
+
 namespace EngineQ
 {
 	namespace Math

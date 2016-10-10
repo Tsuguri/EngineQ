@@ -1,5 +1,7 @@
 #include "Matrix3.hpp"
 
+#include "Vector3.hpp"
+
 namespace EngineQ
 {
 	namespace Math

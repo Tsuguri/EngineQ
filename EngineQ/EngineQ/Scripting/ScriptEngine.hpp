@@ -1,37 +1,18 @@
 #ifndef ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP
 #define ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP
 
-#include <cstdint>
-#include <iostream>
 #include <map>
 #include <string>
 
-#include "../Utilities/Immovable.hpp"
-#include "ScriptEngineException.hpp"
+#include "Types.hpp"
+#include "../Objects/Types.hpp"
 
-typedef struct _MonoDomain MonoDomain;
-typedef struct _MonoAssembly MonoAssembly;
-typedef struct _MonoImage MonoImage;
-typedef struct _MonoClass MonoClass;
-typedef struct _MonoClassField MonoClassField;
-typedef struct _MonoMethod MonoMethod;
-typedef struct _MonoReflectionType MonoReflectionType;
-typedef struct _MonoObject MonoObject;
+#include "../Utilities/Immovable.hpp"
 
 namespace EngineQ
 {
-	class Object;
-	class Entity;
-	class Transform;
-
 	namespace Scripting
 	{
-		using ScriptClass = MonoClass*;
-		using ScriptMethod = MonoMethod*;
-		using ScriptObject = MonoObject*;
-		using ScriptHandle = std::uint32_t;
-		using ScriptTypeClass = MonoReflectionType*;
-
 		class ScriptEngine : private Utilities::Immovable
 		{
 		private:

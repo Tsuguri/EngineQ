@@ -7,6 +7,8 @@
 
 #include "../Libraries/GL/glew.h"
 
+#include "Types.hpp"
+
 #include "../Utilities/Immovable.hpp"
 #include "ShaderExceptions.hpp"
 
@@ -51,8 +53,6 @@ namespace EngineQ
 				return this->shaderCode;
 			}
 		};
-
-		class Shader;
 
 		class ShaderPart : private Utilities::Immovable
 		{

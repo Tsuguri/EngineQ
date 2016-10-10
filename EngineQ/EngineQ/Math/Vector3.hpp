@@ -2,6 +2,7 @@
 #define ENGINEQ_MATH_VECTOR3_HPP
 
 #include "../Utilities/StringHelpers.hpp"
+
 #include "Types.hpp"
 
 #include "Vector2.hpp"

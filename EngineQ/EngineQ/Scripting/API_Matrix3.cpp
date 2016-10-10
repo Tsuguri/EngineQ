@@ -1,11 +1,16 @@
 #include "API_Matrix3.hpp"
 
+#include "ScriptEngine.hpp"
+
+#include "../Math/Matrix3.hpp"
+#include "../Math/Vector3.hpp"
+
+using namespace EngineQ::Math;
+
 namespace EngineQ
 {
 	namespace Scripting
 	{
-		using namespace EngineQ::Math;
-
 		void API_Matrix3::API_Inverse(const Matrix3& matrix, Matrix3& value)
 		{
 			value = matrix.GetInversed();

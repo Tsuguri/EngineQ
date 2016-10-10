@@ -1,12 +1,9 @@
 #include "Nullable.hpp"
 
-namespace EngineQ
+namespace Utilities
 {
-	namespace Utilities
+	NullValueException::NullValueException()
+		: std::runtime_error("Attempt to access null value")
 	{
-		NullValueException::NullValueException()
-			: std::runtime_error("Attempt to access null value")
-		{
-		}
 	}
 }

@@ -3,11 +3,10 @@
 
 #include <vector>
 
-#include "Entity.hpp"
-#include "Light.hpp"
-#include "Camera.hpp"
-#include "Graphics/Shader.hpp"
-#include "Graphics/Renderable.hpp"
+#include "Types.hpp"
+#include "../Graphics/Types.hpp"
+
+#include "Object.hpp"
 
 namespace EngineQ
 {
@@ -24,7 +23,7 @@ namespace EngineQ
 
 		std::vector<Light*> lights;
 		std::vector<Camera*> cameras;
-		std::vector<Graphics::Renderable*> renderables;
+		std::vector<Renderable*> renderables;
 		Camera* activeCamera = nullptr;
 
 
@@ -58,8 +57,8 @@ namespace EngineQ
 		void ActiveCamera(Camera* camera);
 		Camera* ActiveCamera() const;
 
-		std::vector<Graphics::Renderable*>::iterator RenderablesBegin();
-		std::vector<Graphics::Renderable*>::iterator RenderablesEnd();
+		std::vector<Renderable*>::iterator RenderablesBegin();
+		std::vector<Renderable*>::iterator RenderablesEnd();
 	};
 }
 
