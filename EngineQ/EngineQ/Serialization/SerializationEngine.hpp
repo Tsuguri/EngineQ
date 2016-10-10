@@ -7,14 +7,12 @@
 #include <typeinfo>
 #include <typeindex>
 
+#include "Types.hpp"
+
 namespace EngineQ
 {
 	namespace Serialization
 	{
-		class Serializer;
-		class Deserializer;
-		class Serializable;
-
 		class SerializationEngine
 		{
 			friend class Serializer;

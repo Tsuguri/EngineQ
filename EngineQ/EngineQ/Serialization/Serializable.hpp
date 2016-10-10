@@ -1,13 +1,12 @@
 #ifndef ENGINEQ_SERIALIZATION_SERIALIZABLE_HPP
 #define ENGINEQ_SERIALIZATION_SERIALIZABLE_HPP
 
+#include "Types.hpp"
+
 namespace EngineQ
 {
 	namespace Serialization
 	{
-		class Serializer;
-		class Deserializer;
-
 		class Serializable
 		{
 		protected:

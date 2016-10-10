@@ -1,5 +1,9 @@
 #include "API_Input.hpp"
 
+#include "ScriptEngine.hpp"
+
+#include "../Engine.hpp"
+
 void EngineQ::Scripting::API_Input::API_KeyPressed(InputController::Key keyCode, bool& result)
 {
 	result = Engine::Get()->input.IsButtonDown(keyCode);

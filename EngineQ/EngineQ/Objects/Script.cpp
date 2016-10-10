@@ -1,6 +1,6 @@
 #include "Script.hpp"
 
-#include "Serialization/SerializationRules.hpp"
+#include "../Scripting/ScriptEngine.hpp"
 
 namespace EngineQ
 {

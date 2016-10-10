@@ -5,7 +5,7 @@
 
 #include "../Libraries/GL/glew.h"
 
-#include "../Utilities/Uncopyable.hpp"
+#include "../Utilities/Immovable.hpp"
 #include "../Vertex.hpp"
 
 namespace EngineQ

@@ -4,13 +4,15 @@
 #include <fstream>
 #include <memory>
 
-#include "Scene.hpp"
+#include "Objects/Scene.hpp"
 #include "Graphics/Shader.hpp"
 
 #include "TimeCounter.hpp"
 
 #include "Utilities/ResourcesIDs.hpp"
 #include "Graphics/RenderingUnit.hpp"
+
+#include "Math/Vector2.hpp"
 
 namespace EngineQ
 {
@@ -34,13 +36,13 @@ namespace EngineQ
 
 		// Define the viewport dimensions
 		glViewport(0, 0, width, height);
-		screenSize = Vector2i{ width,height };
+		screenSize = Math::Vector2i{ width,height };
 		resourceManager = std::make_unique<ResourceManager>();
 	}
 
 	void Engine::WindowResized(int width, int height)
 	{
-		screenSize = Vector2i{ width,height };
+		screenSize = Math::Vector2i{ width,height };
 		glViewport(0, 0, width, height);
 		if (!resizeEvent.IsEmpty())
 			resizeEvent.Invoke(width, height);
@@ -95,7 +97,7 @@ namespace EngineQ
 		return scriptingEngine->GetScriptClass(assembly.c_str(), namespaceName.c_str(), className.c_str());
 	}
 
-	Vector2i Engine::GetScreenSize() const
+	Math::Vector2i Engine::GetScreenSize() const
 	{
 		return screenSize;
 	}

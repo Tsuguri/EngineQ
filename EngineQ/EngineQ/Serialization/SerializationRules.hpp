@@ -1,19 +1,12 @@
 #ifndef ENGINEQ_SERIALIZATION_SERIALIZATION_RULES_HPP
 #define ENGINEQ_SERIALIZATION_SERIALIZATION_RULES_HPP
 
-#include <sstream>
+#include <cstddef>
+#include <string>
 #include <vector>
 
-#include "Serializer.hpp"
-#include "Deserializer.hpp"
-#include "Serializable.hpp"
-
-//#include "../Math/Vector2.hpp"
-#include "../Math/Vector3.hpp"
-//#include "../Math/Vector4.hpp"
-//#include "../Math/Matrix3.hpp"
-#include "../Math/Matrix4.hpp"
-#include "../Math/Quaternion.hpp"
+#include "Types.hpp"
+#include "../Math/Types.hpp"
 
 namespace EngineQ
 {

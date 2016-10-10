@@ -10,6 +10,8 @@
 #include <mono/metadata/mono-debug.h>
 #include <mono/metadata/attrdefs.h>
 
+#include "ScriptingExceptions.hpp"
+
 #include "API_Component.hpp"
 #include "API_Transform.hpp"
 #include "API_Entity.hpp"

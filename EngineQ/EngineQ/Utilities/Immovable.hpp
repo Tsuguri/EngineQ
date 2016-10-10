@@ -1,20 +1,17 @@
-#ifndef ENGINEQ_UTILITIES_IMMOVABLE_HPP
-#define ENGINEQ_UTILITIES_IMMOVABLE_HPP
+#ifndef UTILITIES_IMMOVABLE_HPP
+#define UTILITIES_IMMOVABLE_HPP
 
-namespace EngineQ
+namespace Utilities
 {
-	namespace Utilities
+	class Immovable
 	{
-		class Immovable
-		{
-		public:
-			Immovable() = default;
-			Immovable(const Immovable&) = delete;
-			Immovable(Immovable&&) = delete;
-			Immovable& operator = (const Immovable&) = delete;
-			Immovable& operator = (Immovable&&) = delete;
-		};
-	}
+	public:
+		Immovable() = default;
+		Immovable(const Immovable&) = delete;
+		Immovable(Immovable&&) = delete;
+		Immovable& operator = (const Immovable&) = delete;
+		Immovable& operator = (Immovable&&) = delete;
+	};
 }
 
-#endif // !ENGINEQ_UTILITIES_IMMOVABLE_HPP
+#endif // !UTILITIES_IMMOVABLE_HPP

@@ -4,8 +4,7 @@
 #include <map>
 #include <memory>
 
-#include "SerializationEngine.hpp"
-#include "SerializedObject.hpp"
+#include "Types.hpp"
 
 namespace EngineQ
 {

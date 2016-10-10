@@ -1,8 +1,7 @@
 #ifndef ENGINEQ_SCRIPTING_API_TIMECOUNTER_HPP
 #define ENGINEQ_SCRIPTING_API_TIMECOUNTER_HPP
 
-
-#include "ScriptEngine.hpp"
+#include "Types.hpp"
 
 namespace EngineQ
 {

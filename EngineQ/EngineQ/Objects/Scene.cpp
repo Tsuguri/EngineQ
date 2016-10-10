@@ -1,6 +1,18 @@
 #include "Scene.hpp"
 
-#include "Serialization/SerializationRules.hpp"
+#include <algorithm>
+
+#include "Entity.hpp"
+#include "Component.hpp"
+#include "Light.hpp"
+#include "Camera.hpp"
+#include "Renderable.hpp"
+
+#include "../Scripting/ScriptEngine.hpp"
+#include "../Serialization/Serializer.hpp"
+#include "../Serialization/Deserializer.hpp"
+#include "../Serialization/SerializationRules.hpp"
+
 
 namespace EngineQ
 {
@@ -119,7 +131,7 @@ namespace EngineQ
 			break;
 			case ComponentType::Renderable:
 			{
-				Graphics::Renderable& renderable = static_cast<Graphics::Renderable&>(component);
+				Renderable& renderable = static_cast<Renderable&>(component);
 				this->renderables.erase(std::remove(this->renderables.begin(), this->renderables.end(), &renderable), this->renderables.end());
 			}
 			break;
@@ -142,7 +154,7 @@ namespace EngineQ
 			break;
 
 			case ComponentType::Renderable:
-			this->renderables.push_back(static_cast<Graphics::Renderable*>(&component));
+			this->renderables.push_back(static_cast<Renderable*>(&component));
 
 			default:
 			break;
@@ -181,12 +193,12 @@ namespace EngineQ
 		return activeCamera;
 	}
 
-	std::vector<Graphics::Renderable*>::iterator Scene::RenderablesBegin()
+	std::vector<Renderable*>::iterator Scene::RenderablesBegin()
 	{
 		return renderables.begin();
 	}
 
-	std::vector<Graphics::Renderable*>::iterator Scene::RenderablesEnd()
+	std::vector<Renderable*>::iterator Scene::RenderablesEnd()
 	{
 		return renderables.end();
 	}

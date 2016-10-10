@@ -3,10 +3,20 @@
 #include "Math/Vector4.hpp"
 #include "Math/Matrix4.hpp"
 
-#include "Scene.hpp"
-#include "Entity.hpp"
+#include "Objects/Scene.hpp"
+#include "Objects/Light.hpp"
+#include "Objects/Camera.hpp"
+#include "Objects/Script.hpp"
+#include "Objects/Entity.hpp"
+#include "Objects/Transform.hpp"
+#include "Objects/Transform.hpp"
+
 #include "Scripting/ScriptEngine.hpp"
-#include "Light.hpp"
+#include "Serialization/Serializer.hpp"
+#include "Serialization/Deserializer.hpp"
+#include "Serialization/SerializationRules.hpp"
+#include "Serialization/SerializationEngine.hpp"
+
 
 #include "Graphics/Shader.hpp"
 
@@ -119,7 +129,7 @@ int main(int argc, char** argv)
 	EngineQ::Serialization::SerializationEngine::Register<EngineQ::Script>("Script");
 	EngineQ::Serialization::SerializationEngine::Register<EngineQ::Light>("Light");
 
-//#define SERIALIZE
+#define SERIALIZE
 #ifdef SERIALIZE
 	EngineQ::Scene scene{ se };
 

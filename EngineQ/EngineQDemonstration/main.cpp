@@ -1,7 +1,18 @@
 #include "Engine.hpp"
 
+#include "Vertex.hpp"
+
 #include "Utilities/ResourcesIDs.hpp"
 #include <Resources/ModelLoader.hpp>
+
+#include "Graphics/Mesh.hpp"
+
+#include "Objects/Entity.hpp"
+#include "Objects/Transform.hpp"
+#include "Objects/Renderable.hpp"
+#include "Objects/Camera.hpp"
+#include "Objects/Light.hpp"
+
 namespace Math = EngineQ::Math;
 
 EngineQ::Graphics::Mesh* GenerateCube(float side = 1.0f)
@@ -91,16 +102,16 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto ent2 = sc.CreateEntity();
 	auto ent3 = sc.CreateEntity();
 
-	auto renderable = ent2->AddComponent<EngineQ::Graphics::Renderable>();
-	auto renderable2 = ent3->AddComponent<EngineQ::Graphics::Renderable>();
+	auto renderable = ent2->AddComponent<EngineQ::Renderable>();
+	auto renderable2 = ent3->AddComponent<EngineQ::Renderable>();
 	auto rm = EngineQ::Engine::Get()->GetResourceManager();
 
-	auto shd = rm->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader);
-	auto deffShd = rm->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::DeferredGeometry);
+	auto shd = rm->GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader);
+	auto deffShd = rm->GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
 
 	auto cam = ent->AddComponent<EngineQ::Camera>();
 	
-	auto deffShdCustom = rm->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::DeferredGeometry);
+	auto deffShdCustom = rm->GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
 	renderable->SetModel(mesh);
 	renderable->SetForwardShader(shd);
 	renderable->SetDeferredShader(deffShd);
@@ -131,16 +142,16 @@ void PrepareScene(EngineQ::Scene* scene)
 void TemporaryResources(EngineQ::Engine* engine)
 {
 	auto rm = EngineQ::Engine::Get()->GetResourceManager();
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader, "./Shaders/Basic.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::CustomShader, "./Shaders/Custom.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::QuadShader, "./Shaders/Quad.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BlurShader, "./Shaders/Bloom/Blur.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BlurVShader, "./Shaders/Bloom/BlurV.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BrightExtract, "./Shaders/Bloom/BrightExtract.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::CombineShader, "./Shaders/Bloom/Combine.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::DeferredLightning, "./Shaders/Deferred/DeferredLightning.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::DeferredGeometry, "./Shaders/Deferred/DeferredGeometry.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::CustomDeferred, "./Shaders/Deferred/DeferredCustom.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader, "./Shaders/Basic.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CustomShader, "./Shaders/Custom.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::QuadShader, "./Shaders/Quad.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BlurShader, "./Shaders/Bloom/Blur.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BlurVShader, "./Shaders/Bloom/BlurV.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BrightExtract, "./Shaders/Bloom/BrightExtract.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CombineShader, "./Shaders/Bloom/Combine.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredLightning, "./Shaders/Deferred/DeferredLightning.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry, "./Shaders/Deferred/DeferredGeometry.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CustomDeferred, "./Shaders/Deferred/DeferredCustom.shd");
 }
 
 

@@ -2,6 +2,7 @@
 #define ENGINEQ_MATH_VECTOR2_HPP
 
 #include "../Utilities/StringHelpers.hpp"
+
 #include "Types.hpp"
 
 namespace EngineQ

@@ -1,7 +1,7 @@
 #ifndef ENGINEQ_GRAPHICS_FORWARDRENDERER_HPP
 #define ENGINEQ_GRAPHICS_FORWARDRENDERER_HPP
 
-#include "../Scene.hpp"
+#include "../Objects/Scene.hpp"
 #include "Framebuffer.hpp"
 #include "Renderer.hpp"
 

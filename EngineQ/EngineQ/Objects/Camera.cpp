@@ -1,8 +1,14 @@
-#include "Camera.hpp" 
-#include "Entity.hpp"
-#include "Utils.hpp"
+#include "Camera.hpp"
 
-#include "Serialization/SerializationRules.hpp"
+#include "Entity.hpp"
+#include "Transform.hpp"
+
+#include "../Serialization/Serializer.hpp"
+#include "../Serialization/Deserializer.hpp"
+#include "../Scripting/ScriptEngine.hpp"
+#include "../Math/Utilities.hpp"
+
+#include "../Serialization/SerializationRules.hpp"
 
 namespace EngineQ
 {
@@ -88,7 +94,7 @@ namespace EngineQ
 	{
 		if (GetCalculateProjectionMatrix())
 		{
-			projectionMatrix = Math::Matrix4::CreateFrustum(Math::Utils::DegToRad(GetFOV()), GetAspectRatio(), 0.1f, 100.0f);
+			projectionMatrix = Math::Matrix4::CreateFrustum(Math::DegToRad(GetFOV()), GetAspectRatio(), 0.1f, 100.0f);
 			SetCalculateProjectionMatrix(false);
 		}
 		return projectionMatrix;

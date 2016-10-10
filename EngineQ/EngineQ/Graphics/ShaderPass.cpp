@@ -1,5 +1,9 @@
 #include "ShaderPass.hpp"
 
+#include "../Objects/Camera.hpp"
+#include "../Objects/Entity.hpp"
+#include "../Objects/Transform.hpp"
+
 namespace EngineQ
 {
 	namespace Graphics
