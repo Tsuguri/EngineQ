@@ -25,7 +25,7 @@ namespace EngineQ
 			std::vector<GLuint> textures;
 			std::vector<TextureConfiguration> texturesConfigurations;
 			
-			EventHandler<void(int, int)> handler;
+			Utilities::EventHandler<void(int, int)> handler;
 
 			void CreateTexture(GLuint* texture, const TextureConfiguration& configuration) const;
 

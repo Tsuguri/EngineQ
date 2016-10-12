@@ -131,13 +131,13 @@
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Transform.hpp" />
     <ClInclude Include="Utilities\Metaprogramming.hpp" />
+    <ClInclude Include="Utilities\ObjectDestructor.hpp" />
     <ClInclude Include="Utilities\Property.hpp" />
     <ClInclude Include="Utilities\ResourcesIDs.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="Utilities\Nullable.hpp" />
     <ClInclude Include="Utilities\StringHelpers.hpp" />
-    <ClInclude Include="Utilities\Uncopyable.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>

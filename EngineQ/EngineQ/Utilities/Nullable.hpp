@@ -1,86 +1,67 @@
-#ifndef ENGINEQ_UTILITIES_NULLABLE_HPP
-#define ENGINEQ_UTILITIES_NULLABLE_HPP
+#ifndef UTILITIES_NULLABLE_HPP
+#define UTILITIES_NULLABLE_HPP
 
 #include <stdexcept>
-#include <type_traits>
 
-namespace EngineQ
+namespace Utilities
 {
-	namespace Utilities
+	class NullValueException final : public std::runtime_error
 	{
-		template<typename Type, bool>
-		struct DestructHelper
-		{
-			static void Destruct(Type* ptr);
-		};
+	public:
+		NullValueException();
+	};
 
-		template<typename Type>
-		struct DestructHelper<Type, true>
-		{
-			static void Destruct(Type* ptr);
-		};
+	struct nullval_t final
+	{
+	};
 
-		class NullValueException : public std::runtime_error
-		{
-		public:
-			NullValueException();
-		};
+	template<typename Type>
+	class Nullable
+	{
+	private:
+		char memory[sizeof(Type)];
+		bool exists;
 
-		struct nullval_t
-		{
-		};
+		static void Destruct(Type* ptr);
 
-		template<typename Type>
-		class Nullable
-		{
-		private:
-			char memory[sizeof(Type)];
-			bool exists;
+	public:
+		Nullable();
 
-			static void Destruct(Type* ptr);
+		Nullable(const Type& value);
+		Nullable<Type>& operator = (const Type& value);
 
-		public:
-			Nullable();
+		Nullable(Type&& value);
+		Nullable<Type>& operator = (Type&& value);
 
-			Nullable(const Type& value);
-			Nullable<Type>& operator = (const Type& value);
+		Nullable(nullval_t);
+		Nullable<Type>& operator = (nullval_t);
 
-			Nullable(Type&& value);
-			Nullable<Type>& operator = (Type&& value);
+		Nullable(const Nullable<Type>& other);
+		Nullable<Type>& operator = (const Nullable<Type>& other);
 
-			Nullable(nullval_t);
-			Nullable<Type>& operator = (nullval_t);
+		Nullable(Nullable<Type>&& other);
+		Nullable<Type>& operator = (Nullable<Type>&& other);
 
-			Nullable(const Nullable<Type>& other);
-			Nullable<Type>& operator = (const Nullable<Type>& other);
+		~Nullable();
 
-			Nullable(Nullable<Type>&& other);
-			Nullable<Type>& operator = (Nullable<Type>&& other);
+		Type* operator -> ();
+		Type& operator *();
 
-			~Nullable();
+		const Type* operator -> () const;
+		const Type& operator *() const;
 
-			Type* operator -> ();
-			Type& operator *();
+		bool operator == (nullval_t) const;
+		bool operator != (nullval_t) const;
+		bool operator == (const Type& other) const;
+		bool operator != (const Type& other) const;
 
-			bool operator == (nullval_t) const;
-			bool operator != (nullval_t) const;
-			bool operator == (const Type& other) const;
-			bool operator != (const Type& other) const;
-
-			explicit operator Type&() const;
-			explicit operator Type&();
-		};
-
-		template<typename Type, typename ...Args>
-		Nullable<Type> MakeNullable(Args&& ...args);
-
-		template<typename Type>
-		Nullable<Type> MakeNullableEmpty();
-	}
+		explicit operator Type&();
+		explicit const operator Type&() const;
+	};
 }
 
-constexpr EngineQ::Utilities::nullval_t nullval{};
+constexpr Utilities::nullval_t nullval{};
 
 #include "Nullable.inl"
 
-#endif // !ENGINEQ_UTILITIES_NULLABLE_HPP
+#endif // !UTILITIES_NULLABLE_HPP

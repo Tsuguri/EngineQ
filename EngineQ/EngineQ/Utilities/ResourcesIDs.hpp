@@ -1,27 +1,22 @@
-#ifndef ENGINEQ_UTILITIES_RESOURCES_IDS_HPP
-#define ENGINEQ_UTILITIES_RESOURCES_IDS_HPP
+#ifndef UTILITIES_RESOURCES_IDS_HPP
+#define UTILITIES_RESOURCES_IDS_HPP
 
-namespace EngineQ
+namespace Utilities
 {
-	namespace Utilities
+	class ResourcesIDs
 	{
-		class ResourcesIDs
-		{
-		private:
-			ResourcesIDs();
-		public:
-			static int QuadShader;
-			static int BasicShader;
-			static int CustomShader;
+	private:
+		ResourcesIDs();
+	public:
+		static int QuadShader;
+		static int BasicShader;
+		static int CustomShader;
 
-			static int BlurShader;
-			static int BlurVShader;
-			static int BrightExtract;
-			static int CombineShader;
-		};
-
-
-	}
+		static int BlurShader;
+		static int BlurVShader;
+		static int BrightExtract;
+		static int CombineShader;
+	};
 }
 
-#endif
+#endif // !UTILITIES_RESOURCES_IDS_HPP

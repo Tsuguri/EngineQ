@@ -7,62 +7,51 @@ namespace EngineQ
 	namespace Graphics
 	{
 		ShaderProperties::ShaderProperties(Shader& shader) :
-			shader{ &shader }
+			shader{ shader }
 		{
 			GLint uniformCount;
 			glGetProgramiv(shader.programId, GL_ACTIVE_UNIFORMS, &uniformCount);
 
 			this->usedUniforms.reserve(uniformCount);
 
+			std::vector<GLint> nameLengths(uniformCount);
+			std::vector<GLint> uniformTypes(uniformCount);
+
+			std::vector<GLuint> uniformIndices(uniformCount);
+			for (int i = 0; i < uniformCount; ++i)
+				uniformIndices[i] = i;
+
+			glGetActiveUniformsiv(shader.programId, uniformCount, uniformIndices.data(), GL_UNIFORM_NAME_LENGTH, nameLengths.data());
+			glGetActiveUniformsiv(shader.programId, uniformCount, uniformIndices.data(), GL_UNIFORM_TYPE, uniformTypes.data());
+
 			for (int i = 0; i < uniformCount; ++i)
 			{
-				GLuint index = i;
+				std::string name(nameLengths[i] - 1, ' ');
+				glGetActiveUniformName(shader.programId, uniformIndices[i], nameLengths[i], nullptr, &name[0]);
 
-				GLint nameLength;
-				glGetActiveUniformsiv(shader.programId, 1, &index, GL_UNIFORM_NAME_LENGTH, &nameLength);
+				UniformLocation location = shader.GetUniformLocation(name.c_str());
+				auto uniformData = UniformData::FromTypeIndex(location, uniformTypes[i]);
 
-				std::string name(nameLength - 1, '_');
-
-				GLsizei actualNameLength;
-				glGetActiveUniformName(shader.programId, index, nameLength, &actualNameLength, &name[0]);
-
-				auto location = shader.GetUniformLocation(name.c_str());
-
-				GLint uniformType;
-				glGetActiveUniformsiv(shader.programId, 1, &index, GL_UNIFORM_TYPE, &uniformType);
-
-				UniformData* uniformData = nullptr;
-				bool skip = false;
-
-				switch (uniformType)
+				if (uniformData != nullval)
 				{
-					case GL_FLOAT:
-					this->usedUniforms.emplace_back(location, static_cast<float>(0.0f));
-					break;
+					this->usedUniforms.push_back(*uniformData);
 
-					case GL_FLOAT_MAT4:
-					this->usedUniforms.emplace_back(location, Math::Matrix4{});
-					break;
-
-					default:
-					std::cout << "Unknown type " << uniformType << ": " << name << std::endl;
-					skip = true;
-					break;
+					UniformData* uniformData = &this->usedUniforms.back();
+					this->shaderUniforms.insert({ name, uniformData });
 				}
-
-				if (skip)
-					continue;
-
-				uniformData = &this->usedUniforms.back();
-				this->shaderUniforms.insert({ name, uniformData });
+				else
+				{
+					// TMP
+					std::cout << "Type " << uniformTypes[i] << " of property " << name << " is not supported" << std::endl;
+				}
 			}
 		}
 
 		void ShaderProperties::Apply() const
 		{
-			this->shader->Activate();
+			this->shader.Activate();
 			for (const auto& uniform : usedUniforms)
-				uniform.Apply(*shader);
+				uniform.Apply(shader);
 		}
 
 		void ShaderProperties::SetBuildInProperty(int value)

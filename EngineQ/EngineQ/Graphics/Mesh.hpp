@@ -5,12 +5,12 @@
 
 #include "../Libraries/GL/glew.h"
 
-#include "../Utilities/Uncopyable.hpp"
+#include "../Utilities/Immovable.hpp"
 #include "../Vertex.hpp"
 
 namespace EngineQ
 {
-	class Mesh : public Utilities::Uncopyable
+	class Mesh : private Utilities::Immovable
 	{
 	private:
 		GLuint count=0;

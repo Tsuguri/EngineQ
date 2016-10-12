@@ -112,7 +112,6 @@
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="Utilities\Nullable.hpp" />
     <ClInclude Include="Utilities\StringHelpers.hpp" />
-    <ClInclude Include="Utilities\Uncopyable.hpp" />
     <ClInclude Include="Window.hpp" />
     <ClInclude Include="Utilities\ResourcesIDs.hpp" />
     <ClInclude Include="Graphics\RenderingUnit.hpp" />
@@ -121,6 +120,7 @@
     <ClInclude Include="Graphics\ShaderProperty.hpp" />
     <ClInclude Include="Graphics\ShaderUniformData.hpp" />
     <ClInclude Include="Graphics\ShaderProperties.hpp" />
+    <ClInclude Include="Utilities\ObjectDestructor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />

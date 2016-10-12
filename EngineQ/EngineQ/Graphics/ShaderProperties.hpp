@@ -14,12 +14,20 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		class ShaderProperties
+		class ShaderProperties : private Utilities::Immovable
 		{
 		private:
-			using UniformData = ShaderUniformData<float, Math::Matrix4>;
+			using UniformData = ShaderUniformData<
+				Pair<GL_BOOL, GLboolean>,
+				Pair<GL_INT, GLint>,
+				Pair<GL_FLOAT, GLfloat>,
+				Pair<GL_FLOAT_VEC2, Math::Vector2_t<GLfloat>>,
+				Pair<GL_FLOAT_VEC3, Math::Vector3_t<GLfloat>>,
+				Pair<GL_FLOAT_VEC4, Math::Vector4_t<GLfloat>>,
+				Pair<GL_FLOAT_MAT4, Math::Matrix4>
+			>;
 			
-			Shader* shader;
+			Shader& shader;
 			
 			std::vector<UniformData> usedUniforms;
 			std::map<std::string, UniformData*> shaderUniforms;

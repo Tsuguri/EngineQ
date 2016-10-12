@@ -37,7 +37,7 @@ vec3 colorTmp;
 	//specular
 		vec3 viewDir = normalize(cameraPosition - worldPosition.xyz);
 		vec3 halfwayDir = normalize(dir + viewDir);
-		float spec = pow(max(dot(norm, halfwayDir), 0.0), materialShininess);
+		float spec = pow(max(dot(norm, halfwayDir), 0.0), materialShininess) * specularStrength;
 		vec3 specular = lightColor * spec;
 		vec3 result = (ambient+diffuse+specular)*colorTmp;
 		ColorOut=vec4(result,1.0);

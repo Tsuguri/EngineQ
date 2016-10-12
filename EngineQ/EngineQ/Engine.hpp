@@ -32,7 +32,7 @@ namespace EngineQ
 		Vector2i screenSize;
 		
 	public:
-		Event<Engine, void(int, int)> resizeEvent;
+		Utilities::Event<Engine, void(int, int)> resizeEvent;
 		InputController input;
 
 #pragma endregion 

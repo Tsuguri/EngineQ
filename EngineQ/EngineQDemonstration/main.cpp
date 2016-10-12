@@ -81,14 +81,23 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto renderable2 = ent3->AddComponent<EngineQ::Graphics::Renderable>();
 
 	auto cam = ent->AddComponent<EngineQ::Camera>();
-	auto shd = EngineQ::Engine::Get()->GetResourceManager()->GetResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader);
-	
-	EngineQ::Graphics::ShaderProperties shaderProperty{ *shd };
+	auto shd = EngineQ::Engine::Get()->GetResourceManager()->GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader);
 
-//	auto property = shaderProperty.GetProperty<float>("myRandomValue");
-//	property = 0.5f;
+	EngineQ::Graphics::ShaderProperties shaderProperties{ *shd };
 
-	shaderProperty.Apply();
+	auto lightDirProp = shaderProperties.GetProperty<Math::Vector3f>("lightDir");
+	auto lightColorProp = shaderProperties.GetProperty<Math::Vector3f>("lightColor");
+	auto ambientStrengthProp = shaderProperties.GetProperty<float>("ambientStrength");
+	auto specularStrengthProp = shaderProperties.GetProperty<float>("specularStrength");
+	auto materialShininessProp = shaderProperties.GetProperty<float>("materialShininess");
+
+	lightDirProp = Math::Vector3f{ -1, -1, 0 };
+	lightColorProp = Math::Vector3f{ 1, 0.3f, 0.3f };
+	ambientStrengthProp = 0.3f;
+	specularStrengthProp = 0.4f;
+	materialShininessProp = 32;
+
+	shaderProperties.Apply();
 
 
 	renderable->SetModel(mesh);
@@ -112,13 +121,13 @@ void PrepareScene(EngineQ::Scene* scene)
 void TemporaryResources(EngineQ::Engine* engine)
 {
 	auto rm = EngineQ::Engine::Get()->GetResourceManager();
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BasicShader, "./Shaders/Basic.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::CustomShader, "./Shaders/Custom.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::QuadShader, "./Shaders/Quad.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BlurShader, "./Shaders/Bloom/Blur.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BlurVShader, "./Shaders/Bloom/BlurV.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::BrightExtract, "./Shaders/Bloom/BrightExtract.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(EngineQ::Utilities::ResourcesIDs::CombineShader, "./Shaders/Bloom/Combine.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader, "./Shaders/Basic.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CustomShader, "./Shaders/Custom.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::QuadShader, "./Shaders/Quad.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BlurShader, "./Shaders/Bloom/Blur.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BlurVShader, "./Shaders/Bloom/BlurV.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BrightExtract, "./Shaders/Bloom/BrightExtract.shd");
+	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CombineShader, "./Shaders/Bloom/Combine.shd");
 }
 
 
