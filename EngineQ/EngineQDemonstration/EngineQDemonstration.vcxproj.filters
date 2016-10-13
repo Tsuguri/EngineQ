@@ -21,5 +21,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TMP\Shader.shader" />
+    <None Include="Resources\Shaders\BasicCommon.shh" />
   </ItemGroup>
 </Project>

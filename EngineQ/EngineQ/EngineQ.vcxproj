@@ -24,6 +24,7 @@
     <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
     <ClCompile Include="Graphics\RendererConfiguration.cpp" />
+    <ClCompile Include="Graphics\ShaderPreprocessor.cpp" />
     <ClCompile Include="Graphics\ShaderProperties.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
     <ClInclude Include="Graphics\RenderingUnit.hpp" />
     <ClInclude Include="Graphics\RendererConfiguration.hpp" />
+    <ClInclude Include="Graphics\ShaderPreprocessor.hpp" />
     <ClInclude Include="Graphics\ShaderProperties.hpp" />
     <ClInclude Include="Graphics\ShaderProperty.hpp" />
     <ClInclude Include="Graphics\ShaderUniformData.hpp" />

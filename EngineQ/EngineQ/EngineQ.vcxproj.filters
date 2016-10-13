@@ -53,6 +53,7 @@
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
     <ClCompile Include="Graphics\ShaderPass.cpp" />
     <ClCompile Include="Graphics\ShaderProperties.cpp" />
+    <ClCompile Include="Graphics\ShaderPreprocessor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="Graphics\ShaderUniformData.hpp" />
     <ClInclude Include="Graphics\ShaderProperties.hpp" />
     <ClInclude Include="Utilities\ObjectDestructor.hpp" />
+    <ClInclude Include="Graphics\ShaderPreprocessor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />

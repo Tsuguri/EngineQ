@@ -249,6 +249,7 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Shaders\BasicCommon.shh" />
     <None Include="Resources\TMP\Shader.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

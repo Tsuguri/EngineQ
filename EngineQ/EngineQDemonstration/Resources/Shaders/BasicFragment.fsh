@@ -5,12 +5,7 @@ in vec3 normals;
 in vec4 worldPosition;
 in vec3 color;
 
-uniform vec3 cameraPosition = vec3(1, 1, 1);
-uniform vec3 lightDir = vec3(-1, -1, 0);
-uniform vec3 lightColor = vec3(1,1,1);
-uniform float ambientStrength=0.3f;
-uniform float specularStrength=0.1f;
-uniform float materialShininess=32;
+#include "BasicCommon.shh"
 
 //uniform float myRandomValue = 1.0f;
 

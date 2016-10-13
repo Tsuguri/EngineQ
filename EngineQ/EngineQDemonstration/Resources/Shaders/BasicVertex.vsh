@@ -10,14 +10,7 @@ uniform mat4 ModelMat = IdMat;
 uniform mat4 ViewMat = IdMat;
 uniform mat4 ProjMat = IdMat;
 
-uniform vec3 cameraPosition = vec3(1, 1, 1);
-uniform vec3 lightDir = vec3(-1, -1, 0);
-uniform vec3 lightColor = vec3(1, 1, 1);
-
-uniform float time = 0.0f;
-uniform float ambientStrength = 0.3f;
-uniform float specularStrength = 0.1f;
-uniform float materialShininess = 32;
+#include "BasicCommon.shh"
 
 mat4 MVP = ProjMat*ViewMat*ModelMat;
 mat3 NormalMat = mat3(transpose(inverse(ModelMat)));
