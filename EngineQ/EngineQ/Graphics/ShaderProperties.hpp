@@ -18,7 +18,7 @@ namespace EngineQ
 		{
 		private:
 			using UniformData = ShaderUniformData<
-				Pair<GL_BOOL, GLboolean>,
+				Pair<GL_BOOL, bool>,
 				Pair<GL_INT, GLint>,
 				Pair<GL_FLOAT, GLfloat>,
 				Pair<GL_FLOAT_VEC2, Math::Vector2_t<GLfloat>>,
@@ -27,15 +27,57 @@ namespace EngineQ
 				Pair<GL_FLOAT_MAT4, Math::Matrix4>
 			>;
 			
+		public:
+			struct Light
+			{
+				ShaderProperty<Math::Vector3f> Position;
+				ShaderProperty<Math::Vector3f> Ambient;
+				ShaderProperty<Math::Vector3f> Diffuse;
+				ShaderProperty<Math::Vector3f> Specular;
+
+				ShaderProperty<float> Distance;
+
+				ShaderProperty<bool> CastsShadows;
+				ShaderProperty<float> FarPlane;
+			};
+
+			struct Material
+			{
+				ShaderProperty<Math::Vector3f> Ambient;
+				ShaderProperty<Math::Vector3f> Diffuse;
+				ShaderProperty<Math::Vector3f> Specular;
+				ShaderProperty<float> Shininess;
+			};
+
+			struct Matrices
+			{
+				ShaderProperty<Math::Matrix4> Model;
+				ShaderProperty<Math::Matrix4> View;
+				ShaderProperty<Math::Matrix4> Projection;
+			};
+
+		private:
 			Shader& shader;
 			
-			std::vector<UniformData> usedUniforms;
-			std::map<std::string, UniformData*> shaderUniforms;
-
+			std::vector<std::pair<UniformLocation, UniformData>> shaderUniforms;
+			std::map<std::string, UniformData*> shaderUniformsMap;
+			
+			std::vector<UniformData> mockUniforms;
 
 			// Build-in properties
-			// TMP
-			ShaderProperty<int> builtInProperty;
+			std::vector<Light> lights;
+			Material material;
+			Matrices matrices;
+
+			void FinalizeBuiltIn();
+
+			template<typename TType>
+			ShaderProperty<TType> CreateMockUniform();
+
+			template<typename TGroupType, typename TPropertyType>
+			void CheckBuiltIn(TGroupType& group, ShaderProperty<TPropertyType>(TGroupType::* member));
+
+			void OnUniformAdded(UniformData& data, UniformType type, const std::string& name);
 
 		public:
 			ShaderProperties(Shader& shader);
@@ -48,9 +90,10 @@ namespace EngineQ
 			template<typename TType>
 			ShaderProperty<TType> GetProperty(const std::string& name) const;
 
-			// Build-in properties setters/getters
-			void SetBuildInProperty(int value);
-			int GetBuildInProperty() const;
+			// Built-in properties getters
+			const Matrices& GetMatrices();
+			const Material& GetMaterial();
+			const std::vector<Light>& GetLights();
 		};
 	}
 }

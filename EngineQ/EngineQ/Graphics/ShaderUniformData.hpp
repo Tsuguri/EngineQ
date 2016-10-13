@@ -28,7 +28,7 @@ namespace EngineQ
 
 			static void Create(char* data)
 			{
-				new (data) TType{};
+				new(data) TType{};
 			}
 		};
 
@@ -73,7 +73,6 @@ namespace EngineQ
 			static ConstructorsMapType ConstructorsMap;
 
 
-			UniformLocation location;
 			std::size_t type;
 			std::array<char, DataSize> data;
 
@@ -91,24 +90,24 @@ namespace EngineQ
 					throw InvalidUniformTypeException{ "Invalid type" };
 			}
 
-			ShaderUniformData(UniformLocation location, std::size_t type, const std::array<char, DataSize>& data) :
-				location{ location }, type{ type }, data{ data }
+			ShaderUniformData(std::size_t type, const std::array<char, DataSize>& data) :
+				type{ type }, data{ data }
 			{
 			}
 
 		public:
 			template<typename TType>
-			ShaderUniformData(UniformLocation location, const TType& value) :
-				location{ location }, type{ Meta::TypeIndex<TType, TArgs...>::value }
+			ShaderUniformData(const TType& value) :
+				type{ Meta::TypeIndex<TType, typename TArgs::Second...>::value }
 			{
 				this->StaticCheck<TType>();
 
-				new (this->data.data())TType{ value };
+				new(this->data.data()) TType{ value };
 			}
 
-			void Apply(Shader& shader) const
+			void Apply(Shader& shader, UniformLocation location) const
 			{
-				ApplyActions[this->type](shader, this->location, static_cast<const void*>(data.data()));
+				ApplyActions[this->type](shader, location, static_cast<const void*>(data.data()));
 			}
 
 			template<typename TType>
@@ -144,7 +143,7 @@ namespace EngineQ
 				return ShaderProperty<TType>{ *reinterpret_cast<TType*>(data.data()) };
 			}
 
-			static Utilities::Nullable<ShaderUniformData> FromTypeIndex(UniformLocation location, UniformType typeIndex)
+			static Utilities::Nullable<ShaderUniformData> FromTypeIndex(UniformType typeIndex)
 			{
 				auto constructIt = ConstructorsMap.find(typeIndex);
 				if (constructIt == ConstructorsMap.end())
@@ -155,7 +154,7 @@ namespace EngineQ
 
 				constructIt->second.second(data.data());
 
-				return ShaderUniformData{ location, type, data };
+				return ShaderUniformData{ type, data };
 			}
 		};
 

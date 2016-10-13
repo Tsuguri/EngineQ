@@ -6,13 +6,67 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
+		void ShaderProperties::FinalizeBuiltIn()
+		{
+			CheckBuiltIn(this->matrices, &Matrices::Model);
+			CheckBuiltIn(this->matrices, &Matrices::View);
+			CheckBuiltIn(this->matrices, &Matrices::Projection);
+
+			CheckBuiltIn(this->material, &Material::Ambient);
+			CheckBuiltIn(this->material, &Material::Diffuse);
+			CheckBuiltIn(this->material, &Material::Specular);
+			CheckBuiltIn(this->material, &Material::Shininess);
+
+			for (auto& light : this->lights)
+			{
+				CheckBuiltIn(light, &Light::Position);
+				CheckBuiltIn(light, &Light::Ambient);
+				CheckBuiltIn(light, &Light::Diffuse);
+				CheckBuiltIn(light, &Light::Specular);
+				CheckBuiltIn(light, &Light::Distance);
+				CheckBuiltIn(light, &Light::CastsShadows);
+				CheckBuiltIn(light, &Light::FarPlane);
+			}
+		}
+
+
+		void ShaderProperties::OnUniformAdded(UniformData& data, UniformType type, const std::string& name)
+		{
+			// TODO: Extract all built-in properties
+			// we need to agree on standard uniforms names
+
+			switch (type)
+			{
+				case GL_FLOAT_MAT4:
+				{
+					if (name == "ModelMat")
+						this->matrices.Model = data.GetProperty<Math::Matrix4>();
+				}
+				break;
+
+				case GL_FLOAT_VEC3:
+				{
+					if (name == "lightColor")
+					{
+						this->lights.emplace_back();
+						auto& light = this->lights.back();
+						light.Diffuse = data.GetProperty<Math::Vector3f>();
+					}
+				}
+				break;
+
+				default:
+				break;
+			}
+		}
+
 		ShaderProperties::ShaderProperties(Shader& shader) :
 			shader{ shader }
 		{
 			GLint uniformCount;
 			glGetProgramiv(shader.programId, GL_ACTIVE_UNIFORMS, &uniformCount);
 
-			this->usedUniforms.reserve(uniformCount);
+			this->shaderUniforms.reserve(uniformCount);
 
 			std::vector<GLint> nameLengths(uniformCount);
 			std::vector<GLint> uniformTypes(uniformCount);
@@ -26,50 +80,59 @@ namespace EngineQ
 
 			for (int i = 0; i < uniformCount; ++i)
 			{
-				std::string name(nameLengths[i] - 1, ' ');
-				glGetActiveUniformName(shader.programId, uniformIndices[i], nameLengths[i], nullptr, &name[0]);
+				std::string uniformName(nameLengths[i] - 1, ' ');
+				glGetActiveUniformName(shader.programId, uniformIndices[i], nameLengths[i], nullptr, &uniformName[0]);
 
-				UniformLocation location = shader.GetUniformLocation(name.c_str());
-				auto uniformData = UniformData::FromTypeIndex(location, uniformTypes[i]);
+				auto uniformData = UniformData::FromTypeIndex(uniformTypes[i]);
 
 				if (uniformData != nullval)
 				{
-					this->usedUniforms.push_back(*uniformData);
+					UniformLocation location = shader.GetUniformLocation(uniformName.c_str());
+					this->shaderUniforms.emplace_back(location, *uniformData);
 
-					UniformData* uniformData = &this->usedUniforms.back();
-					this->shaderUniforms.insert({ name, uniformData });
+					auto& uniformPair = this->shaderUniforms.back();
+					this->shaderUniformsMap.emplace(uniformName, &uniformPair.second);
+				
+					this->OnUniformAdded(uniformPair.second, uniformTypes[i], uniformName);
 				}
 				else
 				{
 					// TMP
-					std::cout << "Type " << uniformTypes[i] << " of property " << name << " is not supported" << std::endl;
+					std::cout << "Type " << uniformTypes[i] << " of property " << uniformName << " is not supported" << std::endl;
 				}
 			}
+
+			this->FinalizeBuiltIn();
 		}
 
 		void ShaderProperties::Apply() const
 		{
 			this->shader.Activate();
-			for (const auto& uniform : usedUniforms)
-				uniform.Apply(shader);
+			for (const auto& uniformPair : shaderUniforms)
+				uniformPair.second.Apply(shader, uniformPair.first);
 		}
 
-		void ShaderProperties::SetBuildInProperty(int value)
+		const ShaderProperties::Matrices& ShaderProperties::GetMatrices()
 		{
-			this->builtInProperty = value;
+			return this->matrices;
 		}
 
-		int ShaderProperties::GetBuildInProperty() const
+		const ShaderProperties::Material& ShaderProperties::GetMaterial()
 		{
-			return this->builtInProperty;
+			return this->material;
+		}
+
+		const std::vector<ShaderProperties::Light>& ShaderProperties::GetLights()
+		{
+			return this->lights;
 		}
 
 		template<>
 		bool ShaderProperties::HasProperty<void>(const std::string& name) const
 		{
-			auto it = shaderUniforms.find(name);
+			auto it = shaderUniformsMap.find(name);
 
-			return it != shaderUniforms.end();
+			return it != shaderUniformsMap.end();
 		}
 	}
 }

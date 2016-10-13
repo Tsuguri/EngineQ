@@ -14,9 +14,14 @@ namespace EngineQ
 		public:
 			ShaderProperty() = default;
 
-			ShaderProperty(TType& property) :
+			explicit ShaderProperty(TType& property) :
 				property{ &property }
 			{
+			}
+
+			bool IsSet() const
+			{
+				return (this->property != nullptr);
 			}
 
 			TType Get() const
@@ -24,12 +29,12 @@ namespace EngineQ
 				return *this->property;
 			}
 
-			void Set(const TType& value)
+			void Set(const TType& value) const
 			{
 				*this->property = value;
 			}
 
-			ShaderProperty& operator = (const TType& value)
+			const ShaderProperty& operator = (const TType& value) const
 			{
 				*this->property = value;
 				return *this;
