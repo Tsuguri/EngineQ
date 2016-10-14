@@ -1,20 +1,11 @@
+#include "ObjectDestructor.hpp"
+
 namespace Utilities
 {
-	template<typename Type, bool Val>
-	void DestructHelper<Type, Val>::Destruct(Type* ptr)
-	{
-	}
-
-	template<typename Type>
-	void DestructHelper<Type, true>::Destruct(Type* ptr)
-	{
-		ptr->~Type();
-	}
-
 	template<typename Type>
 	void Nullable<Type>::Destruct(Type* ptr)
 	{
-		DestructHelper<Type, std::is_destructible<Type>::value>::Destruct(ptr);
+		ObjectDestructor<Type>::Destruct(*ptr);
 	}
 
 	template<typename Type>
@@ -123,10 +114,7 @@ namespace Utilities
 		exists{ other.exists }
 	{
 		if (other.exists)
-		{
 			new(this->memory) Type{ std::move(*reinterpret_cast<Type*>(other.memory)) };
-			other.exists = false;
-		}
 	}
 
 	template<typename Type>
@@ -137,7 +125,6 @@ namespace Utilities
 			if (other.exists)
 			{
 				*reinterpret_cast<Type*>(this->memory) = std::move(*reinterpret_cast<const Type*>(other.memory));
-				other.exists = false;
 			}
 			else
 			{
@@ -151,7 +138,6 @@ namespace Utilities
 			{
 				new(this->memory) Type{ std::move(*reinterpret_cast<const Type*>(other.memory)) };
 				this->exists = true;
-				other.exists = false;
 			}
 		}
 
@@ -181,6 +167,24 @@ namespace Utilities
 			throw NullValueException{};
 
 		return *reinterpret_cast<Type*>(this->memory);
+	}
+
+	template<typename Type>
+	const Type* Nullable<Type>::operator -> () const
+	{
+		if (!this->exists)
+			throw NullValueException{};
+
+		return reinterpret_cast<const Type*>(this->memory);
+	}
+
+	template<typename Type>
+	const Type& Nullable<Type>::operator *() const
+	{
+		if (!this->exists)
+			throw NullValueException{};
+
+		return *reinterpret_cast<const Type*>(this->memory);
 	}
 
 	template<typename Type>
@@ -214,15 +218,6 @@ namespace Utilities
 	}
 
 	template<typename Type>
-	Nullable<Type>::operator Type&() const
-	{
-		if (!this->exists)
-			throw NullValueException{};
-
-		return *reinterpret_cast<const Type*>(this->memory);
-	}
-
-	template<typename Type>
 	Nullable<Type>::operator Type&()
 	{
 		if (!this->exists)
@@ -231,15 +226,12 @@ namespace Utilities
 		return *reinterpret_cast<Type*>(this->memory);
 	}
 
-	template<typename Type, typename ...Args>
-	Nullable<Type> MakeNullable(Args&& ...args)
-	{
-		return Nullable<Type>{ Type{ std::forward<Args>(args)... } };
-	}
-
 	template<typename Type>
-	Nullable<Type> MakeNullableEmpty()
+	Nullable<Type>::operator Type&() const
 	{
-		return Nullable<Type>{};
+		if (!this->exists)
+			throw NullValueException{};
+
+		return *reinterpret_cast<const Type*>(this->memory);
 	}
 }

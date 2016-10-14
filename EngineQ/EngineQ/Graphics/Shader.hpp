@@ -24,6 +24,8 @@ namespace EngineQ
 	{
 		class Shader : private Utilities::Immovable
 		{
+			friend class ShaderProperties;
+
 		private:
 			GLuint programId;
 
@@ -41,8 +43,8 @@ namespace EngineQ
 
 			void Activate();
 
-			UniformLocation GetUniformLocation(std::string name);
-			Utilities::Nullable<UniformLocation> TryGetUniformLocation(std::string name);
+			UniformLocation GetUniformLocation(const char* name);
+			Utilities::Nullable<UniformLocation> TryGetUniformLocation(const char* name);
 
 			void Bind(UniformLocation location, int value);
 			void Bind(UniformLocation location, float value);

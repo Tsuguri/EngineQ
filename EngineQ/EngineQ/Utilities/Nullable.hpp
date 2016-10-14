@@ -2,29 +2,16 @@
 #define UTILITIES_NULLABLE_HPP
 
 #include <stdexcept>
-#include <type_traits>
 
 namespace Utilities
 {
-	template<typename Type, bool>
-	struct DestructHelper
-	{
-		static void Destruct(Type* ptr);
-	};
-
-	template<typename Type>
-	struct DestructHelper<Type, true>
-	{
-		static void Destruct(Type* ptr);
-	};
-
-	class NullValueException : public std::runtime_error
+	class NullValueException final : public std::runtime_error
 	{
 	public:
 		NullValueException();
 	};
 
-	struct nullval_t
+	struct nullval_t final
 	{
 	};
 
@@ -60,20 +47,17 @@ namespace Utilities
 		Type* operator -> ();
 		Type& operator *();
 
+		const Type* operator -> () const;
+		const Type& operator *() const;
+
 		bool operator == (nullval_t) const;
 		bool operator != (nullval_t) const;
 		bool operator == (const Type& other) const;
 		bool operator != (const Type& other) const;
 
-		explicit operator Type&() const;
 		explicit operator Type&();
+		explicit const operator Type&() const;
 	};
-
-	template<typename Type, typename ...Args>
-	Nullable<Type> MakeNullable(Args&& ...args);
-
-	template<typename Type>
-	Nullable<Type> MakeNullableEmpty();
 }
 
 constexpr Utilities::nullval_t nullval{};

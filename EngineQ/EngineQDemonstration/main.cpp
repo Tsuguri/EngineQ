@@ -91,6 +91,8 @@ EngineQ::Graphics::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep 
 
 	return new EngineQ::Graphics::Mesh{ vertices,indices };
 }
+#include "Graphics/ShaderProperties.hpp"
+
 void PrepareScene(EngineQ::Scene* scene)
 {
 	auto& sc{ *scene };
@@ -110,6 +112,27 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto deffShd = rm->GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
 
 	auto cam = ent->AddComponent<EngineQ::Camera>();
+
+	EngineQ::Graphics::ShaderProperties shaderProperties{ *shd };
+
+	auto lightDirProp = shaderProperties.GetProperty<Math::Vector3f>("lightDir");
+//	auto lightColorProp = shaderProperties.GetProperty<Math::Vector3f>("lightColor");
+	auto ambientStrengthProp = shaderProperties.GetProperty<float>("ambientStrength");
+	auto specularStrengthProp = shaderProperties.GetProperty<float>("specularStrength");
+	auto materialShininessProp = shaderProperties.GetProperty<float>("materialShininess");
+
+	lightDirProp = Math::Vector3f{ -1, -1, 0 };
+//	lightColorProp = Math::Vector3f{ 1, 0.3f, 0.3f };
+	ambientStrengthProp = 0.3f;
+	specularStrengthProp = 0.4f;
+	materialShininessProp = 32;
+
+	shaderProperties.GetLights()[0].Diffuse = Math::Vector3f{ 1, 0.3f, 0.3f };
+	shaderProperties.GetLights()[0].Ambient = Math::Vector3f{ 0.0f, 1.0f, 0.0f };
+
+	shaderProperties.Apply();
+
+
 	
 	auto deffShdCustom = rm->GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
 	renderable->SetModel(mesh);

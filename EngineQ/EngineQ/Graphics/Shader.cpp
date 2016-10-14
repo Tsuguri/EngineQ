@@ -81,18 +81,18 @@ namespace EngineQ
 			glUseProgram(this->programId);
 		}
 
-		UniformLocation Shader::GetUniformLocation(std::string name)
+		UniformLocation Shader::GetUniformLocation(const char* name)
 		{
-			GLint location = glGetUniformLocation(this->programId, name.c_str());
+			GLint location = glGetUniformLocation(this->programId, name);
 			if (location < 0)
-				throw ShaderArgumentException{ "Uniform \"" + name + "\" location not found" };
+				throw ShaderArgumentException{ std::string{"Uniform \""} +name + "\" location not found" };
 
 			return UniformLocation(location);
 		}
 
-		Nullable<UniformLocation> Shader::TryGetUniformLocation(std::string name)
+		Nullable<UniformLocation> Shader::TryGetUniformLocation(const char* name)
 		{
-			GLint location = glGetUniformLocation(this->programId, name.c_str());
+			GLint location = glGetUniformLocation(this->programId, name);
 			if (location < 0)
 				return Nullable<UniformLocation>();
 

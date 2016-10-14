@@ -35,13 +35,13 @@ namespace EngineQ
 		{
 			Utilities::Nullable<UniformLocation> tmp;
 			int j = 0;
-			for(auto& i : inputTextures)
+			for(auto& inputTexture : inputTextures)
 			{
-				glActiveTexture(GL_TEXTURE0+i.Position);
-				glBindTexture(GL_TEXTURE_2D, i.Texture);
-				if(i.Name!="")
+				glActiveTexture(GL_TEXTURE0+inputTexture.Position);
+				glBindTexture(GL_TEXTURE_2D, inputTexture.Texture);
+				if(inputTexture.Name!="")
 				{
-					tmp = shader->TryGetUniformLocation(i.Name);
+					tmp = shader->TryGetUniformLocation(inputTexture.Name.c_str());
 					if(tmp!=nullval)
 					shader->Bind(*tmp, j);
 				}

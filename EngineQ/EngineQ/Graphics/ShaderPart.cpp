@@ -1,5 +1,9 @@
 #include "ShaderPart.hpp"
+
 #include <iostream>
+#include <sstream>
+
+#include "ShaderPreprocessor.hpp"
 
 namespace EngineQ
 {
@@ -19,15 +23,24 @@ namespace EngineQ
 
 		void ShaderPart::CreateFromFile(const char* filename, ShaderType shaderType)
 		{
+			Preprocessor preprocessor;
+			std::stringstream stream;
+
+			preprocessor.PreprocessFile(filename, stream);
+
+			CreateFromCode(stream.str().c_str(), shaderType);
+
+			/*
 			std::ifstream stream;;
 			stream.exceptions(std::ifstream::badbit | std::ifstream::failbit);
 			stream.open(filename);
 
-			std::string shaderCode{ std::istreambuf_iterator<char>{ stream }, std::istreambuf_iterator<char>{} };
+			std::string shaderCode = std::string{ std::istreambuf_iterator<char>{ stream }, std::istreambuf_iterator<char>{} };
 
 			stream.close();
 
 			CreateFromCode(shaderCode.c_str(), shaderType);
+			*/
 		}
 
 		void ShaderPart::CreateFromCode(const char* shaderCode, ShaderType shaderType)

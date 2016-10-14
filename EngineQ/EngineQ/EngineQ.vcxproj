@@ -24,6 +24,8 @@
     <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
     <ClCompile Include="Graphics\RendererConfiguration.cpp" />
+    <ClCompile Include="Graphics\ShaderPreprocessor.cpp" />
+    <ClCompile Include="Graphics\ShaderProperties.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Math\Utilities.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -38,7 +40,6 @@
     <ClCompile Include="Objects\Entity.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
-    <ClCompile Include="Graphics\ShaderExceptions.cpp" />
     <ClCompile Include="Graphics\ShaderPart.cpp" />
     <ClCompile Include="Graphics\UniformLocation.cpp" />
     <ClCompile Include="Objects\Light.cpp" />
@@ -79,6 +80,10 @@
     <ClInclude Include="Graphics\RenderingUnit.hpp" />
     <ClInclude Include="Graphics\RendererConfiguration.hpp" />
     <ClInclude Include="Graphics\Types.hpp" />
+    <ClInclude Include="Graphics\ShaderPreprocessor.hpp" />
+    <ClInclude Include="Graphics\ShaderProperties.hpp" />
+    <ClInclude Include="Graphics\ShaderProperty.hpp" />
+    <ClInclude Include="Graphics\ShaderUniformData.hpp" />
     <ClInclude Include="InputController.hpp" />
     <ClInclude Include="Math\Types.hpp" />
     <ClInclude Include="Math\Utilities.hpp" />
@@ -132,6 +137,9 @@
     <ClInclude Include="Scripting\API_Scene.hpp" />
     <ClInclude Include="Scripting\API_Transform.hpp" />
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
+    <ClInclude Include="Scripting\ScriptEngineException.hpp" />
+    <ClInclude Include="Utilities\Metaprogramming.hpp" />
+    <ClInclude Include="Utilities\ObjectDestructor.hpp" />
     <ClInclude Include="Scripting\ScriptingExceptions.hpp" />
     <ClInclude Include="Objects\Transform.hpp" />
     <ClInclude Include="Utilities\Property.hpp" />
@@ -142,6 +150,7 @@
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Graphics\ShaderProperties.inl" />
     <None Include="Math\Vector2.inl" />
     <None Include="Math\Vector3.inl" />
     <None Include="Math\Vector4.inl" />

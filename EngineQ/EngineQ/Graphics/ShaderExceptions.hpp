@@ -10,22 +10,25 @@ namespace EngineQ
 		class ShaderCompilationException : public std::runtime_error
 		{
 		public:
-			ShaderCompilationException(const char* message);
-			ShaderCompilationException(const std::string& message);
+			using std::runtime_error::runtime_error;
 		};
 
 		class ShaderLinkException : public std::runtime_error
 		{
 		public:
-			ShaderLinkException(const char* message);
-			ShaderLinkException(const std::string& message);
+			using std::runtime_error::runtime_error;
 		};
 
 		class ShaderArgumentException : public std::runtime_error
 		{
 		public:
-			ShaderArgumentException(const char* message);
-			ShaderArgumentException(const std::string& message);
+			using std::runtime_error::runtime_error;
+		};
+
+		class InvalidUniformTypeException : std::runtime_error
+		{
+		public:
+			using std::runtime_error::runtime_error;
 		};
 	}
 }

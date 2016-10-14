@@ -12,7 +12,7 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		class Mesh : public Utilities::Uncopyable
+		class Mesh : private Utilities::Immovable
 		{
 		private:
 			GLuint count = 0;

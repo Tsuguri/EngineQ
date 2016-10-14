@@ -21,4 +21,4 @@ namespace Utilities
 	};
 }
 
-#endif
+#endif // !UTILITIES_RESOURCES_IDS_HPP
