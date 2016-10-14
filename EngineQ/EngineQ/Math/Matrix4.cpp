@@ -8,7 +8,7 @@ namespace EngineQ
 {
 	namespace Math
 	{
-	#pragma region Constructors
+#pragma region Constructors
 
 		Matrix4::Matrix4(Real value) :
 			M00{ value }, M01{ value }, M02{ value }, M03{ value },
@@ -42,9 +42,9 @@ namespace EngineQ
 		{
 		}
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Methods
+#pragma region Methods
 
 		void Matrix4::Transpose()
 		{
@@ -304,9 +304,9 @@ namespace EngineQ
 			column3.X = M03; column3.Y = M13; column3.Z = M23; column3.W = M33;
 		}
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Static Methods
+#pragma region Static Methods
 
 		Matrix4 Matrix4::GetIdentity()
 		{
@@ -420,7 +420,7 @@ namespace EngineQ
 			Real c = std::cos(angle);
 
 			return Matrix4{
-				      c, static_cast<Real>(0),       s, static_cast<Real>(0),
+					  c, static_cast<Real>(0),       s, static_cast<Real>(0),
 				static_cast<Real>(0), static_cast<Real>(1), static_cast<Real>(0), static_cast<Real>(0),
 				-s,      static_cast<Real>(0),       c, static_cast<Real>(0),
 				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1)
@@ -433,8 +433,8 @@ namespace EngineQ
 			Real c = std::cos(angle);
 
 			return Matrix4{
-				      c,      -s, static_cast<Real>(0), static_cast<Real>(0),
-				      s,       c, static_cast<Real>(0), static_cast<Real>(0),
+					  c,      -s, static_cast<Real>(0), static_cast<Real>(0),
+					  s,       c, static_cast<Real>(0), static_cast<Real>(0),
 				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1), static_cast<Real>(0),
 				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1)
 			};
@@ -452,6 +452,8 @@ namespace EngineQ
 
 		Matrix4 Matrix4::CreateFrustum(Real fovy, Real aspect, Real near, Real far)
 		{
+			/*
+			// Use for GREATER depth testing
 			Real cot = static_cast<Real>(1) / std::tan(fovy / static_cast<Real>(2));
 			Real diff = static_cast<Real>(1) / (far - near);
 
@@ -459,6 +461,19 @@ namespace EngineQ
 				cot / aspect, static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0),
 				static_cast<Real>(0), cot, static_cast<Real>(0), static_cast<Real>(0),
 				static_cast<Real>(0), static_cast<Real>(0), -(far + near) * diff, static_cast<Real>(2) * far * near * diff,
+				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1), static_cast<Real>(0)
+			};
+			*/
+
+
+			// Use for LESS depth testing
+			Real cot = 1.0f / std::tan(fovy / 2.0f);
+			Real diff = 1.0f / (far - near);
+
+			return Matrix4{
+				cot / aspect, static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0),
+				static_cast<Real>(0), cot, static_cast<Real>(0), static_cast<Real>(0),
+				static_cast<Real>(0), static_cast<Real>(0), far * diff, -far * near * diff,
 				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1), static_cast<Real>(0)
 			};
 		}
@@ -519,9 +534,9 @@ namespace EngineQ
 			return static_cast<Vector3>(result) / result.W;
 		}
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Operators
+#pragma region Operators
 
 		Matrix4::operator Matrix3()
 		{
@@ -629,9 +644,9 @@ namespace EngineQ
 			return Values2[row][column];
 		}
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Static Operators
+#pragma region Static Operators
 
 		Matrix4 operator + (const Matrix4& matrix)
 		{
@@ -767,7 +782,7 @@ namespace EngineQ
 			return stream << "[[" <<
 				matrix.M00 << "," << matrix.M01 << "," << matrix.M02 << "," << matrix.M03 << "],[" <<
 				matrix.M10 << "," << matrix.M11 << "," << matrix.M12 << "," << matrix.M13 << "],[" <<
-				matrix.M20 << "," << matrix.M21 << "," << matrix.M22 << "," << matrix.M23 << "],[" << 
+				matrix.M20 << "," << matrix.M21 << "," << matrix.M22 << "," << matrix.M23 << "],[" <<
 				matrix.M30 << "," << matrix.M31 << "," << matrix.M32 << "," << matrix.M33 << "]]";
 		}
 
@@ -776,6 +791,6 @@ namespace EngineQ
 			return stream.write(reinterpret_cast<const char*>(matrix.Values), sizeof(matrix.Values));
 		}
 
-	#pragma endregion
+#pragma endregion
 	}
 }

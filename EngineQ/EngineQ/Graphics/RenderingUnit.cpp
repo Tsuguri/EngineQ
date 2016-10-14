@@ -124,13 +124,13 @@ namespace EngineQ
 		//	glPolygonMode(GL_FRONT, GL_LINE);
 		//	glPolygonMode(GL_BACK, GL_LINE);
 			
-			glFrontFace(GL_CW);
+			glFrontFace(GL_CCW);
 			glCullFace(GL_BACK);
-			glEnable(GL_CULL_FACE);
+		//	glEnable(GL_CULL_FACE);
 
 			glEnable(GL_DEPTH_TEST);
-			glClearDepth(0);
-			glDepthFunc(GL_GREATER);
+		//	glClearDepth(0);
+		//	glDepthFunc(GL_GREATER);
 
 			engine->resizeEvent += handler;
 
