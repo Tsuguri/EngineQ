@@ -3,7 +3,7 @@
 #include "Vertex.hpp"
 
 #include "Utilities/ResourcesIDs.hpp"
-#include <Resources/ModelLoader.hpp>
+#include "Resources/ModelLoader.hpp"
 
 #include "Graphics/Mesh.hpp"
 

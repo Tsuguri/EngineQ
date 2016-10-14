@@ -56,7 +56,7 @@ namespace Utilities
 		bool operator != (const Type& other) const;
 
 		explicit operator Type&();
-		explicit const operator Type&() const;
+		explicit operator const Type&() const;
 	};
 }
 

@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TMP\Shader.shader" />
-    <None Include="Resources\Shaders\BasicCommon.shh" />
+    <None Include="_Resources\Shaders\BasicCommon.shh" />
+    <None Include="_Resources\TMP\Shader.shader" />
   </ItemGroup>
 </Project>

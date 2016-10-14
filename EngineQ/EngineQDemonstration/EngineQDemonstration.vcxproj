@@ -71,23 +71,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)obj\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)_Build\bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)_Build\obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)obj\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)_Build\bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)_Build\obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)obj\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)_Build\bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)_Build\obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)obj\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)_Build\bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)_Build\obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -103,7 +103,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\_Build\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -120,7 +120,7 @@ xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(Outpu
 xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D
 xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /D
 
-xcopy "$(ProjectDir)Resources\*" "$(OutputPath)" /E /Y /D
+xcopy "$(ProjectDir)_Resources\*" "$(OutputPath)" /E /Y /D
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
 
 xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y</Command>
@@ -141,7 +141,7 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\_Build\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -158,7 +158,7 @@ xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(Outpu
 xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D
 xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /D
 
-xcopy "$(ProjectDir)Resources\*" "$(OutputPath)" /E /Y /D
+xcopy "$(ProjectDir)_Resources\*" "$(OutputPath)" /E /Y /D
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
 
 xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y</Command>
@@ -183,7 +183,7 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\_Build\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -200,7 +200,7 @@ xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(Outpu
 xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D
 xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /D
 
-xcopy "$(ProjectDir)Resources\*" "$(OutputPath)" /E /Y /D
+xcopy "$(ProjectDir)_Resources\*" "$(OutputPath)" /E /Y /D
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
 
 xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y</Command>
@@ -225,7 +225,7 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQ\_Build\bin\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>EngineQ.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -242,7 +242,7 @@ xcopy "$(SolutionDir)EngineQScripting\bin\$(Configuration)\EngineQ.dll" "$(Outpu
 xcopy "$(SolutionDir)Libraries\Mono\config" "$(OutputPath)config\" /E /Y /D
 xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /D
 
-xcopy "$(ProjectDir)Resources\*" "$(OutputPath)" /E /Y /D
+xcopy "$(ProjectDir)_Resources\*" "$(OutputPath)" /E /Y /D
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
 
 xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y</Command>
@@ -253,8 +253,8 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\BasicCommon.shh" />
-    <None Include="Resources\TMP\Shader.shader" />
+    <None Include="_Resources\Shaders\BasicCommon.shh" />
+    <None Include="_Resources\TMP\Shader.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

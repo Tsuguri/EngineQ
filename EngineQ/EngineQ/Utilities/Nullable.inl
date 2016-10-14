@@ -227,7 +227,7 @@ namespace Utilities
 	}
 
 	template<typename Type>
-	Nullable<Type>::operator Type&() const
+	Nullable<Type>::operator const Type&() const
 	{
 		if (!this->exists)
 			throw NullValueException{};
