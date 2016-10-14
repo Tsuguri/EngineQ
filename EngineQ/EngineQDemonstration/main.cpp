@@ -159,7 +159,8 @@ void PrepareScene(EngineQ::Scene* scene)
 	
 
 	EngineQ::Resources::ModelLoader loader;
-	
+
+	auto model = loader.LoadModel("Test/skull.obj");	
 }
 
 void TemporaryResources(EngineQ::Engine* engine)

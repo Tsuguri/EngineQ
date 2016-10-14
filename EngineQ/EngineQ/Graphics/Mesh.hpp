@@ -20,7 +20,6 @@ namespace EngineQ
 			GLuint vbo[3] = { 0,0,0 };
 		public:
 
-
 			GLuint Count() const;
 			GLuint GetVao() const;
 			Mesh(const std::vector <VertexPNC>& vertices, const std::vector <GLuint>& indices);

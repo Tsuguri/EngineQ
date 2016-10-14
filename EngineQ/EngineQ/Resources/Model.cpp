@@ -4,14 +4,30 @@ namespace EngineQ
 {
 	namespace Resources
 	{
-		std::shared_ptr<Graphics::Mesh> Model::Mesh::GetMesh()
+		Model::Node& Model::GetRootNode() const
 		{
-			throw std::logic_error{ "Not implemented" };
+			return *this->rootNode;
 		}
 
-		void Model::LoadToGPU()
+		Model::Node& Model::Node::AddChild()
 		{
+			this->children.push_back(std::make_unique<Node>(this));
+			return *this->children.back().get();
+		}
 
+		Model::Node::Node(Model::Node* parent) :
+			parent{ parent }
+		{
+		}
+
+		Model::Node* Model::Node::GetParent() const
+		{
+			return this->parent;
+		}
+
+		const std::vector<std::unique_ptr<Model::Node>>& Model::Node::GetChildren() const
+		{
+			return this->children;
 		}
 	}
 }

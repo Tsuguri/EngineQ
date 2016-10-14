@@ -130,6 +130,7 @@
     <ClInclude Include="Utilities\ObjectDestructor.hpp" />
     <ClInclude Include="Graphics\ShaderPreprocessor.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
+    <ClInclude Include="Resources\Types.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />
