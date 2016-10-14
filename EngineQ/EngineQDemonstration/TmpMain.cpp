@@ -97,8 +97,14 @@ void PrepareScene(EngineQ::Scene* scene)
 {
 	auto& sc{ *scene };
 
+	EngineQ::Resources::ModelLoader loader;
+	auto model = loader.LoadModel("Test/skull.obj");
 
-	auto mesh = GenerateCube(0.3f);
+//	auto mesh = GenerateCube(0.3f);
+
+	const auto& modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+
+	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh.GetVertices(), modelMesh.GetIndices() };
 
 	auto ent = sc.CreateEntity();
 	auto ent2 = sc.CreateEntity();
@@ -156,11 +162,6 @@ void PrepareScene(EngineQ::Scene* scene)
 
 	auto lightEntity = sc.CreateEntity();
 	auto light = lightEntity->AddComponent<EngineQ::Light>();
-	
-
-	EngineQ::Resources::ModelLoader loader;
-
-	auto model = loader.LoadModel("Test/skull.obj");	
 }
 
 void TemporaryResources(EngineQ::Engine* engine)

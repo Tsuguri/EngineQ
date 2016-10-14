@@ -4,6 +4,16 @@ namespace EngineQ
 {
 	namespace Resources
 	{
+		const std::vector<VertexPNC>& Model::Mesh::GetVertices() const
+		{
+			return this->vertices;
+		}
+
+		const std::vector<GLuint>& Model::Mesh::GetIndices() const
+		{
+			return this->indices;
+		}
+
 		Model::Node& Model::GetRootNode() const
 		{
 			return *this->rootNode;
@@ -28,6 +38,11 @@ namespace EngineQ
 		const std::vector<std::unique_ptr<Model::Node>>& Model::Node::GetChildren() const
 		{
 			return this->children;
+		}
+
+		const std::vector<Model::Mesh>& Model::Node::GetMeshes() const
+		{
+			return this->meshes;
 		}
 	}
 }

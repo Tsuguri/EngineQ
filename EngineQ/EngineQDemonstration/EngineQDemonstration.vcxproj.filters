@@ -15,12 +15,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <None Include="_Resources\TMP\Shader.shader" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="_Resources\Shaders\BasicCommon.shh" />
-    <None Include="_Resources\TMP\Shader.shader" />
+    <ClCompile Include="TmpMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

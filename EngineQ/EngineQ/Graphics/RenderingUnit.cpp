@@ -117,12 +117,18 @@ namespace EngineQ
 
 		RenderingUnit::RenderingUnit(Engine* engine, const RenderingUnitConfiguration& configuration) : engine(engine), textures(configuration.Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
 		{
-			glEnable(GL_DEPTH_TEST);
-			glFrontFace(GL_CCW);
-			glPolygonMode(GL_FRONT, GL_FILL);
-			glPolygonMode(GL_BACK, GL_LINE);
+		//	glEnable(GL_DEPTH_TEST);
+		//	glEnable(GL_CULL_FACE);
+		//	glPolygonMode(GL_FRONT, GL_FILL);
+		//	glPolygonMode(GL_BACK, GL_LINE);
+		//	glPolygonMode(GL_FRONT, GL_LINE);
+		//	glPolygonMode(GL_BACK, GL_LINE);
+			
+			glFrontFace(GL_CW);
 			glCullFace(GL_BACK);
 			glEnable(GL_CULL_FACE);
+
+			glEnable(GL_DEPTH_TEST);
 			glClearDepth(0);
 			glDepthFunc(GL_GREATER);
 
@@ -147,24 +153,31 @@ namespace EngineQ
 
 			renderer.Render(scene);
 
+
+
 			if (effects.size() > 0)
-				for (auto& i : effects)
+			{
+				glDisable(GL_DEPTH_TEST);
+
+				for (auto& effect : effects)
 				{
-					i->BindTargetBuffer();
+					effect->BindTargetBuffer();
 
 					glClear(GL_COLOR_BUFFER_BIT);
 					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
-					glDisable(GL_DEPTH_TEST);
-					i->Activate(scene->ActiveCamera(),TimeCounter::Get()->TimeFromStart());
+					
+					effect->Activate(scene->ActiveCamera(), TimeCounter::Get()->TimeFromStart());
 					glBindVertexArray(quadVao);
 
-					i->BindTextures();
+					effect->BindTextures();
 					glDrawArrays(GL_TRIANGLES, 0, 6);
 					glBindVertexArray(0);
-					i->UnbindTextures();
+					effect->UnbindTextures();
 				}
+				
+				glEnable(GL_DEPTH_TEST);
+			}
 			Framebuffer::BindDefault();
-
 
 		}
 	}

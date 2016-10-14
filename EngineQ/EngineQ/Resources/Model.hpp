@@ -15,10 +15,12 @@ namespace EngineQ
 				friend class ModelLoader;
 
 			private:
-				std::vector <VertexPNC> vertices;
-				std::vector <GLuint> indices;
+				std::vector<VertexPNC> vertices;
+				std::vector<GLuint> indices;
 			
 			public:
+				const std::vector<VertexPNC>& GetVertices() const;
+				const std::vector<GLuint>& GetIndices() const;
 			};
 			
 			class Node
@@ -38,6 +40,7 @@ namespace EngineQ
 
 				Node* GetParent() const;
 				const std::vector<std::unique_ptr<Node>>& GetChildren() const;
+				const std::vector<Mesh>& GetMeshes() const;
 			};
 			
 		private:

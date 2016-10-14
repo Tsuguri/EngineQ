@@ -74,7 +74,7 @@ namespace EngineQ
 			aiColor4D color = { 1, 1, 1, 1 };// = mesh->mColors[index][0];
 
 			return VertexPNC{
-				Math::Vector3f{ position.x, position.y, position.z },
+				Math::Vector3f{ position.x, position.y, position.z } * 0.1f,
 				Math::Vector3f{ normal.x, normal.y, normal.z },
 				Math::Vector3f{ color.r, color.g, color.b }
 			};
