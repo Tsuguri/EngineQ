@@ -34,7 +34,6 @@
     <ClCompile Include="Libraries\TinyXML\tinyxml2.cpp" />
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
-    <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Utilities\Nullable.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
@@ -54,6 +53,7 @@
     <ClCompile Include="Resources\Model.cpp" />
     <ClCompile Include="Graphics\ShaderProperties.cpp" />
     <ClCompile Include="Graphics\ShaderPreprocessor.cpp" />
+    <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />

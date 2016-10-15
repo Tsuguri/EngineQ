@@ -32,20 +32,7 @@ namespace EngineQ
 
 
 			//setting components pointers
-			GLuint positionAtt = 0;
-			GLuint normalAtt = 3;
-			GLuint colorAtt = 2;
-
-			glVertexAttribPointer(positionAtt, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPNC), reinterpret_cast<const GLvoid*>(VertexPNC::positionOffset));
-			glEnableVertexAttribArray(positionAtt);
-
-			glVertexAttribPointer(normalAtt, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPNC), reinterpret_cast<const GLvoid*>(VertexPNC::normalOffset));
-			glEnableVertexAttribArray(normalAtt);
-
-			glVertexAttribPointer(colorAtt, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPNC), reinterpret_cast<const GLvoid*>(VertexPNC::colorOffset));
-			glEnableVertexAttribArray(colorAtt);
-
-
+			VertexPNC::Setup();
 
 
 			//sending indices data

@@ -14,11 +14,11 @@ namespace EngineQ
 		{
 			GLfloat quadVertices[] = {
 				-1.0f,  1.0f,  0.0f, 1.0f,
+				1.0f, -1.0f,  1.0f, 0.0f,
 				-1.0f, -1.0f,  0.0f, 0.0f,
-				1.0f, -1.0f,  1.0f, 0.0f,
 
-				-1.0f,  1.0f,  0.0f, 1.0f,
 				1.0f, -1.0f,  1.0f, 0.0f,
+				-1.0f,  1.0f,  0.0f, 1.0f,
 				1.0f,  1.0f,  1.0f, 1.0f
 			};
 
@@ -117,16 +117,14 @@ namespace EngineQ
 
 		RenderingUnit::RenderingUnit(Engine* engine, const RenderingUnitConfiguration& configuration) : engine(engine), textures(configuration.Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
 		{
-		//	glEnable(GL_DEPTH_TEST);
-		//	glEnable(GL_CULL_FACE);
 		//	glPolygonMode(GL_FRONT, GL_FILL);
 		//	glPolygonMode(GL_BACK, GL_LINE);
 		//	glPolygonMode(GL_FRONT, GL_LINE);
 		//	glPolygonMode(GL_BACK, GL_LINE);
 			
-			glFrontFace(GL_CCW);
+			glFrontFace(GL_CW);
 			glCullFace(GL_BACK);
-		//	glEnable(GL_CULL_FACE);
+			glEnable(GL_CULL_FACE);
 
 			glEnable(GL_DEPTH_TEST);
 		//	glClearDepth(0);
