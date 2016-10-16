@@ -171,7 +171,7 @@ namespace EngineQ
 
 		void Shader::Bind(UniformLocation location, const Texture& texture)
 		{
-			int textureSlot = 0;
+			int textureSlot = 3;
 
 			glActiveTexture(GL_TEXTURE0 + textureSlot);
 			glBindTexture(GL_TEXTURE_2D, texture.textureId);

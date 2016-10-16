@@ -44,7 +44,9 @@ namespace EngineQ
 
 			static void Apply(Shader& shader, UniformLocation location, const void* value)
 			{
-				shader.Bind(location, **static_cast<const Type*>(value));
+				const Type& ptr = *static_cast<const Type*>(value);
+				if (ptr != nullptr)
+					shader.Bind(location, *ptr);
 			}
 
 			static void Create(char* data)
@@ -93,9 +95,9 @@ namespace EngineQ
 			using DestructActionType = void(*)(char*);
 			using ConstructActionType = void(*)(char*);
 			using ConstructorsMapType = const std::unordered_map<UniformType, std::pair<std::size_t, ConstructActionType>>;
-			
+
 			static constexpr std::size_t DataSize = Meta::MaxTypeSize<typename TArgs::Second...>::value;
-			
+
 			static constexpr ApplyActionType ApplyActions[] = { &ShaderUniformActions<typename TArgs::Second>::Apply... };
 			static constexpr DestructActionType DestructActions[] = { &ShaderUniformActions<typename TArgs::Second>::Destruct... };
 			static ConstructorsMapType ConstructorsMap;

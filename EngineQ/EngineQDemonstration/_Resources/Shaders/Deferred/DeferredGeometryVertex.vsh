@@ -27,7 +27,7 @@ void main()
     vec4 worldPos = matrices.Model * vec4(positionIn, 1.0f);
     Position = worldPos.xyz; 
     gl_Position = matrices.Projection * matrices.View * worldPos;
-    TexCoords = texCoordsIn;
+    TexCoords = vec2(texCoordsIn.x, 1.0f - texCoordsIn.y);
 	Color = colorIn;
 
     Normal = NormalMat * normalIn;
