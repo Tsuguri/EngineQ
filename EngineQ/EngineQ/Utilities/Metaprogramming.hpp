@@ -124,6 +124,64 @@ namespace Meta
 	};
 
 
+	template<std::size_t TElements, typename TType, TType... TValues>
+	struct SumN;
+
+	template<std::size_t TElements, typename TType, TType THead, TType... TTail>
+	struct SumN<TElements, TType, THead, TTail...>
+	{
+		static constexpr TType value = THead + SumN<TElements - 1, TType, TTail...>::value;
+	};
+
+	template<typename TType, TType THead, TType... TTail>
+	struct SumN<0, TType, THead, TTail...>
+	{
+		static constexpr TType value = 0;
+	};
+
+	template<typename TType, TType... TValues>
+	struct SumN<0, TType, TValues...>
+	{
+		static constexpr TType value = 0;
+	};
+
+	template<typename TType>
+	struct SumN<0, TType>
+	{
+		static constexpr TType value = 0;
+	};
+
+	template<std::size_t TElements, typename TType>
+	struct SumN<TElements, TType>
+	{
+		static_assert(sizeof(TType) == 0, "Not enough values to sum");
+	};
+
+
+
+
+	template<typename TFunction, TFunction THead, TFunction... TTail>
+	struct Invoker
+	{
+		template<typename... TArgs>
+		static void Invoke(TArgs&&... args)
+		{
+			THead(std::forward<TArgs>(args)...);
+			Invoker<TFunction, TTail...>::Invoke(std::forward<TArgs>(args)...);
+		}
+	};
+
+	template<typename TFunction, TFunction TLast>
+	struct Invoker<TFunction, TLast>
+	{
+		template<typename... TArgs>
+		static void Invoke(TArgs&&... args)
+		{
+			TLast(std::forward<TArgs>(args)...);
+		}
+	};
+
+
 
 	template<template<typename> class TConcept, typename THead, typename... TTail>
 	struct SatisfyConcept

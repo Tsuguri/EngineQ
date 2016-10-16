@@ -35,6 +35,7 @@ namespace EngineQ
 		window.SetFramebufferResizeFunction(FramebufferResize);
 
 		// Define the viewport dimensions
+		// TODO: This should be handled by renderer class
 		glViewport(0, 0, width, height);
 		screenSize = Math::Vector2i{ width,height };
 		resourceManager = std::make_unique<ResourceManager>();

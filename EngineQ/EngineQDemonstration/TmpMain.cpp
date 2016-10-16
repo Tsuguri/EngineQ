@@ -1,70 +1,74 @@
-#include "Engine.hpp"
+#include <EngineQ/Engine.hpp>
+#include <EngineQ/Vertex.hpp>
 
-#include "Vertex.hpp"
+#include <EngineQ/Utilities/ResourcesIDs.hpp>
+#include <EngineQ/Resources/ModelLoader.hpp>
 
-#include "Utilities/ResourcesIDs.hpp"
-#include "Resources/ModelLoader.hpp"
+#include <EngineQ/Graphics/Mesh.hpp>
 
-#include "Graphics/Mesh.hpp"
+#include <EngineQ/Objects/Entity.hpp>
+#include <EngineQ/Objects/Transform.hpp>
+#include <EngineQ/Objects/Renderable.hpp>
+#include <EngineQ/Objects/Camera.hpp>
+#include <EngineQ/Objects/Light.hpp>
 
-#include "Objects/Entity.hpp"
-#include "Objects/Transform.hpp"
-#include "Objects/Renderable.hpp"
-#include "Objects/Camera.hpp"
-#include "Objects/Light.hpp"
+#include <EngineQ/Graphics/ShaderProperties.hpp>
+
 
 namespace Math = EngineQ::Math;
 
 EngineQ::Graphics::Mesh* GenerateCube(float side = 1.0f)
 {
+	Math::Vector3 color{ 0.5f };
+
 	std::vector<EngineQ::VertexPNC> vertices{
-		{Math::Vector3{ side, -side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
-		{Math::Vector3{ side,  side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
-		{Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
+		{ Math::Vector3{ +side, -side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, color },
+		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, color },
+		{ Math::Vector3{ +side, +side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, color },
 
-		{Math::Vector3{ -side,  side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
-		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
-		{ Math::Vector3{ side,  side, -side }, Math::Vector3{ 0.0f,  0.0f, -1.0f } },
+		{ Math::Vector3{ -side, +side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, color },
+		{ Math::Vector3{ +side, +side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, color },
+		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, color },
 
-		{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
-		{ Math::Vector3{ side, -side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
-		{ Math::Vector3{ -side, -side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
+		{ Math::Vector3{ +side, +side, +side }, Math::Vector3{ 0.0f, 0.0f, 1.0f }, color },
+		{ Math::Vector3{ -side, -side, +side }, Math::Vector3{ 0.0f, 0.0f, 1.0f }, color },
+		{ Math::Vector3{ +side, -side, +side }, Math::Vector3{ 0.0f, 0.0f, 1.0f }, color },
 
-		{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
-		{ Math::Vector3{ -side, -side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
-		{ Math::Vector3{ -side,  side,  side }, Math::Vector3{ 0.0f,  0.0f,  1.0f } },
+		{ Math::Vector3{ +side, +side, +side }, Math::Vector3{ 0.0f, 0.0f, 1.0f }, color },
+		{ Math::Vector3{ -side, +side, +side }, Math::Vector3{ 0.0f, 0.0f, 1.0f }, color },
+		{ Math::Vector3{ -side, -side, +side }, Math::Vector3{ 0.0f, 0.0f, 1.0f }, color },
 
-		{ Math::Vector3{ -side,  side,  side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
-		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
-		{ Math::Vector3{ -side,  side, -side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
+		{ Math::Vector3{ -side, +side, +side }, Math::Vector3{ -1.0f, 0.0f, 0.0f }, color },
+		{ Math::Vector3{ -side, +side, -side }, Math::Vector3{ -1.0f, 0.0f, 0.0f }, color },
+		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ -1.0f, 0.0f, 0.0f }, color },
 
-		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
-		{ Math::Vector3{ -side,  side,  side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
-		{ Math::Vector3{ -side, -side,  side }, Math::Vector3{ -1.0f,  0.0f,  0.0f } },
+		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ -1.0f, 0.0f, 0.0f }, color },
+		{ Math::Vector3{ -side, -side, +side }, Math::Vector3{ -1.0f, 0.0f, 0.0f }, color },
+		{ Math::Vector3{ -side, +side, +side }, Math::Vector3{ -1.0f, 0.0f, 0.0f }, color },
 
-		{ Math::Vector3{ side,  side, -side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
-		{ Math::Vector3{ side, -side, -side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
-		{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
+		{ Math::Vector3{ +side, +side, -side }, Math::Vector3{ 1.0f, 0.0f, 0.0f }, color },
+		{ Math::Vector3{ +side, +side, +side }, Math::Vector3{ 1.0f, 0.0f, 0.0f }, color },
+		{ Math::Vector3{ +side, -side, -side }, Math::Vector3{ 1.0f, 0.0f, 0.0f }, color },
 
-		{ Math::Vector3{ side, -side,  side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
-		{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
-		{ Math::Vector3{ side, -side, -side }, Math::Vector3{ 1.0f,  0.0f,  0.0f } },
+		{ Math::Vector3{ +side, -side, +side }, Math::Vector3{ 1.0f, 0.0f, 0.0f }, color },
+		{ Math::Vector3{ +side, -side, -side }, Math::Vector3{ 1.0f, 0.0f, 0.0f }, color },
+		{ Math::Vector3{ +side, +side, +side }, Math::Vector3{ 1.0f, 0.0f, 0.0f }, color },
 
-		{ Math::Vector3{ side, -side,  side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
-		{ Math::Vector3{ side, -side, -side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
-		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
+		{ Math::Vector3{ +side, -side, +side }, Math::Vector3{ 0.0f, -1.0f, 0.0f }, color },
+		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f, -1.0f, 0.0f }, color },
+		{ Math::Vector3{ +side, -side, -side }, Math::Vector3{ 0.0f, -1.0f, 0.0f }, color },
 
-		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
-		{ Math::Vector3{ -side, -side,  side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
-		{ Math::Vector3{ side, -side,  side }, Math::Vector3{ 0.0f, -1.0f,  0.0f } },
+		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f, -1.0f, 0.0f }, color },
+		{ Math::Vector3{ +side, -side, +side }, Math::Vector3{ 0.0f, -1.0f, 0.0f }, color },
+		{ Math::Vector3{ -side, -side, +side }, Math::Vector3{ 0.0f, -1.0f, 0.0f }, color },
 
-		{ Math::Vector3{ side,  side, -side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
-		{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
-		{ Math::Vector3{ -side,  side, -side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
+		{ Math::Vector3{ +side, +side, -side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, color },
+		{ Math::Vector3{ -side, +side, -side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, color },
+		{ Math::Vector3{ +side, +side, +side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, color },
 
-		{ Math::Vector3{ -side,  side,  side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
-		{ Math::Vector3{ -side,  side, -side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
-		{ Math::Vector3{ side,  side,  side }, Math::Vector3{ 0.0f,  1.0f,  0.0f } },
+		{ Math::Vector3{ -side, +side, +side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, color },
+		{ Math::Vector3{ +side, +side, +side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, color },
+		{ Math::Vector3{ -side, +side, -side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, color },
 
 	};
 	std::vector<unsigned int> indices{};
@@ -91,21 +95,30 @@ EngineQ::Graphics::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep 
 
 	return new EngineQ::Graphics::Mesh{ vertices,indices };
 }
-#include "Graphics/ShaderProperties.hpp"
 
 void PrepareScene(EngineQ::Scene* scene)
 {
 	auto& sc{ *scene };
 
+	EngineQ::Resources::ModelLoader loader;
+	auto model = loader.LoadModel("./Models/skull.obj");
 
-	auto mesh = GenerateCube(0.3f);
+//	auto mesh = GenerateCube(0.3f);
+
+	const auto& modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+
+	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh.GetVertices(), modelMesh.GetIndices() };
+	auto cubeMesh = GenerateCube(0.3f);
+
 
 	auto ent = sc.CreateEntity();
 	auto ent2 = sc.CreateEntity();
 	auto ent3 = sc.CreateEntity();
+	auto ent4 = sc.CreateEntity();
 
 	auto renderable = ent2->AddComponent<EngineQ::Renderable>();
 	auto renderable2 = ent3->AddComponent<EngineQ::Renderable>();
+	auto renderable3 = ent4->AddComponent<EngineQ::Renderable>();
 	auto rm = EngineQ::Engine::Get()->GetResourceManager();
 
 	auto shd = rm->GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader);
@@ -141,9 +154,13 @@ void PrepareScene(EngineQ::Scene* scene)
 	renderable2->SetModel(mesh);
 	renderable2->SetForwardShader(shd);
 	renderable2->SetDeferredShader(deffShdCustom);
+	renderable3->SetModel(cubeMesh);
+	renderable3->SetForwardShader(shd);
+	renderable3->SetDeferredShader(deffShd);
 
 	ent3->GetTransform().SetPosition(EngineQ::Math::Vector3(1.0f,0,0));
 	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
+	ent4->GetTransform().SetPosition(EngineQ::Math::Vector3(2.0f, 0, 0));
 
 	EngineQ::Scripting::ScriptClass scriptClass = EngineQ::Engine::Get()->GetClass("QScripts", "QScripts", "CameraMoveClass");
 
@@ -156,10 +173,6 @@ void PrepareScene(EngineQ::Scene* scene)
 
 	auto lightEntity = sc.CreateEntity();
 	auto light = lightEntity->AddComponent<EngineQ::Light>();
-	
-
-	EngineQ::Resources::ModelLoader loader;
-	
 }
 
 void TemporaryResources(EngineQ::Engine* engine)

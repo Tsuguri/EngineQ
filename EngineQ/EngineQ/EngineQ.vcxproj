@@ -69,8 +69,8 @@
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Objects\Transform.cpp" />
-    <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Utilities\Nullable.cpp" />
+    <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +91,7 @@
     <ClInclude Include="ResourceManager.hpp" />
     <ClInclude Include="Resources\Model.hpp" />
     <ClInclude Include="Resources\ModelLoader.hpp" />
+    <ClInclude Include="Resources\Types.hpp" />
     <ClInclude Include="Scripting\API_Application.hpp" />
     <ClInclude Include="Scripting\API_Input.hpp" />
     <ClInclude Include="Scripting\API_TimeCounter.hpp" />

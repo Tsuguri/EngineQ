@@ -12,20 +12,42 @@ namespace EngineQ
 		public:
 			class Mesh
 			{
+				friend class ModelLoader;
+
 			private:
-				std::vector <VertexPNC> vertices;
-				std::vector <GLuint> indices;
+				std::vector<VertexPNC> vertices;
+				std::vector<GLuint> indices;
+			
+			public:
+				const std::vector<VertexPNC>& GetVertices() const;
+				const std::vector<GLuint>& GetIndices() const;
+			};
+			
+			class Node
+			{
+				friend class ModelLoader;
+
+			private:
+				Node* parent = nullptr;
+				std::vector<std::unique_ptr<Node>> children;
+
+				std::vector<Mesh> meshes;
+			
+				Node& AddChild();
 
 			public:
-				std::shared_ptr<Graphics::Mesh> GetMesh();
+				Node(Node* parent);
+
+				Node* GetParent() const;
+				const std::vector<std::unique_ptr<Node>>& GetChildren() const;
+				const std::vector<Mesh>& GetMeshes() const;
 			};
-
-			bool loadedToGPU=false;
-
-			std::shared_ptr<Mesh> meshesRoot = nullptr;
-
+			
 		private:
-			void LoadToGPU();
+			std::unique_ptr<Node> rootNode = std::make_unique<Node>(nullptr);
+			
+		public:
+			Node& GetRootNode() const;
 		};
 	}
 }
