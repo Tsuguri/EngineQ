@@ -1,28 +1,34 @@
 #version 330 core
 
 layout(location = 0)in vec3 positionIn;
-layout(location = 3)in vec3 normalIn;
+layout(location = 1)in vec2 texCoordsIn;
 layout(location = 2)in vec3 colorIn;
+layout(location = 3)in vec3 normalIn;
 
 out vec3 Position;
-out vec3 TexCoords;//here change to vec2 when apply texture
+out vec2 TexCoords;
+out vec3 Color;
 out vec3 Normal;
 
-const mat4 IdMat = mat4(1.0);
+struct Matrices
+{
+	mat4 Model;
+	mat4 View;
+	mat4 Projection;
+};
 
-uniform mat4 ModelMat = IdMat;
-uniform mat4 ViewMat = IdMat;
-uniform mat4 ProjMat = IdMat;
+uniform Matrices matrices;
 
-mat4 MVP = ProjMat*ViewMat*ModelMat;
-mat3 NormalMat = mat3(transpose(inverse(ModelMat)));
+mat4 MVP = matrices.Projection * matrices.View * matrices.Model;
+mat3 NormalMat = mat3(transpose(inverse(matrices.Model)));
 
 void main()
 {
-    vec4 worldPos = ModelMat * vec4(positionIn, 1.0f);
+    vec4 worldPos = matrices.Model * vec4(positionIn, 1.0f);
     Position = worldPos.xyz; 
-    gl_Position = ProjMat * ViewMat * worldPos;
-    TexCoords = colorIn;
+    gl_Position = matrices.Projection * matrices.View * worldPos;
+    TexCoords = texCoordsIn;
+	Color = colorIn;
 
     Normal = NormalMat * normalIn;
 }  

@@ -51,13 +51,15 @@ namespace EngineQ
 
 				shd->Activate();
 
-				tmp = shd->TryGetUniformLocation("ViewMat");
+
+				// TMP
+				tmp = shd->TryGetUniformLocation("matrices.View");
 				if (tmp != nullval)
 					shd->Bind(*tmp, cam->GetViewMatrix());
-				tmp = shd->TryGetUniformLocation("ProjMat");
+				tmp = shd->TryGetUniformLocation("matrices.Projection");
 				if (tmp != nullval)
 					shd->Bind(*tmp, cam->GetProjectionMatrix());
-				tmp = shd->TryGetUniformLocation("ModelMat");
+				tmp = shd->TryGetUniformLocation("matrices.Model");
 				if (tmp != nullval)
 					shd->Bind(*tmp, (*it)->GetEntity().GetTransform().GetGlobalMatrix());
 				tmp = shd->TryGetUniformLocation("cameraPosition");
@@ -82,7 +84,7 @@ namespace EngineQ
 
 
 				glBindVertexArray(mesh->GetVao());
-				glDrawElements(GL_TRIANGLES, mesh->Count(), GL_UNSIGNED_INT, nullptr);
+				glDrawElements(GL_TRIANGLES, mesh->GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
 			}
 		}
 

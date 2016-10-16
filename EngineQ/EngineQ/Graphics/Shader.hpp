@@ -10,6 +10,7 @@
 #include "../Utilities/Nullable.hpp"
 #include "ShaderPart.hpp"
 #include "UniformLocation.hpp"
+#include "Texture.hpp"
 
 #include "../Math/Vector2.hpp"
 #include "../Math/Vector3.hpp"
@@ -60,6 +61,9 @@ namespace EngineQ
 			void Bind(UniformLocation location, const Math::Vector4d& value);
 			void Bind(UniformLocation location, const Math::Matrix3& value);
 			void Bind(UniformLocation location, const Math::Matrix4& value);
+
+			// TMP
+			void Bind(UniformLocation location, const Texture& texture);
 		};
 	}
 }

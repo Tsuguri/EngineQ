@@ -15,15 +15,43 @@ namespace EngineQ
 		class Mesh : private Utilities::Immovable
 		{
 		private:
-			GLuint count = 0;
-			GLuint vao = 0;
-			GLuint vbo[3] = { 0,0,0 };
-		public:
+			static constexpr std::size_t VboSize = 3;
 
-			GLuint Count() const;
-			GLuint GetVao() const;
-			Mesh(const std::vector <VertexPNC>& vertices, const std::vector <GLuint>& indices);
+			GLuint indicesCount = 0;
+			GLuint vao = 0;
+			GLuint vbo[VboSize] = { 0, 0, 0 };
+
+		public:
+			template<typename TVertexType>
+			Mesh(const std::vector<TVertexType>& vertices, const std::vector<GLuint>& indices)
+			{
+				//Generating vertex array and buffers
+				glGenVertexArrays(1, &this->vao);
+				glGenBuffers(VboSize, &this->vbo[0]);
+
+				glBindVertexArray(this->vao);
+
+
+				//sending data of vertices
+				glBindBuffer(GL_ARRAY_BUFFER, this->vbo[0]);
+				glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(TVertexType), vertices.data(), GL_STATIC_DRAW);
+
+
+				//setting components pointers
+				TVertexType::Setup();
+
+
+				//sending indices data
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbo[2]);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+				glBindBuffer(GL_ARRAY_BUFFER, NULL);
+				indicesCount = indices.size();
+			}
+
 			~Mesh();
+			
+			GLuint GetIndicesCount() const;
+			GLuint GetVao() const;
 		};
 	}
 }

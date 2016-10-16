@@ -7,6 +7,7 @@
 #include "Shader.hpp"
 #include "ShaderUniformData.hpp"
 #include "ShaderProperty.hpp"
+#include "Texture.hpp"
 
 #include "../Math/Matrix4.hpp"
 
@@ -24,7 +25,8 @@ namespace EngineQ
 				Pair<GL_FLOAT_VEC2, Math::Vector2_t<GLfloat>>,
 				Pair<GL_FLOAT_VEC3, Math::Vector3_t<GLfloat>>,
 				Pair<GL_FLOAT_VEC4, Math::Vector4_t<GLfloat>>,
-				Pair<GL_FLOAT_MAT4, Math::Matrix4>
+				Pair<GL_FLOAT_MAT4, Math::Matrix4>,
+				Pair<GL_SAMPLER_2D, std::shared_ptr<Texture>>
 			>;
 			
 		public:

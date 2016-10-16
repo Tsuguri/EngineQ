@@ -54,6 +54,7 @@
     <ClCompile Include="Graphics\ShaderProperties.cpp" />
     <ClCompile Include="Graphics\ShaderPreprocessor.cpp" />
     <ClCompile Include="Vertex.cpp" />
+    <ClCompile Include="Graphics\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="Graphics\ShaderPreprocessor.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Resources\Types.hpp" />
+    <ClInclude Include="Graphics\Texture.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />
