@@ -187,8 +187,8 @@ void PrepareScene(EngineQ::Scene* scene)
 {
 	auto& sc{ *scene };
 
-	EngineQ::Resources::ModelLoader loader;
-	auto model = loader.LoadModel("Models/skull.obj");
+	EngineQ::Resources::ModelLoader2 loader;
+	auto model = loader.LoadModel("Models/skull2.obj");
 
 	const auto& modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
 	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh.GetVertices(), modelMesh.GetIndices() };
@@ -224,6 +224,9 @@ void PrepareScene(EngineQ::Scene* scene)
 	renderable3->SetMesh(cubeMesh);
 	renderable3->SetForwardShader(*shd);
 	renderable3->SetDeferredShader(*deffShd);
+
+	auto textureProp1 = renderable->GetDeferredShader()->GetProperty<std::shared_ptr<EngineQ::Graphics::Texture>>("diffuseTexture");
+	textureProp1 = texture;
 
 	auto textureProp3 = renderable3->GetDeferredShader()->GetProperty<std::shared_ptr<EngineQ::Graphics::Texture>>("diffuseTexture");
 	textureProp3 = texture;

@@ -13,11 +13,13 @@ namespace EngineQ
 		return ResourceType::Shader;
 	}
 
+	/*
 	template <>
 	ResourceManager::ResourceType ResourceManager::Resource<Resources::Model>::GetType()
 	{
 		return ResourceType::Model;
 	}
+	*/
 
 
 	template<>
@@ -51,6 +53,7 @@ namespace EngineQ
 		this->resource = std::make_shared<Graphics::Shader>(shaders);
 	}
 
+	/*
 	template<>
 	void ResourceManager::Resource<Resources::Model>::Load()
 	{
@@ -61,6 +64,7 @@ namespace EngineQ
 
 		auto rootElement = doc.RootElement();
 	}
+	*/
 
 	void ResourceManager::Update()
 	{

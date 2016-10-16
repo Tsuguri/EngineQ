@@ -39,7 +39,6 @@
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
     <ClCompile Include="Graphics\ShaderPass.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
-    <ClCompile Include="Resources\ModelLoader.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Component.cpp" />
     <ClCompile Include="Objects\Entity.cpp" />
@@ -50,11 +49,11 @@
     <ClCompile Include="Objects\Transform.cpp" />
     <ClCompile Include="Math\Utilities.cpp" />
     <ClCompile Include="Objects\Renderable.cpp" />
-    <ClCompile Include="Resources\Model.cpp" />
     <ClCompile Include="Graphics\ShaderProperties.cpp" />
     <ClCompile Include="Graphics\ShaderPreprocessor.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Graphics\Texture.cpp" />
+    <ClCompile Include="Resources\ModelLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
@@ -147,5 +146,6 @@
     <None Include="Utilities\StringHelpers.inl" />
     <None Include="Scripting\ScriptEngine.inl" />
     <None Include="Graphics\ShaderProperties.inl" />
+    <None Include="Resources\Model.inl" />
   </ItemGroup>
 </Project>

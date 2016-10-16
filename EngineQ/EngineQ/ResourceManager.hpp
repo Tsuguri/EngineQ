@@ -82,14 +82,14 @@ namespace EngineQ
 	template<>
 	ResourceManager::ResourceType ResourceManager::Resource<Graphics::Shader>::GetType();
 
-	template<>
-	ResourceManager::ResourceType ResourceManager::Resource<Resources::Model>::GetType();
+//	template<>
+//	ResourceManager::ResourceType ResourceManager::Resource<Resources::Model>::GetType();
 
 	template<>
 	void ResourceManager::Resource<Graphics::Shader>::Load();
 
-	template<>
-	void ResourceManager::Resource<Resources::Model>::Load();
+//	template<>
+//	void ResourceManager::Resource<Resources::Model>::Load();
 }
 
 #include "ResourceManager.inl"
