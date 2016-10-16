@@ -56,6 +56,8 @@ namespace EngineQ
 		{
 			this->components.push_back(component);
 			this->scene.AddedComponent(*component);
+
+			this->scriptEngine.InvokeConstructor(component->GetManagedObject());
 		}
 
 		void Entity::LockRemove()

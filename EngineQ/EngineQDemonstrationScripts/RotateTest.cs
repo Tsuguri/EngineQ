@@ -12,9 +12,13 @@ namespace QScripts
 	{
 		private float X = 0, Y = 0;
 		private int mode = 0;
+		private Renderable renderable;
+
 		public RotateTest()
 		{
 			Input.ListenKey(Input.Key.N1, SwitchAction);
+
+			renderable = this.Entity.GetComponent<Renderable>();
 		}
 
 		private void SwitchAction(Input.KeyAction action)

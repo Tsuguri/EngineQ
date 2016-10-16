@@ -89,6 +89,7 @@ namespace EngineQ
 			this->transformClass = mono_class_from_name(this->image, NamespaceName, TransformClassName);
 			this->lightClass = mono_class_from_name(this->image, NamespaceName, LightClassName);
 			this->cameraClass = mono_class_from_name(this->image, NamespaceName, CameraClassName);
+			this->renderableClass = mono_class_from_name(this->image, NamespaceName, RenderableClassName);
 			this->sceneClass = mono_class_from_name(this->image, NamespaceName, SceneClassName);
 			this->inputClass = mono_class_from_name(this->image, NamespaceName, InputClassName);
 
@@ -296,6 +297,11 @@ namespace EngineQ
 		ScriptClass ScriptEngine::GetSceneClass() const
 		{
 			return this->sceneClass;
+		}
+
+		ScriptClass ScriptEngine::GetRenderableClass() const
+		{
+			return this->renderableClass;
 		}
 
 		ScriptMethod ScriptEngine::GetInputMethod(const char* name) const

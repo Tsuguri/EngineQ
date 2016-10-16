@@ -26,6 +26,7 @@ namespace EngineQ
 			static constexpr const char* TransformClassName = "Transform";
 			static constexpr const char* LightClassName = "Light";
 			static constexpr const char* CameraClassName = "Camera";
+			static constexpr const char* RenderableClassName = "Renderable";
 			static constexpr const char* SceneClassName = "Scene";
 			static constexpr const char* InputClassName = "Input";
 
@@ -45,6 +46,7 @@ namespace EngineQ
 			MonoClass* cameraClass;
 			MonoClass* sceneClass;
 			MonoClass* inputClass;
+			MonoClass* renderableClass;
 
 			MonoMethod* entityConstructor;
 			MonoMethod* transformConstructor;
@@ -90,6 +92,7 @@ namespace EngineQ
 			ScriptClass GetCameraClass() const;
 			ScriptClass GetEntityClass() const;
 			ScriptClass GetSceneClass() const;
+			ScriptClass GetRenderableClass() const;
 
 			ScriptMethod GetInputMethod(const char* name) const;
 
