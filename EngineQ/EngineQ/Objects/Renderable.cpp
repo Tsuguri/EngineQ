@@ -1,6 +1,7 @@
 #include "Renderable.hpp"
 
 #include "../Scripting/ScriptEngine.hpp"
+#include "../Graphics/ShaderProperties.hpp"
 
 namespace EngineQ
 {
@@ -14,33 +15,43 @@ namespace EngineQ
 		return ComponentType::Renderable;
 	}
 
-	Graphics::Shader* Renderable::GetForwardShader() const
+	void Renderable::SetForwardShader(Graphics::Shader& shader)
 	{
-		return forwardShader.get();
+		this->forwardShader = std::make_unique<Graphics::ShaderProperties>(shader);
 	}
 
-	Graphics::Shader* Renderable::GetDeferredShader() const
+	void Renderable::SetForwardShader(std::unique_ptr<Graphics::ShaderProperties> shader)
 	{
-		return deferredShader.get();
+		this->forwardShader = std::move(shader);
 	}
 
-	void Renderable::SetForwardShader(std::shared_ptr<Graphics::Shader> shader)
+	Graphics::ShaderProperties* Renderable::GetForwardShader() const
 	{
-		forwardShader = shader;
+		return this->forwardShader.get();
 	}
 
-	void Renderable::SetDeferredShader(std::shared_ptr<Graphics::Shader> shader)
+	void Renderable::SetDeferredShader(Graphics::Shader& shader)
 	{
-		deferredShader = shader;
+		this->deferredShader = std::make_unique<Graphics::ShaderProperties>(shader);
 	}
 
-	Graphics::Mesh* Renderable::GetModel() const
+	void Renderable::SetDeferredShader(std::unique_ptr<Graphics::ShaderProperties> shader)
 	{
-		return model;
+		this->deferredShader = std::move(shader);
+	}
+	
+	Graphics::ShaderProperties* Renderable::GetDeferredShader() const
+	{
+		return this->deferredShader.get();
 	}
 
-	void Renderable::SetModel(Graphics::Mesh* mesh)
+	Graphics::Mesh* Renderable::GetMesh() const
 	{
-		model = mesh;
+		return mesh;
+	}
+
+	void Renderable::SetMesh(Graphics::Mesh* mesh)
+	{
+		this->mesh = mesh;
 	}
 }

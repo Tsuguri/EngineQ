@@ -35,15 +35,18 @@ namespace EngineQ
 			// TODO: Extract all built-in properties
 			// we need to agree on standard uniforms names
 
+			if (type == GL_FLOAT_MAT4 && name.find("matrices.") == 0)
+			{
+				if (name == "matrices.Model")
+					this->matrices.Model = data.GetProperty<Math::Matrix4>();
+				else if (name == "matrices.View")
+					this->matrices.View = data.GetProperty<Math::Matrix4>();
+				else if (name == "matrices.Projection")
+					this->matrices.Projection = data.GetProperty<Math::Matrix4>();
+			}
+
 			switch (type)
 			{
-				case GL_FLOAT_MAT4:
-				{
-					if (name == "ModelMat")
-						this->matrices.Model = data.GetProperty<Math::Matrix4>();
-				}
-				break;
-
 				case GL_FLOAT_VEC3:
 				{
 					if (name == "lightColor")
@@ -92,7 +95,7 @@ namespace EngineQ
 
 					auto& uniformPair = this->shaderUniforms.back();
 					this->shaderUniformsMap.emplace(uniformName, &uniformPair.second);
-				
+
 					this->OnUniformAdded(uniformPair.second, uniformTypes[i], uniformName);
 				}
 				else

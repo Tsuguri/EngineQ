@@ -11,20 +11,25 @@ namespace EngineQ
 {
 	class Renderable : public Component
 	{
-		std::shared_ptr<Graphics::Shader> forwardShader;
-		std::shared_ptr<Graphics::Shader> deferredShader;
-		Graphics::Mesh* model;
+		std::unique_ptr<Graphics::ShaderProperties> forwardShader;
+		std::unique_ptr<Graphics::ShaderProperties> deferredShader;
+		Graphics::Mesh* mesh;
 
 	public:
 		Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity);
 		virtual ComponentType GetType() const override;
 
-		Graphics::Shader* GetForwardShader() const;
-		Graphics::Shader* GetDeferredShader() const;
-		void SetForwardShader(std::shared_ptr<Graphics::Shader> shader);
-		void SetDeferredShader(std::shared_ptr<Graphics::Shader> shader);
-		Graphics::Mesh* GetModel() const;
-		void SetModel(Graphics::Mesh* mesh);
+		void SetForwardShader(Graphics::Shader& shader);
+		void SetForwardShader(std::unique_ptr<Graphics::ShaderProperties> shader);
+		Graphics::ShaderProperties* GetForwardShader() const;
+		
+		void SetDeferredShader(Graphics::Shader& shader);
+		void SetDeferredShader(std::unique_ptr<Graphics::ShaderProperties> shader);
+		Graphics::ShaderProperties* GetDeferredShader() const;
+
+		
+		Graphics::Mesh* GetMesh() const;
+		void SetMesh(Graphics::Mesh* mesh);
 	};
 }
 

@@ -214,15 +214,15 @@ void PrepareScene(EngineQ::Scene* scene)
 
 	
 	auto deffShdCustom = rm->GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
-	renderable->SetModel(mesh);
-	renderable->SetForwardShader(shd);
-	renderable->SetDeferredShader(deffShd);
-	renderable2->SetModel(mesh);
-	renderable2->SetForwardShader(shd);
-	renderable2->SetDeferredShader(deffShdCustom);
-	renderable3->SetModel(cubeMesh);
-	renderable3->SetForwardShader(shd);
-	renderable3->SetDeferredShader(deffShd);
+	renderable->SetMesh(mesh);
+	renderable->SetForwardShader(*shd);
+	renderable->SetDeferredShader(*deffShd);
+	renderable2->SetMesh(mesh);
+	renderable2->SetForwardShader(*shd);
+	renderable2->SetDeferredShader(*deffShdCustom);
+	renderable3->SetMesh(cubeMesh);
+	renderable3->SetForwardShader(*shd);
+	renderable3->SetDeferredShader(*deffShd);
 
 	ent3->GetTransform().SetPosition(EngineQ::Math::Vector3(1.0f,0,0));
 	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));

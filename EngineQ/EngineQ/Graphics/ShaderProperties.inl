@@ -24,6 +24,16 @@ namespace EngineQ
 		}
 
 		template<typename TType>
+		Utilities::Nullable<ShaderProperty<TType>> ShaderProperties::TryGetProperty(const std::string& name) const
+		{
+			auto it = shaderUniformsMap.find(name);
+			if (it == shaderUniformsMap.end() || !it->second->IsType<TType>())
+				return nullval;
+
+			return it->second->GetProperty<TType>();
+		}
+
+		template<typename TType>
 		bool ShaderProperties::HasProperty(const std::string& name) const
 		{
 			auto it = shaderUniformsMap.find(name);

@@ -145,7 +145,7 @@ namespace EngineQ
 			template<typename TType>
 			bool IsType() const
 			{
-				return this->type == Meta::TypeIndex<TType, TArgs...>::value;
+				return this->type == Meta::TypeIndex<TType, typename TArgs::Second...>::value;
 			}
 
 			template<typename TType>

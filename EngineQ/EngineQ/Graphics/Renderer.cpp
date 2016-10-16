@@ -1,8 +1,11 @@
+#include "Renderer.hpp"
+
 #include <GL/glew.h>
 
 #include "Mesh.hpp"
+#include "Framebuffer.hpp"
+#include "ShaderProperties.hpp"
 #include "../TimeCounter.hpp"
-#include "Renderer.hpp"
 #include "../Objects/Renderable.hpp"
 #include "../Objects/Camera.hpp"
 #include "../Objects/Entity.hpp"
@@ -24,63 +27,51 @@ namespace EngineQ
 
 		void Renderer::Render(Scene* scene) const
 		{
-			if (framebuffer == nullptr)
-			{
+			if (this->framebuffer == nullptr)
 				Framebuffer::BindDefault();
-			}
 			else
-				framebuffer->Bind();
+				this->framebuffer->Bind();
 
 
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-			Mesh* mesh;
-			Shader* shd;
-			auto cam = scene->ActiveCamera();
-
-			Utilities::Nullable<UniformLocation> tmp;
+			auto camera = scene->ActiveCamera();
 
 			for (auto it = scene->RenderablesBegin(), end = scene->RenderablesEnd(); it != end; ++it)
 			{
-				mesh = (*it)->GetModel();
+				auto mesh = (*it)->GetMesh();
+				auto shader = ((*it)->*shaderMethod)();
 
+				const auto& matrices = shader->GetMatrices();
 
-				shd = ((*it)->*shaderMethod)();
-
-				shd->Activate();
-
+				matrices.Model = (*it)->GetEntity().GetTransform().GetGlobalMatrix();
+				matrices.View = camera->GetViewMatrix();
+				matrices.Projection = camera->GetProjectionMatrix();
 
 				// TMP
-				tmp = shd->TryGetUniformLocation("matrices.View");
-				if (tmp != nullval)
-					shd->Bind(*tmp, cam->GetViewMatrix());
-				tmp = shd->TryGetUniformLocation("matrices.Projection");
-				if (tmp != nullval)
-					shd->Bind(*tmp, cam->GetProjectionMatrix());
-				tmp = shd->TryGetUniformLocation("matrices.Model");
-				if (tmp != nullval)
-					shd->Bind(*tmp, (*it)->GetEntity().GetTransform().GetGlobalMatrix());
-				tmp = shd->TryGetUniformLocation("cameraPosition");
-				if (tmp != nullval)
-					shd->Bind(*tmp, cam->GetEntity().GetTransform().GetPosition());
+				auto cameraPosition = shader->TryGetProperty<Math::Vector3>("cameraPosition");
+				if (cameraPosition != nullval)
+					*cameraPosition = camera->GetEntity().GetTransform().GetPosition();
 
-				tmp = shd->TryGetUniformLocation("time");
-				if (tmp != nullval)
-					shd->Bind(*tmp, TimeCounter::Get()->TimeFromStart());
+				auto time = shader->TryGetProperty<float>("time");
+				if (time != nullval)
+					*time = TimeCounter::Get()->TimeFromStart();
 
-				tmp = shd->TryGetUniformLocation("ambientStrength");
-				if (tmp != nullval)
-					shd->Bind(*tmp, 0.4f);
-				tmp = shd->TryGetUniformLocation("specularStrength");
-				if (tmp != nullval)
-					shd->Bind(*tmp, 0.05f);
-				tmp = shd->TryGetUniformLocation("materialShininess");
-				if (tmp != nullval)
-					shd->Bind(*tmp, 16);
+				auto ambientStrength = shader->TryGetProperty<float>("ambientStrength");
+				if (ambientStrength != nullval)
+					*ambientStrength = 0.4f;
 
+				auto specularStrength = shader->TryGetProperty<float>("specularStrength");
+				if (specularStrength != nullval)
+					*specularStrength = 0.05f;
+				
+				auto materialShininess = shader->TryGetProperty<float>("materialShininess");
+				if (materialShininess != nullval)
+					*materialShininess = 16;
 
+				shader->Apply();
 
 
 				glBindVertexArray(mesh->GetVao());
