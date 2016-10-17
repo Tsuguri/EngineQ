@@ -9,7 +9,7 @@ namespace EngineQ
 	{
 		void API_Application::API_ApplicationExit()
 		{
-			Engine::Get()->Exit();
+			Engine::Get().Exit();
 		}
 
 		void API_Application::API_Register(ScriptEngine& scriptEngine)

@@ -9,6 +9,7 @@
 
 #include "TimeCounter.hpp"
 
+#include "Resources/ResourceManager.hpp"
 #include "Utilities/ResourcesIDs.hpp"
 #include "Graphics/RenderingUnit.hpp"
 
@@ -16,10 +17,9 @@
 
 namespace EngineQ
 {
+	std::unique_ptr<Engine> Engine::instance = nullptr;
 
-	Engine* Engine::instance = nullptr;
-
-	Engine::Engine(std::string name, int width, int height)
+	Engine::Engine(std::string name, int width, int height, const char* assemblyName)
 	{
 
 		std::cout << "Creating  EngineQ" << std::endl;
@@ -38,7 +38,18 @@ namespace EngineQ
 		// TODO: This should be handled by renderer class
 		glViewport(0, 0, width, height);
 		screenSize = Math::Vector2i{ width,height };
-		resourceManager = std::make_unique<ResourceManager>();
+
+
+		std::string monoPath = "./";
+		std::string engineAssemblyPath = "./";
+		std::string scriptsAssembliesPath = "./Scripts/";
+		
+		this->scriptingEngine = std::make_unique<Scripting::ScriptEngine>(assemblyName, (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str());
+
+		this->scriptingEngine->LoadAssembly((scriptsAssembliesPath + "QScripts.dll").c_str());
+		this->input.InitMethods(this->scriptingEngine.get());
+
+		this->resourceManager = std::make_unique<Resources::ResourceManager>(*this->scriptingEngine);
 	}
 
 	void Engine::WindowResized(int width, int height)
@@ -78,18 +89,8 @@ namespace EngineQ
 		}
 		std::cout << "Initializing EngineQ" << std::endl;
 
-
-
-		instance = new Engine{ name, width, height };
-
-		std::string monoPath = "./";
-		std::string engineAssemblyPath = "./";
-		std::string scriptsAssembliesPath = "./Scripts/";
-		auto sem = new Scripting::ScriptEngine{ assemblyName, (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
-		instance->scriptingEngine = std::unique_ptr<Scripting::ScriptEngine>(sem);
-
-		instance->scriptingEngine->LoadAssembly((scriptsAssembliesPath + "QScripts.dll").c_str());
-		instance->input.InitMethods(instance->scriptingEngine.get());
+		instance = std::unique_ptr<Engine>(new Engine{ name, width, height, assemblyName });
+				
 		return true;
 	}
 
@@ -118,20 +119,22 @@ namespace EngineQ
 		running = false;
 	}
 
-	Engine* Engine::Get()
+	Engine& Engine::Get()
 	{
 		if (instance != nullptr)
-			return instance;
-		else
-		{
-			std::cout << "EngineQ is not initialized" << std::endl;
-			return nullptr;
-		}
+			return *instance;
+		
+		throw std::runtime_error{ "Engine not initialized" };
 	}
 
-	ResourceManager* Engine::GetResourceManager() const
+	Resources::ResourceManager& Engine::GetResourceManager() const
 	{
-		return resourceManager.get();
+		return *resourceManager.get();
+	}
+
+	Scripting::ScriptEngine& Engine::GetScriptEngine() const
+	{
+		return *this->scriptingEngine.get();
 	}
 
 	Graphics::RenderingUnitConfiguration GenerateDefaultConfiguration()

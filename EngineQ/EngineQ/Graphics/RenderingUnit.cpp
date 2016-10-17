@@ -4,6 +4,7 @@
 #include "../Engine.hpp"
 #include "Renderer.hpp"
 #include "../TimeCounter.hpp"
+#include "Shader.hpp"
 
 namespace EngineQ
 {
@@ -90,32 +91,33 @@ namespace EngineQ
 				renderer.SetTargetBuffer(CreateFramebuffer(rendererOutput, true));
 			}
 
-			auto rm = engine->GetResourceManager();
+			auto& resourceManager = engine->GetResourceManager();
 
 			//effects
-			for (auto shaderPass : configuration.Effects)
+			for (auto effect : configuration.Effects)
 			{
-				auto p = std::make_unique<ShaderPass>(rm->GetResource<Shader>(shaderPass.Shader));
-				for (auto inputConfiguration : shaderPass.Input)
-					p->AddInput(InputConfiguration{ inputConfiguration.Location,textures[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
+				auto shaderPass = std::make_unique<ShaderPass>(resourceManager.GetResource<Shader>(effect.Shader));
+				for (auto inputConfiguration : effect.Input)
+					shaderPass->AddInput(InputConfiguration{ inputConfiguration.Location,textures[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
 
-				if (shaderPass.Output.size() == 0 || (shaderPass.Output.size() == 1 && shaderPass.Output[0].Texture == "Screen"))
-					p->SetTargetBuffer(nullptr);
+				if (effect.Output.size() == 0 || (effect.Output.size() == 1 && effect.Output[0].Texture == "Screen"))
+					shaderPass->SetTargetBuffer(nullptr);
 				else
 				{
 					std::vector<GLuint> output;
-					output.reserve(shaderPass.Output.size());
-					for (auto k : shaderPass.Output)
+					output.reserve(effect.Output.size());
+					for (auto k : effect.Output)
 						output.push_back(textures[texturesNames[k.Texture]]);//check if output is set  to "screen", or check this for last effect?
-					auto fb = CreateFramebuffer(output, shaderPass.DepthTesting);
-					p->SetTargetBuffer(std::move(fb));
+					auto fb = CreateFramebuffer(output, effect.DepthTesting);
+					shaderPass->SetTargetBuffer(std::move(fb));
 
 				}
-				effects.push_back(std::move(p));
+				effects.push_back(std::move(shaderPass));
 			}
 		}
 
-		RenderingUnit::RenderingUnit(Engine* engine, const RenderingUnitConfiguration& configuration) : engine(engine), textures(configuration.Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
+		RenderingUnit::RenderingUnit(Engine* engine, const RenderingUnitConfiguration& configuration) : 
+			engine(engine), textures(configuration.Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
 		{
 		//	glPolygonMode(GL_FRONT, GL_FILL);
 		//	glPolygonMode(GL_BACK, GL_LINE);

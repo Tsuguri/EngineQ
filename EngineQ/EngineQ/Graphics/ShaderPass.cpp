@@ -8,6 +8,7 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
+		// TODO
 		GLenum ShaderPass::textureLocations[10] = {
 			GL_TEXTURE0,
 			GL_TEXTURE1,
@@ -23,11 +24,13 @@ namespace EngineQ
 
 
 
-		InputConfiguration::InputConfiguration(GLuint position, GLuint texture, std::string name) : Position(position), Texture(texture), Name(name)
+		InputConfiguration::InputConfiguration(GLuint position, GLuint texture, std::string name) : 
+			Position{ position }, Texture{ texture }, Name{ name }
 		{
 		}
 
-		ShaderPass::ShaderPass(std::shared_ptr<Shader> shader) : shader(shader)
+		ShaderPass::ShaderPass(Resources::Resource<Shader> shader) : 
+			shader{ shader }
 		{
 		}
 

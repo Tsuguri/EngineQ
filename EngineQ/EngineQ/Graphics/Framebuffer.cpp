@@ -43,7 +43,8 @@ namespace EngineQ
 			glFramebufferTexture2D(GL_FRAMEBUFFER, location, GL_TEXTURE_2D, texture, 0);
 		}
 
-		Framebuffer::Framebuffer(bool depthTesting, std::vector<GLuint>& textures, Engine* engine) : engine(engine), handler(*this, &Framebuffer::Resize)
+		Framebuffer::Framebuffer(bool depthTesting, std::vector<GLuint>& textures, Engine* engine) : 
+			engine(engine), handler(*this, &Framebuffer::Resize)
 		{
 			glGenFramebuffers(1, &fbo);
 			Bind();

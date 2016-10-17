@@ -164,7 +164,7 @@ namespace Meta
 	struct Invoker
 	{
 		template<typename... TArgs>
-		static void Invoke(TArgs&&... args)
+		inline static void Invoke(TArgs&&... args)
 		{
 			THead(std::forward<TArgs>(args)...);
 			Invoker<TFunction, TTail...>::Invoke(std::forward<TArgs>(args)...);
@@ -175,7 +175,7 @@ namespace Meta
 	struct Invoker<TFunction, TLast>
 	{
 		template<typename... TArgs>
-		static void Invoke(TArgs&&... args)
+		inline static void Invoke(TArgs&&... args)
 		{
 			TLast(std::forward<TArgs>(args)...);
 		}
@@ -194,6 +194,16 @@ namespace Meta
 	{
 		static constexpr bool value = TConcept<TLast>::value;
 	};
+
+
+
+
+
+
+
+
+
+
 
 
 	template<bool VValue1, bool VValue2>

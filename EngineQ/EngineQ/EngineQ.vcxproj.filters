@@ -5,7 +5,6 @@
     <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
     <ClCompile Include="Graphics\RendererConfiguration.cpp" />
     <ClCompile Include="InputController.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scripting\API_Application.cpp" />
     <ClCompile Include="Scripting\API_Input.cpp" />
     <ClCompile Include="Scripting\API_TimeCounter.cpp" />
@@ -54,13 +53,14 @@
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="Resources\ModelLoader.cpp" />
+    <ClCompile Include="Resources\ShaderFactory.cpp" />
+    <ClCompile Include="Resources\ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
     <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
     <ClInclude Include="Graphics\RendererConfiguration.hpp" />
     <ClInclude Include="InputController.hpp" />
-    <ClInclude Include="ResourceManager.hpp" />
     <ClInclude Include="Scripting\API_Application.hpp" />
     <ClInclude Include="Scripting\API_Input.hpp" />
     <ClInclude Include="Scripting\API_TimeCounter.hpp" />
@@ -132,12 +132,15 @@
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Resources\Types.hpp" />
     <ClInclude Include="Graphics\Texture.hpp" />
+    <ClInclude Include="Resources\Resource.hpp" />
+    <ClInclude Include="Resources\ResourceFactory.hpp" />
+    <ClInclude Include="Resources\ShaderFactory.hpp" />
+    <ClInclude Include="Resources\ResourceManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />
     <None Include="Math\Vector3.inl" />
     <None Include="Math\Vector4.inl" />
-    <None Include="ResourceManager.inl" />
     <None Include="Serialization\Deserializer.inl" />
     <None Include="Serialization\SerializationEngine.inl" />
     <None Include="Serialization\SerializationRules.inl" />

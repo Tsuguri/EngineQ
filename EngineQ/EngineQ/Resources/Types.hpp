@@ -5,8 +5,11 @@ namespace EngineQ
 {
 	namespace Resources
 	{
-		class ModelLoader;
+		template<typename TResourceType>
+		class Resource;
 		
+		class ModelLoader;
+
 		template<typename TVertexType>
 		class Model;
 	}

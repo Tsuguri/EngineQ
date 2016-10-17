@@ -10,6 +10,7 @@ namespace EngineQ
 		class Mesh;
 
 		class ShaderProperties;
+		class RenderingUnit;
 	}
 }
 

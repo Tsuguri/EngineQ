@@ -5,19 +5,19 @@ namespace Utilities
 {
 	namespace ResourcesIDs
 	{
-		constexpr int QuadShader = 3;
-		constexpr int BasicShader = 1;
-		constexpr int CustomShader = 2;
+		constexpr const char* QuadShader = "3";
+		constexpr const char* BasicShader = "1";
+		constexpr const char* CustomShader = "2";
 
-		constexpr int BlurShader = 4;
-		constexpr int BlurVShader = 5;
-		constexpr int BrightExtract = 6;
-		constexpr int CombineShader = 7;
+		constexpr const char* BlurShader = "4";
+		constexpr const char* BlurVShader = "5";
+		constexpr const char* BrightExtract = "6";
+		constexpr const char* CombineShader = "7";
 
-		constexpr int DeferredGeometry = 9;
-		constexpr int DeferredLightning = 8;
+		constexpr const char* DeferredGeometry = "9";
+		constexpr const char* DeferredLightning = "8";
 
-		constexpr int CustomDeferred = 10;
+		constexpr const char* CustomDeferred = "10";
 	};
 }
 

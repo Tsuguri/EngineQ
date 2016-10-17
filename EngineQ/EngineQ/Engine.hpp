@@ -4,31 +4,26 @@
 #include <string>
 #include <memory>
 
+#include "Graphics/Types.hpp"
+
 #include "Window.hpp"
 #include "Scripting/ScriptEngine.hpp"
 #include "Objects/Scene.hpp"
 #include "InputController.hpp"
-#include "ResourceManager.hpp"
+#include "Resources/ResourceManager.hpp"
 #include "Utilities/Event.hpp"
 
 #include "Math/Vector2.hpp"
 
 namespace EngineQ
 {
-
-	namespace Graphics
-	{
-		class RenderingUnit;
-	}
-	class Engine
+	class Engine : private Utilities::Immovable
 	{
 #pragma region Fields
 
 	private:
-		std::unique_ptr<Scripting::ScriptEngine> scriptingEngine;
-		std::unique_ptr<ResourceManager> resourceManager;
-		std::shared_ptr<Graphics::RenderingUnit> renderingUnit;
-		static Engine* instance;
+		static std::unique_ptr<Engine> instance;
+
 		Window window;
 		bool running = true;
 		Math::Vector2i screenSize;
@@ -37,13 +32,18 @@ namespace EngineQ
 		Utilities::Event<Engine, void(int, int)> resizeEvent;
 		InputController input;
 
+	private:
+		std::unique_ptr<Scripting::ScriptEngine> scriptingEngine;
+		std::unique_ptr<Resources::ResourceManager> resourceManager;
+		std::shared_ptr<Graphics::RenderingUnit> renderingUnit;
+
 #pragma endregion 
 
 #pragma region Methods
 
 	private:
 
-		Engine(std::string name, int width, int height);
+		Engine(std::string name, int width, int height, const char* assemblyName);
 
 		void WindowResized(int width, int height);
 
@@ -54,8 +54,9 @@ namespace EngineQ
 	public:
 		static bool Initialize(std::string name, int width, int height, char* assemblyName);
 
-		static Engine* Get();
-		ResourceManager* GetResourceManager() const;
+		static Engine& Get();
+		Resources::ResourceManager& GetResourceManager() const;
+		Scripting::ScriptEngine& GetScriptEngine() const;
 		Scripting::ScriptClass GetClass(std::string assembly, std::string namespaceName, std::string className) const;
 		Math::Vector2i GetScreenSize() const;
 

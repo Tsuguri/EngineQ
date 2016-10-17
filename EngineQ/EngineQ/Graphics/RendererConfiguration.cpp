@@ -159,8 +159,8 @@ namespace EngineQ
 		{
 			auto configuration = EffectConfiguration{};
 
-			auto shader = element->IntAttribute("Shader");
-			if (shader == 0)//default value if not exist or set to 0 - both not wanted
+			auto shader = element->Attribute("Shader");
+			if (shader == nullptr)
 				throw "Shader attribute not found or equal to 0";
 			configuration.Shader = shader;
 

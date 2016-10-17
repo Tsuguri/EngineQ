@@ -93,6 +93,8 @@ namespace EngineQ
 			this->sceneClass = mono_class_from_name(this->image, NamespaceName, SceneClassName);
 			this->inputClass = mono_class_from_name(this->image, NamespaceName, InputClassName);
 
+			this->resourceShaderClass = mono_class_from_name(this->image, NamespaceName, ResourceShaderClass);
+			this->resourceTextureClass = mono_class_from_name(this->image, NamespaceName, ResourceTextureClass);
 
 			this->entityConstructor = GetMethod(this->entityClass, ConstructorName);
 			this->transformConstructor = GetMethod(this->transformClass, ConstructorName);
@@ -317,6 +319,17 @@ namespace EngineQ
 		ScriptClass ScriptEngine::GetTypeClass(ScriptTypeClass type) const
 		{
 			return mono_type_get_class(mono_reflection_type_get_type(type));
+		}
+
+
+		ScriptClass ScriptEngine::GetResourceShaderClass() const
+		{
+			return this->resourceShaderClass;
+		}
+
+		ScriptClass ScriptEngine::GetResourceTextureClass() const
+		{
+			return this->resourceTextureClass;
 		}
 
 		bool ScriptEngine::IsDerrived(ScriptClass derrived, ScriptClass base) const

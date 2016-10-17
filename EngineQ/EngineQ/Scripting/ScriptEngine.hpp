@@ -30,6 +30,9 @@ namespace EngineQ
 			static constexpr const char* SceneClassName = "Scene";
 			static constexpr const char* InputClassName = "Input";
 
+			static constexpr const char* ResourceShaderClass = "Shader";
+			static constexpr const char* ResourceTextureClass = "Texture";
+
 			static constexpr const char* NativeHandleFieldName = "nativeHandle";
 
 			MonoDomain* domain;
@@ -47,6 +50,9 @@ namespace EngineQ
 			MonoClass* sceneClass;
 			MonoClass* inputClass;
 			MonoClass* renderableClass;
+
+			MonoClass* resourceShaderClass;
+			MonoClass* resourceTextureClass;
 
 			MonoMethod* entityConstructor;
 			MonoMethod* transformConstructor;
@@ -93,6 +99,9 @@ namespace EngineQ
 			ScriptClass GetEntityClass() const;
 			ScriptClass GetSceneClass() const;
 			ScriptClass GetRenderableClass() const;
+
+			ScriptClass GetResourceShaderClass() const;
+			ScriptClass GetResourceTextureClass() const;
 
 			ScriptMethod GetInputMethod(const char* name) const;
 

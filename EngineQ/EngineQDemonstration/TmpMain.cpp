@@ -15,6 +15,8 @@
 #include <EngineQ/Graphics/ShaderProperties.hpp>
 #include <EngineQ/Graphics/Texture.hpp>
 
+#include <EngineQ/Resources/Resource.hpp>
+#include <EngineQ/Resources/ShaderFactory.hpp>
 
 namespace Math = EngineQ::Math;
 
@@ -203,10 +205,19 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto renderable = ent2->AddComponent<EngineQ::Renderable>();
 	auto renderable2 = ent3->AddComponent<EngineQ::Renderable>();
 	auto renderable3 = ent4->AddComponent<EngineQ::Renderable>();
-	auto rm = EngineQ::Engine::Get()->GetResourceManager();
+	auto& resourceManager = EngineQ::Engine::Get().GetResourceManager();
 
-	auto shd = rm->GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader);
-	auto deffShd = rm->GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
+	auto& scriptEngine = EngineQ::Engine::Get().GetScriptEngine();
+
+	EngineQ::Resources::Resource<EngineQ::Graphics::Shader> shaderResource{ 
+		scriptEngine, 
+		EngineQ::Resources::ResourceFactory<EngineQ::Graphics::Shader>::GetScriptClass(scriptEngine),
+		EngineQ::Resources::ResourceFactory<EngineQ::Graphics::Shader>::CreateResource("Shaders/Deferred/DeferredCustom.shd")
+	};
+
+
+	auto shd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader);
+	auto deffShd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
 
 	auto cam = ent->AddComponent<EngineQ::Camera>();
 
@@ -214,7 +225,7 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto texture = std::make_shared<EngineQ::Graphics::Texture>("Textures/Numbers.png", true);
 
 		
-	auto deffShdCustom = rm->GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
+	auto deffShdCustom = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
 	renderable->SetMesh(mesh);
 	renderable->SetForwardShader(*shd);
 	renderable->SetDeferredShader(*deffShd);
@@ -236,10 +247,10 @@ void PrepareScene(EngineQ::Scene* scene)
 	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
 	ent4->GetTransform().SetPosition(EngineQ::Math::Vector3(2.0f, 0, 0));
 
-	EngineQ::Scripting::ScriptClass scriptClass = EngineQ::Engine::Get()->GetClass("QScripts", "QScripts", "CameraMoveClass");
+	EngineQ::Scripting::ScriptClass scriptClass = EngineQ::Engine::Get().GetClass("QScripts", "QScripts", "CameraMoveClass");
 
 	ent->AddScript(scriptClass);
-	EngineQ::Scripting::ScriptClass scriptClass2 = EngineQ::Engine::Get()->GetClass("QScripts", "QScripts", "RotateTest");
+	EngineQ::Scripting::ScriptClass scriptClass2 = EngineQ::Engine::Get().GetClass("QScripts", "QScripts", "RotateTest");
 	ent2->AddScript(scriptClass2);
 
 
@@ -249,33 +260,33 @@ void PrepareScene(EngineQ::Scene* scene)
 	auto light = lightEntity->AddComponent<EngineQ::Light>();
 }
 
-void TemporaryResources(EngineQ::Engine* engine)
+void TemporaryResources()
 {
-	auto rm = EngineQ::Engine::Get()->GetResourceManager();
-	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader, "./Shaders/Basic.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CustomShader, "./Shaders/Custom.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::QuadShader, "./Shaders/Quad.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BlurShader, "./Shaders/Bloom/Blur.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BlurVShader, "./Shaders/Bloom/BlurV.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BrightExtract, "./Shaders/Bloom/BrightExtract.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CombineShader, "./Shaders/Bloom/Combine.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredLightning, "./Shaders/Deferred/DeferredLightning.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry, "./Shaders/Deferred/DeferredGeometry.shd");
-	rm->AddResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CustomDeferred, "./Shaders/Deferred/DeferredCustom.shd");
+	auto& resourceManager = EngineQ::Engine::Get().GetResourceManager();
+
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader, "./Shaders/Basic.shd");
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CustomShader, "./Shaders/Custom.shd");
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::QuadShader, "./Shaders/Quad.shd");
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BlurShader, "./Shaders/Bloom/Blur.shd");
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BlurVShader, "./Shaders/Bloom/BlurV.shd");
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BrightExtract, "./Shaders/Bloom/BrightExtract.shd");
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CombineShader, "./Shaders/Bloom/Combine.shd");
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredLightning, "./Shaders/Deferred/DeferredLightning.shd");
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry, "./Shaders/Deferred/DeferredGeometry.shd");
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CustomDeferred, "./Shaders/Deferred/DeferredCustom.shd");
 }
 
 
 int main(int argc, char** argv)
-{
-	
-	EngineQ::Engine::Initialize("Turbo giera", 800, 600, argv[0]);
-	TemporaryResources(EngineQ::Engine::Get());
-	EngineQ::Engine::Get()->SetPostprocessingConfiguration("./postprocessing.conf");
+{	
+	EngineQ::Engine::Initialize("EngineQ Demonstration", 800, 600, argv[0]);
+	TemporaryResources();
+	EngineQ::Engine::Get().SetPostprocessingConfiguration("./postprocessing.conf");
 
-	auto sc = EngineQ::Engine::Get()->CreateScene();
+	auto sc = EngineQ::Engine::Get().CreateScene();
 	PrepareScene(sc);
 
-	EngineQ::Engine::Get()->Run(sc);
+	EngineQ::Engine::Get().Run(sc);
 
 	return 0;
 }
