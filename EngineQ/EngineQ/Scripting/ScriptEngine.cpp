@@ -92,9 +92,12 @@ namespace EngineQ
 			this->renderableClass = mono_class_from_name(this->image, NamespaceName, RenderableClassName);
 			this->sceneClass = mono_class_from_name(this->image, NamespaceName, SceneClassName);
 			this->inputClass = mono_class_from_name(this->image, NamespaceName, InputClassName);
+			this->resourceManagerClass = mono_class_from_name(this->image, NamespaceName, ResourceManagerClassName);
 
-			this->resourceShaderClass = mono_class_from_name(this->image, NamespaceName, ResourceShaderClass);
-			this->resourceTextureClass = mono_class_from_name(this->image, NamespaceName, ResourceTextureClass);
+			this->resourceShaderClass = mono_class_from_name(this->image, NamespaceName, ResourceShaderClassName);
+			this->resourceTextureClass = mono_class_from_name(this->image, NamespaceName, ResourceTextureClassName);
+
+			this->shaderPropertiesClass = mono_class_from_name(this->image, NamespaceName, ShaderPropertiesClassName);
 
 			this->entityConstructor = GetMethod(this->entityClass, ConstructorName);
 			this->transformConstructor = GetMethod(this->transformClass, ConstructorName);
@@ -306,6 +309,11 @@ namespace EngineQ
 			return this->renderableClass;
 		}
 
+		ScriptClass ScriptEngine::GetResourceManagerClass() const
+		{
+			return this->resourceManagerClass;
+		}
+
 		ScriptMethod ScriptEngine::GetInputMethod(const char* name) const
 		{
 			return GetMethod(this->inputClass, name);
@@ -331,6 +339,13 @@ namespace EngineQ
 		{
 			return this->resourceTextureClass;
 		}
+
+
+		ScriptClass ScriptEngine::GetShaderPropertiesClass() const
+		{
+			return this->shaderPropertiesClass;
+		}
+
 
 		bool ScriptEngine::IsDerrived(ScriptClass derrived, ScriptClass base) const
 		{

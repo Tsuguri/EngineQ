@@ -116,7 +116,7 @@ namespace EngineQ
 
 	void Engine::Exit()
 	{
-		running = false;
+		isRunning = false;
 	}
 
 	Engine& Engine::Get()
@@ -142,18 +142,18 @@ namespace EngineQ
 		std::string tex1Name = "tex1";
 		std::string tex2Name = "tex2";
 		std::string tex3Name = "tex3";
-		Graphics::RenderingUnitConfiguration p{};
-		p.Renderer.Output.push_back(Graphics::OutputTexture{ tex1Name });
+		Graphics::RenderingUnitConfiguration config{};
+		config.Renderer.Output.push_back(Graphics::OutputTexture{ tex1Name });
 
-		p.Textures.push_back(Graphics::TextureConfiguration{ tex1Name });
-		p.Textures.push_back(Graphics::TextureConfiguration{ tex2Name });
-		p.Textures.push_back(Graphics::TextureConfiguration{ tex3Name });
+		config.Textures.push_back(Graphics::TextureConfiguration{ tex1Name });
+		config.Textures.push_back(Graphics::TextureConfiguration{ tex2Name });
+		config.Textures.push_back(Graphics::TextureConfiguration{ tex3Name });
 
 		auto extract = Graphics::EffectConfiguration{};
 		extract.Input.push_back(Graphics::InputPair{ 0,tex1Name });
 		extract.Output.push_back(Graphics::OutputTexture{ tex2Name });
 		extract.Shader = Utilities::ResourcesIDs::BrightExtract;
-		p.Effects.push_back(extract);
+		config.Effects.push_back(extract);
 
 		auto blurVertical = Graphics::EffectConfiguration{};
 		blurVertical.Input.push_back(Graphics::InputPair{ 0,tex2Name });
@@ -169,8 +169,8 @@ namespace EngineQ
 
 		for (int i = 0; i < 5; i++)
 		{
-			p.Effects.push_back(blurVertical);
-			p.Effects.push_back(blur);
+			config.Effects.push_back(blurVertical);
+			config.Effects.push_back(blur);
 		}
 
 		auto quad = Graphics::EffectConfiguration{};
@@ -178,40 +178,43 @@ namespace EngineQ
 		quad.Input.push_back(Graphics::InputPair{ 1,tex2Name, "bloomBlur" });
 		quad.Output.push_back(Graphics::OutputTexture{ "Screen" });
 		quad.Shader = Utilities::ResourcesIDs::CombineShader;
-		p.Effects.push_back(quad);
+		config.Effects.push_back(quad);
 
-		return p;
+		return config;
 	}
 
 
 	void Engine::Run(Scene* scene)
 	{
-		auto& tc{ *TimeCounter::Get() };
-		tc.Update(0, 0);
+		auto& timeCounter = *TimeCounter::Get();
+		timeCounter.Update(0.0f, 0.0f);
 
-		float time = 0, tmp;
-		while (!window.ShouldClose() && running)
+		float lastTime = 0.0f;
+		while (!this->window.ShouldClose() && this->isRunning)
 		{
-			//input
-			window.PollEvents();
+			// Input
+			this->window.PollEvents();
 
-			//update time
-			tmp = window.GetTime();
-			tc.Update(tmp, tmp - time);
-			time = tmp;
+			// Update lastTime
+			float currentTime = window.GetTime();
+			timeCounter.Update(currentTime, currentTime - lastTime);
+			lastTime = currentTime;
 
-			//update scene logic (scripts)
+			// Update resource manager
+			this->resourceManager->Update();
+
+			// Update scene logic (scripts)
 			scene->Update();
 
-			// render scene
-			renderingUnit->Render(scene);
+			// Render scene
+			this->renderingUnit->Render(scene);
 
-			// clear frame-characteristic data
-			input.ClearDelta();
+			// Clear frame-characteristic data
+			this->input.ClearDelta();
 
-			//show result on screen
-			window.SwapBuffers();
+			// Show result on screen
+			this->window.SwapBuffers();
 		}
-		window.Close();
+		this->window.Close();
 	}
 }

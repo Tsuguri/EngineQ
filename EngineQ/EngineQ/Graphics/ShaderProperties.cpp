@@ -2,6 +2,8 @@
 
 #include "GL/glew.h"
 
+#include "../Scripting/ScriptEngine.hpp"
+
 namespace EngineQ
 {
 	namespace Graphics
@@ -63,11 +65,11 @@ namespace EngineQ
 			}
 		}
 
-		ShaderProperties::ShaderProperties(Shader& shader) :
-			shader{ shader }
+		ShaderProperties::ShaderProperties(Scripting::ScriptEngine& scriptEngine, Resources::Resource<Shader> shader) :
+			Object{ scriptEngine, scriptEngine.GetShaderPropertiesClass() }, shader{ shader }
 		{
 			GLint uniformCount;
-			glGetProgramiv(shader.programId, GL_ACTIVE_UNIFORMS, &uniformCount);
+			glGetProgramiv(shader->programId, GL_ACTIVE_UNIFORMS, &uniformCount);
 
 			this->shaderUniforms.reserve(uniformCount);
 
@@ -78,19 +80,19 @@ namespace EngineQ
 			for (int i = 0; i < uniformCount; ++i)
 				uniformIndices[i] = i;
 
-			glGetActiveUniformsiv(shader.programId, uniformCount, uniformIndices.data(), GL_UNIFORM_NAME_LENGTH, nameLengths.data());
-			glGetActiveUniformsiv(shader.programId, uniformCount, uniformIndices.data(), GL_UNIFORM_TYPE, uniformTypes.data());
+			glGetActiveUniformsiv(shader->programId, uniformCount, uniformIndices.data(), GL_UNIFORM_NAME_LENGTH, nameLengths.data());
+			glGetActiveUniformsiv(shader->programId, uniformCount, uniformIndices.data(), GL_UNIFORM_TYPE, uniformTypes.data());
 
 			for (int i = 0; i < uniformCount; ++i)
 			{
 				std::string uniformName(nameLengths[i] - 1, ' ');
-				glGetActiveUniformName(shader.programId, uniformIndices[i], nameLengths[i], nullptr, &uniformName[0]);
+				glGetActiveUniformName(shader->programId, uniformIndices[i], nameLengths[i], nullptr, &uniformName[0]);
 
 				auto uniformData = UniformData::FromTypeIndex(uniformTypes[i]);
 
 				if (uniformData != nullval)
 				{
-					UniformLocation location = shader.GetUniformLocation(uniformName.c_str());
+					UniformLocation location = shader->GetUniformLocation(uniformName.c_str());
 					this->shaderUniforms.emplace_back(location, *uniformData);
 
 					auto& uniformPair = this->shaderUniforms.back();
@@ -110,9 +112,9 @@ namespace EngineQ
 
 		void ShaderProperties::Apply() const
 		{
-			this->shader.Activate();
+			this->shader->Activate();
 			for (const auto& uniformPair : shaderUniforms)
-				uniformPair.second.Apply(shader, uniformPair.first);
+				uniformPair.second.Apply(*shader, uniformPair.first);
 		}
 
 		const ShaderProperties::Matrices& ShaderProperties::GetMatrices()

@@ -25,7 +25,7 @@ namespace EngineQ
 		static std::unique_ptr<Engine> instance;
 
 		Window window;
-		bool running = true;
+		bool isRunning = true;
 		Math::Vector2i screenSize;
 		
 	public:

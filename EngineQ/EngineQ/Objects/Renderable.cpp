@@ -2,6 +2,7 @@
 
 #include "../Scripting/ScriptEngine.hpp"
 #include "../Graphics/ShaderProperties.hpp"
+#include "../Resources/Resource.hpp"
 
 namespace EngineQ
 {
@@ -15,14 +16,9 @@ namespace EngineQ
 		return ComponentType::Renderable;
 	}
 
-	void Renderable::SetForwardShader(Graphics::Shader& shader)
+	void Renderable::SetForwardShader(Resources::Resource<Graphics::Shader> shader)
 	{
-		this->forwardShader = std::make_unique<Graphics::ShaderProperties>(shader);
-	}
-
-	void Renderable::SetForwardShader(std::unique_ptr<Graphics::ShaderProperties> shader)
-	{
-		this->forwardShader = std::move(shader);
+		this->forwardShader = std::make_unique<Graphics::ShaderProperties>(this->scriptEngine, shader);
 	}
 
 	Graphics::ShaderProperties* Renderable::GetForwardShader() const
@@ -30,16 +26,11 @@ namespace EngineQ
 		return this->forwardShader.get();
 	}
 
-	void Renderable::SetDeferredShader(Graphics::Shader& shader)
+	void Renderable::SetDeferredShader(Resources::Resource<Graphics::Shader> shader)
 	{
-		this->deferredShader = std::make_unique<Graphics::ShaderProperties>(shader);
+		this->deferredShader = std::make_unique<Graphics::ShaderProperties>(this->scriptEngine, shader);
 	}
 
-	void Renderable::SetDeferredShader(std::unique_ptr<Graphics::ShaderProperties> shader)
-	{
-		this->deferredShader = std::move(shader);
-	}
-	
 	Graphics::ShaderProperties* Renderable::GetDeferredShader() const
 	{
 		return this->deferredShader.get();

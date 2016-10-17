@@ -29,9 +29,12 @@ namespace EngineQ
 			static constexpr const char* RenderableClassName = "Renderable";
 			static constexpr const char* SceneClassName = "Scene";
 			static constexpr const char* InputClassName = "Input";
+			static constexpr const char* ResourceManagerClassName = "ResourceManager";
 
-			static constexpr const char* ResourceShaderClass = "Shader";
-			static constexpr const char* ResourceTextureClass = "Texture";
+			static constexpr const char* ResourceShaderClassName = "Shader";
+			static constexpr const char* ResourceTextureClassName = "Texture";
+
+			static constexpr const char* ShaderPropertiesClassName = "ShaderProperties";
 
 			static constexpr const char* NativeHandleFieldName = "nativeHandle";
 
@@ -45,14 +48,17 @@ namespace EngineQ
 
 			MonoClass* entityClass;
 			MonoClass* transformClass;
+			MonoClass* renderableClass;
 			MonoClass* lightClass;
 			MonoClass* cameraClass;
 			MonoClass* sceneClass;
 			MonoClass* inputClass;
-			MonoClass* renderableClass;
+			MonoClass* resourceManagerClass;
 
 			MonoClass* resourceShaderClass;
 			MonoClass* resourceTextureClass;
+
+			MonoClass* shaderPropertiesClass;
 
 			MonoMethod* entityConstructor;
 			MonoMethod* transformConstructor;
@@ -99,9 +105,12 @@ namespace EngineQ
 			ScriptClass GetEntityClass() const;
 			ScriptClass GetSceneClass() const;
 			ScriptClass GetRenderableClass() const;
+			ScriptClass GetResourceManagerClass() const;
 
 			ScriptClass GetResourceShaderClass() const;
 			ScriptClass GetResourceTextureClass() const;
+
+			ScriptClass GetShaderPropertiesClass() const;
 
 			ScriptMethod GetInputMethod(const char* name) const;
 

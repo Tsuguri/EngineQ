@@ -7,8 +7,6 @@
 #include "Types.hpp"
 #include "../Graphics/Types.hpp"
 
-#include "../Utilities/Immovable.hpp"
-
 #include "../Utilities/Metaprogramming.hpp"
 #include "../Scripting/ScriptEngine.hpp"
 
@@ -16,6 +14,8 @@
 
 #include "Resource.hpp"
 #include "../Graphics/Shader.hpp"
+
+#include "../Objects/Object.hpp"
 
 // TMP
 #include <iostream>
@@ -30,7 +30,7 @@ namespace EngineQ
 			using std::logic_error::logic_error;
 		};
 
-		class ResourceManager : private Utilities::Immovable
+		class ResourceManager : public Object
 		{
 		private:
 			template<typename TResourceType>
@@ -61,10 +61,10 @@ namespace EngineQ
 
 			using Types = TypesHelper<Graphics::Shader>;
 
+			static constexpr int SkipFrames = 1000;
 
-			Scripting::ScriptEngine& scriptEngine;
 			Types::ResourcesType resources;
-
+			int frameCount = 0;
 
 			template<std::size_t TIt = 0, typename... TTypes>
 			inline typename std::enable_if<(TIt == sizeof...(TTypes)), void>::type UpdateResources(std::tuple<TTypes...>& tuple)
@@ -81,9 +81,15 @@ namespace EngineQ
 			template<typename TType>
 			void UpdateResource(std::unordered_map<ResourceId, ResourceData<TType>>& resourceMap)
 			{
+				// TODO
+				// List of active resources. If N times is unused during garbage colletion then it is removed and moved to inactive resources list
 				for (auto& resourceDataPair : resourceMap)
 				{
-					std::cout << resourceDataPair.first << " " << resourceDataPair.second.path << std::endl;
+					if (resourceDataPair.second.resource.GetReferenceCount() == 1)
+					{
+						resourceDataPair.second.resource = nullptr;
+						std::cout << "Disposed " << resourceDataPair.first << ": " << resourceDataPair.second.path << std::endl;
+					}
 				}
 			}
 
@@ -107,8 +113,11 @@ namespace EngineQ
 
 				auto& resource = resourceMap.at(resourceId);
 
-				if(resource.resource == nullptr)
+				if (resource.resource == nullptr)
+				{
 					resource.resource = Resource<TResourceType>{ this->scriptEngine, ResourceFactory<TResourceType>::GetScriptClass(this->scriptEngine), ResourceFactory<TResourceType>::CreateResource(resource.path.c_str()) };
+					std::cout << "Loaded " << resourceId << ": " << resource.path << std::endl;
+ 				}
 
 				return resource.resource;
 			}

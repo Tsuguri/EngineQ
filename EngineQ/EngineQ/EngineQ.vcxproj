@@ -30,10 +30,12 @@
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Math\Utilities.cpp" />
     <ClCompile Include="Resources\ModelLoader.cpp" />
+    <ClCompile Include="Resources\Resource.cpp" />
     <ClCompile Include="Resources\ResourceManager.cpp" />
     <ClCompile Include="Resources\ShaderFactory.cpp" />
     <ClCompile Include="Scripting\API_Application.cpp" />
     <ClCompile Include="Scripting\API_Input.cpp" />
+    <ClCompile Include="Scripting\API_Renderable.cpp" />
     <ClCompile Include="Scripting\API_TimeCounter.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Component.cpp" />
@@ -99,6 +101,7 @@
     <ClInclude Include="Resources\Types.hpp" />
     <ClInclude Include="Scripting\API_Application.hpp" />
     <ClInclude Include="Scripting\API_Input.hpp" />
+    <ClInclude Include="Scripting\API_Renderable.hpp" />
     <ClInclude Include="Scripting\API_TimeCounter.hpp" />
     <ClInclude Include="Objects\Camera.hpp" />
     <ClInclude Include="Objects\Component.hpp" />

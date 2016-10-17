@@ -10,12 +10,15 @@
 #include "Texture.hpp"
 
 #include "../Math/Matrix4.hpp"
+#include "../Resources/Resource.hpp"
+
+#include "../Objects/Object.hpp"
 
 namespace EngineQ
 {
 	namespace Graphics
 	{
-		class ShaderProperties : private Utilities::Immovable
+		class ShaderProperties : public Object
 		{
 		private:
 			using UniformData = ShaderUniformData<
@@ -59,7 +62,7 @@ namespace EngineQ
 			};
 
 		private:
-			Shader& shader;
+			Resources::Resource<Shader> shader;
 			
 			std::vector<std::pair<UniformLocation, UniformData>> shaderUniforms;
 			std::map<std::string, UniformData*> shaderUniformsMap;
@@ -82,7 +85,7 @@ namespace EngineQ
 			void OnUniformAdded(UniformData& data, UniformType type, const std::string& name);
 
 		public:
-			ShaderProperties(Shader& shader);
+			ShaderProperties(Scripting::ScriptEngine& scriptEngine, Resources::Resource<Shader> shader);
 
 			void Apply() const;
 

@@ -227,14 +227,14 @@ void PrepareScene(EngineQ::Scene* scene)
 		
 	auto deffShdCustom = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
 	renderable->SetMesh(mesh);
-	renderable->SetForwardShader(*shd);
-	renderable->SetDeferredShader(*deffShd);
+	renderable->SetForwardShader(shd);
+	renderable->SetDeferredShader(deffShd);
 	renderable2->SetMesh(mesh);
-	renderable2->SetForwardShader(*shd);
-	renderable2->SetDeferredShader(*deffShdCustom);
+	renderable2->SetForwardShader(shd);
+	renderable2->SetDeferredShader(deffShdCustom);
 	renderable3->SetMesh(cubeMesh);
-	renderable3->SetForwardShader(*shd);
-	renderable3->SetDeferredShader(*deffShd);
+	renderable3->SetForwardShader(shd);
+	renderable3->SetDeferredShader(deffShd);
 
 	auto textureProp1 = renderable->GetDeferredShader()->GetProperty<std::shared_ptr<EngineQ::Graphics::Texture>>("diffuseTexture");
 	textureProp1 = texture;
