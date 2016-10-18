@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EngineQ
 {
-	public class ShaderProperties : EngineQ.Object
+	public sealed class ShaderProperties : EngineQ.Object
 	{
 	}
 }

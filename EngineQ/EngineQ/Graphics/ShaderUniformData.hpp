@@ -12,6 +12,8 @@
 #include "ShaderProperty.hpp"
 #include "Shader.hpp"
 
+#include "../Resources/Resource.hpp"
+
 namespace EngineQ
 {
 	namespace Graphics
@@ -38,9 +40,9 @@ namespace EngineQ
 		};
 
 		template<typename TType>
-		struct ShaderUniformActions<std::shared_ptr<TType>>
+		struct ShaderUniformActions<Resources::Resource<TType>>
 		{
-			using Type = std::shared_ptr<TType>;
+			using Type = Resources::Resource<TType>;
 
 			static void Apply(Shader& shader, UniformLocation location, const void* value)
 			{

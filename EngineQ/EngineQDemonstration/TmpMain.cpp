@@ -214,8 +214,8 @@ void PrepareScene(EngineQ::Scene& scene)
 	auto cam = ent->AddComponent<EngineQ::Camera>();
 
 
-	auto texture = std::make_shared<EngineQ::Graphics::Texture>("Textures/Numbers.png", true);
-
+//	auto texture = std::make_shared<EngineQ::Graphics::Texture>("Textures/Numbers.png", true);
+	auto texture = resourceManager.GetResource<EngineQ::Graphics::Texture>("Numbers");
 		
 	auto deffShdCustom = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
 	renderable->SetMesh(mesh);
@@ -228,10 +228,10 @@ void PrepareScene(EngineQ::Scene& scene)
 	renderable3->SetForwardShader(shd);
 	renderable3->SetDeferredShader(deffShd);
 
-	auto textureProp1 = renderable->GetDeferredShader()->GetProperty<std::shared_ptr<EngineQ::Graphics::Texture>>("diffuseTexture");
+	auto textureProp1 = renderable->GetDeferredShader()->GetProperty<EngineQ::Resources::Resource<EngineQ::Graphics::Texture>>("diffuseTexture");
 	textureProp1 = texture;
 
-	auto textureProp3 = renderable3->GetDeferredShader()->GetProperty<std::shared_ptr<EngineQ::Graphics::Texture>>("diffuseTexture");
+	auto textureProp3 = renderable3->GetDeferredShader()->GetProperty<EngineQ::Resources::Resource<EngineQ::Graphics::Texture>>("diffuseTexture");
 	textureProp3 = texture;
 
 
@@ -268,6 +268,8 @@ void TemporaryResources()
 	resourceManager.RegisterResource<EngineQ::Graphics::Shader>("TestDeferred1", "./Shaders/Deferred/DeferredGeometry2.shd");
 	resourceManager.RegisterResource<EngineQ::Graphics::Shader>("TestDeferred2", "./Shaders/Deferred/DeferredGeometry3.shd");
 	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CustomDeferred, "./Shaders/Deferred/DeferredCustom.shd");
+
+	resourceManager.RegisterResource<EngineQ::Graphics::Texture>("Numbers", "./Textures/Numbers.qres");
 }
 
 

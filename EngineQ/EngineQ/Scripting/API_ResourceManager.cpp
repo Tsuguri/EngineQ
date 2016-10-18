@@ -28,9 +28,7 @@ namespace EngineQ
 			}
 			else if (resourceClass == scriptEngine.GetClass(ScriptEngine::Class::Texture))
 			{
-				// TODO
-				throw "NOT IMPLEMENTED";
-			//	resourceBase = resourceManager.GetResource<Graphics::Texture>(resourceIdString).GetControlBlock();
+				controlBlock = resourceManager.GetResource<Graphics::Texture>(resourceIdString).GetControlBlock();
 			}
 			else
 			{

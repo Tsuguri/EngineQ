@@ -11,6 +11,7 @@
 #include "../Scripting/ScriptEngine.hpp"
 
 #include "ShaderFactory.hpp"
+#include "TextureFactory.hpp"
 
 #include "Resource.hpp"
 #include "../Graphics/Shader.hpp"
@@ -39,7 +40,7 @@ namespace EngineQ
 				std::string path;
 				Resource<TResourceType> resource{ std::unique_ptr<TResourceType>{ nullptr } };
 
-				ResourceData(const char* path) :
+				ResourceData(const char* path) :  
 					path{ path }
 				{
 				}
@@ -59,7 +60,7 @@ namespace EngineQ
 				}
 			};
 
-			using Types = TypesHelper<Graphics::Shader>;
+			using Types = TypesHelper<Graphics::Shader, Graphics::Texture>;
 
 			static constexpr int SkipFrames = 1000;
 

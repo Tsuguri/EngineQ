@@ -8,6 +8,7 @@ namespace EngineQ
 		class Framebuffer;
 		class Shader;
 		class Mesh;
+		class Texture;
 
 		class ShaderProperties;
 		class RenderingUnit;
