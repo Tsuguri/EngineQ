@@ -21,12 +21,12 @@ namespace QScripts
 			Input.ListenKey(Input.Key.RightBracket, ChangeShader2);
 		}
 
-		private void SwitchAction(Input.KeyAction action)
+		private void SwitchAction(Input.Key key, Input.KeyAction action)
 		{
 			mode = (mode + 1) % 3;
 		}
 
-		private void ChangeShader1(Input.KeyAction action)
+		private void ChangeShader1(Input.Key key, Input.KeyAction action)
 		{
 			if(action == Input.KeyAction.Press)
 			{
@@ -36,7 +36,7 @@ namespace QScripts
 			}
 		}
 
-		private void ChangeShader2(Input.KeyAction action)
+		private void ChangeShader2(Input.Key key, Input.KeyAction action)
 		{
 			if (action == Input.KeyAction.Press)
 			{
