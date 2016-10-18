@@ -119,6 +119,8 @@ namespace EngineQ
 
 			bool IsDerrived(ScriptClass derrived, ScriptClass base) const;
 			bool IsScript(ScriptClass sclass) const;
+
+			std::string GetScriptStringContent(ScriptString string) const;
 		};
 	}
 }

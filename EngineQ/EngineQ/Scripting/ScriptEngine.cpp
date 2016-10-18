@@ -23,6 +23,8 @@
 #include "API_Input.hpp"
 #include "API_Application.hpp"
 #include "API_Renderable.hpp"
+#include "API_Resource.hpp"
+#include "API_ResourceManager.hpp"
 
 namespace EngineQ
 {
@@ -118,6 +120,8 @@ namespace EngineQ
 			API_TimeCounter::API_Register(*this);
 			API_Input::API_Register(*this);
 			API_Application::API_Register(*this);
+			API_Resource::API_Register(*this);
+			API_ResourceManager::API_Register(*this);
 		}
 
 		ScriptEngine::~ScriptEngine()
@@ -314,6 +318,15 @@ namespace EngineQ
 				return false;
 
 			return IsDerrived(sclass, this->GetClass(Class::Script));
+		}
+
+		std::string ScriptEngine::GetScriptStringContent(ScriptString string) const
+		{
+			char* cstring = mono_string_to_utf8(string);
+			std::string cppstring = cstring;
+			mono_free(cstring);
+			
+			return cppstring;
 		}
 	}
 }

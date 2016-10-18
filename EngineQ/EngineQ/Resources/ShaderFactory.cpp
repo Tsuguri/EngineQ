@@ -5,7 +5,6 @@
 #include "../Libraries/TinyXML/tinyxml2.h"
 
 #include "../Graphics/Shader.hpp"
-#include "../Scripting/ScriptEngine.hpp"
 
 namespace EngineQ
 {
@@ -38,11 +37,6 @@ namespace EngineQ
 			}
 
 			return std::make_unique<Graphics::Shader>(shaders);
-		}
-
-		Scripting::ScriptClass ResourceFactory<Graphics::Shader>::GetScriptClass(Scripting::ScriptEngine& scriptEngine)
-		{
-			return scriptEngine.GetClass(Scripting::ScriptEngine::Class::Shader);
 		}
 	}
 }

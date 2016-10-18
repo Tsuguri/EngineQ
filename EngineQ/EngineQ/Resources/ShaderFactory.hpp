@@ -13,7 +13,6 @@ namespace EngineQ
 		struct ResourceFactory<Graphics::Shader>
 		{
 			static std::unique_ptr<Graphics::Shader> CreateResource(const char* filename);
-			static Scripting::ScriptClass GetScriptClass(Scripting::ScriptEngine& scriptEngine);
 		};
 	}
 }

@@ -11,6 +11,7 @@ typedef struct _MonoClassField MonoClassField;
 typedef struct _MonoMethod MonoMethod;
 typedef struct _MonoReflectionType MonoReflectionType;
 typedef struct _MonoObject MonoObject;
+typedef struct _MonoString MonoString;
 
 namespace EngineQ
 {
@@ -21,6 +22,7 @@ namespace EngineQ
 		using ScriptObject = MonoObject*;
 		using ScriptHandle = std::uint32_t;
 		using ScriptTypeClass = MonoReflectionType*;
+		using ScriptString = MonoString*;
 
 		class ScriptEngine;
 	}

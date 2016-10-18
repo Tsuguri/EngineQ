@@ -57,6 +57,8 @@
     <ClCompile Include="Resources\ResourceManager.cpp" />
     <ClCompile Include="Scripting\API_Renderable.cpp" />
     <ClCompile Include="Resources\Resource.cpp" />
+    <ClCompile Include="Scripting\API_Resource.cpp" />
+    <ClCompile Include="Scripting\API_ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
@@ -139,6 +141,8 @@
     <ClInclude Include="Resources\ShaderFactory.hpp" />
     <ClInclude Include="Resources\ResourceManager.hpp" />
     <ClInclude Include="Scripting\API_Renderable.hpp" />
+    <ClInclude Include="Scripting\API_Resource.hpp" />
+    <ClInclude Include="Scripting\API_ResourceManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />

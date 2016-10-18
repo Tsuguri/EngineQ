@@ -16,6 +16,14 @@ namespace EngineQ
 			}
 		}
 
+		public bool IsAlive
+		{
+			get
+			{
+				return this.nativeHandle != IntPtr.Zero;
+			}
+		}
+
 		// TMP
 		protected Object()
 		{

@@ -209,12 +209,6 @@ void PrepareScene(EngineQ::Scene* scene)
 
 	auto& scriptEngine = EngineQ::Engine::Get().GetScriptEngine();
 
-	EngineQ::Resources::Resource<EngineQ::Graphics::Shader> shaderResource{ 
-		scriptEngine, 
-		EngineQ::Resources::ResourceFactory<EngineQ::Graphics::Shader>::GetScriptClass(scriptEngine),
-		EngineQ::Resources::ResourceFactory<EngineQ::Graphics::Shader>::CreateResource("Shaders/Deferred/DeferredCustom.shd")
-	};
-
 
 	auto shd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader);
 	auto deffShd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);

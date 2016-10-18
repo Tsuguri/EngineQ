@@ -2,51 +2,61 @@
 #define ENGINEQ_RESOURCES_RESOURCE_HPP
 
 #include <memory>
-
-#include "../Objects/Object.hpp"
+#include <stdexcept>
 
 namespace EngineQ
 {
 	namespace Resources
 	{
+		class ResourceDestroyedException : public std::runtime_error
+		{
+		public:
+			using std::runtime_error::runtime_error;
+		};
+
+
 		class BaseResource
 		{
-		protected:
-			struct ControlBlock
-			{
-				int referenceCount = 1;
-				int managedReferenceCount = 0;
-			};
-
 		public:
-			class BaseContainer : public Object
+			class BaseControlBlock
 			{
-			protected:
-				ControlBlock* const controlBlock;
+			private:
+				int nativeReferenceCount = 0;
+				int allReferenceCount = 0;
 
 			public:
-				BaseContainer(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass resourceClass, ControlBlock* controlBlock);
-				int GetReferenceCount() const;
-				int GetManagedReferenceCount() const;
+				BaseControlBlock() = default;
+				virtual ~BaseControlBlock() = default;
+
+				int GetNativeReferenceCount() const;
+				int GetAllReferenceCount() const;
+
+				static void AddNativeReference(BaseControlBlock* controlBlock);
+				static void AddManagedReference(BaseControlBlock* controlBlock);
+
+				static void RemoveNativeReference(BaseControlBlock*& controlBlock);
+				static void RemoveManagedReference(BaseControlBlock*& controlBlock);
+
+				bool IsDataDestroyed() const;
+
+			protected:
+				virtual void DestroyData() = 0;
 			};
 
 		protected:
-			ControlBlock* controlBlock = nullptr;
-			BaseContainer* container = nullptr;
+			BaseControlBlock* controlBlock = nullptr;
 
-			void Remove();
-			void Add();
-
-			BaseResource(ControlBlock* controlBlock, BaseContainer* container);
+			BaseResource(BaseControlBlock* controlBlock);
 
 		public:
 			BaseResource() = default;
 
+			int GetAllReferenceCount() const;
+			int GetNativeReferenceCount() const;
+			int GetManagedReferenceCount() const;
+
 			bool operator == (nullptr_t) const;
 			bool operator != (nullptr_t) const;
-
-			int GetReferenceCount() const;
-			int GetManagedReferenceCount() const;
 		};
 
 
@@ -57,66 +67,86 @@ namespace EngineQ
 		class Resource : public BaseResource
 		{
 		public:
-			class Container : public BaseContainer
+			class ControlBlock : public BaseControlBlock
 			{
+				friend class ResourceManager;
+
 			private:
 				std::unique_ptr<TResourceType> resource;
 
 			public:
-				Container(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass resourceClass, ControlBlock* controlBlock, std::unique_ptr<TResourceType> resource) :
-					BaseContainer{ scriptEngine, resourceClass, controlBlock }, resource{ std::move(resource) }
+				ControlBlock() = default;
+
+				ControlBlock(std::unique_ptr<TResourceType> resource) :
+					BaseControlBlock{}, resource{ std::move(resource) }
 				{
 				}
 
-				TResourceType& Get()
+				virtual void DestroyData() override
 				{
-					return *this->resource.get();
+					this->resource = nullptr;
 				}
 
-				Resource ToResource()
+				TResourceType* Get() const
 				{
-					return Resource{ this->controlBlock, this };
+					return this->resource.get();
+				}
+
+				Resource<TResourceType> GetResource()
+				{
+					if (this->IsDataDestroyed())
+						throw ResourceDestroyedException{ "Resource is destroyed" };
+
+					return Resource<TResourceType>{ this };
 				}
 			};
 
-			Resource(ControlBlock* controlBlock, BaseContainer* container) :
-				BaseResource{ controlBlock, container }
+		private:
+			Resource(ControlBlock* controlBlock) :
+				BaseResource{ controlBlock }
 			{
-				this->Add();
+				BaseControlBlock::AddNativeReference(this->controlBlock);
 			}
 
 		public:
-			Resource() = default;
+			explicit Resource(std::unique_ptr<TResourceType> resource) :
+				BaseResource{ new ControlBlock{ std::move(resource) } }
+			{
+				BaseControlBlock::AddNativeReference(this->controlBlock);
+			}
 
-			Resource(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass resourceClass, std::unique_ptr<TResourceType> resource) :
-				BaseResource{ new ControlBlock{}, new Container{ scriptEngine, resourceClass, this->controlBlock, std::move(resource) } }
+			Resource() :
+				BaseResource{ nullptr }
 			{
 			}
 
 			~Resource()
 			{
-				this->Remove();
+				if (this->controlBlock != nullptr)
+					BaseControlBlock::RemoveNativeReference(this->controlBlock);
 			}
 
-			Resource(const Resource& other) :
-				BaseResource{ other.controlBlock, other.container }
+			Resource(nullptr_t) :
+				BaseResource{ nullptr }
 			{
-				this->Add();
-			}
-
-			Resource(Resource&& other) :
-				BaseResource{ other.controlBlock, other.container }
-			{
-				other.controlBlock = nullptr;
 			}
 
 			Resource& operator = (nullptr_t)
 			{
-				this->Remove();
-
-				this->controlBlock = nullptr;
+				if (this->controlBlock != nullptr)
+				{
+					BaseControlBlock::RemoveNativeReference(this->controlBlock);
+					this->controlBlock = nullptr;
+				}
 
 				return *this;
+			}
+
+			Resource(const Resource& other) :
+				BaseResource{ other.controlBlock }
+			{
+				if (this->controlBlock != nullptr)
+					BaseControlBlock::AddNativeReference(this->controlBlock);
 			}
 
 			Resource& operator = (const Resource& other)
@@ -124,200 +154,49 @@ namespace EngineQ
 				if (this == &other)
 					return *this;
 
-				this->Remove();
+				if (this->controlBlock != nullptr)
+					BaseControlBlock::RemoveNativeReference(this->controlBlock);
 
 				this->controlBlock = other.controlBlock;
-				this->container = other.container;
 
-				this->Add();
-
-				return *this;
-			}
-
-			Resource& operator = (Resource&& other)
-			{
-				this->Remove();
-
-				this->controlBlock = other.controlBlock;
-				this->container = other.container;
-
-				other.controlBlock = nullptr;
+				if (this->controlBlock != nullptr)
+					BaseControlBlock::AddNativeReference(this->controlBlock);
 
 				return *this;
-			}
-
-			TResourceType* operator -> () const
-			{
-				return &static_cast<Container*>(this->container)->Get();
-			}
-
-			TResourceType& operator * () const
-			{
-				return static_cast<Container*>(this->container)->Get();
-			}
-		};
-
-
-
-		/*
-		template<typename TResourceType>
-		class Resource
-		{
-		private:
-			struct ControlBlock
-			{
-				int referenceCount = 1;
-				int managedReferenceCount = 0;
-			};
-
-		public:
-			class Container : public Object
-			{
-			private:
-				ControlBlock* const controlBlock;
-				std::unique_ptr<TResourceType> resource;
-
-			public:
-				Container(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass resourceClass, ControlBlock* controlBlock, std::unique_ptr<TResourceType> resource) :
-					Object{ scriptEngine, resourceClass }, controlBlock{ controlBlock }, resource{ std::move(resource) }
-				{
-				}
-
-				TResourceType& Get()
-				{
-					return *this->resource.get();
-				}
-
-				int GetReferenceCount() const
-				{
-					return this->controlBlock->referenceCount;
-				}
-			};
-
-		private:
-			ControlBlock* controlBlock = nullptr;
-			Container* container = nullptr;
-
-			void Remove()
-			{
-				if (this->controlBlock == nullptr)
-					return;
-
-				this->controlBlock->referenceCount -= 1;
-				if (this->controlBlock->referenceCount == 0)
-				{
-					delete this->controlBlock;
-					delete this->container;
-				}
-			}
-
-			void Add()
-			{
-				if (this->controlBlock == nullptr)
-					return;
-
-				this->controlBlock->referenceCount += 1;
-			}
-
-		public:
-			Resource() = default;
-
-			Resource(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass resourceClass, std::unique_ptr<TResourceType> resource)
-			{
-				this->controlBlock = new ControlBlock{};
-				this->container = new Container{ scriptEngine, resourceClass, this->controlBlock, std::move(resource) };
-			}
-
-			~Resource()
-			{
-				this->Remove();
-			}
-
-			Resource(const Resource& other) :
-				controlBlock{ other.controlBlock }, container{ other.container }
-			{
-				this->Add();
 			}
 
 			Resource(Resource&& other) :
-				controlBlock{ other.controlBlock }, container{ other.container }
+				BaseResource{ other.controlBlock }
 			{
 				other.controlBlock = nullptr;
-			}
-
-			Resource& operator = (nullptr_t)
-			{
-				this->Remove();
-
-				this->controlBlock = nullptr;
-
-				return *this;
-			}
-
-			Resource& operator = (const Resource& other)
-			{
-				if (this == &other)
-					return *this;
-
-				this->Remove();
-
-				this->controlBlock = other.controlBlock;
-				this->container = other.container;
-
-				this->Add();
-
-				return *this;
 			}
 
 			Resource& operator = (Resource&& other)
 			{
-				this->Remove();
+				if (this->controlBlock != nullptr)
+					BaseControlBlock::RemoveNativeReference(this->controlBlock);
 
 				this->controlBlock = other.controlBlock;
-				this->container = other.container;
-
 				other.controlBlock = nullptr;
 
 				return *this;
 			}
 
-			bool operator == (nullptr_t) const
-			{
-				return this->controlBlock == nullptr;
-			}
-
-			bool operator != (nullptr_t) const
-			{
-				return this->controlBlock != nullptr;
-			}
-
 			TResourceType* operator -> () const
 			{
-				return &this->container->Get();
+				return static_cast<ControlBlock*>(this->controlBlock)->Get();
 			}
 
 			TResourceType& operator * () const
 			{
-				return this->container->Get();
+				return *static_cast<ControlBlock*>(this->controlBlock)->Get();
 			}
 
-			int GetReferenceCount() const
+			ControlBlock* GetControlBlock() const
 			{
-				if (this->controlBlock == nullptr)
-					return 0;
-
-				return this->controlBlock->referenceCount;
-			}
-
-			int GetManagedReferenceCount() const
-			{
-				if (this->controlBlock == nullptr)
-					return 0;
-
-				return this->controlBlock->managedReferenceCount;
+				return static_cast<ControlBlock*>(this->controlBlock);
 			}
 		};
-		*/
 	}
 }
 

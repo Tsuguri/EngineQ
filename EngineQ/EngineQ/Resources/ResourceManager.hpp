@@ -37,7 +37,7 @@ namespace EngineQ
 			struct ResourceData
 			{
 				std::string path;
-				Resource<TResourceType> resource;
+				Resource<TResourceType> resource{ std::unique_ptr<TResourceType>{ nullptr } };
 
 				ResourceData(const char* path) :
 					path{ path }
@@ -85,9 +85,9 @@ namespace EngineQ
 				// List of active resources. If N times is unused during garbage colletion then it is removed and moved to inactive resources list
 				for (auto& resourceDataPair : resourceMap)
 				{
-					if (resourceDataPair.second.resource.GetReferenceCount() == 1)
+					if(resourceDataPair.second.resource.GetControlBlock()->resource != nullptr && resourceDataPair.second.resource.GetNativeReferenceCount() == 1 && resourceDataPair.second.resource.GetAllReferenceCount() == 1)
 					{
-						resourceDataPair.second.resource = nullptr;
+						resourceDataPair.second.resource.GetControlBlock()->resource = nullptr;
 						std::cout << "Disposed " << resourceDataPair.first << ": " << resourceDataPair.second.path << std::endl;
 					}
 				}
@@ -111,15 +111,16 @@ namespace EngineQ
 			{
 				auto& resourceMap = std::get<Types::IndexOf<TResourceType>()>(resources);
 
-				auto& resource = resourceMap.at(resourceId);
+				auto& resourceData = resourceMap.at(resourceId);
+				auto& underlyingResource = resourceData.resource.GetControlBlock()->resource;
 
-				if (resource.resource == nullptr)
+				if (underlyingResource == nullptr)
 				{
-					resource.resource = Resource<TResourceType>{ this->scriptEngine, ResourceFactory<TResourceType>::GetScriptClass(this->scriptEngine), ResourceFactory<TResourceType>::CreateResource(resource.path.c_str()) };
-					std::cout << "Loaded " << resourceId << ": " << resource.path << std::endl;
+					underlyingResource = ResourceFactory<TResourceType>::CreateResource(resourceData.path.c_str());
+					std::cout << "Loaded " << resourceId << ": " << resourceData.path << std::endl;
  				}
 
-				return resource.resource;
+				return resourceData.resource;
 			}
 
 			void Update();

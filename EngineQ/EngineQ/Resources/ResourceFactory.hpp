@@ -4,8 +4,6 @@
 #include <memory>
 #include <stdexcept>
 
-#include "../Scripting/Types.hpp"
-
 namespace EngineQ
 {
 	namespace Resources
@@ -20,7 +18,6 @@ namespace EngineQ
 		struct ResourceFactory
 		{
 			static std::unique_ptr<ResourceFactory> CreateResource(const char* filename);
-			static Scripting::ScriptClass GetScriptClass(Scripting::ScriptEngine& scriptEngine);
 		};
 	}
 }

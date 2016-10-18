@@ -4,45 +4,75 @@ namespace EngineQ
 {
 	namespace Resources
 	{
-		BaseResource::BaseContainer::BaseContainer(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass resourceClass, ControlBlock* controlBlock) :
-			Object{ scriptEngine, resourceClass }, controlBlock{ controlBlock }
+		int BaseResource::BaseControlBlock::GetNativeReferenceCount() const
 		{
+			return this->nativeReferenceCount;
 		}
 
-		int BaseResource::BaseContainer::GetReferenceCount() const
+		int BaseResource::BaseControlBlock::GetAllReferenceCount() const
 		{
-			return this->controlBlock->referenceCount;
+			return this->allReferenceCount;
 		}
 
-		int BaseResource::BaseContainer::GetManagedReferenceCount() const
+		void BaseResource::BaseControlBlock::AddNativeReference(BaseControlBlock* controlBlock)
 		{
-			return this->controlBlock->managedReferenceCount;
+			controlBlock->nativeReferenceCount += 1;
+			controlBlock->allReferenceCount += 1;
 		}
 
-		void BaseResource::Remove()
+		void BaseResource::BaseControlBlock::AddManagedReference(BaseControlBlock* controlBlock)
 		{
-			if (this->controlBlock == nullptr)
-				return;
+			controlBlock->allReferenceCount += 1;
+		}
 
-			this->controlBlock->referenceCount -= 1;
-			if (this->controlBlock->referenceCount == 0)
+		void BaseResource::BaseControlBlock::RemoveNativeReference(BaseControlBlock*& controlBlock)
+		{
+			controlBlock->nativeReferenceCount -= 1;
+			controlBlock->allReferenceCount -= 1;
+
+			if (controlBlock->nativeReferenceCount == 0)
+				controlBlock->DestroyData();
+
+			if (controlBlock->allReferenceCount == 0)
 			{
-				delete this->controlBlock;
-				delete this->container;
+				delete controlBlock;
+				controlBlock = nullptr;
 			}
 		}
 
-		void BaseResource::Add()
+		void BaseResource::BaseControlBlock::RemoveManagedReference(BaseControlBlock*& controlBlock)
 		{
-			if (this->controlBlock == nullptr)
-				return;
-
-			this->controlBlock->referenceCount += 1;
+			controlBlock->allReferenceCount -= 1;
+			if (controlBlock->allReferenceCount == 0)
+			{
+				delete controlBlock;
+				controlBlock = nullptr;
+			}
 		}
 
-		BaseResource::BaseResource(ControlBlock* controlBlock, BaseContainer* container) :
-			controlBlock{ controlBlock }, container{ container }
+		bool BaseResource::BaseControlBlock::IsDataDestroyed() const
 		{
+			return this->nativeReferenceCount == 0;
+		}
+
+		BaseResource::BaseResource(BaseControlBlock* controlBlock) :
+			controlBlock{ controlBlock }
+		{
+		}
+
+		int BaseResource::GetAllReferenceCount() const
+		{
+			return this->controlBlock->GetAllReferenceCount();
+		}
+
+		int BaseResource::GetNativeReferenceCount() const
+		{
+			return this->controlBlock->GetNativeReferenceCount();
+		}
+
+		int BaseResource::GetManagedReferenceCount() const
+		{
+			return this->controlBlock->GetAllReferenceCount() - this->controlBlock->GetNativeReferenceCount();
 		}
 
 		bool BaseResource::operator == (nullptr_t) const
@@ -53,22 +83,6 @@ namespace EngineQ
 		bool BaseResource::operator != (nullptr_t) const
 		{
 			return this->controlBlock != nullptr;
-		}
-
-		int BaseResource::GetReferenceCount() const
-		{
-			if (this->controlBlock == nullptr)
-				return 0;
-
-			return this->controlBlock->referenceCount;
-		}
-
-		int BaseResource::GetManagedReferenceCount() const
-		{
-			if (this->controlBlock == nullptr)
-				return 0;
-
-			return this->controlBlock->managedReferenceCount;
 		}
 	}
 }

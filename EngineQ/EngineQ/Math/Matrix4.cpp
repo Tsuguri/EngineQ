@@ -467,8 +467,8 @@ namespace EngineQ
 
 
 			// Use for LESS depth testing
-			Real cot = 1.0f / std::tan(fovy / 2.0f);
-			Real diff = 1.0f / (far - near);
+			Real cot = static_cast<Real>(1) / std::tan(fovy / static_cast<Real>(2));
+			Real diff = static_cast<Real>(1) / (far - near);
 
 			return Matrix4{
 				cot / aspect, static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0),

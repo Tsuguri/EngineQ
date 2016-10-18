@@ -33,12 +33,12 @@ namespace EngineQ
 
 		public void SetForwardShader(Shader shader)
 		{
-			API_SetForwardShader(this.NativeHandle, shader.NativeHandle);
+			API_SetForwardShader(this.NativeHandle, shader.Handle);
 		}
 
 		public void SetDeferredShader(Shader shader)
 		{
-			API_SetDeferredShader(this.NativeHandle, shader.NativeHandle);
+			API_SetDeferredShader(this.NativeHandle, shader.Handle);
 		}
 
 		#endregion

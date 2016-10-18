@@ -179,14 +179,14 @@ namespace EngineQ
 
 		#endregion
 
-		#region Fields
+		#region Static Fields
 
 		private static Dictionary<Key, KeyEventHandler> keyEventDict;
 		private static Dictionary<MouseButton, KeyEventHandler> mouseEventDict;
 
 		#endregion
 
-		#region Properties
+		#region Static Properties
 
 		public static Vector2 MousePosition
 		{
@@ -210,7 +210,7 @@ namespace EngineQ
 
 		#endregion
 
-		#region Methods
+		#region Static Constructor
 
 		static Input()
 		{

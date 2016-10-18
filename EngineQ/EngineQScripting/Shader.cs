@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EngineQ
 {
-	public class Shader : Resource
+	public sealed class Shader : Resource
 	{
+		public Shader(IntPtr handle) :
+			base(handle)
+		{
+		}
 	}
 }

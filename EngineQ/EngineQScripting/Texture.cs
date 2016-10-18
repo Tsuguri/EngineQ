@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EngineQ
 {
-	public class Texture : Resource
+	public sealed class Texture : Resource
 	{
+		public Texture(IntPtr handle) :
+			base(handle)
+		{
+		}
 	}
 }
