@@ -69,7 +69,7 @@ namespace EngineQ
 			MonoAssembly* assembly;
 			MonoImage* image;
 
-			MonoClassField* qObjectHandleField;
+			MonoClassField* nativeHandleClassField;
 
 			MonoMethod* entityConstructor;	
 			MonoMethod* transformConstructor;

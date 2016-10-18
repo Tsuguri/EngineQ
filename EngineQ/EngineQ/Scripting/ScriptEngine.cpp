@@ -22,6 +22,7 @@
 #include "API_TimeCounter.hpp"
 #include "API_Input.hpp"
 #include "API_Application.hpp"
+#include "API_Renderable.hpp"
 
 namespace EngineQ
 {
@@ -93,14 +94,9 @@ namespace EngineQ
 			this->image = mono_assembly_get_image(assembly);
 
 			for (std::size_t i = 0; i < ScriptClassesCount; ++i)
-			{
-				const char* ns = ScriptClassNames[i][0];
-				const char* nm = ScriptClassNames[i][1];
-				MonoClass* cls = mono_class_from_name(this->image, ns, nm);
-				scriptClasses[i] = cls;
-			}
+				scriptClasses[i] = mono_class_from_name(this->image, ScriptClassNames[i][0], ScriptClassNames[i][1]);
 
-			this->qObjectHandleField = mono_class_get_field_from_name(this->GetClass(Class::Object), NativeHandleFieldName);
+			this->nativeHandleClassField = mono_class_get_field_from_name(this->GetClass(Class::Object), NativeHandleFieldName);
 
 			this->entityConstructor = GetMethod(this->GetClass(Class::Entity), ConstructorName);
 			this->entityUpdate = GetMethod(this->GetClass(Class::Entity), UpdateName);
@@ -113,16 +109,15 @@ namespace EngineQ
 			API_Matrix3::API_Register(*this);
 			API_Matrix4::API_Register(*this);
 
+			API_Scene::API_Register(*this);
+			API_Entity::API_Register(*this);
 			API_Component::API_Register(*this);
 			API_Transform::API_Register(*this);
-			API_Entity::API_Register(*this);
-			API_Scene::API_Register(*this);
+			API_Renderable::API_Register(*this);
+
 			API_TimeCounter::API_Register(*this);
 			API_Input::API_Register(*this);
 			API_Application::API_Register(*this);
-			//here goes new api
-
-
 		}
 
 		ScriptEngine::~ScriptEngine()
@@ -147,7 +142,7 @@ namespace EngineQ
 				return nullptr;
 
 			Object* data = nullptr;
-			mono_field_get_value(object, this->qObjectHandleField, &data);
+			mono_field_get_value(object, this->nativeHandleClassField, &data);
 
 			return data;
 		}
@@ -186,7 +181,7 @@ namespace EngineQ
 			uint32_t handle = mono_gchandle_new(instance, false);
 
 			// Set pointer to native representation
-			mono_field_set_value(instance, this->qObjectHandleField, &nativeHandle);
+			mono_field_set_value(instance, this->nativeHandleClassField, &nativeHandle);
 
 			return handle;
 		}
@@ -198,7 +193,7 @@ namespace EngineQ
 
 			// Clear pointer to native representation
 			void* nativeHandle = nullptr;
-			mono_field_set_value(instance, this->qObjectHandleField, &nativeHandle);
+			mono_field_set_value(instance, this->nativeHandleClassField, &nativeHandle);
 
 			// Release reference
 			mono_gchandle_free(handle);
