@@ -74,6 +74,7 @@
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Objects\Transform.cpp" />
+    <ClCompile Include="Utilities\Emiter.cpp" />
     <ClCompile Include="Utilities\Nullable.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="Serialization\Types.hpp" />
     <ClInclude Include="Serialization\XMLFormatter.hpp" />
     <ClInclude Include="TimeCounter.hpp" />
+    <ClInclude Include="Utilities\Emiter.hpp" />
     <ClInclude Include="Utilities\Event.hpp" />
     <ClInclude Include="Utilities\Immovable.hpp" />
     <ClInclude Include="Objects\Light.hpp" />

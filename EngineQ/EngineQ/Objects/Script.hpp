@@ -3,12 +3,16 @@
 
 #include "Component.hpp"
 
+//	#include "../Utilities/Emiter.hpp"
+
 namespace EngineQ
 {
 	class Script final : public Component
 	{
 	private:
 		Scripting::ScriptMethod updateMethod;
+
+	//	Utilities::Emiter emiter{ "Script" };
 
 	public:
 	#pragma region Serialization

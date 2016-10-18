@@ -36,6 +36,9 @@ namespace EngineQ
 		std::unique_ptr<Scripting::ScriptEngine> scriptingEngine;
 		std::unique_ptr<Resources::ResourceManager> resourceManager;
 		std::shared_ptr<Graphics::RenderingUnit> renderingUnit;
+		
+		std::vector<std::unique_ptr<Scene>> scenes;
+		Scene* currentScene = nullptr;
 
 #pragma endregion 
 
@@ -62,9 +65,14 @@ namespace EngineQ
 
 		void SetPostprocessingConfiguration(std::string filePath);
 
-		Scene* CreateScene() const;
+		Scene& CreateScene();
+		void RemoveScene(Scene& scene);
+
+		void SetCurrentScene(Scene& scene);
+		Scene& GetCurrentScene() const;
+
 		void Exit();
-		void Run(Scene* scene);
+		void Run();
 
 
 #pragma endregion 

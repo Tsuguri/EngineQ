@@ -50,6 +50,8 @@ namespace EngineQ
 		this->input.InitMethods(this->scriptingEngine.get());
 
 		this->resourceManager = std::make_unique<Resources::ResourceManager>(*this->scriptingEngine);
+
+		this->currentScene = &this->CreateScene();
 	}
 
 	void Engine::WindowResized(int width, int height)
@@ -109,9 +111,42 @@ namespace EngineQ
 		renderingUnit = std::make_shared<Graphics::RenderingUnit>(this, Graphics::RenderingUnitConfiguration::Load(filePath));
 	}
 
-	Scene* Engine::CreateScene() const
+	Scene& Engine::CreateScene()
 	{
-		return new Scene(*scriptingEngine.get());
+		this->scenes.push_back(std::make_unique<Scene>(*this->scriptingEngine));
+		return *this->scenes.back();
+	}
+
+	void Engine::RemoveScene(Scene& scene)
+	{
+		if (this->currentScene == &scene)
+			throw std::runtime_error{ "Cannot remove current scene" };
+
+		auto it = this->scenes.begin();
+		for (auto end = this->scenes.end(); it != end; ++it)
+			if (it->get() == &scene)
+				break;
+		if (it == this->scenes.end())
+			throw std::runtime_error{ "Scene not found" };
+
+		this->scenes.erase(it);
+	}
+
+	void Engine::SetCurrentScene(Scene& scene)
+	{
+		auto it = this->scenes.begin();
+		for (auto end = this->scenes.end(); it != end; ++it)
+			if (it->get() == &scene)
+				break;
+		if (it == this->scenes.end())
+			throw std::runtime_error{ "Scene not found" };
+
+		this->currentScene = &scene;
+	}
+
+	Scene& Engine::GetCurrentScene() const
+	{
+		return *this->currentScene;
 	}
 
 	void Engine::Exit()
@@ -129,12 +164,12 @@ namespace EngineQ
 
 	Resources::ResourceManager& Engine::GetResourceManager() const
 	{
-		return *resourceManager.get();
+		return *resourceManager;
 	}
 
 	Scripting::ScriptEngine& Engine::GetScriptEngine() const
 	{
-		return *this->scriptingEngine.get();
+		return *this->scriptingEngine;
 	}
 
 	Graphics::RenderingUnitConfiguration GenerateDefaultConfiguration()
@@ -184,7 +219,7 @@ namespace EngineQ
 	}
 
 
-	void Engine::Run(Scene* scene)
+	void Engine::Run()
 	{
 		auto& timeCounter = *TimeCounter::Get();
 		timeCounter.Update(0.0f, 0.0f);
@@ -204,10 +239,10 @@ namespace EngineQ
 			this->resourceManager->Update();
 
 			// Update scene logic (scripts)
-			scene->Update();
+			this->currentScene->Update();
 
 			// Render scene
-			this->renderingUnit->Render(scene);
+			this->renderingUnit->Render(this->currentScene);
 
 			// Clear frame-characteristic data
 			this->input.ClearDelta();

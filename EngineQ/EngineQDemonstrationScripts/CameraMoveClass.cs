@@ -110,9 +110,9 @@ namespace QScripts
 			{
 				ResourceManager resourceManger = ResourceManager.Instance;
 
-				resourceManger.GetResource<Shader>("6");
+			//	resourceManger.GetResource<Shader>("6");
 
-			//	testShader = resourceManger.GetResource<Shader>("6");
+				testShader = resourceManger.GetResource<Shader>("6");
 			}
 
 			if(action == Input.KeyAction.Release)

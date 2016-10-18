@@ -9,6 +9,7 @@
 #include <mono/metadata/exception.h>
 #include <mono/metadata/mono-debug.h>
 #include <mono/metadata/attrdefs.h>
+#include <mono/metadata/mono-gc.h>
 
 #include "ScriptingExceptions.hpp"
 
@@ -31,7 +32,7 @@ namespace EngineQ
 	namespace Scripting
 	{
 		constexpr const char* ScriptEngine::ScriptClassNames[][2];
-		
+
 		std::array<MonoClass*, ScriptEngine::ScriptClassesCount> ScriptEngine::scriptClasses;
 
 
@@ -87,9 +88,13 @@ namespace EngineQ
 			mono_set_dirs(libPath, configPath);
 
 
+			//	this->domain = mono_init(name);
+			//	this->domain = mono_domain_create();
 			this->domain = mono_jit_init(name);
 
-			this->assembly = mono_domain_assembly_open(domain, assemblyPath);
+
+
+			this->assembly = mono_domain_assembly_open(this->domain, assemblyPath);
 			if (this->assembly == nullptr)
 				throw ScriptEngineException("Failed to open assembly");
 
@@ -102,7 +107,7 @@ namespace EngineQ
 
 			this->entityConstructor = GetMethod(this->GetClass(Class::Entity), ConstructorName);
 			this->entityUpdate = GetMethod(this->GetClass(Class::Entity), UpdateName);
-			
+
 			this->transformConstructor = GetMethod(this->GetClass(Class::Transform), ConstructorName);
 
 
@@ -132,7 +137,14 @@ namespace EngineQ
 			//		mono_assembly_close(assembly.second.first);
 			//	}
 
+			//	mono_gc_collect(0);
+			//	mono_gc_invoke_finalizers();
+
 			mono_jit_cleanup(this->domain);
+
+			//	mono_domain_finalize(this->domain, -1);
+			//	mono_domain_unload(this->domain);
+			//	mono_domain_free(this->domain, false);
 		}
 
 		ScriptObject ScriptEngine::GetInstance(ScriptHandle handle) const
@@ -229,7 +241,7 @@ namespace EngineQ
 		{
 			cname = mono_class_get_name(sclass);
 			cnamespace = mono_class_get_namespace(sclass);
-			
+
 			MonoImage* image = mono_class_get_image(sclass);
 
 			if (image != this->image)
@@ -265,7 +277,7 @@ namespace EngineQ
 			MonoClass* mclass = mono_class_from_name(image, cnamespace.c_str(), cname.c_str());
 			if (mclass == nullptr)
 				throw ScriptEngineException{ "Class " + cnamespace + "." + cname + (cassembly == "" ? "" : " from assembly " + cassembly) + " not found" };
-		
+
 			return mclass;
 		}
 
@@ -281,13 +293,13 @@ namespace EngineQ
 
 			return mono_class_from_name(image, classNamespace, name);
 		}
-		
+
 		ScriptClass ScriptEngine::GetClass(ScriptEngine::Class scriptClass) const
 		{
 			std::size_t index = static_cast<std::size_t>(scriptClass);
 			return this->scriptClasses[index];
 		}
-		
+
 		ScriptClass ScriptEngine::GetObjectClass(ScriptObject object) const
 		{
 			return mono_object_get_class(object);
@@ -325,7 +337,7 @@ namespace EngineQ
 			char* cstring = mono_string_to_utf8(string);
 			std::string cppstring = cstring;
 			mono_free(cstring);
-			
+
 			return cppstring;
 		}
 	}

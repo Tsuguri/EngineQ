@@ -185,10 +185,8 @@ EngineQ::Graphics::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep 
 	return new EngineQ::Graphics::Mesh{ vertices,indices };
 }
 
-void PrepareScene(EngineQ::Scene* scene)
+void PrepareScene(EngineQ::Scene& scene)
 {
-	auto& sc{ *scene };
-
 	EngineQ::Resources::ModelLoader2 loader;
 	auto model = loader.LoadModel("Models/skull2.obj");
 
@@ -197,10 +195,10 @@ void PrepareScene(EngineQ::Scene* scene)
 
 	auto cubeMesh = GenerateCube2(0.6f);
 
-	auto ent = sc.CreateEntity();
-	auto ent2 = sc.CreateEntity();
-	auto ent3 = sc.CreateEntity();
-	auto ent4 = sc.CreateEntity();
+	auto ent = scene.CreateEntity();
+	auto ent2 = scene.CreateEntity();
+	auto ent3 = scene.CreateEntity();
+	auto ent4 = scene.CreateEntity();
 
 	auto renderable = ent2->AddComponent<EngineQ::Renderable>();
 	auto renderable2 = ent3->AddComponent<EngineQ::Renderable>();
@@ -248,9 +246,9 @@ void PrepareScene(EngineQ::Scene* scene)
 	ent2->AddScript(scriptClass2);
 
 
-	sc.ActiveCamera(cam);
+	scene.ActiveCamera(cam);
 
-	auto lightEntity = sc.CreateEntity();
+	auto lightEntity = scene.CreateEntity();
 	auto light = lightEntity->AddComponent<EngineQ::Light>();
 }
 
@@ -267,6 +265,8 @@ void TemporaryResources()
 	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CombineShader, "./Shaders/Bloom/Combine.shd");
 	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredLightning, "./Shaders/Deferred/DeferredLightning.shd");
 	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry, "./Shaders/Deferred/DeferredGeometry.shd");
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>("TestDeferred1", "./Shaders/Deferred/DeferredGeometry2.shd");
+	resourceManager.RegisterResource<EngineQ::Graphics::Shader>("TestDeferred2", "./Shaders/Deferred/DeferredGeometry3.shd");
 	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CustomDeferred, "./Shaders/Deferred/DeferredCustom.shd");
 }
 
@@ -277,10 +277,10 @@ int main(int argc, char** argv)
 	TemporaryResources();
 	EngineQ::Engine::Get().SetPostprocessingConfiguration("./postprocessing.conf");
 
-	auto sc = EngineQ::Engine::Get().CreateScene();
-	PrepareScene(sc);
+	auto& scene = EngineQ::Engine::Get().GetCurrentScene();
+	PrepareScene(scene);
 
-	EngineQ::Engine::Get().Run(sc);
+	EngineQ::Engine::Get().Run();
 
 	return 0;
 }

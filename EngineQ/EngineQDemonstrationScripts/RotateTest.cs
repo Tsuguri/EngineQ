@@ -12,13 +12,13 @@ namespace QScripts
 	{
 		private float X = 0, Y = 0;
 		private int mode = 0;
-		private Renderable renderable;
 
 		public RotateTest()
 		{
 			Input.ListenKey(Input.Key.N1, SwitchAction);
 
-			renderable = this.Entity.GetComponent<Renderable>();
+			Input.ListenKey(Input.Key.LeftBracket, ChangeShader1);
+			Input.ListenKey(Input.Key.RightBracket, ChangeShader2);
 		}
 
 		private void SwitchAction(Input.KeyAction action)
@@ -26,6 +26,25 @@ namespace QScripts
 			mode = (mode + 1) % 3;
 		}
 
+		private void ChangeShader1(Input.KeyAction action)
+		{
+			if(action == Input.KeyAction.Press)
+			{
+				Renderable renderable = this.Entity.GetComponent<Renderable>();
+
+				renderable.SetDeferredShader(ResourceManager.Instance.GetResource<Shader>("TestDeferred1"));
+			}
+		}
+
+		private void ChangeShader2(Input.KeyAction action)
+		{
+			if (action == Input.KeyAction.Press)
+			{
+				Renderable renderable = this.Entity.GetComponent<Renderable>();
+
+				renderable.SetDeferredShader(ResourceManager.Instance.GetResource<Shader>("TestDeferred2"));
+			}
+		}
 
 		private void CheckAngles()
 		{
