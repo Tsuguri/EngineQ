@@ -21,7 +21,7 @@ namespace EngineQ
 #pragma endregion
 
 	Light::Light(Scripting::ScriptEngine& scriptEngine, Entity& entity)
-		: Component{scriptEngine, scriptEngine.GetLightClass(), entity }
+		: Component{scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light), entity }
 	{
 		// TMP
 		scriptEngine.InvokeConstructor(GetManagedObject());

@@ -27,6 +27,11 @@ namespace EngineQ
 {
 	namespace Scripting
 	{
+		constexpr const char* ScriptEngine::ScriptClassNames[][2];
+		
+		std::array<MonoClass*, ScriptEngine::ScriptClassesCount> ScriptEngine::scriptClasses;
+
+
 		MonoMethod* ScriptEngine::GetMethod(MonoClass* mclass, const char* name)
 		{
 			MonoMethodDesc* desc = mono_method_desc_new(name, true);
@@ -37,12 +42,18 @@ namespace EngineQ
 			return method;
 		}
 
+		ScriptMethod ScriptEngine::GetInputMethod(const char* name) const
+		{
+			return GetMethod(this->GetClass(Class::Input), name);
+		}
+
 		MonoMethod* ScriptEngine::GetScriptMethod(MonoClass* mclass, MonoObject* object, const char* name) const
 		{
 			MonoClass* currClass = mclass;
 			MonoMethod* foundMethod = nullptr;
+			MonoClass* scriptClass = this->GetClass(Class::Script);
 
-			while (currClass != this->scriptClass)
+			while (currClass != scriptClass)
 			{
 				if (currClass == nullptr)
 					throw ScriptEngineException("Class is not derrived from Script class");
@@ -81,28 +92,21 @@ namespace EngineQ
 
 			this->image = mono_assembly_get_image(assembly);
 
-			this->qObjectClass = mono_class_from_name(this->image, NamespaceName, ObjectClassName);
-			this->qObjectHandleField = mono_class_get_field_from_name(this->qObjectClass, NativeHandleFieldName);
+			for (std::size_t i = 0; i < ScriptClassesCount; ++i)
+			{
+				const char* ns = ScriptClassNames[i][0];
+				const char* nm = ScriptClassNames[i][1];
+				MonoClass* cls = mono_class_from_name(this->image, ns, nm);
+				scriptClasses[i] = cls;
+			}
 
-			this->entityClass = mono_class_from_name(this->image, NamespaceName, EntityClassName);
-			this->scriptClass = mono_class_from_name(this->image, NamespaceName, ScriptClassName);
-			this->transformClass = mono_class_from_name(this->image, NamespaceName, TransformClassName);
-			this->lightClass = mono_class_from_name(this->image, NamespaceName, LightClassName);
-			this->cameraClass = mono_class_from_name(this->image, NamespaceName, CameraClassName);
-			this->renderableClass = mono_class_from_name(this->image, NamespaceName, RenderableClassName);
-			this->sceneClass = mono_class_from_name(this->image, NamespaceName, SceneClassName);
-			this->inputClass = mono_class_from_name(this->image, NamespaceName, InputClassName);
-			this->resourceManagerClass = mono_class_from_name(this->image, NamespaceName, ResourceManagerClassName);
+			this->qObjectHandleField = mono_class_get_field_from_name(this->GetClass(Class::Object), NativeHandleFieldName);
 
-			this->resourceShaderClass = mono_class_from_name(this->image, NamespaceName, ResourceShaderClassName);
-			this->resourceTextureClass = mono_class_from_name(this->image, NamespaceName, ResourceTextureClassName);
+			this->entityConstructor = GetMethod(this->GetClass(Class::Entity), ConstructorName);
+			this->entityUpdate = GetMethod(this->GetClass(Class::Entity), UpdateName);
+			
+			this->transformConstructor = GetMethod(this->GetClass(Class::Transform), ConstructorName);
 
-			this->shaderPropertiesClass = mono_class_from_name(this->image, NamespaceName, ShaderPropertiesClassName);
-
-			this->entityConstructor = GetMethod(this->entityClass, ConstructorName);
-			this->transformConstructor = GetMethod(this->transformClass, ConstructorName);
-
-			this->entityUpdate = GetMethod(this->entityClass, UpdateName);
 
 			// API
 			API_Quaternion::API_Register(*this);
@@ -279,46 +283,12 @@ namespace EngineQ
 			return mono_class_from_name(image, classNamespace, name);
 		}
 		
-		ScriptClass ScriptEngine::GetTransformClass() const
+		ScriptClass ScriptEngine::GetClass(ScriptEngine::Class scriptClass) const
 		{
-			return this->transformClass;
+			std::size_t index = static_cast<std::size_t>(scriptClass);
+			return this->scriptClasses[index];
 		}
-
-		ScriptClass ScriptEngine::GetLightClass() const
-		{
-			return this->lightClass;
-		}
-
-		ScriptClass ScriptEngine::GetCameraClass() const
-		{
-			return this->cameraClass;
-		}
-
-		ScriptClass ScriptEngine::GetEntityClass() const
-		{
-			return this->entityClass;
-		}
-
-		ScriptClass ScriptEngine::GetSceneClass() const
-		{
-			return this->sceneClass;
-		}
-
-		ScriptClass ScriptEngine::GetRenderableClass() const
-		{
-			return this->renderableClass;
-		}
-
-		ScriptClass ScriptEngine::GetResourceManagerClass() const
-		{
-			return this->resourceManagerClass;
-		}
-
-		ScriptMethod ScriptEngine::GetInputMethod(const char* name) const
-		{
-			return GetMethod(this->inputClass, name);
-		}
-
+		
 		ScriptClass ScriptEngine::GetObjectClass(ScriptObject object) const
 		{
 			return mono_object_get_class(object);
@@ -328,24 +298,6 @@ namespace EngineQ
 		{
 			return mono_type_get_class(mono_reflection_type_get_type(type));
 		}
-
-
-		ScriptClass ScriptEngine::GetResourceShaderClass() const
-		{
-			return this->resourceShaderClass;
-		}
-
-		ScriptClass ScriptEngine::GetResourceTextureClass() const
-		{
-			return this->resourceTextureClass;
-		}
-
-
-		ScriptClass ScriptEngine::GetShaderPropertiesClass() const
-		{
-			return this->shaderPropertiesClass;
-		}
-
 
 		bool ScriptEngine::IsDerrived(ScriptClass derrived, ScriptClass base) const
 		{
@@ -363,48 +315,10 @@ namespace EngineQ
 
 		bool ScriptEngine::IsScript(ScriptClass sclass) const
 		{
-			if (sclass == this->scriptClass)
+			if (sclass == this->GetClass(Class::Script))
 				return false;
 
-			return IsDerrived(sclass, this->scriptClass);
+			return IsDerrived(sclass, this->GetClass(Class::Script));
 		}
-
-		//int ScriptEngine::TMPRUN(int argc, char** argv)
-		//{
-		//	return mono_jit_exec(this->domain, this->assembly, argc, argv);
-		//}
-
-		//uint32_t ScriptEngine::CreateObject(void* nativeHandle) const
-		//{
-		//	return CreateObject(this->qObjectClass, nativeHandle);
-		//}
-
-		//void ScriptEngine::ExposeMethod(MonoClass* mclass, const char* assemblyName) const
-		//{
-		//	MonoClass* currClass = mclass;
-
-		//	std::cout << "Searching for method " << assemblyName << " in class " << mono_class_get_name(mclass) << std::endl;
-		//	while (currClass != nullptr)
-		//	{
-		//		MonoMethod* meth = GetMethod(currClass, assemblyName);
-		//		if (meth != nullptr)
-		//		{
-		//			std::cout << "Found in class " << mono_class_get_name(currClass) << std::endl;
-
-		//			uint32_t flags = mono_method_get_flags(meth, NULL);
-		//			
-		//			if (flags & MONO_METHOD_ATTR_NEW_SLOT)
-		//				std::cout << "\tnew" << std::endl;
-
-		//			if (flags & MONO_METHOD_ATTR_VIRTUAL)
-		//				std::cout << "\tvirtual" << std::endl;
-
-
-		//			return;
-		//		}
-		//		currClass = mono_class_get_parent(currClass);
-		//	}
-		//	std::cout << "Not found" << std::endl;
-		//}
 	}
 }

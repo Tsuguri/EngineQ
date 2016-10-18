@@ -42,7 +42,7 @@ namespace EngineQ
 
 		Scripting::ScriptClass ResourceFactory<Graphics::Shader>::GetScriptClass(Scripting::ScriptEngine& scriptEngine)
 		{
-			return scriptEngine.GetResourceShaderClass();
+			return scriptEngine.GetClass(Scripting::ScriptEngine::Class::Shader);
 		}
 	}
 }

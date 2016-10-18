@@ -58,15 +58,15 @@ namespace EngineQ
 			const ScriptEngine& scriptEngine = entity.GetScriptEngine();
 			MonoClass* componentClass = scriptEngine.GetTypeClass(type);
 
-			if (componentClass == scriptEngine.GetCameraClass())
+			if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Camera))
 			{
 				component = entity.AddComponent<Camera>()->GetManagedObject();
 			}
-			else if (componentClass == scriptEngine.GetLightClass())
+			else if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light))
 			{
 				component = entity.AddComponent<Light>()->GetManagedObject();
 			}
-			else if (componentClass == scriptEngine.GetRenderableClass())
+			else if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Renderable))
 			{
 				component = entity.AddComponent<Renderable>()->GetManagedObject();
 			}

@@ -7,7 +7,7 @@
 namespace EngineQ
 {
 	Renderable::Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity)
-		: Component{ scriptEngine, scriptEngine.GetRenderableClass(), entity }
+		: Component{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Renderable), entity }
 	{
 	}
 

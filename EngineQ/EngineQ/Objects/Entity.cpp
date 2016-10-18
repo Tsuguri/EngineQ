@@ -36,7 +36,7 @@ namespace EngineQ
 	#pragma endregion
 
 		Entity::Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine) :
-			Object{ scriptEngine, scriptEngine.GetEntityClass() },
+			Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Entity) },
 			scene{ scene },
 			components{},
 			updatable{},

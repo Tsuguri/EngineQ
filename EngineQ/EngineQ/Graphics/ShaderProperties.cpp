@@ -66,7 +66,7 @@ namespace EngineQ
 		}
 
 		ShaderProperties::ShaderProperties(Scripting::ScriptEngine& scriptEngine, Resources::Resource<Shader> shader) :
-			Object{ scriptEngine, scriptEngine.GetShaderPropertiesClass() }, shader{ shader }
+			Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::ShaderProperties) }, shader{ shader }
 		{
 			GLint uniformCount;
 			glGetProgramiv(shader->programId, GL_ACTIVE_UNIFORMS, &uniformCount);

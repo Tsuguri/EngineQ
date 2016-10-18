@@ -5,7 +5,7 @@ namespace EngineQ
 	namespace Resources
 	{
 		ResourceManager::ResourceManager(Scripting::ScriptEngine& scriptEngine) :
-			Object{ scriptEngine, scriptEngine.GetResourceManagerClass() }
+			Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::ResourceManager) }
 		{
 		}
 

@@ -33,7 +33,7 @@ namespace EngineQ
 #pragma endregion
 
 	Scene::Scene(Scripting::ScriptEngine& scriptEngine) :
-		Object{ scriptEngine, scriptEngine.GetSceneClass() }
+		Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Scene) }
 	{
 	}
 
