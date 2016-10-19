@@ -13,7 +13,7 @@ namespace EngineQ
 			instance = EngineQ::Engine::Get().GetResourceManager().GetManagedObject();
 		}
 
-		void API_ResourceManager::API_GetResource(Object& resourceMangerBase, MonoReflectionType* resourceType, MonoString* resourceId, Resources::BaseResource::BaseControlBlock*& controlBlock)
+		void API_ResourceManager::API_GetResource(Object& resourceMangerBase, MonoReflectionType* resourceType, MonoString* resourceId, MonoObject*& resourceObject)
 		{
 			auto& resourceManager = static_cast<Resources::ResourceManager&>(resourceMangerBase);
 			const auto& scriptEngine = resourceManager.GetScriptEngine();
@@ -22,6 +22,7 @@ namespace EngineQ
 
 			std::string resourceIdString = scriptEngine.GetScriptStringContent(resourceId);
 
+			Resources::BaseResource::BaseControlBlock* controlBlock;
 			if (resourceClass == scriptEngine.GetClass(ScriptEngine::Class::Shader))
 			{
 				controlBlock = resourceManager.GetResource<Graphics::Shader>(resourceIdString).GetControlBlock();
@@ -33,7 +34,10 @@ namespace EngineQ
 			else
 			{
 				scriptEngine.Throw_ArgumentException("TResourceType", "Not supported resource type");
+				return;
 			}
+
+			resourceObject = scriptEngine.CreateUnhandledObject(resourceClass, controlBlock);
 		}
 
 		void API_ResourceManager::API_Register(ScriptEngine& scriptEngine)

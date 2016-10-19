@@ -18,29 +18,64 @@ namespace EngineQ
 		}
 
 		template<typename TType>
-		ShaderProperty<TType> ShaderProperties::GetProperty(const std::string& name) const
+		ShaderProperty<TType> ShaderProperties::GetProperty(const std::string& name)
 		{
-			return shaderUniformsMap.at(name)->GetProperty<TType>();
+			int index = this->shaderUniformsMap.at(name);
+			UniformData& uniformData = this->shaderUniforms[index].second;
+			return uniformData.GetProperty<TType>();
 		}
 
 		template<typename TType>
-		Utilities::Nullable<ShaderProperty<TType>> ShaderProperties::TryGetProperty(const std::string& name) const
+		Utilities::Nullable<ShaderProperty<TType>> ShaderProperties::TryGetProperty(const std::string& name)
 		{
-			auto it = shaderUniformsMap.find(name);
-			if (it == shaderUniformsMap.end() || !it->second->IsType<TType>())
+			auto it = this->shaderUniformsMap.find(name);
+			if (it == this->shaderUniformsMap.end())
 				return nullval;
 
-			return it->second->GetProperty<TType>();
+			UniformData& uniformData = this->shaderUniforms[it->second].second;
+
+			if (!uniformData.IsType<TType>())
+				return nullval;
+
+			return uniformData.GetProperty<TType>();
 		}
 
 		template<typename TType>
 		bool ShaderProperties::HasProperty(const std::string& name) const
 		{
-			auto it = shaderUniformsMap.find(name);
-			if (it == shaderUniformsMap.end())
+			auto it = this->shaderUniformsMap.find(name);
+			if (it == this->shaderUniformsMap.end())
 				return false;
 
-			return it->second->IsType<TType>();
+			const UniformData& uniformData = this->shaderUniforms[it->second].second;
+			return uniformData.IsType<TType>();
+		}
+
+		template<typename TType>
+		int ShaderProperties::GetPropertyIndex(const std::string& name) const
+		{
+			auto it = this->shaderUniformsMap.find(name);
+			if (it == this->shaderUniformsMap.end())
+				return -1;
+
+			int index = it->second;
+			const UniformData& uniformData = this->shaderUniforms[index].second;
+			if (!uniformData.IsType<TType>())
+				return -1;
+
+			return index;
+		}
+
+		template<typename TType>
+		void ShaderProperties::Set(int index, const TType& value)
+		{
+			return this->shaderUniforms[index].second.Set(value);
+		}
+
+		template<typename TType>
+		TType ShaderProperties::Get(int index) const
+		{
+			return this->shaderUniforms[index].second.Get<TType>();
 		}
 	}
 }

@@ -22,7 +22,7 @@ namespace EngineQ
 			const char* path = image->Attribute("Path");
 
 			auto mipmaps = rootElement->FirstChildElement("Mipmaps");
-			bool useMipmaps = image->BoolAttribute("Use");
+			bool useMipmaps = mipmaps->BoolAttribute("Use");
 
 			return std::make_unique<Graphics::Texture>(path, useMipmaps);
 		}

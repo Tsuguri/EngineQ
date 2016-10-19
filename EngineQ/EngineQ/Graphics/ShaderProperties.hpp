@@ -65,7 +65,7 @@ namespace EngineQ
 			Resources::Resource<Shader> shader;
 			
 			std::vector<std::pair<UniformLocation, UniformData>> shaderUniforms;
-			std::map<std::string, UniformData*> shaderUniformsMap;
+			std::map<std::string, int> shaderUniformsMap;
 			
 			std::vector<UniformData> mockUniforms;
 
@@ -89,14 +89,23 @@ namespace EngineQ
 
 			void Apply() const;
 
+			template<typename TType>
+			int GetPropertyIndex(const std::string& name) const;
+
+			template<typename TType>
+			void Set(int index, const TType& value);
+
+			template<typename TType>
+			TType Get(int index) const;
+
 			template<typename TType = void>
 			bool HasProperty(const std::string& name) const;
 
 			template<typename TType>
-			ShaderProperty<TType> GetProperty(const std::string& name) const;
+			ShaderProperty<TType> GetProperty(const std::string& name);
 
 			template<typename TType>
-			Utilities::Nullable<ShaderProperty<TType>> TryGetProperty(const std::string& name) const;
+			Utilities::Nullable<ShaderProperty<TType>> TryGetProperty(const std::string& name);
 
 			// Built-in properties getters
 			const Matrices& GetMatrices();

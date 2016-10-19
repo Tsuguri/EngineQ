@@ -26,14 +26,15 @@
 #include "API_Renderable.hpp"
 #include "API_Resource.hpp"
 #include "API_ResourceManager.hpp"
+#include "API_ShaderProperties.hpp"
 
 namespace EngineQ
 {
 	namespace Scripting
 	{
-		constexpr const char* ScriptEngine::ScriptClassNames[][2];
+		constexpr const char* ScriptEngine::ScriptClassNames[ScriptClassCount][2];
 
-		std::array<MonoClass*, ScriptEngine::ScriptClassesCount> ScriptEngine::scriptClasses;
+		std::array<MonoClass*, ScriptEngine::ScriptClassCount> ScriptEngine::scriptClasses;
 
 
 		MonoMethod* ScriptEngine::GetMethod(MonoClass* mclass, const char* name)
@@ -88,10 +89,17 @@ namespace EngineQ
 			mono_set_dirs(libPath, configPath);
 
 
+
 			//	this->domain = mono_init(name);
 			//	this->domain = mono_domain_create();
 			this->domain = mono_jit_init(name);
 
+
+			//	const char* inputArgs[2];
+			//	inputArgs[0] = "./MonoTurboProg";
+			//	inputArgs[1] = "--debugger-agent=\"transport=dt_socket,address=127.0.0.1:56000\"";
+			//	
+			//	mono_jit_parse_options(2, const_cast<char**>(inputArgs));
 
 
 			this->assembly = mono_domain_assembly_open(this->domain, assemblyPath);
@@ -100,8 +108,16 @@ namespace EngineQ
 
 			this->image = mono_assembly_get_image(assembly);
 
-			for (std::size_t i = 0; i < ScriptClassesCount; ++i)
-				scriptClasses[i] = mono_class_from_name(this->image, ScriptClassNames[i][0], ScriptClassNames[i][1]);
+			this->scriptClasses[static_cast<std::size_t>(Class::Integer)] = mono_get_int32_class();
+			this->scriptClasses[static_cast<std::size_t>(Class::Float)] = mono_get_single_class();
+
+
+			for (std::size_t i = ScriptClassOffset; i < ScriptClassCount; ++i)
+			{
+				std::size_t nameIndex = i - ScriptClassOffset;
+				auto scriptClass = mono_class_from_name(this->image, ScriptClassNames[nameIndex][0], ScriptClassNames[nameIndex][1]);
+				scriptClasses[i] = scriptClass;
+			}
 
 			this->nativeHandleClassField = mono_class_get_field_from_name(this->GetClass(Class::Object), NativeHandleFieldName);
 
@@ -127,6 +143,7 @@ namespace EngineQ
 			API_Application::API_Register(*this);
 			API_Resource::API_Register(*this);
 			API_ResourceManager::API_Register(*this);
+			API_ShaderProperties::API_Register(*this);
 		}
 
 		ScriptEngine::~ScriptEngine()
@@ -186,6 +203,17 @@ namespace EngineQ
 		void ScriptEngine::InvokeConstructor(ScriptObject object) const
 		{
 			mono_runtime_object_init(object);
+		}
+
+		ScriptObject ScriptEngine::CreateUnhandledObject(ScriptClass sclass, void* nativeHandle) const
+		{
+			// Create object
+			MonoObject* instance = mono_object_new(this->domain, sclass);
+
+			// Set pointer to native representation
+			mono_field_set_value(instance, this->nativeHandleClassField, &nativeHandle);
+
+			return instance;
 		}
 
 		ScriptHandle ScriptEngine::CreateObject(ScriptClass sclass, Object* nativeHandle) const
@@ -330,6 +358,11 @@ namespace EngineQ
 				return false;
 
 			return IsDerrived(sclass, this->GetClass(Class::Script));
+		}
+
+		void* ScriptEngine::Unbox(ScriptObject object) const
+		{
+			return mono_object_unbox(object);
 		}
 
 		std::string ScriptEngine::GetScriptStringContent(ScriptString string) const

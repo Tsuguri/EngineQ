@@ -4,9 +4,5 @@ namespace EngineQ
 {
 	public sealed class Texture : Resource
 	{
-		public Texture(IntPtr handle) :
-			base(handle)
-		{
-		}
 	}
 }

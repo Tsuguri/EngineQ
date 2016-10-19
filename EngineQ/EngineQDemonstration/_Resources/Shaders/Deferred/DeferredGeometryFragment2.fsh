@@ -11,6 +11,7 @@ in vec3 Normal;
 
 uniform sampler2D diffuseTexture;
 uniform sampler2D specularTexture;
+uniform vec3 myColor;
 
 void main()
 {    
@@ -19,7 +20,7 @@ void main()
 
     gNormal = normalize(Normal);
 
-    gAlbedoSpec.rgb = vec3(1, 0, 0); //Color;//texture(diffuseTexture, TexCoords).rgb;
+    gAlbedoSpec.rgb = myColor; //Color;//texture(diffuseTexture, TexCoords).rgb;
 
     gAlbedoSpec.a = 1;//texture(specularTexture, TexCoords).r;
 }

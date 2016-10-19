@@ -162,6 +162,15 @@ namespace EngineQ
 			}
 
 			template<typename TType>
+			TType& GetRef()
+			{
+				this->StaticCheck<TType>();
+				this->DynamicCheck<TType>();
+
+				return *reinterpret_cast<const TType*>(data.data());
+			}
+
+			template<typename TType>
 			void Set(const TType& value)
 			{
 				this->StaticCheck<TType>();

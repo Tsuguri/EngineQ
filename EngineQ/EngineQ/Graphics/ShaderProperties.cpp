@@ -96,7 +96,7 @@ namespace EngineQ
 					this->shaderUniforms.emplace_back(location, *uniformData);
 
 					auto& uniformPair = this->shaderUniforms.back();
-					this->shaderUniformsMap.emplace(uniformName, &uniformPair.second);
+					this->shaderUniformsMap.emplace(uniformName, this->shaderUniforms.size() - 1);
 
 					this->OnUniformAdded(uniformPair.second, uniformTypes[i], uniformName);
 				}

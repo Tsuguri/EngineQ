@@ -74,6 +74,7 @@
     <Compile Include="Script.cs" />
     <Compile Include="Shader.cs" />
     <Compile Include="ShaderProperties.cs" />
+    <Compile Include="ShaderProperty.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="Time.cs" />
     <Compile Include="Transform.cs" />

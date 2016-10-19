@@ -19,7 +19,7 @@ void main()
 
     gNormal = normalize(Normal);
 
-    gAlbedoSpec.rgb = gAlbedoSpec.rgb = vec3(0, 1, 0); //Color;//texture(diffuseTexture, TexCoords).rgb;
+    gAlbedoSpec.rgb = texture(diffuseTexture, TexCoords).rgb;
 
     gAlbedoSpec.a = 1;//texture(specularTexture, TexCoords).r;
 }

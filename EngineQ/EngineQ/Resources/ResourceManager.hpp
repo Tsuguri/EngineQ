@@ -38,6 +38,7 @@ namespace EngineQ
 			struct ResourceData
 			{
 				std::string path;
+				int generation = 0;
 				Resource<TResourceType> resource{ std::unique_ptr<TResourceType>{ nullptr } };
 
 				ResourceData(const char* path) :  
@@ -63,7 +64,8 @@ namespace EngineQ
 			using Types = TypesHelper<Graphics::Shader, Graphics::Texture>;
 
 			static constexpr int SkipFrames = 1000;
-
+			static constexpr int MaxGeneration = 3;
+			
 			Types::ResourcesType resources;
 			int frameCount = 0;
 
@@ -86,10 +88,23 @@ namespace EngineQ
 				// List of active resources. If N times is unused during garbage colletion then it is removed and moved to inactive resources list
 				for (auto& resourceDataPair : resourceMap)
 				{
-					if(resourceDataPair.second.resource.GetControlBlock()->resource != nullptr && resourceDataPair.second.resource.GetNativeReferenceCount() == 1 && resourceDataPair.second.resource.GetAllReferenceCount() == 1)
+					auto& resource = resourceDataPair.second.resource;
+					if(resource.GetControlBlock()->resource != nullptr)
 					{
-						resourceDataPair.second.resource.GetControlBlock()->resource = nullptr;
-						std::cout << "Disposed " << resourceDataPair.first << ": " << resourceDataPair.second.path << std::endl;
+						if (resource.GetNativeReferenceCount() == 1 && resource.GetAllReferenceCount() == 1)
+						{
+							resourceDataPair.second.generation += 1;
+
+							if (resourceDataPair.second.generation == MaxGeneration)
+							{
+								resourceDataPair.second.resource.GetControlBlock()->resource = nullptr;
+								std::cout << "Disposed " << resourceDataPair.first << ": " << resourceDataPair.second.path << std::endl;
+							}
+						}
+						else
+						{
+							resourceDataPair.second.generation = 0;
+						}
 					}
 				}
 			}
@@ -118,6 +133,8 @@ namespace EngineQ
 				if (underlyingResource == nullptr)
 				{
 					underlyingResource = ResourceFactory<TResourceType>::CreateResource(resourceData.path.c_str());
+					resourceData.generation = 0;
+
 					std::cout << "Loaded " << resourceId << ": " << resourceData.path << std::endl;
  				}
 

@@ -17,8 +17,11 @@ namespace EngineQ
 		class ScriptEngine : private Utilities::Immovable
 		{
 		public:
-			enum class Class : unsigned
+			enum class Class
 			{
+				Integer,
+				Float,
+
 				Object,
 				Entity,
 				Script,
@@ -27,23 +30,29 @@ namespace EngineQ
 				Camera,
 				Renderable,
 				Scene,
-				Input,
 				ResourceManager,
 
 				ShaderProperties,
 
 				Shader,
 				Texture,
-							
-			};
+				
+				Vector3f,
 
+				Input,
+			};
+			
 		private:
+			static constexpr std::size_t ScriptClassOffset = static_cast<std::size_t>(Class::Object);
+			static constexpr std::size_t ScriptClassCount = static_cast<std::size_t>(Class::Input) + 1;
+
+			static constexpr const char* MathNamespaceName = "EngineQ.Math";
 			static constexpr const char* NamespaceName = "EngineQ";
 			static constexpr const char* ConstructorName = ":.ctor";
 			static constexpr const char* UpdateName = ":Update";
 			static constexpr const char* NativeHandleFieldName = "nativeHandle";
 
-			static constexpr const char* ScriptClassNames[][2] = {
+			static constexpr const char* ScriptClassNames[ScriptClassCount][2] = {
 				{ NamespaceName, "Object" },
 				{ NamespaceName, "Entity" },
 				{ NamespaceName, "Script" },
@@ -52,19 +61,20 @@ namespace EngineQ
 				{ NamespaceName, "Camera" },
 				{ NamespaceName, "Renderable" },
 				{ NamespaceName, "Scene" },
-				{ NamespaceName, "Input" },
 				{ NamespaceName, "ResourceManager" },
 
 				{ NamespaceName, "ShaderProperties" },
 				
 				{ NamespaceName, "Shader" },
-				{ NamespaceName, "Texture" }
+				{ NamespaceName, "Texture" },
+
+				{ MathNamespaceName, "Vector3f" },
+
+				{ NamespaceName, "Input" },
 			};
 
-			static constexpr std::size_t ScriptClassesCount = sizeof(ScriptClassNames) / sizeof(decltype(ScriptClassNames[0]));
+			static std::array<MonoClass*, ScriptClassCount> scriptClasses;
 
-			static std::array<MonoClass*, ScriptClassesCount> scriptClasses;
-			
 			MonoDomain* domain;
 			MonoAssembly* assembly;
 			MonoImage* image;
@@ -82,6 +92,8 @@ namespace EngineQ
 
 			void API_Register(const char* name, const void* function);
 
+			void* Unbox(ScriptObject object) const;
+
 		public:
 			ScriptEngine(const char* name, const char* assemblyPath, const char* libPath, const char* configPath);
 			~ScriptEngine();
@@ -96,6 +108,7 @@ namespace EngineQ
 			void InvokeStaticMethod(ScriptMethod method, void** args) const;
 			void InvokeConstructor(ScriptObject object) const;
 
+			ScriptObject CreateUnhandledObject(ScriptClass sclass, void* nativeHandle) const;
 			ScriptHandle CreateObject(ScriptClass sclass, Object* nativeHandle) const;
 			void DestroyObject(ScriptHandle handle) const;
 
@@ -120,6 +133,8 @@ namespace EngineQ
 			bool IsDerrived(ScriptClass derrived, ScriptClass base) const;
 			bool IsScript(ScriptClass sclass) const;
 
+			template<typename TType>
+			TType& GetValue(ScriptObject object) const;
 			std::string GetScriptStringContent(ScriptString string) const;
 		};
 	}

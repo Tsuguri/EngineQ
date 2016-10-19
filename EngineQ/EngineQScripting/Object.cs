@@ -5,7 +5,7 @@ namespace EngineQ
 	public abstract class Object
 	{
 		private IntPtr nativeHandle;
-		protected internal IntPtr NativeHandle
+		protected IntPtr NativeHandle
 		{
 			get
 			{

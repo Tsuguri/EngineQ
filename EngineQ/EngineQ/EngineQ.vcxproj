@@ -39,6 +39,7 @@
     <ClCompile Include="Scripting\API_Renderable.cpp" />
     <ClCompile Include="Scripting\API_Resource.cpp" />
     <ClCompile Include="Scripting\API_ResourceManager.cpp" />
+    <ClCompile Include="Scripting\API_ShaderProperties.cpp" />
     <ClCompile Include="Scripting\API_TimeCounter.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Component.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="Scripting\API_Renderable.hpp" />
     <ClInclude Include="Scripting\API_Resource.hpp" />
     <ClInclude Include="Scripting\API_ResourceManager.hpp" />
+    <ClInclude Include="Scripting\API_ShaderProperties.hpp" />
     <ClInclude Include="Scripting\API_TimeCounter.hpp" />
     <ClInclude Include="Objects\Camera.hpp" />
     <ClInclude Include="Objects\Component.hpp" />

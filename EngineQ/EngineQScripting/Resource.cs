@@ -3,26 +3,25 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
-	public abstract class Resource
+	public abstract class Resource : Object
 	{
-		#region Fields
+		#region Properties
 
-		public readonly IntPtr Handle;
+		public IntPtr Handle
+		{
+			get
+			{
+				return this.NativeHandle;
+			}
+		}
 
 		#endregion
 
 		#region Constructors and Destructors
 
-		protected Resource(IntPtr handle)
-		{
-			this.Handle = handle;
-
-			API_IncRefCounter(this.Handle);
-		}
-
 		~Resource()
 		{
-			API_DecRefCounter(this.Handle);
+			API_DecRefCounter(this.NativeHandle);
 		}
 
 		#endregion
