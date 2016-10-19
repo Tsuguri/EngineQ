@@ -24,6 +24,9 @@ namespace QScripts
             Input.ListenKey(Input.Key.F2, F2Action);
             rotationX = transform.Rotation.EulerAngles.X;
             rotationY = transform.Rotation.EulerAngles.Y;
+
+
+			Input.ListenKey(Input.Key.P, TestAction);
         }
 
         private float DegToRad(float val)
@@ -82,22 +85,41 @@ namespace QScripts
             Console.WriteLine($"Position: {transform.Position}");
         }
 
-        private void EscapeAction(Input.KeyAction action)
+        private void EscapeAction(Input.Key key, Input.KeyAction action)
         {
             if (action == Input.KeyAction.Press)
                 Application.Exit();
         }
 
-        private void F1Action(Input.KeyAction action)
+        private void F1Action(Input.Key key, Input.KeyAction action)
         {
             if (action == Input.KeyAction.Press)
                 reverseX = !reverseX;
         }
 
-        private void F2Action(Input.KeyAction action)
+        private void F2Action(Input.Key key, Input.KeyAction action)
         {
             if (action == Input.KeyAction.Press)
                 reverseY = !reverseY;
         }
+
+		private Shader testShader;
+		private void TestAction(Input.Key key, Input.KeyAction action)
+		{
+			if(action == Input.KeyAction.Press)
+			{
+				ResourceManager resourceManger = ResourceManager.Instance;
+
+			//	resourceManger.GetResource<Shader>("6");
+
+				testShader = resourceManger.GetResource<Shader>("6");
+			}
+
+			if(action == Input.KeyAction.Release)
+			{
+				System.GC.Collect();
+				System.GC.WaitForPendingFinalizers();
+			}
+		}
     }
 }

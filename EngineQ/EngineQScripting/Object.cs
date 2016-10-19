@@ -16,8 +16,16 @@ namespace EngineQ
 			}
 		}
 
+		public bool IsAlive
+		{
+			get
+			{
+				return this.nativeHandle != IntPtr.Zero;
+			}
+		}
+
 		// TMP
-		public Object()
+		protected Object()
 		{
 			Console.WriteLine($"Constructed {GetType()} with handle {nativeHandle}");
 		}

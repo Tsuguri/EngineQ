@@ -6,22 +6,22 @@
 
 void EngineQ::Scripting::API_Input::API_KeyPressed(InputController::Key keyCode, bool& result)
 {
-	result = Engine::Get()->input.IsButtonDown(keyCode);
+	result = Engine::Get().input.IsButtonDown(keyCode);
 }
 
 void EngineQ::Scripting::API_Input::API_MouseButtonDown(InputController::MouseButton buttonCode, bool& result)
 {
-	result = Engine::Get()->input.IsMouseButtonDown(buttonCode);
+	result = Engine::Get().input.IsMouseButtonDown(buttonCode);
 }
 
 void EngineQ::Scripting::API_Input::API_MousePosition(Math::Vector2& position)
 {
-	position = Engine::Get()->input.GetMousePosition();
+	position = Engine::Get().input.GetMousePosition();
 }
 
 void EngineQ::Scripting::API_Input::API_MouseDeltaPosition(Math::Vector2& deltaPosition)
 {
-	deltaPosition = Engine::Get()->input.GetMouseDeltaPosition();
+	deltaPosition = Engine::Get().input.GetMouseDeltaPosition();
 }
 
 void EngineQ::Scripting::API_Input::API_Register(ScriptEngine& scriptEngine)

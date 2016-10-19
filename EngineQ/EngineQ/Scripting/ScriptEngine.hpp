@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <array>
 
 #include "Types.hpp"
 #include "../Objects/Types.hpp"
@@ -15,40 +16,73 @@ namespace EngineQ
 	{
 		class ScriptEngine : private Utilities::Immovable
 		{
+		public:
+			enum class Class
+			{
+				Integer,
+				Float,
+
+				Object,
+				Entity,
+				Script,
+				Transform,
+				Light,
+				Camera,
+				Renderable,
+				Scene,
+				ResourceManager,
+
+				ShaderProperties,
+
+				Shader,
+				Texture,
+				
+				Vector3f,
+
+				Input,
+			};
+			
 		private:
+			static constexpr std::size_t ScriptClassOffset = static_cast<std::size_t>(Class::Object);
+			static constexpr std::size_t ScriptClassCount = static_cast<std::size_t>(Class::Input) + 1;
+
+			static constexpr const char* MathNamespaceName = "EngineQ.Math";
+			static constexpr const char* NamespaceName = "EngineQ";
 			static constexpr const char* ConstructorName = ":.ctor";
 			static constexpr const char* UpdateName = ":Update";
-
-			static constexpr const char* NamespaceName = "EngineQ";
-			static constexpr const char* ObjectClassName = "Object";
-			static constexpr const char* EntityClassName = "Entity";
-			static constexpr const char* ScriptClassName = "Script";
-			static constexpr const char* TransformClassName = "Transform";
-			static constexpr const char* LightClassName = "Light";
-			static constexpr const char* CameraClassName = "Camera";
-			static constexpr const char* SceneClassName = "Scene";
-			static constexpr const char* InputClassName = "Input";
-
 			static constexpr const char* NativeHandleFieldName = "nativeHandle";
+
+			static constexpr const char* ScriptClassNames[ScriptClassCount][2] = {
+				{ NamespaceName, "Object" },
+				{ NamespaceName, "Entity" },
+				{ NamespaceName, "Script" },
+				{ NamespaceName, "Transform" },
+				{ NamespaceName, "Light" },
+				{ NamespaceName, "Camera" },
+				{ NamespaceName, "Renderable" },
+				{ NamespaceName, "Scene" },
+				{ NamespaceName, "ResourceManager" },
+
+				{ NamespaceName, "ShaderProperties" },
+				
+				{ NamespaceName, "Shader" },
+				{ NamespaceName, "Texture" },
+
+				{ MathNamespaceName, "Vector3f" },
+
+				{ NamespaceName, "Input" },
+			};
+
+			static std::array<MonoClass*, ScriptClassCount> scriptClasses;
 
 			MonoDomain* domain;
 			MonoAssembly* assembly;
 			MonoImage* image;
 
-			MonoClass* scriptClass;
-			MonoClass* qObjectClass;
-			MonoClassField* qObjectHandleField;
+			MonoClassField* nativeHandleClassField;
 
-			MonoClass* entityClass;
-			MonoClass* transformClass;
-			MonoClass* lightClass;
-			MonoClass* cameraClass;
-			MonoClass* sceneClass;
-			MonoClass* inputClass;
-
-			MonoMethod* entityConstructor;
+			MonoMethod* entityConstructor;	
 			MonoMethod* transformConstructor;
-
 			MonoMethod* entityUpdate;
 
 			std::map<std::string, std::pair<MonoAssembly*, MonoImage*>> assemblies;
@@ -57,6 +91,8 @@ namespace EngineQ
 			MonoMethod* GetScriptMethod(MonoClass* mclass, MonoObject* object, const char* name) const;
 
 			void API_Register(const char* name, const void* function);
+
+			void* Unbox(ScriptObject object) const;
 
 		public:
 			ScriptEngine(const char* name, const char* assemblyPath, const char* libPath, const char* configPath);
@@ -71,7 +107,8 @@ namespace EngineQ
 			void InvokeMethod(ScriptHandle handle, ScriptMethod method, void** args) const;
 			void InvokeStaticMethod(ScriptMethod method, void** args) const;
 			void InvokeConstructor(ScriptObject object) const;
-			
+
+			ScriptObject CreateUnhandledObject(ScriptClass sclass, void* nativeHandle) const;
 			ScriptHandle CreateObject(ScriptClass sclass, Object* nativeHandle) const;
 			void DestroyObject(ScriptHandle handle) const;
 
@@ -85,12 +122,9 @@ namespace EngineQ
 			ScriptClass GetClass(const std::string& cassembly, const std::string& cnamespace, const std::string& cname) const;
 
 			ScriptClass GetScriptClass(const char* assembly, const char* classNamespace, const char* name) const;
-			ScriptClass GetTransformClass() const;
-			ScriptClass GetLightClass() const;
-			ScriptClass GetCameraClass() const;
-			ScriptClass GetEntityClass() const;
-			ScriptClass GetSceneClass() const;
-
+			
+			ScriptClass GetClass(Class scriptClass) const;
+			
 			ScriptMethod GetInputMethod(const char* name) const;
 
 			ScriptClass GetObjectClass(ScriptObject object) const;
@@ -98,6 +132,10 @@ namespace EngineQ
 
 			bool IsDerrived(ScriptClass derrived, ScriptClass base) const;
 			bool IsScript(ScriptClass sclass) const;
+
+			template<typename TType>
+			TType& GetValue(ScriptObject object) const;
+			std::string GetScriptStringContent(ScriptString string) const;
 		};
 	}
 }

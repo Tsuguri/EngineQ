@@ -7,14 +7,18 @@
 #include "Shader.hpp"
 #include "ShaderUniformData.hpp"
 #include "ShaderProperty.hpp"
+#include "Texture.hpp"
 
 #include "../Math/Matrix4.hpp"
+#include "../Resources/Resource.hpp"
+
+#include "../Objects/Object.hpp"
 
 namespace EngineQ
 {
 	namespace Graphics
 	{
-		class ShaderProperties : private Utilities::Immovable
+		class ShaderProperties : public Object
 		{
 		private:
 			using UniformData = ShaderUniformData<
@@ -24,7 +28,8 @@ namespace EngineQ
 				Pair<GL_FLOAT_VEC2, Math::Vector2_t<GLfloat>>,
 				Pair<GL_FLOAT_VEC3, Math::Vector3_t<GLfloat>>,
 				Pair<GL_FLOAT_VEC4, Math::Vector4_t<GLfloat>>,
-				Pair<GL_FLOAT_MAT4, Math::Matrix4>
+				Pair<GL_FLOAT_MAT4, Math::Matrix4>,
+				Pair<GL_SAMPLER_2D, Resources::Resource<Texture>>
 			>;
 			
 		public:
@@ -57,10 +62,10 @@ namespace EngineQ
 			};
 
 		private:
-			Shader& shader;
+			Resources::Resource<Shader> shader;
 			
 			std::vector<std::pair<UniformLocation, UniformData>> shaderUniforms;
-			std::map<std::string, UniformData*> shaderUniformsMap;
+			std::map<std::string, int> shaderUniformsMap;
 			
 			std::vector<UniformData> mockUniforms;
 
@@ -80,15 +85,27 @@ namespace EngineQ
 			void OnUniformAdded(UniformData& data, UniformType type, const std::string& name);
 
 		public:
-			ShaderProperties(Shader& shader);
+			ShaderProperties(Scripting::ScriptEngine& scriptEngine, Resources::Resource<Shader> shader);
 
 			void Apply() const;
+
+			template<typename TType>
+			int GetPropertyIndex(const std::string& name) const;
+
+			template<typename TType>
+			void Set(int index, const TType& value);
+
+			template<typename TType>
+			TType Get(int index) const;
 
 			template<typename TType = void>
 			bool HasProperty(const std::string& name) const;
 
 			template<typename TType>
-			ShaderProperty<TType> GetProperty(const std::string& name) const;
+			ShaderProperty<TType> GetProperty(const std::string& name);
+
+			template<typename TType>
+			Utilities::Nullable<ShaderProperty<TType>> TryGetProperty(const std::string& name);
 
 			// Built-in properties getters
 			const Matrices& GetMatrices();

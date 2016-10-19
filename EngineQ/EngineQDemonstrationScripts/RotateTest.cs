@@ -8,20 +8,57 @@ using EngineQ.Math;
 
 namespace QScripts
 {
-	class RotateTest : Script
+	public class RotateTest : Script
 	{
 		private float X = 0, Y = 0;
 		private int mode = 0;
+
+		private Random random = new Random();
+
 		public RotateTest()
 		{
 			Input.ListenKey(Input.Key.N1, SwitchAction);
+
+			Input.ListenKey(Input.Key.LeftBracket, ChangeShader1);
+			Input.ListenKey(Input.Key.RightBracket, ChangeShader2);
 		}
 
-		private void SwitchAction(Input.KeyAction action)
+		private void SwitchAction(Input.Key key, Input.KeyAction action)
 		{
 			mode = (mode + 1) % 3;
 		}
 
+		private void ChangeShader1(Input.Key key, Input.KeyAction action)
+		{
+			if(action == Input.KeyAction.Press)
+			{
+				Renderable renderable = this.Entity.GetComponent<Renderable>();
+
+				renderable.SetDeferredShader(ResourceManager.Instance.GetResource<Shader>("TestDeferred1"));
+
+				var myColorProperty = renderable.DeferredShader.GetProperty<Vector3f>("myColor");
+				
+				renderable.DeferredShader.Set(myColorProperty, new Vector3f((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble()));
+				Vector3f color = renderable.DeferredShader.Get(myColorProperty);
+
+				Console.WriteLine($"Set color to {color}");
+			}
+		}
+
+		private void ChangeShader2(Input.Key key, Input.KeyAction action)
+		{
+			if (action == Input.KeyAction.Press)
+			{
+				Renderable renderable = this.Entity.GetComponent<Renderable>();
+
+				renderable.SetDeferredShader(ResourceManager.Instance.GetResource<Shader>("TestDeferred2"));
+
+				var texture = ResourceManager.Instance.GetResource<Texture>("Numbers");
+
+				var texturePropert = renderable.DeferredShader.GetProperty<Texture>("diffuseTexture");
+				renderable.DeferredShader.Set(texturePropert, texture);
+			}
+		}
 
 		private void CheckAngles()
 		{

@@ -5,7 +5,8 @@ out vec3 gNormal;
 out vec4 gAlbedoSpec;
 
 in vec3 Position;
-in vec3 TexCoords;
+in vec2 TexCoords;
+in vec3 Color;
 in vec3 Normal;
 
 uniform sampler2D diffuseTexture;
@@ -18,7 +19,7 @@ void main()
 
     gNormal = normalize(Normal);
 
-    gAlbedoSpec.rgb = TexCoords;//texture(diffuseTexture, TexCoords).rgb;
+    gAlbedoSpec.rgb = texture(diffuseTexture, TexCoords).rgb; //Color;//texture(diffuseTexture, TexCoords).rgb;
 
-    gAlbedoSpec.a = 1;//texture(specularTexture, TexCoords.xy).r;
+    gAlbedoSpec.a = 1;//texture(specularTexture, TexCoords).r;
 }

@@ -80,7 +80,7 @@ namespace EngineQ
 	}
 
 	Camera::Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity)
-		: Component{ scriptEngine, scriptEngine.GetCameraClass(), entity }, fov(45.0f), aspectRatio(4 / 3.0f)
+		: Component{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Camera), entity }, fov(45.0f), aspectRatio(4 / 3.0f)
 	{
 
 	}

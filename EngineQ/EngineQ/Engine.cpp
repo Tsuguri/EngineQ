@@ -9,6 +9,7 @@
 
 #include "TimeCounter.hpp"
 
+#include "Resources/ResourceManager.hpp"
 #include "Utilities/ResourcesIDs.hpp"
 #include "Graphics/RenderingUnit.hpp"
 
@@ -16,10 +17,9 @@
 
 namespace EngineQ
 {
+	std::unique_ptr<Engine> Engine::instance = nullptr;
 
-	Engine* Engine::instance = nullptr;
-
-	Engine::Engine(std::string name, int width, int height)
+	Engine::Engine(std::string name, int width, int height, const char* assemblyName)
 	{
 
 		std::cout << "Creating  EngineQ" << std::endl;
@@ -38,7 +38,20 @@ namespace EngineQ
 		// TODO: This should be handled by renderer class
 		glViewport(0, 0, width, height);
 		screenSize = Math::Vector2i{ width,height };
-		resourceManager = std::make_unique<ResourceManager>();
+
+
+		std::string monoPath = "./";
+		std::string engineAssemblyPath = "./";
+		std::string scriptsAssembliesPath = "./Scripts/";
+		
+		this->scriptingEngine = std::make_unique<Scripting::ScriptEngine>(assemblyName, (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str());
+
+		this->scriptingEngine->LoadAssembly((scriptsAssembliesPath + "QScripts.dll").c_str());
+		this->input.InitMethods(this->scriptingEngine.get());
+
+		this->resourceManager = std::make_unique<Resources::ResourceManager>(*this->scriptingEngine);
+
+		this->currentScene = &this->CreateScene();
 	}
 
 	void Engine::WindowResized(int width, int height)
@@ -78,18 +91,8 @@ namespace EngineQ
 		}
 		std::cout << "Initializing EngineQ" << std::endl;
 
-
-
-		instance = new Engine{ name, width, height };
-
-		std::string monoPath = "./";
-		std::string engineAssemblyPath = "./";
-		std::string scriptsAssembliesPath = "./Scripts/";
-		auto sem = new Scripting::ScriptEngine{ assemblyName, (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str() };
-		instance->scriptingEngine = std::unique_ptr<Scripting::ScriptEngine>(sem);
-
-		instance->scriptingEngine->LoadAssembly((scriptsAssembliesPath + "QScripts.dll").c_str());
-		instance->input.InitMethods(instance->scriptingEngine.get());
+		instance = std::unique_ptr<Engine>(new Engine{ name, width, height, assemblyName });
+				
 		return true;
 	}
 
@@ -108,30 +111,65 @@ namespace EngineQ
 		renderingUnit = std::make_shared<Graphics::RenderingUnit>(this, Graphics::RenderingUnitConfiguration::Load(filePath));
 	}
 
-	Scene* Engine::CreateScene() const
+	Scene& Engine::CreateScene()
 	{
-		return new Scene(*scriptingEngine.get());
+		this->scenes.push_back(std::make_unique<Scene>(*this->scriptingEngine));
+		return *this->scenes.back();
+	}
+
+	void Engine::RemoveScene(Scene& scene)
+	{
+		if (this->currentScene == &scene)
+			throw std::runtime_error{ "Cannot remove current scene" };
+
+		auto it = this->scenes.begin();
+		for (auto end = this->scenes.end(); it != end; ++it)
+			if (it->get() == &scene)
+				break;
+		if (it == this->scenes.end())
+			throw std::runtime_error{ "Scene not found" };
+
+		this->scenes.erase(it);
+	}
+
+	void Engine::SetCurrentScene(Scene& scene)
+	{
+		auto it = this->scenes.begin();
+		for (auto end = this->scenes.end(); it != end; ++it)
+			if (it->get() == &scene)
+				break;
+		if (it == this->scenes.end())
+			throw std::runtime_error{ "Scene not found" };
+
+		this->currentScene = &scene;
+	}
+
+	Scene& Engine::GetCurrentScene() const
+	{
+		return *this->currentScene;
 	}
 
 	void Engine::Exit()
 	{
-		running = false;
+		isRunning = false;
 	}
 
-	Engine* Engine::Get()
+	Engine& Engine::Get()
 	{
 		if (instance != nullptr)
-			return instance;
-		else
-		{
-			std::cout << "EngineQ is not initialized" << std::endl;
-			return nullptr;
-		}
+			return *instance;
+		
+		throw std::runtime_error{ "Engine not initialized" };
 	}
 
-	ResourceManager* Engine::GetResourceManager() const
+	Resources::ResourceManager& Engine::GetResourceManager() const
 	{
-		return resourceManager.get();
+		return *resourceManager;
+	}
+
+	Scripting::ScriptEngine& Engine::GetScriptEngine() const
+	{
+		return *this->scriptingEngine;
 	}
 
 	Graphics::RenderingUnitConfiguration GenerateDefaultConfiguration()
@@ -139,18 +177,18 @@ namespace EngineQ
 		std::string tex1Name = "tex1";
 		std::string tex2Name = "tex2";
 		std::string tex3Name = "tex3";
-		Graphics::RenderingUnitConfiguration p{};
-		p.Renderer.Output.push_back(Graphics::OutputTexture{ tex1Name });
+		Graphics::RenderingUnitConfiguration config{};
+		config.Renderer.Output.push_back(Graphics::OutputTexture{ tex1Name });
 
-		p.Textures.push_back(Graphics::TextureConfiguration{ tex1Name });
-		p.Textures.push_back(Graphics::TextureConfiguration{ tex2Name });
-		p.Textures.push_back(Graphics::TextureConfiguration{ tex3Name });
+		config.Textures.push_back(Graphics::TextureConfiguration{ tex1Name });
+		config.Textures.push_back(Graphics::TextureConfiguration{ tex2Name });
+		config.Textures.push_back(Graphics::TextureConfiguration{ tex3Name });
 
 		auto extract = Graphics::EffectConfiguration{};
 		extract.Input.push_back(Graphics::InputPair{ 0,tex1Name });
 		extract.Output.push_back(Graphics::OutputTexture{ tex2Name });
 		extract.Shader = Utilities::ResourcesIDs::BrightExtract;
-		p.Effects.push_back(extract);
+		config.Effects.push_back(extract);
 
 		auto blurVertical = Graphics::EffectConfiguration{};
 		blurVertical.Input.push_back(Graphics::InputPair{ 0,tex2Name });
@@ -166,8 +204,8 @@ namespace EngineQ
 
 		for (int i = 0; i < 5; i++)
 		{
-			p.Effects.push_back(blurVertical);
-			p.Effects.push_back(blur);
+			config.Effects.push_back(blurVertical);
+			config.Effects.push_back(blur);
 		}
 
 		auto quad = Graphics::EffectConfiguration{};
@@ -175,40 +213,43 @@ namespace EngineQ
 		quad.Input.push_back(Graphics::InputPair{ 1,tex2Name, "bloomBlur" });
 		quad.Output.push_back(Graphics::OutputTexture{ "Screen" });
 		quad.Shader = Utilities::ResourcesIDs::CombineShader;
-		p.Effects.push_back(quad);
+		config.Effects.push_back(quad);
 
-		return p;
+		return config;
 	}
 
 
-	void Engine::Run(Scene* scene)
+	void Engine::Run()
 	{
-		auto& tc{ *TimeCounter::Get() };
-		tc.Update(0, 0);
+		auto& timeCounter = *TimeCounter::Get();
+		timeCounter.Update(0.0f, 0.0f);
 
-		float time = 0, tmp;
-		while (!window.ShouldClose() && running)
+		float lastTime = 0.0f;
+		while (!this->window.ShouldClose() && this->isRunning)
 		{
-			//input
-			window.PollEvents();
+			// Input
+			this->window.PollEvents();
 
-			//update time
-			tmp = window.GetTime();
-			tc.Update(tmp, tmp - time);
-			time = tmp;
+			// Update lastTime
+			float currentTime = window.GetTime();
+			timeCounter.Update(currentTime, currentTime - lastTime);
+			lastTime = currentTime;
 
-			//update scene logic (scripts)
-			scene->Update();
+			// Update resource manager
+			this->resourceManager->Update();
 
-			// render scene
-			renderingUnit->Render(scene);
+			// Update scene logic (scripts)
+			this->currentScene->Update();
 
-			// clear frame-characteristic data
-			input.ClearDelta();
+			// Render scene
+			this->renderingUnit->Render(this->currentScene);
 
-			//show result on screen
-			window.SwapBuffers();
+			// Clear frame-characteristic data
+			this->input.ClearDelta();
+
+			// Show result on screen
+			this->window.SwapBuffers();
 		}
-		window.Close();
+		this->window.Close();
 	}
 }

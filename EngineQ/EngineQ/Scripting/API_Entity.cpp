@@ -7,6 +7,7 @@
 #include "../Objects/Transform.hpp"
 #include "../Objects/Camera.hpp"
 #include "../Objects/Light.hpp"
+#include "../Objects/Renderable.hpp"
 #include "../Objects/Script.hpp"
 
 namespace EngineQ
@@ -57,13 +58,17 @@ namespace EngineQ
 			const ScriptEngine& scriptEngine = entity.GetScriptEngine();
 			MonoClass* componentClass = scriptEngine.GetTypeClass(type);
 
-			if (componentClass == scriptEngine.GetCameraClass())
+			if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Camera))
 			{
 				component = entity.AddComponent<Camera>()->GetManagedObject();
 			}
-			else if (componentClass == scriptEngine.GetLightClass())
+			else if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light))
 			{
 				component = entity.AddComponent<Light>()->GetManagedObject();
+			}
+			else if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Renderable))
+			{
+				component = entity.AddComponent<Renderable>()->GetManagedObject();
 			}
 			else if (scriptEngine.IsScript(componentClass))
 			{
@@ -77,13 +82,15 @@ namespace EngineQ
 
 		void API_Entity::API_RemoveComponent(Entity& entity, MonoObject*& component)
 		{
+			const ScriptEngine& scriptEngine = entity.GetScriptEngine();
+
 			try
 			{
-				entity.RemoveComponent(*static_cast<Component*>(entity.GetScriptEngine().GetNativeHandle(component)));
+				entity.RemoveComponent(*static_cast<Component*>(scriptEngine.GetNativeHandle(component)));
 			}
-			catch (std::exception e)
+			catch (const std::exception& e)
 			{
-				entity.GetScriptEngine().Throw_ArgumentException("component", e.what());
+				scriptEngine.Throw_ArgumentException("component", e.what());
 			}
 		}
 

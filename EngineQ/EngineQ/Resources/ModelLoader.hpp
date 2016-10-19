@@ -5,6 +5,7 @@
 
 #include "Types.hpp"
 
+#include "../Vertex.hpp"
 #include "Model.hpp"
 
 struct aiScene;
@@ -24,18 +25,37 @@ namespace EngineQ
 		class ModelLoader
 		{
 		private:
-			std::unique_ptr<Model> currentModel = nullptr;
+			std::unique_ptr<Model<VertexPNC>> currentModel = nullptr;
 			const aiScene* scene = nullptr;
 
 		public:
-			std::unique_ptr<Model> LoadModel(const char* path);
+			std::unique_ptr<Model<VertexPNC>> LoadModel(const char* path);
 		
 		private:
-			void ProcessScene(aiNode* sceneNode, Model::Node& modelNode);
-			Model::Mesh ProcessMesh(aiMesh* mesh);
+			void ProcessScene(aiNode* sceneNode, Model<VertexPNC>::Node& modelNode);
+			Model<VertexPNC>::Mesh ProcessMesh(aiMesh* mesh);
 
 			bool CheckVertex(aiMesh* mesh);
 			VertexPNC ConvertVertex(aiMesh* mesh, int index);
+		};
+
+
+		// TMP
+		class ModelLoader2
+		{
+		private:
+			std::unique_ptr<Model<VertexPNTC>> currentModel = nullptr;
+			const aiScene* scene = nullptr;
+
+		public:
+			std::unique_ptr<Model<VertexPNTC>> LoadModel(const char* path);
+
+		private:
+			void ProcessScene(aiNode* sceneNode, Model<VertexPNTC>::Node& modelNode);
+			Model<VertexPNTC>::Mesh ProcessMesh(aiMesh* mesh);
+
+			bool CheckVertex(aiMesh* mesh);
+			VertexPNTC ConvertVertex(aiMesh* mesh, int index);
 		};
 	}
 }

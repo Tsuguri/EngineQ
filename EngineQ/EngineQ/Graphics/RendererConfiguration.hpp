@@ -44,7 +44,7 @@ namespace EngineQ
 		class EffectConfiguration
 		{
 		public:
-			int  Shader;//for resource manager
+			std::string Shader;//for resource manager
 			std::string ClassName;//C# class name
 			bool DepthTesting;
 			std::vector<InputPair> Input;

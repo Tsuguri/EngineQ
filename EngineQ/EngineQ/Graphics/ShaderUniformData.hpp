@@ -12,6 +12,8 @@
 #include "ShaderProperty.hpp"
 #include "Shader.hpp"
 
+#include "../Resources/Resource.hpp"
+
 namespace EngineQ
 {
 	namespace Graphics
@@ -29,6 +31,34 @@ namespace EngineQ
 			static void Create(char* data)
 			{
 				new(data) TType{};
+			}
+
+			static void Destruct(char* data)
+			{
+				Utilities::ObjectDestructor<TType>::Destruct(*reinterpret_cast<TType*>(data));
+			}
+		};
+
+		template<typename TType>
+		struct ShaderUniformActions<Resources::Resource<TType>>
+		{
+			using Type = Resources::Resource<TType>;
+
+			static void Apply(Shader& shader, UniformLocation location, const void* value)
+			{
+				const Type& ptr = *static_cast<const Type*>(value);
+				if (ptr != nullptr)
+					shader.Bind(location, *ptr);
+			}
+
+			static void Create(char* data)
+			{
+				new(data) Type{};
+			}
+
+			static void Destruct(char* data)
+			{
+				Utilities::ObjectDestructor<Type>::Destruct(*reinterpret_cast<Type*>(data));
 			}
 		};
 
@@ -64,14 +94,15 @@ namespace EngineQ
 
 		private:
 			using ApplyActionType = void(*)(Shader&, UniformLocation, const void*);
+			using DestructActionType = void(*)(char*);
 			using ConstructActionType = void(*)(char*);
 			using ConstructorsMapType = const std::unordered_map<UniformType, std::pair<std::size_t, ConstructActionType>>;
-			
-			static constexpr std::size_t DataSize = Meta::MaxTypeSize<typename TArgs::Second...>::value;
-			
-			static constexpr ApplyActionType ApplyActions[] = { &ShaderUniformActions<typename TArgs::Second>::Apply... };
-			static ConstructorsMapType ConstructorsMap;
 
+			static constexpr std::size_t DataSize = Meta::MaxTypeSize<typename TArgs::Second...>::value;
+
+			static constexpr ApplyActionType ApplyActions[] = { &ShaderUniformActions<typename TArgs::Second>::Apply... };
+			static constexpr DestructActionType DestructActions[] = { &ShaderUniformActions<typename TArgs::Second>::Destruct... };
+			static ConstructorsMapType ConstructorsMap;
 
 			std::size_t type;
 			std::array<char, DataSize> data;
@@ -105,19 +136,33 @@ namespace EngineQ
 				new(this->data.data()) TType{ value };
 			}
 
+			~ShaderUniformData()
+			{
+				DestructActions[this->type](this->data.data());
+			}
+
 			void Apply(Shader& shader, UniformLocation location) const
 			{
-				ApplyActions[this->type](shader, location, static_cast<const void*>(data.data()));
+				ApplyActions[this->type](shader, location, static_cast<const void*>(this->data.data()));
 			}
 
 			template<typename TType>
 			bool IsType() const
 			{
-				return this->type == Meta::TypeIndex<TType, TArgs...>::value;
+				return this->type == Meta::TypeIndex<TType, typename TArgs::Second...>::value;
 			}
 
 			template<typename TType>
 			TType Get() const
+			{
+				this->StaticCheck<TType>();
+				this->DynamicCheck<TType>();
+
+				return *reinterpret_cast<const TType*>(data.data());
+			}
+
+			template<typename TType>
+			TType& GetRef()
 			{
 				this->StaticCheck<TType>();
 				this->DynamicCheck<TType>();
@@ -162,10 +207,12 @@ namespace EngineQ
 		constexpr typename ShaderUniformData<TArgs...>::ApplyActionType ShaderUniformData<TArgs...>::ApplyActions[];
 
 		template<typename... TArgs>
+		constexpr typename ShaderUniformData<TArgs...>::DestructActionType ShaderUniformData<TArgs...>::DestructActions[];
+
+		template<typename... TArgs>
 		const typename ShaderUniformData<TArgs...>::ConstructorsMapType ShaderUniformData<TArgs...>::ConstructorsMap = {
 			{ TArgs::First,{ Meta::TypeIndex<typename TArgs::Second, typename TArgs::Second...>::value, &ShaderUniformActions<typename TArgs::Second>::Create } }...
 		};
-
 	}
 }
 

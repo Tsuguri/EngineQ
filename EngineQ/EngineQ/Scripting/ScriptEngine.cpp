@@ -9,6 +9,7 @@
 #include <mono/metadata/exception.h>
 #include <mono/metadata/mono-debug.h>
 #include <mono/metadata/attrdefs.h>
+#include <mono/metadata/mono-gc.h>
 
 #include "ScriptingExceptions.hpp"
 
@@ -22,11 +23,20 @@
 #include "API_TimeCounter.hpp"
 #include "API_Input.hpp"
 #include "API_Application.hpp"
+#include "API_Renderable.hpp"
+#include "API_Resource.hpp"
+#include "API_ResourceManager.hpp"
+#include "API_ShaderProperties.hpp"
 
 namespace EngineQ
 {
 	namespace Scripting
 	{
+		constexpr const char* ScriptEngine::ScriptClassNames[ScriptClassCount][2];
+
+		std::array<MonoClass*, ScriptEngine::ScriptClassCount> ScriptEngine::scriptClasses;
+
+
 		MonoMethod* ScriptEngine::GetMethod(MonoClass* mclass, const char* name)
 		{
 			MonoMethodDesc* desc = mono_method_desc_new(name, true);
@@ -37,12 +47,18 @@ namespace EngineQ
 			return method;
 		}
 
+		ScriptMethod ScriptEngine::GetInputMethod(const char* name) const
+		{
+			return GetMethod(this->GetClass(Class::Input), name);
+		}
+
 		MonoMethod* ScriptEngine::GetScriptMethod(MonoClass* mclass, MonoObject* object, const char* name) const
 		{
 			MonoClass* currClass = mclass;
 			MonoMethod* foundMethod = nullptr;
+			MonoClass* scriptClass = this->GetClass(Class::Script);
 
-			while (currClass != this->scriptClass)
+			while (currClass != scriptClass)
 			{
 				if (currClass == nullptr)
 					throw ScriptEngineException("Class is not derrived from Script class");
@@ -73,46 +89,61 @@ namespace EngineQ
 			mono_set_dirs(libPath, configPath);
 
 
+
+			//	this->domain = mono_init(name);
+			//	this->domain = mono_domain_create();
 			this->domain = mono_jit_init(name);
 
-			this->assembly = mono_domain_assembly_open(domain, assemblyPath);
+
+			//	const char* inputArgs[2];
+			//	inputArgs[0] = "./MonoTurboProg";
+			//	inputArgs[1] = "--debugger-agent=\"transport=dt_socket,address=127.0.0.1:56000\"";
+			//	
+			//	mono_jit_parse_options(2, const_cast<char**>(inputArgs));
+
+
+			this->assembly = mono_domain_assembly_open(this->domain, assemblyPath);
 			if (this->assembly == nullptr)
 				throw ScriptEngineException("Failed to open assembly");
 
 			this->image = mono_assembly_get_image(assembly);
 
-			this->qObjectClass = mono_class_from_name(this->image, NamespaceName, ObjectClassName);
-			this->qObjectHandleField = mono_class_get_field_from_name(this->qObjectClass, NativeHandleFieldName);
-
-			this->entityClass = mono_class_from_name(this->image, NamespaceName, EntityClassName);
-			this->scriptClass = mono_class_from_name(this->image, NamespaceName, ScriptClassName);
-			this->transformClass = mono_class_from_name(this->image, NamespaceName, TransformClassName);
-			this->lightClass = mono_class_from_name(this->image, NamespaceName, LightClassName);
-			this->cameraClass = mono_class_from_name(this->image, NamespaceName, CameraClassName);
-			this->sceneClass = mono_class_from_name(this->image, NamespaceName, SceneClassName);
-			this->inputClass = mono_class_from_name(this->image, NamespaceName, InputClassName);
+			this->scriptClasses[static_cast<std::size_t>(Class::Integer)] = mono_get_int32_class();
+			this->scriptClasses[static_cast<std::size_t>(Class::Float)] = mono_get_single_class();
 
 
-			this->entityConstructor = GetMethod(this->entityClass, ConstructorName);
-			this->transformConstructor = GetMethod(this->transformClass, ConstructorName);
+			for (std::size_t i = ScriptClassOffset; i < ScriptClassCount; ++i)
+			{
+				std::size_t nameIndex = i - ScriptClassOffset;
+				auto scriptClass = mono_class_from_name(this->image, ScriptClassNames[nameIndex][0], ScriptClassNames[nameIndex][1]);
+				scriptClasses[i] = scriptClass;
+			}
 
-			this->entityUpdate = GetMethod(this->entityClass, UpdateName);
+			this->nativeHandleClassField = mono_class_get_field_from_name(this->GetClass(Class::Object), NativeHandleFieldName);
+
+			this->entityConstructor = GetMethod(this->GetClass(Class::Entity), ConstructorName);
+			this->entityUpdate = GetMethod(this->GetClass(Class::Entity), UpdateName);
+
+			this->transformConstructor = GetMethod(this->GetClass(Class::Transform), ConstructorName);
+
 
 			// API
 			API_Quaternion::API_Register(*this);
 			API_Matrix3::API_Register(*this);
 			API_Matrix4::API_Register(*this);
 
+			API_Scene::API_Register(*this);
+			API_Entity::API_Register(*this);
 			API_Component::API_Register(*this);
 			API_Transform::API_Register(*this);
-			API_Entity::API_Register(*this);
-			API_Scene::API_Register(*this);
+			API_Renderable::API_Register(*this);
+
 			API_TimeCounter::API_Register(*this);
 			API_Input::API_Register(*this);
 			API_Application::API_Register(*this);
-			//here goes new api
-
-
+			API_Resource::API_Register(*this);
+			API_ResourceManager::API_Register(*this);
+			API_ShaderProperties::API_Register(*this);
 		}
 
 		ScriptEngine::~ScriptEngine()
@@ -123,7 +154,14 @@ namespace EngineQ
 			//		mono_assembly_close(assembly.second.first);
 			//	}
 
+			//	mono_gc_collect(0);
+			//	mono_gc_invoke_finalizers();
+
 			mono_jit_cleanup(this->domain);
+
+			//	mono_domain_finalize(this->domain, -1);
+			//	mono_domain_unload(this->domain);
+			//	mono_domain_free(this->domain, false);
 		}
 
 		ScriptObject ScriptEngine::GetInstance(ScriptHandle handle) const
@@ -137,7 +175,7 @@ namespace EngineQ
 				return nullptr;
 
 			Object* data = nullptr;
-			mono_field_get_value(object, this->qObjectHandleField, &data);
+			mono_field_get_value(object, this->nativeHandleClassField, &data);
 
 			return data;
 		}
@@ -167,6 +205,17 @@ namespace EngineQ
 			mono_runtime_object_init(object);
 		}
 
+		ScriptObject ScriptEngine::CreateUnhandledObject(ScriptClass sclass, void* nativeHandle) const
+		{
+			// Create object
+			MonoObject* instance = mono_object_new(this->domain, sclass);
+
+			// Set pointer to native representation
+			mono_field_set_value(instance, this->nativeHandleClassField, &nativeHandle);
+
+			return instance;
+		}
+
 		ScriptHandle ScriptEngine::CreateObject(ScriptClass sclass, Object* nativeHandle) const
 		{
 			// Create object
@@ -176,7 +225,7 @@ namespace EngineQ
 			uint32_t handle = mono_gchandle_new(instance, false);
 
 			// Set pointer to native representation
-			mono_field_set_value(instance, this->qObjectHandleField, &nativeHandle);
+			mono_field_set_value(instance, this->nativeHandleClassField, &nativeHandle);
 
 			return handle;
 		}
@@ -188,7 +237,7 @@ namespace EngineQ
 
 			// Clear pointer to native representation
 			void* nativeHandle = nullptr;
-			mono_field_set_value(instance, this->qObjectHandleField, &nativeHandle);
+			mono_field_set_value(instance, this->nativeHandleClassField, &nativeHandle);
 
 			// Release reference
 			mono_gchandle_free(handle);
@@ -220,7 +269,7 @@ namespace EngineQ
 		{
 			cname = mono_class_get_name(sclass);
 			cnamespace = mono_class_get_namespace(sclass);
-			
+
 			MonoImage* image = mono_class_get_image(sclass);
 
 			if (image != this->image)
@@ -256,7 +305,7 @@ namespace EngineQ
 			MonoClass* mclass = mono_class_from_name(image, cnamespace.c_str(), cname.c_str());
 			if (mclass == nullptr)
 				throw ScriptEngineException{ "Class " + cnamespace + "." + cname + (cassembly == "" ? "" : " from assembly " + cassembly) + " not found" };
-		
+
 			return mclass;
 		}
 
@@ -272,35 +321,11 @@ namespace EngineQ
 
 			return mono_class_from_name(image, classNamespace, name);
 		}
-		
-		ScriptClass ScriptEngine::GetTransformClass() const
-		{
-			return this->transformClass;
-		}
 
-		ScriptClass ScriptEngine::GetLightClass() const
+		ScriptClass ScriptEngine::GetClass(ScriptEngine::Class scriptClass) const
 		{
-			return this->lightClass;
-		}
-
-		ScriptClass ScriptEngine::GetCameraClass() const
-		{
-			return this->cameraClass;
-		}
-
-		ScriptClass ScriptEngine::GetEntityClass() const
-		{
-			return this->entityClass;
-		}
-
-		ScriptClass ScriptEngine::GetSceneClass() const
-		{
-			return this->sceneClass;
-		}
-
-		ScriptMethod ScriptEngine::GetInputMethod(const char* name) const
-		{
-			return GetMethod(this->inputClass, name);
+			std::size_t index = static_cast<std::size_t>(scriptClass);
+			return this->scriptClasses[index];
 		}
 
 		ScriptClass ScriptEngine::GetObjectClass(ScriptObject object) const
@@ -329,48 +354,24 @@ namespace EngineQ
 
 		bool ScriptEngine::IsScript(ScriptClass sclass) const
 		{
-			if (sclass == this->scriptClass)
+			if (sclass == this->GetClass(Class::Script))
 				return false;
 
-			return IsDerrived(sclass, this->scriptClass);
+			return IsDerrived(sclass, this->GetClass(Class::Script));
 		}
 
-		//int ScriptEngine::TMPRUN(int argc, char** argv)
-		//{
-		//	return mono_jit_exec(this->domain, this->assembly, argc, argv);
-		//}
+		void* ScriptEngine::Unbox(ScriptObject object) const
+		{
+			return mono_object_unbox(object);
+		}
 
-		//uint32_t ScriptEngine::CreateObject(void* nativeHandle) const
-		//{
-		//	return CreateObject(this->qObjectClass, nativeHandle);
-		//}
+		std::string ScriptEngine::GetScriptStringContent(ScriptString string) const
+		{
+			char* cstring = mono_string_to_utf8(string);
+			std::string cppstring = cstring;
+			mono_free(cstring);
 
-		//void ScriptEngine::ExposeMethod(MonoClass* mclass, const char* assemblyName) const
-		//{
-		//	MonoClass* currClass = mclass;
-
-		//	std::cout << "Searching for method " << assemblyName << " in class " << mono_class_get_name(mclass) << std::endl;
-		//	while (currClass != nullptr)
-		//	{
-		//		MonoMethod* meth = GetMethod(currClass, assemblyName);
-		//		if (meth != nullptr)
-		//		{
-		//			std::cout << "Found in class " << mono_class_get_name(currClass) << std::endl;
-
-		//			uint32_t flags = mono_method_get_flags(meth, NULL);
-		//			
-		//			if (flags & MONO_METHOD_ATTR_NEW_SLOT)
-		//				std::cout << "\tnew" << std::endl;
-
-		//			if (flags & MONO_METHOD_ATTR_VIRTUAL)
-		//				std::cout << "\tvirtual" << std::endl;
-
-
-		//			return;
-		//		}
-		//		currClass = mono_class_get_parent(currClass);
-		//	}
-		//	std::cout << "Not found" << std::endl;
-		//}
+			return cppstring;
+		}
 	}
 }

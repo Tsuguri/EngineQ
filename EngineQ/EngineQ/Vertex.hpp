@@ -23,6 +23,8 @@ namespace EngineQ
 	template<typename... TVertexTypes>
 	class Vertex : public TVertexTypes...
 	{
+		static_assert(!Meta::HasDuplicateValues<GLuint, TVertexTypes::Location...>::value, "Vertex component must have unique locations");
+
 	public:
 		Vertex() = default;
 		Vertex(const typename TVertexTypes::Type&... value) :
@@ -85,9 +87,16 @@ namespace EngineQ
 		VCol(const Math::Vector3& color);
 	};
 
+	struct VTex : public VertexComponent<Math::Vector2, Math::Real, 1>
+	{
+		Math::Vector2 textureCoordinates;
 
+		VTex() = default;
+		VTex(const Math::Vector2& textureCoordinates);
+	};
 
 	using VertexPNC = Vertex<VPos, VNorm, VCol>;
+	using VertexPNTC = Vertex<VPos, VNorm, VTex, VCol>;
 }
 
 #endif // !ENGINEQ_VERTEX_HPP

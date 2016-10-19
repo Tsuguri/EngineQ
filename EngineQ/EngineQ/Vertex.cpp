@@ -16,4 +16,9 @@ namespace EngineQ
 		color{ color }
 	{
 	}
+
+	VTex::VTex(const Math::Vector2& textureCoordinates) :
+		textureCoordinates{ textureCoordinates }
+	{
+	}
 }

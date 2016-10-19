@@ -5,8 +5,13 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
+		class Framebuffer;
 		class Shader;
 		class Mesh;
+		class Texture;
+
+		class ShaderProperties;
+		class RenderingUnit;
 	}
 }
 

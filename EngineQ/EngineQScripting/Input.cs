@@ -164,29 +164,19 @@ namespace EngineQ
 			Repeat
 		}
 
-		public delegate void EventType(KeyAction action);
+		public delegate void KeyboardKeyEventHandler(Key key, KeyAction action);
+		public delegate void MouseButtonEventHandler(MouseButton button, KeyAction action);
+		
+		#endregion
 
-		private sealed class KeyEventHandler
-		{
+		#region Static Fields
 
-			public event EventType Event;
-
-			public void OnEvent(KeyAction action)
-			{
-				Event?.Invoke(action);
-			}
-		}
+		private static Dictionary<Key, KeyboardKeyEventHandler> keyboardEvents;
+		private static Dictionary<MouseButton, MouseButtonEventHandler> mouseEvents;
 
 		#endregion
 
-		#region Fields
-
-		private static Dictionary<Key, KeyEventHandler> keyEventDict;
-		private static Dictionary<MouseButton, KeyEventHandler> mouseEventDict;
-
-		#endregion
-
-		#region Properties
+		#region Static Properties
 
 		public static Vector2 MousePosition
 		{
@@ -210,12 +200,12 @@ namespace EngineQ
 
 		#endregion
 
-		#region Methods
+		#region Static Constructor
 
 		static Input()
 		{
-			keyEventDict = new Dictionary<Key, KeyEventHandler>();
-			mouseEventDict = new Dictionary<MouseButton, KeyEventHandler>();
+			keyboardEvents = new Dictionary<Key, KeyboardKeyEventHandler>();
+			mouseEvents = new Dictionary<MouseButton, MouseButtonEventHandler>();
 		}
 
 		#region Keys
@@ -226,35 +216,35 @@ namespace EngineQ
 			API_KeyPressed((int)key, out value);
 			return value;
 		}
-
-		// ReSharper disable once UnusedMember.Local
+		
 		private static void KeyEvent(Key key, KeyAction action)
 		{
-			KeyEventHandler tmpKeh;
-			if (keyEventDict.TryGetValue(key, out tmpKeh))
+			KeyboardKeyEventHandler keyboardEventHandler;
+			if (keyboardEvents.TryGetValue(key, out keyboardEventHandler))
 			{
-				tmpKeh.OnEvent(action);
+				keyboardEventHandler?.Invoke(key, action);
 			}
 		}
 
-		public static void ListenKey(Key key, EventType action)
+		public static void ListenKey(Key key, KeyboardKeyEventHandler action)
 		{
-			KeyEventHandler tmpKeh;
-			if (!keyEventDict.TryGetValue(key, out tmpKeh))
+			KeyboardKeyEventHandler keyboardEventHandler;
+			if (!keyboardEvents.TryGetValue(key, out keyboardEventHandler))
 			{
-				tmpKeh = new KeyEventHandler();
-				keyEventDict.Add(key, tmpKeh);
+				keyboardEventHandler = new KeyboardKeyEventHandler(action);
+				keyboardEvents.Add(key, keyboardEventHandler);
 			}
-			tmpKeh.Event += action;
+			else
+			{
+				keyboardEventHandler += action;
+			}
 		}
 
-		public static void StopListeningKey(Key key, EventType action)
+		public static void StopListeningKey(Key key, KeyboardKeyEventHandler action)
 		{
-			KeyEventHandler tmpKeh;
-			if (keyEventDict.TryGetValue(key, out tmpKeh))
-			{
-				tmpKeh.Event -= action;
-			}
+			KeyboardKeyEventHandler keyboardEventHandler;
+			if (keyboardEvents.TryGetValue(key, out keyboardEventHandler))
+				keyboardEventHandler -= action;
 		}
 
 		#endregion
@@ -271,31 +261,30 @@ namespace EngineQ
 		// ReSharper disable once UnusedMember.Local
 		private static void MouseButtonEvent(MouseButton button, KeyAction action)
 		{
-			KeyEventHandler tmpKeh;
-			if (mouseEventDict.TryGetValue(button, out tmpKeh))
+			MouseButtonEventHandler mouseEventHandler;
+			if (mouseEvents.TryGetValue(button, out mouseEventHandler))
+				mouseEventHandler?.Invoke(button, action);
+		}
+
+		public static void ListenMouseButton(MouseButton button, MouseButtonEventHandler action)
+		{
+			MouseButtonEventHandler mouseEventHandler;
+			if (!mouseEvents.TryGetValue(button, out mouseEventHandler))
 			{
-				tmpKeh.OnEvent(action);
+				mouseEventHandler = new MouseButtonEventHandler(action);
+				mouseEvents.Add(button, mouseEventHandler);
+			}
+			else
+			{
+				mouseEventHandler += action;
 			}
 		}
 
-		public static void ListenMouseButton(MouseButton button, EventType action)
+		public static void StopListeningMouseButton(MouseButton button, MouseButtonEventHandler action)
 		{
-			KeyEventHandler tmpKeh;
-			if (!mouseEventDict.TryGetValue(button, out tmpKeh))
-			{
-				tmpKeh = new KeyEventHandler();
-				mouseEventDict.Add(button, tmpKeh);
-			}
-			tmpKeh.Event += action;
-		}
-
-		public static void StopListeningMouseButton(MouseButton button, EventType action)
-		{
-			KeyEventHandler tmpKeh;
-			if (mouseEventDict.TryGetValue(button, out tmpKeh))
-			{
-				tmpKeh.Event -= action;
-			}
+			MouseButtonEventHandler mouseEventHandler;
+			if (mouseEvents.TryGetValue(button, out mouseEventHandler))
+				mouseEventHandler -= action;
 		}
 
 		#endregion

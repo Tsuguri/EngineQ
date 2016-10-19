@@ -7,5 +7,11 @@ namespace EngineQ
 		{
 			this->API_Register(name, reinterpret_cast<const void*>(function));
 		}
+
+		template<typename TType>
+		TType& ScriptEngine::GetValue(ScriptObject object) const
+		{
+			return *static_cast<TType*>(this->Unbox(object));
+		}
 	}
 }

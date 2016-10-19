@@ -6,25 +6,30 @@
 #include "../Graphics/Types.hpp"
 
 #include "Component.hpp"
+#include "../Resources/Types.hpp"
 
 namespace EngineQ
 {
 	class Renderable : public Component
 	{
-		std::shared_ptr<Graphics::Shader> forwardShader;
-		std::shared_ptr<Graphics::Shader> deferredShader;
-		Graphics::Mesh* model;
-
+	private:
+		std::unique_ptr<Graphics::ShaderProperties> forwardShader;
+		std::unique_ptr<Graphics::ShaderProperties> deferredShader;
+		Graphics::Mesh* mesh;
+		
 	public:
 		Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity);
 		virtual ComponentType GetType() const override;
 
-		Graphics::Shader* GetForwardShader() const;
-		Graphics::Shader* GetDeferredShader() const;
-		void SetForwardShader(std::shared_ptr<Graphics::Shader> shader);
-		void SetDeferredShader(std::shared_ptr<Graphics::Shader> shader);
-		Graphics::Mesh* GetModel() const;
-		void SetModel(Graphics::Mesh* mesh);
+		void SetForwardShader(Resources::Resource<Graphics::Shader> shader);
+		Graphics::ShaderProperties* GetForwardShader() const;
+
+		void SetDeferredShader(Resources::Resource<Graphics::Shader> shader);
+		Graphics::ShaderProperties* GetDeferredShader() const;
+
+		
+		Graphics::Mesh* GetMesh() const;
+		void SetMesh(Graphics::Mesh* mesh);
 	};
 }
 
