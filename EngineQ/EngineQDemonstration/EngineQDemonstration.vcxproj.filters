@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="_Resources\TMP\Shader.shader" />
+    <None Include="_Resources\Models\Skull.qres" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TmpMain.cpp">

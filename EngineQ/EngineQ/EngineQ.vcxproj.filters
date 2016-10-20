@@ -63,6 +63,7 @@
     <ClCompile Include="Resources\TextureFactory.cpp" />
     <ClCompile Include="Scripting\API_ShaderProperties.cpp" />
     <ClCompile Include="Resources\Model.cpp" />
+    <ClCompile Include="Resources\ModelFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Resources\TextureFactory.hpp" />
     <ClInclude Include="Scripting\API_ShaderProperties.hpp" />
     <ClInclude Include="Utilities\EnumHelpers.hpp" />
+    <ClInclude Include="Resources\ModelFactory.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />

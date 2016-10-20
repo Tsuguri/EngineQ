@@ -12,6 +12,7 @@
 
 #include "ShaderFactory.hpp"
 #include "TextureFactory.hpp"
+#include "ModelFactory.hpp"
 
 #include "Resource.hpp"
 #include "../Graphics/Shader.hpp"
@@ -20,6 +21,12 @@
 
 // TMP
 #include <iostream>
+
+#include <typeindex>
+#include <functional>
+
+
+
 
 namespace EngineQ
 {
@@ -31,117 +38,142 @@ namespace EngineQ
 			using std::logic_error::logic_error;
 		};
 
+		class ResourceNotFoundException : std::logic_error
+		{
+		public:
+			using std::logic_error::logic_error;
+		};
+
 		class ResourceManager : public Object
 		{
 		private:
-			template<typename TResourceType>
 			struct ResourceData
 			{
-				std::string path;
+				std::function<void(ResourceManager&, ResourceData&)> constructor;
+				std::function<void(ResourceManager&, ResourceData&)> destructor;
+
+				std::unique_ptr<BaseResource> resource;
+
 				int generation = 0;
-				Resource<TResourceType> resource{ std::unique_ptr<TResourceType>{ nullptr } };
-
-				ResourceData(const char* path) :  
-					path{ path }
-				{
-				}
 			};
 
-			using ResourceId = std::string;
-
-			template<typename... TTypes>
-			struct TypesHelper
-			{
-				using ResourcesType = std::tuple<std::unordered_map<ResourceId, ResourceData<TTypes>>...>;
-
-				template<typename TType>
-				inline static constexpr std::size_t IndexOf()
-				{
-					return Meta::TypeIndex<TType, TTypes...>::value;
-				}
-			};
-
-			using Types = TypesHelper<Graphics::Shader, Graphics::Texture>;
-
-			static constexpr int SkipFrames = 1000;
-			static constexpr int MaxGeneration = 3;
+		private:
+			using MapKeyValue = std::pair<std::pair<std::type_index, std::string>, ResourceData>;
 			
-			Types::ResourcesType resources;
+			std::map<MapKeyValue::first_type, MapKeyValue::second_type> resourceMap;
+
+			static constexpr int MaxFrameCount = 600;
+			static constexpr int MaxGeneration = 3;
 			int frameCount = 0;
 
-			template<std::size_t TIt = 0, typename... TTypes>
-			inline typename std::enable_if<(TIt == sizeof...(TTypes)), void>::type UpdateResources(std::tuple<TTypes...>& tuple)
-			{ 
-			}
+			std::vector<ResourceData*> activeResources;
+			std::vector<ResourceData*> newActiveResources;
+			std::vector<ResourceData*> oldActiveResources;
 
-			template<std::size_t TIt = 0, typename... TTypes>
-			inline typename std::enable_if<(TIt < sizeof...(TTypes)), void>::type UpdateResources(std::tuple<TTypes...>& tuple)
+			void UpdateResources()
 			{
-				this->UpdateResource(std::get<TIt>(tuple));
-				this->UpdateResources<TIt + 1, TTypes...>(tuple);
-			}
-
-			template<typename TType>
-			void UpdateResource(std::unordered_map<ResourceId, ResourceData<TType>>& resourceMap)
-			{
-				// TODO
-				// List of active resources. If N times is unused during garbage colletion then it is removed and moved to inactive resources list
-				for (auto& resourceDataPair : resourceMap)
+				if (this->newActiveResources.size() > 0)
 				{
-					auto& resource = resourceDataPair.second.resource;
-					if(resource.GetControlBlock()->resource != nullptr)
-					{
-						if (resource.GetNativeReferenceCount() == 1 && resource.GetAllReferenceCount() == 1)
-						{
-							resourceDataPair.second.generation += 1;
+					this->activeResources.insert(this->activeResources.end(), newActiveResources.begin(), newActiveResources.end());
+					this->newActiveResources.clear();
+				}
 
-							if (resourceDataPair.second.generation == MaxGeneration)
-							{
-								resourceDataPair.second.resource.GetControlBlock()->resource = nullptr;
-								std::cout << "Disposed " << resourceDataPair.first << ": " << resourceDataPair.second.path << std::endl;
-							}
-						}
-						else
-						{
-							resourceDataPair.second.generation = 0;
-						}
+				for (auto resourceData : this->activeResources)
+				{
+					if (resourceData->resource->GetNativeReferenceCount() == 1 && resourceData->resource->GetAllReferenceCount() == 1)
+					{
+						resourceData->generation += 1;
+
+						if (resourceData->generation == MaxGeneration)
+							resourceData->destructor(*this, *resourceData);
 					}
+				}
+
+				if (this->oldActiveResources.size() > 0)
+				{
+					for (auto oldResource : this->oldActiveResources)
+						this->activeResources.erase(std::remove(this->activeResources.begin(), this->activeResources.end(), oldResource), this->activeResources.end());
+					this->oldActiveResources.clear();
 				}
 			}
 
 		public:
-			ResourceManager(Scripting::ScriptEngine& scriptEngine);
-
-			template<typename TResourceType>
-			void RegisterResource(const ResourceId& id, const char* filename)
+			ResourceManager(Scripting::ScriptEngine& scriptEngine) :
+				Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::ResourceManager) }
 			{
-				auto& resourceMap = std::get<Types::IndexOf<TResourceType>()>(resources);
-
-				auto inserted = resourceMap.insert({ id, {filename} });
-				if (!inserted.second)
-					throw ResourceManagerException{ "Resource already registered" };
 			}
 
-			template<typename TResourceType>
-			Resource<TResourceType> GetResource(const ResourceId& resourceId)
+			template<typename TType>
+			void RegisterResource(const std::string& resourceId, const char* path)
 			{
-				auto& resourceMap = std::get<Types::IndexOf<TResourceType>()>(resources);
-
-				auto& resourceData = resourceMap.at(resourceId);
-				auto& underlyingResource = resourceData.resource.GetControlBlock()->resource;
-
-				if (underlyingResource == nullptr)
+				RegisterResource<TType>(resourceId, [path](ResourceManager&)
 				{
-					underlyingResource = ResourceFactory<TResourceType>::CreateResource(resourceData.path.c_str());
-					resourceData.generation = 0;
-
-					std::cout << "Loaded " << resourceId << ": " << resourceData.path << std::endl;
- 				}
-
-				return resourceData.resource;
+					return ResourceFactory<TType>::CreateResource(path);
+				});
 			}
 
-			void Update();
+			template<typename TType>
+			void RegisterResource(const std::string& resourceId, std::function<std::unique_ptr<TType>(ResourceManager&)> factory)
+			{
+				std::type_index index = typeid(TType);
+
+				ResourceData resourceData;
+
+				resourceData.constructor = [factory, /*TMP*/ resourceId](ResourceManager& resourceManager, ResourceData& resourceData)
+				{
+					auto controlBlock = static_cast<const Resource<TType>&>(*resourceData.resource).GetControlBlock();
+
+					controlBlock->data = factory(resourceManager);
+
+					resourceManager.newActiveResources.push_back(&resourceData);
+
+					std::cout << "RM: Created resource " << resourceId << std::endl;
+				};
+
+				resourceData.destructor = [ /*TMP*/ resourceId](ResourceManager& resourceManager, ResourceData& resourceData)
+				{
+					auto controlBlock = static_cast<const Resource<TType>&>(*resourceData.resource).GetControlBlock();
+
+					controlBlock->data = nullptr;
+
+					resourceManager.oldActiveResources.push_back(&resourceData);
+
+					std::cout << "RM: Destructed resource " << resourceId << std::endl;
+
+				};
+
+				resourceData.resource = std::make_unique<Resource<TType>>(std::unique_ptr<TType>(nullptr));
+
+				auto insertPair = this->resourceMap.insert(MapKeyValue{ MapKeyValue::first_type{ index, resourceId }, MapKeyValue::second_type{ std::move(resourceData) } });
+			}
+
+			template<typename TType>
+			Resource<TType> GetResource(const std::string& resourceId)
+			{
+				std::type_index index = typeid(TType);
+
+				auto resourceDataIt = this->resourceMap.find({ index, resourceId });
+				if (resourceDataIt == this->resourceMap.end())
+					throw ResourceNotFoundException{ "Resource " + resourceId + " not found" };
+
+				auto& resourceData = resourceDataIt->second;
+				auto& resource = static_cast<Resource<TType>&>(*resourceData.resource);
+
+				if (resource.GetControlBlock()->data == nullptr)
+					resourceData.constructor(*this, resourceData);
+			
+				return resource;
+			}
+
+			void Update()
+			{
+				this->frameCount += 1;
+				if (this->frameCount >= MaxFrameCount)
+				{
+					this->UpdateResources();
+					this->frameCount = 0;
+				}
+			}
 		};
 	}
 }

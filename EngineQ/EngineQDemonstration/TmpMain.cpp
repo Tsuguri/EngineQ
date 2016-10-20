@@ -187,11 +187,13 @@ EngineQ::Graphics::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep 
 
 void PrepareScene(EngineQ::Scene& scene)
 {
-	EngineQ::Resources::ModelLoader loader;
-	auto model = loader.LoadModel("Models/skull2.obj", EngineQ::Resources::VertexComponent::Position | EngineQ::Resources::VertexComponent::Normal | EngineQ::Resources::VertexComponent::TextureCoordinates, EngineQ::Resources::ModelLoader::Config{});
+//	EngineQ::Resources::ModelLoader loader;
+//	auto model = loader.LoadModel("Models/skull2.obj", EngineQ::Resources::VertexComponent::Position | EngineQ::Resources::VertexComponent::Normal | EngineQ::Resources::VertexComponent::TextureCoordinates, EngineQ::Resources::ModelLoader::Config{});
 
-	const auto& modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
-	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh };
+//	const auto& modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+//	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh };
+
+
 
 	auto cubeMesh = GenerateCube2(0.6f);
 
@@ -207,6 +209,10 @@ void PrepareScene(EngineQ::Scene& scene)
 
 	auto& scriptEngine = EngineQ::Engine::Get().GetScriptEngine();
 
+
+	auto model = resourceManager.GetResource<EngineQ::Resources::Model>("Skull");
+	auto modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh };
 
 	auto shd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader);
 	auto deffShd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
@@ -272,6 +278,9 @@ void TemporaryResources()
 	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CustomDeferred, "./Shaders/Deferred/DeferredCustom.shd");
 
 	resourceManager.RegisterResource<EngineQ::Graphics::Texture>("Numbers", "./Textures/Numbers.qres");
+
+
+	resourceManager.RegisterResource<EngineQ::Resources::Model>("Skull", "./Models/Skull.qres");
 }
 
 

@@ -50,7 +50,7 @@ namespace EngineQ
 			}
 		}
 
-		bool BaseResource::BaseControlBlock::IsDataDestroyed() const
+		bool BaseResource::BaseControlBlock::IsResourceDestroyed() const
 		{
 			return this->nativeReferenceCount == 0;
 		}

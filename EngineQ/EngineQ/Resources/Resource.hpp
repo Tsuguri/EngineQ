@@ -37,10 +37,11 @@ namespace EngineQ
 				static void RemoveNativeReference(BaseControlBlock*& controlBlock);
 				static void RemoveManagedReference(BaseControlBlock*& controlBlock);
 
-				bool IsDataDestroyed() const;
+				bool IsResourceDestroyed() const;
 
 			protected:
 				virtual void DestroyData() = 0;
+				virtual bool IsDataDestroyed() const = 0;
 			};
 
 		protected:
@@ -50,6 +51,7 @@ namespace EngineQ
 
 		public:
 			BaseResource() = default;
+			virtual ~BaseResource() = default;
 
 			int GetAllReferenceCount() const;
 			int GetNativeReferenceCount() const;
@@ -72,29 +74,34 @@ namespace EngineQ
 				friend class ResourceManager;
 
 			private:
-				std::unique_ptr<TResourceType> resource;
+				std::unique_ptr<TResourceType> data;
 
 			public:
 				ControlBlock() = default;
 
 				ControlBlock(std::unique_ptr<TResourceType> resource) :
-					BaseControlBlock{}, resource{ std::move(resource) }
+					BaseControlBlock{}, data{ std::move(resource) }
 				{
 				}
 
 				virtual void DestroyData() override
 				{
-					this->resource = nullptr;
+					this->data = nullptr;
+				}
+
+				virtual bool IsDataDestroyed() const override
+				{
+					return this->data == nullptr;
 				}
 
 				TResourceType* Get() const
 				{
-					return this->resource.get();
+					return this->data.get();
 				}
 
 				Resource<TResourceType> GetResource()
 				{
-					if (this->IsDataDestroyed())
+					if (this->IsResourceDestroyed())
 						throw ResourceDestroyedException{ "Resource is destroyed" };
 
 					return Resource<TResourceType>{ this };
