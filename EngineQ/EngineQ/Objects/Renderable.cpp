@@ -36,12 +36,12 @@ namespace EngineQ
 		return this->deferredShader.get();
 	}
 
-	Graphics::Mesh* Renderable::GetMesh() const
+	Resources::Resource<Graphics::Mesh> Renderable::GetMesh() const
 	{
 		return mesh;
 	}
 
-	void Renderable::SetMesh(Graphics::Mesh* mesh)
+	void Renderable::SetMesh(Resources::Resource<Graphics::Mesh> mesh)
 	{
 		this->mesh = mesh;
 	}

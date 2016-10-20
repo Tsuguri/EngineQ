@@ -8,6 +8,8 @@
 #include "Component.hpp"
 #include "../Resources/Types.hpp"
 
+#include "../Resources/Resource.hpp"
+
 namespace EngineQ
 {
 	class Renderable : public Component
@@ -15,7 +17,7 @@ namespace EngineQ
 	private:
 		std::unique_ptr<Graphics::ShaderProperties> forwardShader;
 		std::unique_ptr<Graphics::ShaderProperties> deferredShader;
-		Graphics::Mesh* mesh;
+		Resources::Resource<Graphics::Mesh> mesh;
 		
 	public:
 		Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity);
@@ -28,8 +30,8 @@ namespace EngineQ
 		Graphics::ShaderProperties* GetDeferredShader() const;
 
 		
-		Graphics::Mesh* GetMesh() const;
-		void SetMesh(Graphics::Mesh* mesh);
+		Resources::Resource<Graphics::Mesh> GetMesh() const;
+		void SetMesh(Resources::Resource<Graphics::Mesh> mesh);
 	};
 }
 

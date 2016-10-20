@@ -203,6 +203,14 @@ namespace EngineQ
 			{
 				return static_cast<ControlBlock*>(this->controlBlock);
 			}
+
+			operator TResourceType* () const
+			{
+				if (this->controlBlock == nullptr)
+					return nullptr;
+
+				return static_cast<ControlBlock*>(this->controlBlock)->Get();
+			}
 		};
 	}
 }

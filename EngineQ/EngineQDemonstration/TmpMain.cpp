@@ -20,7 +20,7 @@
 
 namespace Math = EngineQ::Math;
 
-EngineQ::Graphics::Mesh* GenerateCube(float side = 1.0f)
+std::unique_ptr<EngineQ::Graphics::Mesh> GenerateCube(float side = 1.0f)
 {
 	side *= 0.5f;
 
@@ -81,10 +81,10 @@ EngineQ::Graphics::Mesh* GenerateCube(float side = 1.0f)
 	for (unsigned int i = 0; i < vertices.size(); ++i)
 		indices.push_back(i);
 
-	return new EngineQ::Graphics::Mesh{ vertices, indices };
+	return std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices);
 }
 
-EngineQ::Graphics::Mesh* GenerateCube2(float side = 1.0f)
+std::unique_ptr<EngineQ::Graphics::Mesh> GenerateCube2(float side = 1.0f)
 {
 	side *= 0.5f;
 
@@ -165,10 +165,10 @@ EngineQ::Graphics::Mesh* GenerateCube2(float side = 1.0f)
 		22, 23, 20
 	};
 
-	return new EngineQ::Graphics::Mesh{ vertices, indices };
+	return std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices);
 }
 
-EngineQ::Graphics::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep = 10.0f, float horizontalStep = 10.0f)
+std::unique_ptr<EngineQ::Graphics::Mesh> GenerateSphere(float radius = 1.0f, float verticalStep = 10.0f, float horizontalStep = 10.0f)
 {
 	std::vector<EngineQ::VertexPNC> vertices{};
 
@@ -182,7 +182,7 @@ EngineQ::Graphics::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep 
 	for (unsigned int i = 0; i < vertices.size(); ++i)
 		indices.push_back(i);
 
-	return new EngineQ::Graphics::Mesh{ vertices, indices };
+	return std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices);
 }
 
 void PrepareScene(EngineQ::Scene& scene)
@@ -195,7 +195,6 @@ void PrepareScene(EngineQ::Scene& scene)
 
 
 
-	auto cubeMesh = GenerateCube2(0.6f);
 
 	auto ent = scene.CreateEntity();
 	auto ent2 = scene.CreateEntity();
@@ -210,9 +209,11 @@ void PrepareScene(EngineQ::Scene& scene)
 	auto& scriptEngine = EngineQ::Engine::Get().GetScriptEngine();
 
 
-	auto model = resourceManager.GetResource<EngineQ::Resources::Model>("Skull");
-	auto modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
-	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh };
+//	auto model = resourceManager.GetResource<EngineQ::Resources::Model>("Skull");
+//	auto modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+	auto cubeMesh = resourceManager.GetResource<EngineQ::Graphics::Mesh>("Cube");
+	auto mesh = resourceManager.GetResource<EngineQ::Graphics::Mesh>("Skull");
+
 
 	auto shd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader);
 	auto deffShd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
@@ -238,6 +239,9 @@ void PrepareScene(EngineQ::Scene& scene)
 
 	auto textureProp1 = renderable->GetDeferredShader()->GetProperty<EngineQ::Resources::Resource<EngineQ::Graphics::Texture>>("diffuseTexture");
 	textureProp1 = texture;
+
+	auto textureProp2 = renderable2->GetDeferredShader()->GetProperty<EngineQ::Resources::Resource<EngineQ::Graphics::Texture>>("diffuseTexture");
+	textureProp2 = texture;
 
 	auto textureProp3 = renderable3->GetDeferredShader()->GetProperty<EngineQ::Resources::Resource<EngineQ::Graphics::Texture>>("diffuseTexture");
 	textureProp3 = texture;
@@ -281,6 +285,19 @@ void TemporaryResources()
 
 
 	resourceManager.RegisterResource<EngineQ::Resources::Model>("Skull", "./Models/Skull.qres");
+
+	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("Skull", [](EngineQ::Resources::ResourceManager& resourceManager)
+	{	
+		auto model = resourceManager.GetResource<EngineQ::Resources::Model>("Skull");
+		auto modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+
+		return std::make_unique<EngineQ::Graphics::Mesh>(modelMesh);
+	});
+
+	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("Cube", [](EngineQ::Resources::ResourceManager&)
+	{
+		return GenerateCube2(0.6f);
+	});
 }
 
 
