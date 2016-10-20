@@ -29,6 +29,7 @@
     <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Math\Utilities.cpp" />
+    <ClCompile Include="Resources\Model.cpp" />
     <ClCompile Include="Resources\ModelLoader.cpp" />
     <ClCompile Include="Resources\Resource.cpp" />
     <ClCompile Include="Resources\ResourceManager.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="Serialization\XMLFormatter.hpp" />
     <ClInclude Include="TimeCounter.hpp" />
     <ClInclude Include="Utilities\Emiter.hpp" />
+    <ClInclude Include="Utilities\EnumHelpers.hpp" />
     <ClInclude Include="Utilities\Event.hpp" />
     <ClInclude Include="Utilities\Immovable.hpp" />
     <ClInclude Include="Objects\Light.hpp" />
@@ -173,7 +175,6 @@
     <None Include="Math\Vector2.inl" />
     <None Include="Math\Vector3.inl" />
     <None Include="Math\Vector4.inl" />
-    <None Include="Resources\Model.inl" />
     <None Include="Scripting\ScriptEngine.inl" />
     <None Include="Serialization\Deserializer.inl" />
     <None Include="Serialization\SerializationEngine.inl" />

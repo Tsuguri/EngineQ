@@ -7,6 +7,7 @@
 
 #include "../Utilities/Immovable.hpp"
 #include "../Vertex.hpp"
+#include "../Resources/Model.hpp"
 
 namespace EngineQ
 {
@@ -22,9 +23,11 @@ namespace EngineQ
 			GLuint vbo[VboSize] = { 0, 0, 0 };
 
 		public:
-			template<typename TVertexType>
-			Mesh(const std::vector<TVertexType>& vertices, const std::vector<GLuint>& indices)
+			template<typename... TVertexConfiguration>
+			Mesh(const std::vector<Vertex<TVertexConfiguration...>>& vertices, const std::vector<GLuint>& indices)
 			{
+				using TVertexType = Vertex<TVertexConfiguration...>;
+
 				//Generating vertex array and buffers
 				glGenVertexArrays(1, &this->vao);
 				glGenBuffers(VboSize, &this->vbo[0]);
@@ -47,6 +50,8 @@ namespace EngineQ
 				glBindBuffer(GL_ARRAY_BUFFER, NULL);
 				indicesCount = indices.size();
 			}
+
+			Mesh(const Resources::Model::Mesh& mesh);
 
 			~Mesh();
 			

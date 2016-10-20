@@ -4,9 +4,10 @@
 #include <memory>
 
 #include "Types.hpp"
-
-#include "../Vertex.hpp"
 #include "Model.hpp"
+#include "../Math/Vector3.hpp"
+
+#include "../Utilities/EnumHelpers.hpp"
 
 struct aiScene;
 struct aiNode;
@@ -24,39 +25,71 @@ namespace EngineQ
 
 		class ModelLoader
 		{
+		public:
+			enum class Flags
+			{
+				FlipUVs = 1 << 0,
+				Triangulate = 1 << 1,
+			};
+			
+			struct Config
+			{
+				Flags flags = Utilities::MakeFlags(Flags::FlipUVs, Flags::Triangulate);
+
+				Math::Vector3f positionDefault{ 0.0f };
+				Math::Vector3f normalDefault{ 0.0f };
+				Math::Vector3f colorDefault{ 0.5f };
+				Math::Vector2f textureCoordinatesDefault{ 0.0f };
+			};
+
 		private:
-			std::unique_ptr<Model<VertexPNC>> currentModel = nullptr;
+			using VertexConverter = void(ModelLoader::*)(aiMesh* mesh, int index, char* data);
+
+			std::unique_ptr<Model> currentModel = nullptr;
 			const aiScene* scene = nullptr;
 
+			Config config;
+			VertexComponent vertexComponents;
+			int vertexSize;
+
+			std::vector<VertexConverter> converters;
+			std::vector<Model::Mesh::ComponentData> componentData;
+
 		public:
-			std::unique_ptr<Model<VertexPNC>> LoadModel(const char* path);
+			std::unique_ptr<Model> LoadModel(const char* path, VertexComponent vertexComponents, Config config);
 		
 		private:
-			void ProcessScene(aiNode* sceneNode, Model<VertexPNC>::Node& modelNode);
-			Model<VertexPNC>::Mesh ProcessMesh(aiMesh* mesh);
+			void ProcessScene(aiNode* sceneNode, Model::Node& modelNode);
+			Model::Mesh ProcessMesh(aiMesh* mesh);
 
-			bool CheckVertex(aiMesh* mesh);
-			VertexPNC ConvertVertex(aiMesh* mesh, int index);
+			void SetConverters(aiMesh* mesh);
+
+			void PositionConverter(aiMesh* mesh, int index, char* data);
+			void PositionConverterDefault(aiMesh* mesh, int index, char* data);
+
+			void NormalConverter(aiMesh* mesh, int index, char* data);
+			void NormalConverterDefault(aiMesh* mesh, int index, char* data);
+
+			void ColorConverter(aiMesh* mesh, int index, char* data);
+			void ColorConverterDefault(aiMesh* mesh, int index, char* data);
+
+			void TextureCoordinatesConverter(aiMesh* mesh, int index, char* data);
+			void TextureCoordinatesConverterDefault(aiMesh* mesh, int index, char* data);
 		};
 
-
-		// TMP
-		class ModelLoader2
+		constexpr ModelLoader::Flags operator | (ModelLoader::Flags left, ModelLoader::Flags right)
 		{
-		private:
-			std::unique_ptr<Model<VertexPNTC>> currentModel = nullptr;
-			const aiScene* scene = nullptr;
+			using Type = std::underlying_type<ModelLoader::Flags>::type;
 
-		public:
-			std::unique_ptr<Model<VertexPNTC>> LoadModel(const char* path);
+			return static_cast<ModelLoader::Flags>(static_cast<Type>(left) | static_cast<Type>(right));
+		}
 
-		private:
-			void ProcessScene(aiNode* sceneNode, Model<VertexPNTC>::Node& modelNode);
-			Model<VertexPNTC>::Mesh ProcessMesh(aiMesh* mesh);
+		constexpr ModelLoader::Flags operator & (ModelLoader::Flags left, ModelLoader::Flags right)
+		{
+			using Type = std::underlying_type<ModelLoader::Flags>::type;
 
-			bool CheckVertex(aiMesh* mesh);
-			VertexPNTC ConvertVertex(aiMesh* mesh, int index);
-		};
+			return static_cast<ModelLoader::Flags>(static_cast<Type>(left) & static_cast<Type>(right));
+		}
 	}
 }
 

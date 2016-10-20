@@ -8,55 +8,36 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		// TODO
-		GLenum ShaderPass::textureLocations[10] = {
-			GL_TEXTURE0,
-			GL_TEXTURE1,
-			GL_TEXTURE2,
-			GL_TEXTURE3,
-			GL_TEXTURE4,
-			GL_TEXTURE5,
-			GL_TEXTURE6,
-			GL_TEXTURE7,
-			GL_TEXTURE8,
-			GL_TEXTURE9
-		};
-
-
-
-		InputConfiguration::InputConfiguration(GLuint position, GLuint texture, std::string name) : 
+		InputConfiguration::InputConfiguration(GLuint position, GLuint texture, std::string name) :
 			Position{ position }, Texture{ texture }, Name{ name }
 		{
 		}
 
-		ShaderPass::ShaderPass(Resources::Resource<Shader> shader) : 
+		ShaderPass::ShaderPass(Resources::Resource<Shader> shader) :
 			shader{ shader }
 		{
 		}
 
 		void ShaderPass::BindTextures()
 		{
-			Utilities::Nullable<UniformLocation> tmp;
-			int j = 0;
-			for(auto& inputTexture : inputTextures)
+			for (auto& inputTexture : inputTextures)
 			{
-				glActiveTexture(GL_TEXTURE0+inputTexture.Position);
+				glActiveTexture(GL_TEXTURE0 + inputTexture.Position);
 				glBindTexture(GL_TEXTURE_2D, inputTexture.Texture);
-				if(inputTexture.Name!="")
+				if (inputTexture.Name != "")
 				{
-					tmp = shader->TryGetUniformLocation(inputTexture.Name.c_str());
-					if(tmp!=nullval)
-					shader->Bind(*tmp, j);
+					Utilities::Nullable<UniformLocation> location = shader->TryGetUniformLocation(inputTexture.Name.c_str());
+					if (location != nullval)
+						shader->Bind(*location, static_cast<int>(inputTexture.Position));
 				}
-				j++;
 			}
 		}
 
 		void ShaderPass::UnbindTextures()
 		{
-			for(auto& i : inputTextures)
+			for (auto& i : inputTextures)
 			{
-				glActiveTexture(GL_TEXTURE0+i.Position);
+				glActiveTexture(GL_TEXTURE0 + i.Position);
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 		}
@@ -79,7 +60,7 @@ namespace EngineQ
 			inputTextures.push_back(input);
 		}
 
-		void ShaderPass::Activate(Camera* cam,float time) const
+		void ShaderPass::Activate(Camera* cam, float time) const
 		{
 			shader->Activate();
 			auto tmp = shader->TryGetUniformLocation("cameraPosition");

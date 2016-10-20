@@ -89,7 +89,7 @@ EngineQ::Graphics::Mesh* GenerateCube2(float side = 1.0f)
 	side *= 0.5f;
 
 	Math::Vector3 color{ 0.5f };
-	
+
 	std::vector<EngineQ::VertexPNTC> vertices = {
 		{ Math::Vector3{ +side, -side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 1.0f, 0.0f }, color }, // 0
 		{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 0.0f, 0.0f }, color }, // 1
@@ -144,7 +144,7 @@ EngineQ::Graphics::Mesh* GenerateCube2(float side = 1.0f)
 		{ Math::Vector3{ -side, +side, +side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, Math::Vector2{ 0.0f, 1.0f }, color }, // 23
 	//	{ Math::Vector3{ +side, +side, +side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, Math::Vector2{ 0.0f, 0.0f }, color }, // 20
 	};
-	
+
 	std::vector<unsigned int> indices = {
 		0, 1, 2,
 		1, 3, 2,
@@ -182,16 +182,16 @@ EngineQ::Graphics::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep 
 	for (unsigned int i = 0; i < vertices.size(); ++i)
 		indices.push_back(i);
 
-	return new EngineQ::Graphics::Mesh{ vertices,indices };
+	return new EngineQ::Graphics::Mesh{ vertices, indices };
 }
 
 void PrepareScene(EngineQ::Scene& scene)
 {
-	EngineQ::Resources::ModelLoader2 loader;
-	auto model = loader.LoadModel("Models/skull2.obj");
+	EngineQ::Resources::ModelLoader loader;
+	auto model = loader.LoadModel("Models/skull2.obj", EngineQ::Resources::VertexComponent::Position | EngineQ::Resources::VertexComponent::Normal | EngineQ::Resources::VertexComponent::TextureCoordinates, EngineQ::Resources::ModelLoader::Config{});
 
 	const auto& modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
-	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh.GetVertices(), modelMesh.GetIndices() };
+	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh };
 
 	auto cubeMesh = GenerateCube2(0.6f);
 
@@ -214,14 +214,16 @@ void PrepareScene(EngineQ::Scene& scene)
 	auto cam = ent->AddComponent<EngineQ::Camera>();
 
 
-//	auto texture = std::make_shared<EngineQ::Graphics::Texture>("Textures/Numbers.png", true);
+	//	auto texture = std::make_shared<EngineQ::Graphics::Texture>("Textures/Numbers.png", true);
 	auto texture = resourceManager.GetResource<EngineQ::Graphics::Texture>("Numbers");
-		
+
 	auto deffShdCustom = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
 	renderable->SetMesh(mesh);
+	renderable->GetEntity().GetTransform().SetScale(Math::Vector3f{ 0.1f });
 	renderable->SetForwardShader(shd);
 	renderable->SetDeferredShader(deffShd);
 	renderable2->SetMesh(mesh);
+	renderable2->GetEntity().GetTransform().SetScale(Math::Vector3f{ 0.1f });
 	renderable2->SetForwardShader(shd);
 	renderable2->SetDeferredShader(deffShdCustom);
 	renderable3->SetMesh(cubeMesh);
@@ -235,7 +237,7 @@ void PrepareScene(EngineQ::Scene& scene)
 	textureProp3 = texture;
 
 
-	ent3->GetTransform().SetPosition(EngineQ::Math::Vector3(1.0f,0,0));
+	ent3->GetTransform().SetPosition(EngineQ::Math::Vector3(1.0f, 0, 0));
 	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
 	ent4->GetTransform().SetPosition(EngineQ::Math::Vector3(2.0f, 0, 0));
 
@@ -274,7 +276,7 @@ void TemporaryResources()
 
 
 int main(int argc, char** argv)
-{	
+{
 	EngineQ::Engine::Initialize("EngineQ Demonstration", 800, 600, argv[0]);
 	TemporaryResources();
 	EngineQ::Engine::Get().SetPostprocessingConfiguration("./postprocessing.conf");

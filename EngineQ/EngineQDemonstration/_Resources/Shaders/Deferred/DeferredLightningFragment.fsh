@@ -16,12 +16,11 @@ uniform float ambientStrength=0.3f;
 uniform float specularStrength=0.1f;
 uniform float materialShininess=32;
 
-vec3 light=3*vec3(cos(time),1,sin(time));
+vec3 light = 3 * vec3(cos(time), 1, sin(time));
 
 void main()
 {
-    vec3 colorTmp;
-	colorTmp=texture(albedo,TexCoords).rgb;
+    vec3 colorTmp = texture(albedo, TexCoords).rgb;
 
 	//ambient
 	vec3 ambient = ambientStrength*lightColor;
@@ -38,6 +37,6 @@ void main()
 	vec3 halfwayDir = normalize(dir + viewDir);
 	float spec = pow(max(dot(norm, halfwayDir), 0.0), materialShininess);
 	vec3 specular = lightColor * spec*specularStrength;
-	vec3 result = (ambient+diffuse+specular)*colorTmp;
-	color=vec4(result,1.0);
+	vec3 result = (ambient + diffuse + specular) * colorTmp;
+	color = vec4(result,1.0);
 }

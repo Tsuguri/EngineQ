@@ -197,8 +197,26 @@ namespace Meta
 
 
 
+	template<typename THead, typename... TTail>
+	struct AreAllSame;
 
+	template<typename TType, typename... TRest>
+	struct AreAllSame<TType, TType, TRest...>
+	{
+		static constexpr bool value = AreAllSame<TType, TRest...>::value;
+	};
 
+	template<typename TFirst, typename TSecond, typename... TRest>
+	struct AreAllSame<TFirst, TSecond, TRest...>
+	{
+		static constexpr bool value = false;
+	};
+
+	template<typename TTail>
+	struct AreAllSame<TTail>
+	{
+		static constexpr bool value = true;
+	};
 
 
 

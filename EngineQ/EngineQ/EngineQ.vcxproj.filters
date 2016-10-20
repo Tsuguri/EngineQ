@@ -62,6 +62,7 @@
     <ClCompile Include="Utilities\Emiter.cpp" />
     <ClCompile Include="Resources\TextureFactory.cpp" />
     <ClCompile Include="Scripting\API_ShaderProperties.cpp" />
+    <ClCompile Include="Resources\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Utilities\Emiter.hpp" />
     <ClInclude Include="Resources\TextureFactory.hpp" />
     <ClInclude Include="Scripting\API_ShaderProperties.hpp" />
+    <ClInclude Include="Utilities\EnumHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />
@@ -162,6 +164,5 @@
     <None Include="Utilities\StringHelpers.inl" />
     <None Include="Scripting\ScriptEngine.inl" />
     <None Include="Graphics\ShaderProperties.inl" />
-    <None Include="Resources\Model.inl" />
   </ItemGroup>
 </Project>

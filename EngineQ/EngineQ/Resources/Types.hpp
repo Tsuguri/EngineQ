@@ -8,10 +8,8 @@ namespace EngineQ
 		template<typename TResourceType>
 		class Resource;
 		
-		class ModelLoader;
-
-		template<typename TVertexType>
 		class Model;
+		class ModelLoader;
 	}
 }
 

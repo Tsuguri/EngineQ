@@ -6,27 +6,66 @@
 
 #include "Model.hpp"
 
+#include "../Utilities/EnumHelpers.hpp"
+#include "../Vertex.hpp"
+
 namespace EngineQ
 {
 	namespace Resources
 	{
-		std::unique_ptr<Model<VertexPNC>> ModelLoader::LoadModel(const char* path)
+		template<typename TType>
+		void AddComponentData(std::vector<Model::Mesh::ComponentData>& data, int& vertexSize)
 		{
-			Assimp::Importer importer;
+			data.emplace_back(
+				TType::Location,
+				VertexTypeMap<typename TType::UnderlyingType>::value,
+				sizeof(typename TType::Type) / sizeof(typename TType::UnderlyingType),
+				GL_FALSE,
+				sizeof(typename TType::Type)
+			);
 
-			this->scene = importer.ReadFile(path, aiProcess_FlipUVs | aiProcess_Triangulate);
+			vertexSize += sizeof(typename TType::Type);
+		}
+
+		std::unique_ptr<Model> ModelLoader::LoadModel(const char* path, VertexComponent vertexComponents, Config config)
+		{
+			this->vertexComponents = vertexComponents;
+			this->config = config;
+			this->vertexSize = 0;
+
+			unsigned int flags = 0;
+			if (Utilities::IsFlagSet(this->config.flags, Flags::FlipUVs))
+				flags |= aiProcess_FlipUVs;
+
+			if (Utilities::IsFlagSet(this->config.flags, Flags::Triangulate))
+				flags |= aiProcess_Triangulate;
+
+			Assimp::Importer importer;
+			this->scene = importer.ReadFile(path, flags);
 
 			if (this->scene == nullptr || this->scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || this->scene->mRootNode == nullptr)
 				throw ModelLoadingException(importer.GetErrorString());
 
-			this->currentModel = std::make_unique<Model<VertexPNC>>();
+			this->currentModel = std::make_unique<Model>();
 
+			if (Utilities::IsFlagSet(vertexComponents, VertexComponent::Position))
+				AddComponentData<VPos>(this->componentData, this->vertexSize);
+
+			if (Utilities::IsFlagSet(vertexComponents, VertexComponent::Color))
+				AddComponentData<VCol>(this->componentData, this->vertexSize);
+
+			if (Utilities::IsFlagSet(vertexComponents, VertexComponent::Normal))
+				AddComponentData<VNorm>(this->componentData, this->vertexSize);
+
+			if (Utilities::IsFlagSet(vertexComponents, VertexComponent::TextureCoordinates))
+				AddComponentData<VTex>(this->componentData, this->vertexSize);
+			
 			ProcessScene(this->scene->mRootNode, this->currentModel->GetRootNode());
 
 			return std::move(this->currentModel);
 		}
 
-		void ModelLoader::ProcessScene(aiNode* sceneNode, Model<VertexPNC>::Node& modelNode)
+		void ModelLoader::ProcessScene(aiNode* sceneNode, Model::Node& modelNode)
 		{
 			for (int i = 0; i < sceneNode->mNumMeshes; ++i)
 			{
@@ -35,21 +74,33 @@ namespace EngineQ
 
 			for (int i = 0; i < sceneNode->mNumChildren; ++i)
 			{
-				Model<VertexPNC>::Node& child = modelNode.AddChild();
+				Model::Node& child = modelNode.AddChild();
 				this->ProcessScene(sceneNode->mChildren[i], child);
 			}
 		}
 
-		Model<VertexPNC>::Mesh ModelLoader::ProcessMesh(aiMesh* mesh)
+		Model::Mesh ModelLoader::ProcessMesh(aiMesh* mesh)
 		{
-			if (!this->CheckVertex(mesh))
-				throw ModelLoadingException{ "Model does not support vertex type" };
+			SetConverters(mesh);
 
-			Model<VertexPNC>::Mesh modelMesh;
+			Model::Mesh modelMesh;
 
-			modelMesh.vertices.resize(mesh->mNumVertices);
-			for (int i = 0; i < mesh->mNumVertices; ++i)
-				modelMesh.vertices[i] = ConvertVertex(mesh, i);
+			modelMesh.data = this->componentData;
+			modelMesh.vertexSize = this->vertexSize;
+			modelMesh.vertexComponents = this->vertexComponents;
+			modelMesh.verticesData.resize(mesh->mNumVertices * this->vertexSize);
+			char* dataPointer = modelMesh.verticesData.data();
+			
+			for (int vertexIndex = 0; vertexIndex < mesh->mNumVertices; ++vertexIndex)
+			{
+				for (int converterIndex = 0; converterIndex < this->converters.size(); ++converterIndex)
+				{
+					auto converter = this->converters[converterIndex];
+
+					(this->*converter)(mesh, vertexIndex, dataPointer);
+					dataPointer += this->componentData[converterIndex].bytesSize;
+				}
+			}
 
 			modelMesh.indices.reserve(mesh->mNumFaces * 3);
 			for (int faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex)
@@ -62,100 +113,104 @@ namespace EngineQ
 			return modelMesh;
 		}
 
-		bool ModelLoader::CheckVertex(aiMesh* mesh)
+		void ModelLoader::SetConverters(aiMesh* mesh)
 		{
-			return mesh->HasPositions() && mesh->HasNormals();// && mesh->HasVertexColors(0);
+			this->converters.clear();
+
+			if (Utilities::IsFlagSet(this->vertexComponents, VertexComponent::Position))
+			{
+				if (mesh->HasPositions())
+					this->converters.push_back(&ModelLoader::PositionConverter);
+				else
+					this->converters.push_back(&ModelLoader::PositionConverterDefault);
+			}
+
+			if (Utilities::IsFlagSet(this->vertexComponents, VertexComponent::Color))
+			{
+				if (mesh->HasVertexColors(0))
+					this->converters.push_back(&ModelLoader::ColorConverter);
+				else
+					this->converters.push_back(&ModelLoader::ColorConverterDefault);
+			}
+
+			if (Utilities::IsFlagSet(this->vertexComponents, VertexComponent::Normal))
+			{
+				if (mesh->HasNormals())
+					this->converters.push_back(&ModelLoader::NormalConverter);
+				else
+					this->converters.push_back(&ModelLoader::NormalConverterDefault);
+			}
+
+			if (Utilities::IsFlagSet(this->vertexComponents, VertexComponent::TextureCoordinates))
+			{
+				if (mesh->HasTextureCoords(0))
+					this->converters.push_back(&ModelLoader::TextureCoordinatesConverter);
+				else
+					this->converters.push_back(&ModelLoader::TextureCoordinatesConverterDefault);
+			}
 		}
 
-		VertexPNC ModelLoader::ConvertVertex(aiMesh* mesh, int index)
+		void ModelLoader::PositionConverter(aiMesh* mesh, int index, char* data)
 		{
 			aiVector3D position = mesh->mVertices[index];
+
+			Math::Vector3f* positionData = reinterpret_cast<Math::Vector3f*>(data);
+			positionData->X = position.x;
+			positionData->Y = position.y;
+			positionData->Z = position.z;
+		}
+
+		void ModelLoader::PositionConverterDefault(aiMesh* mesh, int index, char* data)
+		{
+			Math::Vector3f* positionData = reinterpret_cast<Math::Vector3f*>(data);
+			*positionData = this->config.positionDefault;
+		}
+		
+		void ModelLoader::NormalConverter(aiMesh* mesh, int index, char* data)
+		{
 			aiVector3D normal = mesh->mNormals[index];
-			aiColor4D color = { 1, 1, 1, 1 };// = mesh->mColors[index][0];
 
-			return VertexPNC{
-				Math::Vector3f{ position.x, position.y, position.z } * 0.1f,
-				Math::Vector3f{ normal.x, normal.y, normal.z },
-				Math::Vector3f{ color.r, color.g, color.b }
-			};
+			Math::Vector3f* normalData = reinterpret_cast<Math::Vector3f*>(data);
+			normalData->X = normal.x;
+			normalData->Y = normal.y;
+			normalData->Z = normal.z;
+		}
+		
+		void ModelLoader::NormalConverterDefault(aiMesh* mesh, int index, char* data)
+		{
+			Math::Vector3f* normalData = reinterpret_cast<Math::Vector3f*>(data);
+			*normalData = this->config.normalDefault;
+		}
+	
+		void ModelLoader::ColorConverter(aiMesh* mesh, int index, char* data)
+		{
+			aiColor4D color = mesh->mColors[0][index];
+
+			Math::Vector3f* colorData = reinterpret_cast<Math::Vector3f*>(data);
+			colorData->X = color.r;
+			colorData->Y = color.g;
+			colorData->Z = color.b;
 		}
 
-
-
-
-
-
-
-		std::unique_ptr<Model<VertexPNTC>> ModelLoader2::LoadModel(const char* path)
+		void ModelLoader::ColorConverterDefault(aiMesh* mesh, int index, char* data)
 		{
-			Assimp::Importer importer;
+			Math::Vector3f* colorData = reinterpret_cast<Math::Vector3f*>(data);
+			*colorData = this->config.colorDefault;
+		}
+		
+		void ModelLoader::TextureCoordinatesConverter(aiMesh* mesh, int index, char* data)
+		{
+			aiVector3D textureCoordinates = mesh->mTextureCoords[0][index];
 
-			this->scene = importer.ReadFile(path, aiProcess_FlipUVs | aiProcess_Triangulate);
-
-			if (this->scene == nullptr || this->scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || this->scene->mRootNode == nullptr)
-				throw ModelLoadingException(importer.GetErrorString());
-
-			this->currentModel = std::make_unique<Model<VertexPNTC>>();
-
-			ProcessScene(this->scene->mRootNode, this->currentModel->GetRootNode());
-
-			return std::move(this->currentModel);
+			Math::Vector2f* textureCoordinatesData = reinterpret_cast<Math::Vector2f*>(data);
+			textureCoordinatesData->X = textureCoordinates.x;
+			textureCoordinatesData->Y = textureCoordinates.y;
 		}
 
-		void ModelLoader2::ProcessScene(aiNode* sceneNode, Model<VertexPNTC>::Node& modelNode)
+		void ModelLoader::TextureCoordinatesConverterDefault(aiMesh* mesh, int index, char* data)
 		{
-			for (int i = 0; i < sceneNode->mNumMeshes; ++i)
-			{
-				modelNode.meshes.push_back(this->ProcessMesh(this->scene->mMeshes[sceneNode->mMeshes[i]]));
-			}
-
-			for (int i = 0; i < sceneNode->mNumChildren; ++i)
-			{
-				Model<VertexPNTC>::Node& child = modelNode.AddChild();
-				this->ProcessScene(sceneNode->mChildren[i], child);
-			}
-		}
-
-		Model<VertexPNTC>::Mesh ModelLoader2::ProcessMesh(aiMesh* mesh)
-		{
-			if (!this->CheckVertex(mesh))
-				throw ModelLoadingException{ "Model does not support vertex type" };
-
-			Model<VertexPNTC>::Mesh modelMesh;
-
-			modelMesh.vertices.resize(mesh->mNumVertices);
-			for (int i = 0; i < mesh->mNumVertices; ++i)
-				modelMesh.vertices[i] = ConvertVertex(mesh, i);
-
-			modelMesh.indices.reserve(mesh->mNumFaces * 3);
-			for (int faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex)
-			{
-				aiFace face = mesh->mFaces[faceIndex];
-				for (int indexIndex = 0; indexIndex < face.mNumIndices; ++indexIndex)
-					modelMesh.indices.push_back(face.mIndices[indexIndex]);
-			}
-
-			return modelMesh;
-		}
-
-		bool ModelLoader2::CheckVertex(aiMesh* mesh)
-		{
-			return mesh->HasPositions() && mesh->HasNormals();// && mesh->HasVertexColors(0);
-		}
-
-		VertexPNTC ModelLoader2::ConvertVertex(aiMesh* mesh, int index)
-		{
-			aiVector3D position = mesh->mVertices[index];
-			aiVector3D normal = mesh->mNormals[index];
-			aiColor4D color = { 1, 1, 1, 1 };// = mesh->mColors[index][0];
-			aiVector3D tex = mesh->mTextureCoords[0][index];
-
-			return VertexPNTC{
-				Math::Vector3f{ position.x, position.y, position.z } *0.1f,
-				Math::Vector3f{ normal.x, normal.y, normal.z },
-				Math::Vector2f{ tex.x, tex.y },
-				Math::Vector3f{ color.r, color.g, color.b }
-			};
+			Math::Vector2f* textureCoordinatesData = reinterpret_cast<Math::Vector2f*>(data);
+			*textureCoordinatesData = this->config.textureCoordinatesDefault;
 		}
 	}
 }

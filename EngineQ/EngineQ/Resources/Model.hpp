@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <type_traits>
 
 #include "../Libraries/GL/glew.h"
 
@@ -10,31 +11,75 @@ namespace EngineQ
 {
 	namespace Resources
 	{
-		template<typename TVertexType>
+		enum class VertexComponent
+		{
+			Position = 1 << 0,
+			Normal = 1 << 1,
+			Color = 1 << 2,
+			TextureCoordinates = 1 << 3,
+		};
+
+		constexpr VertexComponent operator | (VertexComponent left, VertexComponent right)
+		{
+			using Type = std::underlying_type<VertexComponent>::type;
+
+			return static_cast<VertexComponent>(static_cast<Type>(left) | static_cast<Type>(right));
+		}
+
+		constexpr VertexComponent operator & (VertexComponent left, VertexComponent right)
+		{
+			using Type = std::underlying_type<VertexComponent>::type;
+
+			return static_cast<VertexComponent>(static_cast<Type>(left) & static_cast<Type>(right));
+		}
+
+		
+
+
 		class Model
 		{
 		public:
 			class Mesh
 			{
 				friend class ModelLoader;
-				friend class ModelLoader2;
+
+			public:
+				struct ComponentData
+				{
+					GLuint location;
+					GLenum type;
+					GLint size;
+					GLboolean normalized;
+
+					unsigned char bytesSize;
+
+					ComponentData(GLuint location, GLenum type, GLint size, GLboolean normalized, unsigned char bytesSize);
+				};
 
 			private:
-				std::vector<TVertexType> vertices;
+				unsigned int vertexSize;
+				std::vector<ComponentData> data;
+
+				VertexComponent vertexComponents;
+
+				std::vector<char> verticesData;
 				std::vector<GLuint> indices;
 			
 			public:
-				const std::vector<TVertexType>& GetVertices() const;
+				unsigned int GetVertexSize() const;
+				VertexComponent GetVertexComponents() const;
+
+				const std::vector<char>& GetVerticesData() const;
 				const std::vector<GLuint>& GetIndices() const;
+				const std::vector<ComponentData>& GetComponentData() const;
 			};
 			
 			class Node
 			{
 				friend class ModelLoader;
-				friend class ModelLoader2;
 
 			private:
-				Node* parent = nullptr;
+				Node* parent;
 				std::vector<std::unique_ptr<Node>> children;
 
 				std::vector<Mesh> meshes;
@@ -57,7 +102,5 @@ namespace EngineQ
 		};
 	}
 }
-
-#include "Model.inl"
 
 #endif // !ENGINEQ_RESOURCES_MODEL_HPP
