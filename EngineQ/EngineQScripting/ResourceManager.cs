@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
-	public class ResourceManager : EngineQ.Object
+	public sealed class ResourceManager : EngineQ.Object
 	{
 		#region Properties
 

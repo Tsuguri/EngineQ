@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
-	public class Renderable : Component
+	public sealed class Renderable : Component
 	{
 		#region Properties
 		

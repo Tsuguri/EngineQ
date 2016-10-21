@@ -89,13 +89,13 @@ namespace QScripts
 			switch (mode)
 			{
 				case 0:
-					transform.Rotation = Quaternion.CreateFromEuler(DegToRad(X), DegToRad(Y), 0);
+					Transform.Rotation = Quaternion.CreateFromEuler(DegToRad(X), DegToRad(Y), 0);
 					break;
 				case 1:
-					transform.Rotation = Quaternion.CreateFromEuler(0, DegToRad(Y), 0);
+					Transform.Rotation = Quaternion.CreateFromEuler(0, DegToRad(Y), 0);
 					break;
 				case 2:
-					transform.Rotation = Quaternion.CreateFromEuler(DegToRad(X), 0, 0);
+					Transform.Rotation = Quaternion.CreateFromEuler(DegToRad(X), 0, 0);
 					break;
 			}
 

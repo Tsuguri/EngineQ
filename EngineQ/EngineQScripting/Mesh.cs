@@ -1,6 +1,6 @@
 ﻿namespace EngineQ
 {
-	public class Mesh : Resource
+	public sealed class Mesh : Resource
 	{
 	}
 }

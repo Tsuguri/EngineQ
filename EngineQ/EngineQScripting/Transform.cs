@@ -5,7 +5,7 @@ namespace EngineQ
 {
 	using Math;
 
-	public class Transform : Component
+	public sealed class Transform : Component
 	{
 		#region Properties
 

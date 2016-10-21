@@ -1,6 +1,6 @@
 ﻿namespace EngineQ
 {
-	public class Camera : Component
+	public sealed class Camera : Component
 	{
 	}
 }

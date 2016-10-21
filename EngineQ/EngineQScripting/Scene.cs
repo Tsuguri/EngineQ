@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
-	public class Scene : Object
+	public sealed class Scene : Object
 	{
 		public Entity CreateEntity()
 		{

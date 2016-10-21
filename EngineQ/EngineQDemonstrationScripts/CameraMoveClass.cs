@@ -22,8 +22,8 @@ namespace QScripts
             Input.ListenKey(Input.Key.Escape, EscapeAction);
             Input.ListenKey(Input.Key.F1, F1Action);
             Input.ListenKey(Input.Key.F2, F2Action);
-            rotationX = transform.Rotation.EulerAngles.X;
-            rotationY = transform.Rotation.EulerAngles.Y;
+            rotationX = Transform.Rotation.EulerAngles.X;
+            rotationY = Transform.Rotation.EulerAngles.Y;
 
 
 			Input.ListenKey(Input.Key.P, TestAction);
@@ -75,14 +75,14 @@ namespace QScripts
 
                 CheckAngles();
                 Console.WriteLine($"Angles: {RadToDeg(rotationX)} {RadToDeg(rotationY)}");
-                transform.Rotation = Quaternion.CreateFromEuler(rotationX, rotationY, 0);
+                Transform.Rotation = Quaternion.CreateFromEuler(rotationX, rotationY, 0);
             }
         }
 
         private void MoveInDirection(Vector3 direction)
         {
-            transform.Position = transform.Position + transform.Rotation * direction * Time.DeltaTime;
-            Console.WriteLine($"Position: {transform.Position}");
+            Transform.Position = Transform.Position + Transform.Rotation * direction * Time.DeltaTime;
+            Console.WriteLine($"Position: {Transform.Position}");
         }
 
         private void EscapeAction(Input.Key key, Input.KeyAction action)

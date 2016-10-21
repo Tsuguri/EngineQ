@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EngineQ
+﻿namespace EngineQ
 {
 	public sealed class Texture : Resource
 	{

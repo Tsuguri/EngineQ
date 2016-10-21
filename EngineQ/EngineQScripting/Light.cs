@@ -1,6 +1,6 @@
 ﻿namespace EngineQ
 {
-	public class Light : Component
+	public sealed class Light : Component
 	{
 	}
 }

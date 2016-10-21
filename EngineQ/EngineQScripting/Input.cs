@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+
 using EngineQ.Math;
 
 namespace EngineQ
 {
-
 	public static class Input
 	{
 		#region Types
