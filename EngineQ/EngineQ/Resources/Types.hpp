@@ -13,6 +13,8 @@ namespace EngineQ
 
 		class Model;
 		class ModelLoader;
+
+		class ResourceManager;
 	}
 }
 

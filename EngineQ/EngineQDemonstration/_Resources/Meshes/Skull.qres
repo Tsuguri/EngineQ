@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Mesh>
+	<Model ResourceName="Skull" Path="./Models/Skull.qres" />
+	<ModelNode Index="0" >
+		<ModelMesh Index="0" />
+	</ModelNode>
+</Mesh>

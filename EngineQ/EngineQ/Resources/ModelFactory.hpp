@@ -12,7 +12,7 @@ namespace EngineQ
 		template<>
 		struct ResourceFactory<Model>
 		{
-			static std::unique_ptr<Model> CreateResource(const char* filename);
+			static std::unique_ptr<Model> CreateResource(ResourceManager& resourceManager, const char* filename);
 		};
 	}
 }

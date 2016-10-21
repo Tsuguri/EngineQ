@@ -36,6 +36,8 @@ namespace EngineQ
 
 				Shader,
 				Texture,
+				Model,
+				Mesh,
 				
 				Vector3f,
 
@@ -67,6 +69,8 @@ namespace EngineQ
 				
 				{ NamespaceName, "Shader" },
 				{ NamespaceName, "Texture" },
+				{ NamespaceName, "Model" },
+				{ NamespaceName, "Mesh" },
 
 				{ MathNamespaceName, "Vector3f" },
 

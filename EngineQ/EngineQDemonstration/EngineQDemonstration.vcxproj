@@ -250,6 +250,7 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="_Resources\Meshes\Skull.qres" />
     <None Include="_Resources\Models\Skull.qres" />
     <None Include="_Resources\TMP\Shader.shader" />
   </ItemGroup>

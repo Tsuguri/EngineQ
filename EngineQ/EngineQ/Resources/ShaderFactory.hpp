@@ -3,6 +3,7 @@
 
 #include "ResourceFactory.hpp"
 
+#include "Types.hpp"
 #include "../Graphics/Types.hpp"
 
 namespace EngineQ
@@ -12,7 +13,7 @@ namespace EngineQ
 		template<>
 		struct ResourceFactory<Graphics::Shader>
 		{
-			static std::unique_ptr<Graphics::Shader> CreateResource(const char* filename);
+			static std::unique_ptr<Graphics::Shader> CreateResource(ResourceManager& resourceManager, const char* filename);
 		};
 	}
 }

@@ -8,7 +8,7 @@ namespace EngineQ
 {
 	namespace Resources
 	{
-		std::unique_ptr<Graphics::Texture> ResourceFactory<Graphics::Texture>::CreateResource(const char* filename)
+		std::unique_ptr<Graphics::Texture> ResourceFactory<Graphics::Texture>::CreateResource(ResourceManager& resourceManager, const char* filename)
 		{
 			tinyxml2::XMLDocument doc{};
 			doc.LoadFile(filename);

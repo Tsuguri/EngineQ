@@ -74,5 +74,10 @@ namespace EngineQ
 		{
 			return *this->rootNode;
 		}
+
+		const std::vector<Utilities::PointerWrapper<Model::Mesh>>& Model::GetMeshes() const
+		{
+			return this->meshes;
+		}
 	}
 }

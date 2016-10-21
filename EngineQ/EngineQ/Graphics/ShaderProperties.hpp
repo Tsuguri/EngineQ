@@ -87,6 +87,8 @@ namespace EngineQ
 		public:
 			ShaderProperties(Scripting::ScriptEngine& scriptEngine, Resources::Resource<Shader> shader);
 
+			Resources::Resource<Shader> GetShader() const;
+
 			void Apply() const;
 
 			template<typename TType>

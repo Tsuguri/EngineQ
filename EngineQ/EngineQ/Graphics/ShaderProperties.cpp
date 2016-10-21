@@ -8,6 +8,11 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
+		Resources::Resource<Shader> ShaderProperties::GetShader() const
+		{
+			return this->shader;
+		}
+
 		void ShaderProperties::FinalizeBuiltIn()
 		{
 			CheckBuiltIn(this->matrices, &Matrices::Model);

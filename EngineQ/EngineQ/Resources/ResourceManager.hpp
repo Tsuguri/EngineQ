@@ -13,6 +13,7 @@
 #include "ShaderFactory.hpp"
 #include "TextureFactory.hpp"
 #include "ModelFactory.hpp"
+#include "MeshFactory.hpp"
 
 #include "Resource.hpp"
 #include "../Graphics/Shader.hpp"
@@ -104,11 +105,18 @@ namespace EngineQ
 			}
 
 			template<typename TType>
+			bool IsResourceRegistered(const std::string& resourceId)
+			{
+				return this->resourceMap.find({ typeid(TType), resourceId }) != this->resourceMap.end();
+			}
+
+			template<typename TType>
 			void RegisterResource(const std::string& resourceId, const char* path)
 			{
-				RegisterResource<TType>(resourceId, [path](ResourceManager&)
+				std::string pathString = path;
+				RegisterResource<TType>(resourceId, [pathString](ResourceManager& resourceManager)
 				{
-					return ResourceFactory<TType>::CreateResource(path);
+					return ResourceFactory<TType>::CreateResource(resourceManager, pathString.c_str());
 				});
 			}
 
@@ -145,26 +153,39 @@ namespace EngineQ
 				resourceData.resource = std::make_unique<Resource<TType>>(std::unique_ptr<TType>(nullptr));
 
 				auto insertPair = this->resourceMap.insert(MapKeyValue{ MapKeyValue::first_type{ index, resourceId }, MapKeyValue::second_type{ std::move(resourceData) } });
+				if (!insertPair.second)
+					throw ResourceManagerException{ "Resource " + resourceId + " already registered" };
 			}
 
+
 			template<typename TType>
-			Resource<TType> GetResource(const std::string& resourceId)
+			Resource<TType> TryGetResource(const std::string& resourceId)
 			{
 				std::type_index index = typeid(TType);
 
 				auto resourceDataIt = this->resourceMap.find({ index, resourceId });
 				if (resourceDataIt == this->resourceMap.end())
-					throw ResourceNotFoundException{ "Resource " + resourceId + " not found" };
+					return nullptr;
 
 				auto& resourceData = resourceDataIt->second;
 				auto& resource = static_cast<Resource<TType>&>(*resourceData.resource);
 
 				if (resource.GetControlBlock()->data == nullptr)
 					resourceData.constructor(*this, resourceData);
-			
+
 				return resource;
 			}
 
+			template<typename TType>
+			Resource<TType> GetResource(const std::string& resourceId)
+			{
+				Resource<TType> resource = this->TryGetResource<TType>(resourceId);
+				if(resource == nullptr)
+					throw ResourceNotFoundException{ "Resource " + resourceId + " not found" };
+
+				return resource;
+			}
+			
 			void Update()
 			{
 				this->frameCount += 1;

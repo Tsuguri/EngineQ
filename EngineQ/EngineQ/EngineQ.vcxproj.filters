@@ -64,6 +64,7 @@
     <ClCompile Include="Scripting\API_ShaderProperties.cpp" />
     <ClCompile Include="Resources\Model.cpp" />
     <ClCompile Include="Resources\ModelFactory.cpp" />
+    <ClCompile Include="Resources\MeshFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
@@ -153,6 +154,8 @@
     <ClInclude Include="Scripting\API_ShaderProperties.hpp" />
     <ClInclude Include="Utilities\EnumHelpers.hpp" />
     <ClInclude Include="Resources\ModelFactory.hpp" />
+    <ClInclude Include="Resources\MeshFactory.hpp" />
+    <ClInclude Include="Utilities\PointerWrapper.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Math\Vector2.inl" />

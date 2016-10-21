@@ -284,8 +284,9 @@ void TemporaryResources()
 	resourceManager.RegisterResource<EngineQ::Graphics::Texture>("Numbers", "./Textures/Numbers.qres");
 
 
-	resourceManager.RegisterResource<EngineQ::Resources::Model>("Skull", "./Models/Skull.qres");
+//	resourceManager.RegisterResource<EngineQ::Resources::Model>("Skull", "./Models/Skull.qres");
 
+	/*
 	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("Skull", [](EngineQ::Resources::ResourceManager& resourceManager)
 	{	
 		auto model = resourceManager.GetResource<EngineQ::Resources::Model>("Skull");
@@ -293,6 +294,9 @@ void TemporaryResources()
 
 		return std::make_unique<EngineQ::Graphics::Mesh>(modelMesh);
 	});
+	*/
+
+	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("Skull", "./Meshes/Skull.qres");
 
 	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("Cube", [](EngineQ::Resources::ResourceManager&)
 	{

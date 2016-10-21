@@ -6,7 +6,7 @@ namespace EngineQ
 	public class Renderable : Component
 	{
 		#region Properties
-
+		
 		public ShaderProperties ForwardShader
 		{
 			get
@@ -27,18 +27,33 @@ namespace EngineQ
 			}
 		}
 
+		public Mesh Mesh
+		{
+			get
+			{
+				Mesh mesh;
+				API_GetMesh(this.NativeHandle, out mesh);
+				return mesh;
+			}
+
+			set
+			{
+				API_SetMesh(this.NativeHandle, value.Handle);
+			}
+		}
+
 		#endregion
 
 		#region Methods
 
-		public void SetForwardShader(Shader shader)
+		public void UseForwardShader(Shader shader)
 		{
-			API_SetForwardShader(this.NativeHandle, shader.Handle);
+			API_UseForwardShader(this.NativeHandle, shader.Handle);
 		}
-
-		public void SetDeferredShader(Shader shader)
+		
+		public void UseDeferredShader(Shader shader)
 		{
-			API_SetDeferredShader(this.NativeHandle, shader.Handle);
+			API_UseDeferredShader(this.NativeHandle, shader.Handle);
 		}
 
 		#endregion
@@ -53,10 +68,16 @@ namespace EngineQ
 		private static extern void API_GetDeferredShader(IntPtr handle, out ShaderProperties deferredShader);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		private static extern void API_SetForwardShader(IntPtr handle, IntPtr shader);
+		private static extern void API_GetMesh(IntPtr handle, out Mesh mesh);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		private static extern void API_SetDeferredShader(IntPtr handle, IntPtr shader);
+		private static extern void API_SetMesh(IntPtr handle, IntPtr meshHandle);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_UseForwardShader(IntPtr handle, IntPtr shader);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_UseDeferredShader(IntPtr handle, IntPtr shader);
 		
 		#endregion
 	}

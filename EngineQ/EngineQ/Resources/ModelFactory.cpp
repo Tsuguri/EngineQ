@@ -25,7 +25,7 @@ namespace EngineQ
 			return value;
 		}
 
-		std::unique_ptr<Model>  ResourceFactory<Model>::CreateResource(const char* filename)
+		std::unique_ptr<Model>  ResourceFactory<Model>::CreateResource(ResourceManager& resourceManager, const char* filename)
 		{
 			static const std::unordered_map<std::string, VertexComponent> VertexComponentMap = {
 				{ "Position", VertexComponent::Position },

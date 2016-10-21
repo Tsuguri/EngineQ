@@ -19,6 +19,10 @@ namespace EngineQ
 
 		#region Constructors and Destructors
 
+		internal Resource()
+		{
+		}
+
 		~Resource()
 		{
 			API_DecRefCounter(this.NativeHandle);

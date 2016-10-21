@@ -11,6 +11,16 @@ namespace EngineQ
 	{
 		#region Methods
 
+		public Shader Shader
+		{
+			get
+			{
+				Shader shader;
+				API_GetShader(this.NativeHandle, out shader);
+				return shader;
+			}
+		}
+
 		public bool HasProperty<TPropertyType>(string propertyName)
 		{
 			int propertyIndex;
@@ -58,11 +68,13 @@ namespace EngineQ
 
 
 		#region API
-		
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetShader(IntPtr handle, out Shader shader);
+
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_GetPropertyIndex(IntPtr handle, string name, Type type, out int propertyIndex);
 		
-
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_Get(IntPtr handle, int index, Type type, out object value);
 
