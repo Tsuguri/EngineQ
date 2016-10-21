@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
-	public sealed class Scene : Object
+	public sealed class Scene : EngineQ.Object
 	{
 		public Entity CreateEntity()
 		{
@@ -65,7 +65,7 @@ namespace EngineQ
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_GetEntitiesCount(IntPtr handle, out int count);
-		
+
 		#endregion
 	}
 }

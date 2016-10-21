@@ -54,13 +54,22 @@ namespace EngineQ
 				model = resourceManager.GetResource<Model>(modelResourceName);
 			}
 
-			Model::Node* modelCurrentNode = &model->GetRootNode();
-			for (int index : nodeIndices)
-				modelCurrentNode = modelCurrentNode->GetChildren()[index].get();
+			const Model::Mesh* mesh;
 
-			const Model::Mesh& mesh = modelCurrentNode->GetMeshes()[meshIndex];
+			if (nodeIndices.empty())
+			{
+				mesh = model->GetMeshes()[0];
+			}
+			else
+			{
+				Model::Node* modelCurrentNode = &model->GetRootNode();
+				for (int index : nodeIndices)
+					modelCurrentNode = modelCurrentNode->GetChildren()[index].get();
 
-			return std::make_unique<Graphics::Mesh>(mesh);
+				mesh = &modelCurrentNode->GetMeshes()[meshIndex];
+			}
+
+			return std::make_unique<Graphics::Mesh>(*mesh);
 		}
 	}
 }

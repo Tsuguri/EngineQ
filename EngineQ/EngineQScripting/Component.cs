@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
-	public abstract class Component : Object
+	public abstract class Component : EngineQ.Object
 	{
 		#region Properties
 
@@ -18,7 +18,7 @@ namespace EngineQ
 		}
 
 		#endregion
-		
+
 		#region API
 
 		[MethodImpl(MethodImplOptions.InternalCall)]

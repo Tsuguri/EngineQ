@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
-	public sealed class Entity : Object
+	public sealed class Entity : EngineQ.Object
 	{
 		public Scene Scene
 		{
@@ -24,7 +24,7 @@ namespace EngineQ
 				return value;
 			}
 		}
-		
+
 		public TComponent GetComponent<TComponent>()
 			where TComponent : Component
 		{
@@ -47,7 +47,7 @@ namespace EngineQ
 		{
 			API_RemoveComponent(NativeHandle, ref component);
 		}
-		
+
 		public int ComponentsCount
 		{
 			get

@@ -16,12 +16,12 @@ namespace Utilities
 		{
 		}
 
-		TType& operator*()
+		TType& operator* ()
 		{
 			return *this->pointer;
 		}
 
-		const TType& operator*() const
+		const TType& operator* () const
 		{
 			return *this->pointer;
 		}
@@ -31,17 +31,17 @@ namespace Utilities
 			return this->pointer;
 		}
 
-		TType const* operator -> () const
+		const TType* operator -> () const
 		{
 			return this->pointer;
 		}
 
-		operator TType*()
+		operator TType* ()
 		{
 			return this->pointer;
 		}
 
-		operator TType const*() const
+		operator const TType* () const
 		{
 			return this->pointer;
 		}
