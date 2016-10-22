@@ -1,0 +1,15 @@
+struct Light
+{
+	vec3 position;
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+	
+	float distance;
+	
+	
+	bool castsShadows;
+	float farPlane;
+	sampler2D shadow2D;
+	samplerCube shadowCube;
+};

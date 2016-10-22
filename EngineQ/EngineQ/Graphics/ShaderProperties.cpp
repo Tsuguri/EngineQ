@@ -3,6 +3,7 @@
 #include "GL/glew.h"
 
 #include "../Scripting/ScriptEngine.hpp"
+#include "../Utilities/StringHelpers.hpp"
 
 namespace EngineQ
 {
@@ -15,59 +16,123 @@ namespace EngineQ
 
 		void ShaderProperties::FinalizeBuiltIn()
 		{
-			CheckBuiltIn(this->matrices, &Matrices::Model);
-			CheckBuiltIn(this->matrices, &Matrices::View);
-			CheckBuiltIn(this->matrices, &Matrices::Projection);
+			CheckBuiltIn(this->matrices.Model, Math::Matrix4::GetIdentity());
+			CheckBuiltIn(this->matrices.View, Math::Matrix4::GetIdentity());
+			CheckBuiltIn(this->matrices.Projection, Math::Matrix4::GetIdentity());
 
-			CheckBuiltIn(this->material, &Material::Ambient);
-			CheckBuiltIn(this->material, &Material::Diffuse);
-			CheckBuiltIn(this->material, &Material::Specular);
-			CheckBuiltIn(this->material, &Material::Shininess);
+			CheckBuiltIn(this->material.Ambient, Math::Vector3(0.05f));
+			CheckBuiltIn(this->material.Diffuse, Math::Vector3f(0.5f));
+			CheckBuiltIn(this->material.Specular, Math::Vector3f(0.5f));
+			CheckBuiltIn(this->material.Shininess, 32.0f);
 
 			for (auto& light : this->lights)
 			{
-				CheckBuiltIn(light, &Light::Position);
-				CheckBuiltIn(light, &Light::Ambient);
-				CheckBuiltIn(light, &Light::Diffuse);
-				CheckBuiltIn(light, &Light::Specular);
-				CheckBuiltIn(light, &Light::Distance);
-				CheckBuiltIn(light, &Light::CastsShadows);
-				CheckBuiltIn(light, &Light::FarPlane);
+				CheckBuiltIn(light.Position);
+				CheckBuiltIn(light.Ambient);
+				CheckBuiltIn(light.Diffuse);
+				CheckBuiltIn(light.Specular);
+				CheckBuiltIn(light.Diffuse);
+				CheckBuiltIn(light.CastsShadows);
+				CheckBuiltIn(light.FarPlane);
 			}
 		}
 
 
-		void ShaderProperties::OnUniformAdded(UniformData& data, UniformType type, const std::string& name)
+		void ShaderProperties::OnUniformAdded(UniformData& data, UniformType type, const std::string& name, const std::string& translatedName)
 		{
 			// TODO: Extract all built-in properties
 			// we need to agree on standard uniforms names
 
-			if (type == GL_FLOAT_MAT4 && name.find("matrices.") == 0)
+			if (type == GL_FLOAT_MAT4 && translatedName.find("matrices.") == 0)
 			{
-				if (name == "matrices.Model")
-					this->matrices.Model = data.GetProperty<Math::Matrix4>();
-				else if (name == "matrices.View")
-					this->matrices.View = data.GetProperty<Math::Matrix4>();
-				else if (name == "matrices.Projection")
-					this->matrices.Projection = data.GetProperty<Math::Matrix4>();
+				auto property = data.GetProperty<Math::Matrix4>();
+
+				if (translatedName == "matrices.model")
+					this->matrices.Model = property;
+				else if (translatedName == "matrices.view")
+					this->matrices.View = property;
+				else if (translatedName == "matrices.projection")
+					this->matrices.Projection = property;
 			}
 
-			switch (type)
+			if (translatedName.find("material.") == 0)
 			{
-				case GL_FLOAT_VEC3:
+				if (type == GL_FLOAT_VEC3)
 				{
-					if (name == "lightColor")
-					{
-						this->lights.emplace_back();
-						auto& light = this->lights.back();
-						light.Diffuse = data.GetProperty<Math::Vector3f>();
-					}
-				}
-				break;
+					auto property = data.GetProperty<Math::Vector3f>();
 
-				default:
-				break;
+					if (translatedName == "material.diffuse")
+						this->material.Diffuse = property;
+					else if (translatedName == "material.specular")
+						this->material.Specular = property;
+					else if (translatedName == "material.ambient")
+						this->material.Ambient = property;
+				}
+				else if (type == GL_FLOAT)
+				{
+					auto property = data.GetProperty<float>();
+
+					if (translatedName == "material.shininess")
+						this->material.Shininess = property;
+				}
+				else if (type == GL_SAMPLER_2D)
+				{
+					auto property = data.GetProperty<Resources::Resource<Texture>>();
+
+					if (translatedName == "material.diffuseTexture")
+						this->material.DiffuseTexture = property;
+					else if (translatedName == "material.specularTexture")
+						this->material.SpecularTexture = property;
+					else if (translatedName == "material.normalTexture")
+						this->material.NormalTexture = property;
+				}
 			}
+		}
+
+		std::string ShaderProperties::TranslateName(std::string name) const
+		{
+			std::size_t lastPos = 0;
+			std::size_t pos = name.find("__");
+			while (pos != std::string::npos)
+			{
+				// Nothing after
+				if (pos + 2 == name.size())
+					break;
+
+				// Array
+				if (Utilities::IsDigit(name[pos + 2]))
+				{
+					name[pos] = '[';
+					lastPos = name.size();
+
+					for (std::size_t i = pos + 2; i < name.size(); ++i)
+					{
+						if (!Utilities::IsDigit(name[i]))
+						{
+							lastPos = i;
+							break;
+						}
+
+						name[i - 1] = name[i];
+					}
+
+					name[lastPos - 1] = ']';
+				}
+				// Struct
+				else
+				{
+					name[pos] = '.';
+					for (std::size_t i = pos + 2; i < name.size(); ++i)
+						name[i - 1] = name[i];
+
+					name.resize(name.size() - 1);
+					lastPos = pos + 1;
+				}
+
+				pos = name.find("__", lastPos);
+			}
+
+			return name;
 		}
 
 		ShaderProperties::ShaderProperties(Scripting::ScriptEngine& scriptEngine, Resources::Resource<Shader> shader) :
@@ -97,13 +162,21 @@ namespace EngineQ
 
 				if (uniformData != nullval)
 				{
+					std::string translatedName = this->TranslateName(uniformName);
+
 					UniformLocation location = shader->GetUniformLocation(uniformName.c_str());
 					this->shaderUniforms.emplace_back(location, *uniformData);
 
 					auto& uniformPair = this->shaderUniforms.back();
-					this->shaderUniformsMap.emplace(uniformName, this->shaderUniforms.size() - 1);
+					this->shaderUniformsMap.emplace(translatedName, this->shaderUniforms.size() - 1);
 
-					this->OnUniformAdded(uniformPair.second, uniformTypes[i], uniformName);
+					this->OnUniformAdded(uniformPair.second, uniformTypes[i], uniformName, translatedName);
+
+					// TMP
+					std::cout << "Added property: " << translatedName;
+					if (translatedName != uniformName)
+						std::cout << " (" << uniformName << ")";
+					std::cout << std::endl;
 				}
 				else
 				{

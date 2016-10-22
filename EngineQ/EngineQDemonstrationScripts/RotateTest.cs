@@ -36,7 +36,7 @@ namespace QScripts
 
 				renderable.UseDeferredShader(ResourceManager.Instance.GetResource<Shader>("TestDeferred1"));
 
-				var myColorProperty = renderable.DeferredShader.GetProperty<Vector3f>("myColor");
+				var myColorProperty = renderable.DeferredShader.GetProperty<Vector3f>("material.diffuse");
 				
 				renderable.DeferredShader.Set(myColorProperty, new Vector3f((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble()));
 				Vector3f color = renderable.DeferredShader.Get(myColorProperty);
@@ -59,7 +59,7 @@ namespace QScripts
 
 				var texture = ResourceManager.Instance.GetResource<Texture>("Numbers");
 
-				var texturePropert = renderable.DeferredShader.GetProperty<Texture>("diffuseTexture");
+				var texturePropert = renderable.DeferredShader.GetProperty<Texture>("material.diffuseTexture");
 				renderable.DeferredShader.Set(texturePropert, texture);
 
 				Mesh mesh = ResourceManager.Instance.GetResource<Mesh>("Skull");

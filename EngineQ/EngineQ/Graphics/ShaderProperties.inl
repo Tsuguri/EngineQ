@@ -10,11 +10,13 @@ namespace EngineQ
 			return mockUniform.GetProperty<TType>();
 		}
 
-		template<typename TGroupType, typename TPropertyType>
-		void ShaderProperties::CheckBuiltIn(TGroupType& group, ShaderProperty<TPropertyType>(TGroupType::* member))
+		template< typename TPropertyType>
+		void ShaderProperties::CheckBuiltIn(ShaderProperty<TPropertyType>& property, const TPropertyType& defaultValue)
 		{
-			if (!(group.*member).IsSet())
-				(group.*member) = this->CreateMockUniform<TPropertyType>();
+			if (!property.IsSet())
+				property = this->CreateMockUniform<TPropertyType>();
+
+			property = defaultValue;
 		}
 
 		template<typename TType>
