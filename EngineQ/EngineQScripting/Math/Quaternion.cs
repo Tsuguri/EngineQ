@@ -157,11 +157,7 @@ namespace EngineQ.Math
 		}
 
 		#endregion
-
-		#region Operators
-
-		#endregion
-
+		
 		#region Static Operators
 
 		public static Quaternion operator +(Quaternion q)

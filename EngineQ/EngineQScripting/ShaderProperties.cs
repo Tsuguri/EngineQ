@@ -5,7 +5,7 @@ namespace EngineQ
 {
 	public sealed class ShaderProperties : EngineQ.Object
 	{
-		#region Methods
+		#region Properties
 
 		public Shader Shader
 		{
@@ -16,6 +16,10 @@ namespace EngineQ
 				return shader;
 			}
 		}
+
+		#endregion
+
+		#region Methods
 
 		public bool HasProperty<TPropertyType>(string propertyName)
 		{

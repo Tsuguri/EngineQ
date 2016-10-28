@@ -11,15 +11,15 @@ namespace EngineQ.Math
 	{
 		#region Fields
 
-		public Real m00;
-		public Real m01;
-		public Real m02;
-		public Real m10;
-		public Real m11;
-		public Real m12;
-		public Real m20;
-		public Real m21;
-		public Real m22;
+		public Real M00;
+		public Real M01;
+		public Real M02;
+		public Real M10;
+		public Real M11;
+		public Real M12;
+		public Real M20;
+		public Real M21;
+		public Real M22;
 
 		#endregion
 
@@ -30,28 +30,28 @@ namespace EngineQ.Math
 			Real m10, Real m11, Real m12,
 			Real m20, Real m21, Real m22)
 		{
-			this.m00 = m00;
-			this.m01 = m01;
-			this.m02 = m02;
-			this.m10 = m10;
-			this.m11 = m11;
-			this.m12 = m12;
-			this.m20 = m20;
-			this.m21 = m21;
-			this.m22 = m22;
+			this.M00 = m00;
+			this.M01 = m01;
+			this.M02 = m02;
+			this.M10 = m10;
+			this.M11 = m11;
+			this.M12 = m12;
+			this.M20 = m20;
+			this.M21 = m21;
+			this.M22 = m22;
 		}
 
 		public Matrix3(Vector3 row0, Vector3 row1, Vector3 row2)
 		{
-			this.m00 = row0.X;
-			this.m01 = row0.Y;
-			this.m02 = row0.Z;
-			this.m10 = row1.X;
-			this.m11 = row1.Y;
-			this.m12 = row1.Z;
-			this.m20 = row2.X;
-			this.m21 = row2.Y;
-			this.m22 = row2.Z;
+			this.M00 = row0.X;
+			this.M01 = row0.Y;
+			this.M02 = row0.Z;
+			this.M10 = row1.X;
+			this.M11 = row1.Y;
+			this.M12 = row1.Z;
+			this.M20 = row2.X;
+			this.M21 = row2.Y;
+			this.M22 = row2.Z;
 
 		}
 
@@ -78,23 +78,23 @@ namespace EngineQ.Math
 				switch (index)
 				{
 					case 0:
-					return m00;
+					return M00;
 					case 1:
-					return m01;
+					return M01;
 					case 2:
-					return m02;
+					return M02;
 					case 3:
-					return m10;
+					return M10;
 					case 4:
-					return m11;
+					return M11;
 					case 5:
-					return m12;
+					return M12;
 					case 6:
-					return m20;
+					return M20;
 					case 7:
-					return m21;
+					return M21;
 					case 8:
-					return m22;
+					return M22;
 					default:
 					throw new IndexOutOfRangeException("Invalid index");
 				}
@@ -104,31 +104,31 @@ namespace EngineQ.Math
 				switch (index)
 				{
 					case 0:
-					m00 = value;
+					M00 = value;
 					break;
 					case 1:
-					m01 = value;
+					M01 = value;
 					break;
 					case 2:
-					m02 = value;
+					M02 = value;
 					break;
 					case 3:
-					m10 = value;
+					M10 = value;
 					break;
 					case 4:
-					m11 = value;
+					M11 = value;
 					break;
 					case 5:
-					m12 = value;
+					M12 = value;
 					break;
 					case 6:
-					m20 = value;
+					M20 = value;
 					break;
 					case 7:
-					m21 = value;
+					M21 = value;
 					break;
 					case 8:
-					m22 = value;
+					M22 = value;
 					break;
 					default:
 					throw new IndexOutOfRangeException("Invalid index");
@@ -140,7 +140,7 @@ namespace EngineQ.Math
 		{
 			get
 			{
-				return new Matrix3(m00, m10, m20, m01, m11, m21, m02, m12, m22);
+				return new Matrix3(M00, M10, M20, M01, M11, M21, M02, M12, M22);
 			}
 		}
 
@@ -168,14 +168,14 @@ namespace EngineQ.Math
 		{
 			get
 			{
-				return new Vector3(m00, m11, m22);
+				return new Vector3(M00, M11, M22);
 			}
 
 			set
 			{
-				m00 = value.X;
-				m11 = value.Y;
-				m22 = value.Z;
+				M00 = value.X;
+				M11 = value.Y;
+				M22 = value.Z;
 			}
 		}
 
@@ -207,7 +207,7 @@ namespace EngineQ.Math
 
 		public override string ToString()
 		{
-			return $"[[{m00},{m01},{m02}],[{m10},{m11},{m12}],[{m20},{m21},{m22}]]";
+			return $"[[{M00},{M01},{M02}],[{M10},{M11},{M12}],[{M20},{M21},{M22}]]";
 		}
 
 		public override bool Equals(object obj)
@@ -251,9 +251,9 @@ namespace EngineQ.Math
 		{
 			return new Vector3[3]
 			{
-				new Vector3(m00, m01, m02),
-				new Vector3(m10, m11, m12),
-				new Vector3(m20, m21, m22)
+				new Vector3(M00, M01, M02),
+				new Vector3(M10, M11, M12),
+				new Vector3(M20, M21, M22)
 			};
 		}
 
@@ -261,9 +261,9 @@ namespace EngineQ.Math
 		{
 			return new Vector3[3]
 			{
-				new Vector3(m00, m10, m20),
-				new Vector3(m01, m11, m21),
-				new Vector3(m02, m12, m22)
+				new Vector3(M00, M10, M20),
+				new Vector3(M01, M11, M21),
+				new Vector3(M02, M12, M22)
 			};
 		}
 

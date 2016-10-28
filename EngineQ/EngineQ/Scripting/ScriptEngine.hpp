@@ -51,7 +51,7 @@ namespace EngineQ
 			static constexpr const char* MathNamespaceName = "EngineQ.Math";
 			static constexpr const char* NamespaceName = "EngineQ";
 			static constexpr const char* ConstructorName = ":.ctor";
-			static constexpr const char* UpdateName = ":Update";
+			static constexpr const char* UpdateName = ":OnUpdate";
 			static constexpr const char* NativeHandleFieldName = "nativeHandle";
 
 			static constexpr const char* ScriptClassNames[ScriptClassCount][2] = {

@@ -4,7 +4,7 @@
 	{
 		private readonly int index;
 
-		public int Index
+		internal int Index
 		{
 			get
 			{

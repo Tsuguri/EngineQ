@@ -17,10 +17,10 @@ namespace QScripts
 
 		public RotateTest()
 		{
-			Input.ListenKey(Input.Key.N1, SwitchAction);
+			Input.RegisterKeyEvent(Input.Key.N1, SwitchAction);
 
-			Input.ListenKey(Input.Key.LeftBracket, ChangeShader1);
-			Input.ListenKey(Input.Key.RightBracket, ChangeShader2);
+			Input.RegisterKeyEvent(Input.Key.LeftBracket, ChangeShader1);
+			Input.RegisterKeyEvent(Input.Key.RightBracket, ChangeShader2);
 		}
 
 		private void SwitchAction(Input.Key key, Input.KeyAction action)
@@ -79,9 +79,9 @@ namespace QScripts
 			return (float)(Math.PI * val / 180);
 		}
 
-		protected override void Update()
+		protected override void OnUpdate()
 		{
-			base.Update();
+			base.OnUpdate();
 
 			X += 30 * Time.DeltaTime;
 			Y += 30 * Time.DeltaTime;

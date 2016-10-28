@@ -41,7 +41,7 @@ namespace EngineQ
 			API_GetResource(this.NativeHandle, typeof(TResourceType), resourceId, out resource);
 			return (TResourceType)resource;
 		}
-
+		
 		#endregion
 
 		#region API

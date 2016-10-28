@@ -11,22 +11,22 @@ namespace EngineQ.Math
 	{
 		#region Fields
 
-		public Real m00;
-		public Real m01;
-		public Real m02;
-		public Real m03;
-		public Real m10;
-		public Real m11;
-		public Real m12;
-		public Real m13;
-		public Real m20;
-		public Real m21;
-		public Real m22;
-		public Real m23;
-		public Real m30;
-		public Real m31;
-		public Real m32;
-		public Real m33;
+		public Real M00;
+		public Real M01;
+		public Real M02;
+		public Real M03;
+		public Real M10;
+		public Real M11;
+		public Real M12;
+		public Real M13;
+		public Real M20;
+		public Real M21;
+		public Real M22;
+		public Real M23;
+		public Real M30;
+		public Real M31;
+		public Real M32;
+		public Real M33;
 
 		#endregion
 
@@ -34,22 +34,22 @@ namespace EngineQ.Math
 
 		public Matrix4(Real value)
 		{
-			this.m00 = value;
-			this.m01 = value;
-			this.m02 = value;
-			this.m03 = value;
-			this.m10 = value;
-			this.m11 = value;
-			this.m12 = value;
-			this.m13 = value;
-			this.m20 = value;
-			this.m21 = value;
-			this.m22 = value;
-			this.m23 = value;
-			this.m30 = value;
-			this.m31 = value;
-			this.m32 = value;
-			this.m33 = value;
+			this.M00 = value;
+			this.M01 = value;
+			this.M02 = value;
+			this.M03 = value;
+			this.M10 = value;
+			this.M11 = value;
+			this.M12 = value;
+			this.M13 = value;
+			this.M20 = value;
+			this.M21 = value;
+			this.M22 = value;
+			this.M23 = value;
+			this.M30 = value;
+			this.M31 = value;
+			this.M32 = value;
+			this.M33 = value;
 		}
 
 		public Matrix4(
@@ -58,22 +58,22 @@ namespace EngineQ.Math
 			Real m20, Real m21, Real m22, Real m23,
 			Real m30, Real m31, Real m32, Real m33)
 		{
-			this.m00 = m00;
-			this.m01 = m01;
-			this.m02 = m02;
-			this.m03 = m03;
-			this.m10 = m10;
-			this.m11 = m11;
-			this.m12 = m12;
-			this.m13 = m13;
-			this.m20 = m20;
-			this.m21 = m21;
-			this.m22 = m22;
-			this.m23 = m23;
-			this.m30 = m30;
-			this.m31 = m31;
-			this.m32 = m32;
-			this.m33 = m33;
+			this.M00 = m00;
+			this.M01 = m01;
+			this.M02 = m02;
+			this.M03 = m03;
+			this.M10 = m10;
+			this.M11 = m11;
+			this.M12 = m12;
+			this.M13 = m13;
+			this.M20 = m20;
+			this.M21 = m21;
+			this.M22 = m22;
+			this.M23 = m23;
+			this.M30 = m30;
+			this.M31 = m31;
+			this.M32 = m32;
+			this.M33 = m33;
 		}
 
 		public Matrix4(
@@ -82,22 +82,22 @@ namespace EngineQ.Math
 			 Vector4 row2,
 			 Vector4 row3)
 		{
-			this.m00 = row0.X;
-			this.m01 = row0.Y;
-			this.m02 = row0.Z;
-			this.m03 = row0.W;
-			this.m10 = row1.X;
-			this.m11 = row1.Y;
-			this.m12 = row1.Z;
-			this.m13 = row1.W;
-			this.m20 = row2.X;
-			this.m21 = row2.Y;
-			this.m22 = row2.Z;
-			this.m23 = row2.W;
-			this.m30 = row3.X;
-			this.m31 = row3.Y;
-			this.m32 = row3.Z;
-			this.m33 = row3.W;
+			this.M00 = row0.X;
+			this.M01 = row0.Y;
+			this.M02 = row0.Z;
+			this.M03 = row0.W;
+			this.M10 = row1.X;
+			this.M11 = row1.Y;
+			this.M12 = row1.Z;
+			this.M13 = row1.W;
+			this.M20 = row2.X;
+			this.M21 = row2.Y;
+			this.M22 = row2.Z;
+			this.M23 = row2.W;
+			this.M30 = row3.X;
+			this.M31 = row3.Y;
+			this.M32 = row3.Z;
+			this.M33 = row3.W;
 		}
 
 		#endregion
@@ -123,37 +123,37 @@ namespace EngineQ.Math
 				switch (index)
 				{
 					case 0:
-					return m00;
+					return M00;
 					case 1:
-					return m01;
+					return M01;
 					case 2:
-					return m02;
+					return M02;
 					case 3:
-					return m03;
+					return M03;
 					case 4:
-					return m10;
+					return M10;
 					case 5:
-					return m11;
+					return M11;
 					case 6:
-					return m12;
+					return M12;
 					case 7:
-					return m13;
+					return M13;
 					case 8:
-					return m20;
+					return M20;
 					case 9:
-					return m21;
+					return M21;
 					case 10:
-					return m22;
+					return M22;
 					case 11:
-					return m23;
+					return M23;
 					case 12:
-					return m30;
+					return M30;
 					case 13:
-					return m31;
+					return M31;
 					case 14:
-					return m32;
+					return M32;
 					case 15:
-					return m33;
+					return M33;
 					default:
 					throw new IndexOutOfRangeException("Invalid index");
 				}
@@ -163,49 +163,49 @@ namespace EngineQ.Math
 				switch (index)
 				{
 					case 0:
-					m00 = value;
+					M00 = value;
 					break;
 					case 1:
-					m01 = value;
+					M01 = value;
 					break;
 					case 2:
-					m02 = value;
+					M02 = value;
 					break;
 					case 4:
-					m10 = value;
+					M10 = value;
 					break;
 					case 5:
-					m11 = value;
+					M11 = value;
 					break;
 					case 6:
-					m12 = value;
+					M12 = value;
 					break;
 					case 7:
-					m13 = value;
+					M13 = value;
 					break;
 					case 8:
-					m20 = value;
+					M20 = value;
 					break;
 					case 9:
-					m21 = value;
+					M21 = value;
 					break;
 					case 10:
-					m22 = value;
+					M22 = value;
 					break;
 					case 11:
-					m23 = value;
+					M23 = value;
 					break;
 					case 12:
-					m30 = value;
+					M30 = value;
 					break;
 					case 13:
-					m31 = value;
+					M31 = value;
 					break;
 					case 14:
-					m32 = value;
+					M32 = value;
 					break;
 					case 15:
-					m33 = value;
+					M33 = value;
 					break;
 					default:
 					throw new IndexOutOfRangeException("Invalid index");
@@ -229,15 +229,15 @@ namespace EngineQ.Math
 			{
 				return new Matrix4
 				(
-					m00, m10, m20, m30,
-					m01, m11, m21, m31,
-					m02, m12, m22, m32,
-					m03, m13, m23, m33
+					M00, M10, M20, M30,
+					M01, M11, M21, M31,
+					M02, M12, M22, M32,
+					M03, M13, M23, M33
 				);
 			}
 		}
 
-		public Matrix4 Inversed
+		public Matrix4 Inverse
 		{
 			get
 			{
@@ -251,14 +251,14 @@ namespace EngineQ.Math
 		{
 			get
 			{
-				return new Vector4(m00, m11, m22, m33);
+				return new Vector4(M00, M11, M22, M33);
 			}
 			set
 			{
-				m00 = value.X;
-				m11 = value.Y;
-				m22 = value.Z;
-				m33 = value.W;
+				M00 = value.X;
+				M11 = value.Y;
+				M22 = value.Z;
+				M33 = value.W;
 			}
 		}
 
@@ -290,14 +290,14 @@ namespace EngineQ.Math
 			API_Transpose(ref this);
 		}
 
-		public void Inverse()
+		public void Invert()
 		{
-			this = Inversed;
+			this = Inverse;
 		}
 
 		public override string ToString()
 		{
-			return $"[[{m00},{m01},{m02},{m03}],[{m10},{m11},{m12},{m13}],[{m20},{m21},{m22},{m23}],[{m30},{m31},{m32},{m33}]]";
+			return $"[[{M00},{M01},{M02},{M03}],[{M10},{M11},{M12},{M13}],[{M20},{M21},{M22},{M23}],[{M30},{M31},{M32},{M33}]]";
 		}
 
 		public Vector4 GetColumn(int column)
@@ -330,10 +330,10 @@ namespace EngineQ.Math
 		{
 			return new Vector4[4]
 			{
-				new Vector4(m00, m01, m02, m03),
-				new Vector4(m10, m11, m12, m13),
-				new Vector4(m20, m21, m22, m23),
-				new Vector4(m30, m31, m32, m33)
+				new Vector4(M00, M01, M02, M03),
+				new Vector4(M10, M11, M12, M13),
+				new Vector4(M20, M21, M22, M23),
+				new Vector4(M30, M31, M32, M33)
 			};
 		}
 
@@ -341,10 +341,10 @@ namespace EngineQ.Math
 		{
 			return new Vector4[4]
 			{
-				new Vector4(m00, m10, m20, m30),
-				new Vector4(m01, m11, m21, m31),
-				new Vector4(m02, m12, m22, m32),
-				new Vector4(m03, m13, m23, m33)
+				new Vector4(M00, M10, M20, M30),
+				new Vector4(M01, M11, M21, M31),
+				new Vector4(M02, M12, M22, M32),
+				new Vector4(M03, M13, M23, M33)
 			};
 		}
 
@@ -478,14 +478,14 @@ namespace EngineQ.Math
 			);
 		}
 
-		public static Matrix4 CreateFrustum(Real fovy, Real aspect, Real near, Real far)
+		public static Matrix4 CreatePerspective(Real fovY, Real aspectRatio, Real near, Real far)
 		{
 			Matrix4 value;
-			API_CreateFrustum(fovy, aspect, near, far, out value);
+			API_CreateFrustum(fovY, aspectRatio, near, far, out value);
 			return value;
 		}
 
-		public static Matrix4 CreateLookAt(Vector3 cameraPosition, Vector3  cameraTarget, Vector3  upVector)
+		public static Matrix4 CreateLookAt(Vector3 cameraPosition, Vector3 cameraTarget, Vector3 upVector)
 		{
 			Matrix4 value;
 			API_CreateLookAt(ref cameraPosition, ref cameraTarget, ref upVector, out value);
@@ -528,9 +528,9 @@ namespace EngineQ.Math
 		{
 			return new Matrix3
 			(
-				matrix.m00, matrix.m01, matrix.m02,
-				matrix.m10, matrix.m11, matrix.m12,
-				matrix.m20, matrix.m21, matrix.m22
+				matrix.M00, matrix.M01, matrix.M02,
+				matrix.M10, matrix.M11, matrix.M12,
+				matrix.M20, matrix.M21, matrix.M22
 			);
 		}
 
@@ -543,10 +543,10 @@ namespace EngineQ.Math
 		{
 			return new Matrix4
 			(
-				-matrix.m00, -matrix.m01, -matrix.m02, -matrix.m03,
-				-matrix.m10, -matrix.m11, -matrix.m12, -matrix.m13,
-				-matrix.m20, -matrix.m21, -matrix.m22, -matrix.m23,
-				-matrix.m30, -matrix.m31, -matrix.m32, -matrix.m33
+				-matrix.M00, -matrix.M01, -matrix.M02, -matrix.M03,
+				-matrix.M10, -matrix.M11, -matrix.M12, -matrix.M13,
+				-matrix.M20, -matrix.M21, -matrix.M22, -matrix.M23,
+				-matrix.M30, -matrix.M31, -matrix.M32, -matrix.M33
 			);
 		}
 

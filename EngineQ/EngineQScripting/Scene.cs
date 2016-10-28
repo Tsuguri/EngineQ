@@ -5,6 +5,11 @@ namespace EngineQ
 {
 	public sealed class Scene : EngineQ.Object
 	{
+		public Entity FindEntity(string name)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Entity CreateEntity()
 		{
 			Entity value;

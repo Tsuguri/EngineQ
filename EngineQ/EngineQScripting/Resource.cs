@@ -7,7 +7,7 @@ namespace EngineQ
 	{
 		#region Properties
 
-		public IntPtr Handle
+		internal IntPtr Handle
 		{
 			get
 			{
@@ -18,11 +18,7 @@ namespace EngineQ
 		#endregion
 
 		#region Constructors and Destructors
-
-		internal Resource()
-		{
-		}
-
+		
 		~Resource()
 		{
 			API_DecRefCounter(this.NativeHandle);

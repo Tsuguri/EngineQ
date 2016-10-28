@@ -25,6 +25,14 @@ namespace EngineQ
 			}
 		}
 
+		public string Name
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 		public TComponent GetComponent<TComponent>()
 			where TComponent : Component
 		{

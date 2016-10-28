@@ -24,7 +24,23 @@
 
 		#region Methods
 
-		protected virtual void Update()
+		protected virtual void OnCreate()
+		{
+		}
+
+		protected virtual void OnEnable()
+		{
+		}
+
+		protected virtual void OnUpdate()
+		{
+		}
+
+		protected virtual void OnDisable()
+		{
+		}
+
+		protected virtual void OnDestroy()
 		{
 		}
 
