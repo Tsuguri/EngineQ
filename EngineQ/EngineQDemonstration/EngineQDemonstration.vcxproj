@@ -111,7 +111,9 @@
       </Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>echo --------------------   Copying files   --------------------
+      <Command>echo(
+echo(
+echo --------------------   Copying files   --------------------
 
 xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
 xcopy "$(SolutionDir)Libraries\Assimp\bin\$(Platform)\*" "$(OutputPath)" /D /Y
@@ -123,7 +125,8 @@ xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /
 xcopy "$(ProjectDir)_Resources\*" "$(OutputPath)" /E /Y /D
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
 
-xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y</Command>
+xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y
+</Command>
       <Outputs>none</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
@@ -149,7 +152,9 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
       </Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>echo --------------------   Copying files   --------------------
+      <Command>echo(
+echo(
+echo --------------------   Copying files   --------------------
 
 xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
 xcopy "$(SolutionDir)Libraries\Assimp\bin\$(Platform)\*" "$(OutputPath)" /D /Y
@@ -161,7 +166,8 @@ xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /
 xcopy "$(ProjectDir)_Resources\*" "$(OutputPath)" /E /Y /D
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
 
-xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y</Command>
+xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y
+</Command>
       <Outputs>none</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
@@ -191,7 +197,9 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
       </Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>echo --------------------   Copying files   --------------------
+      <Command>echo(
+echo(
+echo --------------------   Copying files   --------------------
 
 xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
 xcopy "$(SolutionDir)Libraries\Assimp\bin\$(Platform)\*" "$(OutputPath)" /D /Y
@@ -203,7 +211,8 @@ xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /
 xcopy "$(ProjectDir)_Resources\*" "$(OutputPath)" /E /Y /D
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
 
-xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y</Command>
+xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y
+</Command>
       <Outputs>none</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
@@ -233,7 +242,9 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
       </Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>echo --------------------   Copying files   --------------------
+      <Command>echo(
+echo(
+echo --------------------   Copying files   --------------------
 
 xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
 xcopy "$(SolutionDir)Libraries\Assimp\bin\$(Platform)\*" "$(OutputPath)" /D /Y
@@ -245,11 +256,14 @@ xcopy "$(SolutionDir)Libraries\Mono\libraries" "$(OutputPath)libraries\" /E /Y /
 xcopy "$(ProjectDir)_Resources\*" "$(OutputPath)" /E /Y /D
 if not exist "$(OutputPath)Scripts" mkdir "$(OutputPath)Scripts"
 
-xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y</Command>
+xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.dll" "$(OutputPath)Scripts\" /D /Y
+</Command>
       <Outputs>none</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="_Resources\Meshes\Skull.qres" />
+    <None Include="_Resources\Models\Skull.qres" />
     <None Include="_Resources\TMP\Shader.shader" />
   </ItemGroup>
   <ItemGroup>

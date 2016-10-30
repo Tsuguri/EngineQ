@@ -63,7 +63,7 @@ namespace EngineQ
 			void Bind(UniformLocation location, const Math::Matrix4& value);
 
 			// TMP
-			void Bind(UniformLocation location, const Texture& texture);
+			void Bind(UniformLocation location, const Texture* texture);
 		};
 	}
 }

@@ -13,6 +13,8 @@ namespace EngineQ
 		{
 		public:
 			static void API_GetInstance(MonoObject*& instance);
+			static void API_IsResourceRegistered(Object& resourceMangerBase, MonoReflectionType* resourceType, MonoString* resourceId, bool& isRegistered);
+			static void API_RegisterResource(Object& resourceMangerBase, MonoReflectionType* resourceType, MonoString* resourceId, MonoString* resourcePath);
 			static void API_GetResource(Object& resourceMangerBase, MonoReflectionType* resourceType, MonoString* resourceId, MonoObject*& resourceObject);
 
 			static void API_Register(ScriptEngine& scriptEngine);

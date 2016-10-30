@@ -47,8 +47,7 @@ namespace EngineQ
 			static void Apply(Shader& shader, UniformLocation location, const void* value)
 			{
 				const Type& ptr = *static_cast<const Type*>(value);
-				if (ptr != nullptr)
-					shader.Bind(location, *ptr);
+				shader.Bind(location, ptr);
 			}
 
 			static void Create(char* data)

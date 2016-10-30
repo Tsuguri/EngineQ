@@ -4,6 +4,8 @@
 #include <memory>
 #include <stdexcept>
 
+#include "Types.hpp"
+
 namespace EngineQ
 {
 	namespace Resources
@@ -17,7 +19,7 @@ namespace EngineQ
 		template<typename TResourceType>
 		struct ResourceFactory
 		{
-			static std::unique_ptr<ResourceFactory> CreateResource(const char* filename);
+			static std::unique_ptr<ResourceFactory> CreateResource(ResourceManager& resourceManager, const char* filename);
 		};
 	}
 }

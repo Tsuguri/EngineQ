@@ -3,11 +3,11 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
-	public abstract class Resource : Object
+	public abstract class Resource : EngineQ.Object
 	{
 		#region Properties
 
-		public IntPtr Handle
+		internal IntPtr Handle
 		{
 			get
 			{
@@ -18,7 +18,7 @@ namespace EngineQ
 		#endregion
 
 		#region Constructors and Destructors
-
+		
 		~Resource()
 		{
 			API_DecRefCounter(this.NativeHandle);

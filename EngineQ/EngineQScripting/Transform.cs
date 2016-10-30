@@ -5,7 +5,7 @@ namespace EngineQ
 {
 	using Math;
 
-	public class Transform : Component
+	public sealed class Transform : Component
 	{
 		#region Properties
 
@@ -37,6 +37,18 @@ namespace EngineQ
 			}
 		}
 
+		public Vector3 GlobalPosition
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 		public Vector3 Scale
 		{
 			get
@@ -49,6 +61,18 @@ namespace EngineQ
 			set
 			{
 				API_SetScale(NativeHandle, ref value);
+			}
+		}
+
+		public Vector3 GlobalScale
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
 			}
 		}
 
@@ -67,6 +91,18 @@ namespace EngineQ
 			}
 		}
 
+		public Quaternion GlobalRotation
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 		public Matrix4 LocalMatrix
 		{
 			get
@@ -77,6 +113,14 @@ namespace EngineQ
 			}
 		}
 
+		public Matrix4 InvertedLocalMatrix
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 		public Matrix4 GlobalMatrix
 		{
 			get
@@ -84,6 +128,14 @@ namespace EngineQ
 				Matrix4 value;
 				API_GetGlobalMatrix(NativeHandle, out value);
 				return value;
+			}
+		}
+
+		public Matrix4 InvertedGlobalmatrix
+		{
+			get
+			{
+				throw new NotImplementedException();
 			}
 		}
 		
@@ -108,6 +160,7 @@ namespace EngineQ
 
 		#region Methods
 
+		// TMP
 		public override string ToString()
 		{
 			return $"Pos: {Position}";

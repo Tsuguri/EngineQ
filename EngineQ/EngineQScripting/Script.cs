@@ -2,11 +2,48 @@
 {
 	public abstract class Script : Component
 	{
-		protected Transform transform => Entity.Transform;
+		#region Properties
 
-		protected virtual void Update()
+		protected Transform Transform
 		{
-
+			get
+			{
+				return this.Entity.Transform;
+			}
 		}
+
+		#endregion
+
+		#region Constructors
+
+		protected Script()
+		{
+		}
+
+		#endregion
+
+		#region Methods
+
+		protected virtual void OnCreate()
+		{
+		}
+
+		protected virtual void OnEnable()
+		{
+		}
+
+		protected virtual void OnUpdate()
+		{
+		}
+
+		protected virtual void OnDisable()
+		{
+		}
+
+		protected virtual void OnDestroy()
+		{
+		}
+
+		#endregion
 	}
 }

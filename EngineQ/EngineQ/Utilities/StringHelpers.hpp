@@ -14,6 +14,26 @@ namespace Utilities
 
 	template<typename Type>
 	std::ostream& operator <<= (std::ostream& stream, const Type& value);
+
+	constexpr bool IsDigit(char c)
+	{
+		return '0' <= c && c <= '9';
+	}
+
+	constexpr bool IsLetter(char c)
+	{
+		return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
+	}
+
+	constexpr bool IsNameFirstChar(char c)
+	{
+		return IsLetter(c) || c == '_';
+	}
+
+	constexpr bool IsNameChar(char c)
+	{
+		return IsNameFirstChar(c) || IsDigit(c);
+	}
 }
 
 #include "StringHelpers.inl"

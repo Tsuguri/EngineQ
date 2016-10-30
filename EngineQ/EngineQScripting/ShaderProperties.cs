@@ -1,14 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EngineQ
 {
 	public sealed class ShaderProperties : EngineQ.Object
 	{
+		#region Properties
+
+		public Shader Shader
+		{
+			get
+			{
+				Shader shader;
+				API_GetShader(this.NativeHandle, out shader);
+				return shader;
+			}
+		}
+
+		#endregion
+
 		#region Methods
 
 		public bool HasProperty<TPropertyType>(string propertyName)
@@ -58,11 +68,13 @@ namespace EngineQ
 
 
 		#region API
-		
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetShader(IntPtr handle, out Shader shader);
+
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_GetPropertyIndex(IntPtr handle, string name, Type type, out int propertyIndex);
 		
-
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_Get(IntPtr handle, int index, Type type, out object value);
 

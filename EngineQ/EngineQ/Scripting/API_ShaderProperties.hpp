@@ -11,6 +11,7 @@ namespace EngineQ
 		class API_ShaderProperties
 		{
 		public:
+			static void API_GetShader(const Object& shaderPropertiesBase, MonoObject*& shader);
 			static void API_GetPropertyIndex(Object& shaderPropertiesBase, MonoString* propertyName, MonoReflectionType* propertyType, int& propertyIndex);
 			static void API_Get(Object& shaderPropertiesBase, int propertyIndex, MonoReflectionType* propertyType, MonoObject*& value);
 			static void API_Set(Object& shaderPropertiesBase, int propertyIndex, MonoReflectionType* propertyType, MonoObject*& value);

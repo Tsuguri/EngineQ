@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+
 using EngineQ.Math;
 
 namespace EngineQ
 {
-
 	public static class Input
 	{
 		#region Types
@@ -210,7 +209,7 @@ namespace EngineQ
 
 		#region Keys
 
-		public static bool KeyPressed(Key key)
+		public static bool IsKeyPressed(Key key)
 		{
 			bool value;
 			API_KeyPressed((int)key, out value);
@@ -226,7 +225,7 @@ namespace EngineQ
 			}
 		}
 
-		public static void ListenKey(Key key, KeyboardKeyEventHandler action)
+		public static void RegisterKeyEvent(Key key, KeyboardKeyEventHandler action)
 		{
 			KeyboardKeyEventHandler keyboardEventHandler;
 			if (!keyboardEvents.TryGetValue(key, out keyboardEventHandler))
@@ -240,7 +239,7 @@ namespace EngineQ
 			}
 		}
 
-		public static void StopListeningKey(Key key, KeyboardKeyEventHandler action)
+		public static void DeregisterKeyEvent(Key key, KeyboardKeyEventHandler action)
 		{
 			KeyboardKeyEventHandler keyboardEventHandler;
 			if (keyboardEvents.TryGetValue(key, out keyboardEventHandler))
@@ -251,7 +250,7 @@ namespace EngineQ
 
 		#region Mouse
 
-		public static bool MouseButtonDown(MouseButton button)
+		public static bool IsMouseButtonPressed(MouseButton button)
 		{
 			bool value;
 			API_MouseButtonDown((int)button, out value);
@@ -266,7 +265,7 @@ namespace EngineQ
 				mouseEventHandler?.Invoke(button, action);
 		}
 
-		public static void ListenMouseButton(MouseButton button, MouseButtonEventHandler action)
+		public static void RegisterMouseButtonEvent(MouseButton button, MouseButtonEventHandler action)
 		{
 			MouseButtonEventHandler mouseEventHandler;
 			if (!mouseEvents.TryGetValue(button, out mouseEventHandler))
@@ -280,7 +279,7 @@ namespace EngineQ
 			}
 		}
 
-		public static void StopListeningMouseButton(MouseButton button, MouseButtonEventHandler action)
+		public static void DeregisterMouseButtonEvent(MouseButton button, MouseButtonEventHandler action)
 		{
 			MouseButtonEventHandler mouseEventHandler;
 			if (mouseEvents.TryGetValue(button, out mouseEventHandler))

@@ -5,6 +5,7 @@
 #include <vector>
 #include <type_traits>
 
+#include "../Utilities/PointerWrapper.hpp"
 #include "../Libraries/GL/glew.h"
 
 namespace EngineQ
@@ -38,6 +39,8 @@ namespace EngineQ
 
 		class Model
 		{
+			friend class ModelLoader;
+			
 		public:
 			class Mesh
 			{
@@ -96,9 +99,11 @@ namespace EngineQ
 			
 		private:
 			std::unique_ptr<Node> rootNode = std::make_unique<Node>(nullptr);
-			
+			std::vector<Utilities::PointerWrapper<Mesh>> meshes;
+
 		public:
 			Node& GetRootNode() const;
+			const std::vector<Utilities::PointerWrapper<Mesh>>& GetMeshes() const;
 		};
 	}
 }

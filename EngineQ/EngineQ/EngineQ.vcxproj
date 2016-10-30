@@ -29,7 +29,9 @@
     <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Math\Utilities.cpp" />
+    <ClCompile Include="Resources\MeshFactory.cpp" />
     <ClCompile Include="Resources\Model.cpp" />
+    <ClCompile Include="Resources\ModelFactory.cpp" />
     <ClCompile Include="Resources\ModelLoader.cpp" />
     <ClCompile Include="Resources\Resource.cpp" />
     <ClCompile Include="Resources\ResourceManager.cpp" />
@@ -98,7 +100,9 @@
     <ClInclude Include="Math\Types.hpp" />
     <ClInclude Include="Math\Utilities.hpp" />
     <ClInclude Include="Objects\Types.hpp" />
+    <ClInclude Include="Resources\MeshFactory.hpp" />
     <ClInclude Include="Resources\Model.hpp" />
+    <ClInclude Include="Resources\ModelFactory.hpp" />
     <ClInclude Include="Resources\ModelLoader.hpp" />
     <ClInclude Include="Resources\Resource.hpp" />
     <ClInclude Include="Resources\ResourceFactory.hpp" />
@@ -163,6 +167,7 @@
     <ClInclude Include="Utilities\ObjectDestructor.hpp" />
     <ClInclude Include="Scripting\ScriptingExceptions.hpp" />
     <ClInclude Include="Objects\Transform.hpp" />
+    <ClInclude Include="Utilities\PointerWrapper.hpp" />
     <ClInclude Include="Utilities\Property.hpp" />
     <ClInclude Include="Utilities\ResourcesIDs.hpp" />
     <ClInclude Include="Vertex.hpp" />

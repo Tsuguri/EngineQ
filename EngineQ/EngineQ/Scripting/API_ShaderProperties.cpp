@@ -7,6 +7,14 @@ namespace EngineQ
 {
 	namespace Scripting
 	{
+		void API_ShaderProperties::API_GetShader(const Object& shaderPropertiesBase, MonoObject*& shader)
+		{
+			const auto& shaderProperties = static_cast<const Graphics::ShaderProperties&>(shaderPropertiesBase);
+			const auto& scriptEngine = shaderProperties.GetScriptEngine();
+
+			shader = scriptEngine.CreateUnhandledObject(scriptEngine.GetClass(ScriptEngine::Class::Shader), shaderProperties.GetShader().GetControlBlock());
+		}
+
 		void API_ShaderProperties::API_GetPropertyIndex(Object& shaderPropertiesBase, MonoString* propertyName, MonoReflectionType* propertyType, int& propertyIndex)
 		{
 			using Class = EngineQ::Scripting::ScriptEngine::Class;
@@ -105,6 +113,7 @@ namespace EngineQ
 	
 		void API_ShaderProperties::API_Register(ScriptEngine& scriptEngine)
 		{
+			scriptEngine.API_Register("EngineQ.ShaderProperties::API_GetShader", API_GetShader);
 			scriptEngine.API_Register("EngineQ.ShaderProperties::API_GetPropertyIndex", API_GetPropertyIndex);
 			scriptEngine.API_Register("EngineQ.ShaderProperties::API_Get", API_Get);
 			scriptEngine.API_Register("EngineQ.ShaderProperties::API_Set", API_Set);

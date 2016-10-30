@@ -3,13 +3,6 @@
 //#include <Libraries/GL/glew.h>
 
 
-#include <Utilities/Metaprogramming.hpp>
-
-namespace Meta
-{
-	
-}
-
 
 struct Vector3
 {
@@ -45,7 +38,7 @@ void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean norm
 	std::cout << "VertexAtribPointer: " << index << " " << size << " " << type << " " << normalized << " " << stride << " " << reinterpret_cast<std::size_t>(pointer) << std::endl << std::endl;
 }
 
-
+/*
 template<typename... TVertexType>
 class Vertex : public TVertexType...
 {
@@ -126,15 +119,89 @@ struct VCol
 	{
 	}
 };
+*/
 
+namespace Utilities
+{
+	constexpr bool IsDigit(char c)
+	{
+		return '0' <= c && c <= '9';
+	}
+
+	constexpr bool IsLetter(char c)
+	{
+		return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
+	}
+
+	constexpr bool IsNameFirstChar(char c)
+	{
+		return IsLetter(c) || c == '_';
+	}
+
+	constexpr bool IsNameChar(char c)
+	{
+		return IsNameFirstChar(c) || IsDigit(c);
+	}
+}
+
+#include <string>
+
+std::string TranslateName(const std::string& originalName)
+{
+	std::string newName = originalName;
+
+	std::size_t lastPos = 0;
+	std::size_t pos = newName.find("__");
+	while (pos != std::string::npos)
+	{
+		// Nothing after
+		if (pos + 2 == newName.size())
+			break;
+
+		// Array
+		if (Utilities::IsDigit(newName[pos + 2]))
+		{
+			newName[pos] = '[';
+			lastPos = newName.size();
+
+			for (std::size_t i = pos + 2; i < newName.size(); ++i)
+			{
+				if (!Utilities::IsDigit(newName[i]))
+				{
+					lastPos = i;
+					break;
+				}
+
+				newName[i - 1] = newName[i];
+			}
+
+			newName[lastPos - 1] = ']';
+		}
+		// Struct
+		else
+		{
+			newName[pos] = '.';
+			for (std::size_t i = pos + 2; i < newName.size(); ++i)
+				newName[i - 1] = newName[i];
+
+			newName.resize(newName.size() - 1);
+			lastPos = pos + 1;
+		}
+
+		pos = newName.find("__", lastPos);
+	}
+
+	return newName;
+}
 
 int main(int argc, char** argv)
 {
 	std::cout << "Test\n";
 
-	Vertex<VPos, VNorm, VCol> vertex{ Vector3{0, 0, 0}, Vector3{1, 1, 1}, Vector3{2, 2, 2} };
+//	Vertex<VPos, VNorm, VCol> vertex{ Vector3{0, 0, 0}, Vector3{1, 1, 1}, Vector3{2, 2, 2} };
 	
-	decltype(vertex)::Setup();
+
+	std::cout << TranslateName("someName__some__other__324__name__123") << std::endl;
 
 	return 0;
 }

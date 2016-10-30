@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Mesh>
+	<Model ResourceName="Skull" Path="./Models/Skull.qres" />
+
+	<!--Takes mesh from entire model-->
+	<ModelMesh Index="0" />
+	
+	<!--Takes mesh with the specified node path
+		Here: from node 0, it's 2nd child takes first mesh
+	-->
+	<!--
+	<ModelNode Index="0" >
+		<ModelNode Index="2" >
+			<ModelMesh Index="0" />
+		</ModelNode />
+	</ModelNode>
+	-->
+
+</Mesh>

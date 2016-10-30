@@ -169,13 +169,17 @@ namespace EngineQ
 			glUniformMatrix4fv(location.location, 1, GL_TRUE, value.Values);
 		}
 
-		void Shader::Bind(UniformLocation location, const Texture& texture)
+		void Shader::Bind(UniformLocation location, const Texture* texture)
 		{
 			// TMP
 			int textureSlot = 3;
 
 			glActiveTexture(GL_TEXTURE0 + textureSlot);
-			glBindTexture(GL_TEXTURE_2D, texture.textureId);
+
+			if (texture != nullptr)
+				glBindTexture(GL_TEXTURE_2D, texture->textureId);
+			else
+				glBindTexture(GL_TEXTURE_2D, 0);
 
 			glUniform1i(location.location, textureSlot);
 		}

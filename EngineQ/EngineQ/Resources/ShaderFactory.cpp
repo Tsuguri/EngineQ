@@ -10,7 +10,7 @@ namespace EngineQ
 {
 	namespace Resources
 	{
-		std::unique_ptr<Graphics::Shader> ResourceFactory<Graphics::Shader>::CreateResource(const char* filename)
+		std::unique_ptr<Graphics::Shader> ResourceFactory<Graphics::Shader>::CreateResource(ResourceManager& resourceManager, const char* filename)
 		{
 			static const std::unordered_map<std::string, Graphics::ShaderType> ShaderTypeMap = {
 				{ "VertexShader", Graphics::ShaderType::VertexShader },

@@ -25,7 +25,7 @@ namespace EngineQ
 		}
 
 		// TMP
-		protected Object()
+		internal Object()
 		{
 			Console.WriteLine($"Constructed {GetType()} with handle {nativeHandle}");
 		}

@@ -8,8 +8,13 @@ namespace EngineQ
 		template<typename TResourceType>
 		class Resource;
 		
+		template<typename TResourceType>
+		struct ResourceFactory;
+
 		class Model;
 		class ModelLoader;
+
+		class ResourceManager;
 	}
 }
 

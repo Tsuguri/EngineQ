@@ -70,6 +70,7 @@ namespace EngineQ
 			for (int i = 0; i < sceneNode->mNumMeshes; ++i)
 			{
 				modelNode.meshes.push_back(this->ProcessMesh(this->scene->mMeshes[sceneNode->mMeshes[i]]));
+				this->currentModel->meshes.push_back(&modelNode.meshes.back());
 			}
 
 			for (int i = 0; i < sceneNode->mNumChildren; ++i)

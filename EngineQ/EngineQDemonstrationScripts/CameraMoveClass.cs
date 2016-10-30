@@ -19,14 +19,14 @@ namespace QScripts
 
         public CameraMoveClass()
         {
-            Input.ListenKey(Input.Key.Escape, EscapeAction);
-            Input.ListenKey(Input.Key.F1, F1Action);
-            Input.ListenKey(Input.Key.F2, F2Action);
-            rotationX = transform.Rotation.EulerAngles.X;
-            rotationY = transform.Rotation.EulerAngles.Y;
+            Input.RegisterKeyEvent(Input.Key.Escape, EscapeAction);
+            Input.RegisterKeyEvent(Input.Key.F1, F1Action);
+            Input.RegisterKeyEvent(Input.Key.F2, F2Action);
+            rotationX = Transform.Rotation.EulerAngles.X;
+            rotationY = Transform.Rotation.EulerAngles.Y;
 
 
-			Input.ListenKey(Input.Key.P, TestAction);
+			Input.RegisterKeyEvent(Input.Key.P, TestAction);
         }
 
         private float DegToRad(float val)
@@ -50,39 +50,39 @@ namespace QScripts
             if (rotationY < 0)
                 rotationY += pi * 2;
         }
-        protected override void Update()
+        protected override void OnUpdate()
         {
-            base.Update();
+            base.OnUpdate();
             tmp = Vector3.Zero;
-            if (Input.KeyPressed(Input.Key.A))
+            if (Input.IsKeyPressed(Input.Key.A))
                 tmp += Vector3.Left;
-            if (Input.KeyPressed(Input.Key.D))
+            if (Input.IsKeyPressed(Input.Key.D))
                 tmp += Vector3.Right;
-            if (Input.KeyPressed(Input.Key.S))
+            if (Input.IsKeyPressed(Input.Key.S))
                 tmp += Vector3.Back;
-            if (Input.KeyPressed(Input.Key.W))
+            if (Input.IsKeyPressed(Input.Key.W))
                 tmp += Vector3.Forward;
-            if (Input.KeyPressed(Input.Key.Space))
+            if (Input.IsKeyPressed(Input.Key.Space))
                 tmp += Vector3.Up;
-            if (Input.KeyPressed(Input.Key.LeftShift))
+            if (Input.IsKeyPressed(Input.Key.LeftShift))
                 tmp += Vector3.Down;
             if (tmp.LengthSquared > 0)
                 MoveInDirection(tmp.Normalized);
-            if (Input.MouseButtonDown(Input.MouseButton.Right) && (tmp2 = Input.MouseDeltaPosition).LengthSquared > 0)
+            if (Input.IsMouseButtonPressed(Input.MouseButton.Right) && (tmp2 = Input.MouseDeltaPosition).LengthSquared > 0)
             {
                 rotationX += DegToRad(tmp2.Y * (reverseX ? 1 : -1)) / speed;
                 rotationY += DegToRad(tmp2.X * (reverseY ? 1 : -1)) / speed;
 
                 CheckAngles();
                 Console.WriteLine($"Angles: {RadToDeg(rotationX)} {RadToDeg(rotationY)}");
-                transform.Rotation = Quaternion.CreateFromEuler(rotationX, rotationY, 0);
+                Transform.Rotation = Quaternion.CreateFromEuler(rotationX, rotationY, 0);
             }
         }
 
         private void MoveInDirection(Vector3 direction)
         {
-            transform.Position = transform.Position + transform.Rotation * direction * Time.DeltaTime;
-            Console.WriteLine($"Position: {transform.Position}");
+            Transform.Position = Transform.Position + Transform.Rotation * direction * Time.DeltaTime;
+            Console.WriteLine($"Position: {Transform.Position}");
         }
 
         private void EscapeAction(Input.Key key, Input.KeyAction action)

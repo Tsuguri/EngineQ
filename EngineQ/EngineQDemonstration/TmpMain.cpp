@@ -20,7 +20,7 @@
 
 namespace Math = EngineQ::Math;
 
-EngineQ::Graphics::Mesh* GenerateCube(float side = 1.0f)
+std::unique_ptr<EngineQ::Graphics::Mesh> GenerateCube(float side = 1.0f)
 {
 	side *= 0.5f;
 
@@ -81,10 +81,10 @@ EngineQ::Graphics::Mesh* GenerateCube(float side = 1.0f)
 	for (unsigned int i = 0; i < vertices.size(); ++i)
 		indices.push_back(i);
 
-	return new EngineQ::Graphics::Mesh{ vertices, indices };
+	return std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices);
 }
 
-EngineQ::Graphics::Mesh* GenerateCube2(float side = 1.0f)
+std::unique_ptr<EngineQ::Graphics::Mesh> GenerateCube2(float side = 1.0f)
 {
 	side *= 0.5f;
 
@@ -165,10 +165,10 @@ EngineQ::Graphics::Mesh* GenerateCube2(float side = 1.0f)
 		22, 23, 20
 	};
 
-	return new EngineQ::Graphics::Mesh{ vertices, indices };
+	return std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices);
 }
 
-EngineQ::Graphics::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep = 10.0f, float horizontalStep = 10.0f)
+std::unique_ptr<EngineQ::Graphics::Mesh> GenerateSphere(float radius = 1.0f, float verticalStep = 10.0f, float horizontalStep = 10.0f)
 {
 	std::vector<EngineQ::VertexPNC> vertices{};
 
@@ -182,25 +182,26 @@ EngineQ::Graphics::Mesh* GenerateSphere(float radius = 1.0f, float verticalStep 
 	for (unsigned int i = 0; i < vertices.size(); ++i)
 		indices.push_back(i);
 
-	return new EngineQ::Graphics::Mesh{ vertices, indices };
+	return std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices);
 }
 
 void PrepareScene(EngineQ::Scene& scene)
 {
-	EngineQ::Resources::ModelLoader loader;
-	auto model = loader.LoadModel("Models/skull2.obj", EngineQ::Resources::VertexComponent::Position | EngineQ::Resources::VertexComponent::Normal | EngineQ::Resources::VertexComponent::TextureCoordinates, EngineQ::Resources::ModelLoader::Config{});
+//	EngineQ::Resources::ModelLoader loader;
+//	auto model = loader.LoadModel("Models/skull2.obj", EngineQ::Resources::VertexComponent::Position | EngineQ::Resources::VertexComponent::Normal | EngineQ::Resources::VertexComponent::TextureCoordinates, EngineQ::Resources::ModelLoader::Config{});
 
-	const auto& modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
-	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh };
+//	const auto& modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+//	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh };
 
-	auto cubeMesh = GenerateCube2(0.6f);
 
-	auto ent = scene.CreateEntity();
+
+
+	auto ent1 = scene.CreateEntity();
 	auto ent2 = scene.CreateEntity();
 	auto ent3 = scene.CreateEntity();
 	auto ent4 = scene.CreateEntity();
 
-	auto renderable = ent2->AddComponent<EngineQ::Renderable>();
+	auto renderable1 = ent2->AddComponent<EngineQ::Renderable>();
 	auto renderable2 = ent3->AddComponent<EngineQ::Renderable>();
 	auto renderable3 = ent4->AddComponent<EngineQ::Renderable>();
 	auto& resourceManager = EngineQ::Engine::Get().GetResourceManager();
@@ -208,20 +209,26 @@ void PrepareScene(EngineQ::Scene& scene)
 	auto& scriptEngine = EngineQ::Engine::Get().GetScriptEngine();
 
 
+//	auto model = resourceManager.GetResource<EngineQ::Resources::Model>("Skull");
+//	auto modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+	auto cubeMesh = resourceManager.GetResource<EngineQ::Graphics::Mesh>("Cube");
+	auto mesh = resourceManager.GetResource<EngineQ::Graphics::Mesh>("Skull");
+
+
 	auto shd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader);
 	auto deffShd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
 
-	auto cam = ent->AddComponent<EngineQ::Camera>();
+	auto cam = ent1->AddComponent<EngineQ::Camera>();
 
 
 	//	auto texture = std::make_shared<EngineQ::Graphics::Texture>("Textures/Numbers.png", true);
 	auto texture = resourceManager.GetResource<EngineQ::Graphics::Texture>("Numbers");
 
 	auto deffShdCustom = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
-	renderable->SetMesh(mesh);
-	renderable->GetEntity().GetTransform().SetScale(Math::Vector3f{ 0.1f });
-	renderable->SetForwardShader(shd);
-	renderable->SetDeferredShader(deffShd);
+	renderable1->SetMesh(mesh);
+	renderable1->GetEntity().GetTransform().SetScale(Math::Vector3f{ 0.1f });
+	renderable1->SetForwardShader(shd);
+	renderable1->SetDeferredShader(deffShd);
 	renderable2->SetMesh(mesh);
 	renderable2->GetEntity().GetTransform().SetScale(Math::Vector3f{ 0.1f });
 	renderable2->SetForwardShader(shd);
@@ -230,20 +237,17 @@ void PrepareScene(EngineQ::Scene& scene)
 	renderable3->SetForwardShader(shd);
 	renderable3->SetDeferredShader(deffShd);
 
-	auto textureProp1 = renderable->GetDeferredShader()->GetProperty<EngineQ::Resources::Resource<EngineQ::Graphics::Texture>>("diffuseTexture");
-	textureProp1 = texture;
-
-	auto textureProp3 = renderable3->GetDeferredShader()->GetProperty<EngineQ::Resources::Resource<EngineQ::Graphics::Texture>>("diffuseTexture");
-	textureProp3 = texture;
-
+	renderable1->GetDeferredShader()->GetMaterial().DiffuseTexture = texture;
+	renderable2->GetDeferredShader()->GetMaterial().DiffuseTexture = texture;
+	renderable3->GetDeferredShader()->GetMaterial().DiffuseTexture = texture;
 
 	ent3->GetTransform().SetPosition(EngineQ::Math::Vector3(1.0f, 0, 0));
-	ent->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
+	ent1->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
 	ent4->GetTransform().SetPosition(EngineQ::Math::Vector3(2.0f, 0, 0));
 
 	EngineQ::Scripting::ScriptClass scriptClass = EngineQ::Engine::Get().GetClass("QScripts", "QScripts", "CameraMoveClass");
 
-	ent->AddScript(scriptClass);
+	ent1->AddScript(scriptClass);
 	EngineQ::Scripting::ScriptClass scriptClass2 = EngineQ::Engine::Get().GetClass("QScripts", "QScripts", "RotateTest");
 	ent2->AddScript(scriptClass2);
 
@@ -272,6 +276,26 @@ void TemporaryResources()
 	resourceManager.RegisterResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::CustomDeferred, "./Shaders/Deferred/DeferredCustom.shd");
 
 	resourceManager.RegisterResource<EngineQ::Graphics::Texture>("Numbers", "./Textures/Numbers.qres");
+
+
+//	resourceManager.RegisterResource<EngineQ::Resources::Model>("Skull", "./Models/Skull.qres");
+
+	/*
+	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("Skull", [](EngineQ::Resources::ResourceManager& resourceManager)
+	{	
+		auto model = resourceManager.GetResource<EngineQ::Resources::Model>("Skull");
+		auto modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+
+		return std::make_unique<EngineQ::Graphics::Mesh>(modelMesh);
+	});
+	*/
+
+	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("Skull", "./Meshes/Skull.qres");
+
+	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("Cube", [](EngineQ::Resources::ResourceManager&)
+	{
+		return GenerateCube2(0.6f);
+	});
 }
 
 

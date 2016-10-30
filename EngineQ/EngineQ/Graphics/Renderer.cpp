@@ -59,18 +59,6 @@ namespace EngineQ
 				if (time != nullval)
 					*time = TimeCounter::Get()->TimeFromStart();
 
-				auto ambientStrength = shader->TryGetProperty<float>("ambientStrength");
-				if (ambientStrength != nullval)
-					*ambientStrength = 0.4f;
-
-				auto specularStrength = shader->TryGetProperty<float>("specularStrength");
-				if (specularStrength != nullval)
-					*specularStrength = 0.05f;
-				
-				auto materialShininess = shader->TryGetProperty<float>("materialShininess");
-				if (materialShininess != nullval)
-					*materialShininess = 16;
-
 				shader->Apply();
 
 

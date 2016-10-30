@@ -17,10 +17,10 @@ namespace QScripts
 
 		public RotateTest()
 		{
-			Input.ListenKey(Input.Key.N1, SwitchAction);
+			Input.RegisterKeyEvent(Input.Key.N1, SwitchAction);
 
-			Input.ListenKey(Input.Key.LeftBracket, ChangeShader1);
-			Input.ListenKey(Input.Key.RightBracket, ChangeShader2);
+			Input.RegisterKeyEvent(Input.Key.LeftBracket, ChangeShader1);
+			Input.RegisterKeyEvent(Input.Key.RightBracket, ChangeShader2);
 		}
 
 		private void SwitchAction(Input.Key key, Input.KeyAction action)
@@ -34,12 +34,16 @@ namespace QScripts
 			{
 				Renderable renderable = this.Entity.GetComponent<Renderable>();
 
-				renderable.SetDeferredShader(ResourceManager.Instance.GetResource<Shader>("TestDeferred1"));
+				renderable.UseDeferredShader(ResourceManager.Instance.GetResource<Shader>("TestDeferred1"));
 
-				var myColorProperty = renderable.DeferredShader.GetProperty<Vector3f>("myColor");
+				var myColorProperty = renderable.DeferredShader.GetProperty<Vector3f>("material.diffuse");
 				
 				renderable.DeferredShader.Set(myColorProperty, new Vector3f((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble()));
 				Vector3f color = renderable.DeferredShader.Get(myColorProperty);
+
+
+				Mesh mesh = ResourceManager.Instance.GetResource<Mesh>("Cube");
+				renderable.Mesh = mesh;
 
 				Console.WriteLine($"Set color to {color}");
 			}
@@ -51,12 +55,15 @@ namespace QScripts
 			{
 				Renderable renderable = this.Entity.GetComponent<Renderable>();
 
-				renderable.SetDeferredShader(ResourceManager.Instance.GetResource<Shader>("TestDeferred2"));
+				renderable.UseDeferredShader(ResourceManager.Instance.GetResource<Shader>("TestDeferred2"));
 
 				var texture = ResourceManager.Instance.GetResource<Texture>("Numbers");
 
-				var texturePropert = renderable.DeferredShader.GetProperty<Texture>("diffuseTexture");
+				var texturePropert = renderable.DeferredShader.GetProperty<Texture>("material.diffuseTexture");
 				renderable.DeferredShader.Set(texturePropert, texture);
+
+				Mesh mesh = ResourceManager.Instance.GetResource<Mesh>("Skull");
+				renderable.Mesh = mesh;
 			}
 		}
 
@@ -72,9 +79,9 @@ namespace QScripts
 			return (float)(Math.PI * val / 180);
 		}
 
-		protected override void Update()
+		protected override void OnUpdate()
 		{
-			base.Update();
+			base.OnUpdate();
 
 			X += 30 * Time.DeltaTime;
 			Y += 30 * Time.DeltaTime;
@@ -82,13 +89,13 @@ namespace QScripts
 			switch (mode)
 			{
 				case 0:
-					transform.Rotation = Quaternion.CreateFromEuler(DegToRad(X), DegToRad(Y), 0);
+					Transform.Rotation = Quaternion.CreateFromEuler(DegToRad(X), DegToRad(Y), 0);
 					break;
 				case 1:
-					transform.Rotation = Quaternion.CreateFromEuler(0, DegToRad(Y), 0);
+					Transform.Rotation = Quaternion.CreateFromEuler(0, DegToRad(Y), 0);
 					break;
 				case 2:
-					transform.Rotation = Quaternion.CreateFromEuler(DegToRad(X), 0, 0);
+					Transform.Rotation = Quaternion.CreateFromEuler(DegToRad(X), 0, 0);
 					break;
 			}
 

@@ -52,6 +52,10 @@ namespace EngineQ
 				ShaderProperty<Math::Vector3f> Diffuse;
 				ShaderProperty<Math::Vector3f> Specular;
 				ShaderProperty<float> Shininess;
+
+				ShaderProperty<Resources::Resource<Texture>> DiffuseTexture;
+				ShaderProperty<Resources::Resource<Texture>> SpecularTexture;
+				ShaderProperty<Resources::Resource<Texture>> NormalTexture;
 			};
 
 			struct Matrices
@@ -79,13 +83,17 @@ namespace EngineQ
 			template<typename TType>
 			ShaderProperty<TType> CreateMockUniform();
 
-			template<typename TGroupType, typename TPropertyType>
-			void CheckBuiltIn(TGroupType& group, ShaderProperty<TPropertyType>(TGroupType::* member));
+			template< typename TPropertyType>
+			void CheckBuiltIn(ShaderProperty<TPropertyType>& property, const TPropertyType& defaultValue = TPropertyType());
 
-			void OnUniformAdded(UniformData& data, UniformType type, const std::string& name);
+			void OnUniformAdded(UniformData& data, UniformType type, const std::string& name, const std::string& translatedName);
+
+			std::string TranslateName(std::string originalName) const;
 
 		public:
 			ShaderProperties(Scripting::ScriptEngine& scriptEngine, Resources::Resource<Shader> shader);
+
+			Resources::Resource<Shader> GetShader() const;
 
 			void Apply() const;
 
