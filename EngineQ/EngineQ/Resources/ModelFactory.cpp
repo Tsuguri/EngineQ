@@ -42,7 +42,7 @@ namespace EngineQ
 
 			ModelLoader loader;
 
-			VertexComponent components;
+			VertexComponent components = static_cast<VertexComponent>(0);
 			ModelLoader::Config config;
 
 			auto rootElement = doc.RootElement();

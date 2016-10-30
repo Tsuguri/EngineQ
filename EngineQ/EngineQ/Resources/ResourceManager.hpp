@@ -33,13 +33,13 @@ namespace EngineQ
 {
 	namespace Resources
 	{
-		class ResourceManagerException : std::logic_error
+		class ResourceManagerException : public std::logic_error
 		{
 		public:
 			using std::logic_error::logic_error;
 		};
 
-		class ResourceNotFoundException : std::logic_error
+		class ResourceNotFoundException : public std::logic_error
 		{
 		public:
 			using std::logic_error::logic_error;

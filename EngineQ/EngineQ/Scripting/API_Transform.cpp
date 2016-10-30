@@ -82,7 +82,7 @@ namespace EngineQ
 
 		void API_Transform::API_GetChild(Transform& transform, std::int32_t index, MonoObject*& child)
 		{
-			if (index < 0 || index >= transform.GetChildCount())
+			if (index < 0 || static_cast<std::size_t>(index) >= transform.GetChildCount())
 			{
 				transform.GetScriptEngine().Throw_IndexOutOfRangeException();
 				return;

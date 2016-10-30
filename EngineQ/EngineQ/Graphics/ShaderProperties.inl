@@ -60,12 +60,12 @@ namespace EngineQ
 			if (it == this->shaderUniformsMap.end())
 				return -1;
 
-			int index = it->second;
+			auto index = it->second;
 			const UniformData& uniformData = this->shaderUniforms[index].second;
 			if (!uniformData.IsType<TType>())
 				return -1;
 
-			return index;
+			return static_cast<int>(index);
 		}
 
 		template<typename TType>

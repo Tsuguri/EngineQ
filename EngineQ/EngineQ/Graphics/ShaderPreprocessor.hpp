@@ -12,7 +12,7 @@ namespace EngineQ
 		private:
 			enum class State;
 
-			class ParsingException : std::runtime_error
+			class ParsingException : public std::runtime_error
 			{
 			public:
 				using std::runtime_error::runtime_error;

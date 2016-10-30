@@ -14,15 +14,13 @@ in VS_DATA
 
 #include "../Common/Material.shh"
 
-uniform Material material;
-
 void main()
 {
 	gPosition = IN.position;
 
 	gNormal = normalize(IN.normal);
 
-	gAlbedoSpec.rgb = texture(material.diffuseTexture, IN.textureCoords).rgb;
+	gAlbedoSpec.rgb = texture(material__diffuseTexture, IN.textureCoords).rgb;
 
 	gAlbedoSpec.a = 1;
 }

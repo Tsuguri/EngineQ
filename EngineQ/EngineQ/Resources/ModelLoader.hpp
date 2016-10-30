@@ -43,7 +43,7 @@ namespace EngineQ
 			};
 
 		private:
-			using VertexConverter = void(ModelLoader::*)(aiMesh* mesh, int index, char* data);
+			using VertexConverter = void(ModelLoader::*)(aiMesh* mesh, std::size_t index, char* data);
 
 			std::unique_ptr<Model> currentModel = nullptr;
 			const aiScene* scene = nullptr;
@@ -64,17 +64,17 @@ namespace EngineQ
 
 			void SetConverters(aiMesh* mesh);
 
-			void PositionConverter(aiMesh* mesh, int index, char* data);
-			void PositionConverterDefault(aiMesh* mesh, int index, char* data);
+			void PositionConverter(aiMesh* mesh, std::size_t index, char* data);
+			void PositionConverterDefault(aiMesh* mesh, std::size_t index, char* data);
 
-			void NormalConverter(aiMesh* mesh, int index, char* data);
-			void NormalConverterDefault(aiMesh* mesh, int index, char* data);
+			void NormalConverter(aiMesh* mesh, std::size_t index, char* data);
+			void NormalConverterDefault(aiMesh* mesh, std::size_t index, char* data);
 
-			void ColorConverter(aiMesh* mesh, int index, char* data);
-			void ColorConverterDefault(aiMesh* mesh, int index, char* data);
+			void ColorConverter(aiMesh* mesh, std::size_t index, char* data);
+			void ColorConverterDefault(aiMesh* mesh, std::size_t index, char* data);
 
-			void TextureCoordinatesConverter(aiMesh* mesh, int index, char* data);
-			void TextureCoordinatesConverterDefault(aiMesh* mesh, int index, char* data);
+			void TextureCoordinatesConverter(aiMesh* mesh, std::size_t index, char* data);
+			void TextureCoordinatesConverterDefault(aiMesh* mesh, std::size_t index, char* data);
 		};
 
 		constexpr ModelLoader::Flags operator | (ModelLoader::Flags left, ModelLoader::Flags right)

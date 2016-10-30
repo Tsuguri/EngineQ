@@ -49,7 +49,7 @@ namespace EngineQ
 
 		void RenderingUnit::Resize(int width, int height)
 		{
-			for (int i = 0; i < textures.size(); i++)
+			for (std::size_t i = 0; i < textures.size(); i++)
 			{
 				glBindTexture(GL_TEXTURE_2D, textures[i]);
 				glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].InternalFormat, width, height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
@@ -144,7 +144,7 @@ namespace EngineQ
 			engine->resizeEvent -= handler;
 
 			if (textures.size() > 0)
-				glDeleteTextures(textures.size(), &textures[0]);
+				glDeleteTextures(static_cast<GLsizei>(textures.size()), &textures[0]);
 
 		}
 

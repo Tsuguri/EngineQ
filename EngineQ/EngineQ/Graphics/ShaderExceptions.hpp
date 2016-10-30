@@ -25,7 +25,7 @@ namespace EngineQ
 			using std::runtime_error::runtime_error;
 		};
 
-		class InvalidUniformTypeException : std::runtime_error
+		class InvalidUniformTypeException : public std::runtime_error
 		{
 		public:
 			using std::runtime_error::runtime_error;

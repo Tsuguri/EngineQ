@@ -10,7 +10,7 @@ namespace EngineQ
 {
 	namespace Resources
 	{
-		class ResourceLoadingException : std::runtime_error
+		class ResourceLoadingException : public std::runtime_error
 		{
 		public:
 			using std::runtime_error::runtime_error;

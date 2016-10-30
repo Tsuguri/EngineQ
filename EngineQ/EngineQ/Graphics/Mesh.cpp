@@ -31,7 +31,7 @@ namespace EngineQ
 
 
 			//setting components pointers
-			int offset = 0;
+			std::size_t offset = 0;
 			for (const auto& data : mesh.GetComponentData())
 			{
 				glEnableVertexAttribArray(data.location);
@@ -47,7 +47,7 @@ namespace EngineQ
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbo[2]);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
 			glBindBuffer(GL_ARRAY_BUFFER, NULL);
-			indicesCount = indices.size();
+			indicesCount = static_cast<GLuint>(indices.size());
 		}
 
 		Mesh::~Mesh()

@@ -19,6 +19,11 @@ namespace EngineQ
 		static constexpr GLenum value = GL_FLOAT;
 	};
 
+	template<typename TVertexType>
+	struct VertexTypeType
+	{
+		using type = typename TVertexType::Type;
+	};
 
 	template<typename... TVertexTypes>
 	class Vertex : public TVertexTypes...
@@ -27,7 +32,7 @@ namespace EngineQ
 
 	public:
 		Vertex() = default;
-		Vertex(const typename TVertexTypes::Type&... value) :
+		Vertex(const typename VertexTypeType<TVertexTypes>::type&... value) :
 			TVertexTypes{ value }...
 		{
 		}

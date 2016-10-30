@@ -231,7 +231,7 @@ namespace EngineQ
 			this->window.PollEvents();
 
 			// Update lastTime
-			float currentTime = window.GetTime();
+			float currentTime = static_cast<float>(window.GetTime());
 			timeCounter.Update(currentTime, currentTime - lastTime);
 			lastTime = currentTime;
 

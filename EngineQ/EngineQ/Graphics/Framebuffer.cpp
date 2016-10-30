@@ -54,13 +54,13 @@ namespace EngineQ
 
 			std::vector<GLenum> attachmentOrder;
 			attachmentOrder.reserve(textures.size());
-			for (int i = 0; i < textures.size(); ++i)
+			for (std::size_t i = 0; i < textures.size(); ++i)
 			{
 				AddTexture(textures[i], locations[i]);
-				attachmentOrder.push_back(GL_COLOR_ATTACHMENT0 + i);
+				attachmentOrder.push_back(GL_COLOR_ATTACHMENT0 + static_cast<GLuint>(i));
 			}
 			if (attachmentOrder.size() > 1)
-				glDrawBuffers(attachmentOrder.size(), &attachmentOrder[0]);
+				glDrawBuffers(static_cast<GLsizei>(attachmentOrder.size()), &attachmentOrder[0]);
 
 
 

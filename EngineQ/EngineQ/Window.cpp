@@ -95,7 +95,7 @@ namespace EngineQ
 
 	bool Window::ShouldClose()
 	{
-		return glfwWindowShouldClose(window);
+		return glfwWindowShouldClose(window) > 0 ? true : false;
 	}
 
 	void Window::PollEvents()

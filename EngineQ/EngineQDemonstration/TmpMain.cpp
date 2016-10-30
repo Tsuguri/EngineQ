@@ -173,9 +173,12 @@ std::unique_ptr<EngineQ::Graphics::Mesh> GenerateSphere(float radius = 1.0f, flo
 	std::vector<EngineQ::VertexPNC> vertices{};
 
 
-	for (int i = 0; i < 180; i += verticalStep)
+	for (float i = 0; i < 180; i += verticalStep)
 	{
-		for (int i = 0; i < 190; i += horizontalStep);
+		for (float i = 0; i < 190; i += horizontalStep)
+		{
+
+		}
 	}
 	std::vector<unsigned int> indices{};
 	indices.reserve(vertices.size());

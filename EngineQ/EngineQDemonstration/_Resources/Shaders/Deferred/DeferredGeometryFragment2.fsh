@@ -14,8 +14,6 @@ in VS_DATA
 
 #include "../Common/Material.shh"
 
-uniform Material material;
-
 void main()
 {
     gPosition = IN.position;

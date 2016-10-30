@@ -69,7 +69,7 @@ namespace EngineQ
 			Resources::Resource<Shader> shader;
 			
 			std::vector<std::pair<UniformLocation, UniformData>> shaderUniforms;
-			std::map<std::string, int> shaderUniformsMap;
+			std::map<std::string, std::size_t> shaderUniformsMap;
 			
 			std::vector<UniformData> mockUniforms;
 
