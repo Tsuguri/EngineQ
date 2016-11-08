@@ -199,14 +199,14 @@ void PrepareScene(EngineQ::Scene& scene)
 
 
 
-	auto ent1 = scene.CreateEntity();
-	auto ent2 = scene.CreateEntity();
-	auto ent3 = scene.CreateEntity();
-	auto ent4 = scene.CreateEntity();
+	auto& ent1 = scene.CreateEntity();
+	auto& ent2 = scene.CreateEntity();
+	auto& ent3 = scene.CreateEntity();
+	auto& ent4 = scene.CreateEntity();
 
-	auto renderable1 = ent2->AddComponent<EngineQ::Renderable>();
-	auto renderable2 = ent3->AddComponent<EngineQ::Renderable>();
-	auto renderable3 = ent4->AddComponent<EngineQ::Renderable>();
+	auto& renderable1 = ent2.AddComponent<EngineQ::Renderable>();
+	auto& renderable2 = ent3.AddComponent<EngineQ::Renderable>();
+	auto& renderable3 = ent4.AddComponent<EngineQ::Renderable>();
 	auto& resourceManager = EngineQ::Engine::Get().GetResourceManager();
 
 	auto& scriptEngine = EngineQ::Engine::Get().GetScriptEngine();
@@ -221,44 +221,44 @@ void PrepareScene(EngineQ::Scene& scene)
 	auto shd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::BasicShader);
 	auto deffShd = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
 
-	auto cam = ent1->AddComponent<EngineQ::Camera>();
+	auto& cam = ent1.AddComponent<EngineQ::Camera>();
 
 
 	//	auto texture = std::make_shared<EngineQ::Graphics::Texture>("Textures/Numbers.png", true);
 	auto texture = resourceManager.GetResource<EngineQ::Graphics::Texture>("Numbers");
 
 	auto deffShdCustom = resourceManager.GetResource<EngineQ::Graphics::Shader>(Utilities::ResourcesIDs::DeferredGeometry);
-	renderable1->SetMesh(mesh);
-	renderable1->GetEntity().GetTransform().SetScale(Math::Vector3f{ 0.1f });
-	renderable1->SetForwardShader(shd);
-	renderable1->SetDeferredShader(deffShd);
-	renderable2->SetMesh(mesh);
-	renderable2->GetEntity().GetTransform().SetScale(Math::Vector3f{ 0.1f });
-	renderable2->SetForwardShader(shd);
-	renderable2->SetDeferredShader(deffShdCustom);
-	renderable3->SetMesh(cubeMesh);
-	renderable3->SetForwardShader(shd);
-	renderable3->SetDeferredShader(deffShd);
+	renderable1.SetMesh(mesh);
+	renderable1.GetEntity().GetTransform().SetScale(Math::Vector3f{ 0.1f });
+	renderable1.SetForwardShader(shd);
+	renderable1.SetDeferredShader(deffShd);
+	renderable2.SetMesh(mesh);
+	renderable2.GetEntity().GetTransform().SetScale(Math::Vector3f{ 0.1f });
+	renderable2.SetForwardShader(shd);
+	renderable2.SetDeferredShader(deffShdCustom);
+	renderable3.SetMesh(cubeMesh);
+	renderable3.SetForwardShader(shd);
+	renderable3.SetDeferredShader(deffShd);
 
-	renderable1->GetDeferredShader()->GetMaterial().DiffuseTexture = texture;
-	renderable2->GetDeferredShader()->GetMaterial().DiffuseTexture = texture;
-	renderable3->GetDeferredShader()->GetMaterial().DiffuseTexture = texture;
+	renderable1.GetDeferredShader()->GetMaterial().DiffuseTexture = texture;
+	renderable2.GetDeferredShader()->GetMaterial().DiffuseTexture = texture;
+	renderable3.GetDeferredShader()->GetMaterial().DiffuseTexture = texture;
 
-	ent3->GetTransform().SetPosition(EngineQ::Math::Vector3(1.0f, 0, 0));
-	ent1->GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
-	ent4->GetTransform().SetPosition(EngineQ::Math::Vector3(2.0f, 0, 0));
+	ent3.GetTransform().SetPosition(EngineQ::Math::Vector3(1.0f, 0, 0));
+	ent1.GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
+	ent4.GetTransform().SetPosition(EngineQ::Math::Vector3(2.0f, 0, 0));
 
 	EngineQ::Scripting::ScriptClass scriptClass = EngineQ::Engine::Get().GetClass("QScripts", "QScripts", "CameraMoveClass");
 
-	ent1->AddScript(scriptClass);
+	ent1.AddScript(scriptClass);
 	EngineQ::Scripting::ScriptClass scriptClass2 = EngineQ::Engine::Get().GetClass("QScripts", "QScripts", "RotateTest");
-	ent2->AddScript(scriptClass2);
+	ent2.AddScript(scriptClass2);
 
 
-	scene.ActiveCamera(cam);
+	scene.SetActiveCamera(&cam);
 
-	auto lightEntity = scene.CreateEntity();
-	auto light = lightEntity->AddComponent<EngineQ::Light>();
+	auto& lightEntity = scene.CreateEntity();
+	auto& light = lightEntity.AddComponent<EngineQ::Light>();
 }
 
 void TemporaryResources()

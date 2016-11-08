@@ -17,7 +17,7 @@ namespace EngineQ
 
 	private:
 		std::vector<Entity*> entities;
-		std::vector<Entity*> entitiesToDelete;
+		std::vector<const Entity*> entitiesToDelete;
 
 		bool isUpdating = false;
 
@@ -30,35 +30,36 @@ namespace EngineQ
 		void RemovedComponent(Component& component);
 		void AddedComponent(Component& component);
 
-		void RemoveEntity_Internal(Entity* entity, std::vector<Entity*>::iterator it);
+		void RemoveEntity_Internal(const Entity* entity, std::vector<Entity*>::iterator it);
 
 	public:
+		/*
 	#pragma region Serialization
 
 		Scene(Serialization::Deserializer& deserialzier);
 		virtual void Serialize(Serialization::Serializer& serializer) const override;
 
 	#pragma endregion
+		*/
 
 		Scene(Scripting::ScriptEngine& scriptEngine);
 		~Scene();
 
-		Entity* CreateEntity();
-		void RemoveEntity(Entity* entity);
+		Entity& CreateEntity();
+		void RemoveEntity(const Entity& entity);
 		void RemoveEntity(std::size_t index);
 
 		void Update();
 
-		std::size_t GetEntityIndex(Entity* entity) const;
+		std::size_t GetEntityIndex(const Entity& entity) const;
 
-		Entity* GetEntity(std::size_t index) const;
+		Entity& GetEntity(std::size_t index) const;
 		std::size_t GetEntitiesCount() const;
 
-		void ActiveCamera(Camera* camera);
-		Camera* ActiveCamera() const;
+		void SetActiveCamera(Camera* camera);
+		Camera* GetActiveCamera() const;
 
-		std::vector<Renderable*>::iterator RenderablesBegin();
-		std::vector<Renderable*>::iterator RenderablesEnd();
+		const std::vector<Renderable*>& GetRenderables() const;
 	};
 }
 

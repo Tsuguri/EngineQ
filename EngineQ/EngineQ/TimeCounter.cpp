@@ -1,6 +1,6 @@
 #include "TimeCounter.hpp"
 
-TimeCounter* TimeCounter::instance = nullptr;
+std::unique_ptr<TimeCounter> TimeCounter::instance = nullptr;
 
 
 float TimeCounter::TimeFromStart()
@@ -19,11 +19,10 @@ void TimeCounter::Update(float time, float deltaTime)
 	this->timeFromStart = time;
 }
 
-TimeCounter* TimeCounter::Get()
+TimeCounter& TimeCounter::Get()
 {
-	if(instance==nullptr)
-	{
-		instance = new TimeCounter();
-	}
-	return instance;
+	if (instance == nullptr)
+		instance = std::make_unique<TimeCounter>();
+
+	return *instance;
 }

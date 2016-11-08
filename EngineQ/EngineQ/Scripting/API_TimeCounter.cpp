@@ -6,12 +6,12 @@
 
 void EngineQ::Scripting::API_TimeCounter::API_GetTimeFromStart(float& time)
 {
-	time = TimeCounter::Get()->TimeFromStart();
+	time = TimeCounter::Get().TimeFromStart();
 }
 
 void EngineQ::Scripting::API_TimeCounter::API_GetDeltaTime(float& time)
 {
-	time = TimeCounter::Get()->DeltaTime();
+	time = TimeCounter::Get().DeltaTime();
 }
 
 void EngineQ::Scripting::API_TimeCounter::API_Register(ScriptEngine& scriptEngine)

@@ -8,18 +8,16 @@ namespace EngineQ
 	class Light : public Component
 	{
 	public:
+		/*
 	#pragma region Serialization
 
 		Light(Serialization::Deserializer& deserialzier);
 		virtual void Serialize(Serialization::Serializer& serializer) const override;
 
 	#pragma endregion
+		*/
 
 		Light(Scripting::ScriptEngine& scriptEngine, Entity& entity);
-
-
-
-		virtual ComponentType GetType() const override;
 	};
 }
 

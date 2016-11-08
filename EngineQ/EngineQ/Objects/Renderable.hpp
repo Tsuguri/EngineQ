@@ -21,8 +21,7 @@ namespace EngineQ
 		
 	public:
 		Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity);
-		virtual ComponentType GetType() const override;
-
+		
 		void SetForwardShader(Resources::Resource<Graphics::Shader> shader);
 		Graphics::ShaderProperties* GetForwardShader() const;
 

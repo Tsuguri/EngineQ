@@ -16,6 +16,7 @@
 
 namespace EngineQ
 {
+	/*
 #pragma region Serialization
 
 	Scene::Scene(Serialization::Deserializer& deserialzier) :
@@ -31,6 +32,7 @@ namespace EngineQ
 	}
 
 #pragma endregion
+	*/
 
 	Scene::Scene(Scripting::ScriptEngine& scriptEngine) :
 		Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Scene) }
@@ -43,23 +45,23 @@ namespace EngineQ
 			delete entity;
 	}
 
-	Entity* Scene::CreateEntity()
+	Entity& Scene::CreateEntity()
 	{
 		Entity* entity = new Entity{ *this, this->scriptEngine };
 		this->entities.push_back(entity);
-		return entity;
+		return *entity;
 	}
 
-	void Scene::RemoveEntity(Entity* entity)
+	void Scene::RemoveEntity(const Entity& entity)
 	{
-		auto it = std::find(this->entities.begin(), this->entities.end(), entity);
+		auto it = std::find(this->entities.begin(), this->entities.end(), &entity);
 		if (it == this->entities.end())
 			throw std::runtime_error("Entity not found");
 
 		if (this->isUpdating)
-			this->entitiesToDelete.push_back(entity);
+			this->entitiesToDelete.push_back(&entity);
 		else
-			RemoveEntity_Internal(entity, it);
+			RemoveEntity_Internal(&entity, it);
 	}
 
 	void Scene::RemoveEntity(std::size_t index)
@@ -101,7 +103,7 @@ namespace EngineQ
 		isUpdating = false;
 	}
 
-	void Scene::RemoveEntity_Internal(Entity* entity, std::vector<Entity*>::iterator it)
+	void Scene::RemoveEntity_Internal(const Entity* entity, std::vector<Entity*>::iterator it)
 	{
 		// Remove entity components
 		this->cameras.erase(std::remove_if(this->cameras.begin(), this->cameras.end(), [=](Component* component) {return &component->GetEntity() == entity; }), this->cameras.end());
@@ -161,19 +163,18 @@ namespace EngineQ
 		}
 	}
 
-	std::size_t Scene::GetEntityIndex(Entity* entity) const
+	std::size_t Scene::GetEntityIndex(const Entity& entity) const
 	{
-		auto it = std::find(this->entities.begin(), this->entities.end(), entity);
+		for (auto it = this->entities.begin(), end = this->entities.end(); it != end; ++it)
+			if (*it == &entity)
+				return it - this->entities.begin();
 
-		if (it == this->entities.end())
-			return static_cast<std::size_t>(-1);
-
-		return it - this->entities.begin();
+		throw std::runtime_error{ "Entity not found" };
 	}
 
-	Entity* Scene::GetEntity(std::size_t index) const
+	Entity& Scene::GetEntity(std::size_t index) const
 	{
-		return this->entities[index];
+		return *this->entities[index];
 	}
 
 	std::size_t Scene::GetEntitiesCount() const
@@ -181,25 +182,21 @@ namespace EngineQ
 		return this->entities.size();
 	}
 
-	void Scene::ActiveCamera(Camera* camera)
+	void Scene::SetActiveCamera(Camera* camera)
 	{
-		if (camera == nullptr || &camera->GetEntity().GetScene() != this)
-			return;
-		activeCamera = camera;
+		if (&camera->GetEntity().GetScene() != this)
+			throw std::runtime_error{ "Camera does not belong to the scene" };
+
+		this->activeCamera = camera;
 	}
 
-	Camera* Scene::ActiveCamera() const
+	Camera* Scene::GetActiveCamera() const
 	{
-		return activeCamera;
+		return this->activeCamera;
 	}
 
-	std::vector<Renderable*>::iterator Scene::RenderablesBegin()
+	const std::vector<Renderable*>& Scene::GetRenderables() const
 	{
-		return renderables.begin();
-	}
-
-	std::vector<Renderable*>::iterator Scene::RenderablesEnd()
-	{
-		return renderables.end();
+		return this->renderables;
 	}
 }

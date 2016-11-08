@@ -6,10 +6,11 @@
 
 namespace EngineQ
 {
+	/*
 #pragma region Serialization
 
 	Light::Light(Serialization::Deserializer& deserialzier) :
-		Component{deserialzier}
+		Component{ deserialzier }
 	{
 	}
 
@@ -19,16 +20,12 @@ namespace EngineQ
 	}
 
 #pragma endregion
+	*/
 
 	Light::Light(Scripting::ScriptEngine& scriptEngine, Entity& entity)
-		: Component{scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light), entity }
+		: Component{ ComponentType::Light, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light), entity }
 	{
 		// TMP
 		scriptEngine.InvokeConstructor(GetManagedObject());
-	}
-
-	ComponentType Light::GetType() const
-	{
-		return ComponentType::Light;
 	}
 }

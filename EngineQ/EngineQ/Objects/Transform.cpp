@@ -19,6 +19,7 @@ namespace EngineQ
 		return children.end();
 	}
 
+	/*
 #pragma region Serialization
 
 	Transform::Transform(Serialization::Deserializer& deserialzier) :
@@ -58,9 +59,10 @@ namespace EngineQ
 	}
 
 #pragma endregion
+	*/
 
 	Transform::Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity) :
-		Component{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Transform), entity },
+		Component{ ComponentType::Transform, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Transform), entity },
 		children{}
 	{
 		// TMP
@@ -74,11 +76,6 @@ namespace EngineQ
 			child->parent = nullptr;
 			child->VoidGlobalMatrix();
 		}
-	}
-
-	ComponentType Transform::GetType() const
-	{
-		return ComponentType::Transform;
 	}
 
 	void Transform::SetParent(Transform* parent)

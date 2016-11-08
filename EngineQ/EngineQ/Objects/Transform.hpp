@@ -49,16 +49,16 @@ namespace EngineQ
 		void VoidGlobalMatrix();
 
 	public:
+		/*
 	#pragma region Serialization
 
 		Transform(Serialization::Deserializer& deserialzier);
 		virtual void Serialize(Serialization::Serializer& serializer) const override;
 
 	#pragma endregion
+		*/
 
 		virtual ~Transform();
-
-		virtual ComponentType GetType() const override;
 
 		void SetParent(Transform* parent);
 		Transform* GetParent() const;

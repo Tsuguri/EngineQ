@@ -11,6 +11,7 @@ namespace EngineQ
 {
 	class Entity : public Object
 	{
+		friend class Component;
 		friend class Transform;
 		friend class Scene;
 
@@ -18,6 +19,9 @@ namespace EngineQ
 		Scene& scene;
 
 		bool isRemoveLocked = false;
+
+		bool isEnabled = true;
+		bool isParentEnabled = true;
 
 		std::vector<Component*> components;
 		std::vector<Script*> updatable;
@@ -35,15 +39,22 @@ namespace EngineQ
 
 		void Update();
 
-		void AddComponent(Component* component);
+		void AddComponent(Component& component);
+
+		void SetParentEnabled(bool enabled);
+		void HierarchyEnabledChanged(bool hierarchyEnabled);
+
+		void ComponentEnabledChanged(Component& component, bool enabled);
 
 	public:
+		/*
 	#pragma region Serialization
 
 		Entity(Serialization::Deserializer& deserialzier);
 		virtual void Serialize(Serialization::Serializer& serializer) const override;
 
 	#pragma endregion
+		*/
 
 		virtual ~Entity() override;
 
@@ -53,27 +64,31 @@ namespace EngineQ
 		const Transform& GetTransform() const;
 		Transform& GetTransform();
 
+		bool IsEnabled() const;
+		void SetEnabled(bool enabled);
+
+		bool IsEnabledInHierarchy() const;
 
 
 		std::size_t GetComponentsCount() const;
-		Component* GetComponent(std::size_t index) const;
+		Component& GetComponent(std::size_t index) const;
 
 		template<typename Type>
-		Type* AddComponent();
+		Type& AddComponent();
 		void RemoveComponent(Component& component);
 
-		std::size_t GetComponentIndex(Component* component) const;
+		std::size_t GetComponentIndex(const Component& component) const;
 
-		Script* AddScript(Scripting::ScriptClass sclass);
+		Script& AddScript(Scripting::ScriptClass sclass);
 	};
 }
 
 namespace EngineQ
 {
 	template<typename Type>
-	Type* Entity::AddComponent()
+	Type& Entity::AddComponent()
 	{
-		Type* component = new Type{ this->scriptEngine, *this };
+		Type& component = *new Type{ this->scriptEngine, *this };
 
 		this->AddComponent(component);
 
