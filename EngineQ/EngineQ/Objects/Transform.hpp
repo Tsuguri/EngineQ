@@ -23,7 +23,6 @@ namespace EngineQ
 		const_iterator begin() const;
 		const_iterator end() const;
 
-
 	private:
 		Transform* parent = nullptr;
 		std::vector<Transform*> children;

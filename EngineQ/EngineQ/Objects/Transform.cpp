@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "Entity.hpp"
+
 #include "../Scripting/ScriptEngine.hpp"
 #include "../Serialization/Serializer.hpp"
 #include "../Serialization/Deserializer.hpp"
@@ -76,6 +78,8 @@ namespace EngineQ
 			child->parent = nullptr;
 			child->VoidGlobalRotation();
 			child->VoidGlobalMatrix();
+			
+			Entity::TransformCallbacks::OnParentChanged(child->entity, nullptr);
 		}
 	}
 
@@ -100,6 +104,8 @@ namespace EngineQ
 
 		VoidGlobalRotation();
 		VoidGlobalMatrix();
+
+		Entity::TransformCallbacks::OnParentChanged(this->entity, this->parent);
 	}
 
 	void Transform::VoidGlobalMatrix()

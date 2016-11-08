@@ -48,26 +48,26 @@ namespace EngineQ
 
 	void Component::SetParentEnabled(bool enabled)
 	{
-		this->isParentEnabled = enabled;
+		this->parentEnabled = enabled;
 	}
 
 	bool Component::IsEnabled() const
 	{
-		return this->isEnabled;
+		return this->enabled;
 	}
 
 	void Component::SetEnabled(bool enabled)
 	{
-		if (this->isEnabled == enabled)
+		if (this->enabled == enabled)
 			return;
 
-		this->isEnabled = enabled;
+		this->enabled = enabled;
 
-		entity.ComponentEnabledChanged(*this, this->isEnabled);
+		Entity::ComponentCallbacks::OnEnabledChanged(entity, *this, this->enabled);
 	}
 
 	bool Component::IsEnabledInHierarchy() const
 	{
-		return this->isEnabled && this->isParentEnabled;
+		return this->enabled && this->parentEnabled;
 	}
 }

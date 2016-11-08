@@ -12,8 +12,17 @@ namespace EngineQ
 {
 	class Scene : public Object
 	{
-		friend class Entity;
 		friend class Engine;
+
+	public:
+		class EntityCallbacks
+		{
+			friend class Entity;
+
+		private:
+			static void OnComponentAdded(Scene& scene, Component& component);
+			static void OnComponentRemoved(Scene& scene, Component& component);
+		};
 
 	private:
 		std::vector<Entity*> entities;
