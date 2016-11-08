@@ -7,6 +7,7 @@
 
 namespace EngineQ
 {
+	/*
 #pragma region Serialization
 
 	Object::Object(Serialization::Deserializer& deserializer) : 
@@ -28,6 +29,7 @@ namespace EngineQ
 	}
 
 #pragma endregion
+	*/
 
 	Object::Object(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass)
 		: scriptEngine{ scriptEngine }, sclass{ sclass }, managedHandle{ scriptEngine.CreateObject(sclass, this) }

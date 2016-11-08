@@ -18,23 +18,39 @@ namespace EngineQ
 
 	class Component : public Object
 	{
+		friend class Entity;
+
 	private:
 		Entity& entity;
 
+		bool isEnabled = true;
+		bool isParentEnabled = true;
+
+		void SetParentEnabled(bool enabled);
+
+		const ComponentType type;
+
 	public:
+		/*
 	#pragma region Serialization
 
-		Component(Serialization::Deserializer& deserialzier);
+		Component(Serialization::Deserializer& deserialzier, ComponentType type);
 		virtual void Serialize(Serialization::Serializer& serializer) const override;
 
 	#pragma endregion
+		*/
 
-		Component(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass, Entity& entity);
+		Component(ComponentType type, Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass, Entity& entity);
 		
 		Entity& GetEntity();
 		const Entity& GetEntity() const;
 
-		virtual ComponentType GetType() const = 0;
+		bool IsEnabled() const;
+		void SetEnabled(bool enabled);
+
+		bool IsEnabledInHierarchy() const;
+
+		ComponentType GetType() const;
 	};
 }
 

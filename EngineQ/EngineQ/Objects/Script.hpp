@@ -12,19 +12,19 @@ namespace EngineQ
 	private:
 		Scripting::ScriptMethod updateMethod;
 
-	//	Utilities::Emiter emiter{ "Script" };
+		//	Utilities::Emiter emiter{ "Script" };
 
 	public:
+		/*
 	#pragma region Serialization
 
 		Script(Serialization::Deserializer& deserialzier);
 		virtual void Serialize(Serialization::Serializer& serializer) const override;
 
 	#pragma endregion
+		*/
 
 		Script(Scripting::ScriptEngine& scriptEngine, Entity& entity, Scripting::ScriptClass sclass);
-
-		virtual ComponentType GetType() const override;
 
 		void Update();
 		bool IsUpdateble();

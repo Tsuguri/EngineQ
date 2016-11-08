@@ -19,12 +19,12 @@ namespace EngineQ
 		Math::Matrix4 invertedProjectionMatrix;
 
 		bool calculateProjectionMatrix = true;
-	//	bool calculateViewProjectionMatrix = true;
+		//	bool calculateViewProjectionMatrix = true;
 
 		float fov;
 		float aspectRatio;
 
-	//	bool calculateRotation = true;
+		//	bool calculateRotation = true;
 
 		bool calculateInvertedProjectionMatrix = true;
 
@@ -33,6 +33,18 @@ namespace EngineQ
 
 		bool GetCalculateProjectionMatrix() const;
 		void SetCalculateProjectionMatrix(bool value);
+		
+	public:
+		/*
+	#pragma region Serialization
+
+		Camera(Serialization::Deserializer& deserialzier);
+		virtual void Serialize(Serialization::Serializer& serializer) const override;
+
+	#pragma endregion
+		*/
+
+		Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity);
 
 		float GetAspectRatio() const;
 		void SetAspectRatio(float value);
@@ -40,23 +52,10 @@ namespace EngineQ
 		float GetFOV() const;
 		void SetFOV(float value);
 
-	public:
-	#pragma region Serialization
-
-		Camera(Serialization::Deserializer& deserialzier);
-		virtual void Serialize(Serialization::Serializer& serializer) const override;
-
-	#pragma endregion
-
-		Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity);
-		virtual ComponentType GetType() const override;
-
 		Math::Matrix4 GetProjectionMatrix();
-
-		Math::Matrix4 GetViewMatrix();
-
 		Math::Matrix4 GetInvertedViewMatrix();
 
+		Math::Matrix4 GetViewMatrix();
 		Math::Matrix4 GetInvertedProjectionMatrix();
 	};
 }

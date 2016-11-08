@@ -12,6 +12,7 @@
 
 namespace EngineQ
 {
+/*
 #pragma region Serialization
 
 	Camera::Camera(Serialization::Deserializer& deserialzier) :
@@ -30,6 +31,7 @@ namespace EngineQ
 	}
 
 #pragma endregion
+*/
 
 	bool Camera::GetCalculateInvertedProjectionMatrix() const
 	{
@@ -80,16 +82,11 @@ namespace EngineQ
 	}
 
 	Camera::Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity)
-		: Component{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Camera), entity }, fov(45.0f), aspectRatio(4 / 3.0f)
+		: Component{ ComponentType::Camera, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Camera), entity }, fov(45.0f), aspectRatio(4 / 3.0f)
 	{
 
 	}
-
-	ComponentType Camera::GetType() const
-	{
-		return ComponentType::Camera;
-	}
-
+	
 	Math::Matrix4 Camera::GetProjectionMatrix()
 	{
 		if (GetCalculateProjectionMatrix())

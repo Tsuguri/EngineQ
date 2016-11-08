@@ -4,10 +4,11 @@
 
 namespace EngineQ
 {
+	/*
 #pragma region Serialization
 
 	Script::Script(Serialization::Deserializer& deserialzier) :
-		Component{deserialzier}
+		Component{ deserialzier, ComponentType::Script }
 	{
 		updateMethod = scriptEngine.GetScriptUpdateMethod(this->GetManagedClass(), scriptEngine.GetInstance(managedHandle));
 	}
@@ -18,16 +19,12 @@ namespace EngineQ
 	}
 
 #pragma endregion
+	*/
 
 	Script::Script(Scripting::ScriptEngine& scriptEngine, Entity& entity, Scripting::ScriptClass sclass)
-		: Component{ scriptEngine, sclass, entity }
+		: Component{ ComponentType::Script, scriptEngine, sclass, entity }
 	{
 		updateMethod = scriptEngine.GetScriptUpdateMethod(sclass, scriptEngine.GetInstance(managedHandle));
-	}
-
-	ComponentType Script::GetType() const
-	{
-		return ComponentType::Script;
 	}
 
 	void Script::Update()

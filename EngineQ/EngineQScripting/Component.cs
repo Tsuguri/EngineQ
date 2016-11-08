@@ -17,6 +17,27 @@ namespace EngineQ
 			}
 		}
 
+		public bool Enabled
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public bool EnabledInHierarchy
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 		#endregion
 
 		#region API

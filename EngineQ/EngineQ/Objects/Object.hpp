@@ -21,12 +21,14 @@ namespace EngineQ
 		const Scripting::ScriptHandle managedHandle;
 
 	public:
+		/*
 	#pragma region Serialization
 		
 		Object(Serialization::Deserializer& deserializer);
 		virtual void Serialize(Serialization::Serializer& serializer) const override;
 
 	#pragma endregion
+		*/
 
 		Object(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass);
 		virtual ~Object();

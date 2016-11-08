@@ -25,28 +25,26 @@ namespace EngineQ
 			deferred = state;
 		}
 
-		void Renderer::Render(Scene* scene) const
+		void Renderer::Render(const Scene& scene) const
 		{
 			if (this->framebuffer == nullptr)
 				Framebuffer::BindDefault();
 			else
 				this->framebuffer->Bind();
 
-
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+			auto camera = scene.GetActiveCamera();
 
-			auto camera = scene->ActiveCamera();
-
-			for (auto it = scene->RenderablesBegin(), end = scene->RenderablesEnd(); it != end; ++it)
+			for(auto renderable : scene.GetRenderables())
 			{
-				auto mesh = (*it)->GetMesh();
-				auto shader = ((*it)->*shaderMethod)();
+				auto mesh = renderable->GetMesh();
+				auto shader = (renderable->*shaderMethod)();
 
 				const auto& matrices = shader->GetMatrices();
 
-				matrices.Model = (*it)->GetEntity().GetTransform().GetGlobalMatrix();
+				matrices.Model = renderable->GetEntity().GetTransform().GetGlobalMatrix();
 				matrices.View = camera->GetViewMatrix();
 				matrices.Projection = camera->GetProjectionMatrix();
 
@@ -57,7 +55,7 @@ namespace EngineQ
 
 				auto time = shader->TryGetProperty<float>("time");
 				if (time != nullval)
-					*time = TimeCounter::Get()->TimeFromStart();
+					*time = TimeCounter::Get().TimeFromStart();
 
 				shader->Apply();
 

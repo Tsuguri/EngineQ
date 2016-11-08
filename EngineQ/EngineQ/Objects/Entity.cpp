@@ -13,6 +13,7 @@
 
 namespace EngineQ
 {
+	/*
 #pragma region Serialization
 
 	Entity::Entity(Serialization::Deserializer& deserialzier) :
@@ -25,152 +26,222 @@ namespace EngineQ
 	}
 
 	void Entity::Serialize(Serialization::Serializer& serializer) const
+	{
+		Object::Serialize(serializer);
+		serializer.StoreReference("scene", &this->scene);
+		serializer.StoreValue("components", &this->components);
+		serializer.StoreReference("transform", &this->transform);
+		serializer.StoreValue("updatable", &this->updatable);
+	}
+
+#pragma endregion
+	*/
+
+	Entity::Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine) :
+		Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Entity) },
+		scene{ scene },
+		components{},
+		updatable{},
+		transform{ AddComponent<Transform>() }
+	{
+		// TMP
+		scriptEngine.InvokeConstructor(GetManagedObject());
+	}
+
+	Entity::~Entity()
+	{
+		for (auto component : components)
+			delete component;
+	}
+
+	void Entity::AddComponent(Component& component)
+	{
+		this->components.push_back(&component);
+		this->scene.AddedComponent(component);
+
+		this->scriptEngine.InvokeConstructor(component.GetManagedObject());
+	}
+
+	void Entity::LockRemove()
+	{
+		isRemoveLocked = true;
+	}
+
+	void Entity::UnlockRemove()
+	{
+		if (this->componentsToDelete.size() > 0)
 		{
-			Object::Serialize(serializer);
-			serializer.StoreReference("scene", &this->scene);
-			serializer.StoreValue("components", &this->components);
-			serializer.StoreReference("transform", &this->transform);
-			serializer.StoreValue("updatable", &this->updatable);
+			for (auto component : this->componentsToDelete)
+				RemoveComponent_Internal(*component, std::find(this->components.begin(), this->components.end(), component));
+			this->componentsToDelete.clear();
 		}
 
-	#pragma endregion
+		isRemoveLocked = false;
+	}
 
-		Entity::Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine) :
-			Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Entity) },
-			scene{ scene },
-			components{},
-			updatable{},
-			transform{ *AddComponent<Transform>() }
+	void Entity::RemoveComponent_Internal(Component& component, std::vector<Component*>::iterator it)
+	{
+		this->components.erase(it);
+		this->scene.RemovedComponent(component);
+
+		// Remove from cache
+		switch (component.GetType())
 		{
-			// TMP
-			scriptEngine.InvokeConstructor(GetManagedObject());
-		}
-
-		Entity::~Entity()
-		{
-			for (auto component : components)
-				delete component;
-		}
-
-		void Entity::AddComponent(Component* component)
-		{
-			this->components.push_back(component);
-			this->scene.AddedComponent(*component);
-
-			this->scriptEngine.InvokeConstructor(component->GetManagedObject());
-		}
-
-		void Entity::LockRemove()
-		{
-			isRemoveLocked = true;
-		}
-
-		void Entity::UnlockRemove()
-		{
-			if (this->componentsToDelete.size() > 0)
+			case ComponentType::Script:
 			{
-				for (auto component : this->componentsToDelete)
-					RemoveComponent_Internal(*component, std::find(this->components.begin(), this->components.end(), component));
-				this->componentsToDelete.clear();
+				Script& script = static_cast<Script&>(component);
+				if (script.IsUpdateble())
+					this->updatable.erase(std::remove(this->updatable.begin(), this->updatable.end(), &script), this->updatable.end());
 			}
+			break;
 
-			isRemoveLocked = false;
+			default:
+			break;
 		}
 
-		void Entity::RemoveComponent_Internal(Component& component, std::vector<Component*>::iterator it)
-		{
-			this->components.erase(it);
-			this->scene.RemovedComponent(component);
+		delete &component;
+	}
 
-			// Remove from cache
+	const Scene& Entity::GetScene() const
+	{
+		return this->scene;
+	}
+
+	Scene& Entity::GetScene()
+	{
+		return this->scene;
+	}
+
+	Transform& Entity::GetTransform()
+	{
+		return transform;
+	}
+
+	const Transform& Entity::GetTransform() const
+	{
+		return transform;
+	}
+
+	void Entity::Update()
+	{
+		for (Script* script : updatable)
+			script->Update();
+	}
+
+	void Entity::RemoveComponent(Component& component)
+	{
+		if (&component == &this->transform)
+			throw std::runtime_error("Cannot remove transform component");
+
+		auto it = std::find(this->components.begin(), this->components.end(), &component);
+		if (it == this->components.end())
+			throw std::runtime_error("Component not found");
+
+		if (this->isRemoveLocked)
+			this->componentsToDelete.push_back(&component);
+		else
+			RemoveComponent_Internal(component, it);
+	}
+
+	std::size_t Entity::GetComponentsCount() const
+	{
+		return static_cast<int>(this->components.size());
+	}
+
+	Component& Entity::GetComponent(std::size_t index) const
+	{
+		return *this->components[index];
+	}
+
+	std::size_t Entity::GetComponentIndex(const Component& component) const
+	{
+		for (auto it = this->components.begin(), end = this->components.end(); it != end; ++it)
+			if (*it == &component)
+				return it - this->components.begin();
+
+		throw std::runtime_error("Component not found");
+	}
+
+	Script& Entity::AddScript(Scripting::ScriptClass sclass)
+	{
+		Script* script = new Script{ this->scriptEngine, *this, sclass };
+
+		components.push_back(script);
+
+		if (script->IsUpdateble())
+			updatable.push_back(script);
+
+		scriptEngine.InvokeConstructor(script->GetManagedObject());
+
+		return *script;
+	}
+
+	void Entity::ComponentEnabledChanged(Component& component, bool enabled)
+	{
+		if (enabled)
+		{
 			switch (component.GetType())
 			{
 				case ComponentType::Script:
-				{
-					Script& script = static_cast<Script&>(component);
-					if (script.IsUpdateble())
-						this->updatable.erase(std::remove(this->updatable.begin(), this->updatable.end(), &script), this->updatable.end());
-				}
+				this->updatable.push_back(&static_cast<Script&>(component));
 				break;
 
 				default:
 				break;
 			}
-
-			delete &component;
 		}
-
-		const Scene& Entity::GetScene() const
+		else
 		{
-			return this->scene;
+			switch (component.GetType())
+			{
+				case ComponentType::Script:
+				this->updatable.erase(std::find(this->updatable.begin(), this->updatable.end(), &component));
+				break;
+
+				default:
+				break;
+			}
 		}
+	}
 
-		Scene& Entity::GetScene()
-		{
-			return this->scene;
-		}
+	void Entity::HierarchyEnabledChanged(bool hierarchyEnabled)
+	{
+		for (const auto child : this->transform.children)
+			child->entity.SetParentEnabled(hierarchyEnabled);
 
-		Transform& Entity::GetTransform()
-		{
-			return transform;
-		}
+		for (auto component : this->components)
+			component->SetParentEnabled(hierarchyEnabled);
+	}
 
-		const Transform& Entity::GetTransform() const
-		{
-			return transform;
-		}
+	void Entity::SetParentEnabled(bool enabled)
+	{
+		if (this->isParentEnabled == enabled)
+			return;
 
-		void Entity::Update()
-		{
-			for (Script* script : updatable)
-				script->Update();
-		}
+		this->isParentEnabled = enabled;
 
-		void Entity::RemoveComponent(Component& component)
-		{
-			if (&component == &this->transform)
-				throw std::runtime_error("Cannot remove transform component");
+		if (this->isEnabled)
+			HierarchyEnabledChanged(this->IsEnabledInHierarchy());
+	}
 
-			auto it = std::find(this->components.begin(), this->components.end(), &component);
-			if (it == this->components.end())
-				throw std::runtime_error("Component not found");
+	bool Entity::IsEnabled() const
+	{
+		return this->isEnabled;
+	}
 
-			if (this->isRemoveLocked)
-				this->componentsToDelete.push_back(&component);
-			else
-				RemoveComponent_Internal(component, it);
-		}
+	void Entity::SetEnabled(bool enabled)
+	{
+		if (enabled == this->isEnabled)
+			return;
 
-		std::size_t Entity::GetComponentsCount() const
-		{
-			return static_cast<int>(this->components.size());
-		}
+		this->isEnabled = enabled;
 
-		Component* Entity::GetComponent(std::size_t index) const
-		{
-			return this->components[index];
-		}
+		if (this->isParentEnabled)
+			HierarchyEnabledChanged(this->IsEnabledInHierarchy());
+	}
 
-		std::size_t Entity::GetComponentIndex(Component* component) const
-		{
-			for (auto it = this->components.begin(), end = this->components.end(); it != end; ++it)
-				if (*it == component)
-					return it - this->components.begin();
-
-			throw std::runtime_error("Component not found");
-		}
-
-		Script* Entity::AddScript(Scripting::ScriptClass sclass)
-		{
-			Script* script = new Script{ this->scriptEngine, *this, sclass };
-
-			components.push_back(script);
-
-			if (script->IsUpdateble())
-				updatable.push_back(script);
-
-			scriptEngine.InvokeConstructor(script->GetManagedObject());
-
-			return script;
-		}
+	bool Entity::IsEnabledInHierarchy() const
+	{
+		return this->isEnabled && this->isParentEnabled;
+	}
 }

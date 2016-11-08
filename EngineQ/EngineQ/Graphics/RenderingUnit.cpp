@@ -148,12 +148,9 @@ namespace EngineQ
 
 		}
 
-		void RenderingUnit::Render(Scene* scene)
+		void RenderingUnit::Render(const Scene& scene)
 		{
-
 			renderer.Render(scene);
-
-
 
 			if (effects.size() > 0)
 			{
@@ -166,7 +163,7 @@ namespace EngineQ
 					glClear(GL_COLOR_BUFFER_BIT);
 					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
 					
-					effect->Activate(scene->ActiveCamera(), TimeCounter::Get()->TimeFromStart());
+					effect->Activate(scene.GetActiveCamera(), TimeCounter::Get().TimeFromStart());
 					glBindVertexArray(quadVao);
 
 					effect->BindTextures();

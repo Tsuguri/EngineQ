@@ -7,13 +7,8 @@
 namespace EngineQ
 {
 	Renderable::Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity)
-		: Component{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Renderable), entity }
+		: Component{ ComponentType::Renderable, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Renderable), entity }
 	{
-	}
-
-	ComponentType Renderable::GetType() const
-	{
-		return ComponentType::Renderable;
 	}
 
 	void Renderable::SetForwardShader(Resources::Resource<Graphics::Shader> shader)

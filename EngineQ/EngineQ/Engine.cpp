@@ -221,7 +221,7 @@ namespace EngineQ
 
 	void Engine::Run()
 	{
-		auto& timeCounter = *TimeCounter::Get();
+		auto& timeCounter = TimeCounter::Get();
 		timeCounter.Update(0.0f, 0.0f);
 
 		float lastTime = 0.0f;
@@ -242,7 +242,7 @@ namespace EngineQ
 			this->currentScene->Update();
 
 			// Render scene
-			this->renderingUnit->Render(this->currentScene);
+			this->renderingUnit->Render(*this->currentScene);
 
 			// Clear frame-characteristic data
 			this->input.ClearDelta();

@@ -18,13 +18,13 @@ namespace EngineQ
 		private:
 			Engine* engine;
 			Renderer renderer;
-			GLuint quadVao=0;
+			GLuint quadVao = 0;
 
 			std::vector<std::unique_ptr<ShaderPass>> effects;
 
 			std::vector<GLuint> textures;
 			std::vector<TextureConfiguration> texturesConfigurations;
-			
+
 			Utilities::EventHandler<void(int, int)> handler;
 
 			void CreateTexture(GLuint* texture, const TextureConfiguration& configuration) const;
@@ -32,12 +32,12 @@ namespace EngineQ
 			void Resize(int width, int height);
 			std::unique_ptr<Framebuffer> CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting);
 			void Init(const RenderingUnitConfiguration&configuration);
-		public:
 
-			RenderingUnit(Engine* engine,const RenderingUnitConfiguration& configuration);
+		public:
+			RenderingUnit(Engine* engine, const RenderingUnitConfiguration& configuration);
 			~RenderingUnit();
 
-			void Render(Scene* scene);
+			void Render(const Scene& scene);
 
 		};
 	}

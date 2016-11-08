@@ -26,7 +26,7 @@ namespace EngineQ
 
 		void API_Entity::API_GetComponentIndex(const Entity& entity, std::int32_t  index, MonoObject*& component)
 		{
-			component = entity.GetComponent(index)->GetManagedObject();
+			component = entity.GetComponent(index).GetManagedObject();
 		}
 
 		void API_Entity::API_GetComponentsCount(const Entity& entity, std::int32_t & count)
@@ -41,11 +41,11 @@ namespace EngineQ
 
 			for (std::size_t i = 0, count = entity.GetComponentsCount(); i < count; ++i)
 			{
-				Component* comp = entity.GetComponent(i);
+				Component& nativeComponent = entity.GetComponent(i);
 				
-				if (scriptEngine.IsDerrived(comp->GetManagedClass(), mclass))
+				if (scriptEngine.IsDerrived(nativeComponent.GetManagedClass(), mclass))
 				{
-					component = comp->GetManagedObject();
+					component = nativeComponent.GetManagedObject();
 					return;
 				}
 			}
@@ -60,19 +60,19 @@ namespace EngineQ
 
 			if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Camera))
 			{
-				component = entity.AddComponent<Camera>()->GetManagedObject();
+				component = entity.AddComponent<Camera>().GetManagedObject();
 			}
 			else if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light))
 			{
-				component = entity.AddComponent<Light>()->GetManagedObject();
+				component = entity.AddComponent<Light>().GetManagedObject();
 			}
 			else if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Renderable))
 			{
-				component = entity.AddComponent<Renderable>()->GetManagedObject();
+				component = entity.AddComponent<Renderable>().GetManagedObject();
 			}
 			else if (scriptEngine.IsScript(componentClass))
 			{
-				component = entity.AddScript(componentClass)->GetManagedObject();
+				component = entity.AddScript(componentClass).GetManagedObject();
 			}
 			else
 			{
