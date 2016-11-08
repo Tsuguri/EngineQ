@@ -146,52 +146,59 @@ namespace Utilities
 
 #include <string>
 
-std::string TranslateName(const std::string& originalName)
+std::string TranslateName(std::string name)
 {
-	std::string newName = originalName;
+	constexpr const char markerText[] = "_qMLEKOq_";
+	constexpr std::size_t markerSize = sizeof(markerText) - 1;
 
 	std::size_t lastPos = 0;
-	std::size_t pos = newName.find("__");
+	std::size_t pos = name.find(markerText);
+
 	while (pos != std::string::npos)
 	{
 		// Nothing after
-		if (pos + 2 == newName.size())
+		if (pos + markerSize == name.size())
 			break;
 
 		// Array
-		if (Utilities::IsDigit(newName[pos + 2]))
+		if (Utilities::IsDigit(name[pos + markerSize]))
 		{
-			newName[pos] = '[';
-			lastPos = newName.size();
+			name[pos] = '[';
+			lastPos = name.size();
 
-			for (std::size_t i = pos + 2; i < newName.size(); ++i)
+			for (std::size_t i = pos + markerSize; i < name.size(); ++i)
 			{
-				if (!Utilities::IsDigit(newName[i]))
+				if (!Utilities::IsDigit(name[i]))
 				{
 					lastPos = i;
 					break;
 				}
 
-				newName[i - 1] = newName[i];
+				name[i - (markerSize - 1)] = name[i];
 			}
 
-			newName[lastPos - 1] = ']';
+			lastPos -= markerSize - 1;
+			name[lastPos] = ']';
+			for (std::size_t i = lastPos + (markerSize - 1); i < name.size(); ++i)
+				name[i - (markerSize - 2)] = name[i];
+
+			name.resize(name.size() - (markerSize - 2));
 		}
 		// Struct
 		else
 		{
-			newName[pos] = '.';
-			for (std::size_t i = pos + 2; i < newName.size(); ++i)
-				newName[i - 1] = newName[i];
+			name[pos] = '.';
+			for (std::size_t i = pos + markerSize; i < name.size(); ++i)
+				name[i - (markerSize - 1)] = name[i];
 
-			newName.resize(newName.size() - 1);
+			name.resize(name.size() - (markerSize - 1));
 			lastPos = pos + 1;
 		}
 
-		pos = newName.find("__", lastPos);
+		pos = name.find(markerText, lastPos);
 	}
 
-	return newName;
+	return name;
 }
 
 int main(int argc, char** argv)
@@ -201,7 +208,7 @@ int main(int argc, char** argv)
 //	Vertex<VPos, VNorm, VCol> vertex{ Vector3{0, 0, 0}, Vector3{1, 1, 1}, Vector3{2, 2, 2} };
 	
 
-	std::cout << TranslateName("someName__some__other__324__name__123") << std::endl;
+	std::cout << TranslateName("someName_qMLEKOq_some_qMLEKOq_other_qMLEKOq_324_qMLEKOq_name_qMLEKOq_123_qMLEKOq_name2_qMLEKOq_1234_qMLEKOq_5678") << std::endl;
 
 	return 0;
 }

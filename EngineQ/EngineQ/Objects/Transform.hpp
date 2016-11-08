@@ -32,6 +32,8 @@ namespace EngineQ
 		Math::Vector3 scale = Math::Vector3::GetOne();
 		Math::Quaternion rotation = Math::Quaternion::GetIdentity();
 
+		Math::Quaternion globalRotation = Math::Quaternion::GetIdentity();
+
 		Math::Matrix4 localMatrix = Math::Matrix4::GetIdentity();
 		Math::Matrix4 globalMatrix = Math::Matrix4::GetIdentity();
 
@@ -43,10 +45,13 @@ namespace EngineQ
 		bool localMatrixInverseChanged = false;
 		bool globalMatrixInverseChanged = false;
 
+		bool globalRotationChanged = false;
+
 		Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity);
 
 		void VoidLocalMatrix();
 		void VoidGlobalMatrix();
+		void VoidGlobalRotation();
 
 	public:
 		/*
@@ -69,11 +74,17 @@ namespace EngineQ
 		void SetPosition(const Math::Vector3& position);
 		Math::Vector3 GetPosition() const;
 
+		void SetGlobalPosition(const Math::Vector3& position);
+		Math::Vector3 GetGlobalPosition();
+
 		void SetScale(const Math::Vector3& scale);
 		Math::Vector3 GetScale() const;
 
 		void SetRotation(const Math::Quaternion& rotation);
 		Math::Quaternion GetRotation() const;
+
+		void SetGlobalRotation(const Math::Quaternion& rotation);
+		Math::Quaternion GetGlobalRotation();
 
 		Math::Matrix4 GetGlobalMatrix();
 		Math::Matrix4 GetLocalMatrix();

@@ -14,12 +14,12 @@ namespace EngineQ
 			get
 			{
 				Transform value;
-				API_GetParent(NativeHandle, out value);
+				API_GetParent(this.NativeHandle, out value);
 				return value;
 			}
 			set
 			{
-				API_SetParent(NativeHandle, ref value);
+				API_SetParent(this.NativeHandle, ref value);
 			}
 		}
 
@@ -28,12 +28,12 @@ namespace EngineQ
 			get
 			{
 				Vector3 value;
-				API_GetPosition(NativeHandle, out value);
+				API_GetPosition(this.NativeHandle, out value);
 				return value;
 			}
 			set
 			{
-				API_SetPosition(NativeHandle, ref value);
+				API_SetPosition(this.NativeHandle, ref value);
 			}
 		}
 
@@ -41,11 +41,13 @@ namespace EngineQ
 		{
 			get
 			{
-				throw new NotImplementedException();
+				Vector3 value;
+				API_GetGlobalPosition(this.NativeHandle, out value);
+				return value;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				API_SetGlobalPosition(this.NativeHandle, ref value);
 			}
 		}
 
@@ -54,40 +56,28 @@ namespace EngineQ
 			get
 			{
 				Vector3 value;
-				API_GetScale(NativeHandle, out value);
+				API_GetScale(this.NativeHandle, out value);
 				return value;
 			}
 
 			set
 			{
-				API_SetScale(NativeHandle, ref value);
+				API_SetScale(this.NativeHandle, ref value);
 			}
 		}
-
-		public Vector3 GlobalScale
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
-
+		
 		public Quaternion Rotation
 		{
 			get
 			{
 				Quaternion value;
-				API_GetRotation(NativeHandle, out value);
+				API_GetRotation(this.NativeHandle, out value);
 				return value;
 			}
 
 			set
 			{
-				API_SetRotation(NativeHandle, ref value);
+				API_SetRotation(this.NativeHandle, ref value);
 			}
 		}
 
@@ -95,11 +85,13 @@ namespace EngineQ
 		{
 			get
 			{
-				throw new NotImplementedException();
+				Quaternion value;
+				API_GetGlobalRotation(this.NativeHandle, out value);
+				return value;
 			}
 			set
 			{
-				throw new NotImplementedException();
+				API_SetGlobalRotation(this.NativeHandle, ref value);
 			}
 		}
 
@@ -108,16 +100,18 @@ namespace EngineQ
 			get
 			{
 				Matrix4 value;
-				API_GetLocalMatrix(NativeHandle, out value);
+				API_GetLocalMatrix(this.NativeHandle, out value);
 				return value;
 			}
 		}
 
-		public Matrix4 InvertedLocalMatrix
+		public Matrix4 LocalMatrixInverse
 		{
 			get
 			{
-				throw new NotImplementedException();
+				Matrix4 value;
+				API_GetLocalMatrixInverse(this.NativeHandle, out value);
+				return value;
 			}
 		}
 
@@ -126,16 +120,18 @@ namespace EngineQ
 			get
 			{
 				Matrix4 value;
-				API_GetGlobalMatrix(NativeHandle, out value);
+				API_GetGlobalMatrix(this.NativeHandle, out value);
 				return value;
 			}
 		}
 
-		public Matrix4 InvertedGlobalmatrix
+		public Matrix4 GlobalmatrixInverse
 		{
 			get
 			{
-				throw new NotImplementedException();
+				Matrix4 value;
+				API_GetGlobalMatrixInverse(this.NativeHandle, out value);
+				return value;
 			}
 		}
 		
@@ -144,7 +140,7 @@ namespace EngineQ
 			get
 			{
 				int value;
-				API_GetChildCount(NativeHandle, out value);
+				API_GetChildCount(this.NativeHandle, out value);
 				return value;
 			}
 		}
@@ -152,7 +148,7 @@ namespace EngineQ
 		public Transform GetChild(int index)
 		{
 			Transform value;
-			API_GetChild(NativeHandle, index, out value);
+			API_GetChild(this.NativeHandle, index, out value);
 			return value;
 		}
 
@@ -181,6 +177,11 @@ namespace EngineQ
 		private static extern void API_SetPosition(IntPtr handle, ref Vector3 position);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetGlobalPosition(IntPtr handle, out Vector3 position);
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_SetGlobalPosition(IntPtr handle, ref Vector3 position);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_GetScale(IntPtr handle, out Vector3 scale);
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_SetScale(IntPtr handle, ref Vector3 scale);
@@ -191,17 +192,27 @@ namespace EngineQ
 		private static extern void API_SetRotation(IntPtr handle, ref Quaternion rotation);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetGlobalRotation(IntPtr handle, out Quaternion rotation);
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_SetGlobalRotation(IntPtr handle, ref Quaternion rotation);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_GetLocalMatrix(IntPtr handle, out Matrix4 matrix);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetLocalMatrixInverse(IntPtr handle, out Matrix4 matrix);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_GetGlobalMatrix(IntPtr handle, out Matrix4 matrix);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetGlobalMatrixInverse(IntPtr handle, out Matrix4 matrix);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_GetChildCount(IntPtr handle, out int count);
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_GetChild(IntPtr handle, int index, out Transform child);
-
-
+		
 		#endregion
 	}
 }

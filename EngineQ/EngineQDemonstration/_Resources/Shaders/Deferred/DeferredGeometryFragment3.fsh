@@ -20,7 +20,7 @@ void main()
 
 	gNormal = normalize(IN.normal);
 
-	gAlbedoSpec.rgb = texture(material__diffuseTexture, IN.textureCoords).rgb;
+	gAlbedoSpec.rgb = texture(material_q_diffuseTexture, IN.textureCoords).rgb;
 
 	gAlbedoSpec.a = 1;
 }

@@ -30,6 +30,8 @@ namespace EngineQ
 
 		Transform& transform;
 
+		std::string name;
+
 		Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine);
 
 		void LockRemove();
@@ -80,6 +82,9 @@ namespace EngineQ
 		std::size_t GetComponentIndex(const Component& component) const;
 
 		Script& AddScript(Scripting::ScriptClass sclass);
+
+		const std::string& GetName() const;
+		void SetName(const std::string& name);
 	};
 }
 

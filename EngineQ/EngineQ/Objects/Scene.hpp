@@ -51,6 +51,8 @@ namespace EngineQ
 
 		void Update();
 
+		Entity* FindEntity(const std::string& name) const;
+
 		std::size_t GetEntityIndex(const Entity& entity) const;
 
 		Entity& GetEntity(std::size_t index) const;

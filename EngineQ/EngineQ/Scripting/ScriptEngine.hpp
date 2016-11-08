@@ -140,6 +140,7 @@ namespace EngineQ
 			template<typename TType>
 			TType& GetValue(ScriptObject object) const;
 			std::string GetScriptStringContent(ScriptString string) const;
+			ScriptString CreateScriptString(const std::string& content) const;
 		};
 	}
 }

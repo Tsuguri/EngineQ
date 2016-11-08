@@ -10,7 +10,7 @@ namespace EngineQ
 			get
 			{
 				Scene value;
-				API_GetScene(NativeHandle, out value);
+				API_GetScene(this.NativeHandle, out value);
 				return value;
 			}
 		}
@@ -20,7 +20,7 @@ namespace EngineQ
 			get
 			{
 				Transform value;
-				API_GetTransform(NativeHandle, out value);
+				API_GetTransform(this.NativeHandle, out value);
 				return value;
 			}
 		}
@@ -29,7 +29,14 @@ namespace EngineQ
 		{
 			get
 			{
-				throw new NotImplementedException();
+				string value;
+				API_GetName(this.NativeHandle, out value);
+				return value;
+			}
+
+			set
+			{
+				API_SetName(this.NativeHandle, value);
 			}
 		}
 
@@ -37,12 +44,14 @@ namespace EngineQ
 		{
 			get
 			{
-				throw new NotImplementedException();
+				bool value;
+				API_GetEnabled(this.NativeHandle, out value);
+				return value;
 			}
 
 			set
 			{
-				throw new NotImplementedException();
+				API_SetEnabled(this.NativeHandle, value);
 			}
 		}
 
@@ -50,7 +59,9 @@ namespace EngineQ
 		{
 			get
 			{
-				throw new NotImplementedException();
+				bool value;
+				API_GetEnabledInHierarchy(this.NativeHandle, out value);
+				return value;
 			}
 		}
 
@@ -59,7 +70,7 @@ namespace EngineQ
 		{
 			Component value;
 			Type type = typeof(TComponent);
-			API_GetComponentType(NativeHandle, ref type, out value);
+			API_GetComponentType(this.NativeHandle, ref type, out value);
 			return (TComponent)value;
 		}
 
@@ -68,13 +79,13 @@ namespace EngineQ
 		{
 			Component value;
 			Type type = typeof(TComponent);
-			API_AddComponent(NativeHandle, ref type, out value);
+			API_AddComponent(this.NativeHandle, ref type, out value);
 			return (TComponent)value;
 		}
 
 		public void RemoveComponent(Component component)
 		{
-			API_RemoveComponent(NativeHandle, ref component);
+			API_RemoveComponent(this.NativeHandle, ref component);
 		}
 
 		public int ComponentsCount
@@ -82,7 +93,7 @@ namespace EngineQ
 			get
 			{
 				int value;
-				API_GetComponentsCount(NativeHandle, out value);
+				API_GetComponentsCount(this.NativeHandle, out value);
 				return value;
 			}
 		}
@@ -90,7 +101,7 @@ namespace EngineQ
 		public Component GetComponent(int index)
 		{
 			Component value;
-			API_GetComponentIndex(NativeHandle, index, out value);
+			API_GetComponentIndex(this.NativeHandle, index, out value);
 			return value;
 		}
 
@@ -116,6 +127,21 @@ namespace EngineQ
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_RemoveComponent(IntPtr handle, ref Component component);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetEnabled(IntPtr handle, out bool enabled);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_SetEnabled(IntPtr handle, bool enabled);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetEnabledInHierarchy(IntPtr handle, out bool enabledInHierarchy);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetName(IntPtr handle, out string name);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_SetName(IntPtr handle, string name);
 
 		#endregion
 	}

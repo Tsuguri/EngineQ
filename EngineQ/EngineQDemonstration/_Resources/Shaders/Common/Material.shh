@@ -34,6 +34,6 @@ struct Material
 };
 
 uniform Material material;
-uniform sampler2D material__diffuseTexture;
-uniform sampler2D material__specularTexture;
-uniform sampler2D material__normalTexture;
+uniform sampler2D material_q_diffuseTexture;
+uniform sampler2D material_q_specularTexture;
+uniform sampler2D material_q_normalTexture;

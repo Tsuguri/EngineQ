@@ -15,8 +15,6 @@ out VS_DATA
 
 #include "../Common/Matrices.shh"
 
-uniform Matrices matrices;
-
 //	mat4 MVP = matrices.projection * matrices.view * matrices.model;
 mat3 NormalMat = mat3(transpose(inverse(matrices.model)));
 

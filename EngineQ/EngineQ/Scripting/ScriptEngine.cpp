@@ -373,5 +373,10 @@ namespace EngineQ
 
 			return cppstring;
 		}
+
+		ScriptString ScriptEngine::CreateScriptString(const std::string& content) const
+		{
+			return mono_string_new(this->domain, content.c_str());
+		}
 	}
 }

@@ -244,4 +244,14 @@ namespace EngineQ
 	{
 		return this->isEnabled && this->isParentEnabled;
 	}
+
+	const std::string& Entity::GetName() const
+	{
+		return this->name;
+	}
+
+	void Entity::SetName(const std::string& name)
+	{
+		this->name = name;
+	}
 }

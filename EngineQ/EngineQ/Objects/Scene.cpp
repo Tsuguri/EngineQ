@@ -45,6 +45,15 @@ namespace EngineQ
 			delete entity;
 	}
 
+	Entity* Scene::FindEntity(const std::string& name) const
+	{
+		for (auto entity : this->entities)
+			if (entity->GetName() == name)
+				return entity;
+
+		return nullptr;
+	}
+
 	Entity& Scene::CreateEntity()
 	{
 		Entity* entity = new Entity{ *this, this->scriptEngine };
