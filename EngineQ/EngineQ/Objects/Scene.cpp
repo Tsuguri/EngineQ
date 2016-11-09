@@ -45,11 +45,20 @@ namespace EngineQ
 			delete entity;
 	}
 
+	Entity* Scene::FindEntity(const std::string& name) const
+	{
+		for (auto entity : this->entities)
+			if (entity->GetName() == name)
+				return entity;
+
+		return nullptr;
+	}
+
 	Entity& Scene::CreateEntity()
 	{
-		Entity* entity = new Entity{ *this, this->scriptEngine };
-		this->entities.push_back(entity);
-		return *entity;
+		Entity& entity = Entity::SceneCallbacks::CreateEntity(*this, this->scriptEngine);
+		this->entities.push_back(&entity);
+		return entity;
 	}
 
 	void Scene::RemoveEntity(const Entity& entity)
@@ -82,11 +91,11 @@ namespace EngineQ
 
 		// Lock entities
 		for (auto entity : this->entities)
-			entity->LockRemove();
+			Entity::SceneCallbacks::OnUpdateBegin(*entity);
 
 		// Update entities
-		for (size_t i = 0, size = this->entities.size(); i < size; ++i)
-			this->entities[i]->Update();
+		for (auto entity : this->entities)
+			Entity::SceneCallbacks::OnUpdate(*entity);
 
 		// Remove entities
 		if (this->entitiesToDelete.size() > 0)
@@ -98,7 +107,7 @@ namespace EngineQ
 
 		// Unlock entities
 		for (auto entity : this->entities)
-			entity->UnlockRemove();
+			Entity::SceneCallbacks::OnUpdateEnd(*entity);
 
 		isUpdating = false;
 	}
@@ -198,5 +207,16 @@ namespace EngineQ
 	const std::vector<Renderable*>& Scene::GetRenderables() const
 	{
 		return this->renderables;
+	}
+
+
+	void Scene::EntityCallbacks::OnComponentAdded(Scene& scene, Component& component)
+	{
+		scene.AddedComponent(component);
+	}
+
+	void Scene::EntityCallbacks::OnComponentRemoved(Scene& scene, Component& component)
+	{
+		scene.RemovedComponent(component);
 	}
 }

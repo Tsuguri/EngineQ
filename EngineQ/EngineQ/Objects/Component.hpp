@@ -20,11 +20,12 @@ namespace EngineQ
 	{
 		friend class Entity;
 
-	private:
+	protected:
 		Entity& entity;
 
-		bool isEnabled = true;
-		bool isParentEnabled = true;
+	private:
+		bool enabled = true;
+		bool parentEnabled = true;
 
 		void SetParentEnabled(bool enabled);
 

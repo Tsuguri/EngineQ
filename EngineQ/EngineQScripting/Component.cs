@@ -12,7 +12,7 @@ namespace EngineQ
 			get
 			{
 				Entity value;
-				API_GetEntity(NativeHandle, out value);
+				API_GetEntity(this.NativeHandle, out value);
 				return value;
 			}
 		}
@@ -21,12 +21,14 @@ namespace EngineQ
 		{
 			get
 			{
-				throw new NotImplementedException();
+				bool value;
+				API_GetEnabled(this.NativeHandle, out value);
+				return value;
 			}
 
 			set
 			{
-				throw new NotImplementedException();
+				API_SetEnabled(this.NativeHandle, value);
 			}
 		}
 
@@ -34,7 +36,9 @@ namespace EngineQ
 		{
 			get
 			{
-				throw new NotImplementedException();
+				bool value;
+				API_GetEnabledInHierarchy(this.NativeHandle, out value);
+				return value;
 			}
 		}
 
@@ -45,6 +49,15 @@ namespace EngineQ
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_GetEntity(IntPtr handle, out Entity entity);
 
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetEnabled(IntPtr handle, out bool isEnabled);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_SetEnabled(IntPtr handle, bool isEnabled);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetEnabledInHierarchy(IntPtr handle, out bool isEnabledInHierarchy);
+		
 		#endregion
 	}
 }

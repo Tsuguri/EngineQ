@@ -57,14 +57,14 @@ namespace EngineQ
 	void Entity::AddComponent(Component& component)
 	{
 		this->components.push_back(&component);
-		this->scene.AddedComponent(component);
+		Scene::EntityCallbacks::OnComponentAdded(this->scene, component);
 
 		this->scriptEngine.InvokeConstructor(component.GetManagedObject());
 	}
 
 	void Entity::LockRemove()
 	{
-		isRemoveLocked = true;
+		removeLocked = true;
 	}
 
 	void Entity::UnlockRemove()
@@ -76,13 +76,13 @@ namespace EngineQ
 			this->componentsToDelete.clear();
 		}
 
-		isRemoveLocked = false;
+		removeLocked = false;
 	}
 
 	void Entity::RemoveComponent_Internal(Component& component, std::vector<Component*>::iterator it)
 	{
+		Scene::EntityCallbacks::OnComponentRemoved(this->scene, component);
 		this->components.erase(it);
-		this->scene.RemovedComponent(component);
 
 		// Remove from cache
 		switch (component.GetType())
@@ -137,7 +137,7 @@ namespace EngineQ
 		if (it == this->components.end())
 			throw std::runtime_error("Component not found");
 
-		if (this->isRemoveLocked)
+		if (this->removeLocked)
 			this->componentsToDelete.push_back(&component);
 		else
 			RemoveComponent_Internal(component, it);
@@ -176,34 +176,6 @@ namespace EngineQ
 		return *script;
 	}
 
-	void Entity::ComponentEnabledChanged(Component& component, bool enabled)
-	{
-		if (enabled)
-		{
-			switch (component.GetType())
-			{
-				case ComponentType::Script:
-				this->updatable.push_back(&static_cast<Script&>(component));
-				break;
-
-				default:
-				break;
-			}
-		}
-		else
-		{
-			switch (component.GetType())
-			{
-				case ComponentType::Script:
-				this->updatable.erase(std::find(this->updatable.begin(), this->updatable.end(), &component));
-				break;
-
-				default:
-				break;
-			}
-		}
-	}
-
 	void Entity::HierarchyEnabledChanged(bool hierarchyEnabled)
 	{
 		for (const auto child : this->transform.children)
@@ -215,33 +187,98 @@ namespace EngineQ
 
 	void Entity::SetParentEnabled(bool enabled)
 	{
-		if (this->isParentEnabled == enabled)
+		if (this->parentEnabled == enabled)
 			return;
 
-		this->isParentEnabled = enabled;
+		this->parentEnabled = enabled;
 
-		if (this->isEnabled)
+		if (this->enabled)
 			HierarchyEnabledChanged(this->IsEnabledInHierarchy());
 	}
 
 	bool Entity::IsEnabled() const
 	{
-		return this->isEnabled;
+		return this->enabled;
 	}
 
 	void Entity::SetEnabled(bool enabled)
 	{
-		if (enabled == this->isEnabled)
+		if (enabled == this->enabled)
 			return;
 
-		this->isEnabled = enabled;
+		this->enabled = enabled;
 
-		if (this->isParentEnabled)
+		if (this->parentEnabled)
 			HierarchyEnabledChanged(this->IsEnabledInHierarchy());
 	}
 
 	bool Entity::IsEnabledInHierarchy() const
 	{
-		return this->isEnabled && this->isParentEnabled;
+		return this->enabled && this->parentEnabled;
+	}
+
+	const std::string& Entity::GetName() const
+	{
+		return this->name;
+	}
+
+	void Entity::SetName(const std::string& name)
+	{
+		this->name = name;
+	}
+
+
+
+	Entity& Entity::SceneCallbacks::CreateEntity(Scene& scene, Scripting::ScriptEngine& scriptEngine)
+	{
+		return *new Entity{ scene, scriptEngine };
+	}
+
+	void Entity::SceneCallbacks::OnUpdate(Entity& entity)
+	{
+		entity.Update();
+	}
+
+	void Entity::SceneCallbacks::OnUpdateBegin(Entity& entity)
+	{
+		entity.LockRemove();
+	}
+
+	void Entity::SceneCallbacks::OnUpdateEnd(Entity& entity)
+	{
+		entity.UnlockRemove();
+	}
+
+	void Entity::TransformCallbacks::OnParentChanged(Entity& entity, Transform* parent)
+	{
+		entity.SetParentEnabled(parent == nullptr || parent->IsEnabled());
+	}
+
+	void Entity::ComponentCallbacks::OnEnabledChanged(Entity& entity, Component& component, bool enabled)
+	{
+		if (enabled)
+		{
+			switch (component.GetType())
+			{
+				case ComponentType::Script:
+				entity.updatable.push_back(&static_cast<Script&>(component));
+				break;
+
+				default:
+				break;
+			}
+		}
+		else
+		{
+			switch (component.GetType())
+			{
+				case ComponentType::Script:
+				entity.updatable.erase(std::find(entity.updatable.begin(), entity.updatable.end(), &component));
+				break;
+
+				default:
+				break;
+			}
+		}
 	}
 }

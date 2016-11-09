@@ -91,21 +91,25 @@ namespace EngineQ
 
 		std::string ShaderProperties::TranslateName(std::string name) const
 		{
+			constexpr const char markerText[] = "_q_";
+			constexpr std::size_t markerSize = sizeof(markerText) - 1;
+
 			std::size_t lastPos = 0;
-			std::size_t pos = name.find("__");
+			std::size_t pos = name.find(markerText);
+
 			while (pos != std::string::npos)
 			{
 				// Nothing after
-				if (pos + 2 == name.size())
+				if (pos + markerSize == name.size())
 					break;
 
 				// Array
-				if (Utilities::IsDigit(name[pos + 2]))
+				if (Utilities::IsDigit(name[pos + markerSize]))
 				{
 					name[pos] = '[';
 					lastPos = name.size();
 
-					for (std::size_t i = pos + 2; i < name.size(); ++i)
+					for (std::size_t i = pos + markerSize; i < name.size(); ++i)
 					{
 						if (!Utilities::IsDigit(name[i]))
 						{
@@ -113,23 +117,28 @@ namespace EngineQ
 							break;
 						}
 
-						name[i - 1] = name[i];
+						name[i - (markerSize - 1)] = name[i];
 					}
 
-					name[lastPos - 1] = ']';
+					lastPos -= markerSize - 1;
+					name[lastPos] = ']';
+					for (std::size_t i = lastPos + (markerSize - 1); i < name.size(); ++i)
+						name[i - (markerSize - 2)] = name[i];
+
+					name.resize(name.size() - (markerSize - 2));
 				}
 				// Struct
 				else
 				{
 					name[pos] = '.';
-					for (std::size_t i = pos + 2; i < name.size(); ++i)
-						name[i - 1] = name[i];
+					for (std::size_t i = pos + markerSize; i < name.size(); ++i)
+						name[i - (markerSize - 1)] = name[i];
 
-					name.resize(name.size() - 1);
+					name.resize(name.size() - (markerSize - 1));
 					lastPos = pos + 1;
 				}
 
-				pos = name.find("__", lastPos);
+				pos = name.find(markerText, lastPos);
 			}
 
 			return name;

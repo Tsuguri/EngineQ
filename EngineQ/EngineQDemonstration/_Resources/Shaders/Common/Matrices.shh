@@ -4,3 +4,5 @@ struct Matrices
 	mat4 view;
 	mat4 projection;
 };
+
+uniform Matrices matrices;

@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "Entity.hpp"
+
 #include "../Scripting/ScriptEngine.hpp"
 #include "../Serialization/Serializer.hpp"
 #include "../Serialization/Deserializer.hpp"
@@ -74,7 +76,10 @@ namespace EngineQ
 		for (auto child : this->children)
 		{
 			child->parent = nullptr;
+			child->VoidGlobalRotation();
 			child->VoidGlobalMatrix();
+			
+			Entity::TransformCallbacks::OnParentChanged(child->entity, nullptr);
 		}
 	}
 
@@ -97,7 +102,10 @@ namespace EngineQ
 		if (this->parent != nullptr)
 			this->parent->children.push_back(this);
 
+		VoidGlobalRotation();
 		VoidGlobalMatrix();
+
+		Entity::TransformCallbacks::OnParentChanged(this->entity, this->parent);
 	}
 
 	void Transform::VoidGlobalMatrix()
@@ -118,6 +126,16 @@ namespace EngineQ
 		VoidGlobalMatrix();
 	}
 
+	void Transform::VoidGlobalRotation()
+	{
+		if (globalRotationChanged)
+			return;
+
+		globalRotationChanged = true;
+		for (Transform* child : children)
+			child->VoidGlobalRotation();
+	}
+
 	Transform* Transform::GetParent() const
 	{
 		return this->parent;
@@ -126,6 +144,7 @@ namespace EngineQ
 	void Transform::SetPosition(const Math::Vector3& position)
 	{
 		this->position = position;
+	
 		VoidLocalMatrix();
 	}
 
@@ -134,9 +153,26 @@ namespace EngineQ
 		return this->position;
 	}
 
+	void Transform::SetGlobalPosition(const Math::Vector3& position)
+	{
+		if (this->parent != nullptr)
+			this->SetPosition(Math::Matrix4::TransformPosition(this->parent->GetGlobalMatrixInverse(), position));
+		else
+			this->SetPosition(position);
+	}
+
+	Math::Vector3 Transform::GetGlobalPosition()
+	{
+		if (this->parent != nullptr)
+			return Math::Matrix4::TransformPosition(this->parent->GetGlobalMatrix(), this->GetPosition());
+		else
+			return this->GetPosition();
+	}
+
 	void Transform::SetScale(const Math::Vector3& scale)
 	{
 		this->scale = scale;
+	
 		VoidLocalMatrix();
 	}
 
@@ -148,12 +184,37 @@ namespace EngineQ
 	void Transform::SetRotation(const Math::Quaternion& rotation)
 	{
 		this->rotation = rotation;
+		
 		VoidLocalMatrix();
+		VoidGlobalRotation();
 	}
 
 	Math::Quaternion Transform::GetRotation() const
 	{
 		return this->rotation;
+	}
+
+	void Transform::SetGlobalRotation(const Math::Quaternion& rotation)
+	{
+		if (parent != nullptr)
+			this->SetRotation(-parent->GetGlobalRotation() * rotation);
+		else
+			this->SetRotation(rotation);
+	}
+
+	Math::Quaternion Transform::GetGlobalRotation()
+	{
+		if (globalRotationChanged)
+		{
+			if (parent != nullptr)
+				globalRotation = this->GetRotation() * parent->GetGlobalRotation();
+			else
+				globalRotation = this->GetRotation();
+
+			globalRotationChanged = false;
+		}
+
+		return globalRotation;
 	}
 
 	std::size_t Transform::GetChildCount() const

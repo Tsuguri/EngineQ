@@ -11,17 +11,42 @@ namespace EngineQ
 {
 	class Entity : public Object
 	{
-		friend class Component;
-		friend class Transform;
-		friend class Scene;
+	public:
+		class SceneCallbacks
+		{
+			friend class Scene;
+
+		private:
+			static Entity& CreateEntity(Scene& scene, Scripting::ScriptEngine& scriptEngine);
+		
+			static void OnUpdate(Entity& entity);
+			static void OnUpdateBegin(Entity& entity);
+			static void OnUpdateEnd(Entity& entity);
+		};
+
+		class TransformCallbacks
+		{
+			friend class Transform;
+
+		private:
+			static void OnParentChanged(Entity& entity, Transform* parent);
+		};
+
+		class ComponentCallbacks
+		{
+			friend class Component;
+
+		private:
+			static void OnEnabledChanged(Entity& entity, Component& component, bool enabled);
+		};
 
 	private:
 		Scene& scene;
 
-		bool isRemoveLocked = false;
+		bool removeLocked = false;
 
-		bool isEnabled = true;
-		bool isParentEnabled = true;
+		bool enabled = true;
+		bool parentEnabled = true;
 
 		std::vector<Component*> components;
 		std::vector<Script*> updatable;
@@ -29,6 +54,8 @@ namespace EngineQ
 		std::vector<Component*> componentsToDelete;
 
 		Transform& transform;
+
+		std::string name;
 
 		Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine);
 
@@ -43,8 +70,6 @@ namespace EngineQ
 
 		void SetParentEnabled(bool enabled);
 		void HierarchyEnabledChanged(bool hierarchyEnabled);
-
-		void ComponentEnabledChanged(Component& component, bool enabled);
 
 	public:
 		/*
@@ -80,6 +105,9 @@ namespace EngineQ
 		std::size_t GetComponentIndex(const Component& component) const;
 
 		Script& AddScript(Scripting::ScriptClass sclass);
+
+		const std::string& GetName() const;
+		void SetName(const std::string& name);
 	};
 }
 

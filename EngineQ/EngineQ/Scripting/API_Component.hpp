@@ -11,8 +11,11 @@ namespace EngineQ
 		class API_Component
 		{
 		public:
-			static void API_GetEntity(const Component& component, MonoObject*& parent);
-
+			static void API_GetEntity(const Object& componentBase, MonoObject*& parent);
+			static void API_GetEnabled(const Object& componentBase, bool& isEnabled);
+			static void API_SetEnabled(Object& componentBase, bool isEnabled);
+			static void API_GetEnabledInHierarchy(const Object& componentBase, bool& isEnabledInHierarchy);
+			
 			static void API_Register(ScriptEngine& scriptEngine);
 		};
 	}

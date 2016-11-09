@@ -7,7 +7,9 @@ namespace EngineQ
 	{
 		public Entity FindEntity(string name)
 		{
-			throw new NotImplementedException();
+			Entity entity;
+			API_FindEntity(this.NativeHandle, name, out entity);
+			return entity;
 		}
 
 		public Entity CreateEntity()
@@ -52,6 +54,9 @@ namespace EngineQ
 		}
 
 		#region API
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_FindEntity(IntPtr handle, string name, out Entity entity);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_CreateEntity(IntPtr handle, out Entity entity);
