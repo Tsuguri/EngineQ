@@ -37,12 +37,14 @@ namespace EngineQ
 #pragma endregion
 	*/
 
-	Entity::Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine) :
+	Entity::Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine, bool enabled, const std::string& name) :
 		Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Entity) },
 		scene{ scene },
+		enabled{ enabled },
 		components{},
 		updatable{},
-		transform{ AddComponent<Transform>() }
+		transform{ AddComponent<Transform>() },
+		name{ name }
 	{
 		// TMP
 		scriptEngine.InvokeConstructor(GetManagedObject());
@@ -57,7 +59,9 @@ namespace EngineQ
 	void Entity::AddComponent(Component& component)
 	{
 		this->components.push_back(&component);
-		Scene::EntityCallbacks::OnComponentAdded(this->scene, component);
+
+		if(component.IsEnabledInHierarchy())
+			Scene::EntityCallbacks::OnComponentAdded(this->scene, component);
 
 		this->scriptEngine.InvokeConstructor(component.GetManagedObject());
 	}
@@ -81,7 +85,9 @@ namespace EngineQ
 
 	void Entity::RemoveComponent_Internal(Component& component, std::vector<Component*>::iterator it)
 	{
-		Scene::EntityCallbacks::OnComponentRemoved(this->scene, component);
+		if(component.IsEnabledInHierarchy())
+			Scene::EntityCallbacks::OnComponentRemoved(this->scene, component);
+		
 		this->components.erase(it);
 
 		// Remove from cache
@@ -90,8 +96,8 @@ namespace EngineQ
 			case ComponentType::Script:
 			{
 				Script& script = static_cast<Script&>(component);
-				if (script.IsUpdateble())
-					this->updatable.erase(std::remove(this->updatable.begin(), this->updatable.end(), &script), this->updatable.end());
+				if (script.IsUpdateble() && script.IsEnabledInHierarchy())
+					this->updatable.erase(std::find(this->updatable.begin(), this->updatable.end(), &script));
 			}
 			break;
 
@@ -125,7 +131,7 @@ namespace EngineQ
 	void Entity::Update()
 	{
 		for (Script* script : updatable)
-			script->Update();
+			script->OnUpdate();
 	}
 
 	void Entity::RemoveComponent(Component& component)
@@ -162,13 +168,13 @@ namespace EngineQ
 		throw std::runtime_error("Component not found");
 	}
 
-	Script& Entity::AddScript(Scripting::ScriptClass sclass)
+	Script& Entity::AddScript(Scripting::ScriptClass sclass, bool enabled)
 	{
-		Script* script = new Script{ this->scriptEngine, *this, sclass };
+		Script* script = new Script{ this->scriptEngine, *this, sclass, enabled };
 
 		components.push_back(script);
 
-		if (script->IsUpdateble())
+		if (script->IsUpdateble() && script->IsEnabled())
 			updatable.push_back(script);
 
 		scriptEngine.InvokeConstructor(script->GetManagedObject());
@@ -183,6 +189,19 @@ namespace EngineQ
 
 		for (auto component : this->components)
 			component->SetParentEnabled(hierarchyEnabled);
+
+		if (hierarchyEnabled)
+		{
+			for (auto component : this->components)
+				if (component->IsEnabled())
+					Scene::EntityCallbacks::OnComponentAdded(this->scene, *component);
+		}
+		else
+		{
+			for (auto component : this->components)
+				if (component->IsEnabled())
+					Scene::EntityCallbacks::OnComponentRemoved(this->scene, *component);
+		}
 	}
 
 	void Entity::SetParentEnabled(bool enabled)
@@ -229,9 +248,9 @@ namespace EngineQ
 
 
 
-	Entity& Entity::SceneCallbacks::CreateEntity(Scene& scene, Scripting::ScriptEngine& scriptEngine)
+	Entity& Entity::SceneCallbacks::CreateEntity(Scene& scene, Scripting::ScriptEngine& scriptEngine, bool enabled, const std::string& name)
 	{
-		return *new Entity{ scene, scriptEngine };
+		return *new Entity{ scene, scriptEngine, enabled, name };
 	}
 
 	void Entity::SceneCallbacks::OnUpdate(Entity& entity)
@@ -261,24 +280,38 @@ namespace EngineQ
 			switch (component.GetType())
 			{
 				case ComponentType::Script:
-				entity.updatable.push_back(&static_cast<Script&>(component));
+				{
+					auto& script = static_cast<Script&>(component);
+
+					if (script.IsUpdateble())
+						entity.updatable.push_back(&script);
+				}
 				break;
 
 				default:
 				break;
 			}
+
+			Scene::EntityCallbacks::OnComponentAdded(entity.scene, component);
 		}
 		else
 		{
 			switch (component.GetType())
 			{
 				case ComponentType::Script:
-				entity.updatable.erase(std::find(entity.updatable.begin(), entity.updatable.end(), &component));
+				{
+					auto& script = static_cast<Script&>(component);
+
+					if (script.IsUpdateble())
+						entity.updatable.erase(std::find(entity.updatable.begin(), entity.updatable.end(), &script));
+				}
 				break;
 
 				default:
 				break;
 			}
+
+			Scene::EntityCallbacks::OnComponentRemoved(entity.scene, component);
 		}
 	}
 }

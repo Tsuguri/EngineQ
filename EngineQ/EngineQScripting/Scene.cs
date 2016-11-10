@@ -12,10 +12,10 @@ namespace EngineQ
 			return entity;
 		}
 
-		public Entity CreateEntity()
+		public Entity CreateEntity(bool enabled = true, string name = "")
 		{
 			Entity value;
-			API_CreateEntity(NativeHandle, out value);
+			API_CreateEntity(NativeHandle, enabled, name, out value);
 			return value;
 		}
 
@@ -59,7 +59,7 @@ namespace EngineQ
 		private static extern void API_FindEntity(IntPtr handle, string name, out Entity entity);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		private static extern void API_CreateEntity(IntPtr handle, out Entity entity);
+		private static extern void API_CreateEntity(IntPtr handle, bool enabled, string name, out Entity entity);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_RemoveEntityIndex(IntPtr handle, int index);

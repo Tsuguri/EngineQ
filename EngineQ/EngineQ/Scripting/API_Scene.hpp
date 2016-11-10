@@ -12,7 +12,7 @@ namespace EngineQ
 		{
 		public:
 			static void API_FindEntity(Object& sceneBase, MonoString* name, MonoObject*& entity);
-			static void API_CreateEntity(Object& sceneBase, MonoObject*& entity);
+			static void API_CreateEntity(Object& sceneBase, bool enabled, MonoString* name, MonoObject*& entity);
 			static void API_RemoveEntityIndex(Object& sceneBase, std::int32_t  index);
 			static void API_RemoveEntityRef(Object& sceneBase, MonoObject*& entity);
 			static void API_GetEntityIndex(const Object& sceneBase, MonoObject*& entity, std::int32_t & index);

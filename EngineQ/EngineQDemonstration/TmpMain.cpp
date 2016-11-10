@@ -199,9 +199,9 @@ void PrepareScene(EngineQ::Scene& scene)
 
 
 
-	auto& ent1 = scene.CreateEntity();
-	auto& ent2 = scene.CreateEntity();
-	auto& ent3 = scene.CreateEntity();
+	auto& ent1 = scene.CreateEntity(true, "Camera");
+	auto& ent2 = scene.CreateEntity(true, "Skull1");
+	auto& ent3 = scene.CreateEntity(true, "Skull2");
 	auto& ent4 = scene.CreateEntity();
 
 	auto& renderable1 = ent2.AddComponent<EngineQ::Renderable>();
@@ -252,7 +252,7 @@ void PrepareScene(EngineQ::Scene& scene)
 
 	ent1.AddScript(scriptClass);
 	EngineQ::Scripting::ScriptClass scriptClass2 = EngineQ::Engine::Get().GetClass("QScripts", "QScripts", "RotateTest");
-	ent2.AddScript(scriptClass2);
+	ent2.AddScript(scriptClass2, false);
 
 
 	scene.SetActiveCamera(&cam);

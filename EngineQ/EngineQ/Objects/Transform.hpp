@@ -46,7 +46,7 @@ namespace EngineQ
 
 		bool globalRotationChanged = false;
 
-		Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity);
+		Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
 
 		void VoidLocalMatrix();
 		void VoidGlobalMatrix();

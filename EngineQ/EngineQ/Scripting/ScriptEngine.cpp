@@ -260,10 +260,33 @@ namespace EngineQ
 			this->assemblies[name] = { assembly, image };
 		}
 
+
+		ScriptMethod ScriptEngine::GetScriptActivatedMethod(ScriptClass sclass, ScriptObject object) const
+		{
+			return GetScriptMethod(sclass, object, OnActivateName);
+		}
+
+		ScriptMethod ScriptEngine::GetScriptEnabledMethod(ScriptClass sclass, ScriptObject object) const
+		{
+			return GetScriptMethod(sclass, object, OnEnableName);
+		}
+
 		ScriptMethod ScriptEngine::GetScriptUpdateMethod(ScriptClass sclass, ScriptObject object) const
 		{
-			return GetScriptMethod(sclass, object, UpdateName);
+			return GetScriptMethod(sclass, object, OnUpdateName);
 		}
+
+		ScriptMethod ScriptEngine::GetScriptDisabledMethod(ScriptClass sclass, ScriptObject object) const
+		{
+			return GetScriptMethod(sclass, object, OnDisableName);
+		}
+		
+		
+		ScriptMethod ScriptEngine::GetScriptDeactivatedMethod(ScriptClass sclass, ScriptObject object) const
+		{
+			return GetScriptMethod(sclass, object, OnDeactivateName);
+		}
+		
 
 		void ScriptEngine::GetClassDescription(ScriptClass sclass, std::string& cassembly, std::string& cnamespace, std::string& cname) const
 		{

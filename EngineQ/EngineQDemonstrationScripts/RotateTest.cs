@@ -98,8 +98,26 @@ namespace QScripts
 					Transform.Rotation = Quaternion.CreateFromEuler(DegToRad(X), 0, 0);
 					break;
 			}
+		}
 
+		protected override void OnActivate()
+		{
+			Console.WriteLine($"{this.Entity.Name} activated");
+		}
 
+		protected override void OnDeactivate()
+		{
+			Console.WriteLine($"{this.Entity.Name} deactivated");
+		}
+
+		protected override void OnDisable()
+		{
+			Console.WriteLine($"{this.Entity.Name} disabled");
+		}
+
+		protected override void OnEnable()
+		{
+			Console.WriteLine($"{this.Entity.Name} enabled");
 		}
 	}
 }

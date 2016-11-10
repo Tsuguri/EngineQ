@@ -20,11 +20,12 @@ namespace EngineQ
 			entity = (nativeEntity == nullptr ? nullptr : nativeEntity->GetManagedObject());
 		}
 
-		void API_Scene::API_CreateEntity(Object& sceneBase, MonoObject*& entity)
+		void API_Scene::API_CreateEntity(Object& sceneBase, bool enabled, MonoString* name, MonoObject*& entity)
 		{
 			auto& scene = static_cast<Scene&>(sceneBase);
+			auto& scriptEngine = scene.GetScriptEngine();
 
-			entity = scene.CreateEntity().GetManagedObject();
+			entity = scene.CreateEntity(enabled, scriptEngine.GetScriptStringContent(name)).GetManagedObject();
 		}
 
 		void API_Scene::API_RemoveEntityIndex(Object& sceneBase, std::int32_t  index)

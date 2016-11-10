@@ -74,12 +74,12 @@ namespace EngineQ
 			return (TComponent)value;
 		}
 
-		public TComponent AddComponent<TComponent>()
+		public TComponent AddComponent<TComponent>(bool enabled = true)
 			where TComponent : Component
 		{
 			Component value;
 			Type type = typeof(TComponent);
-			API_AddComponent(this.NativeHandle, ref type, out value);
+			API_AddComponent(this.NativeHandle, ref type, enabled, out value);
 			return (TComponent)value;
 		}
 
@@ -123,7 +123,7 @@ namespace EngineQ
 		private static extern void API_GetComponentType(IntPtr handle, ref Type type, out Component component);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		private static extern void API_AddComponent(IntPtr handle, ref Type type, out Component component);
+		private static extern void API_AddComponent(IntPtr handle, ref Type type, bool enabled, out Component component);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_RemoveComponent(IntPtr handle, ref Component component);

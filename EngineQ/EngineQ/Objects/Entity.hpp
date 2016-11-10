@@ -17,7 +17,7 @@ namespace EngineQ
 			friend class Scene;
 
 		private:
-			static Entity& CreateEntity(Scene& scene, Scripting::ScriptEngine& scriptEngine);
+			static Entity& CreateEntity(Scene& scene, Scripting::ScriptEngine& scriptEngine, bool enabled, const std::string& name);
 		
 			static void OnUpdate(Entity& entity);
 			static void OnUpdateBegin(Entity& entity);
@@ -57,7 +57,7 @@ namespace EngineQ
 
 		std::string name;
 
-		Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine);
+		Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine, bool enabled, const std::string& name);
 
 		void LockRemove();
 		void UnlockRemove();
@@ -99,12 +99,13 @@ namespace EngineQ
 		Component& GetComponent(std::size_t index) const;
 
 		template<typename Type>
-		Type& AddComponent();
+		Type& AddComponent(bool enabled = true);
+
 		void RemoveComponent(Component& component);
 
 		std::size_t GetComponentIndex(const Component& component) const;
 
-		Script& AddScript(Scripting::ScriptClass sclass);
+		Script& AddScript(Scripting::ScriptClass sclass, bool enabled = true);
 
 		const std::string& GetName() const;
 		void SetName(const std::string& name);
@@ -114,9 +115,9 @@ namespace EngineQ
 namespace EngineQ
 {
 	template<typename Type>
-	Type& Entity::AddComponent()
+	Type& Entity::AddComponent(bool enabled)
 	{
-		Type& component = *new Type{ this->scriptEngine, *this };
+		Type& component = *new Type{ this->scriptEngine, *this, enabled };
 
 		this->AddComponent(component);
 

@@ -81,8 +81,8 @@ namespace EngineQ
 		SetCalculateProjectionMatrix(true);
 	}
 
-	Camera::Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity)
-		: Component{ ComponentType::Camera, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Camera), entity }, fov(45.0f), aspectRatio(4 / 3.0f)
+	Camera::Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled)
+		: Component{ ComponentType::Camera, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Camera), entity, enabled }, fov(45.0f), aspectRatio(4 / 3.0f)
 	{
 
 	}

@@ -54,9 +54,9 @@ namespace EngineQ
 		return nullptr;
 	}
 
-	Entity& Scene::CreateEntity()
+	Entity& Scene::CreateEntity(bool enabled, const std::string& name)
 	{
-		Entity& entity = Entity::SceneCallbacks::CreateEntity(*this, this->scriptEngine);
+		Entity& entity = Entity::SceneCallbacks::CreateEntity(*this, this->scriptEngine, enabled, name);
 		this->entities.push_back(&entity);
 		return entity;
 	}

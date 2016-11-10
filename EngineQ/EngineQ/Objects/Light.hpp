@@ -17,7 +17,7 @@ namespace EngineQ
 	#pragma endregion
 		*/
 
-		Light(Scripting::ScriptEngine& scriptEngine, Entity& entity);
+		Light(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
 	};
 }
 

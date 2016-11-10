@@ -63,8 +63,8 @@ namespace EngineQ
 #pragma endregion
 	*/
 
-	Transform::Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity) :
-		Component{ ComponentType::Transform, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Transform), entity },
+	Transform::Transform(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled) :
+		Component{ ComponentType::Transform, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Transform), entity, enabled },
 		children{}
 	{
 		// TMP

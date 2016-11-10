@@ -54,7 +54,7 @@ namespace EngineQ
 		Scene(Scripting::ScriptEngine& scriptEngine);
 		~Scene();
 
-		Entity& CreateEntity();
+		Entity& CreateEntity(bool enabled = true, const std::string& name = "");
 		void RemoveEntity(const Entity& entity);
 		void RemoveEntity(std::size_t index);
 

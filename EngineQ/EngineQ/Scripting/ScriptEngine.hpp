@@ -51,7 +51,15 @@ namespace EngineQ
 			static constexpr const char* MathNamespaceName = "EngineQ.Math";
 			static constexpr const char* NamespaceName = "EngineQ";
 			static constexpr const char* ConstructorName = ":.ctor";
-			static constexpr const char* UpdateName = ":OnUpdate";
+			
+			static constexpr const char* UpdateName = ":Update";
+			
+			static constexpr const char* OnActivateName = ":OnActivate";
+			static constexpr const char* OnEnableName = ":OnEnable";
+			static constexpr const char* OnUpdateName = ":OnUpdate";
+			static constexpr const char* OnDisableName = ":OnDisable";
+			static constexpr const char* OnDeactivateName = ":OnDeactivate";
+			
 			static constexpr const char* NativeHandleFieldName = "nativeHandle";
 
 			static constexpr const char* ScriptClassNames[ScriptClassCount][2] = {
@@ -121,6 +129,10 @@ namespace EngineQ
 			void LoadAssembly(const char* path);
 
 			ScriptMethod GetScriptUpdateMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptEnabledMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptDisabledMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptActivatedMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptDeactivatedMethod(ScriptClass sclass, ScriptObject object) const;
 
 			void GetClassDescription(ScriptClass sclass, std::string& cassembly, std::string& cnamespace, std::string& cname) const;
 			ScriptClass GetClass(const std::string& cassembly, const std::string& cnamespace, const std::string& cname) const;

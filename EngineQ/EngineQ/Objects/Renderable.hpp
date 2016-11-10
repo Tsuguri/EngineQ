@@ -20,7 +20,7 @@ namespace EngineQ
 		Resources::Resource<Graphics::Mesh> mesh;
 		
 	public:
-		Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity);
+		Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
 		
 		void SetForwardShader(Resources::Resource<Graphics::Shader> shader);
 		Graphics::ShaderProperties* GetForwardShader() const;

@@ -24,7 +24,7 @@
 
 		#region Methods
 
-		protected virtual void OnCreate()
+		protected virtual void OnActivate()
 		{
 		}
 
@@ -40,7 +40,7 @@
 		{
 		}
 
-		protected virtual void OnDestroy()
+		protected virtual void OnDeactivate()
 		{
 		}
 

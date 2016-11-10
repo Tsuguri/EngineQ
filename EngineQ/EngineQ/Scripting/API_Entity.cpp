@@ -63,7 +63,7 @@ namespace EngineQ
 			component = nullptr;
 		}
 
-		void API_Entity::API_AddComponent(Object& entityBase, MonoReflectionType*& type, MonoObject*& component)
+		void API_Entity::API_AddComponent(Object& entityBase, MonoReflectionType*& type, bool enabled, MonoObject*& component)
 		{
 			auto& entity = static_cast<Entity&>(entityBase);
 
@@ -72,19 +72,19 @@ namespace EngineQ
 
 			if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Camera))
 			{
-				component = entity.AddComponent<Camera>().GetManagedObject();
+				component = entity.AddComponent<Camera>(enabled).GetManagedObject();
 			}
 			else if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light))
 			{
-				component = entity.AddComponent<Light>().GetManagedObject();
+				component = entity.AddComponent<Light>(enabled).GetManagedObject();
 			}
 			else if (componentClass == scriptEngine.GetClass(Scripting::ScriptEngine::Class::Renderable))
 			{
-				component = entity.AddComponent<Renderable>().GetManagedObject();
+				component = entity.AddComponent<Renderable>(enabled).GetManagedObject();
 			}
 			else if (scriptEngine.IsScript(componentClass))
 			{
-				component = entity.AddScript(componentClass).GetManagedObject();
+				component = entity.AddScript(componentClass, enabled).GetManagedObject();
 			}
 			else
 			{
