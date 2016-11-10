@@ -281,12 +281,37 @@ namespace EngineQ
 			return GetScriptMethod(sclass, object, OnDisableName);
 		}
 		
-		
 		ScriptMethod ScriptEngine::GetScriptDeactivatedMethod(ScriptClass sclass, ScriptObject object) const
 		{
 			return GetScriptMethod(sclass, object, OnDeactivateName);
 		}
 		
+
+		ScriptMethod ScriptEngine::GetInitializerMethod(const std::string& iassembly, const std::string& inamespace, const std::string& iclass) const
+		{
+			auto scriptClass = this->GetClass(iassembly, inamespace, iclass);
+
+			auto method = this->GetMethod(scriptClass, InitializerName);
+			if (method == nullptr)
+				throw std::runtime_error{ std::string{ InitializerName } + " method not found" };
+
+			auto signature = mono_method_signature(method);
+		
+			if (mono_signature_is_instance(signature))
+				throw std::runtime_error{ std::string{ InitializerName } + " method must be static" };
+
+			if (mono_signature_get_param_count(signature) != 1)
+				throw std::runtime_error{ std::string{ InitializerName } +" method must accept only one argument of type Scene" };
+
+			void* paramsIter = nullptr;
+			auto arg0Type = mono_signature_get_params(signature, &paramsIter);
+			
+			auto arg0Class = mono_type_get_class(arg0Type);
+			if (arg0Class != this->GetClass(Class::Scene))
+				throw std::runtime_error{ std::string{ InitializerName } +" method must accept only one argument of type Scene" };
+
+			return method;
+		}
 
 		void ScriptEngine::GetClassDescription(ScriptClass sclass, std::string& cassembly, std::string& cnamespace, std::string& cname) const
 		{

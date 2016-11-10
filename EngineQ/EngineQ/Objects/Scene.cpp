@@ -221,4 +221,14 @@ namespace EngineQ
 	{
 		scene.RemovedComponent(component);
 	}
+
+	bool Scene::IsUpdating() const
+	{
+		return this->isUpdating;
+	}
+
+	void Scene::AddToRemoveQueue(std::unique_ptr<Object> object)
+	{
+		this->removeQueue.push_back(std::move(object));
+	}
 }

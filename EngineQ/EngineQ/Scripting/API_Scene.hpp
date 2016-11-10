@@ -19,6 +19,9 @@ namespace EngineQ
 			static void API_GetEntity(const Object& sceneBase, std::int32_t  index, MonoObject*& entity);
 			static void API_GetEntitiesCount(const Object& sceneBase, std::int32_t & count);
 
+			static void API_GetActiveCamera(const Object& sceneBase, MonoObject*& camera);
+			static void API_SetActiveCamera(Object& sceneBase, MonoObject* camera);
+
 			static void API_Register(ScriptEngine& scriptEngine);
 		};
 	}

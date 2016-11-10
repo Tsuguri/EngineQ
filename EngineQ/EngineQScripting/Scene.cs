@@ -18,7 +18,7 @@ namespace EngineQ
 			API_CreateEntity(NativeHandle, enabled, name, out value);
 			return value;
 		}
-
+		
 		public void RemoveEntity(int index)
 		{
 			API_RemoveEntityIndex(NativeHandle, index);
@@ -53,6 +53,21 @@ namespace EngineQ
 			}
 		}
 
+		public Camera ActiveCamera
+		{
+			get
+			{
+				Camera value;
+				API_GetActiveCamera(this.NativeHandle, out value);
+				return value;
+			}
+
+			set
+			{
+				API_SetActiveCamera(this.NativeHandle, value);
+			}
+		}
+
 		#region API
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
@@ -75,6 +90,12 @@ namespace EngineQ
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_GetEntitiesCount(IntPtr handle, out int count);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetActiveCamera(IntPtr handle, out Camera camera);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_SetActiveCamera(IntPtr handle, Camera camera);
 
 		#endregion
 	}

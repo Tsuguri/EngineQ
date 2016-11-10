@@ -99,6 +99,9 @@ namespace EngineQ
 
 		Scene::EntityCallbacks::OnComponentRemoved(this->scene, component);
 
+		if (this->scene.IsUpdating())
+			this->scene.AddToRemoveQueue(std::move(*it));
+
 		this->components.erase(it);
 	}
 

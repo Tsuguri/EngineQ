@@ -18,6 +18,8 @@
 #include <EngineQ/Resources/Resource.hpp>
 #include <EngineQ/Resources/ShaderFactory.hpp>
 
+#include <EngineQ/Libraries/TinyXML/tinyxml2.h>
+
 namespace Math = EngineQ::Math;
 
 std::unique_ptr<EngineQ::Graphics::Mesh> GenerateCube(float side = 1.0f)
@@ -188,13 +190,14 @@ std::unique_ptr<EngineQ::Graphics::Mesh> GenerateSphere(float radius = 1.0f, flo
 	return std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices);
 }
 
+/*
 void PrepareScene(EngineQ::Scene& scene)
 {
-//	EngineQ::Resources::ModelLoader loader;
-//	auto model = loader.LoadModel("Models/skull2.obj", EngineQ::Resources::VertexComponent::Position | EngineQ::Resources::VertexComponent::Normal | EngineQ::Resources::VertexComponent::TextureCoordinates, EngineQ::Resources::ModelLoader::Config{});
+	//	EngineQ::Resources::ModelLoader loader;
+	//	auto model = loader.LoadModel("Models/skull2.obj", EngineQ::Resources::VertexComponent::Position | EngineQ::Resources::VertexComponent::Normal | EngineQ::Resources::VertexComponent::TextureCoordinates, EngineQ::Resources::ModelLoader::Config{});
 
-//	const auto& modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
-//	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh };
+	//	const auto& modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+	//	auto mesh = new EngineQ::Graphics::Mesh{ modelMesh };
 
 
 
@@ -212,8 +215,8 @@ void PrepareScene(EngineQ::Scene& scene)
 	auto& scriptEngine = EngineQ::Engine::Get().GetScriptEngine();
 
 
-//	auto model = resourceManager.GetResource<EngineQ::Resources::Model>("Skull");
-//	auto modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+	//	auto model = resourceManager.GetResource<EngineQ::Resources::Model>("Skull");
+	//	auto modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
 	auto cubeMesh = resourceManager.GetResource<EngineQ::Graphics::Mesh>("Cube");
 	auto mesh = resourceManager.GetResource<EngineQ::Graphics::Mesh>("Skull");
 
@@ -248,10 +251,10 @@ void PrepareScene(EngineQ::Scene& scene)
 	ent1.GetTransform().SetPosition(EngineQ::Math::Vector3(0, 0, -2.0f));
 	ent4.GetTransform().SetPosition(EngineQ::Math::Vector3(2.0f, 0, 0));
 
-	EngineQ::Scripting::ScriptClass scriptClass = EngineQ::Engine::Get().GetClass("QScripts", "QScripts", "CameraMoveClass");
+	EngineQ::Scripting::ScriptClass scriptClass = scriptEngine.GetScriptClass("QScripts", "QScripts", "CameraMoveClass");
 
 	ent1.AddScript(scriptClass);
-	EngineQ::Scripting::ScriptClass scriptClass2 = EngineQ::Engine::Get().GetClass("QScripts", "QScripts", "RotateTest");
+	EngineQ::Scripting::ScriptClass scriptClass2 = scriptEngine.GetScriptClass("QScripts", "QScripts", "RotateTest");
 	ent2.AddScript(scriptClass2, false);
 
 
@@ -260,7 +263,9 @@ void PrepareScene(EngineQ::Scene& scene)
 	auto& lightEntity = scene.CreateEntity();
 	auto& light = lightEntity.AddComponent<EngineQ::Light>();
 }
+*/
 
+/*
 void TemporaryResources()
 {
 	auto& resourceManager = EngineQ::Engine::Get().GetResourceManager();
@@ -281,17 +286,15 @@ void TemporaryResources()
 	resourceManager.RegisterResource<EngineQ::Graphics::Texture>("Numbers", "./Textures/Numbers.qres");
 
 
-//	resourceManager.RegisterResource<EngineQ::Resources::Model>("Skull", "./Models/Skull.qres");
+	//	resourceManager.RegisterResource<EngineQ::Resources::Model>("Skull", "./Models/Skull.qres");
 
-	/*
-	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("Skull", [](EngineQ::Resources::ResourceManager& resourceManager)
-	{	
-		auto model = resourceManager.GetResource<EngineQ::Resources::Model>("Skull");
-		auto modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
+	//	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("Skull", [](EngineQ::Resources::ResourceManager& resourceManager)
+	//	{	
+	//		auto model = resourceManager.GetResource<EngineQ::Resources::Model>("Skull");
+	//		auto modelMesh = model->GetRootNode().GetChildren()[0]->GetMeshes()[0];
 
-		return std::make_unique<EngineQ::Graphics::Mesh>(modelMesh);
-	});
-	*/
+	//		return std::make_unique<EngineQ::Graphics::Mesh>(modelMesh);
+	//	});
 
 	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("Skull", "./Meshes/Skull.qres");
 
@@ -300,18 +303,76 @@ void TemporaryResources()
 		return GenerateCube2(0.6f);
 	});
 }
+*/
 
+void RegisterBuildInResources()
+{
+	auto& resourceManager = EngineQ::Engine::Get().GetResourceManager();
+
+
+	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("EngineQ/Cube", [](EngineQ::Resources::ResourceManager&)
+	{
+		return GenerateCube2(0.6f);
+	});
+}
+
+void ParseConfig(const char* applicationPath, const char* path)
+{
+	tinyxml2::XMLDocument doc{};
+	doc.LoadFile(path);
+
+	if (doc.Error())
+		throw std::runtime_error{ doc.GetErrorStr1() };
+
+	auto rootElement = doc.RootElement();
+	if (std::strcmp(rootElement->Name(), "Config") != 0)
+		throw std::runtime_error{ "Invalid root node" };
+
+	EngineQ::Engine::Config config;
+
+	auto engineAssemblyElement = rootElement->FirstChildElement("EngineAssembly");
+	config.engineAssemblyPath = engineAssemblyElement->Attribute("Path");
+
+	auto windowElement = rootElement->FirstChildElement("Window");
+	config.windowName = windowElement->Attribute("Name");
+	config.windowWidth = windowElement->IntAttribute("Width");
+	config.windowHeight = windowElement->IntAttribute("Height");
+
+	auto scriptAssembliesElement = rootElement->FirstChildElement("ScriptAssemblies");
+	config.scriptsDirectory = scriptAssembliesElement->Attribute("Directory");
+	for (auto assemblyElement = scriptAssembliesElement->FirstChildElement(); assemblyElement != nullptr; assemblyElement = assemblyElement->NextSiblingElement())
+		config.scriptAssemblies.push_back(assemblyElement->Attribute("Name"));
+
+	auto initializerElement = rootElement->FirstChildElement("Initializer");
+	config.initializerAssembly = initializerElement->Attribute("Assembly");
+	config.initializerNamespace = initializerElement->Attribute("Namespace");
+	config.initializerClass = initializerElement->Attribute("Class");
+
+	auto monoElement = rootElement->FirstChildElement("Mono");
+	config.monoDirectory = monoElement->Attribute("Directory");
+
+	auto postprocessingElement = rootElement->FirstChildElement("Postprocessing");
+	config.postprocessingConfig = postprocessingElement->Attribute("Path");
+
+	config.applicationPath = applicationPath;
+
+
+	EngineQ::Engine::Initialize(config);
+
+	RegisterBuildInResources();
+}
 
 int main(int argc, char** argv)
 {
-	EngineQ::Engine::Initialize("EngineQ Demonstration", 800, 600, argv[0]);
-	TemporaryResources();
-	EngineQ::Engine::Get().SetPostprocessingConfiguration("./postprocessing.conf");
+	ParseConfig(argv[0], "./Config.xml");
 
-	auto& scene = EngineQ::Engine::Get().GetCurrentScene();
-	PrepareScene(scene);
+	EngineQ::Engine& engine = EngineQ::Engine::Get();
 
-	EngineQ::Engine::Get().Run();
+	//	TemporaryResources();
+	//	auto& scene = engine.GetCurrentScene();
+	//	PrepareScene(scene);
+
+	engine.Run();
 
 	return 0;
 }

@@ -82,6 +82,10 @@ namespace EngineQ
 		Camera* GetActiveCamera() const;
 
 		const std::vector<Renderable*>& GetRenderables() const;
+
+		void AddToRemoveQueue(std::unique_ptr<Object> object);
+
+		bool IsUpdating() const;
 	};
 
 	template<typename TComponentType>

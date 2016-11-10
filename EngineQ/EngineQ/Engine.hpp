@@ -13,21 +13,51 @@
 #include "Resources/ResourceManager.hpp"
 #include "Utilities/Event.hpp"
 
+#include "Graphics/RendererConfiguration.hpp"
 #include "Math/Vector2.hpp"
 
 namespace EngineQ
 {
 	class Engine : private Utilities::Immovable
 	{
-#pragma region Fields
+	#pragma region Types
+
+	public:
+		struct Config
+		{
+			std::string applicationPath;
+
+			std::string monoDirectory = "./";
+
+			std::string windowName = "EngineQ";
+			unsigned int windowWidth = 800;
+			unsigned int windowHeight = 600;
+
+			std::string scriptsDirectory = "./Scripts/";
+			std::string engineAssemblyPath = "./EngineQ.dll";
+
+			std::vector<std::string> scriptAssemblies;
+
+			std::string initializerAssembly;
+			std::string initializerNamespace;
+			std::string initializerClass;
+
+			std::string postprocessingConfig;
+		};
+
+	#pragma endregion
+
+	#pragma region Fields
 
 	private:
 		static std::unique_ptr<Engine> instance;
 
+		Graphics::RenderingUnitConfiguration renderConfig;
+
 		Window window;
 		bool isRunning = true;
 		Math::Vector2i screenSize;
-		
+
 	public:
 		Utilities::Event<Engine, void(int, int)> resizeEvent;
 		InputController input;
@@ -36,17 +66,18 @@ namespace EngineQ
 		std::unique_ptr<Scripting::ScriptEngine> scriptingEngine;
 		std::unique_ptr<Resources::ResourceManager> resourceManager;
 		std::shared_ptr<Graphics::RenderingUnit> renderingUnit;
-		
+
 		std::vector<std::unique_ptr<Scene>> scenes;
 		Scene* currentScene = nullptr;
 
-#pragma endregion 
+		Scripting::ScriptMethod initializerMethod;
 
-#pragma region Methods
+	#pragma endregion 
+
+	#pragma region Methods
 
 	private:
-
-		Engine(std::string name, int width, int height, const char* assemblyName);
+		Engine(const Config& config);
 
 		void WindowResized(int width, int height);
 
@@ -54,16 +85,14 @@ namespace EngineQ
 		static void MouseButtonControl(int button, int action, int mode);
 		static void MouseControl(double xpos, double ypos);
 		static void FramebufferResize(int width, int height);
+	
 	public:
-		static bool Initialize(std::string name, int width, int height, char* assemblyName);
+		static bool Initialize(const Config& config);
 
 		static Engine& Get();
 		Resources::ResourceManager& GetResourceManager() const;
 		Scripting::ScriptEngine& GetScriptEngine() const;
-		Scripting::ScriptClass GetClass(std::string assembly, std::string namespaceName, std::string className) const;
 		Math::Vector2i GetScreenSize() const;
-
-		void SetPostprocessingConfiguration(std::string filePath);
 
 		Scene& CreateScene();
 		void RemoveScene(Scene& scene);
@@ -74,12 +103,8 @@ namespace EngineQ
 		void Exit();
 		void Run();
 
-
-#pragma endregion 
-
-
+	#pragma endregion 
 	};
-
 }
 
 #endif

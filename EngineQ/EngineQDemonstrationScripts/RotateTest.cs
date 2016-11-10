@@ -42,7 +42,7 @@ namespace QScripts
 				Vector3f color = renderable.DeferredShader.Get(myColorProperty);
 
 
-				Mesh mesh = ResourceManager.Instance.GetResource<Mesh>("Cube");
+				Mesh mesh = ResourceManager.Instance.GetResource<Mesh>("EngineQ/Cube");
 				renderable.Mesh = mesh;
 
 				Console.WriteLine($"Set color to {color}");

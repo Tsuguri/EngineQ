@@ -33,10 +33,8 @@ namespace EngineQ
 			FramebufferResizeFunction(width, height);
 	}
 
-	bool Window::Initialize(std::string windowName, int width, int height)
+	bool Window::Initialize(const std::string& windowName, int width, int height)
 	{
-
-
 		glfwInit();
 
 		// Set all the required options for GLFW
