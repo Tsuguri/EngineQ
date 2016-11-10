@@ -40,6 +40,10 @@ namespace EngineQ
 	{
 	}
 
+	Scene::~Scene()
+	{
+	}
+
 	Entity* Scene::FindEntity(const std::string& name) const
 	{
 		for (auto& entity : this->entities)

@@ -49,6 +49,10 @@ namespace EngineQ
 		scriptEngine.InvokeConstructor(GetManagedObject());
 	}
 
+	Entity::~Entity()
+	{
+	}
+
 	void Entity::AddComponent(std::unique_ptr<Component> componentPtr)
 	{
 		Component& component = *componentPtr;

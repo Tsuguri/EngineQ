@@ -11,6 +11,10 @@ namespace EngineQ
 	{
 	}
 
+	Renderable::~Renderable()
+	{
+	}
+
 	void Renderable::SetForwardShader(Resources::Resource<Graphics::Shader> shader)
 	{
 		this->forwardShader = std::make_unique<Graphics::ShaderProperties>(this->scriptEngine, shader);

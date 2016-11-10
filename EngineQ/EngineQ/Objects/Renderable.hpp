@@ -4,7 +4,6 @@
 #include <memory>
 
 #include "../Graphics/Types.hpp"
-#include "../Graphics/ShaderProperties.hpp"
 
 #include "Component.hpp"
 #include "../Resources/Types.hpp"
@@ -22,7 +21,8 @@ namespace EngineQ
 		
 	public:
 		Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
-		
+		virtual ~Renderable();
+
 		void SetForwardShader(Resources::Resource<Graphics::Shader> shader);
 		Graphics::ShaderProperties* GetForwardShader() const;
 

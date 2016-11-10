@@ -8,8 +8,6 @@
 #include "../Graphics/Types.hpp"
 
 #include "Object.hpp"
-#include "Entity.hpp"
-#include "Component.hpp"
 
 namespace EngineQ
 {
@@ -52,7 +50,7 @@ namespace EngineQ
 		void TryRemove(std::vector<TComponentType*>& components, TComponentType& component);
 
 		template<typename TComponentType>
-		auto Find(std::vector<std::unique_ptr<TComponentType>>& components, ComponentType& component) -> decltype(components.begin());
+		auto Find(std::vector<std::unique_ptr<TComponentType>>& components, TComponentType& component) -> decltype(components.begin());
 
 	public:
 		/*
@@ -65,6 +63,7 @@ namespace EngineQ
 		*/
 
 		Scene(Scripting::ScriptEngine& scriptEngine);
+		virtual ~Scene();
 
 		Entity& CreateEntity(bool enabled = true, const std::string& name = "");
 		void RemoveEntity(const Entity& entity);
@@ -94,7 +93,7 @@ namespace EngineQ
 	}
 
 	template<typename TComponentType>
-	auto Scene::Find(std::vector<std::unique_ptr<TComponentType>>& components, ComponentType& component) -> decltype(components.begin())
+	auto Scene::Find(std::vector<std::unique_ptr<TComponentType>>& components, TComponentType& component) -> decltype(components.begin())
 	{
 		auto it = components.begin();
 		for (auto end = components.end(); it != end; ++it)

@@ -50,6 +50,7 @@ namespace EngineQ
 		std::string name;
 
 		Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine, bool enabled, const std::string& name);
+		
 
 		void AddComponent(std::unique_ptr<Component> component);
 
@@ -65,6 +66,8 @@ namespace EngineQ
 
 	#pragma endregion
 		*/
+
+		virtual ~Entity();
 
 		const Scene& GetScene() const;
 		Scene& GetScene();
