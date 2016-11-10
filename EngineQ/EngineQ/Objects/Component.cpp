@@ -27,7 +27,7 @@ namespace EngineQ
 	*/
 
 	Component::Component(ComponentType type, Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass, Entity& entity, bool enabled)
-		: Object{ scriptEngine, sclass }, entity{ entity }, type{ type }, enabled{ enabled }, parentEnabled{ entity.IsEnabledInHierarchy() }
+		: Object{ scriptEngine, sclass }, entity{ entity }, enabled{ enabled }, parentEnabled{ entity.IsEnabledInHierarchy() }, type{ type }
 	{
 	}
 

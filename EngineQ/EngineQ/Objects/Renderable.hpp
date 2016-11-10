@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "../Graphics/Types.hpp"
+#include "../Graphics/ShaderProperties.hpp"
 
 #include "Component.hpp"
 #include "../Resources/Types.hpp"
