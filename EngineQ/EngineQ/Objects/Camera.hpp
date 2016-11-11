@@ -10,7 +10,7 @@
 
 namespace EngineQ
 {
-	class Camera : public Component
+	class Camera final : public Component
 	{
 	private:
 
@@ -44,7 +44,7 @@ namespace EngineQ
 	#pragma endregion
 		*/
 
-		Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity);
+		Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
 
 		float GetAspectRatio() const;
 		void SetAspectRatio(float value);

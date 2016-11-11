@@ -27,7 +27,7 @@ namespace EngineQ
 	public:
 		Window();
 		~Window();
-		bool Initialize(std::string windowName, int width, int height);
+		bool Initialize(const std::string& windowName, int width, int height);
 		void Close();
 		void SwapBuffers();
 		bool ShouldClose();

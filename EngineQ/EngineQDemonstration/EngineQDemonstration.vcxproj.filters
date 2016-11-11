@@ -24,4 +24,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="_Resources\Config.xml" />
+  </ItemGroup>
 </Project>

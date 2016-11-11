@@ -51,7 +51,19 @@ namespace EngineQ
 			static constexpr const char* MathNamespaceName = "EngineQ.Math";
 			static constexpr const char* NamespaceName = "EngineQ";
 			static constexpr const char* ConstructorName = ":.ctor";
-			static constexpr const char* UpdateName = ":OnUpdate";
+			
+			static constexpr const char* UpdateName = ":Update";
+			
+			static constexpr const char* OnCreateName = ":OnCreate";
+			static constexpr const char* OnActivateName = ":OnActivate";
+			static constexpr const char* OnEnableName = ":OnEnable";
+			static constexpr const char* OnUpdateName = ":OnUpdate";
+			static constexpr const char* OnDisableName = ":OnDisable";
+			static constexpr const char* OnDeactivateName = ":OnDeactivate";
+			static constexpr const char* OnDestroyName = ":OnDestroy";
+			
+			static constexpr const char* InitializerName = ":OnInitialize";
+
 			static constexpr const char* NativeHandleFieldName = "nativeHandle";
 
 			static constexpr const char* ScriptClassNames[ScriptClassCount][2] = {
@@ -120,7 +132,15 @@ namespace EngineQ
 			void API_Register(const char* name, TReturn(*function)(TArgs...));
 			void LoadAssembly(const char* path);
 
+			ScriptMethod GetScriptCreateMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptActivateMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptEnableMethod(ScriptClass sclass, ScriptObject object) const;
 			ScriptMethod GetScriptUpdateMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptDisableMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptDeactivateMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptDestroyMethod(ScriptClass sclass, ScriptObject object) const;
+
+			ScriptMethod GetInitializerMethod(const std::string& iassembly, const std::string& inamespace, const std::string& iclass) const;
 
 			void GetClassDescription(ScriptClass sclass, std::string& cassembly, std::string& cnamespace, std::string& cname) const;
 			ScriptClass GetClass(const std::string& cassembly, const std::string& cnamespace, const std::string& cname) const;

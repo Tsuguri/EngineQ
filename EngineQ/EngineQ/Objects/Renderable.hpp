@@ -12,7 +12,7 @@
 
 namespace EngineQ
 {
-	class Renderable : public Component
+	class Renderable final : public Component
 	{
 	private:
 		std::unique_ptr<Graphics::ShaderProperties> forwardShader;
@@ -20,8 +20,9 @@ namespace EngineQ
 		Resources::Resource<Graphics::Mesh> mesh;
 		
 	public:
-		Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity);
-		
+		Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
+		virtual ~Renderable();
+
 		void SetForwardShader(Resources::Resource<Graphics::Shader> shader);
 		Graphics::ShaderProperties* GetForwardShader() const;
 

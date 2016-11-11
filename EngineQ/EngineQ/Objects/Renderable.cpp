@@ -6,8 +6,12 @@
 
 namespace EngineQ
 {
-	Renderable::Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity)
-		: Component{ ComponentType::Renderable, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Renderable), entity }
+	Renderable::Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled)
+		: Component{ ComponentType::Renderable, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Renderable), entity, enabled }
+	{
+	}
+
+	Renderable::~Renderable()
 	{
 	}
 

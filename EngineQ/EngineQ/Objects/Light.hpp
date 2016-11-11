@@ -5,7 +5,7 @@
 
 namespace EngineQ
 {
-	class Light : public Component
+	class Light final : public Component
 	{
 	public:
 		/*
@@ -17,7 +17,7 @@ namespace EngineQ
 	#pragma endregion
 		*/
 
-		Light(Scripting::ScriptEngine& scriptEngine, Entity& entity);
+		Light(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
 	};
 }
 

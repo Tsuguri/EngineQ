@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+	<Mono Directory="./" />
+	<Window Name="EngineQ Application" Width="800" Height="600"/>
+	
+	<EngineAssembly Path="./EngineQ.dll" />
+	
+	<ScriptAssemblies Directory="./Scripts/">
+		<Assembly Name="QScripts.dll" />
+	</ScriptAssemblies>
+	
+	<Initializer Assembly="QScripts" Namespace="QScripts" Class="Initializer" />
+
+	<Postprocessing Path="./postprocessing.conf" />
+</Config>

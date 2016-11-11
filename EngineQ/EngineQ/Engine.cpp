@@ -12,6 +12,7 @@
 #include "Resources/ResourceManager.hpp"
 #include "Utilities/ResourcesIDs.hpp"
 #include "Graphics/RenderingUnit.hpp"
+#include "Objects/Camera.hpp"
 
 #include "Math/Vector2.hpp"
 
@@ -19,14 +20,13 @@ namespace EngineQ
 {
 	std::unique_ptr<Engine> Engine::instance = nullptr;
 
-	Engine::Engine(std::string name, int width, int height, const char* assemblyName)
+	Engine::Engine(const Config& config)
 	{
-
 		std::cout << "Creating  EngineQ" << std::endl;
-		if (!window.Initialize(name, width, height))
+		if (!window.Initialize(config.windowName, config.windowWidth, config.windowHeight))
 		{
-			std::cout << "Unable to initialize glfw window" << std::endl;
-			throw std::logic_error("Unable to start glfw window");
+			std::cout << "Unable to initialize window" << std::endl;
+			throw std::runtime_error{ "Unable to start window" };
 		}
 
 		window.SetKeyFunction(KeyControl);
@@ -34,32 +34,36 @@ namespace EngineQ
 		window.SetMouseControlFunction(MouseControl);
 		window.SetFramebufferResizeFunction(FramebufferResize);
 
-		// Define the viewport dimensions
-		// TODO: This should be handled by renderer class
-		glViewport(0, 0, width, height);
-		screenSize = Math::Vector2i{ width,height };
+		screenSize = Math::Vector2i{ config.windowWidth, config.windowHeight };
 
+		this->scriptingEngine = std::make_unique<Scripting::ScriptEngine>(config.applicationPath.c_str(), config.engineAssemblyPath.c_str(), (config.monoDirectory + "libraries").c_str(), (config.monoDirectory + "config").c_str());
 
-		std::string monoPath = "./";
-		std::string engineAssemblyPath = "./";
-		std::string scriptsAssembliesPath = "./Scripts/";
-		
-		this->scriptingEngine = std::make_unique<Scripting::ScriptEngine>(assemblyName, (engineAssemblyPath + "EngineQ.dll").c_str(), (monoPath + "libraries").c_str(), (monoPath + "config").c_str());
+		for (const auto& scriptAssembly : config.scriptAssemblies)
+			this->scriptingEngine->LoadAssembly((config.scriptsDirectory + scriptAssembly).c_str());
 
-		this->scriptingEngine->LoadAssembly((scriptsAssembliesPath + "QScripts.dll").c_str());
 		this->input.InitMethods(this->scriptingEngine.get());
 
 		this->resourceManager = std::make_unique<Resources::ResourceManager>(*this->scriptingEngine);
-
 		this->currentScene = &this->CreateScene();
+
+		this->initializerMethod = this->scriptingEngine->GetInitializerMethod(config.initializerAssembly, config.initializerNamespace, config.initializerClass);
+
+
+		this->renderConfig = Graphics::RenderingUnitConfiguration::Load(config.postprocessingConfig);
 	}
 
 	void Engine::WindowResized(int width, int height)
 	{
 		screenSize = Math::Vector2i{ width,height };
-		glViewport(0, 0, width, height);
 		if (!resizeEvent.IsEmpty())
 			resizeEvent.Invoke(width, height);
+
+		if (this->currentScene != nullptr)
+		{
+			auto activeCamera = this->currentScene->GetActiveCamera();
+			if(activeCamera != nullptr)
+				activeCamera->SetAspectRatio(static_cast<float>(width) / static_cast<float>(height));
+		}
 	}
 
 	void Engine::KeyControl(int key, int scancode, int action, int mode)
@@ -82,7 +86,7 @@ namespace EngineQ
 		instance->WindowResized(width, height);
 	}
 
-	bool Engine::Initialize(std::string name, int width, int height, char* assemblyName)
+	bool Engine::Initialize(const Config& config)
 	{
 		if (instance != nullptr)
 		{
@@ -91,24 +95,14 @@ namespace EngineQ
 		}
 		std::cout << "Initializing EngineQ" << std::endl;
 
-		instance = std::unique_ptr<Engine>(new Engine{ name, width, height, assemblyName });
-				
-		return true;
-	}
+		instance = std::unique_ptr<Engine>{ new Engine{ config } };
 
-	Scripting::ScriptClass Engine::GetClass(std::string assembly, std::string namespaceName, std::string className) const
-	{
-		return scriptingEngine->GetScriptClass(assembly.c_str(), namespaceName.c_str(), className.c_str());
+		return true;
 	}
 
 	Math::Vector2i Engine::GetScreenSize() const
 	{
 		return screenSize;
-	}
-
-	void Engine::SetPostprocessingConfiguration(std::string filePath)
-	{
-		renderingUnit = std::make_shared<Graphics::RenderingUnit>(this, Graphics::RenderingUnitConfiguration::Load(filePath));
 	}
 
 	Scene& Engine::CreateScene()
@@ -158,7 +152,7 @@ namespace EngineQ
 	{
 		if (instance != nullptr)
 			return *instance;
-		
+
 		throw std::runtime_error{ "Engine not initialized" };
 	}
 
@@ -192,15 +186,15 @@ namespace EngineQ
 
 		auto blurVertical = Graphics::EffectConfiguration{};
 		blurVertical.Input.push_back(Graphics::InputPair{ 0,tex2Name });
-		blurVertical.Output.push_back(Graphics::OutputTexture{ tex3Name});
+		blurVertical.Output.push_back(Graphics::OutputTexture{ tex3Name });
 		blurVertical.Shader = Utilities::ResourcesIDs::BlurVShader;
-		
+
 
 		auto blur = Graphics::EffectConfiguration{};
 		blur.Input.push_back(Graphics::InputPair{ 0,tex3Name });
-		blur.Output.push_back(Graphics::OutputTexture{ tex2Name});
+		blur.Output.push_back(Graphics::OutputTexture{ tex2Name });
 		blur.Shader = Utilities::ResourcesIDs::BlurShader;
-		
+
 
 		for (int i = 0; i < 5; i++)
 		{
@@ -218,9 +212,19 @@ namespace EngineQ
 		return config;
 	}
 
-
 	void Engine::Run()
 	{
+		void* args[] =
+		{
+			static_cast<void*>(this->currentScene->GetManagedObject())
+		};
+
+		this->scriptingEngine->InvokeStaticMethod(this->initializerMethod, args);
+
+		this->renderingUnit = std::make_shared<Graphics::RenderingUnit>(this, this->renderConfig);
+
+
+
 		auto& timeCounter = TimeCounter::Get();
 		timeCounter.Update(0.0f, 0.0f);
 

@@ -49,6 +49,8 @@ namespace EngineQ
 
 		void RenderingUnit::Resize(int width, int height)
 		{
+			glViewport(0, 0, width, height);
+
 			for (std::size_t i = 0; i < textures.size(); i++)
 			{
 				glBindTexture(GL_TEXTURE_2D, textures[i]);
@@ -65,6 +67,9 @@ namespace EngineQ
 
 		void RenderingUnit::Init(const RenderingUnitConfiguration& configuration)
 		{
+			auto size = engine->GetScreenSize();
+			glViewport(0, 0, size.X, size.Y);
+
 			//textures
 			std::map<std::string, int> texturesNames;
 			int j = 0;

@@ -4,6 +4,7 @@
 
 #include "../Objects/Scene.hpp"
 #include "../Objects/Entity.hpp"
+#include "../Objects/Camera.hpp"
 
 namespace EngineQ
 {
@@ -16,15 +17,16 @@ namespace EngineQ
 			const auto& scriptEngine = scene.GetScriptEngine();
 
 			auto nativeEntity = scene.FindEntity(scriptEngine.GetScriptStringContent(name));
-			
+
 			entity = (nativeEntity == nullptr ? nullptr : nativeEntity->GetManagedObject());
 		}
 
-		void API_Scene::API_CreateEntity(Object& sceneBase, MonoObject*& entity)
+		void API_Scene::API_CreateEntity(Object& sceneBase, bool enabled, MonoString* name, MonoObject*& entity)
 		{
 			auto& scene = static_cast<Scene&>(sceneBase);
+			auto& scriptEngine = scene.GetScriptEngine();
 
-			entity = scene.CreateEntity().GetManagedObject();
+			entity = scene.CreateEntity(enabled, scriptEngine.GetScriptStringContent(name)).GetManagedObject();
 		}
 
 		void API_Scene::API_RemoveEntityIndex(Object& sceneBase, std::int32_t  index)
@@ -62,6 +64,27 @@ namespace EngineQ
 			count = static_cast<std::int32_t>(scene.GetEntitiesCount());
 		}
 
+		void API_Scene::API_GetActiveCamera(const Object& sceneBase, MonoObject*& camera)
+		{
+			auto& scene = static_cast<const Scene&>(sceneBase);
+
+			auto activeCamera = scene.GetActiveCamera();
+			if (activeCamera != nullptr)
+				camera = activeCamera->GetManagedObject();
+			else
+				camera = nullptr;
+		}
+
+		void API_Scene::API_SetActiveCamera(Object& sceneBase, MonoObject* camera)
+		{
+			auto& scene = static_cast<Scene&>(sceneBase);
+
+			if (camera != nullptr)
+				scene.SetActiveCamera(static_cast<Camera*>(scene.GetScriptEngine().GetNativeHandle(camera)));
+			else
+				scene.SetActiveCamera(nullptr);
+		}
+
 		void API_Scene::API_Register(ScriptEngine& scriptEngine)
 		{
 			scriptEngine.API_Register("EngineQ.Scene::API_FindEntity", API_FindEntity);
@@ -71,6 +94,8 @@ namespace EngineQ
 			scriptEngine.API_Register("EngineQ.Scene::API_GetEntityIndex", API_GetEntityIndex);
 			scriptEngine.API_Register("EngineQ.Scene::API_GetEntity", API_GetEntity);
 			scriptEngine.API_Register("EngineQ.Scene::API_GetEntitiesCount", API_GetEntitiesCount);
+			scriptEngine.API_Register("EngineQ.Scene::API_GetActiveCamera", API_GetActiveCamera);
+			scriptEngine.API_Register("EngineQ.Scene::API_SetActiveCamera", API_SetActiveCamera);
 		}
 	}
 }

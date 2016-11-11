@@ -165,13 +165,13 @@ namespace EngineQ
 
 		public delegate void KeyboardKeyEventHandler(Key key, KeyAction action);
 		public delegate void MouseButtonEventHandler(MouseButton button, KeyAction action);
-		
+
 		#endregion
 
 		#region Static Fields
 
-		private static Dictionary<Key, KeyboardKeyEventHandler> keyboardEvents;
-		private static Dictionary<MouseButton, MouseButtonEventHandler> mouseEvents;
+		private static KeyboardKeyEventHandler[] keyboardEvents;
+		private static MouseButtonEventHandler[] mouseEvents;
 
 		#endregion
 
@@ -203,8 +203,8 @@ namespace EngineQ
 
 		static Input()
 		{
-			keyboardEvents = new Dictionary<Key, KeyboardKeyEventHandler>();
-			mouseEvents = new Dictionary<MouseButton, MouseButtonEventHandler>();
+			keyboardEvents = new KeyboardKeyEventHandler[(int)Key.Count];
+			mouseEvents = new MouseButtonEventHandler[(int)MouseButton.Count];
 		}
 
 		#region Keys
@@ -215,35 +215,24 @@ namespace EngineQ
 			API_KeyPressed((int)key, out value);
 			return value;
 		}
-		
+
 		private static void KeyEvent(Key key, KeyAction action)
 		{
-			KeyboardKeyEventHandler keyboardEventHandler;
-			if (keyboardEvents.TryGetValue(key, out keyboardEventHandler))
-			{
-				keyboardEventHandler?.Invoke(key, action);
-			}
+			if (key == Key.Unknown)
+				return;
+
+			var keyboardEventHandler = keyboardEvents[(int)key];
+			keyboardEventHandler?.Invoke(key, action);
 		}
 
 		public static void RegisterKeyEvent(Key key, KeyboardKeyEventHandler action)
 		{
-			KeyboardKeyEventHandler keyboardEventHandler;
-			if (!keyboardEvents.TryGetValue(key, out keyboardEventHandler))
-			{
-				keyboardEventHandler = new KeyboardKeyEventHandler(action);
-				keyboardEvents.Add(key, keyboardEventHandler);
-			}
-			else
-			{
-				keyboardEventHandler += action;
-			}
+			keyboardEvents[(int)key] += action;
 		}
 
 		public static void DeregisterKeyEvent(Key key, KeyboardKeyEventHandler action)
 		{
-			KeyboardKeyEventHandler keyboardEventHandler;
-			if (keyboardEvents.TryGetValue(key, out keyboardEventHandler))
-				keyboardEventHandler -= action;
+			keyboardEvents[(int)key] -= action;
 		}
 
 		#endregion
@@ -260,30 +249,21 @@ namespace EngineQ
 		// ReSharper disable once UnusedMember.Local
 		private static void MouseButtonEvent(MouseButton button, KeyAction action)
 		{
-			MouseButtonEventHandler mouseEventHandler;
-			if (mouseEvents.TryGetValue(button, out mouseEventHandler))
-				mouseEventHandler?.Invoke(button, action);
+			if (button == MouseButton.Unknown)
+				return;
+
+			var mouseEventHandler = mouseEvents[(int)button];
+			mouseEventHandler?.Invoke(button, action);
 		}
 
 		public static void RegisterMouseButtonEvent(MouseButton button, MouseButtonEventHandler action)
 		{
-			MouseButtonEventHandler mouseEventHandler;
-			if (!mouseEvents.TryGetValue(button, out mouseEventHandler))
-			{
-				mouseEventHandler = new MouseButtonEventHandler(action);
-				mouseEvents.Add(button, mouseEventHandler);
-			}
-			else
-			{
-				mouseEventHandler += action;
-			}
+			mouseEvents[(int)button] += action;
 		}
 
 		public static void DeregisterMouseButtonEvent(MouseButton button, MouseButtonEventHandler action)
 		{
-			MouseButtonEventHandler mouseEventHandler;
-			if (mouseEvents.TryGetValue(button, out mouseEventHandler))
-				mouseEventHandler -= action;
+			mouseEvents[(int)button] -= action;
 		}
 
 		#endregion

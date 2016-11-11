@@ -10,9 +10,25 @@ namespace EngineQ
 	class Script final : public Component
 	{
 	private:
+		Scripting::ScriptMethod createMethod;
+		Scripting::ScriptMethod activateMethod;
+		Scripting::ScriptMethod enabledMethod;
 		Scripting::ScriptMethod updateMethod;
+		Scripting::ScriptMethod disabledMethod;
+		Scripting::ScriptMethod deactivateMethod;
+		Scripting::ScriptMethod destroyMethod;
 
-		//	Utilities::Emiter emiter{ "Script" };
+		bool created = false;
+		bool activated = false;
+
+	protected:
+		virtual void OnEnabledChanged(bool enabled) override;
+
+		void OnActivate();
+		void OnEnable();
+		void OnDisable();
+		void OnDeactivate();
+		void OnDestroy();
 
 	public:
 		/*
@@ -24,10 +40,14 @@ namespace EngineQ
 	#pragma endregion
 		*/
 
-		Script(Scripting::ScriptEngine& scriptEngine, Entity& entity, Scripting::ScriptClass sclass);
+		Script(Scripting::ScriptEngine& scriptEngine, Entity& entity, Scripting::ScriptClass sclass, bool enabled);
 
-		void Update();
+		void OnCreate();
+		void OnUpdate();
+		
 		bool IsUpdateble();
+
+		virtual ~Script();
 	};
 }
 

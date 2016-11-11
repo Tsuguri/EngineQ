@@ -22,8 +22,8 @@ namespace EngineQ
 #pragma endregion
 	*/
 
-	Light::Light(Scripting::ScriptEngine& scriptEngine, Entity& entity)
-		: Component{ ComponentType::Light, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light), entity }
+	Light::Light(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled)
+		: Component{ ComponentType::Light, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light), entity, enabled }
 	{
 		// TMP
 		scriptEngine.InvokeConstructor(GetManagedObject());

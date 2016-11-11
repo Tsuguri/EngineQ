@@ -17,7 +17,7 @@ namespace EngineQ
 			static void API_GetComponentIndex(const Object& entityBase, std::int32_t index, MonoObject*& component);
 			static void API_GetComponentsCount(const Object& entityBase, std::int32_t & count);
 			static void API_GetComponentType(const Object& entityBase, MonoReflectionType*& type, MonoObject*& component);
-			static void API_AddComponent(Object& entityBase, MonoReflectionType*& type, MonoObject*& component);
+			static void API_AddComponent(Object& entityBase, MonoReflectionType*& type, bool enabled, MonoObject*& component);
 			static void API_RemoveComponent(Object& entityBase, MonoObject*& component);
 
 			static void API_GetEnabled(const Object& entityBase, bool& enabled);

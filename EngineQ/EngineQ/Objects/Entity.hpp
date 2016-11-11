@@ -2,6 +2,7 @@
 #define ENGINEQ_ENTITY_HPP
 
 #include <vector>
+#include <memory>
 
 #include "Types.hpp"
 
@@ -17,11 +18,7 @@ namespace EngineQ
 			friend class Scene;
 
 		private:
-			static Entity& CreateEntity(Scene& scene, Scripting::ScriptEngine& scriptEngine);
-		
-			static void OnUpdate(Entity& entity);
-			static void OnUpdateBegin(Entity& entity);
-			static void OnUpdateEnd(Entity& entity);
+			static std::unique_ptr<Entity> CreateEntity(Scene& scene, Scripting::ScriptEngine& scriptEngine, bool enabled, const std::string& name);
 		};
 
 		class TransformCallbacks
@@ -43,30 +40,19 @@ namespace EngineQ
 	private:
 		Scene& scene;
 
-		bool removeLocked = false;
-
 		bool enabled = true;
 		bool parentEnabled = true;
 
-		std::vector<Component*> components;
-		std::vector<Script*> updatable;
-
-		std::vector<Component*> componentsToDelete;
+		std::vector<std::unique_ptr<Component>> components;
 
 		Transform& transform;
 
 		std::string name;
 
-		Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine);
+		Entity(Scene& scene, Scripting::ScriptEngine& scriptEngine, bool enabled, const std::string& name);
+		
 
-		void LockRemove();
-		void UnlockRemove();
-
-		void RemoveComponent_Internal(Component& component, std::vector<Component*>::iterator it);
-
-		void Update();
-
-		void AddComponent(Component& component);
+		void AddComponent(std::unique_ptr<Component> component);
 
 		void SetParentEnabled(bool enabled);
 		void HierarchyEnabledChanged(bool hierarchyEnabled);
@@ -81,7 +67,7 @@ namespace EngineQ
 	#pragma endregion
 		*/
 
-		virtual ~Entity() override;
+		virtual ~Entity();
 
 		const Scene& GetScene() const;
 		Scene& GetScene();
@@ -99,12 +85,13 @@ namespace EngineQ
 		Component& GetComponent(std::size_t index) const;
 
 		template<typename Type>
-		Type& AddComponent();
+		Type& AddComponent(bool enabled = true);
+
 		void RemoveComponent(Component& component);
 
 		std::size_t GetComponentIndex(const Component& component) const;
 
-		Script& AddScript(Scripting::ScriptClass sclass);
+		Script& AddScript(Scripting::ScriptClass sclass, bool enabled = true);
 
 		const std::string& GetName() const;
 		void SetName(const std::string& name);
@@ -114,11 +101,12 @@ namespace EngineQ
 namespace EngineQ
 {
 	template<typename Type>
-	Type& Entity::AddComponent()
+	Type& Entity::AddComponent(bool enabled)
 	{
-		Type& component = *new Type{ this->scriptEngine, *this };
+		auto componentPtr = std::unique_ptr<Type>{ new Type{ this->scriptEngine, *this, enabled } };
+		auto& component = *componentPtr;
 
-		this->AddComponent(component);
+		this->AddComponent(std::move(componentPtr));
 
 		return component;
 	}

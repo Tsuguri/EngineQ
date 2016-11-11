@@ -24,7 +24,7 @@ namespace EngineQ
 				return (this->property != nullptr);
 			}
 
-			TType Get() const
+			const TType& Get() const
 			{
 				return *this->property;
 			}

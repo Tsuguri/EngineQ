@@ -26,8 +26,8 @@ namespace EngineQ
 #pragma endregion
 	*/
 
-	Component::Component(ComponentType type, Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass, Entity& entity)
-		: Object{ scriptEngine, sclass }, entity{ entity }, type{ type }
+	Component::Component(ComponentType type, Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass, Entity& entity, bool enabled)
+		: Object{ scriptEngine, sclass }, entity{ entity }, enabled{ enabled }, parentEnabled{ entity.IsEnabledInHierarchy() }, type{ type }
 	{
 	}
 
@@ -48,7 +48,13 @@ namespace EngineQ
 
 	void Component::SetParentEnabled(bool enabled)
 	{
+		if (this->parentEnabled == enabled)
+			return;
+
 		this->parentEnabled = enabled;
+
+		if (this->enabled)
+			this->OnEnabledChanged(enabled);
 	}
 
 	bool Component::IsEnabled() const
@@ -64,10 +70,17 @@ namespace EngineQ
 		this->enabled = enabled;
 
 		Entity::ComponentCallbacks::OnEnabledChanged(entity, *this, this->enabled);
+
+		if (this->parentEnabled)
+			this->OnEnabledChanged(enabled);
 	}
 
 	bool Component::IsEnabledInHierarchy() const
 	{
 		return this->enabled && this->parentEnabled;
+	}
+
+	void Component::OnEnabledChanged(bool enabled)
+	{
 	}
 }

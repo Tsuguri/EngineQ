@@ -41,7 +41,7 @@ namespace EngineQ
 	#pragma endregion
 		*/
 
-		Component(ComponentType type, Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass, Entity& entity);
+		Component(ComponentType type, Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass, Entity& entity, bool enabled);
 		
 		Entity& GetEntity();
 		const Entity& GetEntity() const;
@@ -52,6 +52,9 @@ namespace EngineQ
 		bool IsEnabledInHierarchy() const;
 
 		ComponentType GetType() const;
+
+	protected:
+		virtual void OnEnabledChanged(bool enabled);
 	};
 }
 

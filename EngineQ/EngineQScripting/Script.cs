@@ -28,6 +28,10 @@
 		{
 		}
 
+		protected virtual void OnActivate()
+		{
+		}
+
 		protected virtual void OnEnable()
 		{
 		}
@@ -37,6 +41,10 @@
 		}
 
 		protected virtual void OnDisable()
+		{
+		}
+
+		protected virtual void OnDeactivate()
 		{
 		}
 
