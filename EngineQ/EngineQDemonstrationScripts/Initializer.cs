@@ -45,19 +45,19 @@ namespace QScripts
 			renderable1.Entity.Transform.Scale = new Vector3(0.1f);
 			renderable1.UseForwardShader(shader);
 			renderable1.UseDeferredShader(deferredShader);
+			renderable1.DeferredShader.Material.DiffuseTexture = texture;
 
 			renderable2.Mesh = skullMesh;
 			renderable2.Entity.Transform.Scale = new Vector3(0.1f);
 			renderable2.UseForwardShader(shader);
 			renderable2.UseDeferredShader(deferredShader);
+			renderable2.DeferredShader.Material.DiffuseTexture = texture;
 
 			renderable3.Mesh = cubeMesh;
 			renderable3.UseForwardShader(shader);
 			renderable3.UseDeferredShader(deferredShader);
+			renderable3.DeferredShader.Material.DiffuseTexture = texture;
 
-			renderable1.DeferredShader.Set(renderable1.DeferredShader.GetProperty<Texture>("material.diffuseTexture"), texture);
-			renderable2.DeferredShader.Set(renderable2.DeferredShader.GetProperty<Texture>("material.diffuseTexture"), texture);
-			renderable3.DeferredShader.Set(renderable3.DeferredShader.GetProperty<Texture>("material.diffuseTexture"), texture);
 
 			ent1.AddComponent<CameraMoveClass>();
 			ent2.AddComponent<RotateTest>();
@@ -66,7 +66,6 @@ namespace QScripts
 			lightEntity.AddComponent<Light>();
 
 			scene.ActiveCamera = camera;
-
 
 			ent1.Transform.Position = new Vector3(0.0f, 0.0f, -2.0f);
 			ent2.Transform.Position = new Vector3(0.0f, 0.0f, 0.0f);

@@ -10,7 +10,7 @@
 
 namespace EngineQ
 {
-	class Camera : public Component
+	class Camera final : public Component
 	{
 	private:
 

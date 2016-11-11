@@ -182,7 +182,7 @@ namespace EngineQ
 					this->OnUniformAdded(uniformPair.second, uniformTypes[i], uniformName, translatedName);
 
 					// TMP
-					std::cout << "Added property: " << translatedName;
+					std::cout << "SP: Added property: " << translatedName;
 					if (translatedName != uniformName)
 						std::cout << " (" << uniformName << ")";
 					std::cout << std::endl;
@@ -190,11 +190,14 @@ namespace EngineQ
 				else
 				{
 					// TMP
-					std::cout << "Type " << uniformTypes[i] << " of property " << uniformName << " is not supported" << std::endl;
+					std::cout << "SP: Type " << uniformTypes[i] << " of property " << uniformName << " is not supported" << std::endl;
 				}
 			}
 
 			this->FinalizeBuiltIn();
+
+			// Call constructor
+			this->scriptEngine.InvokeConstructor(this->GetManagedObject());
 		}
 
 		void ShaderProperties::Apply() const

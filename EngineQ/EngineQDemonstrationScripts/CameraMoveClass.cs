@@ -22,19 +22,10 @@ namespace QScripts
 
 		public CameraMoveClass()
 		{
-			Input.RegisterKeyEvent(Input.Key.Escape, EscapeAction);
-			Input.RegisterKeyEvent(Input.Key.F1, F1Action);
-			Input.RegisterKeyEvent(Input.Key.F2, F2Action);
-			Input.RegisterKeyEvent(Input.Key.P, ToggleEnableSkullScriptAction);
-			Input.RegisterKeyEvent(Input.Key.O, RemoveOrAddScriptAction);
-
 			rotationX = Transform.Rotation.EulerAngles.X;
 			rotationY = Transform.Rotation.EulerAngles.Y;
-
-
-			Input.RegisterKeyEvent(Input.Key.P, TestAction);
 		}
-
+		
 		private float DegToRad(float val)
 		{
 			return (float)(Math.PI * val / 180);
@@ -79,23 +70,44 @@ namespace QScripts
 				rotationY += DegToRad(tmp2.X * (reverseY ? 1 : -1)) / speed;
 
 				CheckAngles();
-				Console.WriteLine($"Angles: {RadToDeg(rotationX)} {RadToDeg(rotationY)}");
+			//	Console.WriteLine($"Angles: {RadToDeg(rotationX)} {RadToDeg(rotationY)}");
 				Transform.Rotation = Quaternion.CreateFromEuler(rotationX, rotationY, 0);
 			}
 		}
 
 		protected override void OnActivate()
 		{
-			Console.WriteLine("Activated");
-
 			this.Skull1 = this.Entity.Scene.FindEntity("Skull1");
 			this.Skull2 = this.Entity.Scene.FindEntity("Skull2");
+
+			Input.RegisterKeyEvent(Input.Key.Escape, EscapeAction);
+			Input.RegisterKeyEvent(Input.Key.F1, F1Action);
+			Input.RegisterKeyEvent(Input.Key.F2, F2Action);
+			Input.RegisterKeyEvent(Input.Key.P, ToggleEnableSkullScriptAction);
+			Input.RegisterKeyEvent(Input.Key.O, RemoveOrAddScriptAction);
+
+			Input.RegisterKeyEvent(Input.Key.P, TestAction);
+
+			Console.WriteLine($"{this.Entity.Name} activated");
+		}
+
+		protected override void OnDeactivate()
+		{
+			Input.DeregisterKeyEvent(Input.Key.Escape, EscapeAction);
+			Input.DeregisterKeyEvent(Input.Key.F1, F1Action);
+			Input.DeregisterKeyEvent(Input.Key.F2, F2Action);
+			Input.DeregisterKeyEvent(Input.Key.P, ToggleEnableSkullScriptAction);
+			Input.DeregisterKeyEvent(Input.Key.O, RemoveOrAddScriptAction);
+
+			Input.DeregisterKeyEvent(Input.Key.P, TestAction);
+
+			Console.WriteLine($"{this.Entity.Name} deactivated");
 		}
 
 		private void MoveInDirection(Vector3 direction)
 		{
 			Transform.Position = Transform.Position + Transform.Rotation * direction * Time.DeltaTime;
-			Console.WriteLine($"Position: {Transform.Position}");
+		//	Console.WriteLine($"Position: {Transform.Position}");
 		}
 
 		private void EscapeAction(Input.Key key, Input.KeyAction action)

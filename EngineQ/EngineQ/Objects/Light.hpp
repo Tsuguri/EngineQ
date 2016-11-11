@@ -5,7 +5,7 @@
 
 namespace EngineQ
 {
-	class Light : public Component
+	class Light final : public Component
 	{
 	public:
 		/*

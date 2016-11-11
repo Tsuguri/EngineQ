@@ -26,28 +26,41 @@ namespace EngineQ
 	{
 		auto instance = scriptEngine.GetInstance(managedHandle);
 
-		this->activateMethod = scriptEngine.GetScriptActivatedMethod(sclass, instance);
-		this->enabledMethod = scriptEngine.GetScriptEnabledMethod(sclass, instance);
+		this->createMethod = scriptEngine.GetScriptCreateMethod(sclass, instance);
+		this->activateMethod = scriptEngine.GetScriptActivateMethod(sclass, instance);
+		this->enabledMethod = scriptEngine.GetScriptEnableMethod(sclass, instance);
 		this->updateMethod = scriptEngine.GetScriptUpdateMethod(sclass, instance);
-		this->disabledMethod = scriptEngine.GetScriptDisabledMethod(sclass, instance);
-		this->deactivateMethod = scriptEngine.GetScriptDeactivatedMethod(sclass, instance);
+		this->disabledMethod = scriptEngine.GetScriptDisableMethod(sclass, instance);
+		this->deactivateMethod = scriptEngine.GetScriptDeactivateMethod(sclass, instance);
+		this->destroyMethod = scriptEngine.GetScriptDestroyMethod(sclass, instance);
+	}
+
+	void Script::OnCreate()
+	{
+		if (this->created)
+			throw std::logic_error{ "Object already created" };
+
+		if (this->createMethod != nullptr)
+			scriptEngine.InvokeMethod(this->managedHandle, this->createMethod, nullptr);
 
 		if (this->IsEnabledInHierarchy())
 		{
 			this->OnActivate();
 			this->OnEnable();
 		}
+
+		this->created = true;
 	}
 
 	void Script::OnActivate()
 	{
-		if (this->isActivated)
+		if (this->activated)
 			return;
 
 		if (this->activateMethod != nullptr)
 			scriptEngine.InvokeMethod(this->managedHandle, this->activateMethod, nullptr);
 
-		this->isActivated = true;
+		this->activated = true;
 	}
 
 	void Script::OnEnable()
@@ -69,11 +82,17 @@ namespace EngineQ
 
 	void Script::OnDeactivate()
 	{
-		if (!this->isActivated)
+		if (!this->activated)
 			return;
 
 		if (this->deactivateMethod != nullptr)
 			scriptEngine.InvokeMethod(this->managedHandle, this->deactivateMethod, nullptr);
+	}
+
+	void Script::OnDestroy()
+	{
+		if (this->destroyMethod != nullptr)
+			scriptEngine.InvokeMethod(this->managedHandle, this->destroyMethod, nullptr);
 	}
 
 	bool Script::IsUpdateble()
@@ -100,5 +119,6 @@ namespace EngineQ
 			this->OnDisable();
 
 		this->OnDeactivate();
+		this->OnDestroy();
 	}
 }

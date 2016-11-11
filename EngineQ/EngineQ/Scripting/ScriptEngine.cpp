@@ -89,7 +89,6 @@ namespace EngineQ
 			mono_set_dirs(libPath, configPath);
 
 
-
 			//	this->domain = mono_init(name);
 			//	this->domain = mono_domain_create();
 			this->domain = mono_jit_init(name);
@@ -192,12 +191,32 @@ namespace EngineQ
 
 		void ScriptEngine::InvokeMethod(ScriptHandle handle, ScriptMethod method, void** args) const
 		{
-			mono_runtime_invoke(method, mono_gchandle_get_target(handle), args, nullptr);
+			MonoObject* exc = nullptr;
+			mono_runtime_invoke(method, mono_gchandle_get_target(handle), args, &exc);
+
+			// TMP
+			if (exc != nullptr)
+			{
+				std::printf("==== Unhandled exception ====\n");
+				
+				std::string excStr = this->GetScriptStringContent(mono_object_to_string(exc, nullptr));
+				std::printf("%s\n", excStr.c_str());
+			}
 		}
 
 		void ScriptEngine::InvokeStaticMethod(ScriptMethod method, void** args) const
 		{
-			mono_runtime_invoke(method, nullptr, args, nullptr);
+			MonoObject* exc = nullptr;
+			mono_runtime_invoke(method, nullptr, args, &exc);
+
+			// TMP
+			if (exc != nullptr)
+			{
+				std::printf("==== Unhandled exception ====\n");
+
+				std::string excStr = this->GetScriptStringContent(mono_object_to_string(exc, nullptr));
+				std::printf("%s\n", excStr.c_str());
+			}
 		}
 
 		void ScriptEngine::InvokeConstructor(ScriptObject object) const
@@ -212,6 +231,8 @@ namespace EngineQ
 
 			// Set pointer to native representation
 			mono_field_set_value(instance, this->nativeHandleClassField, &nativeHandle);
+
+			mono_runtime_object_init(instance);
 
 			return instance;
 		}
@@ -261,12 +282,17 @@ namespace EngineQ
 		}
 
 
-		ScriptMethod ScriptEngine::GetScriptActivatedMethod(ScriptClass sclass, ScriptObject object) const
+		ScriptMethod ScriptEngine::GetScriptCreateMethod(ScriptClass sclass, ScriptObject object) const
+		{
+			return GetScriptMethod(sclass, object, OnCreateName);
+		}
+
+		ScriptMethod ScriptEngine::GetScriptActivateMethod(ScriptClass sclass, ScriptObject object) const
 		{
 			return GetScriptMethod(sclass, object, OnActivateName);
 		}
 
-		ScriptMethod ScriptEngine::GetScriptEnabledMethod(ScriptClass sclass, ScriptObject object) const
+		ScriptMethod ScriptEngine::GetScriptEnableMethod(ScriptClass sclass, ScriptObject object) const
 		{
 			return GetScriptMethod(sclass, object, OnEnableName);
 		}
@@ -276,16 +302,21 @@ namespace EngineQ
 			return GetScriptMethod(sclass, object, OnUpdateName);
 		}
 
-		ScriptMethod ScriptEngine::GetScriptDisabledMethod(ScriptClass sclass, ScriptObject object) const
+		ScriptMethod ScriptEngine::GetScriptDisableMethod(ScriptClass sclass, ScriptObject object) const
 		{
 			return GetScriptMethod(sclass, object, OnDisableName);
 		}
 		
-		ScriptMethod ScriptEngine::GetScriptDeactivatedMethod(ScriptClass sclass, ScriptObject object) const
+		ScriptMethod ScriptEngine::GetScriptDeactivateMethod(ScriptClass sclass, ScriptObject object) const
 		{
 			return GetScriptMethod(sclass, object, OnDeactivateName);
 		}
 		
+		ScriptMethod ScriptEngine::GetScriptDestroyMethod(ScriptClass sclass, ScriptObject object) const
+		{
+			return GetScriptMethod(sclass, object, OnDestroyName);
+		}
+
 
 		ScriptMethod ScriptEngine::GetInitializerMethod(const std::string& iassembly, const std::string& inamespace, const std::string& iclass) const
 		{

@@ -14,15 +14,7 @@ namespace QScripts
 		private int mode = 0;
 
 		private Random random = new Random();
-
-		public RotateTest()
-		{
-			Input.RegisterKeyEvent(Input.Key.N1, SwitchAction);
-
-			Input.RegisterKeyEvent(Input.Key.LeftBracket, ChangeShader1);
-			Input.RegisterKeyEvent(Input.Key.RightBracket, ChangeShader2);
-		}
-
+				
 		private void SwitchAction(Input.Key key, Input.KeyAction action)
 		{
 			mode = (mode + 1) % 3;
@@ -32,20 +24,16 @@ namespace QScripts
 		{
 			if(action == Input.KeyAction.Press)
 			{
-				Renderable renderable = this.Entity.GetComponent<Renderable>();
+				var resourceManager = ResourceManager.Instance;
+				var renderable = this.Entity.GetComponent<Renderable>();
 
-				renderable.UseDeferredShader(ResourceManager.Instance.GetResource<Shader>("TestDeferred1"));
+				renderable.UseDeferredShader(resourceManager.GetResource<Shader>("TestDeferred1"));
 
-				var myColorProperty = renderable.DeferredShader.GetProperty<Vector3f>("material.diffuse");
-				
-				renderable.DeferredShader.Set(myColorProperty, new Vector3f((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble()));
-				Vector3f color = renderable.DeferredShader.Get(myColorProperty);
+				renderable.DeferredShader.Material.Diffuse = new Vector3f((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble());
 
+				renderable.Mesh = resourceManager.GetResource<Mesh>("EngineQ/Cube");
 
-				Mesh mesh = ResourceManager.Instance.GetResource<Mesh>("EngineQ/Cube");
-				renderable.Mesh = mesh;
-
-				Console.WriteLine($"Set color to {color}");
+				Console.WriteLine($"Set diffuse color to {renderable.DeferredShader.Material.Diffuse}");
 			}
 		}
 
@@ -53,17 +41,14 @@ namespace QScripts
 		{
 			if (action == Input.KeyAction.Press)
 			{
-				Renderable renderable = this.Entity.GetComponent<Renderable>();
+				var resourceManager = ResourceManager.Instance;
+				var renderable = this.Entity.GetComponent<Renderable>();
 
-				renderable.UseDeferredShader(ResourceManager.Instance.GetResource<Shader>("TestDeferred2"));
+				renderable.UseDeferredShader(resourceManager.GetResource<Shader>("TestDeferred2"));
 
-				var texture = ResourceManager.Instance.GetResource<Texture>("Numbers");
+				renderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
 
-				var texturePropert = renderable.DeferredShader.GetProperty<Texture>("material.diffuseTexture");
-				renderable.DeferredShader.Set(texturePropert, texture);
-
-				Mesh mesh = ResourceManager.Instance.GetResource<Mesh>("Skull");
-				renderable.Mesh = mesh;
+				renderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
 			}
 		}
 
@@ -98,6 +83,26 @@ namespace QScripts
 					Transform.Rotation = Quaternion.CreateFromEuler(DegToRad(X), 0, 0);
 					break;
 			}
+		}
+
+		protected override void OnCreate()
+		{
+			Console.WriteLine($"{this.Entity.Name} created");
+
+			Input.RegisterKeyEvent(Input.Key.N1, SwitchAction);
+
+			Input.RegisterKeyEvent(Input.Key.LeftBracket, ChangeShader1);
+			Input.RegisterKeyEvent(Input.Key.RightBracket, ChangeShader2);
+		}
+
+		protected override void OnDestroy()
+		{
+			Console.WriteLine($"{this.Entity.Name} destroyed");
+
+			Input.DeregisterKeyEvent(Input.Key.N1, SwitchAction);
+
+			Input.DeregisterKeyEvent(Input.Key.LeftBracket, ChangeShader1);
+			Input.DeregisterKeyEvent(Input.Key.RightBracket, ChangeShader2);
 		}
 
 		protected override void OnActivate()

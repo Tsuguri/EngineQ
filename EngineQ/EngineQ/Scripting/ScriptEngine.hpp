@@ -54,11 +54,13 @@ namespace EngineQ
 			
 			static constexpr const char* UpdateName = ":Update";
 			
+			static constexpr const char* OnCreateName = ":OnCreate";
 			static constexpr const char* OnActivateName = ":OnActivate";
 			static constexpr const char* OnEnableName = ":OnEnable";
 			static constexpr const char* OnUpdateName = ":OnUpdate";
 			static constexpr const char* OnDisableName = ":OnDisable";
 			static constexpr const char* OnDeactivateName = ":OnDeactivate";
+			static constexpr const char* OnDestroyName = ":OnDestroy";
 			
 			static constexpr const char* InitializerName = ":OnInitialize";
 
@@ -130,11 +132,13 @@ namespace EngineQ
 			void API_Register(const char* name, TReturn(*function)(TArgs...));
 			void LoadAssembly(const char* path);
 
+			ScriptMethod GetScriptCreateMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptActivateMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptEnableMethod(ScriptClass sclass, ScriptObject object) const;
 			ScriptMethod GetScriptUpdateMethod(ScriptClass sclass, ScriptObject object) const;
-			ScriptMethod GetScriptEnabledMethod(ScriptClass sclass, ScriptObject object) const;
-			ScriptMethod GetScriptDisabledMethod(ScriptClass sclass, ScriptObject object) const;
-			ScriptMethod GetScriptActivatedMethod(ScriptClass sclass, ScriptObject object) const;
-			ScriptMethod GetScriptDeactivatedMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptDisableMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptDeactivateMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetScriptDestroyMethod(ScriptClass sclass, ScriptObject object) const;
 
 			ScriptMethod GetInitializerMethod(const std::string& iassembly, const std::string& inamespace, const std::string& iclass) const;
 

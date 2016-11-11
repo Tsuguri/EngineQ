@@ -12,7 +12,7 @@
 
 namespace EngineQ
 {
-	class Renderable : public Component
+	class Renderable final : public Component
 	{
 	private:
 		std::unique_ptr<Graphics::ShaderProperties> forwardShader;

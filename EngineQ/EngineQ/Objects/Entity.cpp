@@ -131,6 +131,8 @@ namespace EngineQ
 
 		this->AddComponent(std::move(scriptPtr));
 
+		script.OnCreate();
+
 		return script;
 	}
 
