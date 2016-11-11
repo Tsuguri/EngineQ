@@ -199,6 +199,7 @@ namespace EngineQ
 
 		void ShaderProperties::Apply() const
 		{
+			this->shader->Reset();
 			this->shader->Activate();
 			for (const auto& uniformPair : shaderUniforms)
 				uniformPair.second.Apply(*shader, uniformPair.first);

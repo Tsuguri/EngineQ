@@ -29,6 +29,7 @@ namespace EngineQ
 
 		private:
 			GLuint programId;
+			int currentTextureSlot = 0;
 
 			void Create();
 			void AttachShader(const ShaderPart& shader);
@@ -42,6 +43,7 @@ namespace EngineQ
 
 			~Shader();
 
+			void Reset();
 			void Activate();
 
 			UniformLocation GetUniformLocation(const char* name);

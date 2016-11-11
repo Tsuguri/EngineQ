@@ -76,6 +76,11 @@ namespace EngineQ
 			}
 		}
 
+		void Shader::Reset()
+		{
+			this->currentTextureSlot = 0;
+		}
+
 		void Shader::Activate()
 		{
 			glUseProgram(this->programId);
@@ -171,17 +176,16 @@ namespace EngineQ
 
 		void Shader::Bind(UniformLocation location, const Texture* texture)
 		{
-			// TMP
-			int textureSlot = 3;
-
-			glActiveTexture(GL_TEXTURE0 + textureSlot);
+			glActiveTexture(GL_TEXTURE0 + this->currentTextureSlot);
 
 			if (texture != nullptr)
 				glBindTexture(GL_TEXTURE_2D, texture->textureId);
 			else
 				glBindTexture(GL_TEXTURE_2D, 0);
 
-			glUniform1i(location.location, textureSlot);
+			glUniform1i(location.location, this->currentTextureSlot);
+		
+			this->currentTextureSlot += 1;
 		}
 	}
 }
