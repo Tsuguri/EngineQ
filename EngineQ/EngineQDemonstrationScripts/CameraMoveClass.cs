@@ -86,8 +86,6 @@ namespace QScripts
 			Input.RegisterKeyEvent(Input.Key.P, ToggleEnableSkullScriptAction);
 			Input.RegisterKeyEvent(Input.Key.O, RemoveOrAddScriptAction);
 
-			Input.RegisterKeyEvent(Input.Key.P, TestAction);
-
 			Console.WriteLine($"{this.Entity.Name} activated");
 		}
 
@@ -98,8 +96,6 @@ namespace QScripts
 			Input.DeregisterKeyEvent(Input.Key.F2, F2Action);
 			Input.DeregisterKeyEvent(Input.Key.P, ToggleEnableSkullScriptAction);
 			Input.DeregisterKeyEvent(Input.Key.O, RemoveOrAddScriptAction);
-
-			Input.DeregisterKeyEvent(Input.Key.P, TestAction);
 
 			Console.WriteLine($"{this.Entity.Name} deactivated");
 		}
@@ -149,25 +145,6 @@ namespace QScripts
 				this.Skull1.RemoveComponent(skullScript);
 			else
 				this.Skull1.AddComponent<RotateTest>(false);
-		}
-
-		private Shader testShader;
-		private void TestAction(Input.Key key, Input.KeyAction action)
-		{
-			if (action == Input.KeyAction.Press)
-			{
-				ResourceManager resourceManger = ResourceManager.Instance;
-
-				//	resourceManger.GetResource<Shader>("6");
-
-				testShader = resourceManger.GetResource<Shader>("6");
-			}
-
-			if (action == Input.KeyAction.Release)
-			{
-				System.GC.Collect();
-				System.GC.WaitForPendingFinalizers();
-			}
 		}
 	}
 }
