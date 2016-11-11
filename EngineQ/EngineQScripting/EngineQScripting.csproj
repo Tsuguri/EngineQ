@@ -44,13 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application.cs" />
-    <Compile Include="Mesh.cs" />
-    <Compile Include="Model.cs" />
-    <Compile Include="Renderable.cs" />
-    <Compile Include="Light.cs" />
-    <Compile Include="Component.cs" />
-    <Compile Include="Entity.cs" />
+    <Compile Include="Subsystems\Application.cs" />
+    <Compile Include="Resources\Mesh.cs" />
+    <Compile Include="Resources\Model.cs" />
+    <Compile Include="Objects\Renderable.cs" />
+    <Compile Include="Objects\Light.cs" />
+    <Compile Include="Objects\Component.cs" />
+    <Compile Include="Objects\Entity.cs" />
     <Compile Include="Math\Matrix3.cs" />
     <Compile Include="Math\Matrix4.cs" />
     <Compile Include="Math\Quaternion.cs" />
@@ -66,21 +66,22 @@
     <Compile Include="Math\Vector4d.cs" />
     <Compile Include="Math\Vector4f.cs" />
     <Compile Include="Math\Vector4i.cs" />
-    <Compile Include="Input.cs" />
-    <Compile Include="Object.cs" />
+    <Compile Include="Subsystems\Input.cs" />
+    <Compile Include="Objects\Object.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Camera.cs" />
-    <Compile Include="Resource.cs" />
-    <Compile Include="ResourceManager.cs" />
-    <Compile Include="Scene.cs" />
-    <Compile Include="Script.cs" />
-    <Compile Include="Shader.cs" />
-    <Compile Include="ShaderProperties.cs" />
-    <Compile Include="ShaderProperty.cs" />
-    <Compile Include="Texture.cs" />
-    <Compile Include="Time.cs" />
-    <Compile Include="Transform.cs" />
+    <Compile Include="Objects\Camera.cs" />
+    <Compile Include="Resources\Resource.cs" />
+    <Compile Include="Subsystems\ResourceManager.cs" />
+    <Compile Include="Objects\Scene.cs" />
+    <Compile Include="Objects\Script.cs" />
+    <Compile Include="Resources\Shader.cs" />
+    <Compile Include="Graphics\ShaderProperties.cs" />
+    <Compile Include="Graphics\ShaderProperty.cs" />
+    <Compile Include="Resources\Texture.cs" />
+    <Compile Include="Subsystems\Time.cs" />
+    <Compile Include="Objects\Transform.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

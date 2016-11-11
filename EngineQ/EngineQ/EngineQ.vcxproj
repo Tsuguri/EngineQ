@@ -38,6 +38,7 @@
     <ClCompile Include="Resources\ShaderFactory.cpp" />
     <ClCompile Include="Resources\TextureFactory.cpp" />
     <ClCompile Include="Scripting\API_Application.cpp" />
+    <ClCompile Include="Scripting\API_Camera.cpp" />
     <ClCompile Include="Scripting\API_Input.cpp" />
     <ClCompile Include="Scripting\API_Renderable.cpp" />
     <ClCompile Include="Scripting\API_Resource.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Resources\TextureFactory.hpp" />
     <ClInclude Include="Resources\Types.hpp" />
     <ClInclude Include="Scripting\API_Application.hpp" />
+    <ClInclude Include="Scripting\API_Camera.hpp" />
     <ClInclude Include="Scripting\API_Input.hpp" />
     <ClInclude Include="Scripting\API_Renderable.hpp" />
     <ClInclude Include="Scripting\API_Resource.hpp" />

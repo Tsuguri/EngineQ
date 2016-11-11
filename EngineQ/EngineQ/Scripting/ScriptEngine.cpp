@@ -14,19 +14,24 @@
 #include "ScriptingExceptions.hpp"
 
 #include "API_Component.hpp"
-#include "API_Transform.hpp"
-#include "API_Entity.hpp"
 #include "API_Scene.hpp"
-#include "API_Quaternion.hpp"
+#include "API_Entity.hpp"
+
+#include "API_Resource.hpp"
+#include "API_ShaderProperties.hpp"
+
+#include "API_Camera.hpp"
+#include "API_Transform.hpp"
+#include "API_Renderable.hpp"
+
 #include "API_Matrix3.hpp"
 #include "API_Matrix4.hpp"
-#include "API_TimeCounter.hpp"
+#include "API_Quaternion.hpp"
+
 #include "API_Input.hpp"
+#include "API_TimeCounter.hpp"
 #include "API_Application.hpp"
-#include "API_Renderable.hpp"
-#include "API_Resource.hpp"
 #include "API_ResourceManager.hpp"
-#include "API_ShaderProperties.hpp"
 
 namespace EngineQ
 {
@@ -127,18 +132,19 @@ namespace EngineQ
 
 
 			// API
-			API_Quaternion::API_Register(*this);
 			API_Matrix3::API_Register(*this);
 			API_Matrix4::API_Register(*this);
+			API_Quaternion::API_Register(*this);
 
 			API_Scene::API_Register(*this);
+			API_Camera::API_Register(*this);
 			API_Entity::API_Register(*this);
 			API_Component::API_Register(*this);
 			API_Transform::API_Register(*this);
 			API_Renderable::API_Register(*this);
 
-			API_TimeCounter::API_Register(*this);
 			API_Input::API_Register(*this);
+			API_TimeCounter::API_Register(*this);
 			API_Application::API_Register(*this);
 			API_Resource::API_Register(*this);
 			API_ResourceManager::API_Register(*this);
