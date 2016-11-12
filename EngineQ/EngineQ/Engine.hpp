@@ -16,9 +16,11 @@
 #include "Graphics/RendererConfiguration.hpp"
 #include "Math/Vector2.hpp"
 
+#include "Graphics\Utils\ScreenDataProvider.hpp"
+
 namespace EngineQ
 {
-	class Engine : private Utilities::Immovable
+	class Engine : private Utilities::Immovable, public Graphics::ScreenDataProvider
 	{
 	#pragma region Types
 
@@ -59,7 +61,7 @@ namespace EngineQ
 		Math::Vector2i screenSize;
 
 	public:
-		Utilities::Event<Engine, void(int, int)> resizeEvent;
+		//Utilities::Event<Engine, void(int, int)> resizeEvent;
 		InputController input;
 
 	private:

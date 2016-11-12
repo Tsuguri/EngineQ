@@ -3,7 +3,7 @@
 
 #include "Component.hpp"
 
-//	#include "../Utilities/Emiter.hpp"
+//	#include <Utilities/Emiter.hpp"
 
 namespace EngineQ
 {

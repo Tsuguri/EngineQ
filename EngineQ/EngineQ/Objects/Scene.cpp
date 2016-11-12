@@ -138,7 +138,7 @@ namespace EngineQ
 			break;
 
 			case ComponentType::Renderable:
-			TryRemove(this->renderables, static_cast<Renderable&>(component));
+			TryRemove(this->renderables, static_cast<Graphics::Renderable&>(static_cast<Renderable&>(component)));
 			break;
 
 			default:
@@ -206,7 +206,7 @@ namespace EngineQ
 		return this->activeCamera;
 	}
 
-	const std::vector<Renderable*>& Scene::GetRenderables() const
+	const std::vector<Graphics::Renderable*>& Scene::GetRenderables() const
 	{
 		return this->renderables;
 	}

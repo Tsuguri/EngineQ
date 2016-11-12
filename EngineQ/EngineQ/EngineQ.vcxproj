@@ -23,12 +23,12 @@
     <ClCompile Include="Graphics\ShaderPass.cpp" />
     <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
     <ClCompile Include="Graphics\RenderingUnit.cpp" />
-    <ClCompile Include="Graphics\RendererConfiguration.cpp" />
+    <ClCompile Include="Graphics\Configuration\RendererConfiguration.cpp" />
     <ClCompile Include="Graphics\ShaderPreprocessor.cpp" />
     <ClCompile Include="Graphics\ShaderProperties.cpp" />
     <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="InputController.cpp" />
-    <ClCompile Include="Math\Utilities.cpp" />
+    <ClCompile Include="RendererIntermediateConfiguration.cpp" />
     <ClCompile Include="Resources\MeshFactory.cpp" />
     <ClCompile Include="Resources\Model.cpp" />
     <ClCompile Include="Resources\ModelFactory.cpp" />
@@ -53,10 +53,6 @@
     <ClCompile Include="Graphics\ShaderPart.cpp" />
     <ClCompile Include="Graphics\UniformLocation.cpp" />
     <ClCompile Include="Objects\Light.cpp" />
-    <ClCompile Include="Math\Matrix3.cpp" />
-    <ClCompile Include="Math\Matrix4.cpp" />
-    <ClCompile Include="Math\Quaternion.cpp" />
-    <ClCompile Include="Math\Vector4.cpp" />
     <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Objects\Object.cpp" />
     <ClCompile Include="Objects\Renderable.cpp" />
@@ -79,26 +75,27 @@
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Objects\Transform.cpp" />
-    <ClCompile Include="Utilities\Emiter.cpp" />
-    <ClCompile Include="Utilities\Nullable.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics\Camera.hpp" />
     <ClInclude Include="Graphics\Framebuffer.hpp" />
+    <ClInclude Include="Graphics\Renderable.hpp" />
+    <ClInclude Include="Graphics\Scene.hpp" />
     <ClInclude Include="Graphics\ShaderPass.hpp" />
     <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
     <ClInclude Include="Graphics\RenderingUnit.hpp" />
-    <ClInclude Include="Graphics\RendererConfiguration.hpp" />
+    <ClInclude Include="Graphics\Configuration\RendererConfiguration.hpp" />
     <ClInclude Include="Graphics\Texture.hpp" />
     <ClInclude Include="Graphics\Types.hpp" />
     <ClInclude Include="Graphics\ShaderPreprocessor.hpp" />
     <ClInclude Include="Graphics\ShaderProperties.hpp" />
     <ClInclude Include="Graphics\ShaderProperty.hpp" />
     <ClInclude Include="Graphics\ShaderUniformData.hpp" />
+    <ClInclude Include="RendererIntermediateConfiguration.hpp" />
+    <ClInclude Include="Graphics\Utils\ScreenDataProvider.hpp" />
     <ClInclude Include="InputController.hpp" />
-    <ClInclude Include="Math\Types.hpp" />
-    <ClInclude Include="Math\Utilities.hpp" />
     <ClInclude Include="Objects\Types.hpp" />
     <ClInclude Include="Resources\MeshFactory.hpp" />
     <ClInclude Include="Resources\Model.hpp" />
@@ -139,17 +136,7 @@
     <ClInclude Include="Serialization\Types.hpp" />
     <ClInclude Include="Serialization\XMLFormatter.hpp" />
     <ClInclude Include="TimeCounter.hpp" />
-    <ClInclude Include="Utilities\Emiter.hpp" />
-    <ClInclude Include="Utilities\EnumHelpers.hpp" />
-    <ClInclude Include="Utilities\Event.hpp" />
-    <ClInclude Include="Utilities\Immovable.hpp" />
     <ClInclude Include="Objects\Light.hpp" />
-    <ClInclude Include="Math\Matrix3.hpp" />
-    <ClInclude Include="Math\Matrix4.hpp" />
-    <ClInclude Include="Math\Quaternion.hpp" />
-    <ClInclude Include="Math\Vector2.hpp" />
-    <ClInclude Include="Math\Vector3.hpp" />
-    <ClInclude Include="Math\Vector4.hpp" />
     <ClInclude Include="Graphics\Mesh.hpp" />
     <ClInclude Include="Objects\Object.hpp" />
     <ClInclude Include="Objects\Scene.hpp" />
@@ -163,30 +150,18 @@
     <ClInclude Include="Scripting\API_Transform.hpp" />
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
-    <ClInclude Include="Utilities\Metaprogramming.hpp" />
-    <ClInclude Include="Utilities\ObjectDestructor.hpp" />
     <ClInclude Include="Scripting\ScriptingExceptions.hpp" />
     <ClInclude Include="Objects\Transform.hpp" />
-    <ClInclude Include="Utilities\PointerWrapper.hpp" />
-    <ClInclude Include="Utilities\Property.hpp" />
-    <ClInclude Include="Utilities\ResourcesIDs.hpp" />
     <ClInclude Include="Vertex.hpp" />
-    <ClInclude Include="Utilities\Nullable.hpp" />
-    <ClInclude Include="Utilities\StringHelpers.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\ShaderProperties.inl" />
-    <None Include="Math\Vector2.inl" />
-    <None Include="Math\Vector3.inl" />
-    <None Include="Math\Vector4.inl" />
     <None Include="Scripting\ScriptEngine.inl" />
     <None Include="Serialization\Deserializer.inl" />
     <None Include="Serialization\SerializationEngine.inl" />
     <None Include="Serialization\SerializationRules.inl" />
     <None Include="Serialization\Serializer.inl" />
-    <None Include="Utilities\Nullable.inl" />
-    <None Include="Utilities\StringHelpers.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C9BF8FE4-F956-43A3-88F1-69D4ABEBC221}</ProjectGuid>
@@ -225,6 +200,7 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
+    <Import Project="..\EngineQCommon\EngineQCommon.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

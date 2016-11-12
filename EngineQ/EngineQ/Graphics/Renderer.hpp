@@ -4,7 +4,8 @@
 #include <memory>
 
 #include "Types.hpp"
-#include "../Objects/Types.hpp"
+
+#include "Renderable.hpp"
 
 namespace EngineQ
 {
@@ -20,7 +21,7 @@ namespace EngineQ
 
 		public:
 			void SetDeferred(bool state);
-			void Render(const Scene& scene) const;
+			void Render(Scene& scene) const;
 			void SetTargetBuffer(std::shared_ptr<Framebuffer> buffer);
 		};
 	}

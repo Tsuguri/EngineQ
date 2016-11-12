@@ -1,7 +1,7 @@
 #include "API_ShaderProperties.hpp"
 
 #include "ScriptEngine.hpp"
-#include "../Math/Vector3.hpp"
+#include <Math/Vector3.hpp>
 #include "../Graphics/ShaderProperties.hpp"
 #include "../Resources/Resource.hpp"
 

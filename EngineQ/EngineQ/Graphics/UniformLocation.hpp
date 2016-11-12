@@ -1,7 +1,7 @@
 #ifndef ENGINEQ_GRAPHICS_UNIFORM_LOCATION_HPP
 #define ENGINEQ_GRAPHICS_UNIFORM_LOCATION_HPP
 
-#include "../Libraries/GL/glew.h"
+#include <GL\glew.h>
 
 namespace EngineQ
 {

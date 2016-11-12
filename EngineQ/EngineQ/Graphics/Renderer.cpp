@@ -1,13 +1,14 @@
 #include "Renderer.hpp"
 
-#include <GL/glew.h>
+#include "../Libraries/GL/glew.h"
 
 #include "Mesh.hpp"
 #include "Framebuffer.hpp"
 #include "ShaderProperties.hpp"
+#include "Scene.hpp"
 #include "../TimeCounter.hpp"
-#include "../Objects/Renderable.hpp"
-#include "../Objects/Camera.hpp"
+#include "Renderable.hpp"
+#include "Camera.hpp"
 #include "../Objects/Entity.hpp"
 #include "../Objects/Transform.hpp"
 #include "../Objects/Renderable.hpp"
@@ -25,7 +26,7 @@ namespace EngineQ
 			deferred = state;
 		}
 
-		void Renderer::Render(const Scene& scene) const
+		void Renderer::Render(Scene& scene) const
 		{
 			if (this->framebuffer == nullptr)
 				Framebuffer::BindDefault();
@@ -34,7 +35,6 @@ namespace EngineQ
 
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 			auto camera = scene.GetActiveCamera();
 
 			for(auto renderable : scene.GetRenderables())

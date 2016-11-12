@@ -1,9 +1,9 @@
 #include "ShaderProperties.hpp"
 
-#include "GL/glew.h"
+#include "../Libraries/GL/glew.h"
 
 #include "../Scripting/ScriptEngine.hpp"
-#include "../Utilities/StringHelpers.hpp"
+#include <Utilities/StringHelpers.hpp>
 
 namespace EngineQ
 {

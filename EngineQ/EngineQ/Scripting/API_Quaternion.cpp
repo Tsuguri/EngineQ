@@ -2,9 +2,9 @@
 
 #include "ScriptEngine.hpp"
 
-#include "../Math/Vector3.hpp"
-#include "../Math/Vector4.hpp"
-#include "../Math/Quaternion.hpp"
+#include <Math/Vector3.hpp>
+#include <Math/Vector4.hpp>
+#include <Math/Quaternion.hpp>
 
 using namespace EngineQ::Math;
 

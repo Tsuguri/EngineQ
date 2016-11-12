@@ -9,7 +9,7 @@
 
 #include "Types.hpp"
 
-#include "../Utilities/Immovable.hpp"
+#include <Utilities/Immovable.hpp>
 #include "ShaderExceptions.hpp"
 
 namespace EngineQ

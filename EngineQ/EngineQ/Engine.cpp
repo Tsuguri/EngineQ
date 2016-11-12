@@ -55,8 +55,9 @@ namespace EngineQ
 	void Engine::WindowResized(int width, int height)
 	{
 		screenSize = Math::Vector2i{ width,height };
-		if (!resizeEvent.IsEmpty())
-			resizeEvent.Invoke(width, height);
+		
+		if (!ResizeEventIsEmpty())
+			ResizeEventInvoke(width, height);
 
 		if (this->currentScene != nullptr)
 		{

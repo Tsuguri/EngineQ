@@ -6,7 +6,7 @@
 #include "../Serialization/Serializer.hpp"
 #include "../Serialization/Deserializer.hpp"
 #include "../Scripting/ScriptEngine.hpp"
-#include "../Math/Utilities.hpp"
+#include <Math/Utilities.hpp>
 
 #include "../Serialization/SerializationRules.hpp"
 

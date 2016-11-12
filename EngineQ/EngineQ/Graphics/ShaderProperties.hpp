@@ -9,7 +9,7 @@
 #include "ShaderProperty.hpp"
 #include "Texture.hpp"
 
-#include "../Math/Matrix4.hpp"
+#include <Math/Matrix4.hpp>
 #include "../Resources/Resource.hpp"
 
 #include "../Objects/Object.hpp"

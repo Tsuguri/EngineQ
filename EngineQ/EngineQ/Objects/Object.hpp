@@ -4,7 +4,7 @@
 #include "../Serialization/Types.hpp"
 #include "../Scripting/Types.hpp"
 
-#include "../Utilities/Immovable.hpp"
+#include <Utilities/Immovable.hpp>
 #include "../Serialization/Serializable.hpp"
 
 namespace EngineQ

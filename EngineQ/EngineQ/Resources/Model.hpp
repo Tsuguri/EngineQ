@@ -5,7 +5,7 @@
 #include <vector>
 #include <type_traits>
 
-#include "../Utilities/PointerWrapper.hpp"
+#include <Utilities/PointerWrapper.hpp>
 #include "../Libraries/GL/glew.h"
 
 namespace EngineQ

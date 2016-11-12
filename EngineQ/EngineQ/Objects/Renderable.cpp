@@ -44,4 +44,8 @@ namespace EngineQ
 	{
 		this->mesh = mesh;
 	}
+	Math::Vector3 Renderable::GetPosition()
+	{
+		//return (this->entity->);
+	}
 }

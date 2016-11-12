@@ -2,15 +2,16 @@
 #define ENGINEQ_CAMERA_HPP
 
 #include "Types.hpp"
-#include "../Math/Matrix4.hpp"
+#include <Math/Matrix4.hpp>
 #include "../Scripting/Types.hpp"
 #include "../Serialization/Types.hpp"
 
 #include "Component.hpp"
+#include "../Graphics/Camera.hpp"
 
 namespace EngineQ
 {
-	class Camera final : public Component
+	class Camera final : public Component,public Graphics::Camera
 	{
 	private:
 
@@ -46,17 +47,17 @@ namespace EngineQ
 
 		Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
 
-		float GetAspectRatio() const;
+		float GetAspectRatio() const override;
 		void SetAspectRatio(float value);
 
-		float GetFOV() const;
+		float GetFOV() const override;
 		void SetFOV(float value);
 
-		Math::Matrix4 GetProjectionMatrix();
-		Math::Matrix4 GetInvertedViewMatrix();
+		Math::Matrix4 GetProjectionMatrix() override;
+		Math::Matrix4 GetInvertedViewMatrix() override;
 
-		Math::Matrix4 GetViewMatrix();
-		Math::Matrix4 GetInvertedProjectionMatrix();
+		Math::Matrix4 GetViewMatrix() override;
+		Math::Matrix4 GetInvertedProjectionMatrix() override;
 	};
 }
 

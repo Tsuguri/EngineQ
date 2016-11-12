@@ -7,7 +7,7 @@
 #include "Types.hpp"
 #include "../Graphics/Types.hpp"
 
-#include "../Utilities/Metaprogramming.hpp"
+#include <Utilities/Metaprogramming.hpp>
 #include "../Scripting/ScriptEngine.hpp"
 
 #include "ShaderFactory.hpp"

@@ -12,6 +12,10 @@ namespace EngineQ
 
 		class ShaderProperties;
 		class RenderingUnit;
+
+		class Scene;
+		class Renderable;
+		class Camera;
 	}
 }
 

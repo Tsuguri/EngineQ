@@ -1,11 +1,11 @@
 #ifndef ENGINEQ_GRAPHICS_POSTPROCESSING_EFFECT_HPP
 #define ENGINEQ_GRAPHICS_POSTPROCESSING_EFFECT_HPP
 
-#include "RendererConfiguration.hpp"
-#include "Framebuffer.hpp"
-#include "Shader.hpp"
-#include "../Resources/Resource.hpp"
-
+#include "Configuration/RendererConfiguration.hpp"
+//#include "Framebuffer.hpp"
+//#include "Shader.hpp"
+//#include "../Resources/Resource.hpp"
+#include "Types.hpp"
 namespace EngineQ
 {
 	namespace Graphics
@@ -22,13 +22,13 @@ namespace EngineQ
 
 		class ShaderPass
 		{
-			Resources::Resource<Shader> shader;
+			Shader shader;
 
 			std::vector<InputConfiguration> inputTextures;
 			std::unique_ptr<Framebuffer> framebuffer;
 		public:
 			static GLenum textureLocations[10];
-			ShaderPass(Resources::Resource<Shader> shader);
+			ShaderPass(Shader* shader);
 
 			void BindTextures();
 			void UnbindTextures();

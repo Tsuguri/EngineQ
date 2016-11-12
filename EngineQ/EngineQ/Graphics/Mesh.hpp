@@ -5,7 +5,7 @@
 
 #include "../Libraries/GL/glew.h"
 
-#include "../Utilities/Immovable.hpp"
+#include <Utilities/Immovable.hpp>
 #include "../Vertex.hpp"
 #include "../Resources/Model.hpp"
 
@@ -51,7 +51,8 @@ namespace EngineQ
 				indicesCount = static_cast<GLuint>(indices.size());
 			}
 
-			Mesh(const Resources::Model::Mesh& mesh);
+			
+			//Mesh(const Resources::Model::Mesh& mesh);
 
 			~Mesh();
 			

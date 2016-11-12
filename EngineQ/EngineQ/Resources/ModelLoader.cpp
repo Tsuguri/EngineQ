@@ -6,7 +6,7 @@
 
 #include "Model.hpp"
 
-#include "../Utilities/EnumHelpers.hpp"
+#include <Utilities/EnumHelpers.hpp>
 #include "../Vertex.hpp"
 
 namespace EngineQ

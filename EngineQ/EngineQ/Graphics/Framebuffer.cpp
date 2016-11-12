@@ -1,5 +1,4 @@
 #include "Framebuffer.hpp"
-#include "../Engine.hpp"
 
 namespace EngineQ
 {
@@ -21,7 +20,7 @@ namespace EngineQ
 		{
 			glGenRenderbuffers(1, &depthRbo);
 			glBindRenderbuffer(GL_RENDERBUFFER, depthRbo);
-			auto size = engine->GetScreenSize();
+			auto size = screenDataProvider->GetScreenSize();
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, size.X, size.Y);
 			glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
@@ -43,8 +42,8 @@ namespace EngineQ
 			glFramebufferTexture2D(GL_FRAMEBUFFER, location, GL_TEXTURE_2D, texture, 0);
 		}
 
-		Framebuffer::Framebuffer(bool depthTesting, std::vector<GLuint>& textures, Engine* engine) : 
-			engine(engine), handler(*this, &Framebuffer::Resize)
+		Framebuffer::Framebuffer(bool depthTesting, std::vector<GLuint>& textures, ScreenDataProvider* dataProvider) :
+			screenDataProvider(dataProvider), handler(*this, &Framebuffer::Resize)
 		{
 			glGenFramebuffers(1, &fbo);
 			Bind();
@@ -64,7 +63,7 @@ namespace EngineQ
 
 
 
-			engine->resizeEvent += handler;
+			screenDataProvider->resizeEvent += handler;
 		}
 
 		Framebuffer::~Framebuffer()
@@ -73,7 +72,7 @@ namespace EngineQ
 				glDeleteRenderbuffers(1, &depthRbo);
 			glDeleteFramebuffers(1, &fbo);
 
-			engine->resizeEvent -= handler;
+			screenDataProvider->resizeEvent -= handler;
 		}
 
 		void Framebuffer::Bind() const

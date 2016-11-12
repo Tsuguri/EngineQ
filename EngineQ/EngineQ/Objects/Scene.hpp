@@ -7,11 +7,12 @@
 #include "Types.hpp"
 #include "../Graphics/Types.hpp"
 
+#include "../Graphics/Scene.hpp"
 #include "Object.hpp"
 
 namespace EngineQ
 {
-	class Scene : public Object
+	class Scene : public Object, public Graphics::Scene
 	{
 		friend class Engine;
 
@@ -33,7 +34,7 @@ namespace EngineQ
 
 		std::vector<Light*> lights;
 		std::vector<Camera*> cameras;
-		std::vector<Renderable*> renderables;
+		std::vector<Graphics::Renderable*> renderables;
 		std::vector<Script*> updateable;
 
 		std::vector<Script*> currentUpdateable;
@@ -81,7 +82,7 @@ namespace EngineQ
 		void SetActiveCamera(Camera* camera);
 		Camera* GetActiveCamera() const;
 
-		const std::vector<Renderable*>& GetRenderables() const;
+		const std::vector<Graphics::Renderable*>& GetRenderables() const override;
 
 		void AddToRemoveQueue(std::unique_ptr<Object> object);
 
