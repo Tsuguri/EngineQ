@@ -14,6 +14,7 @@ namespace EngineQ
 
 		return configuration;
 	}
+
 	IntermediateEffectConfiguration IntermediateEffectConfiguration::Load(tinyxml2::XMLElement * element)
 	{
 		auto configuration = IntermediateEffectConfiguration{};
@@ -72,6 +73,16 @@ namespace EngineQ
 			configuration.Effects.push_back(effect.ToEffectConfiguration(manager));
 
 		return configuration;
+	}
+
+	IntermediateRenderingUnitConfiguration IntermediateRenderingUnitConfiguration::Load(tinyxml2::XMLElement * element)
+	{
+		return IntermediateRenderingUnitConfiguration();
+	}
+
+	IntermediateRenderingUnitConfiguration IntermediateRenderingUnitConfiguration::Load(std::string filePath)
+	{
+		return IntermediateRenderingUnitConfiguration();
 	}
 
 }

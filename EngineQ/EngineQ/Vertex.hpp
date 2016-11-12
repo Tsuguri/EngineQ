@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "Libraries/GL/glew.h"
+#include <Libraries/GL/glew.h>
 
-#include "Math/Vector3.hpp"
+#include <Math/Vector3.hpp>
 #include "Utilities/Metaprogramming.hpp"
 
 namespace EngineQ

@@ -28,6 +28,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineQCommon", "EngineQCom
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		EngineQCommon\EngineQCommon.vcxitems*{18503581-6984-4014-b99c-aba8d03e4620}*SharedItemsImports = 4
 		EngineQCommon\EngineQCommon.vcxitems*{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}*SharedItemsImports = 9
 		EngineQCommon\EngineQCommon.vcxitems*{c9bf8fe4-f956-43a3-88f1-69d4abebc221}*SharedItemsImports = 4
 	EndGlobalSection

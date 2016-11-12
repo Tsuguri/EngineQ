@@ -1,7 +1,7 @@
 #include <EngineQ/Engine.hpp>
 #include <EngineQ/Vertex.hpp>
 
-#include <EngineQ/Utilities/ResourcesIDs.hpp>
+#include <Utilities/ResourcesIDs.hpp>
 #include <EngineQ/Resources/ModelLoader.hpp>
 
 #include <EngineQ/Graphics/Mesh.hpp>
@@ -15,10 +15,10 @@
 #include <EngineQ/Graphics/ShaderProperties.hpp>
 #include <EngineQ/Graphics/Texture.hpp>
 
-#include <EngineQ/Resources/Resource.hpp>
+#include <Resources/Resource.hpp>
 #include <EngineQ/Resources/ShaderFactory.hpp>
 
-#include <EngineQ/Libraries/TinyXML/tinyxml2.h>
+#include <Libraries/TinyXML/tinyxml2.h>
 
 namespace Math = EngineQ::Math;
 
