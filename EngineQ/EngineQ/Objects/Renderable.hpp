@@ -8,7 +8,7 @@
 #include "Component.hpp"
 #include "../Resources/Types.hpp"
 
-#include "../Resources/Resource.hpp"
+#include <Resources/Resource.hpp>
 
 #include "../Graphics/Renderable.hpp"
 
@@ -37,6 +37,8 @@ namespace EngineQ
 		void SetMesh(Resources::Resource<Graphics::Mesh> mesh);
 
 		Math::Vector3 GetPosition() override;
+
+		Math::Matrix4 GetGlobalMatrix() override;
 	};
 }
 

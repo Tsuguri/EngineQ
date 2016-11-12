@@ -19,6 +19,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Math\Quaternion.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Math\Utilities.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Math\Vector4.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Resources\Resource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Utilities\Emiter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Utilities\Nullable.cpp" />
   </ItemGroup>
@@ -31,6 +32,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Vector2.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Vector3.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Vector4.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Resources\Resource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Utilities\Emiter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Utilities\EnumHelpers.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Utilities\Event.hpp" />

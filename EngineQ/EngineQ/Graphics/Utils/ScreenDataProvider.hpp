@@ -10,7 +10,7 @@ namespace EngineQ
 		public:
 			Utilities::Event<ScreenDataProvider, void(int, int)> resizeEvent;
 
-			virtual Math::Vector2i GetScreenSize()=0;
+			virtual Math::Vector2i GetScreenSize() const=0;
 
 		protected:
 			bool ResizeEventIsEmpty() { return resizeEvent.IsEmpty(); }

@@ -5,7 +5,7 @@
 #include <string>
 #include <fstream>
 
-#include "../Libraries/GL/glew.h"
+#include <Libraries/GL/glew.h>
 
 #include "Types.hpp"
 

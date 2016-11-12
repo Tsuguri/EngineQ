@@ -201,7 +201,12 @@ namespace EngineQ
 		this->activeCamera = camera;
 	}
 
-	Camera* Scene::GetActiveCamera() const
+	Graphics::Camera* Scene::GetActiveCamera() const
+	{
+		return this->activeCamera;
+	}
+
+	Camera* Scene::GetActiveEngineCamera() const
 	{
 		return this->activeCamera;
 	}

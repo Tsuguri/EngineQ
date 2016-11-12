@@ -1,5 +1,6 @@
 #include "RendererIntermediateConfiguration.hpp"
 
+#include <Resources\Resource.hpp>
 namespace EngineQ
 {
 	Graphics::Configuration::EffectConfiguration IntermediateEffectConfiguration::ToEffectConfiguration(Resources::ResourceManager * manager)
@@ -57,6 +58,18 @@ namespace EngineQ
 				configuration.Output.push_back(Graphics::Configuration::OutputTexture{ std::string(texture) });
 		}
 
+
+		return configuration;
+	}
+
+	Graphics::Configuration::RenderingUnitConfiguration IntermediateRenderingUnitConfiguration::ToRenderingUnitConfiguration(Resources::ResourceManager* manager)
+	{
+		auto configuration = Graphics::Configuration::RenderingUnitConfiguration();
+
+		configuration.Renderer = Renderer;
+		configuration.Textures = Textures;
+		for (auto effect : Effects)
+			configuration.Effects.push_back(effect.ToEffectConfiguration(manager));
 
 		return configuration;
 	}

@@ -1,13 +1,15 @@
 #ifndef ENGINEQ_GRAPHICS_RENDERER_CONFIGURATION_HPP
 #define ENGINEQ_GRAPHICS_RENDERER_CONFIGURATION_HPP
-#include "../../Libraries/GL/glew.h"
-#include "../../Libraries/TinyXML/tinyxml2.h"
+#include <Libraries/GL/glew.h>
+#include <Libraries/TinyXML/tinyxml2.h>
 
 #include <string>
 #include <vector>
 #include <unordered_map>
 
 #include "../Shader.hpp"
+
+#include <Resources\Resource.hpp>
 namespace EngineQ
 {
 	namespace Graphics
@@ -47,7 +49,7 @@ namespace EngineQ
 			class EffectConfiguration
 			{
 			public:
-				Shader* Shader = nullptr;
+				Resources::Resource<Shader> Shader;
 				std::string ClassName = "";//C# class name
 				bool DepthTesting = false;
 				std::vector<InputPair> Input;

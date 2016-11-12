@@ -18,6 +18,8 @@ namespace EngineQ
 
 			virtual Math::Matrix4 GetViewMatrix() = 0;
 			virtual Math::Matrix4 GetInvertedProjectionMatrix() = 0;
+
+			virtual Math::Vector3 GetPosition() = 0;
 		};
 	}
 }

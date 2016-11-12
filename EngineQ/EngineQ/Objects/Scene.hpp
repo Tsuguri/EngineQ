@@ -80,7 +80,8 @@ namespace EngineQ
 		std::size_t GetEntitiesCount() const;
 
 		void SetActiveCamera(Camera* camera);
-		Camera* GetActiveCamera() const;
+		Graphics::Camera* GetActiveCamera() const override;
+		Camera* GetActiveEngineCamera() const;
 
 		const std::vector<Graphics::Renderable*>& GetRenderables() const override;
 

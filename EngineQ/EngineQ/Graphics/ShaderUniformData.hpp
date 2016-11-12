@@ -12,7 +12,7 @@
 #include "ShaderProperty.hpp"
 #include "Shader.hpp"
 
-//#include "../Resources/Resource.hpp"
+#include <Resources/Resource.hpp>
 
 namespace EngineQ
 {

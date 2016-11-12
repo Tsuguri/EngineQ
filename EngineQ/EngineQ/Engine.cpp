@@ -49,7 +49,7 @@ namespace EngineQ
 		this->initializerMethod = this->scriptingEngine->GetInitializerMethod(config.initializerAssembly, config.initializerNamespace, config.initializerClass);
 
 
-		this->renderConfig = Graphics::RenderingUnitConfiguration::Load(config.postprocessingConfig);
+		this->renderConfig = IntermediateRenderingUnitConfiguration::Load(config.postprocessingConfig);
 	}
 
 	void Engine::WindowResized(int width, int height)
@@ -61,7 +61,7 @@ namespace EngineQ
 
 		if (this->currentScene != nullptr)
 		{
-			auto activeCamera = this->currentScene->GetActiveCamera();
+			auto activeCamera = this->currentScene->GetActiveEngineCamera();
 			if(activeCamera != nullptr)
 				activeCamera->SetAspectRatio(static_cast<float>(width) / static_cast<float>(height));
 		}
@@ -167,33 +167,33 @@ namespace EngineQ
 		return *this->scriptingEngine;
 	}
 
-	Graphics::RenderingUnitConfiguration GenerateDefaultConfiguration()
+	IntermediateRenderingUnitConfiguration GenerateDefaultConfiguration()
 	{
 		std::string tex1Name = "tex1";
 		std::string tex2Name = "tex2";
 		std::string tex3Name = "tex3";
-		Graphics::RenderingUnitConfiguration config{};
-		config.Renderer.Output.push_back(Graphics::OutputTexture{ tex1Name });
+		IntermediateRenderingUnitConfiguration config{};
+		config.Renderer.Output.push_back(Graphics::Configuration::OutputTexture{ tex1Name });
 
-		config.Textures.push_back(Graphics::TextureConfiguration{ tex1Name });
-		config.Textures.push_back(Graphics::TextureConfiguration{ tex2Name });
-		config.Textures.push_back(Graphics::TextureConfiguration{ tex3Name });
+		config.Textures.push_back(Graphics::Configuration::TextureConfiguration{ tex1Name });
+		config.Textures.push_back(Graphics::Configuration::TextureConfiguration{ tex2Name });
+		config.Textures.push_back(Graphics::Configuration::TextureConfiguration{ tex3Name });
 
-		auto extract = Graphics::EffectConfiguration{};
-		extract.Input.push_back(Graphics::InputPair{ 0,tex1Name });
-		extract.Output.push_back(Graphics::OutputTexture{ tex2Name });
+		auto extract = IntermediateEffectConfiguration{};
+		extract.Input.push_back(Graphics::Configuration::InputPair{ 0,tex1Name });
+		extract.Output.push_back(Graphics::Configuration::OutputTexture{ tex2Name });
 		extract.Shader = Utilities::ResourcesIDs::BrightExtract;
 		config.Effects.push_back(extract);
 
-		auto blurVertical = Graphics::EffectConfiguration{};
-		blurVertical.Input.push_back(Graphics::InputPair{ 0,tex2Name });
-		blurVertical.Output.push_back(Graphics::OutputTexture{ tex3Name });
+		auto blurVertical = IntermediateEffectConfiguration{};
+		blurVertical.Input.push_back(Graphics::Configuration::InputPair{ 0,tex2Name });
+		blurVertical.Output.push_back(Graphics::Configuration::OutputTexture{ tex3Name });
 		blurVertical.Shader = Utilities::ResourcesIDs::BlurVShader;
 
 
-		auto blur = Graphics::EffectConfiguration{};
-		blur.Input.push_back(Graphics::InputPair{ 0,tex3Name });
-		blur.Output.push_back(Graphics::OutputTexture{ tex2Name });
+		auto blur = IntermediateEffectConfiguration{};
+		blur.Input.push_back(Graphics::Configuration::InputPair{ 0,tex3Name });
+		blur.Output.push_back(Graphics::Configuration::OutputTexture{ tex2Name });
 		blur.Shader = Utilities::ResourcesIDs::BlurShader;
 
 
@@ -203,10 +203,10 @@ namespace EngineQ
 			config.Effects.push_back(blur);
 		}
 
-		auto quad = Graphics::EffectConfiguration{};
-		quad.Input.push_back(Graphics::InputPair{ 0, tex1Name, "scene" });
-		quad.Input.push_back(Graphics::InputPair{ 1,tex2Name, "bloomBlur" });
-		quad.Output.push_back(Graphics::OutputTexture{ "Screen" });
+		auto quad = IntermediateEffectConfiguration{};
+		quad.Input.push_back(Graphics::Configuration::InputPair{ 0, tex1Name, "scene" });
+		quad.Input.push_back(Graphics::Configuration::InputPair{ 1,tex2Name, "bloomBlur" });
+		quad.Output.push_back(Graphics::Configuration::OutputTexture{ "Screen" });
 		quad.Shader = Utilities::ResourcesIDs::CombineShader;
 		config.Effects.push_back(quad);
 
@@ -222,7 +222,7 @@ namespace EngineQ
 
 		this->scriptingEngine->InvokeStaticMethod(this->initializerMethod, args);
 
-		this->renderingUnit = std::make_shared<Graphics::RenderingUnit>(this, this->renderConfig);
+		this->renderingUnit = std::make_shared<Graphics::RenderingUnit>(this, this->renderConfig.ToRenderingUnitConfiguration(resourceManager.get()));
 
 
 

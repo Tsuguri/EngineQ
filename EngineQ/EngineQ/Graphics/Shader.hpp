@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "../Libraries/GL/glew.h"
+#include <Libraries/GL/glew.h>
 
 #include <Utilities/Immovable.hpp>
 #include <Utilities/Nullable.hpp>

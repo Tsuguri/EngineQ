@@ -6,7 +6,9 @@
 #include <type_traits>
 
 #include <Utilities/PointerWrapper.hpp>
-#include "../Libraries/GL/glew.h"
+#include <Libraries/GL/glew.h>
+
+#include "../Graphics/Mesh.hpp"
 
 namespace EngineQ
 {
@@ -75,6 +77,8 @@ namespace EngineQ
 				const std::vector<char>& GetVerticesData() const;
 				const std::vector<GLuint>& GetIndices() const;
 				const std::vector<ComponentData>& GetComponentData() const;
+
+				Graphics::Mesh::ConstructionData ToMeshContructionData() const;
 			};
 			
 			class Node

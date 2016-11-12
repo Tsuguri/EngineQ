@@ -33,7 +33,6 @@
     <ClCompile Include="Resources\Model.cpp" />
     <ClCompile Include="Resources\ModelFactory.cpp" />
     <ClCompile Include="Resources\ModelLoader.cpp" />
-    <ClCompile Include="Resources\Resource.cpp" />
     <ClCompile Include="Resources\ResourceManager.cpp" />
     <ClCompile Include="Resources\ShaderFactory.cpp" />
     <ClCompile Include="Resources\TextureFactory.cpp" />
@@ -101,7 +100,6 @@
     <ClInclude Include="Resources\Model.hpp" />
     <ClInclude Include="Resources\ModelFactory.hpp" />
     <ClInclude Include="Resources\ModelLoader.hpp" />
-    <ClInclude Include="Resources\Resource.hpp" />
     <ClInclude Include="Resources\ResourceFactory.hpp" />
     <ClInclude Include="Resources\ResourceManager.hpp" />
     <ClInclude Include="Resources\ShaderFactory.hpp" />

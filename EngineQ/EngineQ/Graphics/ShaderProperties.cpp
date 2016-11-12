@@ -1,6 +1,6 @@
 #include "ShaderProperties.hpp"
 
-#include "../Libraries/GL/glew.h"
+#include <Libraries/GL/glew.h>
 
 #include "../Scripting/ScriptEngine.hpp"
 #include <Utilities/StringHelpers.hpp>

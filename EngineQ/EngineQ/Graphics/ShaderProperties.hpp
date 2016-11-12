@@ -10,7 +10,7 @@
 #include "Texture.hpp"
 
 #include <Math/Matrix4.hpp>
-#include "../Resources/Resource.hpp"
+#include <Resources/Resource.hpp>
 
 #include "../Objects/Object.hpp"
 

@@ -68,7 +68,7 @@ namespace EngineQ
 		{
 			auto& scene = static_cast<const Scene&>(sceneBase);
 
-			auto activeCamera = scene.GetActiveCamera();
+			auto activeCamera = scene.GetActiveEngineCamera();
 			if (activeCamera != nullptr)
 				camera = activeCamera->GetManagedObject();
 			else

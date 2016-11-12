@@ -16,6 +16,9 @@ namespace EngineQ
 		class Scene;
 		class Renderable;
 		class Camera;
+
+		class ShaderPass;
+
 	}
 }
 

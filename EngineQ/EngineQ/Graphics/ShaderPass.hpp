@@ -4,7 +4,7 @@
 #include "Configuration/RendererConfiguration.hpp"
 //#include "Framebuffer.hpp"
 //#include "Shader.hpp"
-//#include "../Resources/Resource.hpp"
+#include <Resources/Resource.hpp>
 #include "Types.hpp"
 namespace EngineQ
 {
@@ -22,13 +22,13 @@ namespace EngineQ
 
 		class ShaderPass
 		{
-			Shader shader;
+			Resources::Resource<Shader> shader;
 
 			std::vector<InputConfiguration> inputTextures;
 			std::unique_ptr<Framebuffer> framebuffer;
 		public:
 			static GLenum textureLocations[10];
-			ShaderPass(Shader* shader);
+			ShaderPass(Resources::Resource<Shader> shader);
 
 			void BindTextures();
 			void UnbindTextures();

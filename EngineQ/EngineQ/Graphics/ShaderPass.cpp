@@ -1,8 +1,9 @@
 #include "ShaderPass.hpp"
 
-#include "../Objects/Camera.hpp"
-#include "../Objects/Entity.hpp"
-#include "../Objects/Transform.hpp"
+#include "Camera.hpp"
+#include "Framebuffer.hpp"
+
+#include "ShaderProperties.hpp"
 
 namespace EngineQ
 {
@@ -65,7 +66,7 @@ namespace EngineQ
 			shader->Activate();
 			auto tmp = shader->TryGetUniformLocation("cameraPosition");
 			if (tmp != nullval)
-				shader->Bind(*tmp, cam->GetEntity().GetTransform().GetPosition());
+				shader->Bind(*tmp, cam->GetPosition());
 			tmp = shader->TryGetUniformLocation("time");
 			if (tmp != nullval)
 				shader->Bind(*tmp, time);

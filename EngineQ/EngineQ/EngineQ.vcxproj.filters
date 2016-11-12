@@ -49,7 +49,6 @@
     <ClCompile Include="Resources\ShaderFactory.cpp" />
     <ClCompile Include="Resources\ResourceManager.cpp" />
     <ClCompile Include="Scripting\API_Renderable.cpp" />
-    <ClCompile Include="Resources\Resource.cpp" />
     <ClCompile Include="Scripting\API_Resource.cpp" />
     <ClCompile Include="Scripting\API_ResourceManager.cpp" />
     <ClCompile Include="Resources\TextureFactory.cpp" />
@@ -119,7 +118,6 @@
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Resources\Types.hpp" />
     <ClInclude Include="Graphics\Texture.hpp" />
-    <ClInclude Include="Resources\Resource.hpp" />
     <ClInclude Include="Resources\ResourceFactory.hpp" />
     <ClInclude Include="Resources\ShaderFactory.hpp" />
     <ClInclude Include="Resources\ResourceManager.hpp" />

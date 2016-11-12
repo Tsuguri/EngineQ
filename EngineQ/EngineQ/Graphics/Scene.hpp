@@ -12,7 +12,7 @@ namespace EngineQ
 		class Scene
 		{
 		public:
-			virtual Camera* GetActiveCamera()=0 ;
+			virtual Camera* GetActiveCamera() const=0 ;
 			virtual const std::vector<Renderable*>& GetRenderables() const=0;
 		};
 	}

@@ -1,7 +1,7 @@
 #ifndef ENGINEQ_GRAPHICS_FRAMEBUFFER_HPP
 #define ENGINEQ_GRAPHICS_FRAMEBUFFER_HPP
 
-#include "../Libraries/GL/glew.h"
+#include <Libraries/GL/glew.h>
 
 #include <Utilities/Immovable.hpp>
 #include "Configuration/RendererConfiguration.hpp"

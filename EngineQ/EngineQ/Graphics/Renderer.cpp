@@ -1,6 +1,6 @@
 #include "Renderer.hpp"
 
-#include "../Libraries/GL/glew.h"
+#include <Libraries/GL/glew.h>
 
 #include "Mesh.hpp"
 #include "Framebuffer.hpp"
@@ -44,14 +44,14 @@ namespace EngineQ
 
 				const auto& matrices = shader->GetMatrices();
 
-				matrices.Model = renderable->GetEntity().GetTransform().GetGlobalMatrix();
+				matrices.Model = renderable->GetGlobalMatrix();
 				matrices.View = camera->GetViewMatrix();
 				matrices.Projection = camera->GetProjectionMatrix();
 
 				// TMP
 				auto cameraPosition = shader->TryGetProperty<Math::Vector3>("cameraPosition");
 				if (cameraPosition != nullval)
-					*cameraPosition = camera->GetEntity().GetTransform().GetPosition();
+					*cameraPosition = camera->GetPosition();
 
 				auto time = shader->TryGetProperty<float>("time");
 				if (time != nullval)

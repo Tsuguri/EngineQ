@@ -58,6 +58,8 @@ namespace EngineQ
 
 		Math::Matrix4 GetViewMatrix() override;
 		Math::Matrix4 GetInvertedProjectionMatrix() override;
+
+		Math::Vector3 GetPosition() override;
 	};
 }
 

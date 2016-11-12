@@ -1,11 +1,13 @@
 #ifndef RENDERER_INTERMEDIATE_CONFIGURATION_HPP
 #define RENDERER_INTERMEDIATE_CONFIGURATION_HPP
 
-
 #include <unordered_map>
-#include "Graphics\Configuration\RendererConfiguration.hpp"
 #include <memory>
+
+#include "Libraries\TinyXML\tinyxml2.h"
+#include "Graphics\Configuration\RendererConfiguration.hpp"
 #include "Resources\ResourceManager.hpp"
+
 namespace EngineQ
 {
 	class IntermediateEffectConfiguration
@@ -25,15 +27,17 @@ namespace EngineQ
 	};
 
 
-	class RenderingUnitConfiguration
+	class IntermediateRenderingUnitConfiguration
 	{
 	public:
 		Graphics::Configuration::RendererConfiguration Renderer;
 		std::vector<Graphics::Configuration::TextureConfiguration> Textures;
 		std::vector<IntermediateEffectConfiguration> Effects;
 
-		static RenderingUnitConfiguration Load(tinyxml2::XMLElement* element);
-		static RenderingUnitConfiguration Load(std::string filePath);
+		Graphics::Configuration::RenderingUnitConfiguration ToRenderingUnitConfiguration(Resources::ResourceManager* manager);
+
+		static IntermediateRenderingUnitConfiguration Load(tinyxml2::XMLElement* element);
+		static IntermediateRenderingUnitConfiguration Load(std::string filePath);
 	};
 }
 #endif

@@ -2,7 +2,10 @@
 
 #include "../Scripting/ScriptEngine.hpp"
 #include "../Graphics/ShaderProperties.hpp"
-#include "../Resources/Resource.hpp"
+#include <Resources/Resource.hpp>
+
+#include "Entity.hpp"
+#include "Transform.hpp"
 
 namespace EngineQ
 {
@@ -46,6 +49,10 @@ namespace EngineQ
 	}
 	Math::Vector3 Renderable::GetPosition()
 	{
-		//return (this->entity->);
+		return this->GetEntity().GetTransform().GetPosition();
+	}
+	Math::Matrix4 Renderable::GetGlobalMatrix()
+	{
+		return this->GetEntity().GetTransform().GetGlobalMatrix();
 	}
 }

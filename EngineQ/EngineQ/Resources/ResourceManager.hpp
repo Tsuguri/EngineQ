@@ -15,7 +15,7 @@
 #include "ModelFactory.hpp"
 #include "MeshFactory.hpp"
 
-#include "Resource.hpp"
+#include <Resources\Resource.hpp>
 #include "../Graphics/Shader.hpp"
 
 #include "../Objects/Object.hpp"
@@ -26,7 +26,7 @@
 #include <typeindex>
 #include <functional>
 
-
+#include "Model.hpp"
 
 
 namespace EngineQ

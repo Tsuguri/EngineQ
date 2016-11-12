@@ -18,6 +18,8 @@ namespace EngineQ
 			virtual Resources::Resource<Graphics::Mesh> GetMesh() const = 0;
 
 			virtual Math::Vector3 GetPosition() = 0;
+
+			virtual Math::Matrix4 GetGlobalMatrix() = 0;
 		};
 	}
 }

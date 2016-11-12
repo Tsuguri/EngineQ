@@ -13,7 +13,7 @@
 #include "Resources/ResourceManager.hpp"
 #include "Utilities/Event.hpp"
 
-#include "Graphics/RendererConfiguration.hpp"
+#include "RendererIntermediateConfiguration.hpp"
 #include "Math/Vector2.hpp"
 
 #include "Graphics\Utils\ScreenDataProvider.hpp"
@@ -54,7 +54,7 @@ namespace EngineQ
 	private:
 		static std::unique_ptr<Engine> instance;
 
-		Graphics::RenderingUnitConfiguration renderConfig;
+		IntermediateRenderingUnitConfiguration renderConfig;
 
 		Window window;
 		bool isRunning = true;
@@ -94,7 +94,7 @@ namespace EngineQ
 		static Engine& Get();
 		Resources::ResourceManager& GetResourceManager() const;
 		Scripting::ScriptEngine& GetScriptEngine() const;
-		Math::Vector2i GetScreenSize() const;
+		Math::Vector2i GetScreenSize() const override;
 
 		Scene& CreateScene();
 		void RemoveScene(Scene& scene);
