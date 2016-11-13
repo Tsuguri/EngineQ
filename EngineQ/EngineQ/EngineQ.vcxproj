@@ -73,7 +73,7 @@
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Objects\Transform.cpp" />
-    <ClCompile Include="Vertex.cpp" />
+    <ClCompile Include="Graphics\Vertex.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,7 +149,7 @@
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Scripting\ScriptingExceptions.hpp" />
     <ClInclude Include="Objects\Transform.hpp" />
-    <ClInclude Include="Vertex.hpp" />
+    <ClInclude Include="Graphics\Vertex.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>

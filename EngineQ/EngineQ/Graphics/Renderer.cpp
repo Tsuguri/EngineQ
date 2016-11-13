@@ -9,9 +9,6 @@
 #include "../TimeCounter.hpp"
 #include "Renderable.hpp"
 #include "Camera.hpp"
-#include "../Objects/Entity.hpp"
-#include "../Objects/Transform.hpp"
-#include "../Objects/Renderable.hpp"
 
 namespace EngineQ
 {
@@ -20,9 +17,9 @@ namespace EngineQ
 		void Renderer::SetDeferred(bool state)
 		{
 			if (state)
-				shaderMethod = &Renderable::GetDeferredShader;
+				shaderMethod = &Graphics::Renderable::GetDeferredShader;
 			else
-				shaderMethod = &Renderable::GetForwardShader;
+				shaderMethod = &Graphics::Renderable::GetForwardShader;
 			deferred = state;
 		}
 
@@ -42,8 +39,13 @@ namespace EngineQ
 				i++;
 				auto mesh = renderable->GetMesh();
 				Graphics::Mesh& p = *mesh;
-				auto shader = (renderable->*shaderMethod)();
-				Graphics::Shader& shd = *shader->GetShader();
+
+				ShaderProperties* shader;
+				if (deferred)
+					shader = renderable->GetDeferredShader();
+				else
+					shader = renderable->GetForwardShader();
+
 				const auto& matrices = shader->GetMatrices();
 
 				matrices.Model = renderable->GetGlobalMatrix();

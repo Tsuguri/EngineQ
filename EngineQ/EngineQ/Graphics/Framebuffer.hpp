@@ -4,8 +4,8 @@
 #include <Libraries/GL/glew.h>
 
 #include <Utilities/Immovable.hpp>
-#include "Configuration/RendererConfiguration.hpp"
 #include <Utilities/Event.hpp>
+#include "Configuration/RendererConfiguration.hpp"
 
 
 #include "Utils\ScreenDataProvider.hpp"

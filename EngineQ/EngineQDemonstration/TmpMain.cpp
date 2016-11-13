@@ -1,5 +1,5 @@
 #include <EngineQ/Engine.hpp>
-#include <EngineQ/Vertex.hpp>
+#include <EngineQ/Graphics/Vertex.hpp>
 
 #include <Utilities/ResourcesIDs.hpp>
 #include <EngineQ/Resources/ModelLoader.hpp>

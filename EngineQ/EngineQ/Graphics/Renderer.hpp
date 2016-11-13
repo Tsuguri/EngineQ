@@ -17,7 +17,7 @@ namespace EngineQ
 			bool deferred;
 			std::shared_ptr<Framebuffer> framebuffer;
 
-			ShaderProperties* (Renderable::*shaderMethod)() const;
+			Graphics::ShaderProperties* (Graphics::Renderable::*shaderMethod)() const = &Graphics::Renderable::GetDeferredShader;
 
 		public:
 			void SetDeferred(bool state);

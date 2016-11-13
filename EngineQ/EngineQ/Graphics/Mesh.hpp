@@ -6,8 +6,7 @@
 #include <Libraries/GL/glew.h>
 
 #include <Utilities/Immovable.hpp>
-#include "../Vertex.hpp"
-//#include "../Resources/Model.hpp"
+#include "Vertex.hpp"
 
 namespace EngineQ
 {
