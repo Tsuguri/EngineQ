@@ -2,7 +2,7 @@
 
 #include "ScriptEngine.hpp"
 #include <Math/Vector3.hpp>
-#include "../Graphics/ShaderProperties.hpp"
+#include "../EngineShaderProperties.hpp"
 #include <Resources/Resource.hpp>
 
 namespace EngineQ
@@ -35,7 +35,7 @@ namespace EngineQ
 
 		void API_ShaderProperties::API_GetShader(const Object& shaderPropertiesBase, MonoObject*& shader)
 		{
-			const auto& shaderProperties = static_cast<const Graphics::ShaderProperties&>(shaderPropertiesBase);
+			const auto& shaderProperties = static_cast<const EngineShaderProperties&>(shaderPropertiesBase);
 			const auto& scriptEngine = shaderProperties.GetScriptEngine();
 
 			shader = scriptEngine.CreateUnhandledObject(scriptEngine.GetClass(ScriptEngine::Class::Shader), shaderProperties.GetShader().GetControlBlock());
@@ -45,7 +45,7 @@ namespace EngineQ
 		{
 			using Class = EngineQ::Scripting::ScriptEngine::Class;
 
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 			const auto& scriptEngine = shaderProperties.GetScriptEngine();
 
 			std::string name = scriptEngine.GetScriptStringContent(propertyName);
@@ -78,7 +78,7 @@ namespace EngineQ
 		{
 			using Class = EngineQ::Scripting::ScriptEngine::Class;
 
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 			const auto& scriptEngine = shaderProperties.GetScriptEngine();
 
 			MonoClass* propertyClass = scriptEngine.GetTypeClass(propertyType);
@@ -106,7 +106,7 @@ namespace EngineQ
 		{
 			using Class = EngineQ::Scripting::ScriptEngine::Class;
 
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 			const auto& scriptEngine = shaderProperties.GetScriptEngine();
 
 			MonoClass* propertyClass = scriptEngine.GetTypeClass(propertyType);
@@ -136,63 +136,63 @@ namespace EngineQ
 		
 		void API_ShaderProperties::API_GetAmbient(Object& shaderPropertiesBase, Math::Vector3f& ambient)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 
 			ambient = shaderProperties.GetMaterial().Ambient;
 		}
 
 		void API_ShaderProperties::API_SetAmbient(Object& shaderPropertiesBase, const Math::Vector3f& ambient)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 
 			shaderProperties.GetMaterial().Ambient = ambient;
 		}
 
 		void API_ShaderProperties::API_GetDiffuse(Object& shaderPropertiesBase, Math::Vector3f& diffuse)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 
 			diffuse = shaderProperties.GetMaterial().Diffuse;
 		}
 
 		void API_ShaderProperties::API_SetDiffuse(Object& shaderPropertiesBase, const Math::Vector3f& diffuse)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 
 			shaderProperties.GetMaterial().Diffuse = diffuse;
 		}
 
 		void API_ShaderProperties::API_GetSpecular(Object& shaderPropertiesBase, Math::Vector3f& specular)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 
 			specular = shaderProperties.GetMaterial().Specular;
 		}
 
 		void API_ShaderProperties::API_SetSpecular(Object& shaderPropertiesBase, const Math::Vector3f& specular)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 
 			shaderProperties.GetMaterial().Specular = specular;
 		}
 
 		void API_ShaderProperties::API_GetShininess(Object& shaderPropertiesBase, float& shininess)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 
 			shininess = shaderProperties.GetMaterial().Shininess;
 		}
 
 		void API_ShaderProperties::API_SetShininess(Object& shaderPropertiesBase, float shininess)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 
 			shaderProperties.GetMaterial().Shininess = shininess;
 		}
 
 		void API_ShaderProperties::API_GetDiffuseTexture(Object& shaderPropertiesBase, MonoObject*& diffuseTexture)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 			auto& scriptEngine = shaderProperties.GetScriptEngine();
 
 			diffuseTexture = GetManagedResource(scriptEngine, ScriptEngine::Class::Texture, shaderProperties.GetMaterial().DiffuseTexture.Get());
@@ -200,7 +200,7 @@ namespace EngineQ
 
 		void API_ShaderProperties::API_SetDiffuseTexture(Object& shaderPropertiesBase, MonoObject* diffuseTexture)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 			auto& scriptEngine = shaderProperties.GetScriptEngine();
 
 			shaderProperties.GetMaterial().DiffuseTexture = GetResource<Graphics::Texture>(scriptEngine, diffuseTexture);
@@ -208,7 +208,7 @@ namespace EngineQ
 
 		void API_ShaderProperties::API_GetSpecularTexture(Object& shaderPropertiesBase, MonoObject*& specularTexture)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 			auto& scriptEngine = shaderProperties.GetScriptEngine();
 
 			specularTexture = GetManagedResource(scriptEngine, ScriptEngine::Class::Texture, shaderProperties.GetMaterial().SpecularTexture.Get());
@@ -216,7 +216,7 @@ namespace EngineQ
 
 		void API_ShaderProperties::API_SetSpecularTexture(Object& shaderPropertiesBase, MonoObject* specularTexture)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 			auto& scriptEngine = shaderProperties.GetScriptEngine();
 
 			shaderProperties.GetMaterial().SpecularTexture = GetResource<Graphics::Texture>(scriptEngine, specularTexture);
@@ -224,7 +224,7 @@ namespace EngineQ
 
 		void API_ShaderProperties::API_GetNormalTexture(Object& shaderPropertiesBase, MonoObject*& normalTexture)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 			auto& scriptEngine = shaderProperties.GetScriptEngine();
 
 			normalTexture = GetManagedResource(scriptEngine, ScriptEngine::Class::Texture, shaderProperties.GetMaterial().NormalTexture.Get());
@@ -232,7 +232,7 @@ namespace EngineQ
 
 		void API_ShaderProperties::API_SetNormalTexture(Object& shaderPropertiesBase, MonoObject* normalTexture)
 		{
-			auto& shaderProperties = static_cast<Graphics::ShaderProperties&>(shaderPropertiesBase);
+			auto& shaderProperties = static_cast<EngineShaderProperties&>(shaderPropertiesBase);
 			auto& scriptEngine = shaderProperties.GetScriptEngine();
 
 			shaderProperties.GetMaterial().NormalTexture = GetResource<Graphics::Texture>(scriptEngine, normalTexture);

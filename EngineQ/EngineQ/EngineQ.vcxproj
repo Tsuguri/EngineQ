@@ -71,6 +71,7 @@
     <ClCompile Include="Serialization\SerializationRules.cpp" />
     <ClCompile Include="Serialization\Serializer.cpp" />
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
+    <ClCompile Include="EngineShaderProperties.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Objects\Transform.cpp" />
     <ClCompile Include="Graphics\Vertex.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="Libraries\TinyXML\tinyxml2.h" />
     <ClInclude Include="Serialization\Types.hpp" />
     <ClInclude Include="Serialization\XMLFormatter.hpp" />
+    <ClInclude Include="EngineShaderProperties.hpp" />
     <ClInclude Include="TimeCounter.hpp" />
     <ClInclude Include="Objects\Light.hpp" />
     <ClInclude Include="Graphics\Mesh.hpp" />

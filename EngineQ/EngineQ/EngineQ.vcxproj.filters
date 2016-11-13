@@ -57,6 +57,7 @@
     <ClCompile Include="Graphics\Configuration\RendererConfiguration.cpp" />
     <ClCompile Include="RendererIntermediateConfiguration.cpp" />
     <ClCompile Include="Graphics\Vertex.cpp" />
+    <ClCompile Include="EngineShaderProperties.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Framebuffer.hpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="Graphics\Camera.hpp" />
     <ClInclude Include="Graphics\Renderable.hpp" />
     <ClInclude Include="Graphics\Vertex.hpp" />
+    <ClInclude Include="EngineShaderProperties.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Serialization\Deserializer.inl" />

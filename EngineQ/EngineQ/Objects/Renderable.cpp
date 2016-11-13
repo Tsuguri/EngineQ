@@ -20,7 +20,7 @@ namespace EngineQ
 
 	void Renderable::SetForwardShader(Resources::Resource<Graphics::Shader> shader)
 	{
-		this->forwardShader = std::make_unique<Graphics::ShaderProperties>(this->scriptEngine, shader);
+		this->forwardShader = std::make_unique<EngineShaderProperties>(this->scriptEngine, shader);
 	}
 
 	Graphics::ShaderProperties* Renderable::GetForwardShader() const
@@ -28,14 +28,24 @@ namespace EngineQ
 		return this->forwardShader.get();
 	}
 
+	EngineShaderProperties * Renderable::GetForwardShaderEngine() const
+	{
+		return forwardShader.get();
+	}
+
 	void Renderable::SetDeferredShader(Resources::Resource<Graphics::Shader> shader)
 	{
-		this->deferredShader = std::make_unique<Graphics::ShaderProperties>(this->scriptEngine, shader);
+		this->deferredShader = std::make_unique<EngineShaderProperties>(this->scriptEngine, shader);
 	}
 
 	Graphics::ShaderProperties* Renderable::GetDeferredShader() const
 	{
 		return this->deferredShader.get();
+	}
+
+	EngineShaderProperties * Renderable::GetDeferredShaderEngine() const
+	{
+		return deferredShader.get();
 	}
 
 	Resources::Resource<Graphics::Mesh> Renderable::GetMesh() const

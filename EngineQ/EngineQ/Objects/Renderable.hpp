@@ -13,13 +13,15 @@
 #include "../Graphics/Renderable.hpp"
 
 #include <Math\Vector3.hpp>
+
+#include "../EngineShaderProperties.hpp"
 namespace EngineQ
 {
 	class Renderable final : public Component, public Graphics::Renderable
 	{
 	private:
-		std::unique_ptr<Graphics::ShaderProperties> forwardShader;
-		std::unique_ptr<Graphics::ShaderProperties> deferredShader;
+		std::unique_ptr<EngineShaderProperties> forwardShader;
+		std::unique_ptr<EngineShaderProperties> deferredShader;
 		Resources::Resource<Graphics::Mesh> mesh;
 		
 	public:
@@ -28,9 +30,11 @@ namespace EngineQ
 
 		void SetForwardShader(Resources::Resource<Graphics::Shader> shader);
 		 Graphics::ShaderProperties* GetForwardShader() const override;
+		 EngineShaderProperties* GetForwardShaderEngine() const;
 
 		void SetDeferredShader(Resources::Resource<Graphics::Shader> shader);
 		Graphics::ShaderProperties* GetDeferredShader() const override;
+		EngineShaderProperties* GetDeferredShaderEngine() const;
 
 		
 		Resources::Resource<Graphics::Mesh> GetMesh() const override;
