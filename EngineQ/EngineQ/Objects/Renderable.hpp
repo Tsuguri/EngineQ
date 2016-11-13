@@ -3,14 +3,13 @@
 
 #include <memory>
 
-#include "../Graphics/Types.hpp"
-
+#include <Graphics\Types.hpp>
 #include "Component.hpp"
 #include "../Resources/Types.hpp"
 
 #include <Resources/Resource.hpp>
 
-#include "../Graphics/Renderable.hpp"
+#include <Graphics/Renderable.hpp>
 
 #include <Math\Vector3.hpp>
 

@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 #include "Types.hpp"
-#include "../Graphics/Types.hpp"
+#include <Graphics/Types.hpp>
 
 #include <Utilities/Metaprogramming.hpp>
 #include "../Scripting/ScriptEngine.hpp"
@@ -16,7 +16,7 @@
 #include "MeshFactory.hpp"
 
 #include <Resources\Resource.hpp>
-#include "../Graphics/Shader.hpp"
+#include <Graphics/Shader.hpp>
 
 #include "../Objects/Object.hpp"
 

@@ -1,7 +1,7 @@
 #include "Renderable.hpp"
 
 #include "../Scripting/ScriptEngine.hpp"
-#include "../Graphics/ShaderProperties.hpp"
+#include <Graphics/ShaderProperties.hpp>
 #include <Resources/Resource.hpp>
 
 #include "Entity.hpp"

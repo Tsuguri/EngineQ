@@ -19,14 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Graphics\Framebuffer.cpp" />
-    <ClCompile Include="Graphics\ShaderPass.cpp" />
-    <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
-    <ClCompile Include="Graphics\RenderingUnit.cpp" />
-    <ClCompile Include="Graphics\Configuration\RendererConfiguration.cpp" />
-    <ClCompile Include="Graphics\ShaderPreprocessor.cpp" />
-    <ClCompile Include="Graphics\ShaderProperties.cpp" />
-    <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="RendererIntermediateConfiguration.cpp" />
     <ClCompile Include="Resources\MeshFactory.cpp" />
@@ -47,12 +39,7 @@
     <ClCompile Include="Objects\Component.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Objects\Entity.cpp" />
-    <ClCompile Include="Graphics\Renderer.cpp" />
-    <ClCompile Include="Graphics\Shader.cpp" />
-    <ClCompile Include="Graphics\ShaderPart.cpp" />
-    <ClCompile Include="Graphics\UniformLocation.cpp" />
     <ClCompile Include="Objects\Light.cpp" />
-    <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Objects\Object.cpp" />
     <ClCompile Include="Objects\Renderable.cpp" />
     <ClCompile Include="Objects\Scene.cpp" />
@@ -74,26 +61,10 @@
     <ClCompile Include="EngineShaderProperties.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Objects\Transform.cpp" />
-    <ClCompile Include="Graphics\Vertex.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Graphics\Camera.hpp" />
-    <ClInclude Include="Graphics\Framebuffer.hpp" />
-    <ClInclude Include="Graphics\Renderable.hpp" />
-    <ClInclude Include="Graphics\Scene.hpp" />
-    <ClInclude Include="Graphics\ShaderPass.hpp" />
-    <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
-    <ClInclude Include="Graphics\RenderingUnit.hpp" />
-    <ClInclude Include="Graphics\Configuration\RendererConfiguration.hpp" />
-    <ClInclude Include="Graphics\Texture.hpp" />
-    <ClInclude Include="Graphics\Types.hpp" />
-    <ClInclude Include="Graphics\ShaderPreprocessor.hpp" />
-    <ClInclude Include="Graphics\ShaderProperties.hpp" />
-    <ClInclude Include="Graphics\ShaderProperty.hpp" />
-    <ClInclude Include="Graphics\ShaderUniformData.hpp" />
     <ClInclude Include="RendererIntermediateConfiguration.hpp" />
-    <ClInclude Include="Graphics\Utils\ScreenDataProvider.hpp" />
     <ClInclude Include="InputController.hpp" />
     <ClInclude Include="Objects\Types.hpp" />
     <ClInclude Include="Resources\MeshFactory.hpp" />
@@ -116,11 +87,6 @@
     <ClInclude Include="Objects\Component.hpp" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="Objects\Entity.hpp" />
-    <ClInclude Include="Graphics\Renderer.hpp" />
-    <ClInclude Include="Graphics\Shader.hpp" />
-    <ClInclude Include="Graphics\ShaderExceptions.hpp" />
-    <ClInclude Include="Graphics\ShaderPart.hpp" />
-    <ClInclude Include="Graphics\UniformLocation.hpp" />
     <ClInclude Include="Objects\Renderable.hpp" />
     <ClInclude Include="Scripting\Types.hpp" />
     <ClInclude Include="Serialization\Deserializer.hpp" />
@@ -136,7 +102,6 @@
     <ClInclude Include="EngineShaderProperties.hpp" />
     <ClInclude Include="TimeCounter.hpp" />
     <ClInclude Include="Objects\Light.hpp" />
-    <ClInclude Include="Graphics\Mesh.hpp" />
     <ClInclude Include="Objects\Object.hpp" />
     <ClInclude Include="Objects\Scene.hpp" />
     <ClInclude Include="Objects\Script.hpp" />
@@ -151,11 +116,9 @@
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Scripting\ScriptingExceptions.hpp" />
     <ClInclude Include="Objects\Transform.hpp" />
-    <ClInclude Include="Graphics\Vertex.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Graphics\ShaderProperties.inl" />
     <None Include="Scripting\ScriptEngine.inl" />
     <None Include="Serialization\Deserializer.inl" />
     <None Include="Serialization\SerializationEngine.inl" />
@@ -247,7 +210,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)EngineQRenderer\;$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
@@ -257,11 +220,11 @@
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib;SOIL.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib;SOIL.lib;EngineQRenderer.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQRenderer\_Build\bin\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>
@@ -274,7 +237,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)EngineQRenderer\;$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
@@ -284,11 +247,11 @@
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib;SOIL.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib;SOIL.lib;EngineQRenderer.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQRenderer\_Build\bin\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>
@@ -303,7 +266,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)EngineQRenderer\;$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
@@ -315,11 +278,11 @@
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib;SOIL.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib;SOIL.lib;EngineQRenderer.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQRenderer\_Build\bin\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>
@@ -333,7 +296,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)EngineQRenderer\;$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
@@ -345,11 +308,11 @@
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib;SOIL.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;monosgen-2.0.lib;assimp.lib;SOIL.lib;EngineQRenderer.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQRenderer\_Build\bin\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>

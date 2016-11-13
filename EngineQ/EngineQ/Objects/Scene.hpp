@@ -5,9 +5,9 @@
 #include <memory>
 
 #include "Types.hpp"
-#include "../Graphics/Types.hpp"
+#include <Graphics/Types.hpp>
 
-#include "../Graphics/Scene.hpp"
+#include <Graphics/Scene.hpp>
 #include "Object.hpp"
 
 namespace EngineQ

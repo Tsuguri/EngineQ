@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "Libraries\TinyXML\tinyxml2.h"
-#include "Graphics\Configuration\RendererConfiguration.hpp"
+#include <Graphics/Configuration/RendererConfiguration.hpp>
 #include "Resources\ResourceManager.hpp"
 
 namespace EngineQ

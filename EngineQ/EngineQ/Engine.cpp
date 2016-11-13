@@ -5,13 +5,12 @@
 #include <memory>
 
 #include "Objects/Scene.hpp"
-#include "Graphics/Shader.hpp"
-
+#include <Graphics/Shader.hpp>
 #include "TimeCounter.hpp"
 
 #include "Resources/ResourceManager.hpp"
 #include "Utilities/ResourcesIDs.hpp"
-#include "Graphics/RenderingUnit.hpp"
+#include <Graphics/RenderingUnit.hpp>
 #include "Objects/Camera.hpp"
 
 #include "Math/Vector2.hpp"

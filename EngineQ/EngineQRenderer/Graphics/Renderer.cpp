@@ -6,7 +6,6 @@
 #include "Framebuffer.hpp"
 #include "ShaderProperties.hpp"
 #include "Scene.hpp"
-#include "../TimeCounter.hpp"
 #include "Renderable.hpp"
 #include "Camera.hpp"
 
@@ -59,7 +58,7 @@ namespace EngineQ
 
 				auto time = shader->TryGetProperty<float>("time");
 				if (time != nullval)
-					*time = TimeCounter::Get().TimeFromStart();
+					*time = 0;
 
 				shader->Apply();
 

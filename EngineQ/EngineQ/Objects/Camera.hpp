@@ -7,7 +7,7 @@
 #include "../Serialization/Types.hpp"
 
 #include "Component.hpp"
-#include "../Graphics/Camera.hpp"
+#include <Graphics/Camera.hpp>
 
 namespace EngineQ
 {

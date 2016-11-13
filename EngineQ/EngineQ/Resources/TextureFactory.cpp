@@ -1,6 +1,6 @@
 #include "TextureFactory.hpp"
 
-#include "../Graphics/Texture.hpp"
+#include <Graphics/Texture.hpp>
 
 #include <Libraries/TinyXML/tinyxml2.h>
 

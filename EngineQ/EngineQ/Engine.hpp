@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 
-#include "Graphics/Types.hpp"
+//#include <Graphics\Types.hpp>
 
 #include "Window.hpp"
 #include "Scripting/ScriptEngine.hpp"
@@ -16,7 +16,7 @@
 #include "RendererIntermediateConfiguration.hpp"
 #include "Math/Vector2.hpp"
 
-#include "Graphics\Utils\ScreenDataProvider.hpp"
+#include <Graphics\Utils\ScreenDataProvider.hpp>
 
 namespace EngineQ
 {

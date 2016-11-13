@@ -6,7 +6,7 @@
 
 #include "ResourceManager.hpp"
 #include "ResourceFactory.hpp"
-#include "../Graphics/Mesh.hpp"
+#include <Graphics/Mesh.hpp>
 #include "Model.hpp"
 
 namespace EngineQ

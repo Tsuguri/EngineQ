@@ -1,17 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Graphics\Framebuffer.cpp" />
-    <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Scripting\API_Application.cpp" />
     <ClCompile Include="Scripting\API_Input.cpp" />
     <ClCompile Include="Scripting\API_TimeCounter.cpp" />
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Graphics\Shader.cpp" />
-    <ClCompile Include="Graphics\ShaderPart.cpp" />
-    <ClCompile Include="Graphics\UniformLocation.cpp" />
-    <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Scripting\API_Component.cpp" />
     <ClCompile Include="Scripting\API_Entity.cpp" />
     <ClCompile Include="Scripting\API_Matrix3.cpp" />
@@ -28,9 +22,6 @@
     <ClCompile Include="Serialization\XMLFormatter.cpp" />
     <ClCompile Include="TimeCounter.cpp" />
     <ClCompile Include="Window.cpp" />
-    <ClCompile Include="Graphics\RenderingUnit.cpp" />
-    <ClCompile Include="Graphics\ShaderPass.cpp" />
-    <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Component.cpp" />
     <ClCompile Include="Objects\Entity.cpp" />
@@ -40,9 +31,6 @@
     <ClCompile Include="Objects\Script.cpp" />
     <ClCompile Include="Objects\Transform.cpp" />
     <ClCompile Include="Objects\Renderable.cpp" />
-    <ClCompile Include="Graphics\ShaderProperties.cpp" />
-    <ClCompile Include="Graphics\ShaderPreprocessor.cpp" />
-    <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="Resources\ModelLoader.cpp" />
     <ClCompile Include="Resources\ShaderFactory.cpp" />
     <ClCompile Include="Resources\ResourceManager.cpp" />
@@ -54,23 +42,15 @@
     <ClCompile Include="Resources\Model.cpp" />
     <ClCompile Include="Resources\ModelFactory.cpp" />
     <ClCompile Include="Resources\MeshFactory.cpp" />
-    <ClCompile Include="Graphics\Configuration\RendererConfiguration.cpp" />
     <ClCompile Include="RendererIntermediateConfiguration.cpp" />
-    <ClCompile Include="Graphics\Vertex.cpp" />
     <ClCompile Include="EngineShaderProperties.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Graphics\Framebuffer.hpp" />
-    <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />
     <ClInclude Include="InputController.hpp" />
     <ClInclude Include="Scripting\API_Application.hpp" />
     <ClInclude Include="Scripting\API_Input.hpp" />
     <ClInclude Include="Scripting\API_TimeCounter.hpp" />
     <ClInclude Include="Engine.hpp" />
-    <ClInclude Include="Graphics\Shader.hpp" />
-    <ClInclude Include="Graphics\ShaderExceptions.hpp" />
-    <ClInclude Include="Graphics\ShaderPart.hpp" />
-    <ClInclude Include="Graphics\UniformLocation.hpp" />
     <ClInclude Include="Serialization\Deserializer.hpp" />
     <ClInclude Include="Serialization\Formatter.hpp" />
     <ClInclude Include="Serialization\Serializable.hpp" />
@@ -81,7 +61,6 @@
     <ClInclude Include="Libraries\TinyXML\tinyxml2.h" />
     <ClInclude Include="Serialization\XMLFormatter.hpp" />
     <ClInclude Include="TimeCounter.hpp" />
-    <ClInclude Include="Graphics\Mesh.hpp" />
     <ClInclude Include="Scripting\API_Component.hpp" />
     <ClInclude Include="Scripting\API_Entity.hpp" />
     <ClInclude Include="Scripting\API_Matrix3.hpp" />
@@ -91,9 +70,6 @@
     <ClInclude Include="Scripting\API_Transform.hpp" />
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
     <ClInclude Include="Window.hpp" />
-    <ClInclude Include="Graphics\RenderingUnit.hpp" />
-    <ClInclude Include="Graphics\ShaderPass.hpp" />
-    <ClInclude Include="Graphics\Renderer.hpp" />
     <ClInclude Include="Resources\ModelLoader.hpp" />
     <ClInclude Include="Resources\Model.hpp" />
     <ClInclude Include="Scripting\ScriptingExceptions.hpp" />
@@ -108,15 +84,9 @@
     <ClInclude Include="Objects\Types.hpp" />
     <ClInclude Include="Scripting\Types.hpp" />
     <ClInclude Include="Serialization\Types.hpp" />
-    <ClInclude Include="Graphics\Types.hpp" />
     <ClInclude Include="Objects\Renderable.hpp" />
-    <ClInclude Include="Graphics\ShaderProperty.hpp" />
-    <ClInclude Include="Graphics\ShaderUniformData.hpp" />
-    <ClInclude Include="Graphics\ShaderProperties.hpp" />
-    <ClInclude Include="Graphics\ShaderPreprocessor.hpp" />
     <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Resources\Types.hpp" />
-    <ClInclude Include="Graphics\Texture.hpp" />
     <ClInclude Include="Resources\ResourceFactory.hpp" />
     <ClInclude Include="Resources\ShaderFactory.hpp" />
     <ClInclude Include="Resources\ResourceManager.hpp" />
@@ -127,13 +97,7 @@
     <ClInclude Include="Scripting\API_ShaderProperties.hpp" />
     <ClInclude Include="Resources\ModelFactory.hpp" />
     <ClInclude Include="Resources\MeshFactory.hpp" />
-    <ClInclude Include="Graphics\Scene.hpp" />
-    <ClInclude Include="Graphics\Utils\ScreenDataProvider.hpp" />
-    <ClInclude Include="Graphics\Configuration\RendererConfiguration.hpp" />
     <ClInclude Include="RendererIntermediateConfiguration.hpp" />
-    <ClInclude Include="Graphics\Camera.hpp" />
-    <ClInclude Include="Graphics\Renderable.hpp" />
-    <ClInclude Include="Graphics\Vertex.hpp" />
     <ClInclude Include="EngineShaderProperties.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +106,5 @@
     <None Include="Serialization\SerializationRules.inl" />
     <None Include="Serialization\Serializer.inl" />
     <None Include="Scripting\ScriptEngine.inl" />
-    <None Include="Graphics\ShaderProperties.inl" />
   </ItemGroup>
 </Project>

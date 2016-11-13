@@ -8,7 +8,7 @@
 #include <Utilities/PointerWrapper.hpp>
 #include <Libraries/GL/glew.h>
 
-#include "../Graphics/Mesh.hpp"
+#include <Graphics/Mesh.hpp>
 
 namespace EngineQ
 {

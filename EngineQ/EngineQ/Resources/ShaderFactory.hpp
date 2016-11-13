@@ -4,7 +4,7 @@
 #include "ResourceFactory.hpp"
 
 #include "Types.hpp"
-#include "../Graphics/Types.hpp"
+#include <Graphics/Types.hpp>
 
 namespace EngineQ
 {
