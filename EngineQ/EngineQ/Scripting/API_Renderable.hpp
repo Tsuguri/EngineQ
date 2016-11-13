@@ -3,9 +3,9 @@
 
 #include "Types.hpp"
 #include "../Objects/Types.hpp"
-#include "../Graphics/Types.hpp"
+#include <Graphics/Types.hpp>
 
-#include "../Resources/Resource.hpp"
+#include <Resources/Resource.hpp>
 
 namespace EngineQ
 {

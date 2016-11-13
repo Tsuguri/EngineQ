@@ -2,7 +2,7 @@
 #define ENGINEQ_SCRIPTING_API_MATRIX4_HPP
 
 #include "Types.hpp"
-#include "../Math/Types.hpp"
+#include <Math/Types.hpp>
 
 namespace EngineQ
 {

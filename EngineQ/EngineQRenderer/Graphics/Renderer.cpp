@@ -1,16 +1,13 @@
 #include "Renderer.hpp"
 
-#include <GL/glew.h>
+#include <Libraries/GL/glew.h>
 
 #include "Mesh.hpp"
 #include "Framebuffer.hpp"
 #include "ShaderProperties.hpp"
-#include "../TimeCounter.hpp"
-#include "../Objects/Renderable.hpp"
-#include "../Objects/Camera.hpp"
-#include "../Objects/Entity.hpp"
-#include "../Objects/Transform.hpp"
-#include "../Objects/Renderable.hpp"
+#include "Scene.hpp"
+#include "Renderable.hpp"
+#include "Camera.hpp"
 
 namespace EngineQ
 {
@@ -19,13 +16,13 @@ namespace EngineQ
 		void Renderer::SetDeferred(bool state)
 		{
 			if (state)
-				shaderMethod = &Renderable::GetDeferredShader;
+				shaderMethod = &Graphics::Renderable::GetDeferredShader;
 			else
-				shaderMethod = &Renderable::GetForwardShader;
+				shaderMethod = &Graphics::Renderable::GetForwardShader;
 			deferred = state;
 		}
 
-		void Renderer::Render(const Scene& scene) const
+		void Renderer::Render(Scene& scene) const
 		{
 			if (this->framebuffer == nullptr)
 				Framebuffer::BindDefault();
@@ -34,28 +31,34 @@ namespace EngineQ
 
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 			auto camera = scene.GetActiveCamera();
-
+			int i = 0;
 			for(auto renderable : scene.GetRenderables())
 			{
+				i++;
 				auto mesh = renderable->GetMesh();
-				auto shader = (renderable->*shaderMethod)();
+				Graphics::Mesh& p = *mesh;
+
+				ShaderProperties* shader;
+				if (deferred)
+					shader = renderable->GetDeferredShader();
+				else
+					shader = renderable->GetForwardShader();
 
 				const auto& matrices = shader->GetMatrices();
 
-				matrices.Model = renderable->GetEntity().GetTransform().GetGlobalMatrix();
+				matrices.Model = renderable->GetGlobalMatrix();
 				matrices.View = camera->GetViewMatrix();
 				matrices.Projection = camera->GetProjectionMatrix();
 
 				// TMP
 				auto cameraPosition = shader->TryGetProperty<Math::Vector3>("cameraPosition");
 				if (cameraPosition != nullval)
-					*cameraPosition = camera->GetEntity().GetTransform().GetPosition();
+					*cameraPosition = camera->GetPosition();
 
 				auto time = shader->TryGetProperty<float>("time");
 				if (time != nullval)
-					*time = TimeCounter::Get().TimeFromStart();
+					*time = 0;
 
 				shader->Apply();
 

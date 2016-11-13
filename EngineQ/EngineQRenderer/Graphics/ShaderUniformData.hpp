@@ -4,15 +4,15 @@
 #include <array>
 #include <unordered_map>
 
-#include "../Utilities/Metaprogramming.hpp"
-#include "../Utilities/Nullable.hpp"
+#include <Utilities/Metaprogramming.hpp>
+#include <Utilities/Nullable.hpp>
 #include "ShaderExceptions.hpp"
 
 #include "UniformLocation.hpp"
 #include "ShaderProperty.hpp"
 #include "Shader.hpp"
 
-#include "../Resources/Resource.hpp"
+#include <Resources/Resource.hpp>
 
 namespace EngineQ
 {

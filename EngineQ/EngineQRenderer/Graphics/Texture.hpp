@@ -1,9 +1,9 @@
 #ifndef ENGINEQ_GRAPHICS_TEXTURE_HPP
 #define ENGINEQ_GRAPHICS_TEXTURE_HPP
 
-#include "../Libraries/GL/glew.h"
+#include <Libraries/GL/glew.h>
 
-#include "../Utilities/Immovable.hpp"
+#include <Utilities/Immovable.hpp>
 
 namespace EngineQ
 {

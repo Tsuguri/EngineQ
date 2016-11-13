@@ -1,12 +1,14 @@
 #ifndef ENGINEQ_GRAPHICS_FRAMEBUFFER_HPP
 #define ENGINEQ_GRAPHICS_FRAMEBUFFER_HPP
 
-#include "../Libraries/GL/glew.h"
+#include <Libraries/GL/glew.h>
 
-#include "../Utilities/Immovable.hpp"
-#include "RendererConfiguration.hpp"
-#include "../Utilities/Event.hpp"
-#include "../Engine.hpp"
+#include <Utilities/Immovable.hpp>
+#include <Utilities/Event.hpp>
+#include "Configuration/RendererConfiguration.hpp"
+
+
+#include "Utils\ScreenDataProvider.hpp"
 
 namespace EngineQ
 {
@@ -21,14 +23,14 @@ namespace EngineQ
 			GLuint fbo;
 			GLuint depthRbo;
 
-			Engine* engine;
+			ScreenDataProvider* screenDataProvider;
 			Utilities::EventHandler<void(int, int)> handler;
 
 			void CreateDepthTesting();
 			void Resize(int width, int height);
 			void AddTexture(GLuint texture, GLenum location);
 		public:
-			Framebuffer(bool depthTesting,std::vector<GLuint>& textures,Engine* engine);
+			Framebuffer(bool depthTesting,std::vector<GLuint>& textures, ScreenDataProvider* dataProvider);
 			~Framebuffer();
 
 			void Bind() const;

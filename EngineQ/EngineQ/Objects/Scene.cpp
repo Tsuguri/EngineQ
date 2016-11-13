@@ -138,7 +138,7 @@ namespace EngineQ
 			break;
 
 			case ComponentType::Renderable:
-			TryRemove(this->renderables, static_cast<Renderable&>(component));
+			TryRemove(this->renderables, static_cast<Graphics::Renderable&>(static_cast<Renderable&>(component)));
 			break;
 
 			default:
@@ -167,7 +167,7 @@ namespace EngineQ
 			break;
 
 			case ComponentType::Renderable:
-			this->renderables.push_back(static_cast<Renderable*>(&component));
+			this->renderables.push_back(static_cast<Graphics::Renderable*>(static_cast<Renderable*>(&component)));
 
 			default:
 			break;
@@ -201,12 +201,17 @@ namespace EngineQ
 		this->activeCamera = camera;
 	}
 
-	Camera* Scene::GetActiveCamera() const
+	Graphics::Camera* Scene::GetActiveCamera() const
 	{
 		return this->activeCamera;
 	}
 
-	const std::vector<Renderable*>& Scene::GetRenderables() const
+	Camera* Scene::GetActiveEngineCamera() const
+	{
+		return this->activeCamera;
+	}
+
+	const std::vector<Graphics::Renderable*>& Scene::GetRenderables() const
 	{
 		return this->renderables;
 	}

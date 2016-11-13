@@ -6,8 +6,8 @@
 
 #include "Model.hpp"
 
-#include "../Utilities/EnumHelpers.hpp"
-#include "../Vertex.hpp"
+#include <Utilities/EnumHelpers.hpp>
+#include <Graphics/Vertex.hpp>
 
 namespace EngineQ
 {

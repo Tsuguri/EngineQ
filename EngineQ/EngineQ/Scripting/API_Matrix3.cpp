@@ -2,8 +2,8 @@
 
 #include "ScriptEngine.hpp"
 
-#include "../Math/Matrix3.hpp"
-#include "../Math/Vector3.hpp"
+#include <Math/Matrix3.hpp>
+#include <Math/Vector3.hpp>
 
 using namespace EngineQ::Math;
 

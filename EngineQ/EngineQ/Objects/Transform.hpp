@@ -6,10 +6,9 @@
 #include "Types.hpp"
 
 #include "Component.hpp"
-
-#include "../Math/Vector3.hpp"
-#include "../Math/Matrix4.hpp"
-#include "../Math/Quaternion.hpp"
+#include <Math/Vector3.hpp>
+#include <Math/Matrix4.hpp>
+#include <Math/Quaternion.hpp>
 
 namespace EngineQ
 {

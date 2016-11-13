@@ -5,9 +5,9 @@
 
 #include "Types.hpp"
 #include "Model.hpp"
-#include "../Math/Vector3.hpp"
+#include <Math/Vector3.hpp>
 
-#include "../Utilities/EnumHelpers.hpp"
+#include <Utilities/EnumHelpers.hpp>
 
 struct aiScene;
 struct aiNode;

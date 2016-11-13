@@ -2,9 +2,9 @@
 
 #include <unordered_map>
 
-#include "../Libraries/TinyXML/tinyxml2.h"
+#include <Libraries/TinyXML/tinyxml2.h>
 
-#include "../Graphics/Shader.hpp"
+#include <Graphics/Shader.hpp>
 
 namespace EngineQ
 {

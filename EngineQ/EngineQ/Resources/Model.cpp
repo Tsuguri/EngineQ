@@ -38,6 +38,46 @@ namespace EngineQ
 			return this->data;
 		}
 
+		Graphics::Mesh::ConstructionData Model::Mesh::ToMeshContructionData() const
+		{
+			auto constructionData = Graphics::Mesh::ConstructionData();
+
+					//Generating vertex array and buffers
+					glGenVertexArrays(1, &constructionData.vao);
+					glGenBuffers(Graphics::Mesh::VboSize, &constructionData.vbo[0]);
+
+					glBindVertexArray(constructionData.vao);
+
+
+					//sending data of vertices
+					const auto& vertices = GetVerticesData();
+					
+					glBindBuffer(GL_ARRAY_BUFFER, constructionData.vbo[0]);
+					glBufferData(GL_ARRAY_BUFFER, vertices.size(), vertices.data(), GL_STATIC_DRAW);
+
+
+					//setting components pointers
+					std::size_t offset = 0;
+					for (const auto& data : GetComponentData())
+					{
+						glEnableVertexAttribArray(data.location);
+						glVertexAttribPointer(data.location, data.size, data.type, data.normalized, GetVertexSize(), reinterpret_cast<const GLvoid*>(offset));
+					
+						offset += data.bytesSize;
+					}
+
+
+					//sending indices data
+					const auto& indices = GetIndices();
+				
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, constructionData.vbo[2]);
+					glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+					glBindBuffer(GL_ARRAY_BUFFER, NULL);
+					constructionData.indicesCount = static_cast<GLuint>(indices.size());
+				
+			return constructionData;
+		}
+
 
 
 

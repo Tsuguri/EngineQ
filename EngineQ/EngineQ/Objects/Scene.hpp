@@ -5,13 +5,14 @@
 #include <memory>
 
 #include "Types.hpp"
-#include "../Graphics/Types.hpp"
+#include <Graphics/Types.hpp>
 
+#include <Graphics/Scene.hpp>
 #include "Object.hpp"
 
 namespace EngineQ
 {
-	class Scene : public Object
+	class Scene : public Object, public Graphics::Scene
 	{
 		friend class Engine;
 
@@ -33,7 +34,7 @@ namespace EngineQ
 
 		std::vector<Light*> lights;
 		std::vector<Camera*> cameras;
-		std::vector<Renderable*> renderables;
+		std::vector<Graphics::Renderable*> renderables;
 		std::vector<Script*> updateable;
 
 		std::vector<Script*> currentUpdateable;
@@ -79,9 +80,10 @@ namespace EngineQ
 		std::size_t GetEntitiesCount() const;
 
 		void SetActiveCamera(Camera* camera);
-		Camera* GetActiveCamera() const;
+		Graphics::Camera* GetActiveCamera() const override;
+		Camera* GetActiveEngineCamera() const;
 
-		const std::vector<Renderable*>& GetRenderables() const;
+		const std::vector<Graphics::Renderable*>& GetRenderables() const override;
 
 		void AddToRemoveQueue(std::unique_ptr<Object> object);
 

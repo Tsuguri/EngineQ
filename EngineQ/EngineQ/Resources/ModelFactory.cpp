@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <sstream>
 
-#include "../Libraries/TinyXML/tinyxml2.h"
+#include <Libraries/TinyXML/tinyxml2.h>
 
 #include "ResourceFactory.hpp"
 #include "ModelLoader.hpp"

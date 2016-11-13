@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Types.hpp"
-#include "../Math/Types.hpp"
+#include <Math/Types.hpp>
 
 namespace EngineQ
 {

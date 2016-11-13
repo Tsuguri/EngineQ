@@ -1,9 +1,9 @@
 #include "ShaderProperties.hpp"
 
-#include "GL/glew.h"
+#include <Libraries/GL/glew.h>
 
-#include "../Scripting/ScriptEngine.hpp"
-#include "../Utilities/StringHelpers.hpp"
+
+#include <Utilities/StringHelpers.hpp>
 
 namespace EngineQ
 {
@@ -144,8 +144,8 @@ namespace EngineQ
 			return name;
 		}
 
-		ShaderProperties::ShaderProperties(Scripting::ScriptEngine& scriptEngine, Resources::Resource<Shader> shader) :
-			Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::ShaderProperties) }, shader{ shader }
+		ShaderProperties::ShaderProperties(Resources::Resource<Shader> shader) :
+			shader{ shader }
 		{
 			GLint uniformCount;
 			glGetProgramiv(shader->programId, GL_ACTIVE_UNIFORMS, &uniformCount);
@@ -196,8 +196,7 @@ namespace EngineQ
 
 			this->FinalizeBuiltIn();
 
-			// Call constructor
-			this->scriptEngine.InvokeConstructor(this->GetManagedObject());
+			
 		}
 
 		void ShaderProperties::Apply() const

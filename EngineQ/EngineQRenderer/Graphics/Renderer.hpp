@@ -4,7 +4,8 @@
 #include <memory>
 
 #include "Types.hpp"
-#include "../Objects/Types.hpp"
+
+#include "Renderable.hpp"
 
 namespace EngineQ
 {
@@ -16,11 +17,11 @@ namespace EngineQ
 			bool deferred;
 			std::shared_ptr<Framebuffer> framebuffer;
 
-			ShaderProperties* (Renderable::*shaderMethod)() const;
+			Graphics::ShaderProperties* (Graphics::Renderable::*shaderMethod)() const = &Graphics::Renderable::GetDeferredShader;
 
 		public:
 			void SetDeferred(bool state);
-			void Render(const Scene& scene) const;
+			void Render(Scene& scene) const;
 			void SetTargetBuffer(std::shared_ptr<Framebuffer> buffer);
 		};
 	}

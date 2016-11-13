@@ -9,16 +9,14 @@
 #include "ShaderProperty.hpp"
 #include "Texture.hpp"
 
-#include "../Math/Matrix4.hpp"
-#include "../Resources/Resource.hpp"
-
-#include "../Objects/Object.hpp"
+#include <Math/Matrix4.hpp>
+#include <Resources/Resource.hpp>
 
 namespace EngineQ
 {
 	namespace Graphics
 	{
-		class ShaderProperties : public Object
+		class ShaderProperties
 		{
 		private:
 			using UniformData = ShaderUniformData<
@@ -91,7 +89,7 @@ namespace EngineQ
 			std::string TranslateName(std::string originalName) const;
 
 		public:
-			ShaderProperties(Scripting::ScriptEngine& scriptEngine, Resources::Resource<Shader> shader);
+			ShaderProperties(Resources::Resource<Shader> shader);
 
 			Resources::Resource<Shader> GetShader() const;
 

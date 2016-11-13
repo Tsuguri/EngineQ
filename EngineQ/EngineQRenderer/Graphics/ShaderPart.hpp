@@ -5,11 +5,10 @@
 #include <string>
 #include <fstream>
 
-#include "../Libraries/GL/glew.h"
+#include <Libraries/GL/glew.h>
+#include <Utilities/Immovable.hpp>
 
 #include "Types.hpp"
-
-#include "../Utilities/Immovable.hpp"
 #include "ShaderExceptions.hpp"
 
 namespace EngineQ

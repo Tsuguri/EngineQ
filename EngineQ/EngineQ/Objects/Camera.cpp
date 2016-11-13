@@ -6,7 +6,7 @@
 #include "../Serialization/Serializer.hpp"
 #include "../Serialization/Deserializer.hpp"
 #include "../Scripting/ScriptEngine.hpp"
-#include "../Math/Utilities.hpp"
+#include <Math/Utilities.hpp>
 
 #include "../Serialization/SerializationRules.hpp"
 
@@ -115,5 +115,9 @@ namespace EngineQ
 			SetCalculateInvertedProjectionMatrix(false);
 		}
 		return invertedProjectionMatrix;
+	}
+	Math::Vector3 Camera::GetPosition()
+	{
+		return GetEntity().GetTransform().GetPosition();
 	}
 }

@@ -3,20 +3,24 @@
 
 #include <memory>
 
-#include "../Graphics/Types.hpp"
-
+#include <Graphics\Types.hpp>
 #include "Component.hpp"
 #include "../Resources/Types.hpp"
 
-#include "../Resources/Resource.hpp"
+#include <Resources/Resource.hpp>
 
+#include <Graphics/Renderable.hpp>
+
+#include <Math\Vector3.hpp>
+
+#include "../EngineShaderProperties.hpp"
 namespace EngineQ
 {
-	class Renderable final : public Component
+	class Renderable final : public Component, public Graphics::Renderable
 	{
 	private:
-		std::unique_ptr<Graphics::ShaderProperties> forwardShader;
-		std::unique_ptr<Graphics::ShaderProperties> deferredShader;
+		std::unique_ptr<EngineShaderProperties> forwardShader;
+		std::unique_ptr<EngineShaderProperties> deferredShader;
 		Resources::Resource<Graphics::Mesh> mesh;
 		
 	public:
@@ -24,14 +28,20 @@ namespace EngineQ
 		virtual ~Renderable();
 
 		void SetForwardShader(Resources::Resource<Graphics::Shader> shader);
-		Graphics::ShaderProperties* GetForwardShader() const;
+		 Graphics::ShaderProperties* GetForwardShader() const override;
+		 EngineShaderProperties* GetForwardShaderEngine() const;
 
 		void SetDeferredShader(Resources::Resource<Graphics::Shader> shader);
-		Graphics::ShaderProperties* GetDeferredShader() const;
+		Graphics::ShaderProperties* GetDeferredShader() const override;
+		EngineShaderProperties* GetDeferredShaderEngine() const;
 
 		
-		Resources::Resource<Graphics::Mesh> GetMesh() const;
+		Resources::Resource<Graphics::Mesh> GetMesh() const override;
 		void SetMesh(Resources::Resource<Graphics::Mesh> mesh);
+
+		Math::Vector3 GetPosition() override;
+
+		Math::Matrix4 GetGlobalMatrix() override;
 	};
 }
 

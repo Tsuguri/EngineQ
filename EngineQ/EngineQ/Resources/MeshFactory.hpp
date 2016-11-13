@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "Types.hpp"
-#include "../Graphics/Mesh.hpp"
+#include <Graphics/Mesh.hpp>
 
 namespace EngineQ
 {

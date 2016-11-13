@@ -1,6 +1,6 @@
 #include "XMLFormatter.hpp"
 
-#include "../Libraries/TinyXML/tinyxml2.h"
+#include <Libraries/TinyXML/tinyxml2.h>
 
 #include "SerializedObject.hpp"
 

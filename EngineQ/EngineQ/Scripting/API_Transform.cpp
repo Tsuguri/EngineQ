@@ -3,7 +3,7 @@
 #include "ScriptEngine.hpp"
 
 #include "../Objects/Transform.hpp"
-#include "../Math/Vector3.hpp"
+#include <Math/Vector3.hpp>
 
 namespace EngineQ
 {

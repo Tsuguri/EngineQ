@@ -1,10 +1,11 @@
+#include <map>
+#include <Utilities/ResourcesIDs.hpp>
+
 #include "RenderingUnit.hpp"
 #include "PostprocessingExceptions.hpp"
-#include "../Utilities/ResourcesIDs.hpp"
-#include "../Engine.hpp"
 #include "Renderer.hpp"
-#include "../TimeCounter.hpp"
 #include "Shader.hpp"
+
 
 namespace EngineQ
 {
@@ -36,11 +37,11 @@ namespace EngineQ
 			glBindVertexArray(0);
 		}
 
-		void RenderingUnit::CreateTexture(GLuint* texture, const TextureConfiguration& configuration) const
+		void RenderingUnit::CreateTexture(GLuint* texture, const Configuration::TextureConfiguration& configuration) const
 		{
 			glGenTextures(1, texture);
 			glBindTexture(GL_TEXTURE_2D, *texture);
-			auto size = engine->GetScreenSize();
+			auto size = screenDataProvider->GetScreenSize();
 			glTexImage2D(GL_TEXTURE_2D, 0, configuration.InternalFormat, size.X, size.Y, 0, configuration.Format, configuration.DataType, nullptr);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -61,13 +62,13 @@ namespace EngineQ
 
 		std::unique_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting)
 		{
-			return std::make_unique<Framebuffer>(depthTesting, textures, engine);
+			return std::make_unique<Framebuffer>(depthTesting, textures, screenDataProvider);
 
 		}
 
-		void RenderingUnit::Init(const RenderingUnitConfiguration& configuration)
+		void RenderingUnit::Init(const Configuration::RenderingUnitConfiguration& configuration)
 		{
-			auto size = engine->GetScreenSize();
+			auto size = screenDataProvider->GetScreenSize();
 			glViewport(0, 0, size.X, size.Y);
 
 			//textures
@@ -96,12 +97,10 @@ namespace EngineQ
 				renderer.SetTargetBuffer(CreateFramebuffer(rendererOutput, true));
 			}
 
-			auto& resourceManager = engine->GetResourceManager();
-
 			//effects
 			for (auto effect : configuration.Effects)
 			{
-				auto shaderPass = std::make_unique<ShaderPass>(resourceManager.GetResource<Shader>(effect.Shader));
+				auto shaderPass = std::make_unique<ShaderPass>(effect.Shader);
 				for (auto inputConfiguration : effect.Input)
 					shaderPass->AddInput(InputConfiguration{ inputConfiguration.Location,textures[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
 
@@ -121,8 +120,8 @@ namespace EngineQ
 			}
 		}
 
-		RenderingUnit::RenderingUnit(Engine* engine, const RenderingUnitConfiguration& configuration) : 
-			engine(engine), textures(configuration.Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
+		RenderingUnit::RenderingUnit(ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration) :
+			screenDataProvider(dataProvider), textures(configuration.Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
 		{
 		//	glPolygonMode(GL_FRONT, GL_FILL);
 		//	glPolygonMode(GL_BACK, GL_LINE);
@@ -137,7 +136,7 @@ namespace EngineQ
 		//	glClearDepth(0);
 		//	glDepthFunc(GL_GREATER);
 
-			engine->resizeEvent += handler;
+			screenDataProvider->resizeEvent += handler;
 
 			InitScreenQuad(&quadVao);
 
@@ -146,14 +145,14 @@ namespace EngineQ
 
 		RenderingUnit::~RenderingUnit()
 		{
-			engine->resizeEvent -= handler;
+			screenDataProvider->resizeEvent -= handler;
 
 			if (textures.size() > 0)
 				glDeleteTextures(static_cast<GLsizei>(textures.size()), &textures[0]);
 
 		}
 
-		void RenderingUnit::Render(const Scene& scene)
+		void RenderingUnit::Render(Scene& scene)
 		{
 			renderer.Render(scene);
 
@@ -168,7 +167,7 @@ namespace EngineQ
 					glClear(GL_COLOR_BUFFER_BIT);
 					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
 					
-					effect->Activate(scene.GetActiveCamera(), TimeCounter::Get().TimeFromStart());
+					effect->Activate(scene.GetActiveCamera(), 0);
 					glBindVertexArray(quadVao);
 
 					effect->BindTextures();

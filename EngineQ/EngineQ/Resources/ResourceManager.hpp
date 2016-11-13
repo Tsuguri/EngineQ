@@ -5,9 +5,9 @@
 #include <unordered_map>
 
 #include "Types.hpp"
-#include "../Graphics/Types.hpp"
+#include <Graphics/Types.hpp>
 
-#include "../Utilities/Metaprogramming.hpp"
+#include <Utilities/Metaprogramming.hpp>
 #include "../Scripting/ScriptEngine.hpp"
 
 #include "ShaderFactory.hpp"
@@ -15,8 +15,8 @@
 #include "ModelFactory.hpp"
 #include "MeshFactory.hpp"
 
-#include "Resource.hpp"
-#include "../Graphics/Shader.hpp"
+#include <Resources\Resource.hpp>
+#include <Graphics/Shader.hpp>
 
 #include "../Objects/Object.hpp"
 
@@ -26,7 +26,7 @@
 #include <typeindex>
 #include <functional>
 
-
+#include "Model.hpp"
 
 
 namespace EngineQ
