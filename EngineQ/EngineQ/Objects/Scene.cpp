@@ -167,7 +167,7 @@ namespace EngineQ
 			break;
 
 			case ComponentType::Renderable:
-			this->renderables.push_back(static_cast<Renderable*>(&component));
+			this->renderables.push_back(static_cast<Graphics::Renderable*>(static_cast<Renderable*>(&component)));
 
 			default:
 			break;

@@ -77,12 +77,42 @@ namespace EngineQ
 
 	IntermediateRenderingUnitConfiguration IntermediateRenderingUnitConfiguration::Load(tinyxml2::XMLElement * element)
 	{
-		return IntermediateRenderingUnitConfiguration();
+		IntermediateRenderingUnitConfiguration configuration{};
+		if (std::string(element->Name()) != "RenderingUnitConfiguration")
+			throw "Wrong element name";
+		auto textures = element->FirstChildElement("Textures");
+		if (textures != nullptr)
+		{
+			for (auto textureInfo = textures->FirstChildElement(); textureInfo != nullptr; textureInfo = textureInfo->NextSiblingElement())
+			{
+				std::cout << "	" << textureInfo->Name() << std::endl;
+				configuration.Textures.push_back(Graphics::Configuration::TextureConfiguration::Load(textureInfo));
+			}
+		}
+		auto renderer = element->FirstChildElement("Renderer");
+		if (renderer != nullptr)
+		{
+			configuration.Renderer = Graphics::Configuration::RendererConfiguration::Load(renderer);
+		}
+		auto effects = element->FirstChildElement("Effects");
+		if (effects != nullptr)
+		{
+			for (auto effectInfo = effects->FirstChildElement(); effectInfo != nullptr; effectInfo = effectInfo->NextSiblingElement())
+			{
+				std::cout << "	" << effectInfo->Name() << std::endl;
+				configuration.Effects.push_back(IntermediateEffectConfiguration::Load(effectInfo));
+			}
+		}
+		return configuration;
 	}
 
 	IntermediateRenderingUnitConfiguration IntermediateRenderingUnitConfiguration::Load(std::string filePath)
 	{
-		return IntermediateRenderingUnitConfiguration();
+		tinyxml2::XMLDocument xmlDoc;
+		tinyxml2::XMLError eResult = xmlDoc.LoadFile(filePath.c_str());
+		if (eResult != tinyxml2::XML_SUCCESS)
+			throw "Error parsing XML file";
+		return Load(xmlDoc.RootElement());
 	}
 
 }
