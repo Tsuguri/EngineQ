@@ -22,20 +22,20 @@ namespace EngineQ
 		std::unique_ptr<EngineShaderProperties> forwardShader;
 		std::unique_ptr<EngineShaderProperties> deferredShader;
 		Resources::Resource<Graphics::Mesh> mesh;
-		
+
 	public:
 		Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
 		virtual ~Renderable();
 
 		void SetForwardShader(Resources::Resource<Graphics::Shader> shader);
-		 Graphics::ShaderProperties* GetForwardShader() const override;
-		 EngineShaderProperties* GetForwardShaderEngine() const;
+		Graphics::ShaderProperties* GetForwardShader() const override;
+		EngineShaderProperties* GetForwardShaderEngine() const;
 
 		void SetDeferredShader(Resources::Resource<Graphics::Shader> shader);
 		Graphics::ShaderProperties* GetDeferredShader() const override;
 		EngineShaderProperties* GetDeferredShaderEngine() const;
 
-		
+
 		Resources::Resource<Graphics::Mesh> GetMesh() const override;
 		void SetMesh(Resources::Resource<Graphics::Mesh> mesh);
 
