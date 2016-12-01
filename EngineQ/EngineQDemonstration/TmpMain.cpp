@@ -153,6 +153,8 @@ EngineQ::Engine::Config ParseConfig(const char* applicationPath, const char* pat
 	config.postprocessingConfig = postprocessingElement->Attribute("Path");
 
 	config.applicationPath = applicationPath;
+
+	return config;
 }
 
 int main(int argc, char** argv)

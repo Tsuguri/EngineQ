@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineQ", "EngineQ\EngineQ.vcxproj", "{C9BF8FE4-F956-43A3-88F1-69D4ABEBC221}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F7E0E118-5CFE-4871-AA3C-435A224AC2C5} = {F7E0E118-5CFE-4871-AA3C-435A224AC2C5}
+		{9928F89E-BAE3-48B4-9EE4-10EA062E540D} = {9928F89E-BAE3-48B4-9EE4-10EA062E540D}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineQScripting", "EngineQScripting\EngineQScripting.csproj", "{9928F89E-BAE3-48B4-9EE4-10EA062E540D}"
 EndProject
