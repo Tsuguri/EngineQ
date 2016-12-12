@@ -9,11 +9,13 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
+		class Light;
 		class Scene
 		{
 		public:
 			virtual Camera* GetActiveCamera() const=0 ;
 			virtual const std::vector<Renderable*>& GetRenderables() const=0;
+			virtual const std::vector<Light*>& GetLights() const = 0;
 		};
 	}
 }
