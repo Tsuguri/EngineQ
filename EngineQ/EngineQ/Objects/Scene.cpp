@@ -35,8 +35,8 @@ namespace EngineQ
 #pragma endregion
 	*/
 
-	Scene::Scene(Scripting::ScriptEngine& scriptEngine) :
-		Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Scene) }
+	Scene::Scene(Scripting::ScriptEngine& scriptEngine, Engine* engine) :
+		Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Scene) }, engine(engine)
 	{
 	}
 
@@ -235,6 +235,11 @@ namespace EngineQ
 	bool Scene::IsUpdating() const
 	{
 		return this->isUpdating;
+	}
+
+	Engine * Scene::GetEngine()
+	{
+		return engine;
 	}
 
 	void Scene::AddToRemoveQueue(std::unique_ptr<Object> object)

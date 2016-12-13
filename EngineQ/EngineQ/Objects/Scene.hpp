@@ -12,6 +12,7 @@
 
 namespace EngineQ
 {
+	class Engine;
 	class Scene : public Object, public Graphics::Scene
 	{
 		friend class Engine;
@@ -27,6 +28,7 @@ namespace EngineQ
 		};
 
 	private:
+		Engine* engine;
 		std::vector<std::unique_ptr<Entity>> entities;
 		std::vector<std::unique_ptr<Object>> removeQueue;
 
@@ -63,7 +65,7 @@ namespace EngineQ
 	#pragma endregion
 		*/
 
-		Scene(Scripting::ScriptEngine& scriptEngine);
+		Scene(Scripting::ScriptEngine& scriptEngine, Engine* engine);
 		virtual ~Scene();
 
 		Entity& CreateEntity(bool enabled = true, const std::string& name = "");
@@ -90,6 +92,8 @@ namespace EngineQ
 		void AddToRemoveQueue(std::unique_ptr<Object> object);
 
 		bool IsUpdating() const;
+
+		Engine* GetEngine();
 	};
 
 	template<typename TComponentType>

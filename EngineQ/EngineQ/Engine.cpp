@@ -107,7 +107,7 @@ namespace EngineQ
 
 	Scene& Engine::CreateScene()
 	{
-		this->scenes.push_back(std::make_unique<Scene>(*this->scriptingEngine));
+		this->scenes.push_back(std::make_unique<Scene>(*this->scriptingEngine,this));
 		return *this->scenes.back();
 	}
 

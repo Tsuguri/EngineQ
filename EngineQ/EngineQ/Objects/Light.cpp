@@ -4,8 +4,10 @@
 #include "../Serialization/Serializer.hpp"
 #include "../Serialization/Deserializer.hpp"
 #include "Entity.hpp"
+#include "Transform.hpp"
 #include "Scene.hpp"
-
+#include "../Resources/ResourceManager.hpp"
+#include "../Engine.hpp"
 namespace EngineQ
 {
 	/*
@@ -41,11 +43,22 @@ namespace EngineQ
 		}
 	}
 
+	Math::Vector3 Light::GetPosition()
+	{
+		return GetEntity().GetTransform().GetPosition();
+	}
+
+	EngineShaderProperties * Light::GetShaderProperties() const
+	{
+		return shaderProperties.get();
+	}
+
 	Light::Light(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled)
 		: Component{ ComponentType::Light, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light), entity, enabled }, Graphics::Shadows::Light(this)
 	{
 		// TMP
 		Init();
 		scriptEngine.InvokeConstructor(GetManagedObject());
+		shaderProperties = std::make_unique<EngineShaderProperties>(this->scriptEngine, entity.GetScene().GetEngine()->GetResourceManager().GetResource<Graphics::Shader>("11") );
 	}
 }

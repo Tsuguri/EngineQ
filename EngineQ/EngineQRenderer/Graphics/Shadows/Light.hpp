@@ -25,8 +25,6 @@ namespace EngineQ
 
 				virtual Math::Vector3 GetPosition() = 0;
 
-				virtual Math::Matrix4 GetGlobalMatrix() = 0;
-
 				virtual ShaderProperties* GetShaderProperties() const = 0;
 			};
 		}

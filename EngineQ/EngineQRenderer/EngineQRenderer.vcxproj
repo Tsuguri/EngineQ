@@ -169,6 +169,7 @@
     <ClCompile Include="Graphics\ShaderPass.cpp" />
     <ClCompile Include="Graphics\ShaderPreprocessor.cpp" />
     <ClCompile Include="Graphics\ShaderProperties.cpp" />
+    <ClCompile Include="Graphics\Shadows\Light.cpp" />
     <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="Graphics\UniformLocation.cpp" />
     <ClCompile Include="Graphics\Vertex.cpp" />
