@@ -20,7 +20,7 @@
 
 namespace EngineQ
 {
-	class Engine : private Utilities::Immovable, public Graphics::ScreenDataProvider
+	class Engine : private Utilities::Immovable, public Graphics::Utils::ScreenDataProvider
 	{
 	#pragma region Types
 

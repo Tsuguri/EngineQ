@@ -60,6 +60,7 @@ namespace EngineQ
 			{
 			public:
 				bool Deffered = false;
+				bool GlobalShadows = false;
 				std::vector<OutputTexture> Output;
 
 				static RendererConfiguration Load(tinyxml2::XMLElement* element);

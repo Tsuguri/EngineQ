@@ -120,7 +120,7 @@ namespace EngineQ
 			}
 		}
 
-		RenderingUnit::RenderingUnit(ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration) :
+		RenderingUnit::RenderingUnit(Utils::ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration) :
 			screenDataProvider(dataProvider), textures(configuration.Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
 		{
 		//	glPolygonMode(GL_FRONT, GL_FILL);

@@ -15,14 +15,10 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-
-
-
-
 		class RenderingUnit
 		{
 		private:
-			ScreenDataProvider* screenDataProvider;
+			Utils::ScreenDataProvider* screenDataProvider;
 			Renderer renderer;
 			GLuint quadVao = 0;
 
@@ -40,7 +36,7 @@ namespace EngineQ
 			void Init(const Configuration::RenderingUnitConfiguration&configuration);
 
 		public:
-			RenderingUnit(ScreenDataProvider* engine, const Configuration::RenderingUnitConfiguration& configuration);
+			RenderingUnit(Utils::ScreenDataProvider* engine, const Configuration::RenderingUnitConfiguration& configuration);
 			~RenderingUnit();
 
 			void Render(Scene& scene);

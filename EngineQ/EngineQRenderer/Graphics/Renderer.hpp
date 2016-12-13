@@ -14,13 +14,15 @@ namespace EngineQ
 		class Renderer
 		{
 		private:
-			bool deferred;
-			std::shared_ptr<Framebuffer> framebuffer;
+			bool deferred = false;
+			bool globalShadows = false;
+			std::shared_ptr<Framebuffer> framebuffer = nullptr;
 
 			Graphics::ShaderProperties* (Graphics::Renderable::*shaderMethod)() const = &Graphics::Renderable::GetDeferredShader;
 
 		public:
 			void SetDeferred(bool state);
+			void SetGlobalShadows(bool state);
 			void Render(Scene& scene) const;
 			void SetTargetBuffer(std::shared_ptr<Framebuffer> buffer);
 		};

@@ -32,7 +32,7 @@ namespace EngineQ
 
 		bool isUpdating = false;
 
-		std::vector<Light*> lights;
+		std::vector<Graphics::Shadows::Light*> lights;
 		std::vector<Camera*> cameras;
 		std::vector<Graphics::Renderable*> renderables;
 		std::vector<Script*> updateable;
@@ -82,6 +82,8 @@ namespace EngineQ
 		void SetActiveCamera(Camera* camera);
 		Graphics::Camera* GetActiveCamera() const override;
 		Camera* GetActiveEngineCamera() const;
+
+		const std::vector<Graphics::Shadows::Light*>& GetLights() const override;
 
 		const std::vector<Graphics::Renderable*>& GetRenderables() const override;
 

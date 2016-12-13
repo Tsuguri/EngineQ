@@ -42,7 +42,7 @@ namespace EngineQ
 			glFramebufferTexture2D(GL_FRAMEBUFFER, location, GL_TEXTURE_2D, texture, 0);
 		}
 
-		Framebuffer::Framebuffer(bool depthTesting, std::vector<GLuint>& textures, ScreenDataProvider* dataProvider) :
+		Framebuffer::Framebuffer(bool depthTesting, std::vector<GLuint>& textures, Utils::ScreenDataProvider* dataProvider) :
 			screenDataProvider(dataProvider), handler(*this, &Framebuffer::Resize)
 		{
 			glGenFramebuffers(1, &fbo);
@@ -60,6 +60,25 @@ namespace EngineQ
 			}
 			if (attachmentOrder.size() > 1)
 				glDrawBuffers(static_cast<GLsizei>(attachmentOrder.size()), &attachmentOrder[0]);
+
+
+
+			screenDataProvider->resizeEvent += handler;
+		}
+
+		Framebuffer::Framebuffer(GLuint texture, Utils::ScreenDataProvider * dataProvider) : screenDataProvider(dataProvider),handler(*this,&Framebuffer::Resize)
+		{
+			glGenFramebuffers(1, &fbo);
+			Bind();
+
+			std::vector<GLenum> attachmentOrder;
+
+			AddTexture(texture, locations[0]);
+
+			//should not be needed as only one texture is used
+			//attachmentOrder.push_back(GL_COLOR_ATTACHMENT0);
+
+			//glDrawBuffers(GL_COLOR_ATTACHMENT0, &attachmentOrder[0]);
 
 
 

@@ -89,6 +89,8 @@ namespace QScripts
 			resourceManager.RegisterResource<Shader>("TestDeferred1", "./Shaders/Deferred/DeferredGeometry2.shd");
 			resourceManager.RegisterResource<Shader>("TestDeferred2", "./Shaders/Deferred/DeferredGeometry3.shd");
 			resourceManager.RegisterResource<Shader>("10", "./Shaders/Deferred/DeferredCustom.shd");
+			resourceManager.RegisterResource<Shader>("11", "./Shaders/Shadows/DepthRender.shd");
+
 
 			resourceManager.RegisterResource<Texture>("Numbers", "./Textures/Numbers.qres");
 

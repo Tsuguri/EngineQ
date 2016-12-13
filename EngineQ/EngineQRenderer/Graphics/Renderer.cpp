@@ -25,8 +25,29 @@ namespace EngineQ
 			deferred = state;
 		}
 
+		void Renderer::SetGlobalShadows(bool state)
+		{
+			globalShadows = state;
+		}
+
 		void Renderer::Render(Scene& scene) const
 		{
+
+			const auto& renderables = scene.GetRenderables();
+
+			auto& lights = scene.GetLights();
+
+			// If shadows are enabled - render depthmaps into textures
+			if (globalShadows)
+			{
+				for (auto light : lights)
+				{
+					light->RenderDepthMap(renderables);
+				}
+			}
+
+
+
 			// Render target binding
 
 			if (this->framebuffer == nullptr)
@@ -75,6 +96,12 @@ namespace EngineQ
 				auto time = shader->TryGetProperty<float>("time");
 				if (time != nullval)
 					*time = 0;
+
+				if (globalShadows)
+				{
+					//sets input textures in samplers
+				}
+
 
 				// Sends data to GPU if changed
 				shader->Apply();

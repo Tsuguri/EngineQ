@@ -478,6 +478,16 @@ namespace EngineQ
 			};
 		}
 
+		Matrix4 Matrix4::CreateOrtho(Real left, Real right, Real bottom, Real top, Real near, Real far)
+		{
+			return Matrix4{
+				static_cast<Real>(2) / (right-left-static_cast<Real>(1)),  static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(-1),
+				static_cast<Real>(0), static_cast<Real>(-2) / (top - bottom - static_cast<Real>(1)), static_cast<Real>(0), static_cast<Real>(1),
+				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(2) / (far - near),  (near + far) / (near - far),
+				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1)
+			};
+		}
+
 		Matrix4 Matrix4::CreateLookAt(const Vector3& cameraPosition, const Vector3&  cameraTarget, const Vector3&  upVector)
 		{
 			Vector3 zaxis = (cameraTarget - cameraPosition).GetNormalized();
