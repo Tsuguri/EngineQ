@@ -221,7 +221,7 @@ namespace EngineQ
 
 		this->scriptingEngine->InvokeStaticMethod(this->initializerMethod, args);
 
-		this->renderingUnit = std::make_shared<Graphics::RenderingUnit>(this, this->renderConfig.ToRenderingUnitConfiguration(resourceManager.get()));
+		this->renderingUnit = std::make_shared<Graphics::RenderingUnit>(static_cast<Graphics::ScreenDataProvider*>(this), this->renderConfig.ToRenderingUnitConfiguration(resourceManager.get()));
 
 
 

@@ -54,10 +54,9 @@ namespace EngineQ
 	}
 
 	Light::Light(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled)
-		: Component{ ComponentType::Light, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light), entity, enabled }, Graphics::Shadows::Light(this)
+		: Component{ ComponentType::Light, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light), entity, enabled }
 	{
-		// TMP
-		Init();
+		Init(static_cast<Graphics::ScreenDataProvider*>(this));
 		scriptEngine.InvokeConstructor(GetManagedObject());
 		shaderProperties = std::make_unique<EngineShaderProperties>(this->scriptEngine, entity.GetScene().GetEngine()->GetResourceManager().GetResource<Graphics::Shader>("11") );
 	}

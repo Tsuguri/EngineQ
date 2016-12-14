@@ -9,8 +9,9 @@ namespace EngineQ
 	{
 		namespace Shadows
 		{
-			void Light::Init()
+			void Light::Init(ScreenDataProvider* dataProvider)
 			{
+				this->screenDataProvider = dataProvider;
 				glGenFramebuffers(1, &depthMapFBO);
 				auto size = screenDataProvider->GetScreenSize();
 
@@ -33,9 +34,7 @@ namespace EngineQ
 				GLfloat near_plane = 1.0f, far_plane = 7.5f;
 				Math::Matrix4 lightProjection = Math::Matrix4::CreateOrtho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
 				Math::Matrix4 lightView = Math::Matrix4::CreateLookAt(GetPosition(), Math::Vector3{ 0,0,0 }, Math::Vector3{ 0,1,0 });
-			}
-			Light::Light(Utils::ScreenDataProvider* screenDataProvider) : screenDataProvider(screenDataProvider)
-			{			
+				lightMatrix = lightProjection * lightView;
 			}
 
 			void Light::RenderDepthMap(const std::vector<Renderable*>& renderables) const
@@ -47,11 +46,11 @@ namespace EngineQ
 				glViewport(0, 0, size.X, size.Y);
 				glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 				glClear(GL_DEPTH_BUFFER_BIT);
-				
+
 				//enable shader
 				//send matrices
 				// get positionmatrix, etc	
-				
+
 				const auto& matrices = shader->GetMatrices();
 				matrices.View = lightMatrix;
 
@@ -62,7 +61,7 @@ namespace EngineQ
 					{
 						//bind model matrices to shader
 						matrices.Model = renderable->GetGlobalMatrix();
-						
+
 						shader->Apply();
 						auto mesh = renderable->GetMesh();
 						glBindVertexArray(mesh->GetVao());

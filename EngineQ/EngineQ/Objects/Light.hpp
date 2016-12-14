@@ -8,7 +8,7 @@
 
 namespace EngineQ
 {
-	class Light final : public Component,public Graphics::Shadows::Light, Graphics::Utils::ScreenDataProvider
+	class Light final : public Component, public Graphics::Shadows::Light, public Graphics::ScreenDataProvider
 	{
 		Math::Vector2i textureSize = Math::Vector2i{ 1024,1024 };
 		std::unique_ptr<EngineShaderProperties> shaderProperties;

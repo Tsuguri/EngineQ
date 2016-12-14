@@ -23,15 +23,15 @@ namespace EngineQ
 			GLuint fbo;
 			GLuint depthRbo;
 
-			Utils::ScreenDataProvider* screenDataProvider;
+			ScreenDataProvider* screenDataProvider;
 			Utilities::EventHandler<void(int, int)> handler;
 
 			void CreateDepthTesting();
 			void Resize(int width, int height);
 			void AddTexture(GLuint texture, GLenum location);
 		public:
-			Framebuffer(bool depthTesting,std::vector<GLuint>& textures, Utils::ScreenDataProvider* dataProvider);
-			Framebuffer(GLuint texture, Utils::ScreenDataProvider* dataProvider);
+			Framebuffer(bool depthTesting,std::vector<GLuint>& textures, ScreenDataProvider* dataProvider);
+			Framebuffer(GLuint texture, ScreenDataProvider* dataProvider);
 			~Framebuffer();
 
 			void Bind() const;

@@ -166,7 +166,7 @@ namespace EngineQ
 				{
 					configuration.Deffered = true;
 				}
-				auto format = element->Attribute("GlobalShadows");
+				format = element->Attribute("GlobalShadows");
 				if (format != nullptr && std::string(format) == "true")
 				{
 					configuration.GlobalShadows = true;

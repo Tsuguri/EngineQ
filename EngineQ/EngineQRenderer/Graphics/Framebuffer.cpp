@@ -42,7 +42,7 @@ namespace EngineQ
 			glFramebufferTexture2D(GL_FRAMEBUFFER, location, GL_TEXTURE_2D, texture, 0);
 		}
 
-		Framebuffer::Framebuffer(bool depthTesting, std::vector<GLuint>& textures, Utils::ScreenDataProvider* dataProvider) :
+		Framebuffer::Framebuffer(bool depthTesting, std::vector<GLuint>& textures, ScreenDataProvider* dataProvider) :
 			screenDataProvider(dataProvider), handler(*this, &Framebuffer::Resize)
 		{
 			glGenFramebuffers(1, &fbo);
@@ -66,7 +66,7 @@ namespace EngineQ
 			screenDataProvider->resizeEvent += handler;
 		}
 
-		Framebuffer::Framebuffer(GLuint texture, Utils::ScreenDataProvider * dataProvider) : screenDataProvider(dataProvider),handler(*this,&Framebuffer::Resize)
+		Framebuffer::Framebuffer(GLuint texture, ScreenDataProvider * dataProvider) : screenDataProvider(dataProvider),handler(*this,&Framebuffer::Resize)
 		{
 			glGenFramebuffers(1, &fbo);
 			Bind();

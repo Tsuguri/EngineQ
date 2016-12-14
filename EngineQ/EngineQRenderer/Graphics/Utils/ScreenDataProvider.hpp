@@ -5,8 +5,6 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		namespace Utils
-		{
 			class ScreenDataProvider
 			{
 			public:
@@ -18,6 +16,5 @@ namespace EngineQ
 				bool ResizeEventIsEmpty() { return resizeEvent.IsEmpty(); }
 				void ResizeEventInvoke(int width, int height) { resizeEvent.Invoke(width, height); }
 			};
-		}
 	}
 }

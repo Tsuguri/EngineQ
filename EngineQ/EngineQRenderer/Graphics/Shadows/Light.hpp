@@ -14,12 +14,13 @@ namespace EngineQ
 			class Light
 			{
 				GLuint depthMapFBO;
-				Utils::ScreenDataProvider* screenDataProvider = nullptr;
+				ScreenDataProvider* screenDataProvider = nullptr;
 				Math::Matrix4 lightMatrix;
-			protected:
-				void Init();
+			//protected:
 			public:
-				Light(Utils::ScreenDataProvider* screenDataProvider);
+				void Init(ScreenDataProvider* dataProvider);
+
+				Light() = default;
 
 				void RenderDepthMap(const std::vector<Renderable*>& renderables) const;
 
