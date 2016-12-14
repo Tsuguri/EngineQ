@@ -15,7 +15,7 @@ namespace QScripts
 		private float rotationSpeed = 5;
 		private bool reverseY = true;
 		private bool reverseX = true;
-		private static float pi = (float)Math.PI;
+		private const float pi = (float)Math.PI;
 
 		private Entity Skull1;
 		private Entity Skull2;
@@ -27,7 +27,7 @@ namespace QScripts
 			rotationX = Transform.Rotation.EulerAngles.X;
 			rotationY = Transform.Rotation.EulerAngles.Y;
 		}
-		
+
 		private float DegToRad(float val)
 		{
 			return (float)(Math.PI * val / 180);
@@ -72,7 +72,7 @@ namespace QScripts
 				rotationY += DegToRad(tmp2.X * (reverseY ? 1 : -1)) / rotationSpeed;
 
 				CheckAngles();
-			//	Console.WriteLine($"Angles: {RadToDeg(rotationX)} {RadToDeg(rotationY)}");
+				//	Console.WriteLine($"Angles: {RadToDeg(rotationX)} {RadToDeg(rotationY)}");
 				Transform.Rotation = Quaternion.CreateFromEuler(rotationX, rotationY, 0);
 			}
 		}
@@ -87,6 +87,9 @@ namespace QScripts
 			Input.RegisterKeyEvent(Input.Key.F2, F2Action);
 			Input.RegisterKeyEvent(Input.Key.P, ToggleEnableSkullScriptAction);
 			Input.RegisterKeyEvent(Input.Key.O, RemoveOrAddScriptAction);
+
+			Input.RegisterKeyEvent(Input.Key.Minus, ChangeFOVAction);
+			Input.RegisterKeyEvent(Input.Key.Equal, ChangeFOVAction);
 
 			Console.WriteLine($"{this.Entity.Name} activated");
 		}
@@ -106,6 +109,30 @@ namespace QScripts
 		{
 			Transform.Position += Transform.Rotation * direction * Time.DeltaTime * MoveSpeed;
 		//	Console.WriteLine($"Position: {Transform.Position}");
+		}
+
+		private void ChangeFOVAction(Input.Key key, Input.KeyAction action)
+		{
+			if (action != Input.KeyAction.Repeat && action != Input.KeyAction.Press)
+				return;
+
+			var camera = this.Entity.GetComponent<Camera>();
+			var fov = camera.FieldOfView;
+
+			if (key == Input.Key.Equal)
+			{
+				fov += 1.0f;
+				if (fov > 170.0f)
+					fov = 170.0f;
+			}
+			else
+			{
+				fov -= 1.0f;
+				if (fov < 10.0f)
+					fov = 10.0f;
+			}
+
+			camera.FieldOfView = fov;
 		}
 
 		private void EscapeAction(Input.Key key, Input.KeyAction action)

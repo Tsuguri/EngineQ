@@ -12,47 +12,84 @@
 
 namespace EngineQ
 {
-/*
-#pragma region Serialization
+	/*
+	#pragma region Serialization
 
-	Camera::Camera(Serialization::Deserializer& deserialzier) :
-		Component{ deserialzier },
-		fov{ deserialzier.GetValue<float>("fov") },
-		aspectRatio{ deserialzier.GetValue<float>("aspect") }
+		Camera::Camera(Serialization::Deserializer& deserialzier) :
+			Component{ deserialzier },
+			fov{ deserialzier.GetValue<float>("fov") },
+			aspectRatio{ deserialzier.GetValue<float>("aspect") }
+		{
+
+		}
+
+		void Camera::Serialize(Serialization::Serializer& serializer) const
+		{
+			Component::Serialize(serializer);
+			serializer.StoreValue("aspect", &this->aspectRatio);
+			serializer.StoreValue("fov", &this->fov);
+		}
+
+	#pragma endregion
+	*/
+
+	Camera::Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled)
+		: Component{ ComponentType::Camera, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Camera), entity, enabled }
 	{
-
 	}
 
-	void Camera::Serialize(Serialization::Serializer& serializer) const
+	bool Camera::IsUsingCustomProjectionMatrix() const
 	{
-		Component::Serialize(serializer);
-		serializer.StoreValue("aspect", &this->aspectRatio);
-		serializer.StoreValue("fov", &this->fov);
+		return this->useCustomProjectionmatrix;
 	}
 
-#pragma endregion
-*/
-
-	bool Camera::GetCalculateInvertedProjectionMatrix() const
+	void Camera::SetUsingCustomProjectionMatrix(bool value)
 	{
-		return calculateInvertedProjectionMatrix;
+		if (this->useCustomProjectionmatrix == value)
+			return;
+
+		this->useCustomProjectionmatrix = value;
+
+		if (value)
+		{
+			this->projectionMatrix = this->customProjectionMatrix;
+			
+			this->calculateProjectionMatrix = false;
+			this->VoidProjectionMatrixInverse();
+		}
+		else
+		{
+			this->VoidProjectionMatrix();
+		}
 	}
 
-	void Camera::SetCalculateInvertedProjectionMatrix(bool value)
+	Math::Matrix4 Camera::GetCustomProjectionMatrix() const
 	{
-		calculateInvertedProjectionMatrix = value;
+		return this->customProjectionMatrix;
 	}
 
-	bool Camera::GetCalculateProjectionMatrix() const
+	void Camera::SetCustomProjectionMatrix(const Math::Matrix4& matrix)
 	{
-		return calculateProjectionMatrix;
+		this->customProjectionMatrix = matrix;
+
+		if (this->useCustomProjectionmatrix)
+		{
+			this->projectionMatrix = matrix;
+			this->VoidProjectionMatrixInverse();
+		}
 	}
 
-	void Camera::SetCalculateProjectionMatrix(bool value)
+	void Camera::VoidProjectionMatrixInverse()
 	{
-		calculateProjectionMatrix = value;
+		calculateProjectionMatrixInverse = true;
+	}
+	
+	void Camera::VoidProjectionMatrix()
+	{
+		calculateProjectionMatrix = !useCustomProjectionmatrix;
+
 		if (calculateProjectionMatrix)
-			SetCalculateInvertedProjectionMatrix(true);
+			VoidProjectionMatrixInverse();
 	}
 
 	float Camera::GetAspectRatio() const
@@ -64,36 +101,62 @@ namespace EngineQ
 	{
 		if (aspectRatio == value)
 			return;
+
 		aspectRatio = value;
-		SetCalculateProjectionMatrix(true);
+		VoidProjectionMatrix();
 	}
 
-	float Camera::GetFOV() const
+	float Camera::GetFieldOfView() const
 	{
 		return fov;
 	}
 
-	void Camera::SetFOV(float value)
+	void Camera::SetFieldOfView(float value)
 	{
 		if (fov == value)
 			return;
+
 		fov = value;
-		SetCalculateProjectionMatrix(true);
+		VoidProjectionMatrix();
 	}
 
-	Camera::Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled)
-		: Component{ ComponentType::Camera, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Camera), entity, enabled }, fov(45.0f), aspectRatio(4 / 3.0f)
+
+	float Camera::GetNearDistance() const
 	{
-
+		return this->nearDistance;
 	}
-	
+
+	void Camera::SetNewarDistance(float distance)
+	{
+		if (this->farDistance == distance)
+			return;
+
+		this->farDistance = distance;
+		VoidProjectionMatrix();
+	}
+
+	float Camera::GetFarDistance() const
+	{
+		return this->farDistance;
+	}
+
+	void Camera::SetFarDistance(float distance)
+	{
+		if (this->farDistance == distance)
+			return;
+
+		this->farDistance = distance;
+		VoidProjectionMatrix();
+	}
+
 	Math::Matrix4 Camera::GetProjectionMatrix()
 	{
-		if (GetCalculateProjectionMatrix())
+		if (calculateProjectionMatrix)
 		{
-			projectionMatrix = Math::Matrix4::CreateFrustum(Math::DegToRad(GetFOV()), GetAspectRatio(), 0.1f, 100.0f);
-			SetCalculateProjectionMatrix(false);
+			projectionMatrix = Math::Matrix4::CreateFrustum(Math::DegToRad(GetFieldOfView()), GetAspectRatio(), GetNearDistance(), GetFarDistance());
+			calculateProjectionMatrix = false;
 		}
+
 		return projectionMatrix;
 	}
 
@@ -102,18 +165,19 @@ namespace EngineQ
 		return GetEntity().GetTransform().GetGlobalMatrixInverse();
 	}
 
-	Math::Matrix4 Camera::GetInvertedViewMatrix()
+	Math::Matrix4 Camera::GetViewMatrixInverse()
 	{
 		return GetEntity().GetTransform().GetGlobalMatrix();
 	}
 
-	Math::Matrix4 Camera::GetInvertedProjectionMatrix()
+	Math::Matrix4 Camera::GetProjectionMatrixInverse()
 	{
-		if (GetCalculateInvertedProjectionMatrix())
+		if (this->calculateProjectionMatrixInverse)
 		{
 			invertedProjectionMatrix = GetProjectionMatrix().GetInversed();
-			SetCalculateInvertedProjectionMatrix(false);
+			this->calculateProjectionMatrixInverse = false;
 		}
+
 		return invertedProjectionMatrix;
 	}
 	Math::Vector3 Camera::GetPosition()

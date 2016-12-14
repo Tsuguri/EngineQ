@@ -42,6 +42,7 @@
     <ClCompile Include="Resources\Model.cpp" />
     <ClCompile Include="Resources\ModelFactory.cpp" />
     <ClCompile Include="Resources\MeshFactory.cpp" />
+    <ClCompile Include="Scripting\API_Camera.cpp" />
     <ClCompile Include="RendererIntermediateConfiguration.cpp" />
     <ClCompile Include="EngineShaderProperties.cpp" />
   </ItemGroup>
@@ -97,6 +98,8 @@
     <ClInclude Include="Scripting\API_ShaderProperties.hpp" />
     <ClInclude Include="Resources\ModelFactory.hpp" />
     <ClInclude Include="Resources\MeshFactory.hpp" />
+    <ClInclude Include="Utilities\PointerWrapper.hpp" />
+    <ClInclude Include="Scripting\API_Camera.hpp" />
     <ClInclude Include="RendererIntermediateConfiguration.hpp" />
     <ClInclude Include="EngineShaderProperties.hpp" />
   </ItemGroup>

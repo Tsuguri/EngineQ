@@ -9,6 +9,8 @@
 #include "Camera.hpp"
 #include "Renderable.hpp"
 
+#include "../Engine.hpp"
+
 #include "../Scripting/ScriptEngine.hpp"
 #include "../Serialization/Serializer.hpp"
 #include "../Serialization/Deserializer.hpp"
@@ -199,6 +201,12 @@ namespace EngineQ
 			throw std::runtime_error{ "Camera does not belong to the scene" };
 
 		this->activeCamera = camera;
+
+		if (this->activeCamera != nullptr)
+		{
+			auto screenSize = Engine::Get().GetScreenSize();
+			this->activeCamera->SetAspectRatio(static_cast<float>(screenSize.X) / static_cast<float>(screenSize.Y));
+		}
 	}
 
 	Graphics::Camera* Scene::GetActiveCamera() const
