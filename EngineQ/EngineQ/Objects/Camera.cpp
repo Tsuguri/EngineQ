@@ -180,6 +180,7 @@ namespace EngineQ
 
 		return invertedProjectionMatrix;
 	}
+
 	Math::Vector3 Camera::GetPosition()
 	{
 		return GetEntity().GetTransform().GetPosition();

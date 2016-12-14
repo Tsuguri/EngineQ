@@ -9,15 +9,14 @@ namespace EngineQ
 		class Camera
 		{
 		public:
-			virtual float GetAspectRatio() const =0;
-
-			virtual float GetFOV() const = 0;
+			virtual float GetAspectRatio() const = 0;
+			virtual float GetFieldOfView() const = 0;
 
 			virtual Math::Matrix4 GetProjectionMatrix() = 0;
-			virtual Math::Matrix4 GetInvertedViewMatrix() = 0;
+			virtual Math::Matrix4 GetProjectionMatrixInverse() = 0;
 
 			virtual Math::Matrix4 GetViewMatrix() = 0;
-			virtual Math::Matrix4 GetInvertedProjectionMatrix() = 0;
+			virtual Math::Matrix4 GetViewMatrixInverse() = 0;
 
 			virtual Math::Vector3 GetPosition() = 0;
 		};

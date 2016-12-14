@@ -2,7 +2,7 @@
 #define ENGINEQ_SCRIPTING_API_CAMERA_HPP
 
 #include "Types.hpp"
-#include "../Math/Types.hpp"
+#include <Math/Types.hpp>
 #include "../Objects/Types.hpp"
 
 namespace EngineQ

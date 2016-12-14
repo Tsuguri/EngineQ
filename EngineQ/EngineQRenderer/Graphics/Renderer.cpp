@@ -32,12 +32,10 @@ namespace EngineQ
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			auto camera = scene.GetActiveCamera();
-			int i = 0;
+			
 			for(auto renderable : scene.GetRenderables())
 			{
-				i++;
 				auto mesh = renderable->GetMesh();
-				Graphics::Mesh& p = *mesh;
 
 				ShaderProperties* shader;
 				if (deferred)

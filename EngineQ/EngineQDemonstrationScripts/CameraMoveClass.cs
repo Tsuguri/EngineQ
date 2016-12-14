@@ -16,16 +16,17 @@ namespace QScripts
 		private bool reverseY = true;
 		private bool reverseX = true;
 		private const float pi = (float)Math.PI;
+		private float boost = 1.0f;
 
 		private Entity Skull1;
 		private Entity Skull2;
 
+		public float BoostMultiplier { get; set; } = 2.0f;
 		public float MoveSpeed { get; set; } = 1.0f;
  
 		public CameraMoveClass()
 		{
-			rotationX = Transform.Rotation.EulerAngles.X;
-			rotationY = Transform.Rotation.EulerAngles.Y;
+			
 		}
 
 		private float DegToRad(float val)
@@ -62,7 +63,7 @@ namespace QScripts
 				tmp += Vector3.Forward;
 			if (Input.IsKeyPressed(Input.Key.Space))
 				tmp += Vector3.Up;
-			if (Input.IsKeyPressed(Input.Key.LeftShift))
+			if (Input.IsKeyPressed(Input.Key.LeftControl))
 				tmp += Vector3.Down;
 			if (tmp.LengthSquared > 0)
 				MoveInDirection(tmp.Normalized);
@@ -79,6 +80,10 @@ namespace QScripts
 
 		protected override void OnActivate()
 		{
+			rotationX = Transform.Rotation.EulerAngles.X;
+			rotationY = Transform.Rotation.EulerAngles.Y;
+			Transform.Rotation = Quaternion.CreateFromEuler(new Vector3(rotationX, rotationY, 0.0f));
+
 			this.Skull1 = this.Entity.Scene.FindEntity("Skull1");
 			this.Skull2 = this.Entity.Scene.FindEntity("Skull2");
 
@@ -91,7 +96,17 @@ namespace QScripts
 			Input.RegisterKeyEvent(Input.Key.Minus, ChangeFOVAction);
 			Input.RegisterKeyEvent(Input.Key.Equal, ChangeFOVAction);
 
+			Input.RegisterKeyEvent(Input.Key.LeftShift, BoostAction);
+
 			Console.WriteLine($"{this.Entity.Name} activated");
+		}
+
+		private void BoostAction(Input.Key key, Input.KeyAction action)
+		{
+			if (action == Input.KeyAction.Press)
+				this.boost = BoostMultiplier;
+			if (action == Input.KeyAction.Release)
+				this.boost = 1.0f;
 		}
 
 		protected override void OnDeactivate()
@@ -102,12 +117,17 @@ namespace QScripts
 			Input.DeregisterKeyEvent(Input.Key.P, ToggleEnableSkullScriptAction);
 			Input.DeregisterKeyEvent(Input.Key.O, RemoveOrAddScriptAction);
 
+			Input.DeregisterKeyEvent(Input.Key.Minus, ChangeFOVAction);
+			Input.DeregisterKeyEvent(Input.Key.Equal, ChangeFOVAction);
+
+			Input.DeregisterKeyEvent(Input.Key.LeftShift, BoostAction);
+
 			Console.WriteLine($"{this.Entity.Name} deactivated");
 		}
 
 		private void MoveInDirection(Vector3 direction)
 		{
-			Transform.Position += Transform.Rotation * direction * Time.DeltaTime * MoveSpeed;
+			Transform.Position += Transform.Rotation * direction * Time.DeltaTime * MoveSpeed * boost;
 		//	Console.WriteLine($"Position: {Transform.Position}");
 		}
 

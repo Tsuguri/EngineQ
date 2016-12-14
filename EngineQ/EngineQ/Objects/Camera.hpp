@@ -11,7 +11,7 @@
 
 namespace EngineQ
 {
-	class Camera final : public Component,public Graphics::Camera
+	class Camera final : public Component, public Graphics::Camera
 	{
 	private:
 
@@ -49,10 +49,10 @@ namespace EngineQ
 		bool IsUsingCustomProjectionMatrix() const;
 		void SetUsingCustomProjectionMatrix(bool value);
 
-		float GetAspectRatio() const;
+		virtual float GetAspectRatio() const override;
 		void SetAspectRatio(float value);
 
-		float GetFieldOfView() const;
+		virtual float GetFieldOfView() const override;
 		void SetFieldOfView(float value);
 
 		float GetNearDistance() const;
@@ -64,11 +64,13 @@ namespace EngineQ
 		Math::Matrix4 GetCustomProjectionMatrix() const;
 		void SetCustomProjectionMatrix(const Math::Matrix4& matrix);
 
-		Math::Matrix4 GetProjectionMatrix();
-		Math::Matrix4 GetProjectionMatrixInverse();
+		virtual Math::Matrix4 GetProjectionMatrix() override;
+		virtual Math::Matrix4 GetProjectionMatrixInverse() override;
 
-		Math::Matrix4 GetViewMatrix();
-		Math::Matrix4 GetViewMatrixInverse();
+		virtual Math::Matrix4 GetViewMatrix() override;
+		virtual Math::Matrix4 GetViewMatrixInverse() override;
+
+		virtual Math::Vector3 GetPosition() override;
 	};
 }
 
