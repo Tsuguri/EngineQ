@@ -15,12 +15,12 @@ in VS_DATA
 #include "../Common/Material.shh"
 
 void main()
-{    
+{
     gPosition = IN.position;
 
     gNormal = normalize(IN.normal);
 
-    gAlbedoSpec.rgb = texture(material_q_diffuseTexture, IN.textureCoords).rgb * material.diffuse;
+    gAlbedoSpec.rgb = material.diffuse;
 
-    gAlbedoSpec.a = 1;
+    gAlbedoSpec.a = material.specular.r;
 }

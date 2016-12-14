@@ -43,6 +43,7 @@ namespace QScripts
 			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
 
 			skullRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
+			skullRenderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
 
 			skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
 			skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
@@ -71,7 +72,7 @@ namespace QScripts
 
 			var light1renderable = light1.AddComponent<Renderable>();
 			light1renderable.UseDeferredShader(lightsDeferredShader);
-			light1renderable.DeferredShader.Material.Diffuse = new Vector3f(1.0f, 0.0f, 0.0f);
+			light1renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
 			light1renderable.Mesh = lightsMesh;
 
 			var light1script = light1.AddComponent<LightRotateScript>();
@@ -91,7 +92,7 @@ namespace QScripts
 
 			var light2renderable = light2.AddComponent<Renderable>();
 			light2renderable.UseDeferredShader(lightsDeferredShader);
-			light2renderable.DeferredShader.Material.Diffuse = new Vector3f(1.0f, 1.0f, 0.0f);
+			light2renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(0.5f, 0.5f, 0.0f);
 			light2renderable.Mesh = lightsMesh;
 
 			var light2script = light2.AddComponent<LightRotateScript>();
@@ -165,9 +166,14 @@ namespace QScripts
 			resourceManager.RegisterResource<Mesh>("Skull", "./Meshes/Skull.qres");
 			resourceManager.RegisterResource<Texture>("Numbers", "./Textures/Numbers.qres");
 
-			resourceManager.RegisterResource<Shader>("SkullDeferred", "./Shaders/Deferred/DeferredGeometry.shd");
-			resourceManager.RegisterResource<Shader>("LightDeferred", "./Shaders/Deferred/DeferredGeometry2.shd");
-			resourceManager.RegisterResource<Shader>("DeferredLighting", "./Shaders/Deferred/DeferredLightning.shd");
+			resourceManager.RegisterResource<Shader>("SkullDeferred", "./Shaders/Deferred/DeferredSimpleTexture.qres");
+			resourceManager.RegisterResource<Shader>("LightDeferred", "./Shaders/Deferred/DeferredSimpleColor.qres");
+			resourceManager.RegisterResource<Shader>("DeferredLighting", "./Shaders/Deferred/DeferredLightning.qres");
+
+			resourceManager.RegisterResource<Shader>("BloomExtraction", "./Shaders/Bloom/BrightExtract.qres");
+			resourceManager.RegisterResource<Shader>("BloomVerticalBlur", "./Shaders/Bloom/BlurVertical.qres");
+			resourceManager.RegisterResource<Shader>("BloomHorizontalBlur", "./Shaders/Bloom/BlurHorizontal.qres");
+			resourceManager.RegisterResource<Shader>("Combine", "./Shaders/Combine.qres");
 
 			/*
 			resourceManager.RegisterResource<Shader>("1", "./Shaders/Basic.shd");
