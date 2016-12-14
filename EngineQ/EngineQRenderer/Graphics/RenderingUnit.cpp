@@ -5,6 +5,7 @@
 #include "PostprocessingExceptions.hpp"
 #include "Renderer.hpp"
 #include "Shader.hpp"
+#include "Shadows/Light.hpp"
 
 
 namespace EngineQ
@@ -68,8 +69,6 @@ namespace EngineQ
 
 		void RenderingUnit::Init(const Configuration::RenderingUnitConfiguration& configuration)
 		{
-			auto size = screenDataProvider->GetScreenSize();
-			glViewport(0, 0, size.X, size.Y);
 
 			//textures
 			std::map<std::string, int> texturesNames;
@@ -85,6 +84,7 @@ namespace EngineQ
 			//renderer
 
 			renderer.SetDeferred(!configuration.Renderer.Deffered);
+			renderer.SetGlobalShadows(configuration.Renderer.GlobalShadows);
 
 			if (configuration.Renderer.Output.size() == 0 || (configuration.Renderer.Output.size() == 1 && configuration.Renderer.Output[0].Texture == "Screen"))
 				renderer.SetTargetBuffer(nullptr);
@@ -102,7 +102,7 @@ namespace EngineQ
 			{
 				auto shaderPass = std::make_unique<ShaderPass>(effect.Shader);
 				for (auto inputConfiguration : effect.Input)
-					shaderPass->AddInput(InputConfiguration{ inputConfiguration.Location,textures[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
+					shaderPass->AddInput(InputConfiguration{textures[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
 
 				if (effect.Output.size() == 0 || (effect.Output.size() == 1 && effect.Output[0].Texture == "Screen"))
 					shaderPass->SetTargetBuffer(nullptr);
@@ -154,7 +154,7 @@ namespace EngineQ
 
 		void RenderingUnit::Render(Scene& scene)
 		{
-			renderer.Render(scene);
+			renderer.Render(scene,screenDataProvider);
 
 			if (effects.size() > 0)
 			{

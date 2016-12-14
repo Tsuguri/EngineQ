@@ -20,7 +20,47 @@ namespace QScripts
 
 		private static void PrepareScene(Scene scene)
 		{
-			var ent1 = scene.CreateEntity(true, "Camera");
+			PrepareObjects(scene);
+			PrepareCamera(scene);
+			
+
+			var lightEntity = scene.CreateEntity(true, "Light0");
+			var light = lightEntity.AddComponent<Light>();
+			lightEntity.Transform.Position = new Vector3(5, 5, 5);
+
+			var lightEntity2 = scene.CreateEntity(true, "Light1");
+			var light2 = lightEntity.AddComponent<Light>();
+			lightEntity2.Transform.Position = new Vector3(-5, 10, 20);
+			
+			
+		}
+
+		private static void RegisterResources()
+		{
+			var resourceManager = ResourceManager.Instance;
+
+			resourceManager.RegisterResource<Shader>("1", "./Shaders/Basic.shd");
+			resourceManager.RegisterResource<Shader>("2", "./Shaders/Custom.shd");
+			resourceManager.RegisterResource<Shader>("3", "./Shaders/Quad.shd");
+			resourceManager.RegisterResource<Shader>("4", "./Shaders/Bloom/Blur.shd");
+			resourceManager.RegisterResource<Shader>("5", "./Shaders/Bloom/BlurV.shd");
+			resourceManager.RegisterResource<Shader>("6", "./Shaders/Bloom/BrightExtract.shd");
+			resourceManager.RegisterResource<Shader>("7", "./Shaders/Bloom/Combine.shd");
+			resourceManager.RegisterResource<Shader>("8", "./Shaders/Deferred/DeferredLightning.shd");
+			resourceManager.RegisterResource<Shader>("9", "./Shaders/Deferred/DeferredGeometry.shd");
+			resourceManager.RegisterResource<Shader>("TestDeferred1", "./Shaders/Deferred/DeferredGeometry2.shd");
+			resourceManager.RegisterResource<Shader>("TestDeferred2", "./Shaders/Deferred/DeferredGeometry3.shd");
+			resourceManager.RegisterResource<Shader>("10", "./Shaders/Deferred/DeferredCustom.shd");
+			resourceManager.RegisterResource<Shader>("11", "./Shaders/Shadows/DepthRender.shd");
+
+
+			resourceManager.RegisterResource<Texture>("Numbers", "./Textures/Numbers.qres");
+
+			resourceManager.RegisterResource<Mesh>("Skull", "./Meshes/Skull.qres");
+		}
+
+		private static void PrepareObjects(Scene scene)
+		{
 			var ent2 = scene.CreateEntity(true, "Skull1");
 			var ent3 = scene.CreateEntity(true, "Skull2");
 			var ent4 = scene.CreateEntity(true, "Cube");
@@ -28,7 +68,6 @@ namespace QScripts
 			var renderable1 = ent2.AddComponent<Renderable>();
 			var renderable2 = ent3.AddComponent<Renderable>();
 			var renderable3 = ent4.AddComponent<Renderable>();
-			var camera = ent1.AddComponent<Camera>();
 
 			var rm = ResourceManager.Instance;
 
@@ -58,43 +97,20 @@ namespace QScripts
 			renderable3.UseDeferredShader(deferredShader);
 			renderable3.DeferredShader.Material.DiffuseTexture = texture;
 
-
-			ent1.AddComponent<CameraMoveClass>();
 			ent2.AddComponent<RotateTest>();
 
-			var lightEntity = scene.CreateEntity(true, "Light0");
-			lightEntity.AddComponent<Light>();
-
-			scene.ActiveCamera = camera;
-
-			ent1.Transform.Position = new Vector3(0.0f, 0.0f, -2.0f);
 			ent2.Transform.Position = new Vector3(0.0f, 0.0f, 0.0f);
 			ent3.Transform.Position = new Vector3(1.0f, 0.0f, 0.0f);
 			ent4.Transform.Position = new Vector3(2.0f, 0.0f, 0.0f);
 		}
 
-		private static void RegisterResources()
+		private static void PrepareCamera(Scene scene)
 		{
-			var resourceManager = ResourceManager.Instance;
-
-			resourceManager.RegisterResource<Shader>("1", "./Shaders/Basic.shd");
-			resourceManager.RegisterResource<Shader>("2", "./Shaders/Custom.shd");
-			resourceManager.RegisterResource<Shader>("3", "./Shaders/Quad.shd");
-			resourceManager.RegisterResource<Shader>("4", "./Shaders/Bloom/Blur.shd");
-			resourceManager.RegisterResource<Shader>("5", "./Shaders/Bloom/BlurV.shd");
-			resourceManager.RegisterResource<Shader>("6", "./Shaders/Bloom/BrightExtract.shd");
-			resourceManager.RegisterResource<Shader>("7", "./Shaders/Bloom/Combine.shd");
-			resourceManager.RegisterResource<Shader>("8", "./Shaders/Deferred/DeferredLightning.shd");
-			resourceManager.RegisterResource<Shader>("9", "./Shaders/Deferred/DeferredGeometry.shd");
-			resourceManager.RegisterResource<Shader>("TestDeferred1", "./Shaders/Deferred/DeferredGeometry2.shd");
-			resourceManager.RegisterResource<Shader>("TestDeferred2", "./Shaders/Deferred/DeferredGeometry3.shd");
-			resourceManager.RegisterResource<Shader>("10", "./Shaders/Deferred/DeferredCustom.shd");
-			resourceManager.RegisterResource<Shader>("11", "./Shaders/Shadows/DepthRender.shd");
-
-
-			resourceManager.RegisterResource<Texture>("Numbers", "./Textures/Numbers.qres");
-
-			resourceManager.RegisterResource<Mesh>("Skull", "./Meshes/Skull.qres");
+			var ent1 = scene.CreateEntity(true, "Camera");
+			var camera = ent1.AddComponent<Camera>();
+			ent1.AddComponent<CameraMoveClass>();
+			ent1.Transform.Position = new Vector3(0.0f, 0.0f, -2.0f);
+			scene.ActiveCamera = camera;
 		}
 	}
 }

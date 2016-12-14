@@ -10,6 +10,4 @@ struct Light
 	
 	bool castsShadows;
 	float farPlane;
-	sampler2D shadow2D;
-	samplerCube shadowCube;
 };

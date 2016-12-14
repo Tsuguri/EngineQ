@@ -9,8 +9,8 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		InputConfiguration::InputConfiguration(GLuint position, GLuint texture, std::string name) :
-			Position{ position }, Texture{ texture }, Name{ name }
+		InputConfiguration::InputConfiguration(GLuint texture, std::string name) :
+			Texture{ texture }, Name{ name }
 		{
 		}
 
@@ -21,24 +21,26 @@ namespace EngineQ
 
 		void ShaderPass::BindTextures()
 		{
+			int i = 0;
 			for (auto& inputTexture : inputTextures)
 			{
-				glActiveTexture(GL_TEXTURE0 + inputTexture.Position);
+				glActiveTexture(GL_TEXTURE0 + i);
 				glBindTexture(GL_TEXTURE_2D, inputTexture.Texture);
 				if (inputTexture.Name != "")
 				{
 					Utilities::Nullable<UniformLocation> location = shader->TryGetUniformLocation(inputTexture.Name.c_str());
 					if (location != nullval)
-						shader->Bind(*location, static_cast<int>(inputTexture.Position));
+						shader->Bind(*location, i);
 				}
+				i++;
 			}
 		}
 
 		void ShaderPass::UnbindTextures()
 		{
-			for (auto& i : inputTextures)
+			for (int j=0;j<inputTextures.size();j++)
 			{
-				glActiveTexture(GL_TEXTURE0 + i.Position);
+				glActiveTexture(GL_TEXTURE0 + j);
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 		}

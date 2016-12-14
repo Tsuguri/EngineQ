@@ -3,6 +3,7 @@
 #include "../Common/Light.shh"
 
 const int MaxLights = 4;
+
 in vec2 TexCoords;
 
 uniform sampler2D worldPosition;
@@ -11,15 +12,11 @@ uniform sampler2D albedo;
 
 out vec4 color;
 
-uniform float time =0.0f;
-uniform vec3 cameraPosition = vec3(1, 1, 1);
-uniform vec3 lightDir = vec3(1, 1, 0);
-uniform vec3 lightColor = vec3(1,1,1);
 const float ambientStrength=0.3f;
 const float specularStrength=0.1f;
 const float materialShininess=32;
 
-vec3 light = 3 * vec3(cos(time), 1, sin(time));
+float ShadowCalculations(Light light, 
 
 void main()
 {

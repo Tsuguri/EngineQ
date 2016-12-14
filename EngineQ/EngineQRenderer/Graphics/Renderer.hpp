@@ -6,6 +6,7 @@
 #include "Types.hpp"
 
 #include "Renderable.hpp"
+#include "Utils\ScreenDataProvider.hpp"
 
 namespace EngineQ
 {
@@ -23,7 +24,7 @@ namespace EngineQ
 		public:
 			void SetDeferred(bool state);
 			void SetGlobalShadows(bool state);
-			void Render(Scene& scene) const;
+			void Render(Scene& scene, ScreenDataProvider* dataProvider) const;
 			void SetTargetBuffer(std::shared_ptr<Framebuffer> buffer);
 		};
 	}

@@ -33,15 +33,11 @@ namespace EngineQ
 			for (auto inputInfo = input->FirstChildElement(); inputInfo != nullptr; inputInfo = inputInfo->NextSiblingElement())
 			{
 				auto texture = inputInfo->Attribute("Texture");
-				auto location = inputInfo->Attribute("Location");
 				auto locationName = inputInfo->Attribute("LocationName");
-				if (texture == nullptr || location == nullptr)
-					throw "Missing one or both of required input info!";
-				int loc = std::stoi(location);
 				if (locationName == nullptr)
-					configuration.Input.push_back(Graphics::Configuration::InputPair{ static_cast<GLuint>(loc),texture });
+					configuration.Input.push_back(Graphics::Configuration::InputPair{texture });
 				else
-					configuration.Input.push_back(Graphics::Configuration::InputPair{ static_cast<GLuint>(loc),texture,locationName });
+					configuration.Input.push_back(Graphics::Configuration::InputPair{texture,locationName });
 			}
 		}
 

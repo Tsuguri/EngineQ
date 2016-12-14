@@ -203,8 +203,8 @@ namespace EngineQ
 		}
 
 		auto quad = IntermediateEffectConfiguration{};
-		quad.Input.push_back(Graphics::Configuration::InputPair{ 0, tex1Name, "scene" });
-		quad.Input.push_back(Graphics::Configuration::InputPair{ 1,tex2Name, "bloomBlur" });
+		quad.Input.push_back(Graphics::Configuration::InputPair{ tex1Name, "scene" });
+		quad.Input.push_back(Graphics::Configuration::InputPair{ tex2Name, "bloomBlur" });
 		quad.Output.push_back(Graphics::Configuration::OutputTexture{ "Screen" });
 		quad.Shader = Utilities::ResourcesIDs::CombineShader;
 		config.Effects.push_back(quad);

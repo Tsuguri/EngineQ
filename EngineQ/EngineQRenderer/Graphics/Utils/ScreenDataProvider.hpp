@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Math\Vector2.hpp>
+#include <Utilities\Event.hpp>
 namespace EngineQ
 {
 	namespace Graphics

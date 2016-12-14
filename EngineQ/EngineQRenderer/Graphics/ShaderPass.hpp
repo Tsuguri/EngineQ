@@ -12,11 +12,10 @@ namespace EngineQ
 	{
 		struct InputConfiguration
 		{
-			GLuint Position;
 			GLuint Texture;
 			std::string Name;
 
-			InputConfiguration(GLuint position, GLuint texture,std::string name);
+			InputConfiguration(GLuint texture,std::string name);
 		};
 
 

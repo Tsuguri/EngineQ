@@ -43,13 +43,10 @@ namespace EngineQ
 				if (shader == nullptr)
 					return;
 				auto size = screenDataProvider->GetScreenSize();
+
 				glViewport(0, 0, size.X, size.Y);
 				glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 				glClear(GL_DEPTH_BUFFER_BIT);
-
-				//enable shader
-				//send matrices
-				// get positionmatrix, etc	
 
 				const auto& matrices = shader->GetMatrices();
 				matrices.View = lightMatrix;

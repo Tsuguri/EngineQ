@@ -30,7 +30,7 @@ namespace EngineQ
 			globalShadows = state;
 		}
 
-		void Renderer::Render(Scene& scene) const
+		void Renderer::Render(Scene& scene, ScreenDataProvider* dataProvider) const
 		{
 
 			const auto& renderables = scene.GetRenderables();
@@ -57,7 +57,9 @@ namespace EngineQ
 				this->framebuffer->Bind();
 
 			// Render target color buffer and depth buffer clearing:
+			auto size = dataProvider->GetScreenSize();
 
+			glViewport(0, 0, size.X, size.Y);
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -66,10 +68,9 @@ namespace EngineQ
 
 			// Renders each object from vector get from scene
 
-			for(auto renderable : scene.GetRenderables())
+			for (auto renderable : scene.GetRenderables())
 			{
 				auto mesh = renderable->GetMesh();
-				Graphics::Mesh& p = *mesh;
 
 				ShaderProperties* shader;
 				// Gets shader propertis of proper shader
@@ -97,8 +98,10 @@ namespace EngineQ
 				if (time != nullval)
 					*time = 0;
 
-				if (globalShadows)
+				if (globalShadows && !deferred)
 				{
+					// set shadow matrices
+
 					//sets input textures in samplers
 				}
 
