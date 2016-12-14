@@ -12,7 +12,7 @@ namespace QScripts
 		private Vector2 tmp2;
 		private float rotationX;
 		private float rotationY;
-		private float speed = 5;
+		private float rotationSpeed = 5;
 		private bool reverseY = true;
 		private bool reverseX = true;
 		private static float pi = (float)Math.PI;
@@ -20,6 +20,8 @@ namespace QScripts
 		private Entity Skull1;
 		private Entity Skull2;
 
+		public float MoveSpeed { get; set; } = 1.0f;
+ 
 		public CameraMoveClass()
 		{
 			rotationX = Transform.Rotation.EulerAngles.X;
@@ -66,8 +68,8 @@ namespace QScripts
 				MoveInDirection(tmp.Normalized);
 			if (Input.IsMouseButtonPressed(Input.MouseButton.Right) && (tmp2 = Input.MouseDeltaPosition).LengthSquared > 0)
 			{
-				rotationX += DegToRad(tmp2.Y * (reverseX ? 1 : -1)) / speed;
-				rotationY += DegToRad(tmp2.X * (reverseY ? 1 : -1)) / speed;
+				rotationX += DegToRad(tmp2.Y * (reverseX ? 1 : -1)) / rotationSpeed;
+				rotationY += DegToRad(tmp2.X * (reverseY ? 1 : -1)) / rotationSpeed;
 
 				CheckAngles();
 			//	Console.WriteLine($"Angles: {RadToDeg(rotationX)} {RadToDeg(rotationY)}");
@@ -102,7 +104,7 @@ namespace QScripts
 
 		private void MoveInDirection(Vector3 direction)
 		{
-			Transform.Position = Transform.Position + Transform.Rotation * direction * Time.DeltaTime;
+			Transform.Position += Transform.Rotation * direction * Time.DeltaTime * MoveSpeed;
 		//	Console.WriteLine($"Position: {Transform.Position}");
 		}
 

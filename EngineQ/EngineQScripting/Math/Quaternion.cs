@@ -156,11 +156,31 @@ namespace EngineQ.Math
 			return CreateFromEuler(angles.X, angles.Y, angles.Z);
 		}
 
-		#endregion
-		
-		#region Static Operators
+        public static Quaternion CreateLookAt(Vector3 sourcePoint, Vector3 targetPoint)
+        {
+            Vector3 forwardVector = (targetPoint - sourcePoint).Normalized;
 
-		public static Quaternion operator +(Quaternion q)
+            float dot = Vector3.DotProduct(Vector3.Forward, forwardVector);
+
+            if (System.Math.Abs(dot - (-1.0f)) < 0.000001f)
+            {
+				return new Quaternion(0.0f, Vector3.Up.X, Vector3.Up.Y, Vector3.Up.Z);
+            }
+            if (System.Math.Abs(dot - (1.0f)) < 0.000001f)
+            {
+                return Identity;
+            }
+
+            float rotAngle = (float)System.Math.Acos(dot);
+            Vector3 rotAxis = Vector3.CrossProduct(Vector3.Forward, forwardVector).Normalized;
+            return CreateFromAxisAngle(rotAxis, rotAngle);
+        }
+
+        #endregion
+
+        #region Static Operators
+
+        public static Quaternion operator +(Quaternion q)
 		{
 			return q;
 		}

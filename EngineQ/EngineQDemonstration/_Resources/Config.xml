@@ -11,5 +11,5 @@
 	
 	<Initializer Assembly="QScripts" Namespace="QScripts" Class="Initializer" />
 
-	<Postprocessing Path="./postprocessing.conf" />
+	<Postprocessing Path="./DemoPostprocessing.xml" />
 </Config>

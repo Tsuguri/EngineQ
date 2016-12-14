@@ -83,6 +83,27 @@ std::unique_ptr<EngineQ::Graphics::Mesh> GenerateCube(float side = 1.0f)
 	return std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices);
 }
 
+std::unique_ptr<EngineQ::Graphics::Mesh> GenerateQuad(float side = 1.0f)
+{
+	side *= 0.5f;
+
+	Math::Vector3 color{ 0.5f };
+
+	std::vector<EngineQ::VertexPNTC> vertices = {
+		{ Math::Vector3{ +side, -side, 0.0f }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 0.0f, 1.0f }, color },
+		{ Math::Vector3{ -side, -side, 0.0f }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 1.0f, 1.0f }, color },
+		{ Math::Vector3{ +side, +side, 0.0f }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 0.0f, 0.0f }, color },
+		{ Math::Vector3{ -side, +side, 0.0f }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 1.0f, 0.0f }, color },
+	};
+
+	std::vector<unsigned int> indices = {
+		0, 1, 2,
+		1, 3, 2,
+	};
+
+	return std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices);
+}
+
 std::unique_ptr<EngineQ::Graphics::Mesh> GenerateSphere(float radius = 1.0f, float verticalStep = 10.0f, float horizontalStep = 10.0f)
 {
 	std::vector<EngineQ::VertexPNC> vertices{};
@@ -110,7 +131,12 @@ void RegisterBuildInResources()
 
 	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("EngineQ/Cube", [](EngineQ::Resources::ResourceManager&)
 	{
-		return GenerateCube(0.6f);
+		return GenerateCube();
+	});
+
+	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("EngineQ/Quad", [](EngineQ::Resources::ResourceManager&)
+	{
+		return GenerateQuad();
 	});
 }
 

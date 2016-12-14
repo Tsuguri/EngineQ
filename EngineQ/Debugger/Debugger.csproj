@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9928F89E-BAE3-48B4-9EE4-10EA062E540D}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{A2E8D9FB-ACD9-405C-B124-DC27F891F359}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EngineQ</RootNamespace>
-    <AssemblyName>EngineQ</AssemblyName>
+    <RootNamespace>Debugger</RootNamespace>
+    <AssemblyName>Debugger</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -20,9 +22,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,10 +32,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Debugger.Soft, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Mono\lib\mono\Mono.Debugger.Soft.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,43 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application.cs" />
-    <Compile Include="Math\Utils.cs" />
-    <Compile Include="Mesh.cs" />
-    <Compile Include="Model.cs" />
-    <Compile Include="Renderable.cs" />
-    <Compile Include="Light.cs" />
-    <Compile Include="Component.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="Math\Matrix3.cs" />
-    <Compile Include="Math\Matrix4.cs" />
-    <Compile Include="Math\Quaternion.cs" />
-    <Compile Include="Math\Vector2.cs" />
-    <Compile Include="Math\Vector2d.cs" />
-    <Compile Include="Math\Vector2f.cs" />
-    <Compile Include="Math\Vector2i.cs" />
-    <Compile Include="Math\Vector3.cs" />
-    <Compile Include="Math\Vector3d.cs" />
-    <Compile Include="Math\Vector3f.cs" />
-    <Compile Include="Math\Vector3i.cs" />
-    <Compile Include="Math\Vector4.cs" />
-    <Compile Include="Math\Vector4d.cs" />
-    <Compile Include="Math\Vector4f.cs" />
-    <Compile Include="Math\Vector4i.cs" />
-    <Compile Include="Input.cs" />
-    <Compile Include="Object.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Camera.cs" />
-    <Compile Include="Resource.cs" />
-    <Compile Include="ResourceManager.cs" />
-    <Compile Include="Scene.cs" />
-    <Compile Include="Script.cs" />
-    <Compile Include="Shader.cs" />
-    <Compile Include="ShaderProperties.cs" />
-    <Compile Include="ShaderProperty.cs" />
-    <Compile Include="Texture.cs" />
-    <Compile Include="Time.cs" />
-    <Compile Include="Transform.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

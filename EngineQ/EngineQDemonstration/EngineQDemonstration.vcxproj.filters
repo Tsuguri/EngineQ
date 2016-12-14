@@ -26,5 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="_Resources\Config.xml" />
+    <Xml Include="_Resources\DemoPostprocessing.xml" />
   </ItemGroup>
 </Project>

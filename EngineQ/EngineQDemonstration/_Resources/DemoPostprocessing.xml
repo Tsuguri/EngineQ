@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RenderingUnitConfiguration>
+  <Textures>
+    <TextureConfiguration Name="Position" DataType="GL_FLOAT" InternalFormat="GL_RGB16F" Format="GL_RGB" />
+    <TextureConfiguration Name="Normal" DataType="GL_FLOAT" InternalFormat="GL_RGB16F" Format="GL_RGB"/>
+    <TextureConfiguration Name="Albedo" InternalFormat="GL_RGBA" Format="GL_RGBA"/>
+  </Textures>
+  <Renderer Deferred="true">
+    <Output>
+      <OutputTexture Texture="Position"/>
+      <OutputTexture Texture="Normal" />
+      <OutputTexture Texture="Albedo" />
+    </Output>
+  </Renderer>
+  <Effects>
+    
+    <!--Deferred lighting-->
+    <EffectConfiguration Shader="DeferredLighting">
+      <Input>
+        <InputPair Location="0" Texture="Position" LocationName="worldPosition"/>
+        <InputPair Location="1" Texture="Normal" LocationName="normal"/>
+        <InputPair Location="2" Texture="Albedo" LocationName="albedo"/>
+      </Input>
+      <Output>
+        <OutputTexture Texture="Screen" />
+      </Output>
+    </EffectConfiguration>
+    
+    
+  </Effects>
+</RenderingUnitConfiguration>

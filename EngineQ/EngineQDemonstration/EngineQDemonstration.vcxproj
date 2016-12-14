@@ -276,6 +276,7 @@ xcopy "$(SolutionDir)EngineQDemonstrationScripts\bin\$(Configuration)\QScripts.d
   </ItemGroup>
   <ItemGroup>
     <Xml Include="_Resources\Config.xml" />
+    <Xml Include="_Resources\DemoPostprocessing.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EngineQRenderer\EngineQRenderer.vcxproj">

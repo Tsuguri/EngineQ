@@ -89,16 +89,24 @@ namespace EngineQ
 			mono_set_dirs(libPath, configPath);
 
 
-			//	this->domain = mono_init(name);
-			//	this->domain = mono_domain_create();
+			
+			
+			
+
+
+		//	const char* inputArgs[] = {
+		//		"--debugger-agent=transport=dt_socket,address=0.0.0.0:56000,server=y",
+		//	};
+			
+		//	mono_jit_parse_options(sizeof(inputArgs) / sizeof(const char*), const_cast<char**>(inputArgs));
+
+		//	mono_debug_init(MONO_DEBUG_FORMAT_MONO);
+			
 			this->domain = mono_jit_init(name);
+			
+		//	mono_debug_domain_create(this->domain);
+			
 
-
-			//	const char* inputArgs[2];
-			//	inputArgs[0] = "./MonoTurboProg";
-			//	inputArgs[1] = "--debugger-agent=\"transport=dt_socket,address=127.0.0.1:56000\"";
-			//	
-			//	mono_jit_parse_options(2, const_cast<char**>(inputArgs));
 
 
 			this->assembly = mono_domain_assembly_open(this->domain, assemblyPath);
