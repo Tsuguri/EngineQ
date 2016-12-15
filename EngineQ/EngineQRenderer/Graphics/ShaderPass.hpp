@@ -12,10 +12,10 @@ namespace EngineQ
 	{
 		struct InputConfiguration
 		{
-			Resources::Resource<Texture> texture;
+			GLuint Texture;
 			std::string Name;
 
-			InputConfiguration(Resources::Resource<Texture> texture,std::string name);
+			InputConfiguration(GLuint texture,std::string name);
 		};
 
 
@@ -31,6 +31,7 @@ namespace EngineQ
 			ShaderPass(Resources::Resource<Shader> shader);
 
 			void BindTextures();
+			void UnbindTextures();
 
 			ShaderProperties& GetShaderproperties();
 			void BindTargetBuffer() const;
