@@ -1,3 +1,5 @@
+const int MaxLights = 4;
+
 struct Light
 {
 	vec3 position;
@@ -5,9 +7,17 @@ struct Light
 	vec3 diffuse;
 	vec3 specular;
 	
+	mat4 lightMatrix;
+
 	float distance;
-	
 	
 	bool castsShadows;
 	float farPlane;
 };
+
+uniform Light lights[MaxLights];
+
+uniform sampler2D lights_A_0_A_shadowMap;
+uniform sampler2D lights_A_1_A_shadowMap;
+uniform sampler2D lights_A_2_A_shadowMap;
+uniform sampler2D lights_A_3_A_shadowMap;

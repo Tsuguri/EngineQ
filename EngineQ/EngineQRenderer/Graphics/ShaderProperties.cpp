@@ -14,6 +14,7 @@ namespace EngineQ
 			return this->shader;
 		}
 
+
 		void ShaderProperties::FinalizeBuiltIn()
 		{
 			CheckBuiltIn(this->matrices.Model, Math::Matrix4::GetIdentity());
@@ -86,6 +87,45 @@ namespace EngineQ
 					else if (translatedName == "material.normalTexture")
 						this->material.NormalTexture = property;
 				}
+			}
+
+			if (translatedName.find("lights") == 0)
+			{
+				int index = 0;
+
+				int startIndex = translatedName.find("[");
+				int endIndex = translatedName.find("]");
+				auto indexString = translatedName.substr(startIndex + 1, endIndex - startIndex -1);
+				index = std::stoi(indexString);
+
+				while (index >= lights.size())
+					lights.push_back(Light{});
+				if (translatedName.find("specular")!= std::string::npos)
+				{
+					auto property = data.GetProperty<Math::Vector3f>();
+					lights[index].Specular = property;
+				}
+				else if (translatedName.find("ambient") != std::string::npos)
+				{
+					auto property = data.GetProperty<Math::Vector3f>();
+					lights[index].Ambient = property;
+				}
+				else if (translatedName.find("diffuse") != std::string::npos)
+				{
+					auto property = data.GetProperty<Math::Vector3f>();
+					lights[index].Diffuse = property;
+				}
+				else if (translatedName.find("position") != std::string::npos)
+				{
+					auto property = data.GetProperty<Math::Vector3f>();
+					lights[index].Position = property;
+				}
+				else if (translatedName.find("lightMatrix") != std::string::npos)
+				{
+					auto property = data.GetProperty<Math::Matrix4>();
+					lights[index].LightMatrix = property;
+				}
+				
 			}
 		}
 
@@ -196,7 +236,7 @@ namespace EngineQ
 
 			this->FinalizeBuiltIn();
 
-			
+
 		}
 
 		void ShaderProperties::Apply() const

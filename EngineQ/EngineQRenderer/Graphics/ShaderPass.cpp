@@ -28,9 +28,10 @@ namespace EngineQ
 				glBindTexture(GL_TEXTURE_2D, inputTexture.Texture);
 				if (inputTexture.Name != "")
 				{
-					Utilities::Nullable<UniformLocation> location = shader->TryGetUniformLocation(inputTexture.Name.c_str());
-					if (location != nullval)
-						shader->Bind(*location, i);
+					auto prop = shader.TryGetProperty<GLint>(inputTexture.Name);
+					
+					if (prop != nullval)
+						prop->Set(i);
 				}
 				i++;
 			}
@@ -43,6 +44,11 @@ namespace EngineQ
 				glActiveTexture(GL_TEXTURE0 + j);
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
+		}
+
+		ShaderProperties & ShaderPass::GetShaderproperties()
+		{
+			return shader;
 		}
 
 		void ShaderPass::BindTargetBuffer() const
@@ -58,20 +64,32 @@ namespace EngineQ
 			framebuffer = std::move(buffer);
 		}
 
+		bool ShaderPass::GetApplyShadowData()
+		{
+			return ApplyShadowData;
+		}
+
+		void ShaderPass::SetApplyShadowData(bool val)
+		{
+			ApplyShadowData = val;
+		}
+
 		void ShaderPass::AddInput(const InputConfiguration& input)
 		{
 			inputTextures.push_back(input);
 		}
 
-		void ShaderPass::Activate(Camera* cam, float time) const
+		void ShaderPass::Activate(Camera* cam, float time)
 		{
-			shader->Activate();
-			auto tmp = shader->TryGetUniformLocation("cameraPosition");
+
+			auto tmp = shader.TryGetProperty<Math::Vector3>(std::string("cameraPosition").c_str());
 			if (tmp != nullval)
-				shader->Bind(*tmp, cam->GetPosition());
-			tmp = shader->TryGetUniformLocation("time");
-			if (tmp != nullval)
-				shader->Bind(*tmp, time);
+				*tmp = cam->GetPosition();
+			auto tmp2 = shader.TryGetProperty<GLint>("time");
+			if (tmp2 != nullval)
+				*tmp2 = time;
+
+			shader.Apply();
 		}
 	}
 }

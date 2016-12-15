@@ -51,6 +51,7 @@ namespace EngineQ
 				Resources::Resource<Shader> Shader;
 				std::string ClassName = "";//C# class name
 				bool DepthTesting = false;
+				bool ApplyShadowInfo = false;
 				std::vector<InputPair> Input;
 				std::vector<OutputTexture> Output;
 			};

@@ -11,6 +11,7 @@ namespace EngineQ
 		configuration.Input = Input;
 		configuration.Output = Output;
 		configuration.Shader = manager->GetResource<Graphics::Shader>(this->Shader);
+		configuration.ApplyShadowInfo = ApplyShadowInfo;
 
 		return configuration;
 	}
@@ -26,6 +27,9 @@ namespace EngineQ
 
 		auto depth = element->BoolAttribute("DeptTesting");//default false if not exist
 		configuration.DepthTesting = depth;
+		
+		auto shadows = element->BoolAttribute("ApplyShadowsData");
+		configuration.ApplyShadowInfo = shadows;
 
 		auto input = element->FirstChildElement("Input");
 		if (input != nullptr)

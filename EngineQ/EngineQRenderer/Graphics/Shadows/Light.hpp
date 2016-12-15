@@ -27,6 +27,8 @@ namespace EngineQ
 				virtual Math::Vector3 GetPosition() = 0;
 
 				virtual ShaderProperties* GetShaderProperties() const = 0;
+
+				virtual bool GetCastShadows() = 0;
 			};
 		}
 	}

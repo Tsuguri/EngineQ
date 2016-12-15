@@ -16,6 +16,7 @@ namespace EngineQ
 		std::string Shader;//for resource manager
 		std::string ClassName;//C# class name
 		bool DepthTesting;
+		bool ApplyShadowInfo;
 		std::vector<Graphics::Configuration::InputPair> Input;
 		std::vector<Graphics::Configuration::OutputTexture> Output;
 

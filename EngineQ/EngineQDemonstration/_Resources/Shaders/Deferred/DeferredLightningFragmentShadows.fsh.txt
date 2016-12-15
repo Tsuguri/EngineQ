@@ -4,6 +4,11 @@
 
 const int MaxLights = 4;
 
+uniform sampler2D lights_A_0_A_shadowMap;
+uniform sampler2D lights_A_1_A_shadowMap;
+uniform sampler2D lights_A_2_A_shadowMap;
+uniform sampler2D lights_A_3_A_shadowMap;
+
 in vec2 TexCoords;
 
 uniform sampler2D worldPosition;
@@ -16,7 +21,26 @@ const float ambientStrength=0.3f;
 const float specularStrength=0.1f;
 const float materialShininess=32;
 
-float ShadowCalculations(Light light, 
+float ShadowCalculations(Light light, sampler2D shadowMap, vec3 worldPosition, vec3 position)
+{
+	if(!light.castShadows)
+		return 0.0f;
+	
+	vec4 fragPosLightSpace = light.lightMatrix * vec4(position, 1.0);
+
+	// perform perspective divide
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    // Transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // Get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
+    // Get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // Check whether current frag pos is in shadow
+    float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
+
+    return shadow;
+}
 
 void main()
 {

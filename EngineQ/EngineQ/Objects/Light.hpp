@@ -12,7 +12,7 @@ namespace EngineQ
 	{
 		Math::Vector2i textureSize = Math::Vector2i{ 1024,1024 };
 		std::unique_ptr<EngineShaderProperties> shaderProperties;
-
+		bool castShadows;
 	public:
 		virtual Math::Vector2i GetScreenSize() const override;
 		void SetShadowTextureSize(Math::Vector2i size);
@@ -30,6 +30,9 @@ namespace EngineQ
 
 		virtual EngineShaderProperties* GetShaderProperties() const override;
 
+		virtual bool GetCastShadows() override;
+
+		void SetCastShadows(bool val);
 		Light(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
 	};
 }

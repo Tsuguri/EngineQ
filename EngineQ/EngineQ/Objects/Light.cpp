@@ -53,6 +53,16 @@ namespace EngineQ
 		return shaderProperties.get();
 	}
 
+	bool Light::GetCastShadows()
+	{
+		return castShadows;
+	}
+
+	void Light::SetCastShadows(bool val)
+	{
+		castShadows = val;
+	}
+
 	Light::Light(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled)
 		: Component{ ComponentType::Light, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light), entity, enabled }
 	{

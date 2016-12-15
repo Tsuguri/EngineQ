@@ -102,7 +102,7 @@ namespace EngineQ
 			{
 				auto shaderPass = std::make_unique<ShaderPass>(effect.Shader);
 				for (auto inputConfiguration : effect.Input)
-					shaderPass->AddInput(InputConfiguration{textures[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
+					shaderPass->AddInput(InputConfiguration{ textures[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
 
 				if (effect.Output.size() == 0 || (effect.Output.size() == 1 && effect.Output[0].Texture == "Screen"))
 					shaderPass->SetTargetBuffer(nullptr);
@@ -116,6 +116,7 @@ namespace EngineQ
 					shaderPass->SetTargetBuffer(std::move(fb));
 
 				}
+				shaderPass->SetApplyShadowData(effect.ApplyShadowInfo);
 				effects.push_back(std::move(shaderPass));
 			}
 		}
@@ -123,18 +124,18 @@ namespace EngineQ
 		RenderingUnit::RenderingUnit(ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration) :
 			screenDataProvider(dataProvider), textures(configuration.Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
 		{
-		//	glPolygonMode(GL_FRONT, GL_FILL);
-		//	glPolygonMode(GL_BACK, GL_LINE);
-		//	glPolygonMode(GL_FRONT, GL_LINE);
-		//	glPolygonMode(GL_BACK, GL_LINE);
-			
+			//	glPolygonMode(GL_FRONT, GL_FILL);
+			//	glPolygonMode(GL_BACK, GL_LINE);
+			//	glPolygonMode(GL_FRONT, GL_LINE);
+			//	glPolygonMode(GL_BACK, GL_LINE);
+
 			glFrontFace(GL_CW);
 			glCullFace(GL_BACK);
 			glEnable(GL_CULL_FACE);
 
 			glEnable(GL_DEPTH_TEST);
-		//	glClearDepth(0);
-		//	glDepthFunc(GL_GREATER);
+			//	glClearDepth(0);
+			//	glDepthFunc(GL_GREATER);
 
 			screenDataProvider->resizeEvent += handler;
 
@@ -154,8 +155,9 @@ namespace EngineQ
 
 		void RenderingUnit::Render(Scene& scene)
 		{
-			renderer.Render(scene,screenDataProvider);
+			renderer.Render(scene, screenDataProvider);
 
+			auto& sceneLights = scene.GetLights();
 			if (effects.size() > 0)
 			{
 				glDisable(GL_DEPTH_TEST);
@@ -166,7 +168,20 @@ namespace EngineQ
 
 					glClear(GL_COLOR_BUFFER_BIT);
 					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
-					
+					auto& shader = effect->GetShaderproperties();
+
+					if (effect->GetApplyShadowData())
+					{
+						auto& lights = shader.GetLights();
+						for (int i = 0; i < sceneLights.size(); i++)
+						{
+							lights[i].Diffuse = Math::Vector3f(0.5f);
+							lights[i].Ambient = Math::Vector3f(0.5f);
+							lights[i].Specular = Math::Vector3f(0.5f);
+							lights[i].Position = sceneLights[i]->GetPosition();
+							lights[i].CastsShadows = sceneLights[i]->GetCastShadows();
+						}
+					}
 					effect->Activate(scene.GetActiveCamera(), 0);
 					glBindVertexArray(quadVao);
 
@@ -175,7 +190,7 @@ namespace EngineQ
 					glBindVertexArray(0);
 					effect->UnbindTextures();
 				}
-				
+
 				glEnable(GL_DEPTH_TEST);
 			}
 			Framebuffer::BindDefault();
