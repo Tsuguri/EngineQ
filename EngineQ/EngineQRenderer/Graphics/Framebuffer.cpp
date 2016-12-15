@@ -1,5 +1,7 @@
 #include "Framebuffer.hpp"
 
+#include "Texture.hpp"
+
 namespace EngineQ
 {
 	namespace Graphics
@@ -60,9 +62,27 @@ namespace EngineQ
 			}
 			if (attachmentOrder.size() > 1)
 				glDrawBuffers(static_cast<GLsizei>(attachmentOrder.size()), &attachmentOrder[0]);
+			screenDataProvider->resizeEvent += handler;
+		}
 
+		Framebuffer::Framebuffer(bool depthTesting, std::vector<Resources::Resource<Texture>>& textures, ScreenDataProvider* dataProvider) :
+			screenDataProvider(dataProvider), handler(*this, &Framebuffer::Resize)
+		{
+			glGenFramebuffers(1, &fbo);
+			Bind();
 
+			if (depthTesting)
+				CreateDepthTesting();
 
+			std::vector<GLenum> attachmentOrder;
+			attachmentOrder.reserve(textures.size());
+			for (std::size_t i = 0; i < textures.size(); ++i)
+			{
+				AddTexture(textures[i]->GetTextureID(), locations[i]);
+				attachmentOrder.push_back(GL_COLOR_ATTACHMENT0 + static_cast<GLuint>(i));
+			}
+			if (attachmentOrder.size() > 1)
+				glDrawBuffers(static_cast<GLsizei>(attachmentOrder.size()), &attachmentOrder[0]);
 			screenDataProvider->resizeEvent += handler;
 		}
 
