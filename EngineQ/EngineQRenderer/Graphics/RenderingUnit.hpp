@@ -24,8 +24,8 @@ namespace EngineQ
 
 			std::vector<std::unique_ptr<ShaderPass>> effects;
 
-			std::vector<GLuint> textures;
-			std::vector<Configuration::TextureConfiguration> texturesConfigurations;
+			//std::vector<GLuint> textures;
+			//std::vector<Configuration::TextureConfiguration> texturesConfigurations;
 			std::vector<Resources::Resource<Texture>> texturesResources;
 
 			Utilities::EventHandler<void(int, int)> handler;

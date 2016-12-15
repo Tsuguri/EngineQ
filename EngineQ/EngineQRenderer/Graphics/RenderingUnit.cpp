@@ -58,11 +58,11 @@ namespace EngineQ
 		{
 			glViewport(0, 0, width, height);
 
-			for (std::size_t i = 0; i < textures.size(); i++)
-			{
-				glBindTexture(GL_TEXTURE_2D, textures[i]);
-				glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].InternalFormat, width, height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
-			}
+			//for (std::size_t i = 0; i < textures.size(); i++)
+			//{
+			//	glBindTexture(GL_TEXTURE_2D, textures[i]);
+			//	glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].InternalFormat, width, height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
+			//}
 			for (auto& tex : texturesResources)
 				tex->Resize(width, height);
 		}
@@ -86,8 +86,8 @@ namespace EngineQ
 			int j = 0;
 			for (auto texConfiguration : configuration.Textures)
 			{
-				CreateTexture(&textures[j], texConfiguration);
-				texturesConfigurations.push_back(texConfiguration);
+				//CreateTexture(&textures[j], texConfiguration);
+				//texturesConfigurations.push_back(texConfiguration);
 				texturesResources.push_back(CreateTexture(size.X, size.Y, texConfiguration));
 				texturesNames.emplace(std::string(texConfiguration.Name), j);
 				++j;
@@ -114,7 +114,7 @@ namespace EngineQ
 			{
 				auto shaderPass = std::make_unique<ShaderPass>(effect.Shader);
 				for (auto inputConfiguration : effect.Input)
-					shaderPass->AddInput(InputConfiguration{ textures[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
+					shaderPass->AddInput(InputConfiguration{ texturesResources[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
 
 				if (effect.Output.size() == 0 || (effect.Output.size() == 1 && effect.Output[0].Texture == "Screen"))
 					shaderPass->SetTargetBuffer(nullptr);
@@ -134,7 +134,7 @@ namespace EngineQ
 		}
 
 		RenderingUnit::RenderingUnit(ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration) :
-			screenDataProvider(dataProvider), textures(configuration.Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
+			screenDataProvider(dataProvider), handler(*this, &RenderingUnit::Resize)
 		{
 			//	glPolygonMode(GL_FRONT, GL_FILL);
 			//	glPolygonMode(GL_BACK, GL_LINE);
@@ -159,10 +159,6 @@ namespace EngineQ
 		RenderingUnit::~RenderingUnit()
 		{
 			screenDataProvider->resizeEvent -= handler;
-
-			if (textures.size() > 0)
-				glDeleteTextures(static_cast<GLsizei>(textures.size()), &textures[0]);
-
 		}
 
 		void RenderingUnit::Render(Scene& scene)
@@ -200,7 +196,6 @@ namespace EngineQ
 					effect->BindTextures();
 					glDrawArrays(GL_TRIANGLES, 0, 6);
 					glBindVertexArray(0);
-					effect->UnbindTextures();
 				}
 
 				glEnable(GL_DEPTH_TEST);

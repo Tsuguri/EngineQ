@@ -9,8 +9,8 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		InputConfiguration::InputConfiguration(GLuint texture, std::string name) :
-			Texture{ texture }, Name{ name }
+		InputConfiguration::InputConfiguration(Resources::Resource<Texture> texture, std::string name) :
+			texture{ texture }, Name{ name }
 		{
 		}
 
@@ -21,28 +21,13 @@ namespace EngineQ
 
 		void ShaderPass::BindTextures()
 		{
-			int i = 0;
 			for (auto& inputTexture : inputTextures)
 			{
-				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, inputTexture.Texture);
-				if (inputTexture.Name != "")
+				auto property = shader.TryGetProperty <Resources::Resource<Texture>>(inputTexture.Name);
+				if (property != nullval)
 				{
-					auto prop = shader.TryGetProperty<GLint>(inputTexture.Name);
-					
-					if (prop != nullval)
-						prop->Set(i);
+					property->Set(inputTexture.texture);
 				}
-				i++;
-			}
-		}
-
-		void ShaderPass::UnbindTextures()
-		{
-			for (int j=0;j<inputTextures.size();j++)
-			{
-				glActiveTexture(GL_TEXTURE0 + j);
-				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 		}
 
@@ -81,7 +66,7 @@ namespace EngineQ
 
 		void ShaderPass::Activate(Camera* cam, float time)
 		{
-
+			BindTextures();
 			auto tmp = shader.TryGetProperty<Math::Vector3>(std::string("cameraPosition").c_str());
 			if (tmp != nullval)
 				*tmp = cam->GetPosition();
