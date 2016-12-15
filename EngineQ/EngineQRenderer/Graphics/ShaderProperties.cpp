@@ -125,6 +125,11 @@ namespace EngineQ
 					auto property = data.GetProperty<Math::Matrix4>();
 					lights[index].LightMatrix = property;
 				}
+			/*	else if (translatedName.find("shadowMap") != std::string::npos)
+				{
+					auto property = data.GetProperty<Resources::Resource<Texture>>();
+					lights[index].ShadowMap = property;
+				}*/
 				
 			}
 		}

@@ -31,7 +31,7 @@ void main()
 
 	//ambient
 	vec3 ambient = ambientStrength*lights[0].ambient;
-
+	vec3 map = texture(lights_q_0_q_shadowMap,TexCoords).xyz;
 	//diffuse
 	vec3 norm = normalize(texture(normal,TexCoords).rgb);
 	vec3 dir = normalize(lights[0].position);
