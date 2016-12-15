@@ -1,5 +1,6 @@
 #include "Shader.hpp"
 
+#include "Texture.hpp"
 namespace EngineQ
 {
 	using namespace Math;
@@ -103,6 +104,7 @@ namespace EngineQ
 
 			return Nullable<UniformLocation>{ UniformLocation{ location } };
 		}
+
 
 		void Shader::Bind(UniformLocation location, int value)
 		{

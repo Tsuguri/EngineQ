@@ -24,15 +24,19 @@ namespace EngineQ
 
 			std::vector<std::unique_ptr<ShaderPass>> effects;
 
-			std::vector<GLuint> textures;
-			std::vector<Configuration::TextureConfiguration> texturesConfigurations;
+			//std::vector<GLuint> textures;
+			//std::vector<Configuration::TextureConfiguration> texturesConfigurations;
+			std::vector<Resources::Resource<Texture>> texturesResources;
 
 			Utilities::EventHandler<void(int, int)> handler;
 
 			void CreateTexture(GLuint* texture, const Configuration::TextureConfiguration& configuration) const;
 
+			Resources::Resource<Texture> CreateTexture(int width, int height, const Configuration::TextureConfiguration& configuration);
+
 			void Resize(int width, int height);
 			std::unique_ptr<Framebuffer> CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting);
+			std::unique_ptr<Framebuffer> CreateFramebuffer(std::vector<Resources::Resource<Texture>>& textures, bool depthTesting);
 			void Init(const Configuration::RenderingUnitConfiguration&configuration);
 
 		public:
