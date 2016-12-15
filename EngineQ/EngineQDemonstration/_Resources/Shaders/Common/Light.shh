@@ -17,7 +17,7 @@ struct Light
 
 uniform Light lights[MaxLights];
 
-uniform sampler2D lights_q_0_q_shadowMap;
-uniform sampler2D lights_q_1_q_shadowMap;
-uniform sampler2D lights_q_2_q_shadowMap;
-uniform sampler2D lights_q_3_q_shadowMap;
+uniform sampler2D lights_A_0_A_shadowMap;
+uniform sampler2D lights_A_1_A_shadowMap;
+uniform sampler2D lights_A_2_A_shadowMap;
+uniform sampler2D lights_A_3_A_shadowMap;

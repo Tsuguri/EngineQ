@@ -38,7 +38,6 @@ namespace EngineQ
 				ShaderProperty<Math::Vector3f> Diffuse;
 				ShaderProperty<Math::Vector3f> Specular;
 				ShaderProperty<Math::Matrix4> LightMatrix;
-				ShaderProperty<Resources::Resource<Texture>> ShadowMap;
 
 				ShaderProperty<float> Distance;
 
