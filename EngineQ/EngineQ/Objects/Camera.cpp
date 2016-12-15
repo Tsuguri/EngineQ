@@ -6,7 +6,7 @@
 #include "../Serialization/Serializer.hpp"
 #include "../Serialization/Deserializer.hpp"
 #include "../Scripting/ScriptEngine.hpp"
-#include <Math/Utilities.hpp>
+#include <Math/Utils.hpp>
 
 #include "../Serialization/SerializationRules.hpp"
 
@@ -153,7 +153,7 @@ namespace EngineQ
 	{
 		if (calculateProjectionMatrix)
 		{
-			projectionMatrix = Math::Matrix4::CreateFrustum(Math::DegToRad(GetFieldOfView()), GetAspectRatio(), GetNearDistance(), GetFarDistance());
+			projectionMatrix = Math::Matrix4::CreateFrustum(Math::Utils::DegToRad(GetFieldOfView()), GetAspectRatio(), GetNearDistance(), GetFarDistance());
 			calculateProjectionMatrix = false;
 		}
 

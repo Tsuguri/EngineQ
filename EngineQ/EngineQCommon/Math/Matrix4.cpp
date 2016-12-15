@@ -478,7 +478,7 @@ namespace EngineQ
 			};
 		}
 
-		Matrix4 Matrix4::CreateLookAt(const Vector3& cameraPosition, const Vector3&  cameraTarget, const Vector3&  upVector)
+		Matrix4 Matrix4::CreateLookAt(const Vector3& cameraPosition, const Vector3&  cameraTarget, const Vector3& upVector)
 		{
 			Vector3 zaxis = (cameraTarget - cameraPosition).GetNormalized();
 			Vector3 xaxis = Vector3::CrossProduct(upVector, zaxis).GetNormalized();

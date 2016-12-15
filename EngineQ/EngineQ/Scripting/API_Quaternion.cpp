@@ -17,6 +17,11 @@ namespace EngineQ
 			eulerAngles = quaternion.GetEulerAngles();
 		}
 
+		void API_Quaternion::API_GetAxisAngle(const Math::Quaternion& quaternion, Math::Vector4& axisAngle)
+		{
+			axisAngle = quaternion.GetAxisAngle();
+		}
+
 		void API_Quaternion::API_Normalize(Quaternion& quaternion)
 		{
 			quaternion.Normalize();
@@ -47,6 +52,11 @@ namespace EngineQ
 			quaternion = Quaternion::CreateFromEuler(x, y, z);
 		}
 
+		void API_Quaternion::API_CreateLookAt(const Math::Vector3& sourcePoint, const Math::Vector3& targetPoint, Math::Quaternion& quaternion)
+		{
+			quaternion = Quaternion::CreateLookAt(sourcePoint, targetPoint);
+		}
+
 		void API_Quaternion::API_MultiplyQuaternion(const Quaternion& q1, const Quaternion& q2, Quaternion& quaternion)
 		{
 			quaternion = q1 * q2;
@@ -65,12 +75,14 @@ namespace EngineQ
 		void API_Quaternion::API_Register(ScriptEngine& scriptEngine)
 		{
 			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_GetEulerAngles", API_GetEulerAngles);
+			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_GetAxisAngle", API_GetAxisAngle);
 			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_Normalize", API_Normalize);
 			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_CreateFromAxisAngle", API_CreateFromAxisAngle);
 			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_CreateRotationX", API_CreateRotationX);
 			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_CreateRotationY", API_CreateRotationY);
 			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_CreateRotationZ", API_CreateRotationZ);
 			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_CreateFromEuler", API_CreateFromEuler);
+			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_CreateLookAt", API_CreateLookAt);
 			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_MultiplyQuaternion", API_MultiplyQuaternion);
 			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_MultiplyVector4", API_MultiplyVector4);
 			scriptEngine.API_Register("EngineQ.Math.Quaternion::API_MultiplyVector3", API_MultiplyVector3);

@@ -16,6 +16,14 @@ namespace EngineQ.Math
             }
         }
 
+		public static float EPS
+		{
+			get
+			{
+				return 0.00001f;
+			}
+		}
+
         public static float DegToRad(float deg)
         {
             return deg / 180.0f * PI;

@@ -154,6 +154,12 @@ namespace EngineQ
 			return Vector3_t{ static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(-1) };
 		}
 
+		template<typename Type>
+		bool Vector3_t<Type>::AreEqual(const Vector3_t& lhs, const Vector3_t& rhs)
+		{
+			return Utils::EpsComp(lhs.X, rhs.X) && Utils::EpsComp(lhs.Y, rhs.Y) && Utils::EpsComp(lhs.Z, rhs.Z);
+		}
+
 	#pragma endregion
 
 	#pragma region Operators

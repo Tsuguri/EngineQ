@@ -31,6 +31,16 @@ namespace EngineQ.Math
 
 		#region Properties
 
+		public Vector4 AxisAngle
+		{
+			get
+			{
+				Vector4 value;
+				API_GetAxisAngle(ref this, out value);
+				return value;
+			}
+		}
+
 		public Vector3 EulerAngles
 		{
 			get
@@ -158,22 +168,9 @@ namespace EngineQ.Math
 
         public static Quaternion CreateLookAt(Vector3 sourcePoint, Vector3 targetPoint)
         {
-            Vector3 forwardVector = (targetPoint - sourcePoint).Normalized;
-
-            float dot = Vector3.DotProduct(Vector3.Forward, forwardVector);
-
-            if (System.Math.Abs(dot - (-1.0f)) < 0.000001f)
-            {
-				return new Quaternion(0.0f, Vector3.Up.X, Vector3.Up.Y, Vector3.Up.Z);
-            }
-            if (System.Math.Abs(dot - (1.0f)) < 0.000001f)
-            {
-                return Identity;
-            }
-
-            float rotAngle = (float)System.Math.Acos(dot);
-            Vector3 rotAxis = Vector3.CrossProduct(Vector3.Forward, forwardVector).Normalized;
-            return CreateFromAxisAngle(rotAxis, rotAngle);
+			Quaternion ret;
+			API_CreateLookAt(ref sourcePoint, ref targetPoint, out ret);
+			return ret;
         }
 
         #endregion
@@ -240,6 +237,9 @@ namespace EngineQ.Math
 		private static extern void API_GetEulerAngles(ref Quaternion quaternion, out Vector3 eulerAngles);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetAxisAngle(ref Quaternion quaternion, out Vector4 axisAngle);
+		
+		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_Normalize(ref Quaternion quaternion);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
@@ -256,6 +256,9 @@ namespace EngineQ.Math
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_CreateFromEuler(Real x, Real y, Real z, out Quaternion quaternion);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_CreateLookAt(ref Vector3 sourcePoint, ref Vector3 targetPoint, out Quaternion quaternion);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_MultiplyQuaternion(ref Quaternion q1, ref Quaternion q2, out Quaternion quaternion);

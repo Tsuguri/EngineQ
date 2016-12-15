@@ -2,12 +2,13 @@
 
 #include "Vector3.hpp"
 #include "Vector4.hpp"
+#include "Utils.hpp"
 
 namespace EngineQ
 {
 	namespace Math
 	{
-	#pragma region Constructors
+#pragma region Constructors
 
 		Quaternion::Quaternion()
 			: W{ static_cast<Real>(0) }, X{ static_cast<Real>(0) }, Y{ static_cast<Real>(0) }, Z{ static_cast<Real>(0) }
@@ -19,16 +20,47 @@ namespace EngineQ
 		{
 		}
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Methods
+#pragma region Methods
+
+		Vector4 Quaternion::GetAxisAngle() const
+		{
+			Real angle = static_cast<Real>(2) * std::acos(W);
+			Real len = std::sqrt(static_cast<Real>(1) - W * W);
+			if (len < Utils::EPS<Real>)
+			{
+				return Vector4{ static_cast<Real>(1), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0) };
+			}
+			else
+			{
+				len = static_cast<Real>(1) / len;
+				return Vector4{ X * len, Y * len, Z * len, angle };
+			}
+		}
 
 		Vector3 Quaternion::GetEulerAngles() const
 		{
+			Real q0 = W;
+			Real q1 = Z;
+			Real q2 = X;
+			Real q3 = Y;
+
+			Real sinVal = static_cast<Real>(-2) * (q1 * q3 - q0 * q2);
+
+			if (std::abs(sinVal - static_cast<Real>(1)) < Utils::EPS<Real>)
+			{
+				return Vector3{ -Utils::PI<Real> * static_cast<Real>(0.5), std::atan2(q1 * q2 - q0 * q3, q1 * q3 + q0 * q2), static_cast<Real>(0) };
+			}
+			if (std::abs(sinVal - static_cast<Real>(-1)) < Utils::EPS<Real>)
+			{
+				return Vector3{ Utils::PI<Real> * static_cast<Real>(0.5), -std::atan2(q1 * q2 - q0 * q3, q1 * q3 + q0 * q2), static_cast<Real>(0) };
+			}
+
 			return Vector3{
-				std::atan2(static_cast<Real>(2) * (W * X + Y * Z), static_cast<Real>(1) - static_cast<Real>(2) * (X * X + Y * Y)),
-				std::asin(static_cast<Real>(2) * (W * Y - Z * X)),
-				std::atan2(static_cast<Real>(2) * (W * Z + X * Y), static_cast<Real>(1) - static_cast<Real>(2) * (Y * Y + Z * Z))
+				std::asin(sinVal),
+				std::atan2(q1 * q2 + q0 * q3, static_cast<Real>(0.5) - (q2 * q2 + q3 * q3)),
+				std::atan2(q2 * q3 + q0 * q1, static_cast<Real>(0.5) - (q1 * q1 + q2 * q2))
 			};
 		}
 
@@ -52,17 +84,24 @@ namespace EngineQ
 
 		void Quaternion::Normalize()
 		{
-			Real length = GetLength();
+			Real length = GetLengthSquared();
 
-			if (length == static_cast<Real>(0))
-				return;
+			if (length < Utils::EPS<Real>)
+			{
+				this->W = static_cast<Real>(1);
+				this->X = static_cast<Real>(0);
+				this->Y = static_cast<Real>(0);
+				this->Z = static_cast<Real>(0);
+			}
+			else
+			{
+				length = static_cast<Real>(1) / std::sqrt(length);
 
-			length = static_cast<Real>(1) / length;
-
-			this->X *= length;
-			this->Y *= length;
-			this->Z *= length;
-			this->W *= length;
+				this->X *= length;
+				this->Y *= length;
+				this->Z *= length;
+				this->W *= length;
+			}
 		}
 
 		std::string Quaternion::ToString() const
@@ -70,9 +109,30 @@ namespace EngineQ
 			return Utilities::ToString(*this);
 		}
 
-	#pragma endregion
+#pragma endregion
 
-	#pragma region Static Methods
+#pragma region Static Methods
+
+		Quaternion Quaternion::CreateLookAt(const Vector3& sourcePoint, const Vector3& targetPoint)
+		{
+			Vector3 forwardVector = (targetPoint - sourcePoint).GetNormalized();
+
+			Real dot = Vector3::DotProduct(Vector3::GetForward(), forwardVector);
+
+			if (std::abs(dot - static_cast<Real>(-1)) < Utils::EPS<Real>)
+			{
+				Vector3 up = Vector3::GetUp();
+				return Quaternion{ static_cast<Real>(0), up.X, up.Y, up.Z };
+			}
+			if (std::abs(dot - static_cast<Real>(1)) < Utils::EPS<Real>)
+			{
+				return GetIdentity();
+			}
+
+			Real rotAngle = std::acos(dot);
+			Vector3 rotAxis = Vector3::CrossProduct(Vector3::GetForward(), forwardVector).GetNormalized();
+			return CreateFromAxisAngle(rotAxis, rotAngle);
+		}
 
 		Quaternion Quaternion::CreateFromAxisAngle(const Vector3& axis, Real angle)
 		{
@@ -81,7 +141,25 @@ namespace EngineQ
 
 		Quaternion Quaternion::CreateFromAxisAngle(Real x, Real y, Real z, Real angle)
 		{
-			angle /= static_cast<Real>(2);
+			angle *= static_cast<Real>(0.5);
+
+			Real lenSqrt = x * x + y * y + z * z;
+			if (lenSqrt != static_cast<Real>(1))
+			{
+				if (lenSqrt < Utils::EPS<Real>)
+				{
+					x = static_cast<Real>(1);
+					y = static_cast<Real>(0);
+					z = static_cast<Real>(0);
+				}
+				else
+				{
+					Real len = static_cast<Real>(1) / std::sqrt(lenSqrt);
+					x *= len;
+					y *= len;
+					z *= len;
+				}
+			}
 
 			Real s = std::sin(angle);
 
@@ -90,38 +168,39 @@ namespace EngineQ
 
 		Quaternion Quaternion::CreateRotationZ(Real angle)
 		{
-			angle /= static_cast<Real>(2);
+			angle *= static_cast<Real>(0.5);
 
 			return Quaternion{ std::cos(angle), static_cast<Real>(0), static_cast<Real>(0), std::sin(angle) };
 		}
 
 		Quaternion Quaternion::CreateRotationY(Real angle)
 		{
-			angle /= static_cast<Real>(2);
+			angle *= static_cast<Real>(0.5);
 
 			return Quaternion{ std::cos(angle), static_cast<Real>(0), std::sin(angle), static_cast<Real>(0) };
 		}
 
 		Quaternion Quaternion::CreateRotationX(Real angle)
 		{
-			angle /= static_cast<Real>(2);
+			angle *= static_cast<Real>(0.5);
 
 			return Quaternion{ std::cos(angle), std::sin(angle), static_cast<Real>(0), static_cast<Real>(0) };
 		}
 
 		Quaternion Quaternion::CreateFromEuler(Real x, Real y, Real z)
 		{
-			x /= static_cast<Real>(2);
-			y /= static_cast<Real>(2);
-			z /= static_cast<Real>(2);
+			x *= static_cast<Real>(0.5);
+			y *= static_cast<Real>(0.5);
+			z *= static_cast<Real>(0.5);
 
-			Real sinZ = std::sin(z);
-			Real sinY = std::sin(y);
+			Real cosX = std::cos(x);
 			Real sinX = std::sin(x);
 
-			Real cosZ = std::cos(z);
 			Real cosY = std::cos(y);
-			Real cosX = std::cos(x);
+			Real sinY = std::sin(y);
+
+			Real cosZ = std::cos(z);
+			Real sinZ = std::sin(z);
 
 			// Z -> X -> Y
 			return Quaternion{
@@ -132,27 +211,9 @@ namespace EngineQ
 			};
 		}
 
-		Quaternion Quaternion::CreateFromEuler(Vector3 angles)
+		Quaternion Quaternion::CreateFromEuler(const Vector3& angles)
 		{
-			angles.X /= static_cast<Real>(2);
-			angles.Y /= static_cast<Real>(2);
-			angles.Z /= static_cast<Real>(2);
-
-			Real sinZ = std::sin(angles.Z);
-			Real sinY = std::sin(angles.Y);
-			Real sinX = std::sin(angles.X);
-
-			Real cosZ = std::cos(angles.Z);
-			Real cosY = std::cos(angles.Y);
-			Real cosX = std::cos(angles.X);
-
-			// Z -> X -> Y
-			return Quaternion{
-				cosY * cosX * cosZ + sinY * sinX * sinZ,
-				cosY * sinX * cosZ + sinY * cosX * sinZ,
-				sinY * cosX * cosZ - cosY * sinX * sinZ,
-				cosY * cosX * sinZ - sinY * sinX * cosZ
-			};
+			return CreateFromEuler(angles.X, angles.Y, angles.Z);
 		}
 
 		Quaternion Quaternion::GetIdentity()
@@ -160,13 +221,20 @@ namespace EngineQ
 			return Quaternion{ static_cast<Real>(1), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0) };
 		}
 
-	#pragma endregion
+		bool Quaternion::AreEquivalent(const Quaternion& q1, const Quaternion& q2)
+		{
+			return
+				(Utils::EpsComp(q1.W, q2.W) && Utils::EpsComp(q1.X, q2.X) && Utils::EpsComp(q1.Y, q2.Y) && Utils::EpsComp(q1.Z, q2.Z)) ||
+				(Utils::EpsComp(q1.W, -q2.W) && Utils::EpsComp(q1.X, -q2.X) && Utils::EpsComp(q1.Y, -q2.Y) && Utils::EpsComp(q1.Z, -q2.Z));
+		}
 
-	#pragma region Operators
+#pragma endregion
 
-	#pragma endregion
+#pragma region Operators
 
-	#pragma region Static Operators
+#pragma endregion
+
+#pragma region Static Operators
 
 		Quaternion operator +(const Quaternion& q)
 		{
@@ -240,7 +308,7 @@ namespace EngineQ
 			return Vector3{
 				(static_cast<Real>(1) - (num5 + num6)) * v.X + (num7 - num12) * v.Y + (num8 + num11) * v.Z,
 				(num7 + num12) * v.X + (static_cast<Real>(1) - (num4 + num6)) * v.Y + (num9 - num10) * v.Z,
-				(num8 - num11) * v.X + (num9 + num10) * v.Y + (static_cast<Real>(1) - (num4 + num5)) * v.Z 
+				(num8 - num11) * v.X + (num9 + num10) * v.Y + (static_cast<Real>(1) - (num4 + num5)) * v.Z
 			};
 		}
 
@@ -278,12 +346,12 @@ namespace EngineQ
 		{
 			return stream << "[" << quaternion.W << "," << quaternion.X << "," << quaternion.Y << "," << quaternion.Z << "]";
 		}
-		
+
 		std::ostream& operator <<= (std::ostream& stream, const Quaternion& quaternion)
 		{
 			return stream.write(reinterpret_cast<const char*>(&quaternion.Values), sizeof(quaternion.Values));
 		}
 
-	#pragma endregion
+#pragma endregion
 	}
 }

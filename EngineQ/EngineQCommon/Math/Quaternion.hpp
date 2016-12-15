@@ -37,6 +37,7 @@ namespace EngineQ
 
 		#pragma region Methods
 
+			Vector4 GetAxisAngle() const;
 			Vector3 GetEulerAngles() const;
 			Real GetLengthSquared() const;
 			Real GetLength() const;
@@ -49,14 +50,17 @@ namespace EngineQ
 
 		#pragma region Static Methods
 
+			static Quaternion CreateLookAt(const Vector3& sourcePoint, const Vector3& targetPoint);
 			static Quaternion CreateFromAxisAngle(const Vector3& axis, Real angle);
 			static Quaternion CreateFromAxisAngle(Real x, Real y, Real z, Real angle);
 			static Quaternion CreateRotationZ(Real angle);
 			static Quaternion CreateRotationY(Real angle);
 			static Quaternion CreateRotationX(Real angle);
 			static Quaternion CreateFromEuler(Real x, Real y, Real z);
-			static Quaternion CreateFromEuler(Vector3 angles);
+			static Quaternion CreateFromEuler(const Vector3& angles);
 			static Quaternion GetIdentity();
+
+			static bool AreEquivalent(const Quaternion& q1, const Quaternion& q2);
 
 		#pragma endregion
 
