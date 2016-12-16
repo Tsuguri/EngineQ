@@ -29,12 +29,6 @@ namespace EngineQ
 				glDrawBuffer(GL_NONE);
 				glReadBuffer(GL_NONE);
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-				
-				//Math::Matrix4 lightProjection = Math::Matrix4::CreateFrustum(Math::DegToRad(45.0f),1.0f,1.0f,100.0f);
-				//// Math::Matrix4::CreateOrtho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-				//Math::Matrix4 lightView = Math::Matrix4::CreateLookAt(Math::Vector3{ -2,4,-1 }, Math::Vector3{ 0,0,0 }, Math::Vector3{ 0,1,0 });
-				//lightMatrix = lightView * lightProjection;
 			}
 
 			void Light::RenderDepthMap(const std::vector<Renderable*>& renderables) const
@@ -43,11 +37,7 @@ namespace EngineQ
 				if (shader == nullptr)
 					return;
 				auto size = screenDataProvider->GetScreenSize();
-				GLfloat near_plane = 1.0f, far_plane = 30.0f;
-				GLfloat range = 10.0f;
-				Math::Matrix4 lightProjection =  Math::Matrix4::CreateOrtho(-range, range, -range, range, near_plane, far_plane);
-				Math::Matrix4 lightView = Math::Matrix4::CreateLookAt(-GetPosition(), Math::Vector3{ 0,0,0 }, Math::Vector3{ 0,1,0 });
-				auto matrix = lightProjection*lightView;
+				auto matrix = GetLightMatrix();
 
 				glViewport(0, 0, size.X, size.Y);
 				glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
@@ -74,14 +64,16 @@ namespace EngineQ
 
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
+
 			Resources::Resource<Texture> Light::GetDepthTexture()
 			{
 				return depthTexture;
 			}
+
 			Math::Matrix4 Light::GetLightMatrix() const
 			{
-				GLfloat near_plane = 1.0f, far_plane = 60.0f;
-				GLfloat range = 7.0f;
+				GLfloat near_plane = 1.0f, far_plane = 30.0f;
+				GLfloat range = 10.0f;
 				Math::Matrix4 lightProjection = Math::Matrix4::CreateOrtho(-range, range, -range, range, near_plane, far_plane);
 				Math::Matrix4 lightView = Math::Matrix4::CreateLookAt(-GetPosition(), Math::Vector3{ 0,0,0 }, Math::Vector3{ 0,1,0 });
 				return lightProjection*lightView;
