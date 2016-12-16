@@ -132,6 +132,11 @@ namespace EngineQ
 					auto property = data.GetProperty<Resources::Resource<Texture>>();
 					lights[index].ShadowMap = property;
 				}
+				else if (translatedName.find("castsShadows") != std::string::npos)
+				{
+					auto property = data.GetProperty<bool>();
+					lights[index].CastsShadows = property;
+				}
 			}
 		}
 

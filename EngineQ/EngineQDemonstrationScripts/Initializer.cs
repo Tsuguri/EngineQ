@@ -26,11 +26,11 @@ namespace QScripts
 
 			var lightEntity = scene.CreateEntity(true, "Light0");
 			var light = lightEntity.AddComponent<Light>();
-			lightEntity.Transform.Position = new Vector3(5, 5, 5);
+			lightEntity.Transform.Position = new Vector3(3, 3, 3);
 
-			var lightEntity2 = scene.CreateEntity(true, "Light1");
-			var light2 = lightEntity.AddComponent<Light>();
-			lightEntity2.Transform.Position = new Vector3(-5, 10, 20);
+			//var lightEntity2 = scene.CreateEntity(true, "Light1");
+			//var light2 = lightEntity.AddComponent<Light>();
+			//lightEntity2.Transform.Position = new Vector3(-5, 10, 20);
 			
 			
 		}
@@ -65,10 +65,12 @@ namespace QScripts
 			var ent2 = scene.CreateEntity(true, "Skull1");
 			var ent3 = scene.CreateEntity(true, "Skull2");
 			var ent4 = scene.CreateEntity(true, "Cube");
+			var ent5 = scene.CreateEntity(true, "Cube2");
 
 			var renderable1 = ent2.AddComponent<Renderable>();
 			var renderable2 = ent3.AddComponent<Renderable>();
 			var renderable3 = ent4.AddComponent<Renderable>();
+			var renderable4 = ent5.AddComponent<Renderable>();
 
 			var rm = ResourceManager.Instance;
 
@@ -98,11 +100,18 @@ namespace QScripts
 			renderable3.UseDeferredShader(deferredShader);
 			renderable3.DeferredShader.Material.DiffuseTexture = texture;
 
+			renderable4.Mesh = cubeMesh;
+			renderable4.UseForwardShader(shader);
+			renderable4.UseDeferredShader(deferredShader);
+			renderable4.DeferredShader.Material.DiffuseTexture = texture;
+
 			ent2.AddComponent<RotateTest>();
 
 			ent2.Transform.Position = new Vector3(0.0f, 0.0f, 0.0f);
 			ent3.Transform.Position = new Vector3(1.0f, 0.0f, 0.0f);
 			ent4.Transform.Position = new Vector3(2.0f, 0.0f, 0.0f);
+			ent5.Transform.Position = new Vector3(0, -5, 0);
+			ent5.Transform.Scale = new Vector3(15);
 		}
 
 		private static void PrepareCamera(Scene scene)

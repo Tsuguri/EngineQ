@@ -16,8 +16,6 @@ namespace EngineQ
 				GLuint depthMapFBO;
 				Resources::Resource<Texture> depthTexture;
 				ScreenDataProvider* screenDataProvider = nullptr;
-				Math::Matrix4 lightMatrix;
-			//protected:
 			public:
 				void Init(ScreenDataProvider* dataProvider);
 
@@ -27,7 +25,9 @@ namespace EngineQ
 
 				Resources::Resource<Texture> GetDepthTexture();
 
-				virtual Math::Vector3 GetPosition() = 0;
+				Math::Matrix4 GetLightMatrix() const;
+
+				virtual Math::Vector3 GetPosition() const = 0;
 
 				virtual ShaderProperties* GetShaderProperties() const = 0;
 

@@ -43,7 +43,7 @@ namespace EngineQ
 		}
 	}
 
-	Math::Vector3 Light::GetPosition()
+	Math::Vector3 Light::GetPosition() const
 	{
 		return GetEntity().GetTransform().GetPosition();
 	}

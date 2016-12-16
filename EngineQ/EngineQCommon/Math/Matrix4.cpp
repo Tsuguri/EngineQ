@@ -480,12 +480,14 @@ namespace EngineQ
 
 		Matrix4 Matrix4::CreateOrtho(Real left, Real right, Real bottom, Real top, Real near, Real far)
 		{
+			Real Xmax = right - left;// -static_cast<Real>(1);
+			Real Ymax = top - bottom;// -static_cast<Real>(1);
 			return Matrix4{
-				static_cast<Real>(2) / (right-left-static_cast<Real>(1)),  static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(-1),
-				static_cast<Real>(0), static_cast<Real>(-2) / (top - bottom - static_cast<Real>(1)), static_cast<Real>(0), static_cast<Real>(1),
-				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(2) / (far - near),  (near + far) / (near - far),
+				static_cast<Real>(2) / Xmax,  static_cast<Real>(0), static_cast<Real>(0), -(right + left) / Xmax,
+				static_cast<Real>(0), static_cast<Real>(2) / Ymax, static_cast<Real>(0), -(top + bottom) / Ymax,
+				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(-2) / (far - near),  -(near + far) / (near - far),
 				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1)
-			};
+			};// .GetTransposed();
 		}
 
 		Matrix4 Matrix4::CreateLookAt(const Vector3& cameraPosition, const Vector3&  cameraTarget, const Vector3&  upVector)
