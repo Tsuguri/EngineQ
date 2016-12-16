@@ -12,21 +12,19 @@ namespace EngineQ
 			void Light::Init(ScreenDataProvider* dataProvider)
 			{
 				this->screenDataProvider = dataProvider;
-				glGenFramebuffers(1, &depthMapFBO);
 				auto size = screenDataProvider->GetScreenSize();
+				Configuration::TextureConfiguration conf;
+				conf.Format = GL_DEPTH_COMPONENT;
+				conf.InternalFormat = GL_DEPTH_COMPONENT;
+				conf.DataType = GL_FLOAT;
 
-				GLuint depthMap;
-				glGenTextures(1, &depthMap);
-				glBindTexture(GL_TEXTURE_2D, depthMap);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
-					size.X, size.Y, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+				depthTexture = Resources::Resource<Texture>(std::make_unique<Texture>(size.X, size.Y, conf));
+
+				// strange framebuffer here so not using Framebuffer class, but will need rework in the future - extend usability of Framebuffer (more configurable)
+				glGenFramebuffers(1, &depthMapFBO);
 
 				glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexture->GetTextureID(), 0);
 				glDrawBuffer(GL_NONE);
 				glReadBuffer(GL_NONE);
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -68,6 +66,10 @@ namespace EngineQ
 				}
 
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			}
+			Resources::Resource<Texture> Light::GetDepthTexture()
+			{
+				return depthTexture;
 			}
 		}
 	}

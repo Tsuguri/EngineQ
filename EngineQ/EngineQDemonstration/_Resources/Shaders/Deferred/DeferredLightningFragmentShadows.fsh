@@ -46,4 +46,5 @@ void main()
 	vec3 specular = lights[0].specular * spec*specularStrength;
 	vec3 result = (ambient + diffuse + specular) * colorTmp;
 	color = vec4(result,1.0);
+	//color = vec4(texture(lights_q_0_q_shadowMap, TexCoords).xyz,1.0);
 }

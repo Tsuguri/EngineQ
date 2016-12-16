@@ -14,6 +14,7 @@ namespace EngineQ
 			class Light
 			{
 				GLuint depthMapFBO;
+				Resources::Resource<Texture> depthTexture;
 				ScreenDataProvider* screenDataProvider = nullptr;
 				Math::Matrix4 lightMatrix;
 			//protected:
@@ -23,6 +24,8 @@ namespace EngineQ
 				Light() = default;
 
 				void RenderDepthMap(const std::vector<Renderable*>& renderables) const;
+
+				Resources::Resource<Texture> GetDepthTexture();
 
 				virtual Math::Vector3 GetPosition() = 0;
 

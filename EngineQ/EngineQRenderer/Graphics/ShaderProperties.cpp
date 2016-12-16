@@ -25,6 +25,7 @@ namespace EngineQ
 			CheckBuiltIn(this->material.Diffuse, Math::Vector3f(0.5f));
 			CheckBuiltIn(this->material.Specular, Math::Vector3f(0.5f));
 			CheckBuiltIn(this->material.Shininess, 32.0f);
+			CheckBuiltIn(this->material.DiffuseTexture, EngineQ::Resources::Resource<Texture>{ nullptr });
 
 			for (auto& light : this->lights)
 			{
@@ -35,6 +36,7 @@ namespace EngineQ
 				CheckBuiltIn(light.Diffuse);
 				CheckBuiltIn(light.CastsShadows);
 				CheckBuiltIn(light.FarPlane);
+				//CheckBuiltIn(light.ShadowMap, EngineQ::Resources::Resource<Texture>{ std::unique_ptr<Texture>{nullptr} });
 			}
 		}
 
@@ -95,12 +97,12 @@ namespace EngineQ
 
 				int startIndex = translatedName.find("[");
 				int endIndex = translatedName.find("]");
-				auto indexString = translatedName.substr(startIndex + 1, endIndex - startIndex -1);
+				auto indexString = translatedName.substr(startIndex + 1, endIndex - startIndex - 1);
 				index = std::stoi(indexString);
 
 				while (index >= lights.size())
 					lights.push_back(Light{});
-				if (translatedName.find("specular")!= std::string::npos)
+				if (translatedName.find("specular") != std::string::npos)
 				{
 					auto property = data.GetProperty<Math::Vector3f>();
 					lights[index].Specular = property;
@@ -125,7 +127,11 @@ namespace EngineQ
 					auto property = data.GetProperty<Math::Matrix4>();
 					lights[index].LightMatrix = property;
 				}
-				
+				else if (translatedName.find("shadowMap") != std::string::npos)
+				{
+					auto property = data.GetProperty<Resources::Resource<Texture>>();
+					lights[index].ShadowMap = property;
+				}
 			}
 		}
 

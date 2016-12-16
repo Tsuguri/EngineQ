@@ -51,7 +51,7 @@ namespace EngineQ
 
 		Resources::Resource<Texture> RenderingUnit::CreateTexture(int width, int height, const Configuration::TextureConfiguration& configuration)
 		{
-			return Resources::Resource<Texture>(std::make_unique<Texture>(width, height,configuration));
+			return Resources::Resource<Texture>(std::make_unique<Texture>(width, height, configuration));
 		}
 
 		void RenderingUnit::Resize(int width, int height)
@@ -72,7 +72,7 @@ namespace EngineQ
 		{
 			return std::make_unique<Framebuffer>(depthTesting, textures, screenDataProvider);
 		}
-		
+
 		std::unique_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<Resources::Resource<Texture>>& textures, bool depthTesting)
 		{
 			return std::make_unique<Framebuffer>(depthTesting, textures, screenDataProvider);
@@ -178,18 +178,26 @@ namespace EngineQ
 					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
 					auto& shader = effect->GetShaderproperties();
 
+					auto& lights = shader.GetLights();
+					int lightsCount = sceneLights.size() > lights.size() ? lights.size() : sceneLights.size();
+					for (int i = 0; i < lightsCount; i++)
+					{
+						lights[i].Diffuse = Math::Vector3f(0.5f);
+						lights[i].Ambient = Math::Vector3f(0.5f);
+						lights[i].Specular = Math::Vector3f(0.5f);
+						lights[i].Position = sceneLights[i]->GetPosition();
+						lights[i].CastsShadows = sceneLights[i]->GetCastShadows();
+					}
+
 					if (effect->GetApplyShadowData())
 					{
-						auto& lights = shader.GetLights();
-						for (int i = 0; i < sceneLights.size(); i++)
+						for (int i = 0; i < lightsCount; i++)
 						{
-							lights[i].Diffuse = Math::Vector3f(0.5f);
-							lights[i].Ambient = Math::Vector3f(0.5f);
-							lights[i].Specular = Math::Vector3f(0.5f);
-							lights[i].Position = sceneLights[i]->GetPosition();
-							lights[i].CastsShadows = sceneLights[i]->GetCastShadows();
+							if (lights[i].ShadowMap.IsSet())
+								lights[i].ShadowMap.Set(sceneLights[i]->GetDepthTexture());
 						}
 					}
+
 					effect->Activate(scene.GetActiveCamera(), 0);
 					glBindVertexArray(quadVao);
 

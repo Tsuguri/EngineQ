@@ -2,7 +2,6 @@
 
 #include "../Common/Light.shh"
 
-const int MaxLights = 4;
 in vec2 TexCoords;
 
 uniform sampler2D worldPosition;
