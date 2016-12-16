@@ -28,11 +28,33 @@ float ShadowCalculations(Light light, sampler2D shadowMap, vec3 position)
     // Transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
     // Get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+
+    float currentDepth = projCoords.z;
+
+    float shadow = 0.0;
+
+	float samples = 4.0;
+	float bias = 0.0001;
+	vec2 offset = 1.0/ textureSize(shadowMap, 0);//(1.0 + (length(cameraPosition-position)/30.0))/ 25.0;
+
+	vec2 pcfStep = 2.0 * offset / samples;
+
+	//vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+	for(float x = -offset.x; x < offset.x; x+=pcfStep.x)
+	{
+		for(float y = -offset.y; y < offset.y; y+=pcfStep.y)
+		{
+			float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y)).r; 
+			//pcfDepth *= 30.0;
+			if(currentDepth - bias > pcfDepth)
+				shadow+=1.0;
+		}    
+	}
+	shadow /= samples*samples;
+
     float closestDepth = texture(shadowMap, projCoords.xy).r; 
     // Get depth of current fragment from light's perspective
-    float currentDepth = projCoords.z;
     // Check whether current frag pos is in shadow
-    float shadow = currentDepth >= closestDepth  ? 1.0 : 0.0;
 
 	if(projCoords.z > 1.0)
         shadow = 0.0;
