@@ -28,7 +28,7 @@ namespace EngineQ
 		{
 			Real angle = static_cast<Real>(2) * std::acos(W);
 			Real len = std::sqrt(static_cast<Real>(1) - W * W);
-			if (len < Utils::EPS<Real>)
+			if (len < Utils::Eps<Real>)
 			{
 				return Vector4{ static_cast<Real>(1), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0) };
 			}
@@ -48,11 +48,11 @@ namespace EngineQ
 
 			Real sinVal = static_cast<Real>(-2) * (q1 * q3 - q0 * q2);
 
-			if (std::abs(sinVal - static_cast<Real>(1)) < Utils::EPS<Real>)
+			if (std::abs(sinVal - static_cast<Real>(1)) < Utils::Eps<Real>)
 			{
 				return Vector3{ -Utils::PI<Real> * static_cast<Real>(0.5), std::atan2(q1 * q2 - q0 * q3, q1 * q3 + q0 * q2), static_cast<Real>(0) };
 			}
-			if (std::abs(sinVal - static_cast<Real>(-1)) < Utils::EPS<Real>)
+			if (std::abs(sinVal - static_cast<Real>(-1)) < Utils::Eps<Real>)
 			{
 				return Vector3{ Utils::PI<Real> * static_cast<Real>(0.5), -std::atan2(q1 * q2 - q0 * q3, q1 * q3 + q0 * q2), static_cast<Real>(0) };
 			}
@@ -86,7 +86,7 @@ namespace EngineQ
 		{
 			Real length = GetLengthSquared();
 
-			if (length < Utils::EPS<Real>)
+			if (length < Utils::Eps<Real>)
 			{
 				this->W = static_cast<Real>(1);
 				this->X = static_cast<Real>(0);
@@ -119,12 +119,12 @@ namespace EngineQ
 
 			Real dot = Vector3::DotProduct(Vector3::GetForward(), forwardVector);
 
-			if (std::abs(dot - static_cast<Real>(-1)) < Utils::EPS<Real>)
+			if (std::abs(dot - static_cast<Real>(-1)) < Utils::Eps<Real>)
 			{
 				Vector3 up = Vector3::GetUp();
 				return Quaternion{ static_cast<Real>(0), up.X, up.Y, up.Z };
 			}
-			if (std::abs(dot - static_cast<Real>(1)) < Utils::EPS<Real>)
+			if (std::abs(dot - static_cast<Real>(1)) < Utils::Eps<Real>)
 			{
 				return GetIdentity();
 			}
@@ -146,7 +146,7 @@ namespace EngineQ
 			Real lenSqrt = x * x + y * y + z * z;
 			if (lenSqrt != static_cast<Real>(1))
 			{
-				if (lenSqrt < Utils::EPS<Real>)
+				if (lenSqrt < Utils::Eps<Real>)
 				{
 					x = static_cast<Real>(1);
 					y = static_cast<Real>(0);
@@ -220,14 +220,7 @@ namespace EngineQ
 		{
 			return Quaternion{ static_cast<Real>(1), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0) };
 		}
-
-		bool Quaternion::AreEquivalent(const Quaternion& q1, const Quaternion& q2)
-		{
-			return
-				(Utils::EpsComp(q1.W, q2.W) && Utils::EpsComp(q1.X, q2.X) && Utils::EpsComp(q1.Y, q2.Y) && Utils::EpsComp(q1.Z, q2.Z)) ||
-				(Utils::EpsComp(q1.W, -q2.W) && Utils::EpsComp(q1.X, -q2.X) && Utils::EpsComp(q1.Y, -q2.Y) && Utils::EpsComp(q1.Z, -q2.Z));
-		}
-
+		
 #pragma endregion
 
 #pragma region Operators
@@ -312,14 +305,20 @@ namespace EngineQ
 			};
 		}
 
-		bool operator ==(const Quaternion& q1, const Quaternion& q2)
+		bool operator ==(const Quaternion& lhs, const Quaternion& rhs)
 		{
-			return (q1.W == q2.W && q1.X == q2.X && q1.Y == q2.Y && q1.Z == q2.Z);
+		//	return (q1.W == q2.W && q1.X == q2.X && q1.Y == q2.Y && q1.Z == q2.Z);
+			return
+				(Utils::EpsEqual(lhs.W, rhs.W) && Utils::EpsEqual(lhs.X, rhs.X) && Utils::EpsEqual(lhs.Y, rhs.Y) && Utils::EpsEqual(lhs.Z, rhs.Z)) ||
+				(Utils::EpsEqual(lhs.W, -rhs.W) && Utils::EpsEqual(lhs.X, -rhs.X) && Utils::EpsEqual(lhs.Y, -rhs.Y) && Utils::EpsEqual(lhs.Z, -rhs.Z));
 		}
 
-		bool operator !=(const Quaternion& q1, const Quaternion& q2)
+		bool operator !=(const Quaternion& lhs, const Quaternion& rhs)
 		{
-			return (q1.W != q2.W || q1.X != q2.X || q1.Y != q2.Y || q1.Z != q2.Z);
+		//	return (q1.W != q2.W || q1.X != q2.X || q1.Y != q2.Y || q1.Z != q2.Z);
+			return
+				(Utils::EpsNotEqual(lhs.W, rhs.W) || Utils::EpsNotEqual(lhs.X, rhs.X) || Utils::EpsNotEqual(lhs.Y, rhs.Y) || Utils::EpsNotEqual(lhs.Z, rhs.Z)) &&
+				(Utils::EpsNotEqual(lhs.W, -rhs.W) || Utils::EpsNotEqual(lhs.X, -rhs.X) || Utils::EpsNotEqual(lhs.Y, -rhs.Y) || Utils::EpsNotEqual(lhs.Z, -rhs.Z));
 		}
 
 		std::istream& operator >> (std::istream& stream, Quaternion& quaternion)

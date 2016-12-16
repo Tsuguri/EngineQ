@@ -96,7 +96,7 @@ namespace EngineQ
 
 		#pragma region Operators
 
-			explicit operator Matrix3();
+			explicit operator Matrix3() const;
 
 			void operator += (const Matrix4& matrix);
 			void operator -= (const Matrix4& matrix);
@@ -125,6 +125,9 @@ namespace EngineQ
 		Vector4 operator * (const Matrix4& lhs, const Vector4& rhs);
 		Matrix4 operator * (const Matrix4& lhs, const Matrix4& rhs);
 		Matrix4 operator / (const Matrix4& matrix, Real scalar);
+
+		bool operator == (const Matrix4& lhs, const Matrix4& rhs);
+		bool operator != (const Matrix4& lhs, const Matrix4& rhs);
 
 		std::istream& operator >> (std::istream& stream, Matrix4& matrix);
 		std::istream& operator >>= (std::istream& stream, Matrix4& matrix);

@@ -60,8 +60,6 @@ namespace EngineQ
 			static Quaternion CreateFromEuler(const Vector3& angles);
 			static Quaternion GetIdentity();
 
-			static bool AreEquivalent(const Quaternion& q1, const Quaternion& q2);
-
 		#pragma endregion
 
 		#pragma region Operators
@@ -80,8 +78,8 @@ namespace EngineQ
 		Vector4 operator *(const Quaternion& q, const Vector4& v);
 		Vector3 operator *(const Quaternion& q, const Vector3& v);
 		
-		bool operator ==(const Quaternion& q1, const Quaternion& q2);
-		bool operator !=(const Quaternion& q1, const Quaternion& q2);
+		bool operator ==(const Quaternion& lhs, const Quaternion& rhs);
+		bool operator !=(const Quaternion& lhs, const Quaternion& rhs);
 
 		std::istream& operator >> (std::istream& stream, Quaternion& quaternion);
 		std::istream& operator >>= (std::istream& stream, Quaternion& quaternion);

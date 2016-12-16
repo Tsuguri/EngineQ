@@ -243,13 +243,15 @@ namespace EngineQ
 		template<typename Type>
 		bool operator ==(const Vector2_t<Type>& vector1, const Vector2_t<Type>& vector2)
 		{
-			return (vector1.X == vector2.X && vector1.Y == vector2.Y);
+		//	return (vector1.X == vector2.X && vector1.Y == vector2.Y);
+			return Utils::EpsEqual(vector1.X, vector2.X) && Utils::EpsEqual(vector1.Y, vector2.Y);
 		}
 
 		template<typename Type>
 		bool operator !=(const Vector2_t<Type>& vector1, const Vector2_t<Type>& vector2)
 		{
-			return (vector1.X != vector2.X || vector1.Y != vector2.Y);
+		//	return (vector1.X != vector2.X || vector1.Y != vector2.Y);
+			return Utils::EpsNotEqual(vector1.X, vector2.X) || Utils::EpsNotEqual(vector1.Y, vector2.Y);
 		}
 		
 		template<typename Type>

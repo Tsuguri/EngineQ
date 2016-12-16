@@ -273,30 +273,26 @@ namespace EngineQ
 
 		bool operator == (const Matrix3& lhs, const Matrix3& rhs)
 		{
+		//	return
+		//		lhs.M00 == rhs.M00 && lhs.M01 == rhs.M01 && lhs.M02 == rhs.M02 &&
+		//		lhs.M10 == rhs.M10 && lhs.M11 == rhs.M11 && lhs.M12 == rhs.M12 &&
+		//		lhs.M20 == rhs.M20 && lhs.M21 == rhs.M21 && lhs.M22 == rhs.M22;
 			return
-				lhs.M00 == rhs.M00 &&
-				lhs.M01 == rhs.M01 &&
-				lhs.M02 == rhs.M02 &&
-				lhs.M10 == rhs.M10 &&
-				lhs.M11 == rhs.M11 &&
-				lhs.M12 == rhs.M12 &&
-				lhs.M20 == rhs.M20 &&
-				lhs.M21 == rhs.M21 &&
-				lhs.M22 == rhs.M22;
+				Utils::EpsEqual(lhs.M00, rhs.M00) && Utils::EpsEqual(lhs.M01, rhs.M01) && Utils::EpsEqual(lhs.M02, rhs.M02) &&
+				Utils::EpsEqual(lhs.M10, rhs.M10) && Utils::EpsEqual(lhs.M11, rhs.M11) && Utils::EpsEqual(lhs.M12, rhs.M12) &&
+				Utils::EpsEqual(lhs.M20, rhs.M20) && Utils::EpsEqual(lhs.M21, rhs.M21) && Utils::EpsEqual(lhs.M22, rhs.M22);
 		}
 
 		bool operator != (const Matrix3& lhs, const Matrix3& rhs)
 		{
+		//	return
+		//		lhs.M00 != rhs.M00 || lhs.M01 != rhs.M01 || lhs.M02 != rhs.M02 ||
+		//		lhs.M10 != rhs.M10 || lhs.M11 != rhs.M11 || lhs.M12 != rhs.M12 ||
+		//		lhs.M20 != rhs.M20 || lhs.M21 != rhs.M21 || lhs.M22 != rhs.M22;
 			return
-				lhs.M00 != rhs.M00 ||
-				lhs.M01 != rhs.M01 ||
-				lhs.M02 != rhs.M02 ||
-				lhs.M10 != rhs.M10 ||
-				lhs.M11 != rhs.M11 ||
-				lhs.M12 != rhs.M12 ||
-				lhs.M20 != rhs.M20 ||
-				lhs.M21 != rhs.M21 ||
-				lhs.M22 != rhs.M22;
+				Utils::EpsNotEqual(lhs.M00, rhs.M00) || Utils::EpsNotEqual(lhs.M01, rhs.M01) || Utils::EpsNotEqual(lhs.M02, rhs.M02) ||
+				Utils::EpsNotEqual(lhs.M10, rhs.M10) || Utils::EpsNotEqual(lhs.M11, rhs.M11) || Utils::EpsNotEqual(lhs.M12, rhs.M12) ||
+				Utils::EpsNotEqual(lhs.M20, rhs.M20) || Utils::EpsNotEqual(lhs.M21, rhs.M21) || Utils::EpsNotEqual(lhs.M22, rhs.M22);
 		}
 
 		std::istream& operator >> (std::istream& stream, Matrix3& matrix)

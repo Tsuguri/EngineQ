@@ -153,13 +153,7 @@ namespace EngineQ
 		{
 			return Vector3_t{ static_cast<Type>(0), static_cast<Type>(0), static_cast<Type>(-1) };
 		}
-
-		template<typename Type>
-		bool Vector3_t<Type>::AreEqual(const Vector3_t& lhs, const Vector3_t& rhs)
-		{
-			return Utils::EpsComp(lhs.X, rhs.X) && Utils::EpsComp(lhs.Y, rhs.Y) && Utils::EpsComp(lhs.Z, rhs.Z);
-		}
-
+		
 	#pragma endregion
 
 	#pragma region Operators
@@ -286,13 +280,15 @@ namespace EngineQ
 		template<typename Type>
 		bool operator ==(const Vector3_t<Type>& vector1, const Vector3_t<Type>& vector2)
 		{
-			return (vector1.X == vector2.X && vector1.Y == vector2.Y && vector1.Z == vector2.Z);
+		//	return (vector1.X == vector2.X && vector1.Y == vector2.Y && vector1.Z == vector2.Z);
+			return Utils::EpsEqual(vector1.X, vector2.X) && Utils::EpsEqual(vector1.Y, vector2.Y) && Utils::EpsEqual(vector1.Z, vector2.Z);
 		}
 
 		template<typename Type>
 		bool operator !=(const Vector3_t<Type>& vector1, const Vector3_t<Type>& vector2)
 		{
-			return (vector1.X != vector2.X || vector1.Y != vector2.Y || vector1.Z != vector2.Z);
+		//	return (vector1.X != vector2.X || vector1.Y != vector2.Y || vector1.Z != vector2.Z);
+			return Utils::EpsNotEqual(vector1.X, vector2.X) || Utils::EpsNotEqual(vector1.Y, vector2.Y) || Utils::EpsNotEqual(vector1.Z, vector2.Z);
 		}
 
 		template<typename Type>

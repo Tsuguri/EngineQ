@@ -3,6 +3,7 @@
 #include "Matrix3.hpp"
 #include "Quaternion.hpp"
 #include "Vector4.hpp"
+#include "Utils.hpp"
 
 namespace EngineQ
 {
@@ -520,6 +521,7 @@ namespace EngineQ
 		Vector3 Matrix4::TransformNormal(const Matrix4& matrix, const Vector3& normal)
 		{
 			Matrix4 matInv = matrix.GetInversed();
+
 			return Vector3{
 				matInv.M00 * normal.X + matInv.M10 * normal.Y + matInv.M20 * normal.Z,
 				matInv.M01 * normal.X + matInv.M11 * normal.Y + matInv.M21 * normal.Z,
@@ -538,7 +540,7 @@ namespace EngineQ
 
 #pragma region Operators
 
-		Matrix4::operator Matrix3()
+		Matrix4::operator Matrix3() const
 		{
 			return Matrix3{ M00, M01, M02, M10, M11, M12, M20, M21, M22 };
 		}
@@ -731,6 +733,34 @@ namespace EngineQ
 			Matrix4 ret = matrix;
 			ret *= static_cast<Real>(1) / scalar;
 			return ret;
+		}
+
+		bool operator == (const Matrix4& lhs, const Matrix4& rhs)
+		{
+		//	return 
+		//		lhs.M00 == rhs.M00 && lhs.M01 == rhs.M01 && lhs.M02 == rhs.M02 && lhs.M03 == rhs.M03 &&
+		//		lhs.M10 == rhs.M10 && lhs.M11 == rhs.M11 && lhs.M12 == rhs.M12 && lhs.M13 == rhs.M13 &&
+		//		lhs.M20 == rhs.M20 && lhs.M21 == rhs.M21 && lhs.M22 == rhs.M22 && lhs.M23 == rhs.M23 &&
+		//		lhs.M30 == rhs.M30 && lhs.M31 == rhs.M31 && lhs.M32 == rhs.M32 && lhs.M33 == rhs.M33;
+			return
+				Utils::EpsEqual(lhs.M00, rhs.M00) && Utils::EpsEqual(lhs.M01, rhs.M01) && Utils::EpsEqual(lhs.M02, rhs.M02) && Utils::EpsEqual(lhs.M03, rhs.M03) &&
+				Utils::EpsEqual(lhs.M10, rhs.M10) && Utils::EpsEqual(lhs.M11, rhs.M11) && Utils::EpsEqual(lhs.M12, rhs.M12) && Utils::EpsEqual(lhs.M13, rhs.M13) &&
+				Utils::EpsEqual(lhs.M20, rhs.M20) && Utils::EpsEqual(lhs.M21, rhs.M21) && Utils::EpsEqual(lhs.M22, rhs.M22) && Utils::EpsEqual(lhs.M23, rhs.M23) &&
+				Utils::EpsEqual(lhs.M30, rhs.M30) && Utils::EpsEqual(lhs.M31, rhs.M31) && Utils::EpsEqual(lhs.M32, rhs.M32) && Utils::EpsEqual(lhs.M33, rhs.M33);
+		}
+
+		bool operator != (const Matrix4& lhs, const Matrix4& rhs)
+		{
+		//	return 
+		//		lhs.M00 != rhs.M00 || lhs.M01 != rhs.M01 || lhs.M02 != rhs.M02 || lhs.M03 != rhs.M03 ||
+		//		lhs.M10 != rhs.M10 || lhs.M11 != rhs.M11 || lhs.M12 != rhs.M12 || lhs.M13 != rhs.M13 ||
+		//		lhs.M20 != rhs.M20 || lhs.M21 != rhs.M21 || lhs.M22 != rhs.M22 || lhs.M23 != rhs.M23 ||
+		//		lhs.M30 != rhs.M30 || lhs.M31 != rhs.M31 || lhs.M32 != rhs.M32 || lhs.M33 != rhs.M33;
+			return
+				Utils::EpsNotEqual(lhs.M00, rhs.M00) || Utils::EpsNotEqual(lhs.M01, rhs.M01) || Utils::EpsNotEqual(lhs.M02, rhs.M02) || Utils::EpsNotEqual(lhs.M03, rhs.M03) ||
+				Utils::EpsNotEqual(lhs.M10, rhs.M10) || Utils::EpsNotEqual(lhs.M11, rhs.M11) || Utils::EpsNotEqual(lhs.M12, rhs.M12) || Utils::EpsNotEqual(lhs.M13, rhs.M13) ||
+				Utils::EpsNotEqual(lhs.M20, rhs.M20) || Utils::EpsNotEqual(lhs.M21, rhs.M21) || Utils::EpsNotEqual(lhs.M22, rhs.M22) || Utils::EpsNotEqual(lhs.M23, rhs.M23) ||
+				Utils::EpsNotEqual(lhs.M30, rhs.M30) || Utils::EpsNotEqual(lhs.M31, rhs.M31) || Utils::EpsNotEqual(lhs.M32, rhs.M32) || Utils::EpsNotEqual(lhs.M33, rhs.M33);
 		}
 
 		std::istream& operator >> (std::istream& stream, Matrix4& matrix)

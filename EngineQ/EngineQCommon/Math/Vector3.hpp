@@ -4,9 +4,9 @@
 #include "../Utilities/StringHelpers.hpp"
 
 #include "Types.hpp"
+#include "Utils.hpp"
 
 #include "Vector2.hpp"
-#include "Utils.hpp"
 
 namespace EngineQ
 {
@@ -90,8 +90,6 @@ namespace EngineQ
 			static Vector3_t GetForward();
 
 			static Vector3_t GetBack();
-
-			static bool AreEqual(const Vector3_t& lhs, const Vector3_t& rhs);
 
 		#pragma endregion
 

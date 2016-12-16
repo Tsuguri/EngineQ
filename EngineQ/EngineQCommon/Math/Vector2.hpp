@@ -4,6 +4,7 @@
 #include "../Utilities/StringHelpers.hpp"
 
 #include "Types.hpp"
+#include "Utils.hpp"
 
 namespace EngineQ
 {

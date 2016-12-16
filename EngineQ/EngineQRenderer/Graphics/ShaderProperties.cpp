@@ -24,6 +24,7 @@ namespace EngineQ
 			CheckBuiltIn(this->material.Diffuse, Math::Vector3f(0.5f));
 			CheckBuiltIn(this->material.Specular, Math::Vector3f(0.5f));
 			CheckBuiltIn(this->material.Shininess, 32.0f);
+			CheckBuiltIn(this->material.DiffuseTexture, EngineQ::Resources::Resource<Texture>{ std::unique_ptr<Texture>{ nullptr } });
 
 			for (auto& light : this->lights)
 			{

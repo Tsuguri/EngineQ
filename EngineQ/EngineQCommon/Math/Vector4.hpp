@@ -4,6 +4,7 @@
 #include "../Utilities/StringHelpers.hpp"
 
 #include "Types.hpp"
+#include "Utils.hpp"
 
 #include "Vector2.hpp"
 #include "Vector3.hpp"
@@ -229,10 +230,10 @@ namespace EngineQ
 		extern template Vector4_t<int> operator +(const Vector4_t<int>& vector);
 		extern template Vector4_t<int> operator +(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
 		extern template Vector4_t<int> operator -(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
-		extern template Vector4_t<int> operator *(const Vector4_t<int>& vector, const int scalar);
-		extern template Vector4_t<int> operator *(const int scalar, const Vector4_t<int>& vector);
+		extern template Vector4_t<int> operator *(const Vector4_t<int>& vector, int scalar);
+		extern template Vector4_t<int> operator *(int scalar, const Vector4_t<int>& vector);
 		extern template Vector4_t<int> operator *(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
-		extern template Vector4_t<int> operator /(const Vector4_t<int>& vector, const int scalar);
+		extern template Vector4_t<int> operator /(const Vector4_t<int>& vector, int scalar);
 		extern template Vector4_t<int> operator /(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
 		extern template bool operator ==(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
 		extern template bool operator !=(const Vector4_t<int>& vector1, const Vector4_t<int>& vector2);
@@ -244,10 +245,10 @@ namespace EngineQ
 		extern template Vector4_t<float> operator +(const Vector4_t<float>& vector);
 		extern template Vector4_t<float> operator +(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
 		extern template Vector4_t<float> operator -(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
-		extern template Vector4_t<float> operator *(const Vector4_t<float>& vector, const float scalar);
-		extern template Vector4_t<float> operator *(const float scalar, const Vector4_t<float>& vector);
+		extern template Vector4_t<float> operator *(const Vector4_t<float>& vector, float scalar);
+		extern template Vector4_t<float> operator *(float scalar, const Vector4_t<float>& vector);
 		extern template Vector4_t<float> operator *(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
-		extern template Vector4_t<float> operator /(const Vector4_t<float>& vector, const float scalar);
+		extern template Vector4_t<float> operator /(const Vector4_t<float>& vector, float scalar);
 		extern template Vector4_t<float> operator /(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
 		extern template bool operator ==(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
 		extern template bool operator !=(const Vector4_t<float>& vector1, const Vector4_t<float>& vector2);
@@ -259,10 +260,10 @@ namespace EngineQ
 		extern template Vector4_t<double> operator +(const Vector4_t<double>& vector);
 		extern template Vector4_t<double> operator +(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
 		extern template Vector4_t<double> operator -(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
-		extern template Vector4_t<double> operator *(const Vector4_t<double>& vector, const double scalar);
-		extern template Vector4_t<double> operator *(const double scalar, const Vector4_t<double>& vector);
+		extern template Vector4_t<double> operator *(const Vector4_t<double>& vector, double scalar);
+		extern template Vector4_t<double> operator *(double scalar, const Vector4_t<double>& vector);
 		extern template Vector4_t<double> operator *(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
-		extern template Vector4_t<double> operator /(const Vector4_t<double>& vector, const double scalar);
+		extern template Vector4_t<double> operator /(const Vector4_t<double>& vector, double scalar);
 		extern template Vector4_t<double> operator /(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
 		extern template bool operator ==(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
 		extern template bool operator !=(const Vector4_t<double>& vector1, const Vector4_t<double>& vector2);
