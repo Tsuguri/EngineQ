@@ -5,6 +5,7 @@
 #include "PostprocessingExceptions.hpp"
 #include "Renderer.hpp"
 #include "Shader.hpp"
+#include "Shadows/Light.hpp"
 
 
 namespace EngineQ
@@ -50,36 +51,46 @@ namespace EngineQ
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		}
 
+		Resources::Resource<Texture> RenderingUnit::CreateTexture(int width, int height, const Configuration::TextureConfiguration& configuration)
+		{
+			return Resources::Resource<Texture>(std::make_unique<Texture>(width, height, configuration));
+		}
+
 		void RenderingUnit::Resize(int width, int height)
 		{
 			glViewport(0, 0, width, height);
 
-			for (std::size_t i = 0; i < textures.size(); i++)
-			{
-				glBindTexture(GL_TEXTURE_2D, textures[i]);
-				glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].InternalFormat, width, height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
-			}
+			//for (std::size_t i = 0; i < textures.size(); i++)
+			//{
+			//	glBindTexture(GL_TEXTURE_2D, textures[i]);
+			//	glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].InternalFormat, width, height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
+			//}
+			for (auto& tex : texturesResources)
+				tex->Resize(width, height);
 		}
 
 
 		std::unique_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting)
 		{
 			return std::make_unique<Framebuffer>(depthTesting, textures, screenDataProvider);
+		}
 
+		std::unique_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<Resources::Resource<Texture>>& textures, bool depthTesting)
+		{
+			return std::make_unique<Framebuffer>(depthTesting, textures, screenDataProvider);
 		}
 
 		void RenderingUnit::Init(const Configuration::RenderingUnitConfiguration& configuration)
 		{
 			auto size = screenDataProvider->GetScreenSize();
-			glViewport(0, 0, size.X, size.Y);
-
 			//textures
 			std::map<std::string, int> texturesNames;
 			int j = 0;
 			for (auto texConfiguration : configuration.Textures)
 			{
-				CreateTexture(&textures[j], texConfiguration);
-				texturesConfigurations.push_back(texConfiguration);
+				//CreateTexture(&textures[j], texConfiguration);
+				//texturesConfigurations.push_back(texConfiguration);
+				texturesResources.push_back(CreateTexture(size.X, size.Y, texConfiguration));
 				texturesNames.emplace(std::string(texConfiguration.Name), j);
 				++j;
 			}
@@ -87,15 +98,16 @@ namespace EngineQ
 			//renderer
 
 			renderer.SetDeferred(!configuration.Renderer.Deffered);
+			renderer.SetGlobalShadows(configuration.Renderer.GlobalShadows);
 
 			if (configuration.Renderer.Output.size() == 0 || (configuration.Renderer.Output.size() == 1 && configuration.Renderer.Output[0].Texture == "Screen"))
 				renderer.SetTargetBuffer(nullptr);
 			else
 			{
-				std::vector<GLuint> rendererOutput;
+				std::vector<Resources::Resource<Texture>> rendererOutput;
 				rendererOutput.reserve(configuration.Renderer.Output.size());
 				for (auto outputConfiguration : configuration.Renderer.Output)
-					rendererOutput.push_back(textures[texturesNames[outputConfiguration.Texture]]);
+					rendererOutput.push_back(texturesResources[texturesNames[outputConfiguration.Texture]]);
 				renderer.SetTargetBuffer(CreateFramebuffer(rendererOutput, true));
 			}
 
@@ -104,39 +116,40 @@ namespace EngineQ
 			{
 				auto shaderPass = std::make_unique<ShaderPass>(effect.Shader);
 				for (auto inputConfiguration : effect.Input)
-					shaderPass->AddInput(InputConfiguration{ inputConfiguration.Location,textures[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
+					shaderPass->AddInput(InputConfiguration{ texturesResources[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
 
 				if (effect.Output.size() == 0 || (effect.Output.size() == 1 && effect.Output[0].Texture == "Screen"))
 					shaderPass->SetTargetBuffer(nullptr);
 				else
 				{
-					std::vector<GLuint> output;
+					std::vector<Resources::Resource<Texture>> output;
 					output.reserve(effect.Output.size());
 					for (auto k : effect.Output)
-						output.push_back(textures[texturesNames[k.Texture]]);//check if output is set  to "screen", or check this for last effect?
+						output.push_back(texturesResources[texturesNames[k.Texture]]);//check if output is set  to "screen", or check this for last effect?
 					auto fb = CreateFramebuffer(output, effect.DepthTesting);
 					shaderPass->SetTargetBuffer(std::move(fb));
 
 				}
+				shaderPass->SetApplyShadowData(effect.ApplyShadowInfo);
 				effects.push_back(std::move(shaderPass));
 			}
 		}
 
 		RenderingUnit::RenderingUnit(ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration) :
-			screenDataProvider(dataProvider), textures(configuration.Textures.size(), 0), handler(*this, &RenderingUnit::Resize)
+			screenDataProvider(dataProvider), handler(*this, &RenderingUnit::Resize)
 		{
-		//	glPolygonMode(GL_FRONT, GL_FILL);
-		//	glPolygonMode(GL_BACK, GL_LINE);
-		//	glPolygonMode(GL_FRONT, GL_LINE);
-		//	glPolygonMode(GL_BACK, GL_LINE);
-			
+			//	glPolygonMode(GL_FRONT, GL_FILL);
+			//	glPolygonMode(GL_BACK, GL_LINE);
+			//	glPolygonMode(GL_FRONT, GL_LINE);
+			//	glPolygonMode(GL_BACK, GL_LINE);
+
 			glFrontFace(GL_CW);
 			glCullFace(GL_BACK);
 			glEnable(GL_CULL_FACE);
 
 			glEnable(GL_DEPTH_TEST);
-		//	glClearDepth(0);
-		//	glDepthFunc(GL_GREATER);
+			//	glClearDepth(0);
+			//	glDepthFunc(GL_GREATER);
 
 			screenDataProvider->resizeEvent += handler;
 
@@ -148,16 +161,13 @@ namespace EngineQ
 		RenderingUnit::~RenderingUnit()
 		{
 			screenDataProvider->resizeEvent -= handler;
-
-			if (textures.size() > 0)
-				glDeleteTextures(static_cast<GLsizei>(textures.size()), &textures[0]);
-
 		}
 
 		void RenderingUnit::Render(Scene& scene)
 		{
-			renderer.Render(scene);
+			renderer.Render(scene, screenDataProvider);
 
+			auto& sceneLights = scene.GetLights();
 			if (effects.size() > 0)
 			{
 				glDisable(GL_DEPTH_TEST);
@@ -168,16 +178,37 @@ namespace EngineQ
 
 					glClear(GL_COLOR_BUFFER_BIT);
 					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
-					
+					auto& shader = effect->GetShaderproperties();
+
+					auto& lights = shader.GetLights();
+					int lightsCount = sceneLights.size() > lights.size() ? lights.size() : sceneLights.size();
+					for (int i = 0; i < lightsCount; i++)
+					{
+						lights[i].Diffuse = Math::Vector3f(1.0f);
+						lights[i].Ambient = Math::Vector3f(0.6f);
+						lights[i].Specular = Math::Vector3f(1.0f);
+						lights[i].Position = sceneLights[i]->GetPosition();
+						lights[i].CastsShadows = sceneLights[i]->GetCastShadows();
+						lights[i].LightMatrix = sceneLights[i]->GetLightMatrix();
+					}
+
+					if (effect->GetApplyShadowData())
+					{
+						for (int i = 0; i < lightsCount; i++)
+						{
+							if (lights[i].ShadowMap.IsSet())
+								lights[i].ShadowMap.Set(sceneLights[i]->GetDepthTexture());
+						}
+					}
+
 					effect->Activate(scene.GetActiveCamera(), 0);
 					glBindVertexArray(quadVao);
 
 					effect->BindTextures();
 					glDrawArrays(GL_TRIANGLES, 0, 6);
 					glBindVertexArray(0);
-					effect->UnbindTextures();
 				}
-				
+
 				glEnable(GL_DEPTH_TEST);
 			}
 			Framebuffer::BindDefault();

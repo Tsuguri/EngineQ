@@ -12,6 +12,9 @@ namespace EngineQ
 		class Renderable
 		{
 		public:
+			bool castShadows;
+			bool reveiveShadows;
+
 			virtual Graphics::ShaderProperties* GetForwardShader() const =0;
 			virtual Graphics::ShaderProperties* GetDeferredShader() const = 0;
 

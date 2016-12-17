@@ -150,7 +150,7 @@ namespace EngineQ
 			{
 			}
 
-			InputPair::InputPair(GLuint location, std::string texture, std::string locationName) : Location(location), LocationName(locationName), Texture(texture)
+			InputPair::InputPair(std::string texture, std::string locationName) :LocationName(locationName), Texture(texture)
 			{
 			}
 
@@ -167,6 +167,12 @@ namespace EngineQ
 				{
 					configuration.Deffered = true;
 				}
+				format = element->Attribute("GlobalShadows");
+				if (format != nullptr && std::string(format) == "true")
+				{
+					configuration.GlobalShadows = true;
+				}
+
 
 				auto output = element->FirstChildElement();
 				if (output != nullptr)

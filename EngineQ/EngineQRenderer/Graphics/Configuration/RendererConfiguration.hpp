@@ -33,8 +33,7 @@ namespace EngineQ
 			class InputPair
 			{
 			public:
-				InputPair(GLuint location, std::string texture, std::string locationName = "");
-				unsigned int Location = 0;
+				InputPair(std::string texture, std::string locationName = "");
 				std::string LocationName;
 				std::string Texture;
 			};
@@ -52,6 +51,7 @@ namespace EngineQ
 				Resources::Resource<Shader> Shader;
 				std::string ClassName = "";//C# class name
 				bool DepthTesting = false;
+				bool ApplyShadowInfo = false;
 				std::vector<InputPair> Input;
 				std::vector<OutputTexture> Output;
 			};
@@ -60,6 +60,7 @@ namespace EngineQ
 			{
 			public:
 				bool Deffered = false;
+				bool GlobalShadows = false;
 				std::vector<OutputTexture> Output;
 
 				static RendererConfiguration Load(tinyxml2::XMLElement* element);

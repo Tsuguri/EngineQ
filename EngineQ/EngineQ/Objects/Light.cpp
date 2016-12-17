@@ -3,7 +3,11 @@
 #include "../Scripting/ScriptEngine.hpp"
 #include "../Serialization/Serializer.hpp"
 #include "../Serialization/Deserializer.hpp"
-
+#include "Entity.hpp"
+#include "Transform.hpp"
+#include "Scene.hpp"
+#include "../Resources/ResourceManager.hpp"
+#include "../Engine.hpp"
 namespace EngineQ
 {
 	/*
@@ -22,10 +26,48 @@ namespace EngineQ
 #pragma endregion
 	*/
 
+	Math::Vector2i Light::GetScreenSize() const
+	{
+		return textureSize;
+	}
+
+	void Light::SetShadowTextureSize(Math::Vector2i size)
+	{
+		if (textureSize != size)
+		{
+			textureSize = size;
+			if (!ResizeEventIsEmpty())
+			{
+				ResizeEventInvoke(size.X, size.Y);
+			}
+		}
+	}
+
+	Math::Vector3 Light::GetPosition() const
+	{
+		return GetEntity().GetTransform().GetPosition();
+	}
+
+	EngineShaderProperties * Light::GetShaderProperties() const
+	{
+		return shaderProperties.get();
+	}
+
+	bool Light::GetCastShadows()
+	{
+		return castShadows;
+	}
+
+	void Light::SetCastShadows(bool val)
+	{
+		castShadows = val;
+	}
+
 	Light::Light(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled)
 		: Component{ ComponentType::Light, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light), entity, enabled }
 	{
-		// TMP
+		Init(static_cast<Graphics::ScreenDataProvider*>(this));
 		scriptEngine.InvokeConstructor(GetManagedObject());
+		shaderProperties = std::make_unique<EngineShaderProperties>(this->scriptEngine, entity.GetScene().GetEngine()->GetResourceManager().GetResource<Graphics::Shader>("LightDepthRender") );
 	}
 }

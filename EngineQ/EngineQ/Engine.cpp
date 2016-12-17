@@ -107,7 +107,7 @@ namespace EngineQ
 
 	Scene& Engine::CreateScene()
 	{
-		this->scenes.push_back(std::make_unique<Scene>(*this->scriptingEngine));
+		this->scenes.push_back(std::make_unique<Scene>(*this->scriptingEngine,this));
 		return *this->scenes.back();
 	}
 
@@ -203,8 +203,8 @@ namespace EngineQ
 		}
 
 		auto quad = IntermediateEffectConfiguration{};
-		quad.Input.push_back(Graphics::Configuration::InputPair{ 0, tex1Name, "scene" });
-		quad.Input.push_back(Graphics::Configuration::InputPair{ 1,tex2Name, "bloomBlur" });
+		quad.Input.push_back(Graphics::Configuration::InputPair{ tex1Name, "scene" });
+		quad.Input.push_back(Graphics::Configuration::InputPair{ tex2Name, "bloomBlur" });
 		quad.Output.push_back(Graphics::Configuration::OutputTexture{ "Screen" });
 		quad.Shader = Utilities::ResourcesIDs::CombineShader;
 		config.Effects.push_back(quad);
@@ -221,7 +221,7 @@ namespace EngineQ
 
 		this->scriptingEngine->InvokeStaticMethod(this->initializerMethod, args);
 
-		this->renderingUnit = std::make_shared<Graphics::RenderingUnit>(this, this->renderConfig.ToRenderingUnitConfiguration(resourceManager.get()));
+		this->renderingUnit = std::make_shared<Graphics::RenderingUnit>(static_cast<Graphics::ScreenDataProvider*>(this), this->renderConfig.ToRenderingUnitConfiguration(resourceManager.get()));
 
 
 

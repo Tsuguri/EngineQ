@@ -11,6 +11,7 @@ namespace EngineQ
 		configuration.Input = Input;
 		configuration.Output = Output;
 		configuration.Shader = manager->GetResource<Graphics::Shader>(this->Shader);
+		configuration.ApplyShadowInfo = ApplyShadowInfo;
 
 		return configuration;
 	}
@@ -26,6 +27,9 @@ namespace EngineQ
 
 		auto depth = element->BoolAttribute("DeptTesting");//default false if not exist
 		configuration.DepthTesting = depth;
+		
+		auto shadows = element->BoolAttribute("ApplyShadowsData");
+		configuration.ApplyShadowInfo = shadows;
 
 		auto input = element->FirstChildElement("Input");
 		if (input != nullptr)
@@ -33,15 +37,11 @@ namespace EngineQ
 			for (auto inputInfo = input->FirstChildElement(); inputInfo != nullptr; inputInfo = inputInfo->NextSiblingElement())
 			{
 				auto texture = inputInfo->Attribute("Texture");
-				auto location = inputInfo->Attribute("Location");
 				auto locationName = inputInfo->Attribute("LocationName");
-				if (texture == nullptr || location == nullptr)
-					throw "Missing one or both of required input info!";
-				int loc = std::stoi(location);
 				if (locationName == nullptr)
-					configuration.Input.push_back(Graphics::Configuration::InputPair{ static_cast<GLuint>(loc),texture });
+					configuration.Input.push_back(Graphics::Configuration::InputPair{texture });
 				else
-					configuration.Input.push_back(Graphics::Configuration::InputPair{ static_cast<GLuint>(loc),texture,locationName });
+					configuration.Input.push_back(Graphics::Configuration::InputPair{texture,locationName });
 			}
 		}
 

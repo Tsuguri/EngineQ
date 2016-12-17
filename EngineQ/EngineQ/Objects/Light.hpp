@@ -2,12 +2,21 @@
 #define ENGINEQ_LIGHT_HPP
 
 #include "Component.hpp"
+#include "Graphics\Shadows\Light.hpp"
+#include "Graphics\Utils\ScreenDataProvider.hpp"
+#include "../EngineShaderProperties.hpp"
 
 namespace EngineQ
 {
-	class Light final : public Component
+	class Light final : public Component, public Graphics::Shadows::Light, public Graphics::ScreenDataProvider
 	{
+		Math::Vector2i textureSize = Math::Vector2i{ 1024,1024 };
+		std::unique_ptr<EngineShaderProperties> shaderProperties;
+		bool castShadows = true;
 	public:
+		virtual Math::Vector2i GetScreenSize() const override;
+		void SetShadowTextureSize(Math::Vector2i size);
+
 		/*
 	#pragma region Serialization
 
@@ -17,6 +26,13 @@ namespace EngineQ
 	#pragma endregion
 		*/
 
+		virtual Math::Vector3 GetPosition() const override;
+
+		virtual EngineShaderProperties* GetShaderProperties() const override;
+
+		virtual bool GetCastShadows() override;
+
+		void SetCastShadows(bool val);
 		Light(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
 	};
 }

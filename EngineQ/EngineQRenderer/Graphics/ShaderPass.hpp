@@ -4,7 +4,7 @@
 #include <Resources/Resource.hpp>
 
 #include "Configuration/RendererConfiguration.hpp"
-#include "Types.hpp"
+#include  "ShaderProperties.hpp"
 
 namespace EngineQ
 {
@@ -12,18 +12,18 @@ namespace EngineQ
 	{
 		struct InputConfiguration
 		{
-			GLuint Position;
-			GLuint Texture;
+			Resources::Resource<Texture> texture;
 			std::string Name;
 
-			InputConfiguration(GLuint position, GLuint texture,std::string name);
+			InputConfiguration(Resources::Resource<Texture> texture,std::string name);
 		};
 
 
 		class ShaderPass
 		{
-			Resources::Resource<Shader> shader;
-
+			//Resources::Resource<Shader> shader;
+			ShaderProperties shader;
+			bool ApplyShadowData = false;
 			std::vector<InputConfiguration> inputTextures;
 			std::unique_ptr<Framebuffer> framebuffer;
 		public:
@@ -31,14 +31,16 @@ namespace EngineQ
 			ShaderPass(Resources::Resource<Shader> shader);
 
 			void BindTextures();
-			void UnbindTextures();
 
+			ShaderProperties& GetShaderproperties();
 			void BindTargetBuffer() const;
 			void SetTargetBuffer(std::unique_ptr<Framebuffer>&& buffer);
 
+			bool GetApplyShadowData();
+			void SetApplyShadowData(bool val);
 			void AddInput(const InputConfiguration& input);
 
-			void Activate(Camera* cam, float time) const;
+			void Activate(Camera* cam, float time);
 
 		};
 	}

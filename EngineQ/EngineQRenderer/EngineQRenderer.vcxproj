@@ -169,6 +169,7 @@
     <ClCompile Include="Graphics\ShaderPass.cpp" />
     <ClCompile Include="Graphics\ShaderPreprocessor.cpp" />
     <ClCompile Include="Graphics\ShaderProperties.cpp" />
+    <ClCompile Include="Graphics\Shadows\Light.cpp" />
     <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="Graphics\UniformLocation.cpp" />
     <ClCompile Include="Graphics\Vertex.cpp" />
@@ -191,6 +192,9 @@
     <ClInclude Include="Graphics\ShaderProperties.hpp" />
     <ClInclude Include="Graphics\ShaderProperty.hpp" />
     <ClInclude Include="Graphics\ShaderUniformData.hpp" />
+    <ClInclude Include="Graphics\Shadows\DirectionalShadowCaster.hpp" />
+    <ClInclude Include="Graphics\Shadows\Light.hpp" />
+    <ClInclude Include="Graphics\Shadows\ShadowCaster.hpp" />
     <ClInclude Include="Graphics\Texture.hpp" />
     <ClInclude Include="Graphics\Types.hpp" />
     <ClInclude Include="Graphics\UniformLocation.hpp" />

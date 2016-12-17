@@ -37,8 +37,8 @@ namespace EngineQ
 #pragma endregion
 	*/
 
-	Scene::Scene(Scripting::ScriptEngine& scriptEngine) :
-		Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Scene) }
+	Scene::Scene(Scripting::ScriptEngine& scriptEngine, Engine* engine) :
+		Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Scene) }, engine(engine)
 	{
 	}
 
@@ -113,9 +113,9 @@ namespace EngineQ
 
 		// Remove entity components
 		this->cameras.erase(std::remove_if(this->cameras.begin(), this->cameras.end(), [=](Component* component) { return &component->GetEntity() == entity; }), this->cameras.end());
-		this->lights.erase(std::remove_if(this->lights.begin(), this->lights.end(), [=](Component* component) { return &component->GetEntity() == entity; }), this->lights.end());
+		//this->lights.erase(std::remove_if(this->lights.begin(), this->lights.end(), [=](Graphics::Shadows::Light* component) { return &component->GetEntity() == entity; }), this->lights.end());
 		this->updateable.erase(std::remove_if(this->updateable.begin(), this->updateable.end(), [=](Script* script) { return script->IsUpdateble() && &script->GetEntity() == entity; }), this->updateable.end());
-
+		// todo : add removing from renderables and lights - probably rework of this part is needed
 		this->entities.erase(it);
 	}
 
@@ -136,7 +136,7 @@ namespace EngineQ
 			break;
 
 			case ComponentType::Light:
-			TryRemove(this->lights, static_cast<Light&>(component));
+			TryRemove(this->lights, static_cast<Graphics::Shadows::Light&>(static_cast<Light&>(component)));
 			break;
 
 			case ComponentType::Renderable:
@@ -165,7 +165,7 @@ namespace EngineQ
 			break;
 
 			case ComponentType::Light:
-			this->lights.push_back(static_cast<Light*>(&component));
+			this->lights.push_back(static_cast<Graphics::Shadows::Light*>(static_cast<Light*>(&component)));
 			break;
 
 			case ComponentType::Renderable:
@@ -219,6 +219,11 @@ namespace EngineQ
 		return this->activeCamera;
 	}
 
+	const std::vector<Graphics::Shadows::Light*>& Scene::GetLights() const
+	{
+		return this->lights;
+	}
+
 	const std::vector<Graphics::Renderable*>& Scene::GetRenderables() const
 	{
 		return this->renderables;
@@ -238,6 +243,11 @@ namespace EngineQ
 	bool Scene::IsUpdating() const
 	{
 		return this->isUpdating;
+	}
+
+	Engine * Scene::GetEngine()
+	{
+		return engine;
 	}
 
 	void Scene::AddToRemoveQueue(std::unique_ptr<Object> object)

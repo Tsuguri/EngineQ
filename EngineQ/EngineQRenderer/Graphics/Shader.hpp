@@ -10,7 +10,7 @@
 #include <Utilities/Nullable.hpp>
 #include "ShaderPart.hpp"
 #include "UniformLocation.hpp"
-#include "Texture.hpp"
+#include "Types.hpp"
 
 #include <Math/Vector2.hpp>
 #include <Math/Vector3.hpp>

@@ -109,11 +109,12 @@ namespace QScripts
 			var ent2 = scene.CreateEntity(true, "Skull1");
 			var ent3 = scene.CreateEntity(true, "Skull2");
 			var ent4 = scene.CreateEntity(true, "Cube");
+			var ent5 = scene.CreateEntity(true, "Cube2");
 
 			var renderable1 = ent2.AddComponent<Renderable>();
 			var renderable2 = ent3.AddComponent<Renderable>();
 			var renderable3 = ent4.AddComponent<Renderable>();
-			var camera = ent1.AddComponent<Camera>();
+			var renderable4 = ent5.AddComponent<Renderable>();
 
 			var rm = ResourceManager.Instance;
 
@@ -143,16 +144,13 @@ namespace QScripts
 			renderable3.UseDeferredShader(deferredShader);
 			renderable3.DeferredShader.Material.DiffuseTexture = texture;
 
+			renderable4.Mesh = cubeMesh;
+			renderable4.UseForwardShader(shader);
+			renderable4.UseDeferredShader(deferredShader);
+			renderable4.DeferredShader.Material.DiffuseTexture = texture;
 
-			ent1.AddComponent<CameraMoveClass>();
 			ent2.AddComponent<RotateTest>();
 
-			var lightEntity = scene.CreateEntity(true, "Light0");
-			lightEntity.AddComponent<Light>();
-
-			scene.ActiveCamera = camera;
-
-			ent1.Transform.Position = new Vector3(0.0f, 0.0f, -2.0f);
 			ent2.Transform.Position = new Vector3(0.0f, 0.0f, 0.0f);
 			ent3.Transform.Position = new Vector3(1.0f, 0.0f, 0.0f);
 			ent4.Transform.Position = new Vector3(2.0f, 0.0f, 0.0f);
@@ -174,6 +172,7 @@ namespace QScripts
 			resourceManager.RegisterResource<Shader>("BloomVerticalBlur", "./Shaders/Bloom/BlurVertical.qres");
 			resourceManager.RegisterResource<Shader>("BloomHorizontalBlur", "./Shaders/Bloom/BlurHorizontal.qres");
 			resourceManager.RegisterResource<Shader>("Combine", "./Shaders/Combine.qres");
+			resourceManager.RegisterResource<Shader>("LightDepthRender","./Shaders/Shadows/DepthRender.qres");
 
 			/*
 			resourceManager.RegisterResource<Shader>("1", "./Shaders/Basic.shd");

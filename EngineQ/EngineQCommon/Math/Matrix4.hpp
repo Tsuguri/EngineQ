@@ -85,6 +85,7 @@ namespace EngineQ
 			static Matrix4 CreateRotationZ(Real angle);
 			static Matrix4 CreateViewport(Real x, Real y, Real width, Real height);
 			static Matrix4 CreateFrustum(Real fovy, Real aspect, Real near, Real far);
+			static Matrix4 CreateOrtho(Real left, Real right, Real bottom, Real top, Real near, Real far);
 			static Matrix4 CreateLookAt(const Vector3&  cameraPosition, const Vector3&  cameraTarget, const Vector3&  upVector);
 
 			static Vector3 TransformVector(const Matrix4& matrix, const Vector3& vector);
