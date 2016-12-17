@@ -11,7 +11,7 @@
     <TextureConfiguration Name="Bloom1" InternalFormat="GL_RGBA16F" Format="GL_RGBA" />
     <TextureConfiguration Name="Bloom2" InternalFormat="GL_RGBA16F" Format="GL_RGBA" />
   </Textures>
-  <Renderer Deferred="true">
+  <Renderer Deferred="true" GlobalShadows="true">
     <Output>
       <OutputTexture Texture="Position"/>
       <OutputTexture Texture="Normal" />
@@ -21,7 +21,7 @@
   <Effects>
 
     <!-- Deferred lighting -->
-    <EffectConfiguration Shader="DeferredLightingShadows" ApplyShadowData="true">
+    <EffectConfiguration Shader="DeferredLightingShadows" ApplyShadowsData="true" >
       <Input>
         <InputPair Location="0" Texture="Position" LocationName="worldPosition"/>
         <InputPair Location="1" Texture="Normal" LocationName="normal"/>

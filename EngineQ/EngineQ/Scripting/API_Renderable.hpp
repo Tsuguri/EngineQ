@@ -18,6 +18,8 @@ namespace EngineQ
 			static void API_GetDeferredShader(const Object& renderableBase, MonoObject*& deferredShader);
 			static void API_GetMesh(const Object& renderableBase, MonoObject*& mesh);
 			static void API_SetMesh(Object& renderableBase, Resources::Resource<Graphics::Mesh>::ControlBlock& mesh);
+			static void API_GetCastShadows(const Object& renderableBase, bool& castShadowsValue);
+			static void API_SetCastShadows(Object& renderableBase, bool castShadowsValue);
 			static void API_UseForwardShader(Object& renderableBase, Resources::Resource<Graphics::Shader>::ControlBlock& shader);
 			static void API_UseDeferredShader(Object& renderableBase, Resources::Resource<Graphics::Shader>::ControlBlock& shader);
 

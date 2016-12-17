@@ -83,6 +83,7 @@ void main()
 
 	vec3 result = (ambient + shadow * (diffuse + specular)) * colorTmp;
 	color = vec4(result,1.0);
-	color = vec4(vec3(texture(lights_q_0_q_shadowMap, IN.textureCoords).r),1.0f);
+	//color = vec4(IN.textureCoords, 0.0,1.0);
+	//color = vec4(vec3(texture(lights_q_0_q_shadowMap, IN.textureCoords).r),1.0f);
 	//color = vec4(vec3(shadow),1.0);
 }

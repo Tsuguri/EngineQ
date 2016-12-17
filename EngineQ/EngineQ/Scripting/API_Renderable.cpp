@@ -39,6 +39,21 @@ namespace EngineQ
 			renderable.SetMesh(mesh.GetResource());
 		}
 
+		void API_Renderable::API_GetCastShadows(const Object& renderableBase, bool& castShadowsValue)
+		{
+			const Renderable& renderable = static_cast<const Renderable&>(renderableBase);
+
+			castShadowsValue = renderable.GetCastShadows();
+
+		}
+
+		void API_Renderable::API_SetCastShadows(Object& renderableBase, bool castShadowsValue)
+		{
+			Renderable& renderable = static_cast<Renderable&>(renderableBase);
+
+			renderable.SetCastShadows(castShadowsValue);
+		}
+
 		void API_Renderable::API_UseForwardShader(Object& renderableBase, Resources::Resource<Graphics::Shader>::ControlBlock& shader)
 		{
 			Renderable& renderable = static_cast<Renderable&>(renderableBase);
@@ -59,6 +74,8 @@ namespace EngineQ
 			scriptEngine.API_Register("EngineQ.Renderable::API_GetDeferredShader", API_GetDeferredShader);
 			scriptEngine.API_Register("EngineQ.Renderable::API_GetMesh", API_GetMesh);
 			scriptEngine.API_Register("EngineQ.Renderable::API_SetMesh", API_SetMesh);
+			scriptEngine.API_Register("EngineQ.Renderable::API_GetCastShadows", API_GetCastShadows);
+			scriptEngine.API_Register("EngineQ.Renderable::API_SetCastShadows", API_SetCastShadows);
 			scriptEngine.API_Register("EngineQ.Renderable::API_UseForwardShader", API_UseForwardShader);
 			scriptEngine.API_Register("EngineQ.Renderable::API_UseDeferredShader", API_UseDeferredShader);
 		}

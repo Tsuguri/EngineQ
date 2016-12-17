@@ -1,3 +1,7 @@
+#include "..\..\EngineQRenderer\Graphics\Renderable.hpp"
+#include "..\..\EngineQRenderer\Graphics\Renderable.hpp"
+#include "..\..\EngineQRenderer\Graphics\Renderable.hpp"
+#include "..\..\EngineQRenderer\Graphics\Renderable.hpp"
 #include "Renderable.hpp"
 
 #include "../Scripting/ScriptEngine.hpp"
@@ -64,5 +68,21 @@ namespace EngineQ
 	Math::Matrix4 Renderable::GetGlobalMatrix()
 	{
 		return this->GetEntity().GetTransform().GetGlobalMatrix();
+	}
+	void Graphics::Renderable::SetCastShadows(bool val)
+	{
+		castShadows = val;
+	}
+	bool Graphics::Renderable::GetCastShadows() const
+	{
+		return castShadows;
+	}
+	void Graphics::Renderable::SetReceiveShadows(bool val)
+	{
+		receiveShadows = val;
+	}
+	bool Graphics::Renderable::GetReceiveShadows() const
+	{
+		return receiveShadows;
 	}
 }

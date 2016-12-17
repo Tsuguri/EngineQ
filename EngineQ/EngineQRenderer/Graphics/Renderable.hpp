@@ -12,8 +12,8 @@ namespace EngineQ
 		class Renderable
 		{
 		public:
-			bool castShadows;
-			bool reveiveShadows;
+			bool castShadows = true;
+			bool receiveShadows = true;
 
 			virtual Graphics::ShaderProperties* GetForwardShader() const =0;
 			virtual Graphics::ShaderProperties* GetDeferredShader() const = 0;
@@ -24,6 +24,12 @@ namespace EngineQ
 			virtual Math::Vector3 GetPosition() = 0;
 
 			virtual Math::Matrix4 GetGlobalMatrix() = 0;
+
+			void SetCastShadows(bool val);
+			bool GetCastShadows() const;
+
+			void SetReceiveShadows(bool val);
+			bool GetReceiveShadows() const;
 		};
 	}
 }
