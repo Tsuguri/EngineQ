@@ -74,7 +74,7 @@ namespace EngineQ
 			Math::Matrix4 Light::GetLightMatrix() const
 			{
 				GLfloat near_plane = 1.0f, far_plane = 30.0f;
-				GLfloat range = 10.0f;
+				GLfloat range = 20.0f;
 				Math::Matrix4 lightProjection = Math::Matrix4::CreateOrtho(-range, range, -range, range, near_plane, far_plane);
 				Math::Matrix4 lightView = Math::Matrix4::CreateLookAt(-GetPosition(), Math::Vector3{ 0,0,0 }, Math::Vector3{ 0,1,0 });
 				return lightProjection*lightView;

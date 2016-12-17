@@ -21,103 +21,16 @@
   <Effects>
 
     <!-- Deferred lighting -->
-    <EffectConfiguration Shader="DeferredLighting">
+    <EffectConfiguration Shader="DeferredLightingShadows" ApplyShadowData="true">
       <Input>
         <InputPair Location="0" Texture="Position" LocationName="worldPosition"/>
         <InputPair Location="1" Texture="Normal" LocationName="normal"/>
         <InputPair Location="2" Texture="Albedo" LocationName="albedo"/>
       </Input>
       <Output>
-        <OutputTexture Texture="Scene" />
-      </Output>
-    </EffectConfiguration>
-
-
-    <!-- Extract bright colors -->
-    <EffectConfiguration Shader="BloomExtraction">
-      <Input>
-        <InputPair Location="0" Texture="Scene" />
-      </Input>
-      <Output>
-        <OutputTexture Texture="Bloom2" />
-      </Output>
-    </EffectConfiguration>
-
-    <!-- Bloom blur 1 -->
-    <!-- Bloom vertical blur -->
-    <EffectConfiguration Shader="BloomVerticalBlur">
-      <Input>
-        <InputPair Location="0" Texture="Bloom2" />
-      </Input>
-      <Output>
-        <OutputTexture Texture="Bloom1" />
-      </Output>
-    </EffectConfiguration>
-
-    <!-- Bloom horizontal blur -->
-    <EffectConfiguration Shader="BloomHorizontalBlur">
-      <Input>
-        <InputPair Location="0" Texture="Bloom1" />
-      </Input>
-      <Output>
-        <OutputTexture Texture="Bloom2" />
-      </Output>
-    </EffectConfiguration>
-
-    <!-- Bloom blur 2 -->
-    <!-- Bloom vertical blur -->
-    <EffectConfiguration Shader="BloomVerticalBlur">
-      <Input>
-        <InputPair Location="0" Texture="Bloom2" />
-      </Input>
-      <Output>
-        <OutputTexture Texture="Bloom1" />
-      </Output>
-    </EffectConfiguration>
-
-    <!-- Bloom horizontal blur -->
-    <EffectConfiguration Shader="BloomHorizontalBlur">
-      <Input>
-        <InputPair Location="0" Texture="Bloom1" />
-      </Input>
-      <Output>
-        <OutputTexture Texture="Bloom2" />
-      </Output>
-    </EffectConfiguration>
-
-    <!-- Bloom blur 3 -->
-    <!-- Bloom vertical blur -->
-    <EffectConfiguration Shader="BloomVerticalBlur">
-      <Input>
-        <InputPair Location="0" Texture="Bloom2" />
-      </Input>
-      <Output>
-        <OutputTexture Texture="Bloom1" />
-      </Output>
-    </EffectConfiguration>
-
-    <!-- Bloom horizontal blur -->
-    <EffectConfiguration Shader="BloomHorizontalBlur">
-      <Input>
-        <InputPair Location="0" Texture="Bloom1" />
-      </Input>
-      <Output>
-        <OutputTexture Texture="Bloom2" />
-      </Output>
-    </EffectConfiguration>
-
-    
-    <!-- Combine Bloom and Scene -->
-    <EffectConfiguration Shader="Combine">
-      <Input>
-        <InputPair Location="0" Texture="Scene" LocationName="scene" />
-        <InputPair Location="1" Texture="Bloom2" LocationName="bloom" />
-      </Input>
-      <Output>
         <OutputTexture Texture="Screen" />
       </Output>
     </EffectConfiguration>
-
   </Effects>
 
   

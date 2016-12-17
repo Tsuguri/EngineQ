@@ -17,8 +17,8 @@ uniform sampler2D albedo;
 
 uniform float time = 0.0f;
 uniform vec3 cameraPosition = vec3(1, 1, 1);
-uniform vec3 lightDir = vec3(1, 1, 0);
-uniform vec3 lightColor = vec3(1,1,1);
+const vec3 lightDir = vec3(1, 1, 0);
+const vec3 lightColor = vec3(0.5, 0.5, 0.5);
 
 vec3 light = 3 * vec3(cos(time), 1, sin(time));
 
@@ -44,4 +44,5 @@ void main()
 	vec3 specular = lightColor * spec * specularStrength * specularTmp;
 	vec3 result = (ambient + diffuse + specular) * colorTmp;
 	color = vec4(result, 1.0);
+	//color = vec4(lightColor,1.0);
 }

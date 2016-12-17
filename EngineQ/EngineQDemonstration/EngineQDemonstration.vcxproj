@@ -116,9 +116,7 @@
       </Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>echo(
-echo(
-echo --------------------   Copying files   --------------------
+      <Command>echo --------------------   Copying files   --------------------
 
 xcopy "$(SolutionDir)Libraries\Mono\bin\$(Platform)\*" "$(OutputPath)" /D /Y
 xcopy "$(SolutionDir)Libraries\Assimp\bin\$(Platform)\*" "$(OutputPath)" /D /Y

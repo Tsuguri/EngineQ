@@ -186,6 +186,7 @@ EngineQ::Engine::Config ParseConfig(const char* applicationPath, const char* pat
 int main(int argc, char** argv)
 {
 	auto config = ParseConfig(argv[0], "./Config.xml");
+	//auto config = ParseConfig(argv[0], "./postprocessing.conf");
 
 	EngineQ::Engine::Initialize(config);
 	EngineQ::Engine& engine = EngineQ::Engine::Get();
