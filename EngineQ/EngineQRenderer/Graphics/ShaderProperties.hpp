@@ -77,6 +77,7 @@ namespace EngineQ
 			std::vector<Light> lights;
 			Material material;
 			Matrices matrices;
+			ShaderProperty<GLint> LightCount;
 
 			void FinalizeBuiltIn();
 
@@ -119,6 +120,7 @@ namespace EngineQ
 			const Matrices& GetMatrices();
 			const Material& GetMaterial();
 			const std::vector<Light>& GetLights();
+			const ShaderProperty<GLint>& GetLightCount();
 		};
 	}
 }

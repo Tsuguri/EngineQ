@@ -180,6 +180,19 @@ namespace EngineQ
 					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
 					auto& shader = effect->GetShaderproperties();
 
+					auto& lights = shader.GetLights();
+					int lightsCount = sceneLights.size() > lights.size() ? lights.size() : sceneLights.size();
+					shader.GetLightCount() = lightsCount;
+					for (int i = 0; i < lightsCount; i++)
+					{
+						lights[i].Diffuse = Math::Vector3f(1.0f);
+						lights[i].Ambient = Math::Vector3f(0.6f);
+						lights[i].Specular = Math::Vector3f(1.0f);
+						lights[i].Position = sceneLights[i]->GetPosition();
+						lights[i].CastsShadows = sceneLights[i]->GetCastShadows();
+						lights[i].LightMatrix = sceneLights[i]->GetLightMatrix();
+					}
+
 					if (effect->GetApplyShadowData())
 					{
 						auto& lights = shader.GetLights();
