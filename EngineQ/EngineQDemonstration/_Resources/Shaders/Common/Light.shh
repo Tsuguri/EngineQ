@@ -17,19 +17,36 @@ struct Light
 
 uniform Light lights[MaxLights];
 uniform int lightCount;
-uniform sampler2D lights_q_0_q_shadowMap;
-uniform sampler2D lights_q_1_q_shadowMap;
-uniform sampler2D lights_q_2_q_shadowMap;
-uniform sampler2D lights_q_3_q_shadowMap;
+uniform sampler2D lights_q_0_q_DirectionalShadowMap;
+uniform sampler2D lights_q_1_q_DirectionalShadowMap;
+uniform sampler2D lights_q_2_q_DirectionalShadowMap;
+uniform sampler2D lights_q_3_q_DirectionalShadowMap;
 
-sampler2D GetLightSampler(int index)
+uniform samplerCube lights_q_0_q_PointShadowMap;
+uniform samplerCube lights_q_1_q_PointShadowMap;
+uniform samplerCube lights_q_2_q_PointShadowMap;
+uniform samplerCube lights_q_3_q_PointShadowMap;
+
+sampler2D GetDirectionalLightSampler(int index)
 {
 	if(index==0)
-		return lights_q_0_q_shadowMap;
+		return lights_q_0_q_DirectionalshadowMap;
 	if(index==1)
-		return lights_q_1_q_shadowMap;
+		return lights_q_1_q_DirectionalshadowMap;
 	if(index==2)
-		return lights_q_2_q_shadowMap;
+		return lights_q_2_q_DirectionalshadowMap;
 	if(index==3)
-		return lights_q_3_q_shadowMap;
+		return lights_q_3_q_DirectionalshadowMap;
+}
+
+samplerCube GetPointLightSampler(int index)
+{
+	if(index==0)
+		return lights_q_0_q_PointshadowMap;
+	if(index==1)
+		return lights_q_1_q_PointshadowMap;
+	if(index==2)
+		return lights_q_2_q_PointshadowMap;
+	if(index==3)
+		return lights_q_3_q_PointshadowMap;
 }

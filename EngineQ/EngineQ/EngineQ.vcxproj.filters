@@ -45,6 +45,7 @@
     <ClCompile Include="Scripting\API_Camera.cpp" />
     <ClCompile Include="RendererIntermediateConfiguration.cpp" />
     <ClCompile Include="EngineShaderProperties.cpp" />
+    <ClCompile Include="Resources\CubeTextureFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputController.hpp" />
@@ -98,10 +99,10 @@
     <ClInclude Include="Scripting\API_ShaderProperties.hpp" />
     <ClInclude Include="Resources\ModelFactory.hpp" />
     <ClInclude Include="Resources\MeshFactory.hpp" />
-    <ClInclude Include="Utilities\PointerWrapper.hpp" />
     <ClInclude Include="Scripting\API_Camera.hpp" />
     <ClInclude Include="RendererIntermediateConfiguration.hpp" />
     <ClInclude Include="EngineShaderProperties.hpp" />
+    <ClInclude Include="Resources\CubeTextureFactory.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Serialization\Deserializer.inl" />

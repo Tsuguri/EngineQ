@@ -36,7 +36,7 @@ namespace EngineQ
 				CheckBuiltIn(light.Diffuse);
 				CheckBuiltIn(light.CastsShadows);
 				CheckBuiltIn(light.FarPlane);
-				CheckBuiltIn(light.ShadowMap, EngineQ::Resources::Resource<Texture>{ std::unique_ptr<Texture>{nullptr} });
+				CheckBuiltIn(light.DirectionalShadowMap, EngineQ::Resources::Resource<Texture>{ std::unique_ptr<Texture>{nullptr} });
 				CheckBuiltIn(light.LightMatrix);
 			}
 		}
@@ -133,10 +133,15 @@ namespace EngineQ
 					auto property = data.GetProperty<Math::Matrix4>();
 					lights[index].LightMatrix = property;
 				}
-				else if (translatedName.find("shadowMap") != std::string::npos)
+				else if (translatedName.find("DirectionalShadowMap") != std::string::npos)
 				{
 					auto property = data.GetProperty<Resources::Resource<Texture>>();
-					lights[index].ShadowMap = property;
+					lights[index].DirectionalShadowMap = property;
+				}
+				else if(translatedName.find("PointShadowMap") != std::string::npos)
+				{
+					auto property = data.GetProperty<Resources::Resource<CubeTexture>>();
+					lights[index].PointShadowMap = property;
 				}
 				else if (translatedName.find("castsShadows") != std::string::npos)
 				{

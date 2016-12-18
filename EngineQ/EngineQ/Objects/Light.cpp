@@ -1,3 +1,4 @@
+#include "..\..\EngineQRenderer\Graphics\Shadows\Light.hpp"
 #include "Light.hpp"
 
 #include "../Scripting/ScriptEngine.hpp"
@@ -56,6 +57,14 @@ namespace EngineQ
 	bool Light::GetCastShadows()
 	{
 		return castShadows;
+	}
+
+	void Graphics::Shadows::Light::SetLightType(LightType type)
+	{
+		if (this->type != type)
+		{
+			this->type = type;
+		}
 	}
 
 	void Light::SetCastShadows(bool val)

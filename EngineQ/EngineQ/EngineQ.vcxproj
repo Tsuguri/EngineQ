@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="RendererIntermediateConfiguration.cpp" />
+    <ClCompile Include="Resources\CubeTextureFactory.cpp" />
     <ClCompile Include="Resources\MeshFactory.cpp" />
     <ClCompile Include="Resources\Model.cpp" />
     <ClCompile Include="Resources\ModelFactory.cpp" />
@@ -68,6 +69,7 @@
     <ClInclude Include="RendererIntermediateConfiguration.hpp" />
     <ClInclude Include="InputController.hpp" />
     <ClInclude Include="Objects\Types.hpp" />
+    <ClInclude Include="Resources\CubeTextureFactory.hpp" />
     <ClInclude Include="Resources\MeshFactory.hpp" />
     <ClInclude Include="Resources\Model.hpp" />
     <ClInclude Include="Resources\ModelFactory.hpp" />

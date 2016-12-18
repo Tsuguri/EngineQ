@@ -9,6 +9,7 @@ namespace EngineQ
 		class Shader;
 		class Mesh;
 		class Texture;
+		class CubeTexture;
 
 		class ShaderProperties;
 		class RenderingUnit;

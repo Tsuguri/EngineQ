@@ -13,9 +13,19 @@ namespace EngineQ
 		{
 			class Light
 			{
+			public:
+				enum LightType
+				{
+					Directional = 0,
+					Point = 1,
+					Spot = 2
+				};
+			private:
+
 				GLuint depthMapFBO;
 				Resources::Resource<Texture> depthTexture;
 				ScreenDataProvider* screenDataProvider = nullptr;
+				LightType type = LightType::Directional;
 			public:
 				void Init(ScreenDataProvider* dataProvider);
 
@@ -32,6 +42,10 @@ namespace EngineQ
 				virtual ShaderProperties* GetShaderProperties() const = 0;
 
 				virtual bool GetCastShadows() = 0;
+
+				void SetLightType(LightType type);
+
+				LightType GetLightType() const;
 			};
 		}
 	}

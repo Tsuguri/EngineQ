@@ -82,7 +82,7 @@ void main()
 		float spec = pow(max(dot(norm, halfwayDir), 0.0), materialShininess);
 		vec3 specular = lights[0].specular * spec*specularStrength;
 
-		float shadow = 1.0 - ShadowCalculations(lights[i], GetLightSampler(i), worldPos);
+		float shadow = 1.0 - ShadowCalculations(lights[i], GetDirectionalLightSampler(i), worldPos);
 		vec3 res = (ambient + shadow * (diffuse + specular)) * colorTmp;
 		result+=res;
 	}

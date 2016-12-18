@@ -209,7 +209,7 @@ namespace EngineQ
 							light.Position = sceneLight->GetPosition();
 							light.CastsShadows = sceneLight->GetCastShadows();
 							light.LightMatrix = sceneLight->GetLightMatrix();
-							light.ShadowMap = sceneLight->GetDepthTexture();
+							light.DirectionalShadowMap = sceneLight->GetDepthTexture();
 						}
 					}
 
