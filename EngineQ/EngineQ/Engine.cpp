@@ -100,6 +100,21 @@ namespace EngineQ
 		return true;
 	}
 
+	bool Engine::Finalize()
+	{
+		if (instance == nullptr)
+		{
+			std::cout << "EngineQ is already finalized" << std::endl;
+			return false;
+		}
+
+		std::cout << "Finalizing EngineQ" << std::endl;
+
+		instance = nullptr;
+
+		return true;
+	}
+
 	Math::Vector2i Engine::GetScreenSize() const
 	{
 		return screenSize;

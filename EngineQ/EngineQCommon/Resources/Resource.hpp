@@ -158,7 +158,7 @@ namespace EngineQ
 
 			Resource& operator = (const Resource& other)
 			{
-				if (this == &other)
+				if (this->controlBlock == other.controlBlock)
 					return *this;
 
 				if (this->controlBlock != nullptr)
@@ -180,12 +180,10 @@ namespace EngineQ
 
 			Resource& operator = (Resource&& other)
 			{
-				if (this->controlBlock != nullptr)
-					BaseControlBlock::RemoveNativeReference(this->controlBlock);
-
+				auto tmp = this->controlBlock;
 				this->controlBlock = other.controlBlock;
-				other.controlBlock = nullptr;
-
+				other.controlBlock = tmp;
+				
 				return *this;
 			}
 

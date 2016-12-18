@@ -90,6 +90,7 @@ namespace EngineQ
 	
 	public:
 		static bool Initialize(const Config& config);
+		static bool Finalize();
 
 		static Engine& Get();
 		Resources::ResourceManager& GetResourceManager() const;

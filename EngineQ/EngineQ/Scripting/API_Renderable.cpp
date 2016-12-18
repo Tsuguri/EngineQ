@@ -44,7 +44,6 @@ namespace EngineQ
 			const Renderable& renderable = static_cast<const Renderable&>(renderableBase);
 
 			castShadowsValue = renderable.GetCastShadows();
-
 		}
 
 		void API_Renderable::API_SetCastShadows(Object& renderableBase, bool castShadowsValue)

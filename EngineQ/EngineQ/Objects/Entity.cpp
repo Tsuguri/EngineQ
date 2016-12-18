@@ -107,7 +107,7 @@ namespace EngineQ
 
 	std::size_t Entity::GetComponentsCount() const
 	{
-		return static_cast<int>(this->components.size());
+		return this->components.size();
 	}
 
 	Component& Entity::GetComponent(std::size_t index) const

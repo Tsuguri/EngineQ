@@ -195,5 +195,7 @@ int main(int argc, char** argv)
 
 	engine.Run();
 
+	EngineQ::Engine::Finalize();
+
 	return 0;
 }
