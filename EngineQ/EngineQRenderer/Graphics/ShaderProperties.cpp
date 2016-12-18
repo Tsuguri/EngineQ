@@ -26,7 +26,7 @@ namespace EngineQ
 			CheckBuiltIn(this->material.Specular, Math::Vector3f(0.5f));
 			CheckBuiltIn(this->material.Shininess, 32.0f);
 			CheckBuiltIn(this->material.DiffuseTexture, EngineQ::Resources::Resource<Texture>{ std::unique_ptr<Texture>{ nullptr } });
-
+			CheckBuiltIn(this->LightCount);
 			for (auto& light : this->lights)
 			{
 				CheckBuiltIn(light.Position);
@@ -36,6 +36,7 @@ namespace EngineQ
 				CheckBuiltIn(light.Diffuse);
 				CheckBuiltIn(light.CastsShadows);
 				CheckBuiltIn(light.FarPlane);
+				CheckBuiltIn(light.LightMatrix);
 				//CheckBuiltIn(light.ShadowMap, EngineQ::Resources::Resource<Texture>{ std::unique_ptr<Texture>{nullptr} });
 			}
 		}
@@ -91,6 +92,11 @@ namespace EngineQ
 				}
 			}
 
+			if (translatedName.find("lightCount") == 0)
+			{
+				auto property = data.GetProperty<GLint>();
+				this->LightCount = property;
+			}
 			if (translatedName.find("lights") == 0)
 			{
 				int index = 0;
@@ -271,6 +277,11 @@ namespace EngineQ
 		const std::vector<ShaderProperties::Light>& ShaderProperties::GetLights()
 		{
 			return this->lights;
+		}
+
+		const ShaderProperty<GLint>& ShaderProperties::GetLightCount()
+		{
+			return LightCount;
 		}
 
 		template<>

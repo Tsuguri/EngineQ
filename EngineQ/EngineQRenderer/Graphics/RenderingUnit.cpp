@@ -182,6 +182,7 @@ namespace EngineQ
 
 					auto& lights = shader.GetLights();
 					int lightsCount = sceneLights.size() > lights.size() ? lights.size() : sceneLights.size();
+					shader.GetLightCount() = lightsCount;
 					for (int i = 0; i < lightsCount; i++)
 					{
 						lights[i].Diffuse = Math::Vector3f(1.0f);
