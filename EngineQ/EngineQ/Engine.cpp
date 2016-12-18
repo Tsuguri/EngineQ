@@ -1,6 +1,5 @@
 ﻿#include "Engine.hpp"
 
-#include <iostream>
 #include <fstream>
 #include <memory>
 
@@ -15,16 +14,18 @@
 
 #include "Math/Vector2.hpp"
 
+#include "Logger.hpp"
+
 namespace EngineQ
 {
 	std::unique_ptr<Engine> Engine::instance = nullptr;
 
 	Engine::Engine(const Config& config)
 	{
-		std::cout << "Creating  EngineQ" << std::endl;
+		Logger::LogMessage("Creating  EngineQ", "\n");
 		if (!window.Initialize(config.windowName, config.windowWidth, config.windowHeight))
 		{
-			std::cout << "Unable to initialize window" << std::endl;
+			Logger::LogMessage("Unable to initialize window", "\n");
 			throw std::runtime_error{ "Unable to start window" };
 		}
 
@@ -90,12 +91,27 @@ namespace EngineQ
 	{
 		if (instance != nullptr)
 		{
-			std::cout << "EngineQ is already initialized" << std::endl;
+			Logger::LogMessage("EngineQ is already initialized", "\n");
 			return false;
 		}
-		std::cout << "Initializing EngineQ" << std::endl;
+		Logger::LogMessage("Initializing EngineQ", "\n");
 
 		instance = std::unique_ptr<Engine>{ new Engine{ config } };
+
+		return true;
+	}
+
+	bool Engine::Finalize()
+	{
+		if (instance == nullptr)
+		{
+			std::cout << "EngineQ is already finalized" << std::endl;
+			return false;
+		}
+
+		std::cout << "Finalizing EngineQ" << std::endl;
+
+		instance = nullptr;
 
 		return true;
 	}
@@ -221,7 +237,7 @@ namespace EngineQ
 
 		this->scriptingEngine->InvokeStaticMethod(this->initializerMethod, args);
 
-		this->renderingUnit = std::make_shared<Graphics::RenderingUnit>(static_cast<Graphics::ScreenDataProvider*>(this), this->renderConfig.ToRenderingUnitConfiguration(resourceManager.get()));
+		this->renderingUnit = std::make_unique<Graphics::RenderingUnit>(static_cast<Graphics::ScreenDataProvider*>(this), this->renderConfig.ToRenderingUnitConfiguration(resourceManager.get()));
 
 
 

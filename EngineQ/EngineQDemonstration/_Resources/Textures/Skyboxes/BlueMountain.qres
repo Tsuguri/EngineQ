@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Texture>
+	<Image Direction="Top" Path="./Textures/Numbers.png" />
+	<Image Direction="Bottom" Path="./Textures/Numbers.png" />
+	<Image Direction="East" Path="./Textures/Numbers.png" />
+	<Image Direction="West" Path="./Textures/Numbers.png" />
+	<Image Direction="North" Path="./Textures/Numbers.png" />
+	<Image Direction="South" Path="./Textures/Numbers.png" />
+</Texture>

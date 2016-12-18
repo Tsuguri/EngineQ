@@ -5,6 +5,8 @@
 #include "../Serialization/Serializer.hpp"
 #include "../Serialization/Deserializer.hpp"
 
+#include "../Logger.hpp"
+
 namespace EngineQ
 {
 	/*
@@ -34,6 +36,7 @@ namespace EngineQ
 
 	Component::~Component()
 	{
+		Logger::LogMessage("  Destroying component of type ", static_cast<int>(this->type), "\n");
 	}
 	
 	Entity& Component::GetEntity()

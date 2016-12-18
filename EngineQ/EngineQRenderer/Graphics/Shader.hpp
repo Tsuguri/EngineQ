@@ -66,6 +66,7 @@ namespace EngineQ
 
 			// TMP
 			void Bind(UniformLocation location, const Texture* texture);
+			void Bind(UniformLocation location, const CubeTexture* texture);
 		};
 	}
 }

@@ -67,7 +67,7 @@ namespace EngineQ
 	private:
 		std::unique_ptr<Scripting::ScriptEngine> scriptingEngine;
 		std::unique_ptr<Resources::ResourceManager> resourceManager;
-		std::shared_ptr<Graphics::RenderingUnit> renderingUnit;
+		std::unique_ptr<Graphics::RenderingUnit> renderingUnit;
 
 		std::vector<std::unique_ptr<Scene>> scenes;
 		Scene* currentScene = nullptr;
@@ -90,6 +90,7 @@ namespace EngineQ
 	
 	public:
 		static bool Initialize(const Config& config);
+		static bool Finalize();
 
 		static Engine& Get();
 		Resources::ResourceManager& GetResourceManager() const;

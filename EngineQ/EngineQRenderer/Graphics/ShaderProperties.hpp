@@ -27,7 +27,8 @@ namespace EngineQ
 				Pair<GL_FLOAT_VEC3, Math::Vector3_t<GLfloat>>,
 				Pair<GL_FLOAT_VEC4, Math::Vector4_t<GLfloat>>,
 				Pair<GL_FLOAT_MAT4, Math::Matrix4>,
-				Pair<GL_SAMPLER_2D, Resources::Resource<Texture>>
+				Pair<GL_SAMPLER_2D, Resources::Resource<Texture>>,
+				Pair<GL_SAMPLER_CUBE,Resources::Resource<CubeTexture>>
 			>;
 			
 		public:
@@ -38,7 +39,8 @@ namespace EngineQ
 				ShaderProperty<Math::Vector3f> Diffuse;
 				ShaderProperty<Math::Vector3f> Specular;
 				ShaderProperty<Math::Matrix4> LightMatrix;
-				ShaderProperty<Resources::Resource<Texture>> ShadowMap;
+				ShaderProperty<Resources::Resource<Texture>> DirectionalShadowMap;
+				ShaderProperty<Resources::Resource<CubeTexture>> PointShadowMap;
 
 				ShaderProperty<float> Distance;
 

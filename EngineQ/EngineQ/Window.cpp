@@ -2,7 +2,7 @@
 
 #include "Libraries/GL/glew.h"
 #include <GLFW/glfw3.h>
-#include <iostream>
+#include "Logger.hpp"
 
 namespace EngineQ
 {
@@ -48,7 +48,7 @@ namespace EngineQ
 
 		if (window == nullptr)
 		{
-			std::cout << "Failed to create GLFW window" << std::endl;
+			Logger::LogMessage("Failed to create GLFW window", "\n");
 			glfwTerminate();
 			return false;
 		}
@@ -72,7 +72,7 @@ namespace EngineQ
 		// Initialize GLEW to setup the OpenGL Function pointers
 		if (glewInit() != GLEW_OK)
 		{
-			std::cout << "Failed to initialize GLEW" << std::endl;
+			Logger::LogMessage("Failed to initialize GLEW", "\n");
 			glfwSetWindowShouldClose(window, GL_TRUE);
 			window = nullptr;
 			return false;

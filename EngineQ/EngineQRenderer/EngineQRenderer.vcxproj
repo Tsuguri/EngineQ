@@ -159,6 +159,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Graphics\Configuration\RendererConfiguration.cpp" />
+    <ClCompile Include="Graphics\CubeTexture.cpp" />
     <ClCompile Include="Graphics\Framebuffer.cpp" />
     <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Graphics\PostprocessingExceptions.cpp" />
@@ -177,6 +178,7 @@
   <ItemGroup>
     <ClInclude Include="Graphics\Camera.hpp" />
     <ClInclude Include="Graphics\Configuration\RendererConfiguration.hpp" />
+    <ClInclude Include="Graphics\CubeTexture.hpp" />
     <ClInclude Include="Graphics\Framebuffer.hpp" />
     <ClInclude Include="Graphics\Mesh.hpp" />
     <ClInclude Include="Graphics\PostprocessingExceptions.hpp" />

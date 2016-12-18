@@ -11,6 +11,8 @@
 #include "../Serialization/Deserializer.hpp"
 #include "../Serialization/SerializationRules.hpp"
 
+#include "../Logger.hpp"
+
 namespace EngineQ
 {
 	/*
@@ -51,6 +53,7 @@ namespace EngineQ
 
 	Entity::~Entity()
 	{
+		Logger::LogMessage("Destroying entity ", this->name, "\n");
 	}
 
 	void Entity::AddComponent(std::unique_ptr<Component> componentPtr)
@@ -107,7 +110,7 @@ namespace EngineQ
 
 	std::size_t Entity::GetComponentsCount() const
 	{
-		return static_cast<int>(this->components.size());
+		return this->components.size();
 	}
 
 	Component& Entity::GetComponent(std::size_t index) const

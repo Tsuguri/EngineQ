@@ -42,6 +42,20 @@ namespace EngineQ
 			}
 		}
 
+		public bool CastShadows
+		{
+			get
+			{
+				bool castShadows;
+				API_GetCastShadows(this.NativeHandle, out castShadows);
+				return castShadows;
+			}
+			set
+			{
+				API_SetCastShadows(this.NativeHandle, value);
+			}
+		}
+
 		#endregion
 
 		#region Methods
@@ -72,6 +86,12 @@ namespace EngineQ
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_SetMesh(IntPtr handle, IntPtr meshHandle);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetCastShadows(IntPtr handle, out bool castShadowsValue);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_SetCastShadows(IntPtr handle, bool castShadowsValue);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_UseForwardShader(IntPtr handle, IntPtr shader);

@@ -1,6 +1,9 @@
 #include "Shader.hpp"
 
 #include "Texture.hpp"
+
+#include "CubeTexture.hpp"
+
 namespace EngineQ
 {
 	using namespace Math;
@@ -187,6 +190,20 @@ namespace EngineQ
 
 			glUniform1i(location.location, this->currentTextureSlot);
 		
+			this->currentTextureSlot += 1;
+		}
+
+		void Shader::Bind(UniformLocation location, const CubeTexture* texture)
+		{
+			glActiveTexture(GL_TEXTURE0 + this->currentTextureSlot);
+
+			if (texture != nullptr)
+				glBindTexture(GL_TEXTURE_CUBE_MAP, texture->textureID);
+			else
+				glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+
+			glUniform1i(location.location, this->currentTextureSlot);
+
 			this->currentTextureSlot += 1;
 		}
 	}
