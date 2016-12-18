@@ -30,8 +30,6 @@ namespace EngineQ
 			static GLenum textureLocations[10];
 			ShaderPass(Resources::Resource<Shader> shader);
 
-			void BindTextures();
-
 			ShaderProperties& GetShaderproperties();
 			void BindTargetBuffer() const;
 			void SetTargetBuffer(std::unique_ptr<Framebuffer>&& buffer);

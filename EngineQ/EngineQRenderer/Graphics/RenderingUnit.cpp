@@ -216,7 +216,6 @@ namespace EngineQ
 					effect->Activate(scene.GetActiveCamera(), 0);
 					glBindVertexArray(quadVao);
 
-					effect->BindTextures();
 					glDrawArrays(GL_TRIANGLES, 0, 6);
 					glBindVertexArray(0);
 				}
