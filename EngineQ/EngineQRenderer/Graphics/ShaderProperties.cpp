@@ -36,7 +36,7 @@ namespace EngineQ
 				CheckBuiltIn(light.Diffuse);
 				CheckBuiltIn(light.CastsShadows);
 				CheckBuiltIn(light.FarPlane);
-				//CheckBuiltIn(light.ShadowMap, EngineQ::Resources::Resource<Texture>{ std::unique_ptr<Texture>{nullptr} });
+				CheckBuiltIn(light.ShadowMap, EngineQ::Resources::Resource<Texture>{ std::unique_ptr<Texture>{nullptr} });
 			}
 		}
 
