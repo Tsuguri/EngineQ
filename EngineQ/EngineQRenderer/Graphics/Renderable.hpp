@@ -15,7 +15,7 @@ namespace EngineQ
 			bool castShadows = true;
 			bool receiveShadows = true;
 
-			virtual Graphics::ShaderProperties* GetForwardShader() const =0;
+			virtual Graphics::ShaderProperties* GetForwardShader() const = 0;
 			virtual Graphics::ShaderProperties* GetDeferredShader() const = 0;
 
 
@@ -30,6 +30,8 @@ namespace EngineQ
 
 			void SetReceiveShadows(bool val);
 			bool GetReceiveShadows() const;
+
+			virtual ~Renderable() = default;
 		};
 	}
 }

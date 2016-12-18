@@ -26,11 +26,16 @@ namespace EngineQ
 #pragma endregion
 	*/
 
+
 	Component::Component(ComponentType type, Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass, Entity& entity, bool enabled)
 		: Object{ scriptEngine, sclass }, entity{ entity }, enabled{ enabled }, parentEnabled{ entity.IsEnabledInHierarchy() }, type{ type }
 	{
 	}
 
+	Component::~Component()
+	{
+	}
+	
 	Entity& Component::GetEntity()
 	{
 		return this->entity;

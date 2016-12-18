@@ -42,6 +42,7 @@ namespace EngineQ
 		*/
 
 		Component(ComponentType type, Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass sclass, Entity& entity, bool enabled);
+		virtual ~Component();
 		
 		Entity& GetEntity();
 		const Entity& GetEntity() const;
