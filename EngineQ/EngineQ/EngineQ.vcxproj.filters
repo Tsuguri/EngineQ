@@ -103,6 +103,7 @@
     <ClInclude Include="RendererIntermediateConfiguration.hpp" />
     <ClInclude Include="EngineShaderProperties.hpp" />
     <ClInclude Include="Resources\CubeTextureFactory.hpp" />
+    <ClInclude Include="Logger.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Serialization\Deserializer.inl" />

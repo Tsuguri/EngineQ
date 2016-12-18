@@ -85,7 +85,7 @@ namespace EngineQ
 		{
 			for (auto textureInfo = textures->FirstChildElement(); textureInfo != nullptr; textureInfo = textureInfo->NextSiblingElement())
 			{
-				std::cout << "	" << textureInfo->Name() << std::endl;
+				Logger::LogMessage("	", textureInfo->Name(), "\n");
 				configuration.Textures.push_back(Graphics::Configuration::TextureConfiguration::Load(textureInfo));
 			}
 		}
@@ -99,7 +99,7 @@ namespace EngineQ
 		{
 			for (auto effectInfo = effects->FirstChildElement(); effectInfo != nullptr; effectInfo = effectInfo->NextSiblingElement())
 			{
-				std::cout << "	" << effectInfo->Name() << std::endl;
+				Logger::LogMessage("	", effectInfo->Name(), "\n");
 				configuration.Effects.push_back(IntermediateEffectConfiguration::Load(effectInfo));
 			}
 		}

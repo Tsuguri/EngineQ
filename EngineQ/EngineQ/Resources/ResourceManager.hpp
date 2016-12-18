@@ -20,8 +20,7 @@
 
 #include "../Objects/Object.hpp"
 
-// TMP
-#include <iostream>
+#include "../Logger.hpp"
 
 #include <typeindex>
 #include <functional>
@@ -135,7 +134,7 @@ namespace EngineQ
 
 					resourceManager.newActiveResources.push_back(&resourceData);
 
-					std::cout << "RM: Created resource " << resourceId << std::endl;
+					Logger::LogMessage("RM: Created resource ", resourceId, "\n");
 				};
 
 				resourceData.destructor = [ /*TMP*/ resourceId](ResourceManager& resourceManager, ResourceData& resourceData)
@@ -146,8 +145,7 @@ namespace EngineQ
 
 					resourceManager.oldActiveResources.push_back(&resourceData);
 
-					std::cout << "RM: Destructed resource " << resourceId << std::endl;
-
+					Logger::LogMessage("RM: Destructed resource ", resourceId, "\n");
 				};
 
 				resourceData.resource = std::make_unique<Resource<TType>>(std::unique_ptr<TType>(nullptr));

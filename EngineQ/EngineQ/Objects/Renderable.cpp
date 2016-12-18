@@ -11,6 +11,8 @@
 #include "Entity.hpp"
 #include "Transform.hpp"
 
+#include "../Logger.hpp"
+
 namespace EngineQ
 {
 	Renderable::Renderable(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled)
@@ -20,6 +22,10 @@ namespace EngineQ
 
 	Renderable::~Renderable()
 	{
+		Logger::LogMessage("  Destroying Renderable\n");
+		Logger::LogMessage("    DeferredShader ", this->deferredShader.get(), "\n");
+		Logger::LogMessage("    ForwardShader ", this->forwardShader.get(), "\n");
+		Logger::LogMessage("    Mesh ", &(*this->mesh), "\n");
 	}
 
 	void Renderable::SetForwardShader(Resources::Resource<Graphics::Shader> shader)

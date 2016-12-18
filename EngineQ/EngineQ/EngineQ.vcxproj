@@ -66,6 +66,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Logger.hpp" />
     <ClInclude Include="RendererIntermediateConfiguration.hpp" />
     <ClInclude Include="InputController.hpp" />
     <ClInclude Include="Objects\Types.hpp" />

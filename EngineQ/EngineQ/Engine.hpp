@@ -67,7 +67,7 @@ namespace EngineQ
 	private:
 		std::unique_ptr<Scripting::ScriptEngine> scriptingEngine;
 		std::unique_ptr<Resources::ResourceManager> resourceManager;
-		std::shared_ptr<Graphics::RenderingUnit> renderingUnit;
+		std::unique_ptr<Graphics::RenderingUnit> renderingUnit;
 
 		std::vector<std::unique_ptr<Scene>> scenes;
 		Scene* currentScene = nullptr;

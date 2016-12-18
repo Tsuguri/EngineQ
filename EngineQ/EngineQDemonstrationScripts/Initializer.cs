@@ -63,7 +63,9 @@ namespace QScripts
 
 			// Lights
 			var lightsDeferredShader = resourceManager.GetResource<Shader>("LightDeferred");
+			var lightsDeferredShader2 = resourceManager.GetResource<Shader>("LightDeferred");
 			var lightsMesh = resourceManager.GetResource<Mesh>("EngineQ/Cube");
+			var lightsMesh2 = resourceManager.GetResource<Mesh>("EngineQ/Cube");
 
 			// Light1
 			var light1 = scene.CreateEntity(true, "Light1");
@@ -92,9 +94,9 @@ namespace QScripts
 			var light2light = light2.AddComponent<Light>();
 
 			var light2renderable = light2.AddComponent<Renderable>();
-			light2renderable.UseDeferredShader(lightsDeferredShader);
+			light2renderable.UseDeferredShader(lightsDeferredShader2);
 			light2renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(0.5f, 0.5f, 0.0f);
-			light2renderable.Mesh = lightsMesh;
+			light2renderable.Mesh = lightsMesh2;
 			light2renderable.CastShadows = false;
 
 			var light2script = light2.AddComponent<LightRotateScript>();
