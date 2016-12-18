@@ -37,6 +37,11 @@ namespace EngineQ
 			{
 				Utilities::ObjectDestructor<TType>::Destruct(*reinterpret_cast<TType*>(data));
 			}
+
+			static void Assign(char* lhs, const char* rhs)
+			{
+				*reinterpret_cast<TType*>(lhs) = *reinterpret_cast<const TType*>(rhs);
+			}
 		};
 
 		template<typename TType>
@@ -58,6 +63,11 @@ namespace EngineQ
 			static void Destruct(char* data)
 			{
 				Utilities::ObjectDestructor<Type>::Destruct(*reinterpret_cast<Type*>(data));
+			}
+
+			static void Assign(char* lhs, const char* rhs)
+			{
+				*reinterpret_cast<Type*>(lhs) = *reinterpret_cast<const Type*>(rhs);
 			}
 		};
 
@@ -95,12 +105,16 @@ namespace EngineQ
 			using ApplyActionType = void(*)(Shader&, UniformLocation, const void*);
 			using DestructActionType = void(*)(char*);
 			using ConstructActionType = void(*)(char*);
+			using AssignActionType = void(*)(char*, const char*);
 			using ConstructorsMapType = const std::unordered_map<UniformType, std::pair<std::size_t, ConstructActionType>>;
 
 			static constexpr std::size_t DataSize = Meta::MaxTypeSize<typename TArgs::Second...>::value;
 
+			static constexpr AssignActionType AssingActions[] = { &ShaderUniformActions<typename TArgs::Second>::Assign... };
 			static constexpr ApplyActionType ApplyActions[] = { &ShaderUniformActions<typename TArgs::Second>::Apply... };
 			static constexpr DestructActionType DestructActions[] = { &ShaderUniformActions<typename TArgs::Second>::Destruct... };
+			
+
 			static ConstructorsMapType ConstructorsMap;
 
 			std::size_t type;
@@ -138,6 +152,11 @@ namespace EngineQ
 			~ShaderUniformData()
 			{
 				DestructActions[this->type](this->data.data());
+			}
+
+			ShaderUniformData& operator = (const ShaderUniformData& other)
+			{
+				AssingActions[this->type](this->data.data(), other.data.data());
 			}
 
 			void Apply(Shader& shader, UniformLocation location) const
@@ -201,6 +220,9 @@ namespace EngineQ
 				return ShaderUniformData{ type, data };
 			}
 		};
+
+		template<typename... TArgs>
+		constexpr typename ShaderUniformData<TArgs...>::AssignActionType ShaderUniformData<TArgs...>::AssingActions[];
 
 		template<typename... TArgs>
 		constexpr typename ShaderUniformData<TArgs...>::ApplyActionType ShaderUniformData<TArgs...>::ApplyActions[];
