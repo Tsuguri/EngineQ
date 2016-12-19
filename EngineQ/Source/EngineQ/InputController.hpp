@@ -194,9 +194,9 @@ namespace EngineQ
 		Math::Vector2 cursorPos;
 		Math::Vector2 cursorDeltaPos;
 
-		void KeyAction(int key, int scancode, int action, int mode);
-		void MouseButtonAction(int button, int action, int mode);
-		void MouseMoveAction(double xpos, double ypos);
+		void OnKeyAction(int key, int scancode, int action, int mode);
+		void OnMouseButtonAction(int button, int action, int mode);
+		void OnMouseMoveAction(double xpos, double ypos);
 
 		static void SetTranslateTables();
 

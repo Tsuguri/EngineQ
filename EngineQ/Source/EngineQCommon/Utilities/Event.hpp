@@ -130,18 +130,18 @@ namespace Utilities
 			return this->impl.functions.size() == 0;
 		}
 
-		Event& operator = (nullptr_t)
+		Event& operator = (std::nullptr_t)
 		{
 			this->impl.functions.clear();
 			return *this;
 		}
 
-		bool operator == (nullptr_t)
+		bool operator == (std::nullptr_t)
 		{
 			return this->impl.functions.size() == 0;
 		}
 
-		bool operator != (nullptr_t)
+		bool operator != (std::nullptr_t)
 		{
 			return this->impl.functions.size() != 0;
 		}

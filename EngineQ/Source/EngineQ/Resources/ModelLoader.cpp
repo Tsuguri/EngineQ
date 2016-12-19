@@ -20,12 +20,18 @@ namespace EngineQ
 		template<typename TType>
 		void AddComponentData(std::vector<Model::Mesh::ComponentData>& data, int& vertexSize)
 		{
+			auto location = TType::Location;
+			auto type = VertexTypeMap<typename TType::UnderlyingType>::value;
+			auto size = static_cast<GLint>(sizeof(typename TType::Type) / sizeof(typename TType::UnderlyingType));
+			auto normalized = GL_FALSE;
+			auto bytesSize = static_cast<unsigned char>(sizeof(typename TType::Type));
+
 			data.emplace_back(
-				TType::Location,
-				VertexTypeMap<typename TType::UnderlyingType>::value,
-				static_cast<GLint>(sizeof(typename TType::Type) / sizeof(typename TType::UnderlyingType)),
-				GL_FALSE,
-				static_cast<unsigned char>(sizeof(typename TType::Type))
+				location,
+				type,
+				size,
+				normalized,
+				bytesSize
 			);
 
 			vertexSize += sizeof(typename TType::Type);

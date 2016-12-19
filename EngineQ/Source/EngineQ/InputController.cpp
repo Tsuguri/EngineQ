@@ -166,7 +166,7 @@ namespace EngineQ
 		mouseButtonEventMethod = se->GetInputMethod(":MouseButtonEvent");
 	}
 
-	void InputController::KeyAction(int key, int scancode, int action, int mode)
+	void InputController::OnKeyAction(int key, int scancode, int action, int mode)
 	{
 		key = static_cast<int>(keysTranslateTable[key]);
 
@@ -200,7 +200,7 @@ namespace EngineQ
 		}
 	}
 
-	void InputController::MouseButtonAction(int button, int action, int mode)
+	void InputController::OnMouseButtonAction(int button, int action, int mode)
 	{
 		button = static_cast<int>(mouseButtonsTranslateTable[button]);
 
@@ -234,7 +234,7 @@ namespace EngineQ
 		}
 	}
 
-	void InputController::MouseMoveAction(double xpos, double ypos)
+	void InputController::OnMouseMoveAction(double xpos, double ypos)
 	{
 		Math::Vector2 tmp{ static_cast<float>(xpos), static_cast<float>(ypos) };
 		cursorDeltaPos = tmp - cursorPos;

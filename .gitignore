@@ -1,5 +1,6 @@
-
+/.*
 /*/[Bb]uild/
 /*/[Pp]rojects/MSVC/
 /*/[Pp]rojects/MSVC_clang/
+/*/[Pp]rojects/VSCode/
 [Oo]bj/

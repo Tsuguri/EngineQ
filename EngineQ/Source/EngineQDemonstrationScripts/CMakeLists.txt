@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.0)
 
 project(EngineQDemonstrationScripts)
 
@@ -38,18 +38,28 @@ set(CS_PROJECT_NEW_FILE_PATH "${CS_PROJECT_FILE_PATH}.tmp")
 file(WRITE ${CS_PROJECT_NEW_FILE_PATH})
 
 foreach(LINE IN ITEMS ${CS_PROJECT_CONTENT})
-	string(REGEX MATCH "<OutputPath>.*</OutputPath>" FOUND ${LINE})
-	
+	string(REGEX MATCH "<OutputPath>.*</OutputPath>" FOUND ${LINE})	
 	if(FOUND)
-		string(REPLACE ${FOUND} "<OutputPath>${BUILD_BIN_PATH} </OutputPath>" LINE ${LINE})
+		string(REPLACE ${FOUND} "<OutputPath>${BUILD_BIN_PATH}</OutputPath>" LINE ${LINE})
 	endif(FOUND)
 	
 	string(REGEX MATCH "<BaseIntermediateOutputPath>.*</BaseIntermediateOutputPath>" FOUND ${LINE})
-	
 	if(FOUND)
-		string(REPLACE ${FOUND} "<BaseIntermediateOutputPath>${BUILD_OBJ_PATH} </BaseIntermediateOutputPath>" LINE ${LINE})
+		string(REPLACE ${FOUND} "<BaseIntermediateOutputPath>${BUILD_OBJ_PATH}</BaseIntermediateOutputPath>" LINE ${LINE})
 	endif(FOUND)
 	
+	if(CMAKE_BUILD_TYPE)
+		string(REGEX MATCH "<Configuration Condition=\\\" \\'\\\$\\(Configuration\\)\\' == \\'\\' \\\">(Debug|Release)</Configuration>" FOUND ${LINE})
+		if(FOUND)
+			if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+				string(REGEX REPLACE "(Debug|Release)" "Debug" LINE ${LINE})
+			endif()
+			if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+				string(REGEX REPLACE "(Debug|Release)" "Release" LINE ${LINE})
+			endif()
+		endif(FOUND)
+	endif(CMAKE_BUILD_TYPE)
+
 	file(APPEND ${CS_PROJECT_NEW_FILE_PATH} "${LINE}\n")
 endforeach()
 

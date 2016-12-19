@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.0)
 
 project(EngineQ)
 
@@ -39,7 +39,11 @@ find_package(SOIL REQUIRED)
 find_package(Assimp REQUIRED)
 find_package(Mono REQUIRED)
 
-set(XBUILD_PATH "C:/Program Files/Mono/bin/xbuild")
+if(WIN32)
+	set(XBUILD_PATH "C:/Program Files/Mono/bin/xbuild")
+else(WIN32)
+	set(XBUILD_PATH "xbuild")
+endif(WIN32)
 
 add_subdirectory(EngineQScripting)
 add_subdirectory(EngineQDemonstrationScripts)

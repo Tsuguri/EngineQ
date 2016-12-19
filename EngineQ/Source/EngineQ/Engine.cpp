@@ -70,17 +70,17 @@ namespace EngineQ
 
 	void Engine::KeyControl(int key, int scancode, int action, int mode)
 	{
-		instance->input.KeyAction(key, scancode, action, mode);
+		instance->input.OnKeyAction(key, scancode, action, mode);
 	}
 
 	void Engine::MouseButtonControl(int button, int action, int mods)
 	{
-		instance->input.MouseButtonAction(button, action, mods);
+		instance->input.OnMouseButtonAction(button, action, mods);
 	}
 
 	void Engine::MouseControl(double xpos, double ypos)
 	{
-		instance->input.MouseMoveAction(xpos, ypos);
+		instance->input.OnMouseMoveAction(xpos, ypos);
 	}
 
 	void Engine::FramebufferResize(int width, int height)

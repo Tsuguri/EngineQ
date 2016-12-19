@@ -52,11 +52,13 @@ namespace EngineQ
 
 			if (std::abs(sinVal - static_cast<Real>(1)) < Utils::Eps<Real>)
 			{
-				return Vector3{ -Utils::PI<Real> * static_cast<Real>(0.5), std::atan2(q1 * q2 - q0 * q3, q1 * q3 + q0 * q2), static_cast<Real>(0) };
+				Real pi = Utils::PI<Real>;
+				return Vector3{ -pi * static_cast<Real>(0.5), std::atan2(q1 * q2 - q0 * q3, q1 * q3 + q0 * q2), static_cast<Real>(0) };
 			}
 			if (std::abs(sinVal - static_cast<Real>(-1)) < Utils::Eps<Real>)
 			{
-				return Vector3{ Utils::PI<Real> * static_cast<Real>(0.5), -std::atan2(q1 * q2 - q0 * q3, q1 * q3 + q0 * q2), static_cast<Real>(0) };
+				Real pi = Utils::PI<Real>;
+				return Vector3{ pi * static_cast<Real>(0.5), -std::atan2(q1 * q2 - q0 * q3, q1 * q3 + q0 * q2), static_cast<Real>(0) };
 			}
 
 			return Vector3{
