@@ -1,0 +1,10 @@
+C:\Users\Piter\Desktop\CmakeTest\EngineQ\Build\EngineQScripting\bin\Debug\EngineQ.dll
+C:\Users\Piter\Desktop\CmakeTest\EngineQ\Source\EngineQScripting\obj\Debug\EngineQScripting.csprojResolveAssemblyReference.cache
+C:\Users\Piter\Desktop\CmakeTest\EngineQ\Source\EngineQScripting\obj\Debug\EngineQ.dll
+C:\Users\Piter\Desktop\CmakeTest\EngineQ\Source\EngineQScripting\obj\Debug\EngineQ.pdb
+C:\Users\Piter\Desktop\CmakeTest\EngineQ\Build\EngineQScripting\bin\Debug\ EngineQ.pdb
+C:\Users\Piter\Documents\Repositories\EngineQ\EngineQ\Build\EngineQScripting\bin\Debug\EngineQ.dll
+C:\Users\Piter\Documents\Repositories\EngineQ\EngineQ\Build\EngineQScripting\bin\Debug\ EngineQ.pdb
+C:\Users\Piter\Documents\Repositories\EngineQ\EngineQ\Source\EngineQScripting\obj\Debug\EngineQScripting.csprojResolveAssemblyReference.cache
+C:\Users\Piter\Documents\Repositories\EngineQ\EngineQ\Source\EngineQScripting\obj\Debug\EngineQ.dll
+C:\Users\Piter\Documents\Repositories\EngineQ\EngineQ\Source\EngineQScripting\obj\Debug\EngineQ.pdb
