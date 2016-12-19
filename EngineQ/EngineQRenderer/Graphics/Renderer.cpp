@@ -1,13 +1,16 @@
 #include "Renderer.hpp"
 
-#include <Libraries/GL/glew.h>
+// Libraries
+#include <GL/glew.h>
 
+// This project
 #include "Mesh.hpp"
 #include "Framebuffer.hpp"
 #include "ShaderProperties.hpp"
 #include "Scene.hpp"
 #include "Renderable.hpp"
 #include "Camera.hpp"
+
 
 namespace EngineQ
 {

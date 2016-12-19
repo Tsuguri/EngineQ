@@ -1,9 +1,10 @@
 #ifndef ENGINEQ_MATH_MATRIX4_HPP
 #define ENGINEQ_MATH_MATRIX4_HPP
 
-#include "../Utilities/StringHelpers.hpp"
-
+// This project
 #include "Types.hpp"
+#include "EngineQCommon/Utilities/StringHelpers.hpp"
+
 
 namespace EngineQ
 {

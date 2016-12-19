@@ -1,6 +1,9 @@
 #include "RendererConfiguration.hpp"
+
+// Standard includes
 #include <iostream>
 #include <fstream>
+
 
 namespace EngineQ
 {

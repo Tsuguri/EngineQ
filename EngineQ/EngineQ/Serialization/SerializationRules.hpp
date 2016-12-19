@@ -1,12 +1,17 @@
 #ifndef ENGINEQ_SERIALIZATION_SERIALIZATION_RULES_HPP
 #define ENGINEQ_SERIALIZATION_SERIALIZATION_RULES_HPP
 
+// Standard includes
 #include <cstddef>
 #include <string>
 #include <vector>
 
+// Other projects
+#include "EngineQCommon/Math/Types.hpp"
+
+// This project
 #include "Types.hpp"
-#include <Math/Types.hpp>
+
 
 namespace EngineQ
 {

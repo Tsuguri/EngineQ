@@ -1,10 +1,13 @@
 #include "API_Matrix4.hpp"
 
+// Other projects
+#include "EngineQCommon/Math/Vector3.hpp"
+#include "EngineQCommon/Math/Vector4.hpp"
+#include "EngineQCommon/Math/Matrix4.hpp"
+
+// This project
 #include "ScriptEngine.hpp"
 
-#include <Math/Vector3.hpp>
-#include <Math/Vector4.hpp>
-#include <Math/Matrix4.hpp>
 
 using namespace EngineQ::Math;
 

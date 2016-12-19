@@ -1,19 +1,21 @@
 #ifndef ENGINEQ_RENDERABLE_HPP
 #define ENGINEQ_RENDERABLE_HPP
 
+// Standard includes
 #include <memory>
 
-#include <Graphics\Types.hpp>
+// Other projects
+#include "EngineQCommon/Math/Vector3.hpp"
+#include "EngineQCommon/Resources/Resource.hpp"
+#include "EngineQRenderer/Graphics/Types.hpp"
+#include "EngineQRenderer/Graphics/Renderable.hpp"
+
+// This project
 #include "Component.hpp"
-#include "../Resources/Types.hpp"
+#include "EngineQ/Resources/Types.hpp"
+#include "EngineQ/EngineShaderProperties.hpp"
 
-#include <Resources/Resource.hpp>
 
-#include <Graphics/Renderable.hpp>
-
-#include <Math\Vector3.hpp>
-
-#include "../EngineShaderProperties.hpp"
 namespace EngineQ
 {
 	class Renderable final : public Component, public Graphics::Renderable

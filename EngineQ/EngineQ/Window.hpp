@@ -1,8 +1,12 @@
 #ifndef ENGINEQ_GLFWWINDOW_HPP
 #define ENGINEQ_GLFWWINDOW_HPP
+
+// Standard includes
 #include <string>
 
+
 struct GLFWwindow;
+
 namespace EngineQ
 {
 	class Window

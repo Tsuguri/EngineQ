@@ -1,10 +1,11 @@
 #include "API_Scene.hpp"
 
+// This project
 #include "ScriptEngine.hpp"
+#include "EngineQ/Objects/Scene.hpp"
+#include "EngineQ/Objects/Entity.hpp"
+#include "EngineQ/Objects/Camera.hpp"
 
-#include "../Objects/Scene.hpp"
-#include "../Objects/Entity.hpp"
-#include "../Objects/Camera.hpp"
 
 namespace EngineQ
 {

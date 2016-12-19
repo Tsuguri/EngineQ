@@ -1,6 +1,7 @@
 #ifndef ENGINEQ_MATH_TYPES_HPP
 #define ENGINEQ_MATH_TYPES_HPP
 
+
 namespace EngineQ
 {
 	namespace Math

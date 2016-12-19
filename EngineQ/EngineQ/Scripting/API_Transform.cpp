@@ -1,9 +1,12 @@
 #include "API_Transform.hpp"
 
-#include "ScriptEngine.hpp"
+// Other projects
+#include "EngineQCommon/Math/Vector3.hpp"
 
-#include "../Objects/Transform.hpp"
-#include <Math/Vector3.hpp>
+// This project
+#include "ScriptEngine.hpp"
+#include "EngineQ/Objects/Transform.hpp"
+
 
 namespace EngineQ
 {

@@ -101,7 +101,6 @@
     <ClInclude Include="Serialization\SerializationRules.hpp" />
     <ClInclude Include="Serialization\SerializedObject.hpp" />
     <ClInclude Include="Serialization\Serializer.hpp" />
-    <ClInclude Include="Libraries\TinyXML\tinyxml2.h" />
     <ClInclude Include="Serialization\Types.hpp" />
     <ClInclude Include="Serialization\XMLFormatter.hpp" />
     <ClInclude Include="EngineShaderProperties.hpp" />
@@ -118,7 +117,6 @@
     <ClInclude Include="Scripting\API_Scene.hpp" />
     <ClInclude Include="Scripting\API_Transform.hpp" />
     <ClInclude Include="Scripting\ScriptEngine.hpp" />
-    <ClInclude Include="Scripting\ScriptEngineException.hpp" />
     <ClInclude Include="Scripting\ScriptingExceptions.hpp" />
     <ClInclude Include="Objects\Transform.hpp" />
     <ClInclude Include="Window.hpp" />
@@ -166,9 +164,6 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="Shared">
-    <Import Project="..\EngineQCommon\EngineQCommon.vcxitems" Label="Shared" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -215,7 +210,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)EngineQRenderer\;$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
@@ -242,7 +237,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)EngineQRenderer\;$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
@@ -271,7 +266,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)EngineQRenderer\;$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
@@ -301,7 +296,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\GLFW\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)EngineQRenderer\;$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Libraries\Mono\include\;$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\GLFW\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>

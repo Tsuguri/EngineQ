@@ -1,12 +1,16 @@
 #ifndef ENGINEQ_VERTEX_HPP
 #define ENGINEQ_VERTEX_HPP
 
+// Standard includes
 #include <vector>
 
-#include <Libraries/GL/glew.h>
+// Libraries
+#include <GL/glew.h>
 
-#include <Math/Vector3.hpp>
-#include <Utilities/Metaprogramming.hpp>
+// Other projects
+#include "EngineQCommon/Math/Vector3.hpp"
+#include "EngineQCommon/Utilities/Metaprogramming.hpp"
+
 
 namespace EngineQ
 {

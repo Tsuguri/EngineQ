@@ -1,9 +1,11 @@
-#include <array>
-#include <Libraries/TinyXML/tinyxml2.h>
-
 #include "CubeTextureFactory.hpp"
 
-#include <Graphics/CubeTexture.hpp>
+// Standard includes
+#include <array>
+
+// Other projects
+#include "EngineQCommon/Libraries/TinyXML/tinyxml2.h"
+#include "EngineQRenderer/Graphics/CubeTexture.hpp"
 
 
 namespace EngineQ

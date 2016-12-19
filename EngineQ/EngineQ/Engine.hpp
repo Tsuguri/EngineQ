@@ -1,22 +1,23 @@
 ﻿#ifndef ENGINEQ_ENGINEQ_HPP
 #define ENGINEQ_ENGINEQ_HPP
 
+// Standard includes
 #include <string>
 #include <memory>
 
-//#include <Graphics\Types.hpp>
+// Other projects
+#include "EngineQCommon/Math/Vector2.hpp"
+#include "EngineQCommon/Utilities/Event.hpp"
+#include "EngineQRenderer/Graphics/Utils/ScreenDataProvider.hpp"
 
+// This project
 #include "Window.hpp"
-#include "Scripting/ScriptEngine.hpp"
-#include "Objects/Scene.hpp"
 #include "InputController.hpp"
-#include "Resources/ResourceManager.hpp"
-#include "Utilities/Event.hpp"
-
 #include "RendererIntermediateConfiguration.hpp"
-#include "Math/Vector2.hpp"
+#include "Objects/Scene.hpp"
+#include "Resources/ResourceManager.hpp"
+#include "Scripting/ScriptEngine.hpp"
 
-#include <Graphics\Utils\ScreenDataProvider.hpp>
 
 namespace EngineQ
 {

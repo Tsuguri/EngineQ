@@ -1,14 +1,14 @@
 #include "API_Entity.hpp"
 
+// This project
 #include "ScriptEngine.hpp"
-
-#include "../Objects/Scene.hpp"
-#include "../Objects/Entity.hpp"
-#include "../Objects/Transform.hpp"
-#include "../Objects/Camera.hpp"
-#include "../Objects/Light.hpp"
-#include "../Objects/Renderable.hpp"
-#include "../Objects/Script.hpp"
+#include "EngineQ/Objects/Scene.hpp"
+#include "EngineQ/Objects/Entity.hpp"
+#include "EngineQ/Objects/Transform.hpp"
+#include "EngineQ/Objects/Camera.hpp"
+#include "EngineQ/Objects/Light.hpp"
+#include "EngineQ/Objects/Renderable.hpp"
+#include "EngineQ/Objects/Script.hpp"
 
 namespace EngineQ
 {

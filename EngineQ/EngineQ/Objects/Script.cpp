@@ -1,6 +1,8 @@
 #include "Script.hpp"
 
-#include "../Scripting/ScriptEngine.hpp"
+// This project
+#include "EngineQ/Scripting/ScriptEngine.hpp"
+
 
 namespace EngineQ
 {

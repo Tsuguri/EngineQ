@@ -1,11 +1,13 @@
 #ifndef ENGINEQ_MATH_MATRIX3_HPP
 #define ENGINEQ_MATH_MATRIX3_HPP
 
+// Standard includes
 #include <iostream>
 
-#include "../Utilities/StringHelpers.hpp"
-
+// This project
 #include "Types.hpp"
+#include "EngineQCommon/Utilities/StringHelpers.hpp"
+
 
 namespace EngineQ
 {

@@ -1,8 +1,12 @@
 #ifndef ENGINEQ_TIMECOUNTER_HPP
 #define ENGINEQ_TIMECOUNTER_HPP
 
+// Standard includes
 #include <memory>
-#include "Utilities/Immovable.hpp"
+
+// Other projects
+#include "EngineQCommon/Utilities/Immovable.hpp"
+
 
 class TimeCounter : private Utilities::Immovable
 {

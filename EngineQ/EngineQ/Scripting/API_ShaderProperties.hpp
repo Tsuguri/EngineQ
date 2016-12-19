@@ -1,9 +1,13 @@
 #ifndef ENGINEQ_SCRIPTING_API_SHADER_PROPERTIES_HPP
 #define ENGINEQ_SCRIPTING_API_SHADER_PROPERTIES_HPP
 
+// Other projects
+#include "EngineQCommon/Math/Types.hpp"
+
+// This project
 #include "Types.hpp"
-#include "../Objects/Types.hpp"
-#include <Math/Types.hpp>
+#include "EngineQ/Objects/Types.hpp"
+
 
 namespace EngineQ
 {

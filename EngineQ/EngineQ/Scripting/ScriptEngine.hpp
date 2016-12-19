@@ -1,14 +1,18 @@
 #ifndef ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP
 #define ENGINEQ_SCRIPTING_SCRIPT_ENGINE_HPP
 
+// Standard includes
 #include <map>
 #include <string>
 #include <array>
 
-#include "Types.hpp"
-#include "../Objects/Types.hpp"
+// Other projects
+#include "EngineQCommon/Utilities/Immovable.hpp"
 
-#include <Utilities/Immovable.hpp>
+// This project
+#include "Types.hpp"
+#include "EngineQ/Objects/Types.hpp"
+
 
 namespace EngineQ
 {

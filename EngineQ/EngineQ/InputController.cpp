@@ -1,9 +1,14 @@
+#include "InputController.hpp"
+
+// Standard includes
 #include <algorithm>
 
+// Libraries
 #include <GLFW/glfw3.h>
 
-#include "InputController.hpp"
+// This project
 #include "Scripting/ScriptEngine.hpp"
+
 
 namespace EngineQ
 {

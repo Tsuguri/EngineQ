@@ -1,24 +1,20 @@
-#include <EngineQ/Engine.hpp>
-#include <Graphics/Vertex.hpp>
+#include "EngineQCommon/Resources/Resource.hpp"
+#include "EngineQCommon/Libraries/TinyXML/tinyxml2.h"
 
-#include <Utilities/ResourcesIDs.hpp>
-#include <EngineQ/Resources/ModelLoader.hpp>
+#include "EngineQRenderer/Graphics/Mesh.hpp"
+#include "EngineQRenderer/Graphics/Vertex.hpp"
+#include "EngineQRenderer/Graphics/ShaderProperties.hpp"
+#include "EngineQRenderer/Graphics/Texture.hpp"
 
-#include <Graphics/Mesh.hpp>
+#include "EngineQ/Engine.hpp"
+#include "EngineQ/Objects/Entity.hpp"
+#include "EngineQ/Objects/Transform.hpp"
+#include "EngineQ/Objects/Renderable.hpp"
+#include "EngineQ/Objects/Camera.hpp"
+#include "EngineQ/Objects/Light.hpp"
+#include "EngineQ/Resources/ModelLoader.hpp"
+#include "EngineQ/Resources/ShaderFactory.hpp"
 
-#include <EngineQ/Objects/Entity.hpp>
-#include <EngineQ/Objects/Transform.hpp>
-#include <EngineQ/Objects/Renderable.hpp>
-#include <EngineQ/Objects/Camera.hpp>
-#include <EngineQ/Objects/Light.hpp>
-
-#include <Graphics/ShaderProperties.hpp>
-#include <Graphics/Texture.hpp>
-
-#include <Resources/Resource.hpp>
-#include <EngineQ/Resources/ShaderFactory.hpp>
-
-#include <Libraries/TinyXML/tinyxml2.h>
 
 namespace Math = EngineQ::Math;
 

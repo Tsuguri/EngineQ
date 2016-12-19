@@ -1,6 +1,7 @@
 #ifndef ENGINEQ_GRAPHICS_SHADER_PROPERTY_HPP
 #define ENGINEQ_GRAPHICS_SHADER_PROPERTY_HPP
 
+
 namespace EngineQ
 {
 	namespace Graphics

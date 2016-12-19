@@ -1,15 +1,17 @@
 #ifndef ENGINEQ_GRAPHICS_RENDERING_UNIT_HPP
 #define ENGINEQ_GRAPHICS_RENDERING_UNIT_HPP
 
+// Standard includes
 #include <vector>
 
+// This project
 #include "Scene.hpp"
 #include "ShaderPass.hpp"
 #include "Framebuffer.hpp"
-#include "Configuration/RendererConfiguration.hpp"
 #include "Renderer.hpp"
+#include "Utils/ScreenDataProvider.hpp"
+#include "Configuration/RendererConfiguration.hpp"
 
-#include "Utils\ScreenDataProvider.hpp"
 
 namespace EngineQ
 {

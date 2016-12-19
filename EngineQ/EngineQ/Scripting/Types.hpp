@@ -1,7 +1,9 @@
 #ifndef ENGINEQ_SCRIPTING_TYPES_HPP
 #define ENGINEQ_SCRIPTING_TYPES_HPP
 
+// Standard includes
 #include <cstdint>
+
 
 typedef struct _MonoDomain MonoDomain;
 typedef struct _MonoAssembly MonoAssembly;

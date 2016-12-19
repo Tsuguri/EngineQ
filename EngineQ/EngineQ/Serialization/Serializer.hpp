@@ -1,10 +1,13 @@
 #ifndef ENGINEQ_SERIALIZATION_SERIALIZER_HPP
 #define ENGINEQ_SERIALIZATION_SERIALIZER_HPP
 
+// Standard includes
 #include <memory>
 #include <string>
 
+// This project
 #include "Types.hpp"
+
 
 namespace EngineQ
 {

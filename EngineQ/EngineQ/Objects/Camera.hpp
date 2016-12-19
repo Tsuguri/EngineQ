@@ -1,13 +1,16 @@
 #ifndef ENGINEQ_CAMERA_HPP
 #define ENGINEQ_CAMERA_HPP
 
-#include "Types.hpp"
-#include <Math/Matrix4.hpp>
-#include "../Scripting/Types.hpp"
-#include "../Serialization/Types.hpp"
+// Other projects
+#include "EngineQCommon/Math/Matrix4.hpp"
+#include "EngineQRenderer/Graphics/Camera.hpp"
 
+// This project
+#include "Types.hpp"
 #include "Component.hpp"
-#include <Graphics/Camera.hpp>
+#include "EngineQ/Scripting/Types.hpp"
+#include "EngineQ/Serialization/Types.hpp"
+
 
 namespace EngineQ
 {

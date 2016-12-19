@@ -1,17 +1,16 @@
-#include "..\..\EngineQRenderer\Graphics\Renderable.hpp"
-#include "..\..\EngineQRenderer\Graphics\Renderable.hpp"
-#include "..\..\EngineQRenderer\Graphics\Renderable.hpp"
-#include "..\..\EngineQRenderer\Graphics\Renderable.hpp"
 #include "Renderable.hpp"
 
-#include "../Scripting/ScriptEngine.hpp"
-#include <Graphics/ShaderProperties.hpp>
-#include <Resources/Resource.hpp>
+// Other projects
+#include "EngineQCommon/Resources/Resource.hpp"
+#include "EngineQRenderer/Graphics/ShaderProperties.hpp"
+#include "EngineQRenderer/Graphics/Renderable.hpp"
 
+// This project
 #include "Entity.hpp"
 #include "Transform.hpp"
+#include "EngineQ/Logger.hpp"
+#include "EngineQ/Scripting/ScriptEngine.hpp"
 
-#include "../Logger.hpp"
 
 namespace EngineQ
 {

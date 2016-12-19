@@ -1,7 +1,9 @@
 #ifndef ENGINEQ_GRAPHICS_SHADER_EXCEPTIONS_HPP
 #define ENGINEQ_GRAPHICS_SHADER_EXCEPTIONS_HPP
 
+// Standard includes
 #include <stdexcept>
+
 
 namespace EngineQ
 {

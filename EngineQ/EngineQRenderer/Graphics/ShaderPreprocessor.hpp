@@ -1,7 +1,9 @@
 #ifndef ENGINEQ_GRAPHICS_SHADER_PREPROCESSOR_HPP
 #define ENGINEQ_GRAPHICS_SHADER_PREPROCESSOR_HPP
 
+// Standard includes
 #include <stdexcept>
+
 
 namespace EngineQ
 {

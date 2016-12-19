@@ -1,16 +1,20 @@
 #ifndef ENGINEQ_GRAPHICS_SHADER_PROPERTIES_HPP
 #define ENGINEQ_GRAPHICS_SHADER_PROPERTIES_HPP
 
+// Standard includes
 #include <vector>
 #include <map>
 
+// Other projects
+#include "EngineQCommon/Math/Matrix4.hpp"
+#include "EngineQCommon/Resources/Resource.hpp"
+
+// This project
 #include "Shader.hpp"
 #include "ShaderUniformData.hpp"
 #include "ShaderProperty.hpp"
 #include "Texture.hpp"
 
-#include <Math/Matrix4.hpp>
-#include <Resources/Resource.hpp>
 
 namespace EngineQ
 {

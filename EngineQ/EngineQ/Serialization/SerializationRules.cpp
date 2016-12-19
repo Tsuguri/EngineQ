@@ -1,14 +1,18 @@
 #include "SerializationRules.hpp"
 
+// Standard includes
 #include <sstream>
 
+// Other projects
+#include "EngineQCommon/Math/Vector2.hpp"
+#include "EngineQCommon/Math/Vector3.hpp"
+#include "EngineQCommon/Math/Matrix4.hpp"
+#include "EngineQCommon/Math/Quaternion.hpp"
+
+// This project
 #include "Serializer.hpp"
 #include "Deserializer.hpp"
 
-#include <Math/Vector2.hpp>
-#include <Math/Vector3.hpp>
-#include <Math/Matrix4.hpp>
-#include <Math/Quaternion.hpp>
 
 namespace EngineQ
 {

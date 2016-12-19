@@ -1,8 +1,10 @@
 #ifndef UTILITIES_STRING_HPPELPERS_HPP
 #define UTILITIES_STRING_HPPELPERS_HPP
 
+// Standard includes
 #include <string>
 #include <sstream>
+
 
 namespace Utilities
 {

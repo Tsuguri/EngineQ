@@ -1,6 +1,7 @@
 #ifndef UTILITIES_POINTER_WRAPPER_HPP
 #define UTILITIES_POINTER_WRAPPER_HPP
 
+
 namespace Utilities
 {
 	template<typename TType>

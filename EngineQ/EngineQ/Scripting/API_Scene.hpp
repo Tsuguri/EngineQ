@@ -1,8 +1,10 @@
 #ifndef ENGINEQ_SCRIPTING_API_SCENE_HPP
 #define ENGINEQ_SCRIPTING_API_SCENE_HPP
 
+// This project
 #include "Types.hpp"
-#include "../Objects/Types.hpp"
+#include "EngineQ/Objects/Types.hpp"
+
 
 namespace EngineQ
 {

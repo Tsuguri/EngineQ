@@ -1,14 +1,17 @@
 #ifndef ENGINEQ_GRAPHICS_FRAMEBUFFER_HPP
 #define ENGINEQ_GRAPHICS_FRAMEBUFFER_HPP
 
-#include <Libraries/GL/glew.h>
+// Libraries
+#include <GL/glew.h>
 
-#include <Utilities/Immovable.hpp>
-#include <Utilities/Event.hpp>
+// Other projects
+#include "EngineQCommon/Utilities/Immovable.hpp"
+#include "EngineQCommon/Utilities/Event.hpp"
+
+// This project
 #include "Configuration/RendererConfiguration.hpp"
+#include "Utils/ScreenDataProvider.hpp"
 
-
-#include "Utils\ScreenDataProvider.hpp"
 
 namespace EngineQ
 {

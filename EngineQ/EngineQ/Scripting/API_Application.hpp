@@ -1,6 +1,7 @@
 #ifndef ENGINEQ_SCRIPTING_API_APPLICATION_HPP
 #define ENGINEQ_SCRIPTING_API_APPLICATION_HPP
 
+
 namespace EngineQ
 {
 	namespace Scripting

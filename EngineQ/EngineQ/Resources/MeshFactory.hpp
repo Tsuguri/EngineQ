@@ -1,10 +1,15 @@
 #ifndef ENGINEQ_RESOURCES_MESH_FACTORY_HPP
 #define ENGINEQ_RESOURCES_MESH_FACTORY_HPP
 
+// Standard includes
 #include <memory>
 
+// Other projects
+#include "EngineQRenderer/Graphics/Mesh.hpp"
+
+// This project
 #include "Types.hpp"
-#include <Graphics/Mesh.hpp>
+
 
 namespace EngineQ
 {

@@ -1,8 +1,10 @@
 #ifndef ENGINEQ_SCRIPTING_API_INPUT_HPP
 #define ENGINEQ_SCRIPTING_API_INPUT_HPP
 
+// This project
 #include "Types.hpp"
-#include "../InputController.hpp"
+#include "EngineQ/InputController.hpp"
+
 
 namespace EngineQ
 {

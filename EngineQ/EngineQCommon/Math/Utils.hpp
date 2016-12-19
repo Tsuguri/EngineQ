@@ -1,6 +1,7 @@
 #ifndef ENGINEQ_MATH_UTILS_HPP
 #define ENGINEQ_MATH_UTILS_HPP
 
+
 namespace EngineQ
 {
 	namespace Math

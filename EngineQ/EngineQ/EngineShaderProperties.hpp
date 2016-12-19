@@ -1,8 +1,12 @@
 #ifndef ENGINEQ_SHADERPROPERTIES_HPP
 #define ENGINEQ_SHADERPROPERTIES_HPP
 
-#include <Graphics\ShaderProperties.hpp>
-#include "Objects\Object.hpp"
+// Other projects
+#include "EngineQRenderer/Graphics/ShaderProperties.hpp"
+
+// This project
+#include "Objects/Object.hpp"
+
 
 namespace EngineQ
 {

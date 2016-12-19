@@ -1,9 +1,13 @@
 #ifndef ENGINEQ_GRAPHICS_SHADOWS_LIGHT_HPP
 #define ENGINEQ_GRAPHICS_SHADOWS_LIGHT_HPP
 
+// Standard includes
 #include <memory>
-#include "../Framebuffer.hpp"
-#include"../Utils/ScreenDataProvider.hpp"
+
+// This project
+#include "EngineQRenderer/Graphics/Framebuffer.hpp"
+#include "EngineQRenderer/Graphics/Utils/ScreenDataProvider.hpp"
+
 
 namespace EngineQ
 {

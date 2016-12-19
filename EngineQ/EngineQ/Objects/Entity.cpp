@@ -1,17 +1,18 @@
 #include "Entity.hpp"
 
+// Standard includes
 #include <algorithm>
 
+// This project
 #include "Scene.hpp"
 #include "Script.hpp"
 #include "Transform.hpp"
+#include "EngineQ/Logger.hpp"
+#include "EngineQ/Scripting/ScriptEngine.hpp"
+#include "EngineQ/Serialization/Serializer.hpp"
+#include "EngineQ/Serialization/Deserializer.hpp"
+#include "EngineQ/Serialization/SerializationRules.hpp"
 
-#include "../Scripting/ScriptEngine.hpp"
-#include "../Serialization/Serializer.hpp"
-#include "../Serialization/Deserializer.hpp"
-#include "../Serialization/SerializationRules.hpp"
-
-#include "../Logger.hpp"
 
 namespace EngineQ
 {

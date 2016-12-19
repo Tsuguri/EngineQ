@@ -1,10 +1,13 @@
 #include "ModelFactory.hpp"
 
+// Standard includes
 #include <unordered_map>
 #include <sstream>
 
-#include <Libraries/TinyXML/tinyxml2.h>
+// Other projects
+#include "EngineQCommon/Libraries/TinyXML/tinyxml2.h"
 
+// This project
 #include "ResourceFactory.hpp"
 #include "ModelLoader.hpp"
 

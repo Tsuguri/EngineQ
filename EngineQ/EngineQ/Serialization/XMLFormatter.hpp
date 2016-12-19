@@ -1,11 +1,14 @@
 #ifndef ENGINEQ_SERIALIZATION_XML_FORMATTER_HPP
 #define ENGINEQ_SERIALIZATION_XML_FORMATTER_HPP
 
+// Standard includes
 #include <string>
 #include <memory>
 #include <sstream>
 
+// This project
 #include "Formatter.hpp"
+
 
 namespace tinyxml2
 {

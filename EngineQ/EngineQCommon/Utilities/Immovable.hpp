@@ -1,6 +1,7 @@
 #ifndef UTILITIES_IMMOVABLE_HPP
 #define UTILITIES_IMMOVABLE_HPP
 
+
 namespace Utilities
 {
 	class Immovable

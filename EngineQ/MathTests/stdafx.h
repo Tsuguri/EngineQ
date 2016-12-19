@@ -10,12 +10,12 @@
 // Headers for CppUnitTest
 #include "CppUnitTest.h"
 
-#include "Math/Matrix3.hpp"
-#include "Math/Matrix4.hpp"
-#include "Math/Quaternion.hpp"
-#include "Math/Vector2.hpp"
-#include "Math/Vector3.hpp"
-#include "Math/Vector4.hpp"
-#include "Math/Utils.hpp"
+#include "EngineQCommon/Math/Matrix3.hpp"
+#include "EngineQCommon/Math/Matrix4.hpp"
+#include "EngineQCommon/Math/Quaternion.hpp"
+#include "EngineQCommon/Math/Vector2.hpp"
+#include "EngineQCommon/Math/Vector3.hpp"
+#include "EngineQCommon/Math/Vector4.hpp"
+#include "EngineQCommon/Math/Utils.hpp"
 
 // TODO: reference additional headers your program requires here

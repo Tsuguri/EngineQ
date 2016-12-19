@@ -1,10 +1,14 @@
 #ifndef ENGINEQ_GRAPHICS_SHADOWS_SHADOWCASTER_HPP
 #define ENGINEQ_GRAPHICS_SHADOWS_SHADOWCASTER_HPP
 
+// Standard includes
 #include <memory>
-#include "../Texture.hpp"
-#include "../Types.hpp"
+
+// This project
+#include "EngineQRenderer/Graphics/Texture.hpp"
+#include "EngineQRenderer/Graphics/Types.hpp"
 #include "ShadowCaster.hpp"
+
 
 namespace EngineQ
 {

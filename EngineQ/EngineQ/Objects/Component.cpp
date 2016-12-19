@@ -1,11 +1,11 @@
 #include "Component.hpp"
 
+// This project
 #include "Entity.hpp"
+#include "EngineQ/Serialization/Serializer.hpp"
+#include "EngineQ/Serialization/Deserializer.hpp"
+#include "EngineQ/Logger.hpp"
 
-#include "../Serialization/Serializer.hpp"
-#include "../Serialization/Deserializer.hpp"
-
-#include "../Logger.hpp"
 
 namespace EngineQ
 {

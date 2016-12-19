@@ -1,12 +1,18 @@
 #ifndef ENGINEQ_GRAPHICS_MESH_HPP
 #define ENGINEQ_GRAPHICS_MESH_HPP
 
+// Standard includes
 #include <vector>
 
-#include <Libraries/GL/glew.h>
+// Libraries
+#include <GL/glew.h>
 
-#include <Utilities/Immovable.hpp>
+// Other projects
+#include "EngineQCommon/Utilities/Immovable.hpp"
+
+// This project
 #include "Vertex.hpp"
+
 
 namespace EngineQ
 {

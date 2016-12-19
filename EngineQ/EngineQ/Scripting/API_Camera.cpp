@@ -1,7 +1,9 @@
 #include "API_Camera.hpp"
 
+// This project
 #include "ScriptEngine.hpp"
-#include "../Objects/Camera.hpp"
+#include "EngineQ/Objects/Camera.hpp"
+
 
 namespace EngineQ
 {

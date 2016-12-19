@@ -1,22 +1,26 @@
 #ifndef ENGINEQ_GRAPHICS_SHADER_HPP
 #define ENGINEQ_GRAPHICS_SHADER_HPP
 
+// Standard includes
 #include <memory>
 #include <vector>
 
-#include <Libraries/GL/glew.h>
+// Libraries
+#include <GL/glew.h>
 
-#include <Utilities/Immovable.hpp>
-#include <Utilities/Nullable.hpp>
+// Other projects
+#include "EngineQCommon/Utilities/Immovable.hpp"
+#include "EngineQCommon/Utilities/Nullable.hpp"
+#include "EngineQCommon/Math/Vector2.hpp"
+#include "EngineQCommon/Math/Vector3.hpp"
+#include "EngineQCommon/Math/Vector4.hpp"
+#include "EngineQCommon/Math/Matrix3.hpp"
+#include "EngineQCommon/Math/Matrix4.hpp"
+
+// This project
+#include "Types.hpp"
 #include "ShaderPart.hpp"
 #include "UniformLocation.hpp"
-#include "Types.hpp"
-
-#include <Math/Vector2.hpp>
-#include <Math/Vector3.hpp>
-#include <Math/Vector4.hpp>
-#include <Math/Matrix3.hpp>
-#include <Math/Matrix4.hpp>
 
 
 namespace EngineQ

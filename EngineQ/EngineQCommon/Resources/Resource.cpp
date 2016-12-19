@@ -1,5 +1,6 @@
 #include "Resource.hpp"
 
+
 namespace EngineQ
 {
 	namespace Resources

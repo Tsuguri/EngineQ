@@ -1,10 +1,15 @@
 #ifndef ENGINEQ_GRAPHICS_CUBETEXTURE_HPP
 #define ENGINEQ_GRAPHICS_CUBETEXTURE_HPP
 
-#include <Libraries/GL/glew.h>
+// Libraries
+#include <GL/glew.h>
 
-#include <Utilities/Immovable.hpp>
+// Other projects
+#include "EngineQCommon/Utilities/Immovable.hpp"
+
+// This project
 #include "Configuration/RendererConfiguration.hpp"
+
 
 namespace EngineQ
 {

@@ -1,10 +1,13 @@
 #ifndef UTILITIES_EVENT_HPP
 #define UTILITIES_EVENT_HPP
 
+// Standard includes
+#include <memory>
 #include <vector>
+#include <algorithm>
 #include <functional>
 #include <stdexcept>
-#include <memory>
+
 
 namespace Utilities
 {

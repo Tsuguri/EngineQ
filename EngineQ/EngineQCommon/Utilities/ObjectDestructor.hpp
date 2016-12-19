@@ -1,6 +1,7 @@
 #ifndef UTILITIES_OBJECT_DESTRUCTOR_HPP
 #define UTILITIES_OBJECT_DESTRUCTOR_HPP
 
+
 namespace Utilities
 {
 	template<typename TType, bool>

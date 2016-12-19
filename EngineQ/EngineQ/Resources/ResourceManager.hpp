@@ -1,31 +1,28 @@
 #ifndef ENGINEQ_RESOURCES_RESOURCE_MANAGER_HPP
 #define ENGINEQ_RESOURCES_RESOURCE_MANAGER_HPP
 
+// Standard includes
 #include <tuple>
 #include <unordered_map>
+#include <typeindex>
+#include <functional>
 
+// Other projects
+#include "EngineQCommon/Utilities/Metaprogramming.hpp"
+#include "EngineQCommon/Resources/Resource.hpp"
+#include "EngineQRenderer/Graphics/Types.hpp"
+#include "EngineQRenderer/Graphics/Shader.hpp"
+
+// This project
 #include "Types.hpp"
-#include <Graphics/Types.hpp>
-
-#include <Utilities/Metaprogramming.hpp>
-#include "../Scripting/ScriptEngine.hpp"
-
+#include "Model.hpp"
 #include "ShaderFactory.hpp"
 #include "TextureFactory.hpp"
 #include "ModelFactory.hpp"
 #include "MeshFactory.hpp"
-
-#include <Resources\Resource.hpp>
-#include <Graphics/Shader.hpp>
-
-#include "../Objects/Object.hpp"
-
-#include "../Logger.hpp"
-
-#include <typeindex>
-#include <functional>
-
-#include "Model.hpp"
+#include "EngineQ/Scripting/ScriptEngine.hpp"
+#include "EngineQ/Objects/Object.hpp"
+#include "EngineQ/Logger.hpp"
 
 
 namespace EngineQ

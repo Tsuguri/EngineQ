@@ -1,12 +1,14 @@
 #ifndef ENGINEQ_GRAPHICS_FORWARDRENDERER_HPP
 #define ENGINEQ_GRAPHICS_FORWARDRENDERER_HPP
 
+// Standard includes
 #include <memory>
 
+// This project
 #include "Types.hpp"
-
 #include "Renderable.hpp"
-#include "Utils\ScreenDataProvider.hpp"
+#include "Utils/ScreenDataProvider.hpp"
+
 
 namespace EngineQ
 {

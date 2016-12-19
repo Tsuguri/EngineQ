@@ -1,14 +1,18 @@
 #ifndef ENGINEQ_TRANSFORM_HPP
 #define ENGINEQ_TRANSFORM_HPP
 
+// Standard includes
 #include <vector>
 
-#include "Types.hpp"
+// Other projects
+#include "EngineQCommon/Math/Vector3.hpp"
+#include "EngineQCommon/Math/Matrix4.hpp"
+#include "EngineQCommon/Math/Quaternion.hpp"
 
+// This project
+#include "Types.hpp"
 #include "Component.hpp"
-#include <Math/Vector3.hpp>
-#include <Math/Matrix4.hpp>
-#include <Math/Quaternion.hpp>
+
 
 namespace EngineQ
 {

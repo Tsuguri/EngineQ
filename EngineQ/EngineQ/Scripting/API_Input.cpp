@@ -1,8 +1,9 @@
 #include "API_Input.hpp"
 
+// This project
 #include "ScriptEngine.hpp"
+#include "EngineQ/Engine.hpp"
 
-#include "../Engine.hpp"
 
 void EngineQ::Scripting::API_Input::API_KeyPressed(InputController::Key keyCode, bool& result)
 {

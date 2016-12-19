@@ -1,5 +1,6 @@
 #include "Nullable.hpp"
 
+
 namespace Utilities
 {
 	NullValueException::NullValueException()

@@ -1,9 +1,13 @@
 #include "API_ShaderProperties.hpp"
 
+// Other projects
+#include "EngineQCommon/Math/Vector3.hpp"
+#include "EngineQCommon/Resources/Resource.hpp"
+
+// This project
 #include "ScriptEngine.hpp"
-#include <Math/Vector3.hpp>
-#include "../EngineShaderProperties.hpp"
-#include <Resources/Resource.hpp>
+#include "EngineQ/EngineShaderProperties.hpp"
+
 
 namespace EngineQ
 {

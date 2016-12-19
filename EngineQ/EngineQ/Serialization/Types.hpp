@@ -1,6 +1,7 @@
 #ifndef ENGINEQ_SERIALIZATION_TYPES_HPP
 #define ENGINEQ_SERIALIZATION_TYPES_HPP
 
+
 namespace EngineQ
 {
 	namespace Serialization

@@ -1,9 +1,13 @@
 #ifndef ENGINEQ_SCRIPTING_API_RESOURCE_HPP
 #define ENGINEQ_SCRIPTING_API_RESOURCE_HPP
 
+// Other projects
+#include "EngineQCommon/Resources/Resource.hpp"
+
+// This project
 #include "Types.hpp"
-#include "../Objects/Types.hpp"
-#include <Resources/Resource.hpp>
+#include "EngineQ/Objects/Types.hpp"
+
 
 namespace EngineQ
 {

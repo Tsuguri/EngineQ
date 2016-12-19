@@ -1,10 +1,13 @@
 #include "API_Quaternion.hpp"
 
+// Other projects
+#include "EngineQCommon/Math/Vector3.hpp"
+#include "EngineQCommon/Math/Vector4.hpp"
+#include "EngineQCommon/Math/Quaternion.hpp"
+
+// This project
 #include "ScriptEngine.hpp"
 
-#include <Math/Vector3.hpp>
-#include <Math/Vector4.hpp>
-#include <Math/Quaternion.hpp>
 
 using namespace EngineQ::Math;
 

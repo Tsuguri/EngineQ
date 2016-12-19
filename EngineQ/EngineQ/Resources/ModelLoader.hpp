@@ -1,13 +1,17 @@
 #ifndef ENGINEQ_RESOURCES_MODEL_LOADER_HPP
 #define ENGINEQ_RESOURCES_MODEL_LOADER_HPP
 
+// Standard includes
 #include <memory>
 
+// Other projects
+#include "EngineQCommon/Math/Vector3.hpp"
+#include "EngineQCommon/Utilities/EnumHelpers.hpp"
+
+// This project
 #include "Types.hpp"
 #include "Model.hpp"
-#include <Math/Vector3.hpp>
 
-#include <Utilities/EnumHelpers.hpp>
 
 struct aiScene;
 struct aiNode;

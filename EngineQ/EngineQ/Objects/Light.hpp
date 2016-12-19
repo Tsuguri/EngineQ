@@ -1,10 +1,14 @@
 #ifndef ENGINEQ_LIGHT_HPP
 #define ENGINEQ_LIGHT_HPP
 
+// Other projects
+#include "EngineQRenderer/Graphics/Shadows/Light.hpp"
+#include "EngineQRenderer/Graphics/Utils/ScreenDataProvider.hpp"
+
+// This project
 #include "Component.hpp"
-#include "Graphics\Shadows\Light.hpp"
-#include "Graphics\Utils\ScreenDataProvider.hpp"
-#include "../EngineShaderProperties.hpp"
+#include "EngineQ/EngineShaderProperties.hpp"
+
 
 namespace EngineQ
 {

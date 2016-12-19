@@ -1,8 +1,12 @@
 #include "Window.hpp"
 
-#include "Libraries/GL/glew.h"
+// Libraries
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+// This project
 #include "Logger.hpp"
+
 
 namespace EngineQ
 {

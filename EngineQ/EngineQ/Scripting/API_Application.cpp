@@ -1,7 +1,9 @@
 #include "API_Application.hpp"
 
+// This project
 #include "ScriptEngine.hpp"
-#include "../Engine.hpp"
+#include "EngineQ/Engine.hpp"
+
 
 namespace EngineQ
 {

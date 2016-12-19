@@ -1,13 +1,17 @@
 #include "ModelLoader.hpp"
 
+// Libraries
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+// Other projects
+#include "EngineQCommon/Utilities/EnumHelpers.hpp"
+#include "EngineQRenderer/Graphics/Vertex.hpp"
+
+// This project
 #include "Model.hpp"
 
-#include <Utilities/EnumHelpers.hpp>
-#include <Graphics/Vertex.hpp>
 
 namespace EngineQ
 {

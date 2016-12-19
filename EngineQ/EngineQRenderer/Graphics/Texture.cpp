@@ -1,6 +1,8 @@
 #include "Texture.hpp"
 
+// Libraries
 #include <SOIL/SOIL.h>
+
 
 namespace EngineQ
 {

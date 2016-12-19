@@ -1,8 +1,12 @@
 #ifndef ENGINEQ_INPUTCONTROLLER_HPP
 #define ENGINEQ_INPUTCONTROLLER_HPP
 
-#include "Math/Vector2.hpp"
+// Other projects
+#include "EngineQCommon/Math/Vector2.hpp"
+
+// This project
 #include "Scripting/ScriptEngine.hpp"
+
 
 namespace EngineQ
 {

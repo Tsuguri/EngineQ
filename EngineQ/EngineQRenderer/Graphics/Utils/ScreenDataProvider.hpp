@@ -1,7 +1,10 @@
 #pragma once
 
-#include <Math\Vector2.hpp>
-#include <Utilities\Event.hpp>
+// Other projects
+#include "EngineQCommon/Math/Vector2.hpp"
+#include "EngineQCommon/Utilities/Event.hpp"
+
+
 namespace EngineQ
 {
 	namespace Graphics

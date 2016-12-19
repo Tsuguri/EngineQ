@@ -1,20 +1,21 @@
 ﻿#include "Engine.hpp"
 
+// Standard includes
 #include <fstream>
 #include <memory>
 
-#include "Objects/Scene.hpp"
-#include <Graphics/Shader.hpp>
-#include "TimeCounter.hpp"
+// Other projects
+#include "EngineQCommon/Math/Vector2.hpp"
+#include "EngineQRenderer/Graphics/RenderingUnit.hpp"
+#include "EngineQRenderer/Graphics/Shader.hpp"
 
-#include "Resources/ResourceManager.hpp"
-#include "Utilities/ResourcesIDs.hpp"
-#include <Graphics/RenderingUnit.hpp>
-#include "Objects/Camera.hpp"
-
-#include "Math/Vector2.hpp"
-
+// This project
 #include "Logger.hpp"
+#include "TimeCounter.hpp"
+#include "Objects/Scene.hpp"
+#include "Objects/Camera.hpp"
+#include "Resources/ResourceManager.hpp"
+
 
 namespace EngineQ
 {
@@ -180,52 +181,6 @@ namespace EngineQ
 	Scripting::ScriptEngine& Engine::GetScriptEngine() const
 	{
 		return *this->scriptingEngine;
-	}
-
-	IntermediateRenderingUnitConfiguration GenerateDefaultConfiguration()
-	{
-		std::string tex1Name = "tex1";
-		std::string tex2Name = "tex2";
-		std::string tex3Name = "tex3";
-		IntermediateRenderingUnitConfiguration config{};
-		config.Renderer.Output.push_back(Graphics::Configuration::OutputTexture{ tex1Name });
-
-		config.Textures.push_back(Graphics::Configuration::TextureConfiguration{ tex1Name });
-		config.Textures.push_back(Graphics::Configuration::TextureConfiguration{ tex2Name });
-		config.Textures.push_back(Graphics::Configuration::TextureConfiguration{ tex3Name });
-
-		auto extract = IntermediateEffectConfiguration{};
-		extract.Input.push_back(Graphics::Configuration::InputPair{ 0,tex1Name });
-		extract.Output.push_back(Graphics::Configuration::OutputTexture{ tex2Name });
-		extract.Shader = Utilities::ResourcesIDs::BrightExtract;
-		config.Effects.push_back(extract);
-
-		auto blurVertical = IntermediateEffectConfiguration{};
-		blurVertical.Input.push_back(Graphics::Configuration::InputPair{ 0,tex2Name });
-		blurVertical.Output.push_back(Graphics::Configuration::OutputTexture{ tex3Name });
-		blurVertical.Shader = Utilities::ResourcesIDs::BlurVShader;
-
-
-		auto blur = IntermediateEffectConfiguration{};
-		blur.Input.push_back(Graphics::Configuration::InputPair{ 0,tex3Name });
-		blur.Output.push_back(Graphics::Configuration::OutputTexture{ tex2Name });
-		blur.Shader = Utilities::ResourcesIDs::BlurShader;
-
-
-		for (int i = 0; i < 5; i++)
-		{
-			config.Effects.push_back(blurVertical);
-			config.Effects.push_back(blur);
-		}
-
-		auto quad = IntermediateEffectConfiguration{};
-		quad.Input.push_back(Graphics::Configuration::InputPair{ tex1Name, "scene" });
-		quad.Input.push_back(Graphics::Configuration::InputPair{ tex2Name, "bloomBlur" });
-		quad.Output.push_back(Graphics::Configuration::OutputTexture{ "Screen" });
-		quad.Shader = Utilities::ResourcesIDs::CombineShader;
-		config.Effects.push_back(quad);
-
-		return config;
 	}
 
 	void Engine::Run()

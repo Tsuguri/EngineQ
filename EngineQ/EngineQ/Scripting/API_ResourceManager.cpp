@@ -1,8 +1,10 @@
 #include "API_ResourceManager.hpp"
 
+// This project
 #include "ScriptEngine.hpp"
-#include "../Resources/ResourceManager.hpp"
-#include "../Engine.hpp"
+#include "EngineQ/Resources/ResourceManager.hpp"
+#include "EngineQ/Engine.hpp"
+
 
 namespace EngineQ
 {

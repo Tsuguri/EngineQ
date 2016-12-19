@@ -1,7 +1,10 @@
 #ifndef ENGINEQ_GRAPHICS_CAMERA_HPP
 #define ENGINEQ_GRAPHICS_CAMERA_HPP
 
-#include <Math\Matrix4.hpp>
+// Other projects
+#include "EngineQCommon/Math/Matrix4.hpp"
+
+
 namespace EngineQ
 {
 	namespace Graphics

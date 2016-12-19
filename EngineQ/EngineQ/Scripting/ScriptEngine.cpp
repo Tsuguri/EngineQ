@@ -1,5 +1,6 @@
 #include "ScriptEngine.hpp"
 
+// Libraries
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
 #include <mono/metadata/image.h>
@@ -11,27 +12,24 @@
 #include <mono/metadata/attrdefs.h>
 #include <mono/metadata/mono-gc.h>
 
+// This project
 #include "ScriptingExceptions.hpp"
-
 #include "API_Component.hpp"
 #include "API_Scene.hpp"
 #include "API_Entity.hpp"
-
 #include "API_Resource.hpp"
 #include "API_ShaderProperties.hpp"
-
 #include "API_Camera.hpp"
 #include "API_Transform.hpp"
 #include "API_Renderable.hpp"
-
 #include "API_Matrix3.hpp"
 #include "API_Matrix4.hpp"
 #include "API_Quaternion.hpp"
-
 #include "API_Input.hpp"
 #include "API_TimeCounter.hpp"
 #include "API_Application.hpp"
 #include "API_ResourceManager.hpp"
+
 
 namespace EngineQ
 {

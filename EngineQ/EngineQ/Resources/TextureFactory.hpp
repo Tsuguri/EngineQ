@@ -1,10 +1,13 @@
 #ifndef ENGINEQ_RESOURCES_TEXTURE_FACTORY_HPP
 #define ENGINEQ_RESOURCES_TEXTURE_FACTORY_HPP
 
+// Other projects
+#include "EngineQRenderer/Graphics/Types.hpp"
+
+// This project
+#include "Types.hpp"
 #include "ResourceFactory.hpp"
 
-#include "Types.hpp"
-#include <Graphics/Types.hpp>
 
 namespace EngineQ
 {

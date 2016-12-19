@@ -1,15 +1,21 @@
 #ifndef ENGINEQ_GRAPHICS_SHADER_PART_HPP
 #define ENGINEQ_GRAPHICS_SHADER_PART_HPP
 
+// Standard includes
 #include <memory>
 #include <string>
 #include <fstream>
 
-#include <Libraries/GL/glew.h>
-#include <Utilities/Immovable.hpp>
+// Libraries
+#include <GL/glew.h>
 
+// Other projects
+#include "EngineQCommon/Utilities/Immovable.hpp"
+
+// This project
 #include "Types.hpp"
 #include "ShaderExceptions.hpp"
+
 
 namespace EngineQ
 {

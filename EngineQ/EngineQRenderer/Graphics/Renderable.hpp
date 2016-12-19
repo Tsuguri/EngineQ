@@ -1,9 +1,12 @@
 #ifndef ENGINEQ_GRAPHICS_RENDERABLE_HPP
 #define ENGINEQ_GRAPHICS_RENDERABLE_HPP
 
-#include <Math\Vector3.hpp>
+// Other projects
+#include "EngineQCommon/Math/Vector3.hpp"
 
+// This project
 #include "ShaderProperties.hpp"
+
 
 namespace EngineQ
 {

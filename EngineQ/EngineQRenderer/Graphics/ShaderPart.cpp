@@ -1,9 +1,12 @@
 #include "ShaderPart.hpp"
 
+// Standard includes
 #include <iostream>
 #include <sstream>
 
+// This project
 #include "ShaderPreprocessor.hpp"
+
 
 namespace EngineQ
 {

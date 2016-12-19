@@ -1,6 +1,9 @@
 #include "RendererIntermediateConfiguration.hpp"
 
-#include <Resources\Resource.hpp>
+// Other projects
+#include "EngineQCommon/Resources/Resource.hpp"
+
+
 namespace EngineQ
 {
 	Graphics::Configuration::EffectConfiguration IntermediateEffectConfiguration::ToEffectConfiguration(Resources::ResourceManager * manager)

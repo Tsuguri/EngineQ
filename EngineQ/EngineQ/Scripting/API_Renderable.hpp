@@ -1,11 +1,14 @@
 #ifndef ENGINEQ_SCRIPTING_API_RENDERABLE_HPP
 #define ENGINEQ_SCRIPTING_API_RENDERABLE_HPP
 
-#include "Types.hpp"
-#include "../Objects/Types.hpp"
-#include <Graphics/Types.hpp>
+// Other projects
+#include "EngineQRenderer/Graphics/Types.hpp"
+#include "EngineQCommon/Resources/Resource.hpp"
 
-#include <Resources/Resource.hpp>
+// This project
+#include "Types.hpp"
+#include "EngineQ/Objects/Types.hpp"
+
 
 namespace EngineQ
 {

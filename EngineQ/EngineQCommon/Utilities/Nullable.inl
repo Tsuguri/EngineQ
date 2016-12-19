@@ -1,5 +1,6 @@
 #include "ObjectDestructor.hpp"
 
+
 namespace Utilities
 {
 	template<typename Type>

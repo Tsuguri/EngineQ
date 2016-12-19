@@ -1,9 +1,13 @@
 #include "API_Renderable.hpp"
 
-#include "../Objects/Renderable.hpp"
-#include <Graphics/ShaderProperties.hpp>
-#include <Graphics/Mesh.hpp>
+// Other projects
+#include "EngineQRenderer/Graphics/ShaderProperties.hpp"
+#include "EngineQRenderer/Graphics/Mesh.hpp"
+
+// This project
+#include "EngineQ/Objects/Renderable.hpp"
 #include "ScriptEngine.hpp"
+
 
 namespace EngineQ
 {

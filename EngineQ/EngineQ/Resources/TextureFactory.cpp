@@ -1,10 +1,11 @@
-#include <array>
-
-#include <Libraries/TinyXML/tinyxml2.h>
-
 #include "TextureFactory.hpp"
 
-#include <Graphics/Texture.hpp>
+// Standard includes
+#include <array>
+
+// Other projects
+#include "EngineQCommon/Libraries/TinyXML/tinyxml2.h"
+#include "EngineQRenderer/Graphics/Texture.hpp"
 
 
 namespace EngineQ

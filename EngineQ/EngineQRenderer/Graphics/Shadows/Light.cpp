@@ -1,9 +1,9 @@
 #include "Light.hpp"
 
-#include "../Renderable.hpp"
-#include "../Mesh.hpp"
-//#include "Math\Utilities.hpp"
-//#include <Math\Utils.hpp>
+// This project
+#include "EngineQRenderer/Graphics/Renderable.hpp"
+#include "EngineQRenderer/Graphics/Mesh.hpp"
+
 
 namespace EngineQ
 {

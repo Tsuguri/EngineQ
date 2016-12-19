@@ -1,10 +1,11 @@
 #ifndef ENGINEQ_MATH_VECTOR2_HPP
 #define ENGINEQ_MATH_VECTOR2_HPP
 
-#include "../Utilities/StringHelpers.hpp"
-
+// This project
 #include "Types.hpp"
 #include "Utils.hpp"
+#include "EngineQCommon/Utilities/StringHelpers.hpp"
+
 
 namespace EngineQ
 {

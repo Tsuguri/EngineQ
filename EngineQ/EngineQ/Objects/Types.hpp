@@ -1,6 +1,7 @@
 #ifndef ENGINEQ_OBJECTS_TYPES_HPP
 #define ENGINEQ_OBJECTS_TYPES_HPP
 
+
 namespace EngineQ
 {
 	class Object;

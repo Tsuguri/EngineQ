@@ -1,8 +1,11 @@
 #include "XMLFormatter.hpp"
 
-#include <Libraries/TinyXML/tinyxml2.h>
+// Other projects
+#include "EngineQCommon/Libraries/TinyXML/tinyxml2.h"
 
+// This project
 #include "SerializedObject.hpp"
+
 
 namespace EngineQ
 {

@@ -1,9 +1,11 @@
 #include "Object.hpp"
 
-#include "../Scripting/ScriptEngine.hpp"
-#include "../Serialization/Serializer.hpp"
-#include "../Serialization/Deserializer.hpp"
-#include "../Serialization/SerializationRules.hpp"
+// This project
+#include "EngineQ/Scripting/ScriptEngine.hpp"
+#include "EngineQ/Serialization/Serializer.hpp"
+#include "EngineQ/Serialization/Deserializer.hpp"
+#include "EngineQ/Serialization/SerializationRules.hpp"
+
 
 namespace EngineQ
 {

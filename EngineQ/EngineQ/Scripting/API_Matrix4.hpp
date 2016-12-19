@@ -1,8 +1,12 @@
 #ifndef ENGINEQ_SCRIPTING_API_MATRIX4_HPP
 #define ENGINEQ_SCRIPTING_API_MATRIX4_HPP
 
+// Other projects
+#include "EngineQCommon/Math/Types.hpp"
+
+// This project
 #include "Types.hpp"
-#include <Math/Types.hpp>
+
 
 namespace EngineQ
 {

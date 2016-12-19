@@ -1,7 +1,7 @@
 #include "TimeCounter.hpp"
 
-std::unique_ptr<TimeCounter> TimeCounter::instance = nullptr;
 
+std::unique_ptr<TimeCounter> TimeCounter::instance = nullptr;
 
 float TimeCounter::TimeFromStart()
 {

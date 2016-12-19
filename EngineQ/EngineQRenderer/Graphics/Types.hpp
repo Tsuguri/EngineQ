@@ -1,6 +1,7 @@
 #ifndef ENGINEQ_GRAPHICS_TYPES_HPP
 #define ENGINEQ_GRAPHICS_TYPES_HPP
 
+
 namespace EngineQ
 {
 	namespace Graphics
@@ -19,7 +20,6 @@ namespace EngineQ
 		class Camera;
 
 		class ShaderPass;
-
 	}
 }
 

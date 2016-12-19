@@ -1,7 +1,9 @@
-#include <map>
-#include <Utilities/ResourcesIDs.hpp>
-
 #include "RenderingUnit.hpp"
+
+// Standard includes
+#include <map>
+
+// This project
 #include "PostprocessingExceptions.hpp"
 #include "Renderer.hpp"
 #include "Shader.hpp"

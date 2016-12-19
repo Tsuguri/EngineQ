@@ -1,10 +1,13 @@
 #ifndef ENGINEQ_RESOURCES_RESOURCE_FACTORY_HPP
 #define ENGINEQ_RESOURCES_RESOURCE_FACTORY_HPP
 
+// Standard includes
 #include <memory>
 #include <stdexcept>
 
+// This project
 #include "Types.hpp"
+
 
 namespace EngineQ
 {

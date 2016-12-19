@@ -1,8 +1,12 @@
 #ifndef UTILITIES_ENUM_HELPERS_HPP
 #define UTILITIES_ENUM_HELPERS_HPP
 
+// Standard includes
 #include <type_traits>
+
+// This project
 #include "Metaprogramming.hpp"
+
 
 namespace Utilities
 {

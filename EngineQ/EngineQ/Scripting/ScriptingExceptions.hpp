@@ -1,7 +1,9 @@
 #ifndef ENGINEQ_SCRIPTING_SCRIPTING_EXCEPTIONS_HPP
 #define ENGINEQ_SCRIPTING_SCRIPTING_EXCEPTIONS_HPP
 
+// Standard includes
 #include <stdexcept>
+
 
 namespace EngineQ
 {

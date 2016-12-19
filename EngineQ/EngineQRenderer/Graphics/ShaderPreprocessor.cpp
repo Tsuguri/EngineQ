@@ -1,8 +1,10 @@
 #include "ShaderPreprocessor.hpp"
 
+// Standard includes
 #include <fstream>
 #include <sstream>
 #include <iterator>
+
 
 namespace EngineQ
 {

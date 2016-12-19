@@ -1,10 +1,12 @@
 #include "ShaderFactory.hpp"
 
+// Standard includes
 #include <unordered_map>
 
-#include <Libraries/TinyXML/tinyxml2.h>
+// Other projects
+#include "EngineQCommon/Libraries/TinyXML/tinyxml2.h"
+#include "EngineQRenderer/Graphics/Shader.hpp"
 
-#include <Graphics/Shader.hpp>
 
 namespace EngineQ
 {

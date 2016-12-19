@@ -1,11 +1,11 @@
 #include "API_Component.hpp"
 
+// This project
 #include "Types.hpp"
-
 #include "ScriptEngine.hpp"
+#include "EngineQ/Objects/Component.hpp"
+#include "EngineQ/Objects/Entity.hpp"
 
-#include "../Objects/Component.hpp"
-#include "../Objects/Entity.hpp"
 
 namespace EngineQ
 {

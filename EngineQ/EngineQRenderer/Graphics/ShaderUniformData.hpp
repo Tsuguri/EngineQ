@@ -1,18 +1,21 @@
 #ifndef ENGINEQ_GRAPHICS_SHADER_UNIFORM_DATA_HPP
 #define ENGINEQ_GRAPHICS_SHADER_UNIFORM_DATA_HPP
 
+// Standard includes
 #include <array>
 #include <unordered_map>
 
-#include <Utilities/Metaprogramming.hpp>
-#include <Utilities/Nullable.hpp>
-#include "ShaderExceptions.hpp"
+// Other projects
+#include "EngineQCommon/Utilities/Metaprogramming.hpp"
+#include "EngineQCommon/Utilities/Nullable.hpp"
+#include "EngineQCommon/Resources/Resource.hpp"
 
+// This project
+#include "ShaderExceptions.hpp"
 #include "UniformLocation.hpp"
 #include "ShaderProperty.hpp"
 #include "Shader.hpp"
 
-#include <Resources/Resource.hpp>
 
 namespace EngineQ
 {

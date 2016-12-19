@@ -1,7 +1,9 @@
 #ifndef UTILITIES_EMITER_HPP
 #define UTILITIES_EMITER_HPP
 
+// Standard includes
 #include <string>
+
 
 namespace Utilities
 {

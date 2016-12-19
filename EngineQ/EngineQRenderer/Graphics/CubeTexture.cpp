@@ -1,7 +1,12 @@
 #include "CubeTexture.hpp"
 
-#include <SOIL/SOIL.h>
+// Standard includes
 #include <array>
+
+// Libraries
+#include <SOIL/SOIL.h>
+
+
 namespace EngineQ
 {
 	namespace Graphics

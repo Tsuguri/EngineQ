@@ -1,10 +1,15 @@
 #ifndef ENGINEQ_GRAPHICS_TEXTURE_HPP
 #define ENGINEQ_GRAPHICS_TEXTURE_HPP
 
-#include <Libraries/GL/glew.h>
+// Libraries
+#include <GL/glew.h>
 
-#include <Utilities/Immovable.hpp>
-#include "Configuration\RendererConfiguration.hpp"
+// Other projects
+#include "EngineQCommon/Utilities/Immovable.hpp"
+
+// This project
+#include "Configuration/RendererConfiguration.hpp"
+
 
 namespace EngineQ
 {

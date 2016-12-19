@@ -1,14 +1,16 @@
 #include "Camera.hpp"
 
+// Other projects
+#include "EngineQCommon/Math/Utils.hpp"
+
+// This project
 #include "Entity.hpp"
 #include "Transform.hpp"
+#include "EngineQ/Serialization/Serializer.hpp"
+#include "EngineQ/Serialization/Deserializer.hpp"
+#include "EngineQ/Scripting/ScriptEngine.hpp"
+#include "EngineQ/Serialization/SerializationRules.hpp"
 
-#include "../Serialization/Serializer.hpp"
-#include "../Serialization/Deserializer.hpp"
-#include "../Scripting/ScriptEngine.hpp"
-#include <Math/Utils.hpp>
-
-#include "../Serialization/SerializationRules.hpp"
 
 namespace EngineQ
 {

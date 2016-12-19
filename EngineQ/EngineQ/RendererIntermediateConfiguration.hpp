@@ -1,12 +1,17 @@
 #ifndef RENDERER_INTERMEDIATE_CONFIGURATION_HPP
 #define RENDERER_INTERMEDIATE_CONFIGURATION_HPP
 
+// Standard includes
 #include <unordered_map>
 #include <memory>
 
-#include "Libraries\TinyXML\tinyxml2.h"
-#include <Graphics/Configuration/RendererConfiguration.hpp>
-#include "Resources\ResourceManager.hpp"
+// Other projects
+#include "EngineQCommon/Libraries/TinyXML/tinyxml2.h"
+#include "EngineQRenderer/Graphics/Configuration/RendererConfiguration.hpp"
+
+// This project
+#include "Resources/ResourceManager.hpp"
+
 
 namespace EngineQ
 {

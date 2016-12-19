@@ -1,14 +1,18 @@
 #ifndef ENGINEQ_RESOURCES_MODEL_HPP
 #define ENGINEQ_RESOURCES_MODEL_HPP
 
+// Standard includes
 #include <memory>
 #include <vector>
 #include <type_traits>
 
-#include <Utilities/PointerWrapper.hpp>
-#include <Libraries/GL/glew.h>
+// Libraries
+#include <GL/glew.h>
 
-#include <Graphics/Mesh.hpp>
+// Other projects
+#include "EngineQCommon/Utilities/PointerWrapper.hpp"
+#include "EngineQRenderer/Graphics/Mesh.hpp"
+
 
 namespace EngineQ
 {

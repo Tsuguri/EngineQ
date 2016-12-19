@@ -1,14 +1,18 @@
 #ifndef ENGINEQ_SCENE_HPP
 #define ENGINEQ_SCENE_HPP
 
+// Standard includes
 #include <vector>
 #include <memory>
 
-#include "Types.hpp"
-#include <Graphics/Types.hpp>
+// Other projects
+#include "EngineQRenderer/Graphics/Types.hpp"
+#include "EngineQRenderer/Graphics/Scene.hpp"
 
-#include <Graphics/Scene.hpp>
+// This project
+#include "Types.hpp"
 #include "Object.hpp"
+
 
 namespace EngineQ
 {

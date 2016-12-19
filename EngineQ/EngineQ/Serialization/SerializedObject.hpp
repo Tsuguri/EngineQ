@@ -1,9 +1,11 @@
 #ifndef ENGINEQ_SERIALIZATION_SERIALIZED_OBJECT_HPP
 #define ENGINEQ_SERIALIZATION_SERIALIZED_OBJECT_HPP
 
+// Standard includes
 #include <map>
 #include <memory>
 #include <string>
+
 
 namespace EngineQ
 {

@@ -1,8 +1,10 @@
 #ifndef ENGINEQ_RESOURCES_RESOURCE_HPP
 #define ENGINEQ_RESOURCES_RESOURCE_HPP
 
+// Standard includes
 #include <memory>
 #include <stdexcept>
+
 
 namespace EngineQ
 {

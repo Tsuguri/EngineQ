@@ -1,13 +1,16 @@
 #ifndef ENGINEQ_SERIALIZATION_SERIALIZATION_ENGINE_HPP
 #define ENGINEQ_SERIALIZATION_SERIALIZATION_ENGINE_HPP
 
+// Standard includes
+#include <map>
 #include <string>
 #include <functional>
-#include <map>
 #include <typeinfo>
 #include <typeindex>
 
+// This project
 #include "Types.hpp"
+
 
 namespace EngineQ
 {

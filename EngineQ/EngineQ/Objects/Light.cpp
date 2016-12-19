@@ -1,14 +1,19 @@
-#include "..\..\EngineQRenderer\Graphics\Shadows\Light.hpp"
 #include "Light.hpp"
 
-#include "../Scripting/ScriptEngine.hpp"
-#include "../Serialization/Serializer.hpp"
-#include "../Serialization/Deserializer.hpp"
+// Other projects
+#include "EngineQRenderer/Graphics/Shadows/Light.hpp"
+
+// This project
 #include "Entity.hpp"
 #include "Transform.hpp"
 #include "Scene.hpp"
-#include "../Resources/ResourceManager.hpp"
-#include "../Engine.hpp"
+#include "EngineQ/Engine.hpp"
+#include "EngineQ/Resources/ResourceManager.hpp"
+#include "EngineQ/Scripting/ScriptEngine.hpp"
+#include "EngineQ/Serialization/Serializer.hpp"
+#include "EngineQ/Serialization/Deserializer.hpp"
+
+
 namespace EngineQ
 {
 	/*

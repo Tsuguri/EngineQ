@@ -1,10 +1,13 @@
 #ifndef ENGINEQ_GRAPHICS_POSTPROCESSING_EFFECT_HPP
 #define ENGINEQ_GRAPHICS_POSTPROCESSING_EFFECT_HPP
 
-#include <Resources/Resource.hpp>
+// Other projects
+#include "EngineQCommon/Resources/Resource.hpp"
 
+// This project
 #include "Configuration/RendererConfiguration.hpp"
-#include  "ShaderProperties.hpp"
+#include "ShaderProperties.hpp"
+
 
 namespace EngineQ
 {

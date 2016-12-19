@@ -53,9 +53,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="Shared">
-    <Import Project="..\EngineQCommon\EngineQCommon.vcxitems" Label="Shared" />
-  </ImportGroup>
+  <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -91,13 +89,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDIr);$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+      <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>SOIL.lib;opengl32.lib</AdditionalDependencies>
+      <AdditionalDependencies>SOIL.lib;opengl32.lib;EngineQCommon.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQCommon\_Build\bin\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -105,14 +104,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDIr);$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>SOIL.lib;opengl32.lib</AdditionalDependencies>
+      <AdditionalDependencies>SOIL.lib;opengl32.lib;EngineQCommon.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQCommon\_Build\bin\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -122,18 +122,19 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDIr);$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>SOIL.lib;opengl32.lib</AdditionalDependencies>
+      <AdditionalDependencies>SOIL.lib;opengl32.lib;EngineQCommon.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQCommon\_Build\bin\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -143,18 +144,19 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDIr);$(SolutionDir)Libraries\Glew\include\;$(SolutionDir)Libraries\Assimp\include\;$(SolutionDir)Libraries\SOIL\include\;%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <CppLanguageStandard>c++1y</CppLanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>SOIL.lib;opengl32.lib</AdditionalDependencies>
+      <AdditionalDependencies>SOIL.lib;opengl32.lib;EngineQCommon.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)EngineQCommon\_Build\bin\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\Mono\lib\$(Platform)\;$(SolutionDir)Libraries\Glew\lib\$(Platform)\;$(SolutionDir)Libraries\GLFW\lib\$(Platform)\;$(SolutionDir)Libraries\Assimp\lib\$(Platform)\;$(SolutionDir)Libraries\SOIL\lib\$(Platform)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

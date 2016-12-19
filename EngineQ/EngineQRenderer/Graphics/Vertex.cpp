@@ -1,5 +1,6 @@
 #include "Vertex.hpp"
 
+
 namespace EngineQ
 {
 	VPos::VPos(const Math::Vector3& position) :

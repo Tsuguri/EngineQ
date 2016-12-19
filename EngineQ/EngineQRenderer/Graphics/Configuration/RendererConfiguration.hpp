@@ -1,15 +1,22 @@
 #ifndef ENGINEQ_GRAPHICS_RENDERER_CONFIGURATION_HPP
 #define ENGINEQ_GRAPHICS_RENDERER_CONFIGURATION_HPP
-#include <Libraries/GL/glew.h>
-#include <Libraries/TinyXML/tinyxml2.h>
 
+// Standard includes
 #include <string>
 #include <vector>
 #include <unordered_map>
 
-#include "../Shader.hpp"
+// Libraries
+#include <GL/glew.h>
 
-#include <Resources\Resource.hpp>
+// Other projects
+#include "EngineQCommon/Libraries/TinyXML/tinyxml2.h"
+#include "EngineQCommon/Resources/Resource.hpp"
+
+// This project
+#include "EngineQRenderer/Graphics/Shader.hpp"
+
+
 namespace EngineQ
 {
 	namespace Graphics

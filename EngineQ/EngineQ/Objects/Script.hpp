@@ -1,9 +1,9 @@
 #ifndef ENGINEQ_SCRIPT_HPP
 #define ENGINEQ_SCRIPT_HPP
 
+// This project
 #include "Component.hpp"
 
-//	#include <Utilities/Emiter.hpp"
 
 namespace EngineQ
 {

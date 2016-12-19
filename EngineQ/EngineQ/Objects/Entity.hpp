@@ -1,12 +1,14 @@
 #ifndef ENGINEQ_ENTITY_HPP
 #define ENGINEQ_ENTITY_HPP
 
+// Standard includes
 #include <vector>
 #include <memory>
 
+// This project
 #include "Types.hpp"
-
 #include "Object.hpp"
+
 
 namespace EngineQ
 {
