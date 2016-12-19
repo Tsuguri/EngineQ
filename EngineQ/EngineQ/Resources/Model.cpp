@@ -73,7 +73,7 @@ namespace EngineQ
 				
 					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, constructionData.vbo[2]);
 					glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
-					glBindBuffer(GL_ARRAY_BUFFER, NULL);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
 					constructionData.indicesCount = static_cast<GLuint>(indices.size());
 				
 			return constructionData;

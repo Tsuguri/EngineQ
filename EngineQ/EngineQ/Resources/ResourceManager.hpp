@@ -3,6 +3,7 @@
 
 // Standard includes
 #include <tuple>
+#include <algorithm>
 #include <unordered_map>
 #include <typeindex>
 #include <functional>

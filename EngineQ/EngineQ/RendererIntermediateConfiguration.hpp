@@ -18,7 +18,7 @@ namespace EngineQ
 	class IntermediateEffectConfiguration
 	{
 	public:
-		std::string Shader;//for resource manager
+		std::string ShaderName;//for resource manager
 		std::string ClassName;//C# class name
 		bool DepthTesting;
 		bool ApplyShadowInfo;

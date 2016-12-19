@@ -76,12 +76,12 @@ namespace EngineQ
 			return this->controlBlock->GetAllReferenceCount() - this->controlBlock->GetNativeReferenceCount();
 		}
 
-		bool BaseResource::operator == (nullptr_t) const
+		bool BaseResource::operator == (std::nullptr_t) const
 		{
 			return this->controlBlock == nullptr;
 		}
 
-		bool BaseResource::operator != (nullptr_t) const
+		bool BaseResource::operator != (std::nullptr_t) const
 		{
 			return this->controlBlock != nullptr;
 		}

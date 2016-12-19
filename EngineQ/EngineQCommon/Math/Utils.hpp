@@ -1,6 +1,9 @@
 #ifndef ENGINEQ_MATH_UTILS_HPP
 #define ENGINEQ_MATH_UTILS_HPP
 
+// Standard includes
+#include <cmath>
+
 
 namespace EngineQ
 {

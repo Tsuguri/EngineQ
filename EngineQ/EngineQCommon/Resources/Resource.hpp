@@ -59,8 +59,8 @@ namespace EngineQ
 			int GetNativeReferenceCount() const;
 			int GetManagedReferenceCount() const;
 
-			bool operator == (nullptr_t) const;
-			bool operator != (nullptr_t) const;
+			bool operator == (std::nullptr_t) const;
+			bool operator != (std::nullptr_t) const;
 		};
 
 
@@ -135,12 +135,12 @@ namespace EngineQ
 					BaseControlBlock::RemoveNativeReference(this->controlBlock);
 			}
 
-			Resource(nullptr_t) :
+			Resource(std::nullptr_t) :
 				BaseResource{ nullptr }
 			{
 			}
 
-			Resource& operator = (nullptr_t)
+			Resource& operator = (std::nullptr_t)
 			{
 				if (this->controlBlock != nullptr)
 				{

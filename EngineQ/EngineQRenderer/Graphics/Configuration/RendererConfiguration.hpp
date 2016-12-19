@@ -55,7 +55,7 @@ namespace EngineQ
 			class EffectConfiguration
 			{
 			public:
-				Resources::Resource<Shader> Shader;
+				Resources::Resource<Shader> EffectShader;
 				std::string ClassName = "";//C# class name
 				bool DepthTesting = false;
 				bool ApplyShadowInfo = false;

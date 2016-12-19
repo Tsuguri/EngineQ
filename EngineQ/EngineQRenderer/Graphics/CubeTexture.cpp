@@ -75,7 +75,7 @@ namespace EngineQ
 		CubeTexture::CubeTexture(const char * top, const char * bottom, const char * north, const char * south, const char * west, const char * east)
 		{
 
-			std::array<const char*, 6> names = { east, west, top, bottom, north, south };
+			std::array<const char*, 6> names = { { east, west, top, bottom, north, south } };
 
 			InitFromNames(names);
 

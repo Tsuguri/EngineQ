@@ -13,7 +13,7 @@ namespace EngineQ
 		configuration.DepthTesting = DepthTesting;
 		configuration.Input = Input;
 		configuration.Output = Output;
-		configuration.Shader = manager->GetResource<Graphics::Shader>(this->Shader);
+		configuration.EffectShader = manager->GetResource<Graphics::Shader>(this->ShaderName);
 		configuration.ApplyShadowInfo = ApplyShadowInfo;
 
 		return configuration;
@@ -26,7 +26,7 @@ namespace EngineQ
 		auto shader = element->Attribute("Shader");
 		if (shader == nullptr)
 			throw "Shader attribute not found or equal to 0";
-		configuration.Shader = shader;
+		configuration.ShaderName = shader;
 
 		auto depth = element->BoolAttribute("DeptTesting");//default false if not exist
 		configuration.DepthTesting = depth;

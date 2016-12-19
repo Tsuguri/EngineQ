@@ -4,6 +4,7 @@
 // Standard includes
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 // Other projects
 #include "EngineQRenderer/Graphics/Types.hpp"

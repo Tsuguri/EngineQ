@@ -116,7 +116,7 @@ namespace EngineQ
 			//effects
 			for (auto effect : configuration.Effects)
 			{
-				auto shaderPass = std::make_unique<ShaderPass>(effect.Shader);
+				auto shaderPass = std::make_unique<ShaderPass>(effect.EffectShader);
 				for (auto inputConfiguration : effect.Input)
 					shaderPass->AddInput(InputConfiguration{ texturesResources[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
 
