@@ -9,6 +9,8 @@ get_filename_component(LIBRARIES_ROOT_PATH "${ROOT_PATH}/Libraries" ABSOLUTE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${ROOT_PATH}/Modules") 
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 include(
 	Utilities
 )

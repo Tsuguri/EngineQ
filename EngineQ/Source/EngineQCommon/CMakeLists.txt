@@ -23,6 +23,8 @@ file(
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
+set_property(TARGET ${PROJECT_NAME} PROPERTY FOLDER "EngineQ")
+
 target_include_directories(${PROJECT_NAME} PUBLIC 
 	${INCLUDE_DIRS}	
 )

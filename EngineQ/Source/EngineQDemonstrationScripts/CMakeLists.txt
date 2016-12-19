@@ -19,7 +19,6 @@ set(PROJECT_GUID "50F6A5A2-668F-4000-A608-20CEEAD52D32")
 
 
 
-
 # Set output directories
 get_filename_component(PROJECT_ROOT_PATH "./" ABSOLUTE)
 
@@ -94,6 +93,8 @@ else(MSVC)
 	endforeach()
 
 endif(MSVC)
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY FOLDER "EngineQDemonstration")
 
 if(DEPENDENCIES)
 	add_dependencies(${PROJECT_NAME} ${DEPENDENCIES})

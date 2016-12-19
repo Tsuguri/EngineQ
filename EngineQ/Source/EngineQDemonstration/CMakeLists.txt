@@ -46,6 +46,8 @@ set_source_files_properties(
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${RESOURCE_FILES})
 
+set_property(TARGET ${PROJECT_NAME} PROPERTY FOLDER "EngineQDemonstration")
+
 target_include_directories(${PROJECT_NAME} PUBLIC 
 	${INCLUDE_DIRS}	
 )

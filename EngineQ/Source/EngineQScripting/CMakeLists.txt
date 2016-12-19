@@ -94,6 +94,8 @@ else(MSVC)
 
 endif(MSVC)
 
+set_property(TARGET ${PROJECT_NAME} PROPERTY FOLDER "EngineQ")
+
 if(DEPENDENCIES)
 	add_dependencies(${PROJECT_NAME} ${DEPENDENCIES})
 endif(DEPENDENCIES)
