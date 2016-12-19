@@ -66,7 +66,7 @@ namespace EngineQ
 				*tmp = cam->GetPosition();
 			auto tmp2 = shader.TryGetProperty<GLint>("time");
 			if (tmp2 != nullval)
-				*tmp2 = time;
+				*tmp2 = static_cast<GLint>(time);
 
 			shader.Apply();
 		}

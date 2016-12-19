@@ -35,7 +35,7 @@ namespace EngineQ
 		window.SetMouseControlFunction(MouseControl);
 		window.SetFramebufferResizeFunction(FramebufferResize);
 
-		screenSize = Math::Vector2i{ config.windowWidth, config.windowHeight };
+		screenSize = Math::Vector2i{ static_cast<int>(config.windowWidth), static_cast<int>(config.windowHeight) };
 
 		this->scriptingEngine = std::make_unique<Scripting::ScriptEngine>(config.applicationPath.c_str(), config.engineAssemblyPath.c_str(), (config.monoDirectory + "libraries").c_str(), (config.monoDirectory + "config").c_str());
 

@@ -14,6 +14,7 @@
 #include "ShaderUniformData.hpp"
 #include "ShaderProperty.hpp"
 #include "Texture.hpp"
+#include "CubeTexture.hpp"
 
 
 namespace EngineQ

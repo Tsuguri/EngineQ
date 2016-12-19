@@ -183,9 +183,9 @@ namespace EngineQ
 					auto& shader = effect->GetShaderproperties();
 
 					auto& lights = shader.GetLights();
-					int lightsCount = sceneLights.size() > lights.size() ? lights.size() : sceneLights.size();
-					shader.GetLightCount() = lightsCount;
-					for (int i = 0; i < lightsCount; i++)
+					auto lightsCount = sceneLights.size() > lights.size() ? lights.size() : sceneLights.size();
+					shader.GetLightCount() = static_cast<GLint>(lightsCount);
+					for (std::size_t i = 0; i < lightsCount; i++)
 					{
 						lights[i].Diffuse = Math::Vector3f(1.0f);
 						lights[i].Ambient = Math::Vector3f(0.6f);
@@ -198,9 +198,9 @@ namespace EngineQ
 					if (effect->GetApplyShadowData())
 					{
 						auto& lights = shader.GetLights();
-						int lightsCount = sceneLights.size() > lights.size() ? lights.size() : sceneLights.size();
+						auto lightsCount = sceneLights.size() > lights.size() ? lights.size() : sceneLights.size();
 						
-						for (int i = 0; i < lightsCount; i++)
+						for (std::size_t i = 0; i < lightsCount; i++)
 						{
 							auto& light = lights[i];
 							auto& sceneLight = sceneLights[i];

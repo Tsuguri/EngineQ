@@ -9,6 +9,7 @@
 #include "EngineQCommon/Resources/Resource.hpp"
 #include "EngineQRenderer/Graphics/Types.hpp"
 #include "EngineQRenderer/Graphics/Renderable.hpp"
+#include "EngineQRenderer/Graphics/Mesh.hpp"
 
 // This project
 #include "Component.hpp"

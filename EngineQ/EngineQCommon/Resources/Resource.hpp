@@ -80,6 +80,10 @@ namespace EngineQ
 
 			public:
 				ControlBlock() = default;
+				
+				virtual ~ControlBlock()
+				{
+				}
 
 				ControlBlock(std::unique_ptr<TResourceType> resource) :
 					BaseControlBlock{}, data{ std::move(resource) }

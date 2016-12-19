@@ -103,8 +103,8 @@ namespace EngineQ
 			{
 				int index = 0;
 
-				int startIndex = translatedName.find("[");
-				int endIndex = translatedName.find("]");
+				auto startIndex = translatedName.find("[");
+				auto endIndex = translatedName.find("]");
 				auto indexString = translatedName.substr(startIndex + 1, endIndex - startIndex - 1);
 				index = std::stoi(indexString);
 
