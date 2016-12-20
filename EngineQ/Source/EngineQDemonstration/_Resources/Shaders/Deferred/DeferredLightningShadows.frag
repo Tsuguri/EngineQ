@@ -64,7 +64,6 @@ void main()
     vec3 colorTmp = texture(albedo, IN.textureCoords).rgb;
 	vec3 result = vec3(0.0,0.0,0.0);
 
-
 	for(int i = 0; i < lightCount; i++)
 	{
 		//ambient
@@ -82,7 +81,13 @@ void main()
 		float spec = pow(max(dot(norm, halfwayDir), 0.0), materialShininess);
 		vec3 specular = lights[0].specular * spec*specularStrength;
 
-		float shadow = 1.0 - ShadowCalculations(lights[i], GetDirectionalLightSampler(i), worldPos);
+	//	float shadow = 1.0 - ShadowCalculations(lights[i], GetDirectionalLightSampler(i), worldPos);
+		float shadow = 0.0f;
+		     if(i == 0) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_0_q_DirectionalShadowMap, worldPos);
+		else if(i == 1) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_1_q_DirectionalShadowMap, worldPos);
+		else if(i == 2) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_2_q_DirectionalShadowMap, worldPos);
+		else if(i == 3) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_3_q_DirectionalShadowMap, worldPos);
+
 		vec3 res = (ambient + shadow * (diffuse + specular)) * colorTmp;
 		result+=res;
 	}

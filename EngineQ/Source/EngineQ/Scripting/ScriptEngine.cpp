@@ -165,12 +165,41 @@ namespace EngineQ
 			//		mono_assembly_close(assembly.second.first);
 			//	}
 
-			//	mono_gc_collect(0);
+
+			auto maxGeneration = mono_gc_max_generation();
+			mono_gc_collect(maxGeneration);
 			//	mono_gc_invoke_finalizers();
+			mono_domain_finalize(this->domain, -1);
+
+			/*
+			auto gcClass = mono_class_from_name(mono_get_corlib(), "System", "GC");
+
+			auto collectMethod = GetMethod(gcClass, ":Collect");
+			auto waitForPendingFinalizersMethod = GetMethod(gcClass, ":WaitForPendingFinalizers");
+
+			MonoObject* exc = nullptr;
+			mono_runtime_invoke(collectMethod, nullptr, nullptr, &exc);
+			if (exc != nullptr)
+			{
+				std::printf("==== Unhandled exception ====\n");
+
+				std::string excStr = this->GetScriptStringContent(mono_object_to_string(exc, nullptr));
+				std::printf("%s\n", excStr.c_str());
+			}
+
+			exc = nullptr;
+			mono_runtime_invoke(waitForPendingFinalizersMethod, nullptr, nullptr, &exc);
+			if (exc != nullptr)
+			{
+				std::printf("==== Unhandled exception ====\n");
+
+				std::string excStr = this->GetScriptStringContent(mono_object_to_string(exc, nullptr));
+				std::printf("%s\n", excStr.c_str());
+			}
+			*/
 
 			mono_jit_cleanup(this->domain);
 
-			//	mono_domain_finalize(this->domain, -1);
 			//	mono_domain_unload(this->domain);
 			//	mono_domain_free(this->domain, false);
 		}
