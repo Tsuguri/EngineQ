@@ -43,6 +43,16 @@ else(WIN32)
 	set(XBUILD_PATH "xbuild")
 endif(WIN32)
 
+
+# Setup always do post build. All projects dependent on this project will always execute post build
+set(ALWAYS_DO_POST_BUILD_FILE "${CMAKE_SOURCE_DIR}/always_do_post_build")
+file(WRITE ${ALWAYS_DO_POST_BUILD_FILE})
+add_custom_target(ALWAYS_DO_POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E touch ${ALWAYS_DO_POST_BUILD_FILE}
+)
+set_property(TARGET ALWAYS_DO_POST_BUILD PROPERTY FOLDER "CMakePredefinedTargets")
+
+
 add_subdirectory(EngineQScripting)
 add_subdirectory(EngineQDemonstrationScripts)
 

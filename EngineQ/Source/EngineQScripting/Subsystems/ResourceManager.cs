@@ -27,7 +27,7 @@ namespace EngineQ
 			API_IsResourceRegistered(this.NativeHandle, typeof(TResourceType), resourceId, out isRegistered);
 			return isRegistered;
 		}
-
+		
 		public void RegisterResource<TResourceType>(string resourceId, string resourcePath)
 			where TResourceType : Resource
 		{

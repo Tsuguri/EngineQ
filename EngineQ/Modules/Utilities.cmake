@@ -48,7 +48,7 @@ function(SetupProject PROJECT_NAME)
 	# Parse arguments
 	set(options EXECUTABLE)
 	set(oneValueArgs LIBRARY FOLDER RESOURCES_DIR OUTPUT_PATH)
-	set(multiValueArgs INCLUDES LIBRARIES DEPENDENCIES SOURCES RESOURCES)
+	set(multiValueArgs INCLUDES LIBRARIES DEPENDENCIES SOURCES RESOURCES ADDITIONAL_FILES)
 	cmake_parse_arguments(SetupProject "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
 	
@@ -64,19 +64,29 @@ function(SetupProject PROJECT_NAME)
 	if(NOT SetupProject_SOURCES)
 		message(FATAL_ERROR "SOURCES cannot be empty")
 	endif(NOT SetupProject_SOURCES)
+
+	
+	# Process additional files
+	if(SetupProject_ADDITIONAL_FILES)
+		set_source_files_properties(
+			${SetupProject_ADDITIONAL_FILES}
+			PROPERTIES
+				HEADER_FILE_ONLY ON
+		)
+	endif(SetupProject_ADDITIONAL_FILES)
 	
 	
 	# Create executable
 	if(SetupProject_EXECUTABLE)
-		add_executable(${PROJECT_NAME} ${SetupProject_SOURCES} ${SetupProject_RESOURCES})
+		add_executable(${PROJECT_NAME} ${SetupProject_SOURCES} ${SetupProject_RESOURCES} ${SetupProject_ADDITIONAL_FILES})
 	endif(SetupProject_EXECUTABLE)
 
 	# Create library
 	if(SetupProject_LIBRARY)
 		if(SetupProject_LIBRARY STREQUAL STATIC)
-			add_library(${PROJECT_NAME} STATIC ${SetupProject_SOURCES} ${SetupProject_RESOURCES})
+			add_library(${PROJECT_NAME} STATIC ${SetupProject_SOURCES} ${SetupProject_RESOURCES} ${SetupProject_ADDITIONAL_FILES})
 		elseif(SetupProject_LIBRARY STREQUAL SHARED)
-			add_library(${PROJECT_NAME} SHARED ${SetupProject_SOURCES} ${SetupProject_RESOURCES})	
+			add_library(${PROJECT_NAME} SHARED ${SetupProject_SOURCES} ${SetupProject_RESOURCES} ${SetupProject_ADDITIONAL_FILES})	
 		else()
 			message(FATAL_ERROR "Invalid library type: " ${SetupPtoject_LIBRARY})
 		endif()

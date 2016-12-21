@@ -1,14 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 using EngineQ.Math;
 
 namespace EngineQ
 {
+	/// <summary>
+	/// Provides information about user input such as keyboard keys presses, mouse movement and mouse button presses.
+	/// </summary>
 	public static class Input
 	{
 		#region Types
 
+		/// <summary>
+		/// Specifies all possible keyboard keys.
+		/// </summary>
 		public enum Key
 		{
 			Unknown = -1,
@@ -137,6 +142,9 @@ namespace EngineQ
 			Count,
 		};
 
+		/// <summary>
+		/// Specifies all possible mouse buttons.
+		/// </summary>
 		public enum MouseButton
 		{
 			Unknown = -1,
@@ -154,6 +162,9 @@ namespace EngineQ
 			Count,
 		}
 
+		/// <summary>
+		/// Specifies all possible keyboard key and mouse button action types.
+		/// </summary>
 		public enum KeyAction
 		{
 			Unknown = -1,
@@ -163,7 +174,17 @@ namespace EngineQ
 			Repeat
 		}
 
+		/// <summary>
+		/// Delegate used to register keyboard key events.
+		/// </summary>
+		/// <param name="key">Which keyboard key caused event.</param>
+		/// <param name="action">Which action caused event.</param>
 		public delegate void KeyboardKeyEventHandler(Key key, KeyAction action);
+		/// <summary>
+		/// Delegate used to register mouse button events.
+		/// </summary>
+		/// <param name="button">Which mouse button caused event.</param>
+		/// <param name="action">Which action caused event.</param>
 		public delegate void MouseButtonEventHandler(MouseButton button, KeyAction action);
 
 		#endregion
@@ -177,6 +198,9 @@ namespace EngineQ
 
 		#region Static Properties
 
+		/// <summary>
+		/// Mouse position on the screen. Counted in pixels from the upper left corner of the screen.
+		/// </summary>
 		public static Vector2 MousePosition
 		{
 			get
@@ -187,6 +211,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Amount of pixels by which the mouse position has changed since last update.
+		/// </summary>
 		public static Vector2 MouseDeltaPosition
 		{
 			get
@@ -209,13 +236,6 @@ namespace EngineQ
 
 		#region Keys
 
-		public static bool IsKeyPressed(Key key)
-		{
-			bool value;
-			API_KeyPressed((int)key, out value);
-			return value;
-		}
-
 		private static void KeyEvent(Key key, KeyAction action)
 		{
 			if (key == Key.Unknown)
@@ -225,11 +245,33 @@ namespace EngineQ
 			keyboardEventHandler?.Invoke(key, action);
 		}
 
+		/// <summary>
+		/// Checks if specified keyboard key is pressed.
+		/// </summary>
+		/// <param name="key">Keyboard key which is checked.</param>
+		/// <returns>True if the key is currently pressed.</returns>
+		public static bool IsKeyPressed(Key key)
+		{
+			bool value;
+			API_KeyPressed((int)key, out value);
+			return value;
+		}
+		
+		/// <summary>
+		/// Registers action to be executed when state of the specified keyboard key has changed.
+		/// </summary>
+		/// <param name="key">Keyboard key which change will trigger action.</param>
+		/// <param name="action">Action to be executed.</param>
 		public static void RegisterKeyEvent(Key key, KeyboardKeyEventHandler action)
 		{
 			keyboardEvents[(int)key] += action;
 		}
 
+		/// <summary>
+		/// Deregisters action executed when state of the specified keyboard key has changed.
+		/// </summary>
+		/// <param name="key">Keyboard key which change would trigger action.</param>
+		/// <param name="action">Action to be removed.</param>
 		public static void DeregisterKeyEvent(Key key, KeyboardKeyEventHandler action)
 		{
 			keyboardEvents[(int)key] -= action;
@@ -238,15 +280,7 @@ namespace EngineQ
 		#endregion
 
 		#region Mouse
-
-		public static bool IsMouseButtonPressed(MouseButton button)
-		{
-			bool value;
-			API_MouseButtonDown((int)button, out value);
-			return value;
-		}
-
-		// ReSharper disable once UnusedMember.Local
+		
 		private static void MouseButtonEvent(MouseButton button, KeyAction action)
 		{
 			if (button == MouseButton.Unknown)
@@ -256,11 +290,33 @@ namespace EngineQ
 			mouseEventHandler?.Invoke(button, action);
 		}
 
+		/// <summary>
+		/// Checks if specified mouse button is pressed.
+		/// </summary>
+		/// <param name="button">Mouse button which is checked.</param>
+		/// <returns>True if the button is currently pressed.</returns>
+		public static bool IsMouseButtonPressed(MouseButton button)
+		{
+			bool value;
+			API_MouseButtonDown((int)button, out value);
+			return value;
+		}
+
+		/// <summary>
+		/// Registers action to be executed when state of the specified mouse button has changed.
+		/// </summary>
+		/// <param name="button">Mouse button which change will trigger action.</param>
+		/// <param name="action">Action to be executed.</param>
 		public static void RegisterMouseButtonEvent(MouseButton button, MouseButtonEventHandler action)
 		{
 			mouseEvents[(int)button] += action;
 		}
 
+		/// <summary>
+		/// Deregisters action executed when state of the specified mouse button has changed.
+		/// </summary>
+		/// <param name="button">Mouse button which change would trigger action.</param>
+		/// <param name="action">Action to be removed.</param>
 		public static void DeregisterMouseButtonEvent(MouseButton button, MouseButtonEventHandler action)
 		{
 			mouseEvents[(int)button] -= action;

@@ -25,7 +25,7 @@ namespace QScripts
 
 			// Camera
 			var camera = scene.CreateEntity(true, "Camera");
-
+			
 			var cameraComponent = camera.AddComponent<Camera>();
 			scene.ActiveCamera = cameraComponent;
 			cameraComponent.FieldOfView = 70.0f;
@@ -34,6 +34,8 @@ namespace QScripts
 			camera.Transform.Rotation = Quaternion.CreateLookAt(camera.Transform.Position, Vector3.Zero);
 			var cameraMove = camera.AddComponent<CameraMoveClass>();
 			cameraMove.MoveSpeed = 3.0f;
+
+			camera.AddComponent<TesterScript>();
 
 
 			// Skull

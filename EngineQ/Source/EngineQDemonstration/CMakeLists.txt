@@ -32,6 +32,7 @@ SetupProject(
 		EngineQ
 			
 	DEPENDENCIES
+		ALWAYS_DO_POST_BUILD
 		EngineQScripting
 		EngineQDemonstrationScripts
 	
@@ -42,6 +43,9 @@ SetupProject(
 	RESOURCES 
 		${RESOURCE_FILES}
 	
+	ADDITIONAL_FILES
+		${ALWAYS_DO_POST_BUILD_FILE}
+	
 	OUTPUT_PATH "${BUILD_ROOT_PATH}/${PROJECT_NAME}/bin"
 	FOLDER "EngineQDemonstration"
 )
@@ -50,6 +54,9 @@ if(WIN32)
 	Assimp_COPY_BINARIES($<TARGET_FILE_DIR:${PROJECT_NAME}>)
 	Mono_COPY_BINARIES($<TARGET_FILE_DIR:${PROJECT_NAME}>)
 endif()
+
+
+
 
 
 # Copy EngineQ.dll
@@ -64,7 +71,6 @@ set(SOURCES
 foreach(SOURCE IN ITEMS ${SOURCES})
 	CopyIfDifferent(${SOURCE} ${DESTINATION})
 endforeach()
-
 
 # Copy scripts *.dll
 set(DESTINATION "$<TARGET_FILE_DIR:${PROJECT_NAME}>/Scripts/")
