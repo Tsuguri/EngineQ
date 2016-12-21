@@ -15,9 +15,8 @@ uniform sampler2D albedo;
 
 uniform vec3 cameraPosition = vec3(1, 1, 1);
 
-const float ambientStrength=0.2f;
-const float specularStrength=0.3f;
-const float materialShininess=32;
+const float ambientStrength = 0.2f;
+const float materialShininess = 32;
 
 float ShadowCalculations(Light light, sampler2D shadowMap, vec3 position)
 {
@@ -62,12 +61,14 @@ void main()
 {
 	vec3 worldPos = texture(worldPosition,IN.textureCoords).xyz;
     vec3 colorTmp = texture(albedo, IN.textureCoords).rgb;
-	vec3 result = vec3(0.0,0.0,0.0);
+	float specularStrength = texture(albedo, IN.textureCoords).a;
+
+	vec3 result = vec3(0.0f, 0.0f, 0.0f);
 
 	for(int i = 0; i < lightCount; i++)
 	{
 		//ambient
-		vec3 ambient = ambientStrength*lights[i].ambient;
+		vec3 ambient = ambientStrength * lights[i].ambient;
 
 		//diffuse
 		vec3 norm = normalize(texture(normal,IN.textureCoords).rgb);
@@ -79,7 +80,7 @@ void main()
 		vec3 viewDir = normalize(cameraPosition - worldPos);
 		vec3 halfwayDir = normalize(dir + viewDir);
 		float spec = pow(max(dot(norm, halfwayDir), 0.0), materialShininess);
-		vec3 specular = lights[0].specular * spec*specularStrength;
+		vec3 specular = lights[0].specular * spec * specularStrength;
 
 	//	float shadow = 1.0 - ShadowCalculations(lights[i], GetDirectionalLightSampler(i), worldPos);
 		float shadow = 0.0f;
@@ -92,6 +93,6 @@ void main()
 		result+=res;
 	}
 
-	color = vec4(result,1.0);
+	color = vec4(result, 1.0f);
 
 }

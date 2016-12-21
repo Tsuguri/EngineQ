@@ -25,9 +25,11 @@ namespace EngineQ
 		{
 			class TextureConfiguration
 			{
+			private:
 				static const std::unordered_map<std::string, GLuint> internalFormats;
 				static const std::unordered_map<std::string, GLuint> formats;
 				static const std::unordered_map<std::string, GLuint> dataTypes;
+
 			public:
 				static TextureConfiguration Load(tinyxml2::XMLElement * node);
 				TextureConfiguration(std::string name = "", GLuint format = GL_RGB, GLuint dataType = GL_UNSIGNED_BYTE);
@@ -55,12 +57,17 @@ namespace EngineQ
 			class EffectConfiguration
 			{
 			public:
+				// Effect node
 				Resources::Resource<Shader> EffectShader;
-				std::string ClassName = "";//C# class name
+				std::string ClassName = ""; // C# class name
 				bool DepthTesting = false;
 				bool ApplyShadowInfo = false;
 				std::vector<InputPair> Input;
 				std::vector<OutputTexture> Output;
+
+				// Loop node
+				int Iterations = -1;
+				std::vector<EffectConfiguration> Effects;
 			};
 
 			class RendererConfiguration

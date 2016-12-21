@@ -66,6 +66,8 @@ if(WIN32)
 	
 	configure_file("${CMAKE_CURRENT_SOURCE_DIR}/_Templates/${PROJECT_NAME}.vcxproj.user.template" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.vcxproj.user") 
 	
+	set_property(DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
+	
 endif()
 
 

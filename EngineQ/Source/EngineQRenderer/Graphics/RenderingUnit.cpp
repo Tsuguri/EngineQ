@@ -40,19 +40,6 @@ namespace EngineQ
 			glBindVertexArray(0);
 		}
 
-		void RenderingUnit::CreateTexture(GLuint* texture, const Configuration::TextureConfiguration& configuration) const
-		{
-			glGenTextures(1, texture);
-			glBindTexture(GL_TEXTURE_2D, *texture);
-			auto size = screenDataProvider->GetScreenSize();
-			glTexImage2D(GL_TEXTURE_2D, 0, configuration.InternalFormat, size.X, size.Y, 0, configuration.Format, configuration.DataType, nullptr);
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		}
-
 		Resources::Resource<Texture> RenderingUnit::CreateTexture(int width, int height, const Configuration::TextureConfiguration& configuration)
 		{
 			return Resources::Resource<Texture>(std::make_unique<Texture>(width, height, configuration));
@@ -62,15 +49,9 @@ namespace EngineQ
 		{
 			glViewport(0, 0, width, height);
 
-			//for (std::size_t i = 0; i < textures.size(); i++)
-			//{
-			//	glBindTexture(GL_TEXTURE_2D, textures[i]);
-			//	glTexImage2D(GL_TEXTURE_2D, 0, texturesConfigurations[i].InternalFormat, width, height, 0, texturesConfigurations[i].Format, texturesConfigurations[i].DataType, nullptr);
-			//}
 			for (auto& tex : texturesResources)
 				tex->Resize(width, height);
 		}
-
 
 		std::unique_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting)
 		{
@@ -85,55 +66,74 @@ namespace EngineQ
 		void RenderingUnit::Init(const Configuration::RenderingUnitConfiguration& configuration)
 		{
 			auto size = screenDataProvider->GetScreenSize();
-			//textures
-			std::map<std::string, int> texturesNames;
+
+			// Textures
 			int j = 0;
+			std::map<std::string, int> textureNames;
+
 			for (auto texConfiguration : configuration.Textures)
 			{
-				//CreateTexture(&textures[j], texConfiguration);
-				//texturesConfigurations.push_back(texConfiguration);
 				texturesResources.push_back(CreateTexture(size.X, size.Y, texConfiguration));
-				texturesNames.emplace(std::string(texConfiguration.Name), j);
+				textureNames.emplace(std::string(texConfiguration.Name), j);
 				++j;
 			}
 
-			//renderer
-
+			// Renderer
 			renderer.SetDeferred(!configuration.Renderer.Deffered);
 			renderer.SetGlobalShadows(configuration.Renderer.GlobalShadows);
 
 			if (configuration.Renderer.Output.size() == 0 || (configuration.Renderer.Output.size() == 1 && configuration.Renderer.Output[0].Texture == "Screen"))
+			{
 				renderer.SetTargetBuffer(nullptr);
+			}
 			else
 			{
 				std::vector<Resources::Resource<Texture>> rendererOutput;
 				rendererOutput.reserve(configuration.Renderer.Output.size());
 				for (auto outputConfiguration : configuration.Renderer.Output)
-					rendererOutput.push_back(texturesResources[texturesNames[outputConfiguration.Texture]]);
+					rendererOutput.push_back(texturesResources[textureNames.at(outputConfiguration.Texture)]);
 				renderer.SetTargetBuffer(CreateFramebuffer(rendererOutput, true));
 			}
 
-			//effects
-			for (auto effect : configuration.Effects)
-			{
-				auto shaderPass = std::make_unique<ShaderPass>(effect.EffectShader);
-				for (auto inputConfiguration : effect.Input)
-					shaderPass->AddInput(InputConfiguration{ texturesResources[texturesNames[inputConfiguration.Texture]],inputConfiguration.LocationName });
+			// Effects
+			this->AddEffects(configuration.Effects, textureNames);
+		}
 
-				if (effect.Output.size() == 0 || (effect.Output.size() == 1 && effect.Output[0].Texture == "Screen"))
-					shaderPass->SetTargetBuffer(nullptr);
+		void RenderingUnit::AddEffects(const std::vector<Configuration::EffectConfiguration>& effects, const std::map<std::string, int>& textureNames)
+		{
+			for (const auto& effect : effects)
+			{
+				if (effect.Iterations < 0)
+				{
+					auto shaderPass = std::make_unique<ShaderPass>(effect.EffectShader);
+					for (auto inputConfiguration : effect.Input)
+						shaderPass->AddInput(InputConfiguration{ texturesResources[textureNames.at(inputConfiguration.Texture)], inputConfiguration.LocationName });
+
+					if (effect.Output.size() == 0 || (effect.Output.size() == 1 && effect.Output[0].Texture == "Screen"))
+					{
+						shaderPass->SetTargetBuffer(nullptr);
+					}
+					else
+					{
+						std::vector<Resources::Resource<Texture>> output;
+						output.reserve(effect.Output.size());
+						for (auto k : effect.Output)
+							output.push_back(texturesResources[textureNames.at(k.Texture)]);//check if output is set  to "screen", or check this for last effect?
+						auto fb = CreateFramebuffer(output, effect.DepthTesting);
+						shaderPass->SetTargetBuffer(std::move(fb));
+
+					}
+
+					shaderPass->SetApplyShadowData(effect.ApplyShadowInfo);
+					this->effects.push_back(std::move(shaderPass));
+				}
 				else
 				{
-					std::vector<Resources::Resource<Texture>> output;
-					output.reserve(effect.Output.size());
-					for (auto k : effect.Output)
-						output.push_back(texturesResources[texturesNames[k.Texture]]);//check if output is set  to "screen", or check this for last effect?
-					auto fb = CreateFramebuffer(output, effect.DepthTesting);
-					shaderPass->SetTargetBuffer(std::move(fb));
-
+					for (int i = 0; i < effect.Iterations; ++i)
+					{
+						this->AddEffects(effect.Effects, textureNames);
+					}
 				}
-				shaderPass->SetApplyShadowData(effect.ApplyShadowInfo);
-				effects.push_back(std::move(shaderPass));
 			}
 		}
 
@@ -199,7 +199,7 @@ namespace EngineQ
 					{
 						auto& lights = shader.GetLights();
 						auto lightsCount = sceneLights.size() > lights.size() ? lights.size() : sceneLights.size();
-						
+
 						for (std::size_t i = 0; i < lightsCount; i++)
 						{
 							auto& light = lights[i];

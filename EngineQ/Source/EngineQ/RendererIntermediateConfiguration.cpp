@@ -6,15 +6,26 @@
 
 namespace EngineQ
 {
-	Graphics::Configuration::EffectConfiguration IntermediateEffectConfiguration::ToEffectConfiguration(Resources::ResourceManager * manager)
+	Graphics::Configuration::EffectConfiguration IntermediateEffectConfiguration::ToEffectConfiguration(Resources::ResourceManager* manager)
 	{
 		auto configuration = Graphics::Configuration::EffectConfiguration();
-		configuration.ClassName = ClassName;
-		configuration.DepthTesting = DepthTesting;
-		configuration.Input = Input;
-		configuration.Output = Output;
-		configuration.EffectShader = manager->GetResource<Graphics::Shader>(this->ShaderName);
-		configuration.ApplyShadowInfo = ApplyShadowInfo;
+
+		if (this->Iterations < 0)
+		{
+			configuration.ClassName = ClassName;
+			configuration.DepthTesting = DepthTesting;
+			configuration.Input = Input;
+			configuration.Output = Output;
+			configuration.EffectShader = manager->GetResource<Graphics::Shader>(this->ShaderName);
+			configuration.ApplyShadowInfo = ApplyShadowInfo;
+		}
+		else
+		{
+			configuration.Iterations = this->Iterations;
+			configuration.Effects.reserve(this->Effects.size());
+			for (auto& effect : this->Effects)
+				configuration.Effects.push_back(effect.ToEffectConfiguration(manager));
+		}
 
 		return configuration;
 	}
@@ -23,45 +34,63 @@ namespace EngineQ
 	{
 		auto configuration = IntermediateEffectConfiguration{};
 
-		auto shader = element->Attribute("Shader");
-		if (shader == nullptr)
-			throw "Shader attribute not found or equal to 0";
-		configuration.ShaderName = shader;
-
-		auto depth = element->BoolAttribute("DeptTesting");//default false if not exist
-		configuration.DepthTesting = depth;
-		
-		auto shadows = element->BoolAttribute("ApplyShadowsData");
-		configuration.ApplyShadowInfo = shadows;
-
-		auto input = element->FirstChildElement("Input");
-		if (input != nullptr)
+		if (std::strcmp(element->Name(), "EffectConfiguration") == 0)
 		{
-			for (auto inputInfo = input->FirstChildElement(); inputInfo != nullptr; inputInfo = inputInfo->NextSiblingElement())
+			auto shader = element->Attribute("Shader");
+			if (shader == nullptr)
+				throw "Shader attribute not found or equal to 0";
+			configuration.ShaderName = shader;
+
+			auto depth = element->BoolAttribute("DeptTesting");//default false if not exist
+			configuration.DepthTesting = depth;
+
+			auto shadows = element->BoolAttribute("ApplyShadowsData");
+			configuration.ApplyShadowInfo = shadows;
+
+			auto input = element->FirstChildElement("Input");
+			if (input != nullptr)
 			{
-				auto texture = inputInfo->Attribute("Texture");
-				auto locationName = inputInfo->Attribute("LocationName");
-				if (locationName == nullptr)
-					configuration.Input.push_back(Graphics::Configuration::InputPair{texture });
+				for (auto inputInfo = input->FirstChildElement(); inputInfo != nullptr; inputInfo = inputInfo->NextSiblingElement())
+				{
+					auto texture = inputInfo->Attribute("Texture");
+					auto locationName = inputInfo->Attribute("LocationName");
+					if (locationName == nullptr)
+						configuration.Input.push_back(Graphics::Configuration::InputPair{ texture });
+					else
+						configuration.Input.push_back(Graphics::Configuration::InputPair{ texture,locationName });
+				}
+			}
+
+			auto output = element->FirstChildElement("Output");
+			if (output == nullptr || output->FirstChildElement() == nullptr)
+				throw "Shader without output found";
+			for (auto outputInfo = output->FirstChildElement(); outputInfo != nullptr; outputInfo = outputInfo->NextSiblingElement())
+			{
+				auto texture = outputInfo->Attribute("Texture");
+				if (texture == nullptr)
+				{
+					configuration.Output.push_back(Graphics::Configuration::OutputTexture{ std::string("Screen") });
+				}
 				else
-					configuration.Input.push_back(Graphics::Configuration::InputPair{texture,locationName });
+					configuration.Output.push_back(Graphics::Configuration::OutputTexture{ std::string(texture) });
 			}
 		}
-
-		auto output = element->FirstChildElement("Output");
-		if (output == nullptr || output->FirstChildElement() == nullptr)
-			throw "Shader without output found";
-		for (auto outputInfo = output->FirstChildElement(); outputInfo != nullptr; outputInfo = outputInfo->NextSiblingElement())
+		else if (std::strcmp(element->Name(), "EffectRepeat") == 0)
 		{
-			auto texture = outputInfo->Attribute("Texture");
-			if (texture == nullptr)
-			{
-				configuration.Output.push_back(Graphics::Configuration::OutputTexture{ std::string("Screen") });
-			}
-			else
-				configuration.Output.push_back(Graphics::Configuration::OutputTexture{ std::string(texture) });
-		}
+			auto error = element->QueryIntAttribute("Iterations", &configuration.Iterations);
+			if (error != tinyxml2::XML_SUCCESS || configuration.Iterations < 0)
+				throw std::runtime_error{ "Invalid EffectRepeat Iterations attribute" };
 
+			for (auto effectInfo = element->FirstChildElement(); effectInfo != nullptr; effectInfo = effectInfo->NextSiblingElement())
+			{
+				Logger::LogMessage("	", effectInfo->Name(), "\n");
+				configuration.Effects.push_back(IntermediateEffectConfiguration::Load(effectInfo));
+			}
+		}
+		else
+		{
+			throw std::runtime_error{ "Invalid Effect node" };
+		}
 
 		return configuration;
 	}

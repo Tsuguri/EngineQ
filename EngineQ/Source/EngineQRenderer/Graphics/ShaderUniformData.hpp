@@ -209,6 +209,15 @@ namespace EngineQ
 				return ShaderProperty<TType>{ *reinterpret_cast<TType*>(data.data()) };
 			}
 
+			template<typename TType>
+			Utilities::Nullable<ShaderProperty<TType>> TryGetProperty()
+			{
+				if (this->IsType<TType>())
+					return ShaderProperty<TType>{ *reinterpret_cast<TType*>(data.data()) };
+
+				return nullval;
+			}
+			
 			static Utilities::Nullable<ShaderUniformData> FromTypeIndex(UniformType typeIndex)
 			{
 				auto constructIt = ConstructorsMap.find(typeIndex);

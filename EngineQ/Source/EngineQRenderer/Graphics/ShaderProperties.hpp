@@ -123,6 +123,9 @@ namespace EngineQ
 			template<typename TType>
 			Utilities::Nullable<ShaderProperty<TType>> TryGetProperty(const std::string& name);
 
+			template<typename TType>
+			std::vector<std::pair<std::string, ShaderProperty<TType>>> GetAllProperties();
+
 			// Built-in properties getters
 			const Matrices& GetMatrices();
 			const Material& GetMaterial();

@@ -68,21 +68,21 @@ namespace EngineQ
 				{ "GL_SRGB8", GL_SRGB8 },
 				{ "GL_SRGB_ALPHA", GL_SRGB_ALPHA },
 				{ "GL_SRGB8_ALPHA8", GL_SRGB8_ALPHA8 },
-				{ "GL_RGB16F", GL_RGB16F},
-				{ "GL_RGBA16F", GL_RGBA16F},
+				{ "GL_RGB16F", GL_RGB16F },
+				{ "GL_RGBA16F", GL_RGBA16F },
 			};
 
 			const std::unordered_map<std::string, GLuint> TextureConfiguration::formats = std::unordered_map<std::string, GLuint>{
-				{ "GL_COLOR_INDEX", GL_COLOR_INDEX},
-				{ "GL_RED", GL_RED},
-				{ "GL_GREEN", GL_GREEN},
-				{ "GL_BLUE", GL_BLUE},
-				{ "GL_ALPHA", GL_ALPHA},
-				{ "GL_RGB", GL_RGB},
-				{ "GL_BGR", GL_BGR},
-				{ "GL_RGBA", GL_RGBA},
-				{ "GL_BGRA", GL_BGRA},
-				{ "GL_LUMINANCE", GL_LUMINANCE},
+				{ "GL_COLOR_INDEX", GL_COLOR_INDEX },
+				{ "GL_RED", GL_RED },
+				{ "GL_GREEN", GL_GREEN },
+				{ "GL_BLUE", GL_BLUE },
+				{ "GL_ALPHA", GL_ALPHA },
+				{ "GL_RGB", GL_RGB },
+				{ "GL_BGR", GL_BGR },
+				{ "GL_RGBA", GL_RGBA },
+				{ "GL_BGRA", GL_BGRA },
+				{ "GL_LUMINANCE", GL_LUMINANCE },
 				{ "GL_LUMINANCE_ALPHA", GL_LUMINANCE_ALPHA },
 			};
 
@@ -166,31 +166,32 @@ namespace EngineQ
 				RendererConfiguration configuration;
 
 				auto format = element->Attribute("Deffered");
-				if (format != nullptr && std::string(format) == "true")
+				if (format != nullptr && std::strcmp(format, "true") == 0)
 				{
 					configuration.Deffered = true;
 				}
+				
 				format = element->Attribute("GlobalShadows");
-				if (format != nullptr && std::string(format) == "true")
+				if (format != nullptr && std::strcmp(format, "true") == 0)
 				{
 					configuration.GlobalShadows = true;
 				}
 
-
 				auto output = element->FirstChildElement();
 				if (output != nullptr)
 				{
-					if (std::string(output->Name()) != "Output")
+					if (std::strcmp(output->Name(), "Output") != 0)
 						throw "Wrong renderer configuration element!";
+					
 					for (auto outputInfo = output->FirstChildElement(); outputInfo != nullptr; outputInfo = outputInfo->NextSiblingElement())
 					{
 						auto texture = outputInfo->Attribute("Texture");
 						if (texture == nullptr)
 							throw "No texture info";
+
 						configuration.Output.push_back(OutputTexture{ std::string(texture) });
 					}
 				}
-
 
 				return configuration;
 			}

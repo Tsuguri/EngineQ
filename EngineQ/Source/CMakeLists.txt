@@ -53,10 +53,19 @@ add_custom_target(ALWAYS_DO_POST_BUILD
 set_property(TARGET ALWAYS_DO_POST_BUILD PROPERTY FOLDER "CMakePredefinedTargets")
 
 
+add_custom_target(UPDATE_PROJECTS
+	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/CMakeLists.txt"
+	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQCommon/CMakeLists.txt"
+	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQRenderer/CMakeLists.txt"
+	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQ/CMakeLists.txt"
+)
+set_property(TARGET UPDATE_PROJECTS PROPERTY FOLDER "CMakePredefinedTargets")
+
+
 add_subdirectory(EngineQScripting)
 add_subdirectory(EngineQDemonstrationScripts)
 
-add_subdirectory(EngineQ)
 add_subdirectory(EngineQCommon)
 add_subdirectory(EngineQRenderer)
+add_subdirectory(EngineQ)
 add_subdirectory(EngineQDemonstration)

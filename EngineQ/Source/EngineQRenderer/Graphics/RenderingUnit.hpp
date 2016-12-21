@@ -32,14 +32,14 @@ namespace EngineQ
 
 			Utilities::EventHandler<void(int, int)> handler;
 
-			void CreateTexture(GLuint* texture, const Configuration::TextureConfiguration& configuration) const;
-
 			Resources::Resource<Texture> CreateTexture(int width, int height, const Configuration::TextureConfiguration& configuration);
 
 			void Resize(int width, int height);
 			std::unique_ptr<Framebuffer> CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting);
 			std::unique_ptr<Framebuffer> CreateFramebuffer(std::vector<Resources::Resource<Texture>>& textures, bool depthTesting);
 			void Init(const Configuration::RenderingUnitConfiguration&configuration);
+
+			void AddEffects(const std::vector<Configuration::EffectConfiguration>& effects, const std::map<std::string, int>& texturesNames);
 
 		public:
 			RenderingUnit(ScreenDataProvider* engine, const Configuration::RenderingUnitConfiguration& configuration);

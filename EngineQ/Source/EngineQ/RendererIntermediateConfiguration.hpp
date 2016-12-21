@@ -18,6 +18,7 @@ namespace EngineQ
 	class IntermediateEffectConfiguration
 	{
 	public:
+		// Effect node
 		std::string ShaderName;//for resource manager
 		std::string ClassName;//C# class name
 		bool DepthTesting;
@@ -25,11 +26,13 @@ namespace EngineQ
 		std::vector<Graphics::Configuration::InputPair> Input;
 		std::vector<Graphics::Configuration::OutputTexture> Output;
 
+		// Loop node
+		int Iterations = -1;
+		std::vector<IntermediateEffectConfiguration> Effects;
+
 		Graphics::Configuration::EffectConfiguration ToEffectConfiguration(Resources::ResourceManager* manager);
 
 		static IntermediateEffectConfiguration Load(tinyxml2::XMLElement* element);
-
-
 	};
 
 

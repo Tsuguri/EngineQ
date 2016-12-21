@@ -36,10 +36,7 @@ namespace EngineQ
 
 			UniformData& uniformData = this->shaderUniforms[it->second].second;
 
-			if (!uniformData.IsType<TType>())
-				return nullval;
-
-			return uniformData.GetProperty<TType>();
+			return uniformData.TryGetProperty<TType>();
 		}
 
 		template<typename TType>
@@ -78,6 +75,23 @@ namespace EngineQ
 		TType ShaderProperties::Get(int index) const
 		{
 			return this->shaderUniforms[index].second.Get<TType>();
+		}
+
+		template<typename TType>
+		std::vector<std::pair<std::string, ShaderProperty<TType>>> ShaderProperties::GetAllProperties()
+		{
+			std::vector<std::pair<std::string, ShaderProperty<TType>>> result;
+
+			for (const auto& nameIndex : this->shaderUniformsMap)
+			{
+				auto& uniformProperty = this->shaderUniforms[nameIndex.second];
+			
+				auto property = uniformProperty.second.TryGetProperty<TType>();
+				if (property != nullval)
+					result.emplace_back(nameIndex.first, *property);
+			}
+
+			return result;
 		}
 	}
 }
