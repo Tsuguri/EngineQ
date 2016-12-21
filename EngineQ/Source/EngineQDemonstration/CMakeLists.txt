@@ -53,6 +53,19 @@ SetupProject(
 if(WIN32)
 	Assimp_COPY_BINARIES($<TARGET_FILE_DIR:${PROJECT_NAME}>)
 	Mono_COPY_BINARIES($<TARGET_FILE_DIR:${PROJECT_NAME}>)
+	
+	if( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+		message( "64 bits compiler detected" )
+		set( PLATFORM_NAME "x64" )
+	else( CMAKE_SIZEOF_VOID_P EQUAL 8 ) 
+		message( "32 bits compiler detected" )
+		set( PLATFORM_NAME "Win32" )
+	endif( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+	
+	set(DEBUGGER_WORKING_DIR "\$(TargetDir)")
+	
+	configure_file("${CMAKE_CURRENT_SOURCE_DIR}/_Templates/${PROJECT_NAME}.vcxproj.user.template" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.vcxproj.user") 
+	
 endif()
 
 
