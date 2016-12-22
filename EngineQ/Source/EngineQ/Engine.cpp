@@ -192,9 +192,8 @@ namespace EngineQ
 
 		this->scriptingEngine->InvokeStaticMethod(this->initializerMethod, args);
 
-		this->renderingUnit = std::make_unique<Graphics::RenderingUnit>(static_cast<Graphics::ScreenDataProvider*>(this), this->renderConfig.ToRenderingUnitConfiguration(resourceManager.get()));
-
-
+		this->renderingUnit = std::make_unique<Graphics::ScriptedRenderingUnit>(*this->scriptingEngine.get(), static_cast<Graphics::ScreenDataProvider*>(this), this->renderConfig.ToRenderingUnitConfiguration(resourceManager.get()));
+		
 
 		auto& timeCounter = TimeCounter::Get();
 		timeCounter.Update(0.0f, 0.0f);
@@ -215,6 +214,9 @@ namespace EngineQ
 
 			// Update scene logic (scripts)
 			this->currentScene->Update();
+
+			// Update renderer
+			this->renderingUnit->Update();
 
 			// Render scene
 			this->renderingUnit->Render(*this->currentScene);

@@ -32,12 +32,7 @@ namespace EngineQ
 		this->forwardShader = std::make_unique<EngineShaderProperties>(this->scriptEngine, shader);
 	}
 
-	Graphics::ShaderProperties* Renderable::GetForwardShader() const
-	{
-		return this->forwardShader.get();
-	}
-
-	EngineShaderProperties * Renderable::GetForwardShaderEngine() const
+	EngineShaderProperties* Renderable::GetForwardShader() const
 	{
 		return forwardShader.get();
 	}
@@ -47,12 +42,7 @@ namespace EngineQ
 		this->deferredShader = std::make_unique<EngineShaderProperties>(this->scriptEngine, shader);
 	}
 
-	Graphics::ShaderProperties* Renderable::GetDeferredShader() const
-	{
-		return this->deferredShader.get();
-	}
-
-	EngineShaderProperties * Renderable::GetDeferredShaderEngine() const
+	EngineShaderProperties* Renderable::GetDeferredShader() const
 	{
 		return deferredShader.get();
 	}
@@ -66,26 +56,32 @@ namespace EngineQ
 	{
 		this->mesh = mesh;
 	}
+
 	Math::Vector3 Renderable::GetPosition()
 	{
 		return this->GetEntity().GetTransform().GetPosition();
 	}
+
 	Math::Matrix4 Renderable::GetGlobalMatrix()
 	{
 		return this->GetEntity().GetTransform().GetGlobalMatrix();
 	}
+
 	void Graphics::Renderable::SetCastShadows(bool val)
 	{
 		castShadows = val;
 	}
+
 	bool Graphics::Renderable::GetCastShadows() const
 	{
 		return castShadows;
 	}
+
 	void Graphics::Renderable::SetReceiveShadows(bool val)
 	{
 		receiveShadows = val;
 	}
+
 	bool Graphics::Renderable::GetReceiveShadows() const
 	{
 		return receiveShadows;

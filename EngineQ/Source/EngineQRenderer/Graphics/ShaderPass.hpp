@@ -18,31 +18,49 @@ namespace EngineQ
 			Resources::Resource<Texture> texture;
 			std::string Name;
 
-			InputConfiguration(Resources::Resource<Texture> texture,std::string name);
+			InputConfiguration(Resources::Resource<Texture> texture, std::string name);
 		};
 
 
 		class ShaderPass
 		{
-			//Resources::Resource<Shader> shader;
-			ShaderProperties shader;
-			bool ApplyShadowData = false;
+		private:
+			std::unique_ptr<ShaderProperties> shaderProperties;
+			bool applyShadowData = false;
 			std::vector<InputConfiguration> inputTextures;
 			std::unique_ptr<Framebuffer> framebuffer;
-		public:
-			static GLenum textureLocations[10];
-			ShaderPass(Resources::Resource<Shader> shader);
 
-			ShaderProperties& GetShaderproperties();
+		protected:
+			ShaderPass(std::unique_ptr<ShaderProperties> shaderProperties);
+
+		public:
+			ShaderPass(Resources::Resource<Shader> shader);
+			virtual ~ShaderPass();
+
+			ShaderProperties& GetShaderProperties() const;
 			void BindTargetBuffer() const;
 			void SetTargetBuffer(std::unique_ptr<Framebuffer>&& buffer);
 
-			bool GetApplyShadowData();
+			bool GetApplyShadowData() const;
 			void SetApplyShadowData(bool val);
 			void AddInput(const InputConfiguration& input);
 
-			void Activate(Camera* cam, float time);
+			virtual void BeforeRender();
+			virtual void AfterRender();
 
+			virtual void Created();
+
+			// Obsolete
+			void Activate(Camera* cam, float time);
+		};
+
+
+		class ShaderPassFactory
+		{
+		public:
+			virtual ~ShaderPassFactory() = default;
+
+			virtual std::unique_ptr<ShaderPass> CreateShaderPass(const Configuration::EffectConfiguration& config);
 		};
 	}
 }

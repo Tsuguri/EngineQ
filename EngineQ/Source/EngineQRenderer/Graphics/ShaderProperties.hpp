@@ -100,6 +100,7 @@ namespace EngineQ
 
 		public:
 			ShaderProperties(Resources::Resource<Shader> shader);
+			virtual ~ShaderProperties() = default;
 
 			Resources::Resource<Shader> GetShader() const;
 

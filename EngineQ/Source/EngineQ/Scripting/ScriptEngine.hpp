@@ -36,6 +36,7 @@ namespace EngineQ
 				Scene,
 				ResourceManager,
 
+				EffectController,
 				ShaderProperties,
 
 				Shader,
@@ -65,7 +66,9 @@ namespace EngineQ
 			static constexpr const char* OnDisableName = ":OnDisable";
 			static constexpr const char* OnDeactivateName = ":OnDeactivate";
 			static constexpr const char* OnDestroyName = ":OnDestroy";
-			
+			static constexpr const char* OnBeforeRenderName = ":OnBeforeRender";
+			static constexpr const char* OnAfterRenderName = ":OnAfterRender";
+
 			static constexpr const char* InitializerName = ":OnInitialize";
 
 			static constexpr const char* NativeHandleFieldName = "nativeHandle";
@@ -81,6 +84,7 @@ namespace EngineQ
 				{ NamespaceName, "Scene" },
 				{ NamespaceName, "ResourceManager" },
 
+				{ NamespaceName, "EffectController" },
 				{ NamespaceName, "ShaderProperties" },
 				
 				{ NamespaceName, "Shader" },
@@ -108,7 +112,7 @@ namespace EngineQ
 			std::map<std::string, std::pair<MonoAssembly*, MonoImage*>> assemblies;
 
 			static MonoMethod* GetMethod(MonoClass* mclass, const char* name);
-			MonoMethod* GetScriptMethod(MonoClass* mclass, MonoObject* object, const char* name) const;
+			MonoMethod* GetScriptMethod(MonoClass* mclass, MonoObject* object, const char* name, MonoClass* scriptClass) const;
 
 			void API_Register(const char* name, const void* function);
 
@@ -143,13 +147,20 @@ namespace EngineQ
 			ScriptMethod GetScriptDisableMethod(ScriptClass sclass, ScriptObject object) const;
 			ScriptMethod GetScriptDeactivateMethod(ScriptClass sclass, ScriptObject object) const;
 			ScriptMethod GetScriptDestroyMethod(ScriptClass sclass, ScriptObject object) const;
-
+			
+			ScriptMethod GetEffectCreateMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetEffectUpdateMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetEffectBeforeRenderMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetEffectAfterRenderMethod(ScriptClass sclass, ScriptObject object) const;
+			ScriptMethod GetEffectDestroyMethod(ScriptClass sclass, ScriptObject object) const;
+			
 			ScriptMethod GetInitializerMethod(const std::string& iassembly, const std::string& inamespace, const std::string& iclass) const;
 
 			void GetClassDescription(ScriptClass sclass, std::string& cassembly, std::string& cnamespace, std::string& cname) const;
 			ScriptClass GetClass(const std::string& cassembly, const std::string& cnamespace, const std::string& cname) const;
 
 			ScriptClass GetScriptClass(const char* assembly, const char* classNamespace, const char* name) const;
+			ScriptClass GetEffectControllerClass(const char * assembly, const char * classNamespace, const char * name) const;
 			
 			ScriptClass GetClass(Class scriptClass) const;
 			

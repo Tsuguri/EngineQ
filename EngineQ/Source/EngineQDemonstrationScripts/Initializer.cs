@@ -22,7 +22,6 @@ namespace QScripts
 		{
 			var resourceManager = ResourceManager.Instance;
 
-
 			// Camera
 			var camera = scene.CreateEntity(true, "Camera");
 			
@@ -36,7 +35,7 @@ namespace QScripts
 			cameraMove.MoveSpeed = 3.0f;
 
 			camera.AddComponent<TesterScript>();
-
+			
 
 			// Skull
 			var skull = scene.CreateEntity(true, "Skull");
@@ -109,6 +108,7 @@ namespace QScripts
 			light2script.InitialRotation = 0.3f;
 
 			light2.Transform.Scale = new Vector3(0.4f);
+			
 
 			/*
 			var ent1 = scene.CreateEntity(true, "Camera");

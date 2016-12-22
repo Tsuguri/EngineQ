@@ -20,6 +20,8 @@ namespace EngineQ
 		class RenderingUnit
 		{
 		private:
+			std::unique_ptr<ShaderPassFactory> shaderPassFactory;
+
 			ScreenDataProvider* screenDataProvider;
 			Renderer renderer;
 			GLuint quadVao = 0;
@@ -37,16 +39,18 @@ namespace EngineQ
 			void Resize(int width, int height);
 			std::unique_ptr<Framebuffer> CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting);
 			std::unique_ptr<Framebuffer> CreateFramebuffer(std::vector<Resources::Resource<Texture>>& textures, bool depthTesting);
-			void Init(const Configuration::RenderingUnitConfiguration&configuration);
 
 			void AddEffects(const std::vector<Configuration::EffectConfiguration>& effects, const std::map<std::string, int>& texturesNames);
 
+		protected:
+			RenderingUnit(ScreenDataProvider * dataProvider, const Configuration::RenderingUnitConfiguration & configuration, std::unique_ptr<ShaderPassFactory> shaderPassFactory);
+			void Initialize(const Configuration::RenderingUnitConfiguration& configuration);
+
 		public:
-			RenderingUnit(ScreenDataProvider* engine, const Configuration::RenderingUnitConfiguration& configuration);
+			RenderingUnit(ScreenDataProvider* screenDataProvider, const Configuration::RenderingUnitConfiguration& configuration);
 			~RenderingUnit();
 
 			void Render(Scene& scene);
-
 		};
 	}
 }

@@ -29,6 +29,7 @@
 #include "API_TimeCounter.hpp"
 #include "API_Application.hpp"
 #include "API_ResourceManager.hpp"
+#include "API_EffectController.hpp"
 
 
 namespace EngineQ
@@ -55,12 +56,11 @@ namespace EngineQ
 			return GetMethod(this->GetClass(Class::Input), name);
 		}
 
-		MonoMethod* ScriptEngine::GetScriptMethod(MonoClass* mclass, MonoObject* object, const char* name) const
+		MonoMethod* ScriptEngine::GetScriptMethod(MonoClass* mclass, MonoObject* object, const char* name, MonoClass* scriptClass) const
 		{
 			MonoClass* currClass = mclass;
 			MonoMethod* foundMethod = nullptr;
-			MonoClass* scriptClass = this->GetClass(Class::Script);
-
+			
 			while (currClass != scriptClass)
 			{
 				if (currClass == nullptr)
@@ -155,6 +155,7 @@ namespace EngineQ
 			API_Resource::API_Register(*this);
 			API_ResourceManager::API_Register(*this);
 			API_ShaderProperties::API_Register(*this);
+			API_EffectController::API_Register(*this);
 		}
 
 		ScriptEngine::~ScriptEngine()
@@ -325,37 +326,63 @@ namespace EngineQ
 
 		ScriptMethod ScriptEngine::GetScriptCreateMethod(ScriptClass sclass, ScriptObject object) const
 		{
-			return GetScriptMethod(sclass, object, OnCreateName);
+			return GetScriptMethod(sclass, object, OnCreateName, this->GetClass(Class::Script));
 		}
 
 		ScriptMethod ScriptEngine::GetScriptActivateMethod(ScriptClass sclass, ScriptObject object) const
 		{
-			return GetScriptMethod(sclass, object, OnActivateName);
+			return GetScriptMethod(sclass, object, OnActivateName, this->GetClass(Class::Script));
 		}
 
 		ScriptMethod ScriptEngine::GetScriptEnableMethod(ScriptClass sclass, ScriptObject object) const
 		{
-			return GetScriptMethod(sclass, object, OnEnableName);
+			return GetScriptMethod(sclass, object, OnEnableName, this->GetClass(Class::Script));
 		}
 
 		ScriptMethod ScriptEngine::GetScriptUpdateMethod(ScriptClass sclass, ScriptObject object) const
 		{
-			return GetScriptMethod(sclass, object, OnUpdateName);
+			return GetScriptMethod(sclass, object, OnUpdateName, this->GetClass(Class::Script));
 		}
 
 		ScriptMethod ScriptEngine::GetScriptDisableMethod(ScriptClass sclass, ScriptObject object) const
 		{
-			return GetScriptMethod(sclass, object, OnDisableName);
+			return GetScriptMethod(sclass, object, OnDisableName, this->GetClass(Class::Script));
 		}
 		
 		ScriptMethod ScriptEngine::GetScriptDeactivateMethod(ScriptClass sclass, ScriptObject object) const
 		{
-			return GetScriptMethod(sclass, object, OnDeactivateName);
+			return GetScriptMethod(sclass, object, OnDeactivateName, this->GetClass(Class::Script));
 		}
-		
+
 		ScriptMethod ScriptEngine::GetScriptDestroyMethod(ScriptClass sclass, ScriptObject object) const
 		{
-			return GetScriptMethod(sclass, object, OnDestroyName);
+			return GetScriptMethod(sclass, object, OnDestroyName, this->GetClass(Class::Script));
+		}
+
+
+		ScriptMethod ScriptEngine::GetEffectCreateMethod(ScriptClass sclass, ScriptObject object) const
+		{
+			return GetScriptMethod(sclass, object, OnCreateName, this->GetClass(Class::EffectController));
+		}
+
+		ScriptMethod ScriptEngine::GetEffectUpdateMethod(ScriptClass sclass, ScriptObject object) const
+		{
+			return GetScriptMethod(sclass, object, OnUpdateName, this->GetClass(Class::EffectController));
+		}
+
+		ScriptMethod ScriptEngine::GetEffectBeforeRenderMethod(ScriptClass sclass, ScriptObject object) const
+		{
+			return GetScriptMethod(sclass, object, OnBeforeRenderName, this->GetClass(Class::EffectController));
+		}
+
+		ScriptMethod ScriptEngine::GetEffectAfterRenderMethod(ScriptClass sclass, ScriptObject object) const
+		{
+			return GetScriptMethod(sclass, object, OnAfterRenderName, this->GetClass(Class::EffectController));
+		}
+
+		ScriptMethod ScriptEngine::GetEffectDestroyMethod(ScriptClass sclass, ScriptObject object) const
+		{
+			return GetScriptMethod(sclass, object, OnDestroyName, this->GetClass(Class::EffectController));
 		}
 
 
@@ -440,6 +467,27 @@ namespace EngineQ
 			MonoImage* image = it->second.second;
 
 			return mono_class_from_name(image, classNamespace, name);
+		}
+
+		ScriptClass ScriptEngine::GetEffectControllerClass(const char* assembly, const char* classNamespace, const char* name) const
+		{
+			std::string assemblyName = std::string{ assembly };
+
+			auto it = assemblies.find(assemblyName);
+			if (it == assemblies.end())
+				return nullptr;
+
+			MonoImage* image = it->second.second;
+
+			auto effectClass = mono_class_from_name(image, classNamespace, name);
+
+			if(effectClass == nullptr)
+				throw ScriptEngineException{ "Class " + std::string{ classNamespace } +"." + name + (assembly == "" ? "" : " from assembly " + assemblyName) + " not found" };
+			
+			if (!this->IsDerrived(effectClass, this->GetClass(Class::EffectController)))
+				throw ScriptEngineException{ "Class " + std::string{ classNamespace } +"." + name + (assembly == "" ? "" : " from assembly " + assemblyName) + " is not derrived from EffectController" };
+
+			return effectClass;
 		}
 
 		ScriptClass ScriptEngine::GetClass(ScriptEngine::Class scriptClass) const

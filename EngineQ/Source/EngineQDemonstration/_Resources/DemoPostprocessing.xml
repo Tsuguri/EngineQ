@@ -35,6 +35,8 @@
 
 		<!-- Extract bright colors -->
 		<EffectConfiguration Shader="BloomExtraction">
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="MyEffectController" />
+				
 			<Input>
 				<InputPair Texture="Scene" />
 			</Input>

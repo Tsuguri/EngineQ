@@ -63,7 +63,7 @@ namespace EngineQ
 			return std::make_unique<Framebuffer>(depthTesting, textures, screenDataProvider);
 		}
 
-		void RenderingUnit::Init(const Configuration::RenderingUnitConfiguration& configuration)
+		void RenderingUnit::Initialize(const Configuration::RenderingUnitConfiguration& configuration)
 		{
 			auto size = screenDataProvider->GetScreenSize();
 
@@ -105,7 +105,7 @@ namespace EngineQ
 			{
 				if (effect.Iterations < 0)
 				{
-					auto shaderPass = std::make_unique<ShaderPass>(effect.EffectShader);
+					auto shaderPass = this->shaderPassFactory->CreateShaderPass(effect);
 					for (auto inputConfiguration : effect.Input)
 						shaderPass->AddInput(InputConfiguration{ texturesResources[textureNames.at(inputConfiguration.Texture)], inputConfiguration.LocationName });
 
@@ -117,15 +117,18 @@ namespace EngineQ
 					{
 						std::vector<Resources::Resource<Texture>> output;
 						output.reserve(effect.Output.size());
-						for (auto k : effect.Output)
-							output.push_back(texturesResources[textureNames.at(k.Texture)]);//check if output is set  to "screen", or check this for last effect?
-						auto fb = CreateFramebuffer(output, effect.DepthTesting);
-						shaderPass->SetTargetBuffer(std::move(fb));
-
+						for (auto outputTexture : effect.Output)
+							output.push_back(texturesResources[textureNames.at(outputTexture.Texture)]);//check if output is set  to "screen", or check this for last effect?
+					
+						shaderPass->SetTargetBuffer(CreateFramebuffer(output, effect.DepthTesting));
 					}
 
 					shaderPass->SetApplyShadowData(effect.ApplyShadowInfo);
+					auto shaderPassPtr = shaderPass.get();
+
 					this->effects.push_back(std::move(shaderPass));
+
+					shaderPassPtr->Created();
 				}
 				else
 				{
@@ -137,8 +140,8 @@ namespace EngineQ
 			}
 		}
 
-		RenderingUnit::RenderingUnit(ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration) :
-			screenDataProvider(dataProvider), handler(*this, &RenderingUnit::Resize)
+		RenderingUnit::RenderingUnit(ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration, std::unique_ptr<ShaderPassFactory> shaderPassFactory) :
+			shaderPassFactory(std::move(shaderPassFactory)), screenDataProvider(dataProvider), handler(*this, &RenderingUnit::Resize)
 		{
 			//	glPolygonMode(GL_FRONT, GL_FILL);
 			//	glPolygonMode(GL_BACK, GL_LINE);
@@ -155,9 +158,13 @@ namespace EngineQ
 
 			screenDataProvider->resizeEvent += handler;
 
-			InitScreenQuad(&quadVao);
+			InitScreenQuad(&quadVao);	
+		}
 
-			Init(configuration);
+		RenderingUnit::RenderingUnit(ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration) :
+			RenderingUnit(dataProvider, configuration, std::make_unique<ShaderPassFactory>())
+		{
+			Initialize(configuration);
 		}
 
 		RenderingUnit::~RenderingUnit()
@@ -176,11 +183,13 @@ namespace EngineQ
 
 				for (auto& effect : effects)
 				{
+					effect->BeforeRender();
+
 					effect->BindTargetBuffer();
 
 					glClear(GL_COLOR_BUFFER_BIT);
 					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
-					auto& shader = effect->GetShaderproperties();
+					auto& shader = effect->GetShaderProperties();
 
 					auto& lights = shader.GetLights();
 					auto lightsCount = sceneLights.size() > lights.size() ? lights.size() : sceneLights.size();
@@ -220,6 +229,8 @@ namespace EngineQ
 
 					glDrawArrays(GL_TRIANGLES, 0, 6);
 					glBindVertexArray(0);
+
+					effect->AfterRender();
 				}
 
 				glEnable(GL_DEPTH_TEST);

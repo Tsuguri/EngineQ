@@ -20,7 +20,10 @@ namespace EngineQ
 	public:
 		// Effect node
 		std::string ShaderName;//for resource manager
-		std::string ClassName;//C# class name
+		std::string ClassName;
+		std::string ClassNamespace;
+		std::string ClassAssembly;
+
 		bool DepthTesting;
 		bool ApplyShadowInfo;
 		std::vector<Graphics::Configuration::InputPair> Input;

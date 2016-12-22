@@ -69,8 +69,6 @@ namespace EngineQ
 		Component{ ComponentType::Transform, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Transform), entity, enabled },
 		children{}
 	{
-		// TMP
-		scriptEngine.InvokeConstructor(GetManagedObject());
 	}
 
 	Transform::~Transform()

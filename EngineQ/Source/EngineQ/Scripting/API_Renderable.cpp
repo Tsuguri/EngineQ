@@ -17,14 +17,14 @@ namespace EngineQ
 		{
 			const Renderable& renderable = static_cast<const Renderable&>(renderableBase);
 
-			forwardShader = renderable.GetForwardShaderEngine()->GetManagedObject();
+			forwardShader = renderable.GetForwardShader()->GetManagedObject();
 		}
 
 		void API_Renderable::API_GetDeferredShader(const Object& renderableBase, MonoObject*& deferredShader)
 		{
 			const Renderable& renderable = static_cast<const Renderable&>(renderableBase);
 
-			deferredShader = renderable.GetDeferredShaderEngine()->GetManagedObject();
+			deferredShader = renderable.GetDeferredShader()->GetManagedObject();
 		}
 		
 		void API_Renderable::API_GetMesh(const Object& renderableBase, MonoObject*& mesh)

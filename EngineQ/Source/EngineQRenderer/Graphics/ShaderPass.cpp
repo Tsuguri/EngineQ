@@ -15,15 +15,23 @@ namespace EngineQ
 		{
 		}
 
-		ShaderPass::ShaderPass(Resources::Resource<Shader> shader) :
-			shader{ shader }
+		ShaderPass::ShaderPass(std::unique_ptr<ShaderProperties> shaderProperties) :
+			shaderProperties{ std::move(shaderProperties) }
 		{
 		}
 
-
-		ShaderProperties & ShaderPass::GetShaderproperties()
+		ShaderPass::ShaderPass(Resources::Resource<Shader> shader) :
+			shaderProperties{ std::make_unique<ShaderProperties>(shader) }
 		{
-			return shader;
+		}
+
+		ShaderPass::~ShaderPass()
+		{
+		}
+
+		ShaderProperties& ShaderPass::GetShaderProperties() const
+		{
+			return *shaderProperties.get();
 		}
 
 		void ShaderPass::BindTargetBuffer() const
@@ -34,26 +42,26 @@ namespace EngineQ
 				framebuffer->Bind();
 		}
 
-		void ShaderPass::SetTargetBuffer(std::unique_ptr<Framebuffer>&&  buffer)
+		void ShaderPass::SetTargetBuffer(std::unique_ptr<Framebuffer>&& buffer)
 		{
 			framebuffer = std::move(buffer);
 		}
 
-		bool ShaderPass::GetApplyShadowData()
+		bool ShaderPass::GetApplyShadowData() const
 		{
-			return ApplyShadowData;
+			return applyShadowData;
 		}
 
 		void ShaderPass::SetApplyShadowData(bool val)
 		{
-			ApplyShadowData = val;
+			applyShadowData = val;
 		}
 
 		void ShaderPass::AddInput(const InputConfiguration& input)
 		{
 			if (input.Name.empty())
 			{
-				auto properties = shader.GetAllProperties<Resources::Resource<Texture>>();
+				auto properties = shaderProperties->GetAllProperties<Resources::Resource<Texture>>();
 				if (properties.size() != 1)
 					throw "Invalid input configuration. No location name specified";
 
@@ -65,23 +73,40 @@ namespace EngineQ
 			else
 			{
 				inputTextures.push_back(input);
-				auto property = shader.GetProperty<Resources::Resource<Texture>>(input.Name);
+				auto property = shaderProperties->GetProperty<Resources::Resource<Texture>>(input.Name);
 				property = input.texture;
 			}
+		}
+
+		void ShaderPass::BeforeRender()
+		{
+		}
+
+		void ShaderPass::AfterRender()
+		{
+		}
+
+		void ShaderPass::Created()
+		{
 		}
 
 		void ShaderPass::Activate(Camera* cam, float time)
 		{
 			// TMP
-			auto tmp = shader.TryGetProperty<Math::Vector3>(std::string("cameraPosition").c_str());
+			auto tmp = shaderProperties->TryGetProperty<Math::Vector3>(std::string("cameraPosition").c_str());
 			if (tmp != nullval)
 				*tmp = cam->GetPosition();
-			auto tmp2 = shader.TryGetProperty<GLint>("time");
+			auto tmp2 = shaderProperties->TryGetProperty<GLint>("time");
 			if (tmp2 != nullval)
 				*tmp2 = static_cast<GLint>(time);
 
 
-			shader.Apply();
+			shaderProperties->Apply();
+		}
+
+		std::unique_ptr<ShaderPass> ShaderPassFactory::CreateShaderPass(const Configuration::EffectConfiguration& config)
+		{
+			return std::make_unique<ShaderPass>(config.EffectShader);
 		}
 	}
 }

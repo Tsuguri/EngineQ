@@ -13,6 +13,8 @@ namespace EngineQ
 		if (this->Iterations < 0)
 		{
 			configuration.ClassName = ClassName;
+			configuration.ClassNamespace = ClassNamespace;
+			configuration.ClassAssembly = ClassAssembly;
 			configuration.DepthTesting = DepthTesting;
 			configuration.Input = Input;
 			configuration.Output = Output;
@@ -36,6 +38,27 @@ namespace EngineQ
 
 		if (std::strcmp(element->Name(), "EffectConfiguration") == 0)
 		{
+			auto classNode = element->FirstChildElement("Controller");
+			if (classNode != nullptr)
+			{
+				auto className = classNode->Attribute("Class");
+				if (className != nullptr)
+					configuration.ClassName = className;
+				else
+					throw std::runtime_error{ "Invalid effect controller. Name is required" };
+
+				auto classAssembly = classNode->Attribute("Assembly");
+				if (classAssembly != nullptr)
+					configuration.ClassAssembly = classAssembly;
+				else
+					throw std::runtime_error{ "Invalid effect controller. Assembly name is required" };
+
+				auto classNamespace = classNode->Attribute("Namespace");
+				if (classNamespace != nullptr)
+					configuration.ClassNamespace = classNamespace;
+			}
+
+
 			auto shader = element->Attribute("Shader");
 			if (shader == nullptr)
 				throw "Shader attribute not found or equal to 0";

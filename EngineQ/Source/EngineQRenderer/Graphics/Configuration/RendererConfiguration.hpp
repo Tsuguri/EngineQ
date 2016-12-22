@@ -59,7 +59,10 @@ namespace EngineQ
 			public:
 				// Effect node
 				Resources::Resource<Shader> EffectShader;
-				std::string ClassName = ""; // C# class name
+				std::string ClassName;
+				std::string ClassNamespace;
+				std::string ClassAssembly;
+
 				bool DepthTesting = false;
 				bool ApplyShadowInfo = false;
 				std::vector<InputPair> Input;

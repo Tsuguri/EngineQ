@@ -31,15 +31,12 @@ namespace EngineQ
 		virtual ~Renderable();
 
 		void SetForwardShader(Resources::Resource<Graphics::Shader> shader);
-		Graphics::ShaderProperties* GetForwardShader() const override;
-		EngineShaderProperties* GetForwardShaderEngine() const;
-
+		virtual EngineShaderProperties* GetForwardShader() const override;
+		
 		void SetDeferredShader(Resources::Resource<Graphics::Shader> shader);
-		Graphics::ShaderProperties* GetDeferredShader() const override;
-		EngineShaderProperties* GetDeferredShaderEngine() const;
-
-
-		Resources::Resource<Graphics::Mesh> GetMesh() const override;
+		virtual EngineShaderProperties* GetDeferredShader() const override;
+		
+		virtual Resources::Resource<Graphics::Mesh> GetMesh() const override;
 		void SetMesh(Resources::Resource<Graphics::Mesh> mesh);
 
 		Math::Vector3 GetPosition() override;

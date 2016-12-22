@@ -81,7 +81,6 @@ namespace EngineQ
 		: Component{ ComponentType::Light, scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Light), entity, enabled }
 	{
 		Init(static_cast<Graphics::ScreenDataProvider*>(this));
-		scriptEngine.InvokeConstructor(GetManagedObject());
 		shaderProperties = std::make_unique<EngineShaderProperties>(this->scriptEngine, entity.GetScene().GetEngine()->GetResourceManager().GetResource<Graphics::Shader>("LightDepthRender") );
 	}
 }

@@ -40,6 +40,8 @@ namespace EngineQ
 	Scene::Scene(Scripting::ScriptEngine& scriptEngine, Engine* engine) :
 		Object{ scriptEngine, scriptEngine.GetClass(Scripting::ScriptEngine::Class::Scene) }, engine(engine)
 	{
+		// TMP
+		this->scriptEngine.InvokeConstructor(this->GetManagedObject());
 	}
 
 	Scene::~Scene()

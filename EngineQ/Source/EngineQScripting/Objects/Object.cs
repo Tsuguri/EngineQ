@@ -24,16 +24,33 @@ namespace EngineQ
 			}
 		}
 
+		// TMP
+		private static int objectsCount = 0;
+		private static int maxObjectsCount = 0;
+		private int objectIndex = -1;
+
 		internal Object()
 		{
 			// TMP
-			Console.WriteLine($"SE: Constructed {GetType()} with handle {nativeHandle}");
+			objectsCount += 1;
+			maxObjectsCount += 1;
+			if (objectIndex != -1)
+				Console.WriteLine($"SE: !!!!! ALREADY CREATED !!!!!");
+
+			this.objectIndex = maxObjectsCount;
+			Console.WriteLine($"SE: [{objectIndex,3}|{objectsCount,3}] Constructed {GetType()} with handle {nativeHandle}");
 		}
 
 		// TMP
 		~Object()
 		{
-			Console.WriteLine($"SE: Destructed {GetType()} with handle {nativeHandle}");
+			if (objectIndex == -1)
+				Console.WriteLine($"SE: !!!!! ALREADY DESTROYED !!!!!");
+
+			objectsCount -= 1;
+			Console.WriteLine($"SE: [{objectIndex,3}|{objectsCount,3}] Destructed {GetType()} with handle {nativeHandle}");
+
+			this.objectIndex = -1;
 		}
 
 		public override bool Equals(object obj)
