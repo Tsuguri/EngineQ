@@ -21,7 +21,7 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		class ShaderProperties
+		class ShaderProperties : private Utilities::Immovable
 		{
 		private:
 			using UniformData = ShaderUniformData<
@@ -78,7 +78,7 @@ namespace EngineQ
 			std::vector<std::pair<UniformLocation, UniformData>> shaderUniforms;
 			std::map<std::string, std::size_t> shaderUniformsMap;
 			
-			std::vector<UniformData> mockUniforms;
+			std::vector<std::unique_ptr<UniformData>> mockUniforms;
 
 			// Build-in properties
 			std::vector<Light> lights;
@@ -89,7 +89,7 @@ namespace EngineQ
 			void FinalizeBuiltIn();
 
 			template<typename TType>
-			ShaderProperty<TType> CreateMockUniform();
+			ShaderProperty<TType> CreateMockUniform(const TType& defaultValue);
 
 			template< typename TPropertyType>
 			void CheckBuiltIn(ShaderProperty<TPropertyType>& property, const TPropertyType& defaultValue = TPropertyType());

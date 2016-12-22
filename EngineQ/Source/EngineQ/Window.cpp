@@ -86,7 +86,6 @@ namespace EngineQ
 
 	void Window::Close()
 	{
-
 		glfwTerminate();
 	}
 

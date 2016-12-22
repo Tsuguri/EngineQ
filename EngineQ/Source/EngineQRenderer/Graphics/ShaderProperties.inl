@@ -3,20 +3,20 @@ namespace EngineQ
 	namespace Graphics
 	{
 		template<typename TType>
-		ShaderProperty<TType> ShaderProperties::CreateMockUniform()
+		ShaderProperty<TType> ShaderProperties::CreateMockUniform(const TType& defaultValue)
 		{
-			this->mockUniforms.emplace_back(TType{});
+			this->mockUniforms.emplace_back(std::make_unique<UniformData>(defaultValue));
 			auto& mockUniform = this->mockUniforms.back();
-			return mockUniform.GetProperty<TType>();
+			return mockUniform->GetProperty<TType>();
 		}
 
 		template< typename TPropertyType>
 		void ShaderProperties::CheckBuiltIn(ShaderProperty<TPropertyType>& property, const TPropertyType& defaultValue)
 		{
 			if (!property.IsSet())
-				property = this->CreateMockUniform<TPropertyType>();
-
-			property = defaultValue;
+				property = this->CreateMockUniform<TPropertyType>(defaultValue);
+			else
+				property = defaultValue;
 		}
 
 		template<typename TType>

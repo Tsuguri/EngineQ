@@ -160,6 +160,7 @@ namespace EngineQ
 			ShaderUniformData& operator = (const ShaderUniformData& other)
 			{
 				AssingActions[this->type](this->data.data(), other.data.data());
+				return *this;
 			}
 
 			void Apply(Shader& shader, UniformLocation location) const

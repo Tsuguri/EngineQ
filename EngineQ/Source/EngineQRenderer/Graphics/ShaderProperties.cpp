@@ -27,8 +27,9 @@ namespace EngineQ
 			CheckBuiltIn(this->material.Diffuse, Math::Vector3f(0.5f));
 			CheckBuiltIn(this->material.Specular, Math::Vector3f(0.5f));
 			CheckBuiltIn(this->material.Shininess, 32.0f);
-			CheckBuiltIn(this->material.DiffuseTexture, EngineQ::Resources::Resource<Texture>{ nullptr });
+			CheckBuiltIn(this->material.DiffuseTexture);
 			CheckBuiltIn(this->LightCount);
+			
 			for (auto& light : this->lights)
 			{
 				CheckBuiltIn(light.Position);
@@ -38,8 +39,9 @@ namespace EngineQ
 				CheckBuiltIn(light.Diffuse);
 				CheckBuiltIn(light.CastsShadows);
 				CheckBuiltIn(light.FarPlane);
-				CheckBuiltIn(light.DirectionalShadowMap, EngineQ::Resources::Resource<Texture>{ nullptr });
-				CheckBuiltIn(light.LightMatrix);
+				CheckBuiltIn(light.LightMatrix, Math::Matrix4::GetIdentity());
+				CheckBuiltIn(light.DirectionalShadowMap);
+				CheckBuiltIn(light.PointShadowMap);
 			}
 		}
 

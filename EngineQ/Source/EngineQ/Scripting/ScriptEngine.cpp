@@ -482,10 +482,10 @@ namespace EngineQ
 			auto effectClass = mono_class_from_name(image, classNamespace, name);
 
 			if(effectClass == nullptr)
-				throw ScriptEngineException{ "Class " + std::string{ classNamespace } +"." + name + (assembly == "" ? "" : " from assembly " + assemblyName) + " not found" };
+				throw ScriptEngineException{ "Class " + std::string{ classNamespace } +"." + name + (assemblyName.empty() ? "" : " from assembly " + assemblyName) + " not found" };
 			
 			if (!this->IsDerrived(effectClass, this->GetClass(Class::EffectController)))
-				throw ScriptEngineException{ "Class " + std::string{ classNamespace } +"." + name + (assembly == "" ? "" : " from assembly " + assemblyName) + " is not derrived from EffectController" };
+				throw ScriptEngineException{ "Class " + std::string{ classNamespace } +"." + name + (assemblyName.empty() ? "" : " from assembly " + assemblyName) + " is not derrived from EffectController" };
 
 			return effectClass;
 		}
