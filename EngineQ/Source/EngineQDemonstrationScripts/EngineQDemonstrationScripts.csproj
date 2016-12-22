@@ -46,6 +46,7 @@
     <Compile Include="MyEffectController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RotateTest.cs" />
+    <Compile Include="SSAOController.cs" />
     <Compile Include="TesterScript.cs" />
   </ItemGroup>
   <ItemGroup>

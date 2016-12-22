@@ -13,8 +13,6 @@ uniform sampler2D worldPosition;
 uniform sampler2D normal;
 uniform sampler2D albedo;
 
-uniform vec3 cameraPosition = vec3(1, 1, 1);
-
 const float ambientStrength = 0.2f;
 const float materialShininess = 32;
 
@@ -36,7 +34,7 @@ float ShadowCalculations(Light light, sampler2D shadowMap, vec3 position)
 	const float samples = 6.0f;
 	float bias = 0.0001;
 //	float bias = max(0.05f * (1.0f - dot(normal, lightDir)), 0.005f);  
-	vec2 offset = 10.0f / textureSize(shadowMap, 0);//(1.0f + (length(cameraPosition-position)/30.0f))/ 25.0f;
+	vec2 offset = 10.0f / textureSize(shadowMap, 0);//(1.0f + (length(position)/30.0f))/ 25.0f;
 	vec2 pcfStep = 2.0f * offset / samples;
 
     float shadow = 0.0f;
@@ -58,7 +56,7 @@ float ShadowCalculations(Light light, sampler2D shadowMap, vec3 position)
 
 void main()
 {
-	vec3 worldPos = texture(worldPosition,IN.textureCoords).xyz;
+	vec3 position = texture(worldPosition, IN.textureCoords).xyz;
     vec3 colorTmp = texture(albedo, IN.textureCoords).rgb;
 	float specularStrength = texture(albedo, IN.textureCoords).a;
 
@@ -76,17 +74,17 @@ void main()
 		vec3 diffuse = diff * lights[i].diffuse;
 
 		//specular
-		vec3 viewDir = normalize(cameraPosition - worldPos);
+		vec3 viewDir = normalize(position);
 		vec3 halfwayDir = normalize(dir + viewDir);
 		float spec = pow(max(dot(norm, halfwayDir), 0.0), materialShininess);
 		vec3 specular = lights[0].specular * spec * specularStrength;
 
-	//	float shadow = 1.0 - ShadowCalculations(lights[i], GetDirectionalLightSampler(i), worldPos);
+	//	float shadow = 1.0 - ShadowCalculations(lights[i], GetDirectionalLightSampler(i), position);
 		float shadow = 0.0f;
-		     if(i == 0) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_0_q_DirectionalShadowMap, worldPos);
-		else if(i == 1) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_1_q_DirectionalShadowMap, worldPos);
-		else if(i == 2) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_2_q_DirectionalShadowMap, worldPos);
-		else if(i == 3) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_3_q_DirectionalShadowMap, worldPos);
+		     if(i == 0) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_0_q_DirectionalShadowMap, position);
+		else if(i == 1) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_1_q_DirectionalShadowMap, position);
+		else if(i == 2) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_2_q_DirectionalShadowMap, position);
+		else if(i == 3) shadow = 1.0 - ShadowCalculations(lights[i], lights_q_3_q_DirectionalShadowMap, position);
 
 		vec3 res = (ambient + shadow * (diffuse + specular)) * colorTmp;
 		result+=res;

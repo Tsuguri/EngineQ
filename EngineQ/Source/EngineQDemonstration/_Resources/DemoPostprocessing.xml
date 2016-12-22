@@ -10,7 +10,9 @@
 		<TextureConfiguration Name="Scene" InternalFormat="GL_RGBA16F" Format="GL_RGBA" />
 		<TextureConfiguration Name="Bloom1" InternalFormat="GL_RGBA16F" Format="GL_RGBA" />
 		<TextureConfiguration Name="Bloom2" InternalFormat="GL_RGBA16F" Format="GL_RGBA" />
+		<TextureConfiguration Name="SSAO" DataType="GL_FLOAT" InternalFormat="GL_RGB" Format="GL_RED" />
 	</Textures>
+	
 	<Renderer Deferred="true" GlobalShadows="true">
 		<Output>
 			<OutputTexture Texture="Position"/>
@@ -18,8 +20,8 @@
 			<OutputTexture Texture="Albedo" />
 		</Output>
 	</Renderer>
+	
 	<Effects>
-
 
 		<!-- Deferred lighting -->
 		<EffectConfiguration Shader="DeferredLightingShadows" ApplyShadowsData="true" >
@@ -83,6 +85,29 @@
 				<OutputTexture Texture="Screen" />
 			</Output>
 		</EffectConfiguration>
+
+		<!-- SSAO -->
+		<EffectConfiguration Shader="SSAO">
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="SSAOController" />
+			<Input>
+				<InputPair Texture="Position" LocationName="gPosition" />
+				<InputPair Texture="Normal" LocationName="gNormal" />
+			</Input>
+			<Output>
+				<OutputTexture Texture="SSAO" />
+			</Output>
+		</EffectConfiguration>
+
+		<!-- SSAO Blur -->
+		<EffectConfiguration Shader="SSAOBlur">
+			<Input>
+				<InputPair Texture="SSAO" />
+			</Input>
+			<Output>
+				<OutputTexture Texture="Screen" />
+			</Output>
+		</EffectConfiguration>
+		
 
 		<!--EffectConfiguration Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true">
 			<Output>

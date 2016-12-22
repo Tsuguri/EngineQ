@@ -15,15 +15,15 @@ out VS_DATA
 
 #include "../Common/Matrices.shh"
 
-//	mat4 MVP = matrices.projection * matrices.view * matrices.model;
-mat3 NormalMat = mat3(transpose(inverse(matrices.model)));
+mat4 ModelView = matrices.view * matrices.model;
+mat3 NormalMat = mat3(transpose(inverse(ModelView)));
 
 void main()
 {
-    vec4 worldPos = matrices.model * vec4(positionIn, 1.0f);
-    gl_Position = matrices.projection * matrices.view * worldPos;
+    vec4 viewPos = ModelView * vec4(positionIn, 1.0f);
+    gl_Position = matrices.projection * viewPos;
 
-    OUT.position = worldPos.xyz; 
+    OUT.position = viewPos.xyz; 
 	OUT.textureCoords = vec2(1.0f - texCoordsIn.x, texCoordsIn.y);
 	OUT.color = colorIn;
     OUT.normal = NormalMat * normalIn;

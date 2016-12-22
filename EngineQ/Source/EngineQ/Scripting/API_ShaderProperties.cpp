@@ -67,6 +67,10 @@ namespace EngineQ
 			{
 				propertyIndex = shaderProperties.GetPropertyIndex<Math::Vector3f>(name);
 			}
+			else if (propertyClass == scriptEngine.GetClass(Class::Matrix4))
+			{
+				propertyIndex = shaderProperties.GetPropertyIndex<Math::Matrix4>(name);
+			}
 			else if (propertyClass == scriptEngine.GetClass(Class::Texture))
 			{
 				propertyIndex = shaderProperties.GetPropertyIndex<Resources::Resource<Graphics::Texture>>(name);
@@ -99,6 +103,14 @@ namespace EngineQ
 			{
 				scriptEngine.GetValue<Math::Vector3f>(value) = shaderProperties.Get<Math::Vector3f>(propertyIndex);
 			}
+			else if (propertyClass == scriptEngine.GetClass(Class::Matrix4))
+			{
+				scriptEngine.GetValue<Math::Matrix4>(value) = shaderProperties.Get<Math::Matrix4>(propertyIndex);
+			}
+			else if (propertyClass == scriptEngine.GetClass(Class::Texture))
+			{
+				value = GetManagedResource(scriptEngine, ScriptEngine::Class::Texture, shaderProperties.Get<Resources::Resource<Graphics::Texture>>(propertyIndex));
+			}
 			else
 			{
 				scriptEngine.Throw_ArgumentException("TPropertyType", "Unknown property type");
@@ -126,6 +138,10 @@ namespace EngineQ
 			else if (propertyClass == scriptEngine.GetClass(Class::Vector3f))
 			{
 				shaderProperties.Set(propertyIndex, scriptEngine.GetValue<Math::Vector3f>(value));
+			}
+			else if (propertyClass == scriptEngine.GetClass(Class::Matrix4))
+			{
+				shaderProperties.Set(propertyIndex, scriptEngine.GetValue<Math::Matrix4>(value));
 			}
 			else if (propertyClass == scriptEngine.GetClass(Class::Texture))
 			{
