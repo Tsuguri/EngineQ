@@ -43,12 +43,10 @@ namespace EngineQ
 			// If shadows are enabled - render depthmaps into textures
 			if (globalShadows)
 			{
-				//glCullFace(GL_FRONT);
 				for (auto light : lights)
 				{
 					light->RenderDepthMap(renderables);
 				}
-				//glCullFace(GL_BACK);
 			}
 
 

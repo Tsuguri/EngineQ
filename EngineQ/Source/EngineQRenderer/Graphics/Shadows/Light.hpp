@@ -4,6 +4,9 @@
 // Standard includes
 #include <memory>
 
+// Other projects
+#include "EngineQCommon/Math/Vector2.hpp"
+
 // This project
 #include "EngineQRenderer/Graphics/Framebuffer.hpp"
 #include "EngineQRenderer/Graphics/Utils/ScreenDataProvider.hpp"
@@ -30,6 +33,8 @@ namespace EngineQ
 				Resources::Resource<Texture> depthTexture;
 				ScreenDataProvider* screenDataProvider = nullptr;
 				LightType type = LightType::Directional;
+				Math::Vector2i size = 2 * Math::Vector2i{ 1024, 1024 };
+			
 			public:
 				void Init(ScreenDataProvider* dataProvider);
 

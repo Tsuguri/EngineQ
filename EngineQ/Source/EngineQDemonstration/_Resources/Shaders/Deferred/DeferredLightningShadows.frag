@@ -26,33 +26,32 @@ float ShadowCalculations(Light light, sampler2D shadowMap, vec3 position)
 	vec4 fragPosLightSpace = light.lightMatrix * vec4(position, 1.0);
 
 	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+
     // Transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
     // Get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
 
     float currentDepth = projCoords.z;
 
-    float shadow = 0.0;
-
-	float samples = 4.0;
+	const float samples = 6.0f;
 	float bias = 0.0001;
-	vec2 offset = 1.0/ textureSize(shadowMap, 0);//(1.0 + (length(cameraPosition-position)/30.0))/ 25.0;
-	vec2 pcfStep = 2.0 * offset / samples;
+//	float bias = max(0.05f * (1.0f - dot(normal, lightDir)), 0.005f);  
+	vec2 offset = 10.0f / textureSize(shadowMap, 0);//(1.0f + (length(cameraPosition-position)/30.0f))/ 25.0f;
+	vec2 pcfStep = 2.0f * offset / samples;
 
-	for(float x = -offset.x; x < offset.x; x+=pcfStep.x)
+    float shadow = 0.0f;
+	for(float x = -offset.x; x < offset.x; x += pcfStep.x)
 	{
-		for(float y = -offset.y; y < offset.y; y+=pcfStep.y)
+		for(float y = -offset.y; y < offset.y; y += pcfStep.y)
 		{
 			float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y)).r; 
-
-			if(currentDepth - bias > pcfDepth)
-				shadow+=1.0;
+			shadow += (currentDepth - bias > pcfDepth) ? 1.0f : 0.0f;
 		}    
 	}
-	shadow /= samples*samples;
+	shadow *= 1.0f / (samples * samples);
 
-	if(projCoords.z > 1.0)
-        shadow = 0.0;
+	if(projCoords.z > 1.0f)
+		shadow = 0.0f;
 
 	return shadow;
 }
@@ -92,7 +91,7 @@ void main()
 		vec3 res = (ambient + shadow * (diffuse + specular)) * colorTmp;
 		result+=res;
 	}
-
+	
 	color = vec4(result, 1.0f);
 
 }

@@ -181,6 +181,8 @@ namespace QScripts
 			resourceManager.RegisterResource<Shader>("LightDepthRender","./Shaders/Shadows/DepthRender.qres");
 			resourceManager.RegisterResource<Shader>("DeferredLightingShadows", "./Shaders/Deferred/DeferredLightningShadows.qres");
 
+			resourceManager.RegisterResource<Shader>("Debug/ShadowmapDrawer", "./Shaders/Debug/ShadowmapDrawer.qres");
+
 			/*
 			resourceManager.RegisterResource<Shader>("1", "./Shaders/Basic.shd");
 			resourceManager.RegisterResource<Shader>("2", "./Shaders/Custom.shd");

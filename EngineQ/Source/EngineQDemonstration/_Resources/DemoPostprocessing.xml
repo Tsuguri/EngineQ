@@ -20,6 +20,7 @@
 	</Renderer>
 	<Effects>
 
+
 		<!-- Deferred lighting -->
 		<EffectConfiguration Shader="DeferredLightingShadows" ApplyShadowsData="true" >
 			<Input>
@@ -36,7 +37,7 @@
 		<!-- Extract bright colors -->
 		<EffectConfiguration Shader="BloomExtraction">
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="MyEffectController" />
-				
+
 			<Input>
 				<InputPair Texture="Scene" />
 			</Input>
@@ -45,10 +46,10 @@
 			</Output>
 		</EffectConfiguration>
 
-		
+
 		<!-- Bloom blur passes -->
 		<EffectRepeat Iterations="10">
-			
+
 			<!-- Bloom vertical blur -->
 			<EffectConfiguration Shader="BloomVerticalBlur">
 				<Input>
@@ -71,7 +72,7 @@
 
 		</EffectRepeat>
 
-		
+
 		<!-- Combine Bloom and Scene -->
 		<EffectConfiguration Shader="Combine">
 			<Input>
@@ -83,55 +84,18 @@
 			</Output>
 		</EffectConfiguration>
 
+		<!--EffectConfiguration Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true">
+			<Output>
+				<OutputTexture Texture="Screen"></OutputTexture>
+			</Output>
+		</EffectConfiguration-->
+	
 	</Effects>
 
 
 	<NotUsed>
 
-
-		<!-- Bloom blur 2 -->
-		<!-- Bloom vertical blur -->
-		<EffectConfiguration Shader="BloomVerticalBlur">
-			<Input>
-				<InputPair Texture="Bloom2" />
-			</Input>
-			<Output>
-				<OutputTexture Texture="Bloom1" />
-			</Output>
-		</EffectConfiguration>
-
-		<!-- Bloom horizontal blur -->
-		<EffectConfiguration Shader="BloomHorizontalBlur">
-			<Input>
-				<InputPair Texture="Bloom1" />
-			</Input>
-			<Output>
-				<OutputTexture Texture="Bloom2" />
-			</Output>
-		</EffectConfiguration>
-
-		<!-- Bloom blur 3 -->
-		<!-- Bloom vertical blur -->
-		<EffectConfiguration Shader="BloomVerticalBlur">
-			<Input>
-				<InputPair Texture="Bloom2" />
-			</Input>
-			<Output>
-				<OutputTexture Texture="Bloom1" />
-			</Output>
-		</EffectConfiguration>
-
-		<!-- Bloom horizontal blur -->
-		<EffectConfiguration Shader="BloomHorizontalBlur">
-			<Input>
-				<InputPair Texture="Bloom1" />
-			</Input>
-			<Output>
-				<OutputTexture Texture="Bloom2" />
-			</Output>
-		</EffectConfiguration>
-
-
+		
 
 
 

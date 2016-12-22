@@ -14,7 +14,6 @@ namespace EngineQ
 			void Light::Init(ScreenDataProvider* dataProvider)
 			{
 				this->screenDataProvider = dataProvider;
-				auto size = screenDataProvider->GetScreenSize();
 				Configuration::TextureConfiguration conf;
 				conf.Format = GL_DEPTH_COMPONENT;
 				conf.InternalFormat = GL_DEPTH_COMPONENT;
@@ -37,7 +36,6 @@ namespace EngineQ
 				auto shader = GetShaderProperties();
 				if (shader == nullptr)
 					return;
-				auto size = screenDataProvider->GetScreenSize();
 				auto matrix = GetLightMatrix();
 
 				glViewport(0, 0, size.X, size.Y);
@@ -73,11 +71,11 @@ namespace EngineQ
 
 			Math::Matrix4 Light::GetLightMatrix() const
 			{
-				GLfloat near_plane = 1.0f, far_plane = 30.0f;
-				GLfloat range = 10.0f;
+				GLfloat near_plane = 0.1f, far_plane = 15.0f;
+				GLfloat range = 4.0f;
 				Math::Matrix4 lightProjection = Math::Matrix4::CreateOrtho(-range, range, -range, range, near_plane, far_plane);
-				Math::Matrix4 lightView = Math::Matrix4::CreateLookAt(-GetPosition(), Math::Vector3{ 0,0,0 }, Math::Vector3{ 0,1,0 });
-				return lightProjection*lightView;
+				Math::Matrix4 lightView = Math::Matrix4::CreateLookAt(GetPosition(), Math::Vector3::GetZero(), Math::Vector3::GetUp()) * Math::Matrix4::CreateTranslation(-GetPosition());
+				return lightProjection * lightView;
 			}
 		}
 	}

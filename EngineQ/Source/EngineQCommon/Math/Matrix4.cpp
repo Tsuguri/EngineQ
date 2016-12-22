@@ -485,10 +485,11 @@ namespace EngineQ
 		{
 			Real Xmax = right - left;// -static_cast<Real>(1);
 			Real Ymax = top - bottom;// -static_cast<Real>(1);
+			Real Zmax = far - near;
 			return Matrix4{
 				static_cast<Real>(2) / Xmax,  static_cast<Real>(0), static_cast<Real>(0), -(right + left) / Xmax,
 				static_cast<Real>(0), static_cast<Real>(2) / Ymax, static_cast<Real>(0), -(top + bottom) / Ymax,
-				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(-2) / (far - near),  -(near + far) / (near - far),
+				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(2) / Zmax, -(near + far) / Zmax,
 				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1)
 			};// .GetTransposed();
 		}
