@@ -268,7 +268,7 @@ namespace EngineQ
 
 								this->PreprocessFile(newFileName, output);
 
-								stringstream.clear();
+								stringstream.str(std::string());
 								writeLater = true;
 
 								state = State::None;

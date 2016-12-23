@@ -3,15 +3,15 @@ const int MaxLights = 4;
 struct Light
 {
 	vec3 position;
+	vec3 direction;
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
 	
-	mat4 lightMatrix;
-
 	float distance;
 	
 	bool castsShadows;
+	mat4 lightMatrix;
 	float farPlane;
 };
 

@@ -10,8 +10,8 @@ in VS_DATA
 uniform sampler2D scene;
 uniform sampler2D bloom;
 
-const float exposure = 0.8f;
-const float gamma = 2.0f;
+const float exposure = 1.1f;
+const float gamma = 2.2f;
 
 void main()
 {             

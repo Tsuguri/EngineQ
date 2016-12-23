@@ -23,5 +23,6 @@ void main()
 		}
 	}
 
-    FragColor = vec4(vec3(result / (4.0f * 4.0f)), 1.0f);
+	FragColor = vec4(vec3(result / (4.0f * 4.0f)), 1.0f);
+//	FragColor = vec4(vec3(texture(ssaoInput, IN.textureCoords).r), 1.0f);
 }

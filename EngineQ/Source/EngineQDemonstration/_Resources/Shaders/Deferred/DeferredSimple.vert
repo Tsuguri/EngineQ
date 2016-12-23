@@ -26,5 +26,5 @@ void main()
     OUT.position = viewPos.xyz; 
 	OUT.textureCoords = vec2(1.0f - texCoordsIn.x, texCoordsIn.y);
 	OUT.color = colorIn;
-    OUT.normal = NormalMat * normalIn;
+    OUT.normal = normalize(NormalMat * normalIn);
 }  

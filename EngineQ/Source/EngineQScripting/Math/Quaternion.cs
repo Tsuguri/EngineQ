@@ -166,10 +166,10 @@ namespace EngineQ.Math
 			return CreateFromEuler(angles.X, angles.Y, angles.Z);
 		}
 
-        public static Quaternion CreateLookAt(Vector3 sourcePoint, Vector3 targetPoint)
+        public static Quaternion CreateLookAt(Vector3 sourcePoint, Vector3 targetPoint, Vector3 up)
         {
 			Quaternion ret;
-			API_CreateLookAt(ref sourcePoint, ref targetPoint, out ret);
+			API_CreateLookAt(ref sourcePoint, ref targetPoint, ref up, out ret);
 			return ret;
         }
 
@@ -258,7 +258,7 @@ namespace EngineQ.Math
 		private static extern void API_CreateFromEuler(Real x, Real y, Real z, out Quaternion quaternion);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		private static extern void API_CreateLookAt(ref Vector3 sourcePoint, ref Vector3 targetPoint, out Quaternion quaternion);
+		private static extern void API_CreateLookAt(ref Vector3 sourcePoint, ref Vector3 targetPoint, ref Vector3 up, out Quaternion quaternion);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_MultiplyQuaternion(ref Quaternion q1, ref Quaternion q2, out Quaternion quaternion);

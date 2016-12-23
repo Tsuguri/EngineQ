@@ -483,36 +483,37 @@ namespace EngineQ
 
 		Matrix4 Matrix4::CreateOrtho(Real left, Real right, Real bottom, Real top, Real near, Real far)
 		{
-			Real Xmax = right - left;// -static_cast<Real>(1);
-			Real Ymax = top - bottom;// -static_cast<Real>(1);
+			Real Xmax = right - left;
+			Real Ymax = top - bottom;
 			Real Zmax = far - near;
+
 			return Matrix4{
 				static_cast<Real>(2) / Xmax,  static_cast<Real>(0), static_cast<Real>(0), -(right + left) / Xmax,
 				static_cast<Real>(0), static_cast<Real>(2) / Ymax, static_cast<Real>(0), -(top + bottom) / Ymax,
 				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(2) / Zmax, -(near + far) / Zmax,
 				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1)
-			};// .GetTransposed();
+			};
 		}
 
-		Matrix4 Matrix4::CreateLookAt(const Vector3& cameraPosition, const Vector3&  cameraTarget, const Vector3&  upVector)
+		Matrix4 Matrix4::CreateLookAt(const Vector3& cameraPosition, const Vector3& cameraTarget, const Vector3& upVector)
 		{
 			Vector3 zaxis = (cameraTarget - cameraPosition).GetNormalized();
 			Vector3 xaxis = Vector3::CrossProduct(upVector, zaxis).GetNormalized();
 			Vector3 yaxis = Vector3::CrossProduct(zaxis, xaxis);
 
 			return Matrix4{
-				xaxis.X, xaxis.Y, xaxis.Z, -Vector3::DotProduct(xaxis, cameraPosition),
-				yaxis.X, yaxis.Y, yaxis.Z, -Vector3::DotProduct(yaxis, cameraPosition),
-				zaxis.X, zaxis.Y, zaxis.Z, -Vector3::DotProduct(zaxis, cameraPosition),
-				static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1)
+				xaxis.X, yaxis.X, zaxis.X, static_cast<Real>(0),
+				xaxis.Y, yaxis.Y, zaxis.Y, static_cast<Real>(0),
+				xaxis.Z, yaxis.Z, zaxis.Z, static_cast<Real>(0),
+				-Vector3::DotProduct(xaxis, cameraPosition), -Vector3::DotProduct(yaxis, cameraPosition), -Vector3::DotProduct(zaxis, cameraPosition), static_cast<Real>(1)
 			};
 
-			//return Matrix4{
-			//	xaxis.X, yaxis.X, zaxis.X, 0,
-			//	xaxis.Y, yaxis.Y, zaxis.Y, 0,
-			//	xaxis.Z, yaxis.Z, zaxis.Z, 0,
-			//	-Vector3::DotProduct(xaxis, cameraPosition), -Vector3::DotProduct(yaxis, cameraPosition), -Vector3::DotProduct(zaxis, cameraPosition), 1
-			//};
+		//	return Matrix4{
+		//		xaxis.X, xaxis.Y, xaxis.Z, -Vector3::DotProduct(xaxis, cameraPosition),
+		//		yaxis.X, yaxis.Y, yaxis.Z, -Vector3::DotProduct(yaxis, cameraPosition),
+		//		zaxis.X, zaxis.Y, zaxis.Z, -Vector3::DotProduct(zaxis, cameraPosition),
+		//		static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(1)
+		//	};
 		}
 
 		Vector3 Matrix4::TransformVector(const Matrix4& matrix, const Vector3& vector)
@@ -650,7 +651,7 @@ namespace EngineQ
 		{
 			return Values[index];
 		}
-
+		
 		Real Matrix4::operator () (std::size_t row, std::size_t column) const
 		{
 			return Values2[row][column];

@@ -16,7 +16,6 @@ namespace EngineQ
 			return this->shader;
 		}
 
-
 		void ShaderProperties::FinalizeBuiltIn()
 		{
 			CheckBuiltIn(this->matrices.Model, Math::Matrix4::GetIdentity());
@@ -33,6 +32,8 @@ namespace EngineQ
 			for (auto& light : this->lights)
 			{
 				CheckBuiltIn(light.Position);
+				CheckBuiltIn(light.Direction);
+				CheckBuiltIn(light.Distance);
 				CheckBuiltIn(light.Ambient);
 				CheckBuiltIn(light.Diffuse);
 				CheckBuiltIn(light.Specular);
@@ -136,6 +137,16 @@ namespace EngineQ
 				{
 					auto property = data.GetProperty<Math::Matrix4>();
 					lights[index].LightMatrix = property;
+				}
+				else if (translatedName.find("direction") != std::string::npos)
+				{
+					auto property = data.GetProperty<Math::Vector3f>();
+					lights[index].Direction = property;
+				}
+				else if (translatedName.find("distance") != std::string::npos)
+				{
+					auto property = data.GetProperty<GLfloat>();
+					lights[index].Distance = property;
 				}
 				else if (translatedName.find("DirectionalShadowMap") != std::string::npos)
 				{

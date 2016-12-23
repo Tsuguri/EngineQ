@@ -55,9 +55,9 @@ namespace EngineQ
 			quaternion = Quaternion::CreateFromEuler(x, y, z);
 		}
 
-		void API_Quaternion::API_CreateLookAt(const Math::Vector3& sourcePoint, const Math::Vector3& targetPoint, Math::Quaternion& quaternion)
+		void API_Quaternion::API_CreateLookAt(const Math::Vector3& sourcePoint, const Math::Vector3& targetPoint, const Math::Vector3& up, Math::Quaternion& quaternion)
 		{
-			quaternion = Quaternion::CreateLookAt(sourcePoint, targetPoint);
+			quaternion = Quaternion::CreateLookAt(sourcePoint, targetPoint, up);
 		}
 
 		void API_Quaternion::API_MultiplyQuaternion(const Quaternion& q1, const Quaternion& q2, Quaternion& quaternion)
