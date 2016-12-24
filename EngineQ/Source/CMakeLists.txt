@@ -2,9 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 project(EngineQ)
 
-get_filename_component(ROOT_PATH "../" ABSOLUTE)
-get_filename_component(SOURCE_ROOT_PATH "./" ABSOLUTE)
-get_filename_component(BUILD_ROOT_PATH "${ROOT_PATH}/Build" ABSOLUTE)
+get_filename_component(ROOT_PATH "${CMAKE_SOURCE_DIR}/.." ABSOLUTE)
 get_filename_component(LIBRARIES_ROOT_PATH "${ROOT_PATH}/Libraries" ABSOLUTE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${ROOT_PATH}/Modules") 
@@ -15,7 +13,7 @@ include(
 	Utilities
 )
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD "std14")
 
 if(MSVC AND (CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
 	string(REPLACE "-gline-tables-only" "-g2 -gdwarf-2" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
@@ -58,6 +56,7 @@ add_custom_target(UPDATE_PROJECTS
 	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQCommon/CMakeLists.txt"
 	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQRenderer/CMakeLists.txt"
 	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQ/CMakeLists.txt"
+	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQDemonstration/CMakeLists.txt"
 )
 set_property(TARGET UPDATE_PROJECTS PROPERTY FOLDER "CMakePredefinedTargets")
 

@@ -16,7 +16,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Build\EngineQDemonstrationScripts\bin\$(Configuration)</OutputPath>
+    <OutputPath>..\..\Build\MSVC\EngineQDemonstrationScripts\bin\$(Configuration)</OutputPath>
+    <BaseIntermediateOutputPath>..\..\Build\MSVC\EngineQDemonstrationScripts\obj</BaseIntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +25,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Build\EngineQDemonstrationScripts\bin\$(Configuration)</OutputPath>
+    <OutputPath>..\..\Build\MSVC\EngineQDemonstrationScripts\bin\$(Configuration)</OutputPath>
+    <BaseIntermediateOutputPath>..\..\Build\MSVC\EngineQDemonstrationScripts\obj</BaseIntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -63,7 +65,7 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
