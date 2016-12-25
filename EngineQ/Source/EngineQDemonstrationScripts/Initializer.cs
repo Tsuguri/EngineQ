@@ -75,7 +75,7 @@ namespace QScripts
 			var light1 = scene.CreateEntity(true, "Light1");
 
 			var light1light = light1.AddComponent<Light>();
-
+			
 			var light1renderable = light1.AddComponent<Renderable>();
 			light1renderable.UseDeferredShader(lightsDeferredShader);
 			light1renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
@@ -115,6 +115,28 @@ namespace QScripts
 			*/
 
 
+
+			var capsule = scene.CreateEntity(true, "Capsule");
+			var capsuleRenderable = capsule.AddComponent<Renderable>();
+			capsuleRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
+			capsuleRenderable.Mesh = resourceManager.GetResource<Mesh>("Capsule");
+			capsuleRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
+
+			capsule.Transform.Scale = new Vector3(0.5f);
+			capsule.Transform.Position = new Vector3(-2.0f, 1.0f, 0.0f);
+			capsule.Transform.Rotation = Quaternion.CreateFromEuler(0.35f, 2.54f, -1.3f);
+
+			var arrow = scene.CreateEntity(true, "Arrow");
+			var arrowRenderable = arrow.AddComponent<Renderable>();
+			arrowRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
+			arrowRenderable.Mesh = resourceManager.GetResource<Mesh>("Arrow");
+			arrowRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
+			arrow.AddComponent<HittestScript>();
+
+			var arrows = scene.CreateEntity(true, "Arrows");
+			arrows.AddComponent<ArrowsController>();
+
+			arrows.Transform.Position = new Vector3(1.6f, 0.4f, -2.0f);
 
 
 			/*
@@ -192,6 +214,11 @@ namespace QScripts
 			resourceManager.RegisterResource<Shader>("SSAOBlur", "./Shaders/SSAO/SSAOBlur.qres");
 
 			resourceManager.RegisterResource<Shader>("Debug/ShadowmapDrawer", "./Shaders/Debug/ShadowmapDrawer.qres");
+
+			resourceManager.RegisterResource<Mesh>("Capsule", "./Meshes/Capsule.qres");
+			resourceManager.RegisterResource<Mesh>("Arrow", "./Meshes/Arrow.qres");
+
+			resourceManager.RegisterResource<Shader>("ArrowsDeferred", "./Shaders/Deferred/DeferredSimpleColor.qres");
 
 			/*
 			resourceManager.RegisterResource<Shader>("1", "./Shaders/Basic.shd");

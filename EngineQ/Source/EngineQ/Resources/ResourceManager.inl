@@ -3,13 +3,13 @@ namespace EngineQ
 	namespace Resources
 	{
 		template<typename TType>
-		bool ResourceManager::IsResourceRegistered(const std::string & resourceId)
+		bool ResourceManager::IsResourceRegistered(const std::string& resourceId)
 		{
-			return this->resourceMap.find({ typeid(TType), resourceId }) != this->resourceMap.end();
+			return this->resourceMap.count({ typeid(TType), resourceId }) == 1;
 		}
 
 		template<typename TType>
-		void ResourceManager::RegisterResource(const std::string & resourceId, const char * path)
+		void ResourceManager::RegisterResource(const std::string& resourceId, const char* path)
 		{
 			std::string pathString = path;
 			RegisterResource<TType>(resourceId, [pathString](ResourceManager& resourceManager)
@@ -18,8 +18,8 @@ namespace EngineQ
 			});
 		}
 
-		template<typename TType>
-		void ResourceManager::RegisterResource(const std::string & resourceId, std::function<std::unique_ptr<TType>(ResourceManager&)> factory)
+		template<typename TType, typename TFactory>
+		void ResourceManager::RegisterResource(const std::string& resourceId, TFactory factory)
 		{
 			std::type_index index = typeid(TType);
 
@@ -31,8 +31,6 @@ namespace EngineQ
 
 				controlBlock->data = factory(resourceManager);
 
-				resourceManager.newActiveResources.push_back(&resourceData);
-
 				Logger::LogMessage("RM: Created resource ", resourceId, "\n");
 			};
 
@@ -41,8 +39,6 @@ namespace EngineQ
 				auto controlBlock = static_cast<const Resource<TType>&>(*resourceData.resource).GetControlBlock();
 
 				controlBlock->data = nullptr;
-
-				resourceManager.oldActiveResources.push_back(&resourceData);
 
 				Logger::LogMessage("RM: Destructed resource ", resourceId, "\n");
 			};
@@ -55,7 +51,17 @@ namespace EngineQ
 		}
 
 		template<typename TType>
-		Resource<TType> ResourceManager::TryGetResource(const std::string & resourceId)
+		void ResourceManager::HoldResource(Resource<TType> resource)
+		{
+			UnnamedResourceData resourceData;
+
+			resourceData.resource = std::make_unique<Resource<TType>>(std::move(resource));
+
+			this->unnamedResources.push_back(std::move(resourceData));
+		}
+
+		template<typename TType>
+		Resource<TType> ResourceManager::TryGetResource(const std::string& resourceId)
 		{
 			std::type_index index = typeid(TType);
 
@@ -67,13 +73,16 @@ namespace EngineQ
 			auto& resource = static_cast<Resource<TType>&>(*resourceData.resource);
 
 			if (resource.GetControlBlock()->data == nullptr)
+			{
 				resourceData.constructor(*this, resourceData);
+				this->activeResources.push_back(&resourceData);
+			}
 
 			return resource;
 		}
 
 		template<typename TType>
-		Resource<TType> ResourceManager::GetResource(const std::string & resourceId)
+		Resource<TType> ResourceManager::GetResource(const std::string& resourceId)
 		{
 			Resource<TType> resource = this->TryGetResource<TType>(resourceId);
 			if (resource == nullptr)

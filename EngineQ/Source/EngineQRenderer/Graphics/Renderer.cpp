@@ -71,6 +71,10 @@ namespace EngineQ
 
 			// Renders each object from vector get from scene
 
+			// Wireframe
+		//	glDisable(GL_CULL_FACE);
+		//	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 			for (auto renderable : scene.GetRenderables())
 			{
 				auto mesh = renderable->GetMesh();
@@ -116,6 +120,11 @@ namespace EngineQ
 				glBindVertexArray(mesh->GetVao());
 				glDrawElements(GL_TRIANGLES, mesh->GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
 			}
+
+			// Wireframe
+		//	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//	glEnable(GL_CULL_FACE);
+
 		}
 
 		void Renderer::SetTargetBuffer(std::shared_ptr<Framebuffer> buffer)

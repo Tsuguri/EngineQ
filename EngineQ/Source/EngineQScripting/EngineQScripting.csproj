@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Math\Ray.cs" />
+    <Compile Include="Math\Segment.cs" />
     <Compile Include="Objects\EffectController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Math\Utils.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Graphics\ShaderProperty.cs" />
     <Compile Include="Subsystems\Application.cs" />
     <Compile Include="Subsystems\Input.cs" />
+    <Compile Include="Subsystems\PrefabGenerator.cs" />
     <Compile Include="Subsystems\ResourceManager.cs" />
     <Compile Include="Subsystems\Time.cs" />
   </ItemGroup>

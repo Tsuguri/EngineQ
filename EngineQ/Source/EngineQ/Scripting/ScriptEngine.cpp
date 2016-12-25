@@ -30,6 +30,7 @@
 #include "API_Application.hpp"
 #include "API_ResourceManager.hpp"
 #include "API_EffectController.hpp"
+#include "API_PrefabGenerator.hpp"
 
 
 namespace EngineQ
@@ -156,6 +157,7 @@ namespace EngineQ
 			API_ResourceManager::API_Register(*this);
 			API_ShaderProperties::API_Register(*this);
 			API_EffectController::API_Register(*this);
+			API_PrefabGenerator::API_Register(*this);
 		}
 
 		ScriptEngine::~ScriptEngine()

@@ -45,29 +45,31 @@ namespace EngineQ
 		class ResourceManager : public Object
 		{
 		private:
-			struct ResourceData
+			struct UnnamedResourceData
 			{
-				std::function<void(ResourceManager&, ResourceData&)> constructor;
-				std::function<void(ResourceManager&, ResourceData&)> destructor;
-
 				std::unique_ptr<BaseResource> resource;
 
 				int generation = 0;
 			};
 
+			struct ResourceData : public UnnamedResourceData
+			{
+				std::function<void(ResourceManager&, ResourceData&)> constructor;
+				std::function<void(ResourceManager&, ResourceData&)> destructor;
+			};
+
 		private:
 			using MapKeyValue = std::pair<std::pair<std::type_index, std::string>, ResourceData>;
 			
-			std::map<MapKeyValue::first_type, MapKeyValue::second_type> resourceMap;
-
 			static constexpr int MaxFrameCount = 600;
 			static constexpr int MaxGeneration = 3;
 			int frameCount = 0;
 
-			std::vector<ResourceData*> activeResources;
-			std::vector<ResourceData*> newActiveResources;
-			std::vector<ResourceData*> oldActiveResources;
+			std::vector<UnnamedResourceData> unnamedResources;
+			std::map<MapKeyValue::first_type, MapKeyValue::second_type> resourceMap;
 
+			std::vector<ResourceData*> activeResources;
+			
 			void UpdateResources();
 
 		public:
@@ -79,8 +81,11 @@ namespace EngineQ
 			template<typename TType>
 			void RegisterResource(const std::string& resourceId, const char* path);
 
+			template<typename TType, typename TFactory>
+			void RegisterResource(const std::string& resourceId, TFactory factory);
+
 			template<typename TType>
-			void RegisterResource(const std::string& resourceId, std::function<std::unique_ptr<TType>(ResourceManager&)> factory);
+			void HoldResource(Resource<TType> resource);
 
 			template<typename TType>
 			Resource<TType> TryGetResource(const std::string& resourceId);
