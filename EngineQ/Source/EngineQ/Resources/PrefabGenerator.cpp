@@ -36,9 +36,7 @@ namespace EngineQ
 			std::vector<EngineQ::VertexPNTC> vertices;
 			vertices.reserve(2 * verticalSegments * segments + 2);
 
-			std::vector<unsigned int> indices;
-
-			vertices.push_back(VertexPNTC(Vector3::GetUp() * (radius * (1.0f + height)), Vector3::GetUp(), Vector2::GetZero(), color));
+			vertices.push_back(VertexPNTC(Vector3::GetUp() * radius + Vector3(0.0f, height, 0.0f), Vector3::GetUp(), Vector2::GetZero(), color));
 			for (int i = 1; i < verticalSegments; ++i)
 			{
 				auto vec = Vector3::GetUp() * radius;
@@ -74,8 +72,11 @@ namespace EngineQ
 					vertices.push_back(VertexPNTC(finalVec - Vector3(0.0f, height, 0.0f), finalVec, Vector2::GetZero(), color));
 				}
 			}
-			vertices.push_back(VertexPNTC(Vector3::GetDown() * (radius * (1.0f + height)), Vector3::GetDown(), Vector2::GetZero(), color));
+			vertices.push_back(VertexPNTC(Vector3::GetDown() * radius - Vector3(0.0f, height, 0.0f), Vector3::GetDown(), Vector2::GetZero(), color));
 
+
+			std::vector<unsigned int> indices;
+			indices.reserve((12 * verticalSegments - 6) * segments);
 
 			// Upper hemisphere cap
 			int offset = 1;
@@ -101,7 +102,7 @@ namespace EngineQ
 				}
 			}
 
-			// Lower hemisphere top
+			// Lower hemisphere cap
 			offset = 1 + 2 * (verticalSegments - 1) * segments;
 			int lastPos = vertices.size() - 1;
 			for (int i = 0; i < segments; ++i)

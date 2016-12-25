@@ -38,7 +38,7 @@ namespace EngineQ
 				
 				float distance = 0.0f;
 				float nearPlane = 0.1f;
-				float farPlane = 15.0f;
+				float farPlane = 30.0f;
 
 			public:
 				void Init(ScreenDataProvider* dataProvider);

@@ -44,7 +44,7 @@ namespace QScripts
 			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
 
 			skullRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
-			skullRenderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
+			skullRenderable.DeferredShader.Material.Specular = new Vector3f(5.0f);
 
 			skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
 			skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
@@ -58,7 +58,7 @@ namespace QScripts
 			floorRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
 
 			floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
-			floorRenderable.DeferredShader.Material.Specular = new Vector3f(20.0f);
+			floorRenderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
 
 			floor.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(90.0f));
 			floor.Transform.Scale = new Vector3(7.0f);
@@ -83,16 +83,15 @@ namespace QScripts
 			light1renderable.CastShadows = false;
 
 			var light1script = light1.AddComponent<LightRotateScript>();
-			light1script.RotationPoint = new Vector3(0.0f, 2.0f, 0.0f);
+			light1script.RotationPoint = new Vector3(0.0f, 4.0f, 0.0f);
 			light1script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
 			light1script.RotationSpeed = 0.6f;
-			light1script.Radius = 2.0f;
+			light1script.Radius = 4.0f;
 			light1script.InitialRotation = -2.0f;
 
 			light1.Transform.Scale = new Vector3(0.4f);
 
-
-			/*
+			
 			//Light2
 			var light2 = scene.CreateEntity(true, "Light2");
 
@@ -112,10 +111,9 @@ namespace QScripts
 			light2script.InitialRotation = 0.3f;
 
 			light2.Transform.Scale = new Vector3(0.4f);
-			*/
+			
 
-
-
+			/*
 			var capsule = scene.CreateEntity(true, "Capsule");
 			var capsuleRenderable = capsule.AddComponent<Renderable>();
 			capsuleRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
@@ -132,6 +130,7 @@ namespace QScripts
 			arrowRenderable.Mesh = resourceManager.GetResource<Mesh>("Arrow");
 			arrowRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
 			arrow.AddComponent<HittestScript>();
+			*/
 
 			var arrows = scene.CreateEntity(true, "Arrows");
 			arrows.AddComponent<ArrowsController>();
@@ -215,9 +214,9 @@ namespace QScripts
 
 			resourceManager.RegisterResource<Shader>("Debug/ShadowmapDrawer", "./Shaders/Debug/ShadowmapDrawer.qres");
 
-			resourceManager.RegisterResource<Mesh>("Capsule", "./Meshes/Capsule.qres");
-			resourceManager.RegisterResource<Mesh>("Arrow", "./Meshes/Arrow.qres");
+		//	resourceManager.RegisterResource<Mesh>("Capsule", "./Meshes/Capsule.qres");
 
+			resourceManager.RegisterResource<Mesh>("Arrow", "./Meshes/Arrow.qres");
 			resourceManager.RegisterResource<Shader>("ArrowsDeferred", "./Shaders/Deferred/DeferredSimpleColor.qres");
 
 			/*

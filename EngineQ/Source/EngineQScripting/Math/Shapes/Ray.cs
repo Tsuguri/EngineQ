@@ -11,6 +11,11 @@
 			this.Direction = direction;
 		}
 
+		public Vector3 GetPoint(float distance)
+		{
+			return Origin + Direction * distance;
+		}
+
 		public override string ToString()
 		{
 			return $"({Origin},{Direction})";
