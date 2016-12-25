@@ -33,5 +33,10 @@ namespace EngineQ.Math
         {
             return rad / PI * 180.0f;
         }
-    }
+
+		public static float Lerp(float a, float b, float val)
+		{
+			return (b - a) * val + a;
+		}
+	}
 }

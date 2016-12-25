@@ -3,6 +3,7 @@
 // This project
 #include "Vector3.hpp"
 #include "Vector4.hpp"
+#include "Matrix4.hpp"
 #include "Utils.hpp"
 
 
@@ -117,25 +118,101 @@ namespace EngineQ
 
 #pragma region Static Methods
 
-		Quaternion Quaternion::CreateLookAt(const Vector3& sourcePoint, const Vector3& targetPoint)
+		Quaternion Quaternion::CreateLookAt(const Vector3& sourcePoint, const Vector3& targetPoint, const Vector3& up)
 		{
-			Vector3 forwardVector = (targetPoint - sourcePoint).GetNormalized();
+			//	Vector3 forwardVector = (targetPoint - sourcePoint).GetNormalized();
+			//
+			//	Real dot = Vector3::DotProduct(Vector3::GetForward(), forwardVector);
+			//
+			//	if (std::abs(dot - static_cast<Real>(-1)) < Utils::Eps<Real>)
+			//	{
+			//		Vector3 up = Vector3::GetUp();
+			//		return Quaternion{ static_cast<Real>(0), up.X, up.Y, up.Z };
+			//	}
+			//	if (std::abs(dot - static_cast<Real>(1)) < Utils::Eps<Real>)
+			//	{
+			//		return GetIdentity();
+			//	}
+			//
+			//	Real rotAngle = std::acos(dot);
+			//	Vector3 rotAxis = Vector3::CrossProduct(Vector3::GetForward(), forwardVector).GetNormalized();
+			//	return CreateFromAxisAngle(rotAxis, rotAngle);
 
-			Real dot = Vector3::DotProduct(Vector3::GetForward(), forwardVector);
+		//	Vector3 up = Vector3::GetUp();
+		//
+		//	// forward and size vectors of the coordinate frame 
+		//	const Vector3 f = (sourcePoint - targetPoint).GetNormalized();
+		//	const Vector3 side = (Vector3::CrossProduct(up, f)).GetNormalized();
+		//
+		//	// Vector3.CrossProduct product of bisection and [0, 0, -1] gives you the 
+		//	// half-sine values required to orientate [0, 0, -1] to f
+		//	// the Vector3.DotProduct product gives you half the cosine
+		//	Vector3 b = (f + Vector3(0, 0, 1)).GetNormalized();
+		//
+		//	Vector3 bfcross = Vector3::CrossProduct(b, f);
+		//	const Quaternion p = Quaternion(Vector3::DotProduct(b, f), bfcross.X, bfcross.Y, bfcross.Z);
+		//
+		//	// now we need an additional rotation around the f vector
+		//	// to orientate the side vector.
+		//	Vector3 r = Vector3{
+		//		p.W*p.W + p.X*p.X - p.Y*p.Y - p.Z*p.Z,
+		//		(2 * p.X * p.Y) - (2 * p.W * p.Z),
+		//		2 * p.X * p.Z + 2 * p.W * p.Y
+		//	};
+		//
+		//	b = (side + r).GetNormalized();
+		//	Vector3 sidebcross = Vector3::CrossProduct(side, b);
+		//	Quaternion q = Quaternion(Vector3::DotProduct(b, side), sidebcross.X, sidebcross.Y, sidebcross.Z);
+		//	// now we can take the product of q and p
+		//
+		//	return p * q;
 
-			if (std::abs(dot - static_cast<Real>(-1)) < Utils::Eps<Real>)
+			return CreateFromMatrix(Matrix4::CreateLookAt(sourcePoint, targetPoint, up));
+		}
+		
+
+		Quaternion Quaternion::CreateFromMatrix(const Matrix4& matrix)
+		{
+			Quaternion q;
+
+			float trace = matrix(0, 0) + matrix(1, 1) + matrix(2, 2);
+			if (trace > 0)
 			{
-				Vector3 up = Vector3::GetUp();
-				return Quaternion{ static_cast<Real>(0), up.X, up.Y, up.Z };
+				float s = 0.5f / std::sqrt(trace + 1.0f);
+				q.W = 0.25f / s;
+				q.X = (matrix(2, 1) - matrix(1, 2)) * s;
+				q.Y = (matrix(0, 2) - matrix(2, 0)) * s;
+				q.Z = (matrix(1, 0) - matrix(0, 1)) * s;
 			}
-			if (std::abs(dot - static_cast<Real>(1)) < Utils::Eps<Real>)
+			else
 			{
-				return GetIdentity();
+				if (matrix(0, 0) > matrix(1, 1) && matrix(0, 0) > matrix(2, 2))
+				{
+					float s = 2.0f * std::sqrt(1.0f + matrix(0, 0) - matrix(1, 1) - matrix(2, 2));
+					q.W = (matrix(2, 1) - matrix(1, 2)) / s;
+					q.X = 0.25f * s;
+					q.Y = (matrix(0, 1) + matrix(1, 0)) / s;
+					q.Z = (matrix(0, 2) + matrix(2, 0)) / s;
+				}
+				else if (matrix(1, 1) > matrix(2, 2))
+				{
+					float s = 2.0f * std::sqrt(1.0f + matrix(1, 1) - matrix(0, 0) - matrix(2, 2));
+					q.W = (matrix(0, 2) - matrix(2, 0)) / s;
+					q.X = (matrix(0, 1) + matrix(1, 0)) / s;
+					q.Y = 0.25f * s;
+					q.Z = (matrix(1, 2) + matrix(2, 1)) / s;
+				}
+				else
+				{
+					float s = 2.0f * std::sqrt(1.0f + matrix(2, 2) - matrix(0, 0) - matrix(1, 1));
+					q.W = (matrix(1, 0) - matrix(0, 1)) / s;
+					q.X = (matrix(0, 2) + matrix(2, 0)) / s;
+					q.Y = (matrix(1, 2) + matrix(2, 1)) / s;
+					q.Z = 0.25f * s;
+				}
 			}
 
-			Real rotAngle = std::acos(dot);
-			Vector3 rotAxis = Vector3::CrossProduct(Vector3::GetForward(), forwardVector).GetNormalized();
-			return CreateFromAxisAngle(rotAxis, rotAngle);
+			return q;
 		}
 
 		Quaternion Quaternion::CreateFromAxisAngle(const Vector3& axis, Real angle)
@@ -224,7 +301,7 @@ namespace EngineQ
 		{
 			return Quaternion{ static_cast<Real>(1), static_cast<Real>(0), static_cast<Real>(0), static_cast<Real>(0) };
 		}
-		
+
 #pragma endregion
 
 #pragma region Operators
@@ -311,7 +388,7 @@ namespace EngineQ
 
 		bool operator ==(const Quaternion& lhs, const Quaternion& rhs)
 		{
-		//	return (q1.W == q2.W && q1.X == q2.X && q1.Y == q2.Y && q1.Z == q2.Z);
+			//	return (q1.W == q2.W && q1.X == q2.X && q1.Y == q2.Y && q1.Z == q2.Z);
 			return
 				(Utils::EpsEqual(lhs.W, rhs.W) && Utils::EpsEqual(lhs.X, rhs.X) && Utils::EpsEqual(lhs.Y, rhs.Y) && Utils::EpsEqual(lhs.Z, rhs.Z)) ||
 				(Utils::EpsEqual(lhs.W, -rhs.W) && Utils::EpsEqual(lhs.X, -rhs.X) && Utils::EpsEqual(lhs.Y, -rhs.Y) && Utils::EpsEqual(lhs.Z, -rhs.Z));
@@ -319,7 +396,7 @@ namespace EngineQ
 
 		bool operator !=(const Quaternion& lhs, const Quaternion& rhs)
 		{
-		//	return (q1.W != q2.W || q1.X != q2.X || q1.Y != q2.Y || q1.Z != q2.Z);
+			//	return (q1.W != q2.W || q1.X != q2.X || q1.Y != q2.Y || q1.Z != q2.Z);
 			return
 				(Utils::EpsNotEqual(lhs.W, rhs.W) || Utils::EpsNotEqual(lhs.X, rhs.X) || Utils::EpsNotEqual(lhs.Y, rhs.Y) || Utils::EpsNotEqual(lhs.Z, rhs.Z)) &&
 				(Utils::EpsNotEqual(lhs.W, -rhs.W) || Utils::EpsNotEqual(lhs.X, -rhs.X) || Utils::EpsNotEqual(lhs.Y, -rhs.Y) || Utils::EpsNotEqual(lhs.Z, -rhs.Z));

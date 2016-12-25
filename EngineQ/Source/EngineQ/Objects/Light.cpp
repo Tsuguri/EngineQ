@@ -49,9 +49,19 @@ namespace EngineQ
 		}
 	}
 
-	Math::Vector3 Light::GetPosition() const
+	Math::Vector3 Light::GetPosition()
 	{
-		return GetEntity().GetTransform().GetPosition();
+		return GetEntity().GetTransform().GetGlobalPosition();
+	}
+
+	Math::Vector3 Light::GetDirection()
+	{
+		return this->entity.GetTransform().GetGlobalRotation() * Math::Vector3::GetForward();
+	}
+	
+	Math::Matrix4 Light::GetViewMatrix()
+	{
+		return this->entity.GetTransform().GetGlobalMatrixInverse();
 	}
 
 	EngineShaderProperties * Light::GetShaderProperties() const
@@ -64,7 +74,7 @@ namespace EngineQ
 		return castShadows;
 	}
 
-	void Graphics::Shadows::Light::SetLightType(LightType type)
+	void Graphics::Shadows::Light::SetLightType(Type type)
 	{
 		if (this->type != type)
 		{

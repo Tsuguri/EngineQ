@@ -16,7 +16,6 @@ namespace EngineQ
 			return this->shader;
 		}
 
-
 		void ShaderProperties::FinalizeBuiltIn()
 		{
 			CheckBuiltIn(this->matrices.Model, Math::Matrix4::GetIdentity());
@@ -29,10 +28,12 @@ namespace EngineQ
 			CheckBuiltIn(this->material.Shininess, 32.0f);
 			CheckBuiltIn(this->material.DiffuseTexture);
 			CheckBuiltIn(this->LightCount);
-			
+
 			for (auto& light : this->lights)
 			{
 				CheckBuiltIn(light.Position);
+				CheckBuiltIn(light.Direction);
+				CheckBuiltIn(light.Distance);
 				CheckBuiltIn(light.Ambient);
 				CheckBuiltIn(light.Diffuse);
 				CheckBuiltIn(light.Specular);
@@ -137,12 +138,22 @@ namespace EngineQ
 					auto property = data.GetProperty<Math::Matrix4>();
 					lights[index].LightMatrix = property;
 				}
+				else if (translatedName.find("direction") != std::string::npos)
+				{
+					auto property = data.GetProperty<Math::Vector3f>();
+					lights[index].Direction = property;
+				}
+				else if (translatedName.find("distance") != std::string::npos)
+				{
+					auto property = data.GetProperty<GLfloat>();
+					lights[index].Distance = property;
+				}
 				else if (translatedName.find("DirectionalShadowMap") != std::string::npos)
 				{
 					auto property = data.GetProperty<Resources::Resource<Texture>>();
 					lights[index].DirectionalShadowMap = property;
 				}
-				else if(translatedName.find("PointShadowMap") != std::string::npos)
+				else if (translatedName.find("PointShadowMap") != std::string::npos)
 				{
 					auto property = data.GetProperty<Resources::Resource<CubeTexture>>();
 					lights[index].PointShadowMap = property;
@@ -216,47 +227,66 @@ namespace EngineQ
 			GLint uniformCount;
 			glGetProgramiv(shader->programId, GL_ACTIVE_UNIFORMS, &uniformCount);
 
-			this->shaderUniforms.reserve(uniformCount);
+
 
 			std::vector<GLint> nameLengths(uniformCount);
+			std::vector<GLint> sizes(uniformCount);
 			std::vector<GLint> uniformTypes(uniformCount);
 
 			std::vector<GLuint> uniformIndices(uniformCount);
 			for (int i = 0; i < uniformCount; ++i)
 				uniformIndices[i] = i;
 
+			glGetActiveUniformsiv(shader->programId, uniformCount, uniformIndices.data(), GL_UNIFORM_SIZE, sizes.data());
 			glGetActiveUniformsiv(shader->programId, uniformCount, uniformIndices.data(), GL_UNIFORM_NAME_LENGTH, nameLengths.data());
 			glGetActiveUniformsiv(shader->programId, uniformCount, uniformIndices.data(), GL_UNIFORM_TYPE, uniformTypes.data());
 
+			float totalSize = 0;
+			for (int i = 0; i < uniformCount; ++i)
+				totalSize += sizes[i];
+
+			this->shaderUniforms.reserve(totalSize);
 			for (int i = 0; i < uniformCount; ++i)
 			{
 				std::string uniformName(nameLengths[i] - 1, ' ');
 				glGetActiveUniformName(shader->programId, uniformIndices[i], nameLengths[i], nullptr, &uniformName[0]);
 
-				auto uniformData = UniformData::FromTypeIndex(uniformTypes[i]);
+				auto size = sizes[i];
+				std::string baseName;
+				if (size > 1)
+					baseName = uniformName.substr(0, uniformName.size() - 3);
 
-				if (uniformData != nullval)
+				for (int j = 0; j < size; ++j)
 				{
-					std::string translatedName = this->TranslateName(uniformName);
+					auto uniformData = UniformData::FromTypeIndex(uniformTypes[i]);
 
-					UniformLocation location = shader->GetUniformLocation(uniformName.c_str());
-					this->shaderUniforms.emplace_back(location, *uniformData);
+					if (uniformData != nullval)
+					{
+						if (size > 1)
+							uniformName = baseName + "[" + std::to_string(j) + "]";
 
-					auto& uniformPair = this->shaderUniforms.back();
-					this->shaderUniformsMap.emplace(translatedName, this->shaderUniforms.size() - 1);
+						std::string translatedName = this->TranslateName(uniformName);
 
-					this->OnUniformAdded(uniformPair.second, uniformTypes[i], uniformName, translatedName);
+						UniformLocation location = shader->GetUniformLocation(uniformName.c_str());
+						this->shaderUniforms.emplace_back(location, *uniformData);
 
-					// TMP
-					std::cout << "SP: Added property: " << translatedName;
-					if (translatedName != uniformName)
-						std::cout << " (" << uniformName << ")";
-					std::cout << std::endl;
-				}
-				else
-				{
-					// TMP
-					std::cout << "SP: Type " << uniformTypes[i] << " of property " << uniformName << " is not supported" << std::endl;
+						auto& uniformPair = this->shaderUniforms.back();
+						this->shaderUniformsMap.emplace(translatedName, this->shaderUniforms.size() - 1);
+
+						this->OnUniformAdded(uniformPair.second, uniformTypes[i], uniformName, translatedName);
+
+						// TMP
+						std::cout << "SP: Added property: " << translatedName;
+						if (translatedName != uniformName)
+							std::cout << " (" << uniformName << ")";
+						std::cout << std::endl;
+					}
+					else
+					{
+						// TMP
+						std::cout << "SP: Type " << uniformTypes[i] << " of property " << uniformName << " is not supported" << std::endl;
+						break;
+					}
 				}
 			}
 

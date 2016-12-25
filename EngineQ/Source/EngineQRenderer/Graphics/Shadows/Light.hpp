@@ -21,40 +21,51 @@ namespace EngineQ
 			class Light
 			{
 			public:
-				enum LightType
+				enum class Type
 				{
 					Directional = 0,
 					Point = 1,
 					Spot = 2
 				};
+
 			private:
 
 				GLuint depthMapFBO;
 				Resources::Resource<Texture> depthTexture;
 				ScreenDataProvider* screenDataProvider = nullptr;
-				LightType type = LightType::Directional;
+				Type type = Type::Directional;
 				Math::Vector2i size = 2 * Math::Vector2i{ 1024, 1024 };
-			
+				
+				float distance = 0.0f;
+				float nearPlane = 0.1f;
+				float farPlane = 15.0f;
+
 			public:
 				void Init(ScreenDataProvider* dataProvider);
 
 				Light() = default;
 
-				void RenderDepthMap(const std::vector<Renderable*>& renderables) const;
+				void RenderDepthMap(const std::vector<Renderable*>& renderables);
 
 				Resources::Resource<Texture> GetDepthTexture();
 
-				Math::Matrix4 GetLightMatrix() const;
+				float GetNearPlane() const;
+				float GetFarPlane() const;
+				float GetDistance() const;
 
-				virtual Math::Vector3 GetPosition() const = 0;
+				Math::Matrix4 GetLightMatrix();
+
+				virtual Math::Vector3 GetPosition() = 0;
+				virtual Math::Vector3 GetDirection() = 0;
+				virtual Math::Matrix4 GetViewMatrix() = 0;
 
 				virtual ShaderProperties* GetShaderProperties() const = 0;
 
 				virtual bool GetCastShadows() = 0;
 
-				void SetLightType(LightType type);
+				void SetLightType(Type type);
 
-				LightType GetLightType() const;
+				Type GetLightType() const;
 			};
 		}
 	}

@@ -24,18 +24,18 @@ namespace QScripts
 
 			// Camera
 			var camera = scene.CreateEntity(true, "Camera");
-			
+
 			var cameraComponent = camera.AddComponent<Camera>();
 			scene.ActiveCamera = cameraComponent;
 			cameraComponent.FieldOfView = 70.0f;
 
 			camera.Transform.Position = new Vector3(4, 2.0f, -6.0f);
-			camera.Transform.Rotation = Quaternion.CreateLookAt(camera.Transform.Position, Vector3.Zero);
+			camera.Transform.Rotation = Quaternion.CreateLookAt(camera.Transform.Position, Vector3.Zero, Vector3.Up);
 			var cameraMove = camera.AddComponent<CameraMoveClass>();
 			cameraMove.MoveSpeed = 3.0f;
 
 			camera.AddComponent<TesterScript>();
-			
+
 
 			// Skull
 			var skull = scene.CreateEntity(true, "Skull");
@@ -48,7 +48,7 @@ namespace QScripts
 
 			skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
 			skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
-			
+
 
 			// Floor
 			var floor = scene.CreateEntity(true, "Floor");
@@ -56,10 +56,13 @@ namespace QScripts
 			var floorRenderable = floor.AddComponent<Renderable>();
 			floorRenderable.Mesh = resourceManager.GetResource<Mesh>("EngineQ/Quad");
 			floorRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
+
 			floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
+			floorRenderable.DeferredShader.Material.Specular = new Vector3f(20.0f);
 
 			floor.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(90.0f));
 			floor.Transform.Scale = new Vector3(7.0f);
+
 
 
 			// Lights
@@ -70,7 +73,7 @@ namespace QScripts
 
 			// Light1
 			var light1 = scene.CreateEntity(true, "Light1");
-			
+
 			var light1light = light1.AddComponent<Light>();
 
 			var light1renderable = light1.AddComponent<Renderable>();
@@ -89,8 +92,9 @@ namespace QScripts
 			light1.Transform.Scale = new Vector3(0.4f);
 
 
+			/*
 			//Light2
-		   var light2 = scene.CreateEntity(true, "Light2");
+			var light2 = scene.CreateEntity(true, "Light2");
 
 			var light2light = light2.AddComponent<Light>();
 
@@ -108,7 +112,10 @@ namespace QScripts
 			light2script.InitialRotation = 0.3f;
 
 			light2.Transform.Scale = new Vector3(0.4f);
-			
+			*/
+
+
+
 
 			/*
 			var ent1 = scene.CreateEntity(true, "Camera");
@@ -178,8 +185,11 @@ namespace QScripts
 			resourceManager.RegisterResource<Shader>("BloomVerticalBlur", "./Shaders/Bloom/BlurVertical.qres");
 			resourceManager.RegisterResource<Shader>("BloomHorizontalBlur", "./Shaders/Bloom/BlurHorizontal.qres");
 			resourceManager.RegisterResource<Shader>("Combine", "./Shaders/Combine.qres");
-			resourceManager.RegisterResource<Shader>("LightDepthRender","./Shaders/Shadows/DepthRender.qres");
+			resourceManager.RegisterResource<Shader>("LightDepthRender", "./Shaders/Shadows/DepthRender.qres");
 			resourceManager.RegisterResource<Shader>("DeferredLightingShadows", "./Shaders/Deferred/DeferredLightningShadows.qres");
+
+			resourceManager.RegisterResource<Shader>("SSAO", "./Shaders/SSAO/SSAO.qres");
+			resourceManager.RegisterResource<Shader>("SSAOBlur", "./Shaders/SSAO/SSAOBlur.qres");
 
 			resourceManager.RegisterResource<Shader>("Debug/ShadowmapDrawer", "./Shaders/Debug/ShadowmapDrawer.qres");
 

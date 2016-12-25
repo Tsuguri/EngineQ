@@ -2,6 +2,7 @@
 #define ENGINEQ_GRAPHICS_RENDERER_CONFIGURATION_HPP
 
 // Standard includes
+#include <array>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -33,9 +34,14 @@ namespace EngineQ
 			public:
 				static TextureConfiguration Load(tinyxml2::XMLElement * node);
 				TextureConfiguration(std::string name = "", GLuint format = GL_RGB, GLuint dataType = GL_UNSIGNED_BYTE);
+			
 				GLuint Format = GL_RGB;
 				GLuint InternalFormat = GL_RGB;
 				GLuint DataType = GL_UNSIGNED_BYTE;
+
+				bool setBorderColor = false;
+				std::array<GLfloat, 4> borderCorlor = { 0.0f, 0.0f, 0.0f, 0.0f };
+				
 				std::string Name;
 			};
 

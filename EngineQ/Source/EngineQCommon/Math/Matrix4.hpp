@@ -106,6 +106,8 @@ namespace EngineQ
 			void operator /= (Real scalar);
 			void operator *= (const Matrix4& matrix);
 
+			
+
 			Real operator () (std::size_t index) const;
 			Real& operator () (std::size_t index);
 			Real operator [] (std::size_t index) const;

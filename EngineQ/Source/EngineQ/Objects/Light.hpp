@@ -30,7 +30,9 @@ namespace EngineQ
 	#pragma endregion
 		*/
 
-		virtual Math::Vector3 GetPosition() const override;
+		virtual Math::Vector3 GetPosition() override;
+		virtual Math::Vector3 GetDirection() override;
+		virtual Math::Matrix4 GetViewMatrix() override;
 
 		virtual EngineShaderProperties* GetShaderProperties() const override;
 

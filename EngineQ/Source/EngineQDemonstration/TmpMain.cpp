@@ -1,3 +1,5 @@
+#include <random>
+
 #include "EngineQCommon/Resources/Resource.hpp"
 #include "EngineQCommon/Libraries/TinyXML/tinyxml2.h"
 
@@ -102,6 +104,8 @@ std::unique_ptr<EngineQ::Graphics::Mesh> GenerateQuad(float side = 1.0f)
 
 std::unique_ptr<EngineQ::Graphics::Mesh> GenerateSphere(float radius = 1.0f, float verticalStep = 10.0f, float horizontalStep = 10.0f)
 {
+	throw std::runtime_error{ "Not implemented" };
+
 	std::vector<EngineQ::VertexPNC> vertices{};
 
 
@@ -120,6 +124,22 @@ std::unique_ptr<EngineQ::Graphics::Mesh> GenerateSphere(float radius = 1.0f, flo
 	return std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices);
 }
 
+std::unique_ptr<EngineQ::Graphics::Texture> GenerateNoiseTexture(int width, int height)
+{
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
+
+
+	int size = width * height;
+	std::vector<EngineQ::Math::Vector3f> vectors(size);
+
+	for (auto& vec : vectors)
+		vec = EngineQ::Math::Vector3f(dist(mt), dist(mt), 0.0f).GetNormalized();
+
+	return std::make_unique<EngineQ::Graphics::Texture>(width, height, &(vectors.data()->X));
+}
+
 void RegisterBuildInResources()
 {
 	auto& resourceManager = EngineQ::Engine::Get().GetResourceManager();
@@ -133,6 +153,11 @@ void RegisterBuildInResources()
 	resourceManager.RegisterResource<EngineQ::Graphics::Mesh>("EngineQ/Quad", [](EngineQ::Resources::ResourceManager&)
 	{
 		return GenerateQuad();
+	});
+
+	resourceManager.RegisterResource<EngineQ::Graphics::Texture>("EngineQ/Random4x4", [](EngineQ::Resources::ResourceManager&)
+	{
+		return GenerateNoiseTexture(4, 4);
 	});
 }
 

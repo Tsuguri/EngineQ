@@ -35,7 +35,8 @@ namespace EngineQ
 
 		public:
 			Texture(const char* filename, bool generateMipmaps);
-			Texture(int width, int height,const Configuration::TextureConfiguration& configuration);
+			Texture(int width, int height, const Configuration::TextureConfiguration& configuration);
+			Texture(int width, int height, const float* data);
 			~Texture();
 
 			void Resize(int width, int height);

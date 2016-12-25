@@ -176,6 +176,8 @@ namespace EngineQ
 		{
 			renderer.Render(scene, screenDataProvider);
 
+			auto& camera = *scene.GetActiveCamera();
+
 			auto& sceneLights = scene.GetLights();
 			if (effects.size() > 0)
 			{
@@ -191,6 +193,9 @@ namespace EngineQ
 					glClearColor(0.2f, 0.1f, 0.3f, 1.0f);
 					auto& shader = effect->GetShaderProperties();
 
+					shader.GetMatrices().View = camera.GetViewMatrix();
+					shader.GetMatrices().Projection = camera.GetProjectionMatrix();
+
 					if (effect->GetApplyShadowData())
 					{
 						auto& lights = shader.GetLights();
@@ -200,15 +205,20 @@ namespace EngineQ
 						for (std::size_t i = 0; i < lightsCount; ++i)
 						{
 							auto& light = lights[i];
-							auto& sceneLight = sceneLights[i];
+							auto sceneLight = sceneLights[i];
 
-							light.Diffuse = Math::Vector3f(1.0f);
-							light.Ambient = Math::Vector3f(0.6f);
-							light.Specular = Math::Vector3f(1.0f);
 							light.Position = sceneLight->GetPosition();
+							light.Direction = sceneLight->GetDirection();
+							light.Distance = sceneLight->GetDistance();
+							
+							light.Diffuse = Math::Vector3f(0.5f);
+							light.Ambient = Math::Vector3f(0.3f);
+							light.Specular = Math::Vector3f(1.0f);
+							
 							light.CastsShadows = sceneLight->GetCastShadows();
 							light.LightMatrix = sceneLight->GetLightMatrix();
 							light.DirectionalShadowMap = sceneLight->GetDepthTexture();
+							light.FarPlane = sceneLight->GetFarPlane();
 						}
 					}
 

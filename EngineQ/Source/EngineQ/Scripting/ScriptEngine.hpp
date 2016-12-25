@@ -45,6 +45,7 @@ namespace EngineQ
 				Mesh,
 				
 				Vector3f,
+				Matrix4,
 
 				Input,
 			};
@@ -93,6 +94,7 @@ namespace EngineQ
 				{ NamespaceName, "Mesh" },
 
 				{ MathNamespaceName, "Vector3f" },
+				{ MathNamespaceName, "Matrix4" },
 
 				{ NamespaceName, "Input" },
 			};

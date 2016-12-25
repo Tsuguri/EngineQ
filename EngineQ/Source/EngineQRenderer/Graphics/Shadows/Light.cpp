@@ -18,6 +18,8 @@ namespace EngineQ
 				conf.Format = GL_DEPTH_COMPONENT;
 				conf.InternalFormat = GL_DEPTH_COMPONENT;
 				conf.DataType = GL_FLOAT;
+				conf.setBorderColor = true;
+				conf.borderCorlor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 				depthTexture = Resources::Resource<Texture>(std::make_unique<Texture>(size.X, size.Y, conf));
 
@@ -31,7 +33,7 @@ namespace EngineQ
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
 
-			void Light::RenderDepthMap(const std::vector<Renderable*>& renderables) const
+			void Light::RenderDepthMap(const std::vector<Renderable*>& renderables)
 			{
 				auto shader = GetShaderProperties();
 				if (shader == nullptr)
@@ -64,17 +66,31 @@ namespace EngineQ
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			}
 
+			float Light::GetNearPlane() const
+			{
+				return this->nearPlane;
+			}
+
+			float Light::GetFarPlane() const
+			{
+				return this->farPlane;
+			}
+
+			float Light::GetDistance() const
+			{
+				return this->distance;
+			}
+
 			Resources::Resource<Texture> Light::GetDepthTexture()
 			{
 				return depthTexture;
 			}
 
-			Math::Matrix4 Light::GetLightMatrix() const
+			Math::Matrix4 Light::GetLightMatrix()
 			{
-				GLfloat near_plane = 0.1f, far_plane = 15.0f;
-				GLfloat range = 4.0f;
-				Math::Matrix4 lightProjection = Math::Matrix4::CreateOrtho(-range, range, -range, range, near_plane, far_plane);
-				Math::Matrix4 lightView = Math::Matrix4::CreateLookAt(GetPosition(), Math::Vector3::GetZero(), Math::Vector3::GetUp()) * Math::Matrix4::CreateTranslation(-GetPosition());
+				GLfloat range = 6.0f;
+				Math::Matrix4 lightProjection = Math::Matrix4::CreateOrtho(-range, range, -range, range, this->nearPlane, this->farPlane);
+				Math::Matrix4 lightView = this->GetViewMatrix();
 				return lightProjection * lightView;
 			}
 		}

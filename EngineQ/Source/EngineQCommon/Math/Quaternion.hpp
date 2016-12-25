@@ -51,7 +51,8 @@ namespace EngineQ
 
 		#pragma region Static Methods
 
-			static Quaternion CreateLookAt(const Vector3& sourcePoint, const Vector3& targetPoint);
+			static Quaternion CreateFromMatrix(const Matrix4& matrix);
+			static Quaternion CreateLookAt(const Vector3& sourcePoint, const Vector3& targetPoint, const Vector3& up);
 			static Quaternion CreateFromAxisAngle(const Vector3& axis, Real angle);
 			static Quaternion CreateFromAxisAngle(Real x, Real y, Real z, Real angle);
 			static Quaternion CreateRotationZ(Real angle);

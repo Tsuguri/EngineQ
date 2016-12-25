@@ -70,6 +70,8 @@ namespace EngineQ
 				{ "GL_SRGB8_ALPHA8", GL_SRGB8_ALPHA8 },
 				{ "GL_RGB16F", GL_RGB16F },
 				{ "GL_RGBA16F", GL_RGBA16F },
+				{ "GL_R8", GL_R8 },
+				{ "GL_R16F", GL_R16F },
 			};
 
 			const std::unordered_map<std::string, GLuint> TextureConfiguration::formats = std::unordered_map<std::string, GLuint>{

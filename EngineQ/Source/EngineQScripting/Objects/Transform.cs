@@ -125,7 +125,7 @@ namespace EngineQ
 			}
 		}
 
-		public Matrix4 GlobalmatrixInverse
+		public Matrix4 GlobalMatrixInverse
 		{
 			get
 			{

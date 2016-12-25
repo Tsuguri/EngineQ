@@ -49,7 +49,7 @@ namespace EngineQ
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		}
 
-		void Texture::CreateFromConfiguration(int width, int height,const Configuration::TextureConfiguration & configuration)
+		void Texture::CreateFromConfiguration(int width, int height, const Configuration::TextureConfiguration& configuration)
 		{
 			this->resizable = true;
 			this->hasMipmaps = false;
@@ -63,8 +63,11 @@ namespace EngineQ
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+			
+			if (configuration.setBorderColor)
+				glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, configuration.borderCorlor.data());
 		}
 
 		Texture::Texture(const char* filename, bool generateMipmaps)
@@ -77,6 +80,18 @@ namespace EngineQ
 			this->CreateFromConfiguration(width,height, configuration);
 		}
 		
+		Texture::Texture(int width, int height, const float* data)
+		{
+			glGenTextures(1, &this->textureId);
+			glBindTexture(GL_TEXTURE_2D, this->textureId);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, data);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		}
+
 		Texture::~Texture()
 		{
 			glDeleteTextures(1, &this->textureId);
