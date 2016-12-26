@@ -26,7 +26,7 @@
 	<Effects>
 
 		<!-- SSAO -->
-		<!--<EffectConfiguration Shader="SSAO">
+		<EffectConfiguration Shader="SSAO">
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="SSAOController" />
 			<Input>
 				<InputPair Texture="Position" LocationName="gPosition" />
@@ -35,17 +35,17 @@
 			<Output>
 				<OutputTexture Texture="SSAO" />
 			</Output>
-		</EffectConfiguration>-->
+		</EffectConfiguration>
 
 		<!-- SSAO Blur -->
-		<!--<EffectConfiguration Shader="SSAOBlur">
+		<EffectConfiguration Shader="SSAOBlur">
 			<Input>
 				<InputPair Texture="SSAO" />
 			</Input>
 			<Output>
 				<OutputTexture Texture="SSAOBlur" />
 			</Output>
-		</EffectConfiguration>-->
+		</EffectConfiguration>
 		
 
 		<!-- Deferred lighting -->

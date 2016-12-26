@@ -124,22 +124,7 @@ namespace EngineQ.Math
 					tD = c;
 				}
 			}
-
-			if (tN < 0.0)
-			{            // tc < 0 => the t=0 edge is visible
-				tN = 0.0f;
-				// recompute sc for this edge
-				if (-d < 0.0f)
-					sN = 0.0f;
-				else if (-d > a)
-					sN = sD;
-				else
-				{
-					sN = -d;
-					sD = a;
-				}
-			}
-
+			
 			// finally do the division to get sc and tc
 			sc = (System.Math.Abs(sN) < Utils.Eps ? 0.0f : sN / sD);
 			tc = (System.Math.Abs(tN) < Utils.Eps ? 0.0f : tN / tD);
@@ -160,6 +145,12 @@ namespace EngineQ.Math
 
 			if(tc < additionalDistance)
 			{
+				if(tc < -additionalDistance)
+				{
+					distance = 0.0f;
+					return false;
+				}
+
 				distance = tc + additionalDistance;
 				return true;
 			}
