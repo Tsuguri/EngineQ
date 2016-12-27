@@ -4,13 +4,15 @@
 #include "EngineQRenderer/Graphics/Shadows/Light.hpp"
 #include "EngineQRenderer/Graphics/ShaderProperties.hpp"
 
+#include "Moveable.hpp"
+
 namespace EngineQ
 {
 	namespace Graphics
 	{
 		namespace Implementation
 		{
-			class Light : public Graphics::Shadows::Light
+			class Light : public Graphics::Shadows::Light, public Moveable
 			{
 				Math::Vector2i textureSize = Math::Vector2i{ 1024,1024 };
 				std::unique_ptr<ShaderProperties> shaderProperties;

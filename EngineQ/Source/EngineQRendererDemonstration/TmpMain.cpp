@@ -5,6 +5,7 @@
 
 #include "EngineQRenderer/Graphics/RenderingUnit.hpp"
 #include "EngineQRenderer/Graphics/Configuration/RendererConfiguration.hpp"
+#include "EngineQRenderer/Graphics/Shadows/Light.hpp"
 
 #include "EngineQRendererDefaultImplementation/Graphics/Implementation/ScreenDataProvider.hpp"
 #include "EngineQRendererDefaultImplementation/Graphics/Implementation/Scene.hpp"
@@ -143,12 +144,29 @@ EngineQ::Graphics::Configuration::RenderingUnitConfiguration CreateRenderingUnit
 	return EngineQ::Graphics::Configuration::RenderingUnitConfiguration{};
 }
 
-EngineQ::Graphics::Implementation::Scene CreateScene()
+EngineQ::Graphics::Implementation::Scene CreateScene(EngineQ::Graphics::Implementation::ScreenDataProvider* screenDataProvider)
 {
-	auto light = EngineQ::Graphics::Implementation::Light();
+	auto scene = EngineQ::Graphics::Implementation::Scene{};
+	
+	auto light = new EngineQ::Graphics::Implementation::Light();
+	light->Init(screenDataProvider);
+	light->SetPosition(Math::Vector3{5,5,5});
+	light->SetLightType(EngineQ::Graphics::Shadows::Light::Type::Directional);
+	light->SetDirection(Math::Vector3{ -5,-4,-4 });
+	scene.lights.push_back(light);
 
 
-	return EngineQ::Graphics::Implementation::Scene{};
+
+	return scene;
+}
+
+void FreeResources(EngineQ::Graphics::Implementation::Scene& scene)
+{
+	for (int i = 0; i < scene.lights.size(); i++)
+	{
+		delete scene.lights[i];
+	}
+	scene.lights.clear();
 }
 
 int main(int argc, char** argv)
@@ -160,7 +178,10 @@ int main(int argc, char** argv)
 
 	auto renderingUnit = std::make_unique<EngineQ::Graphics::RenderingUnit>(screenDataProvider.get(), configuration);
 
-	auto scene = CreateScene();
+	auto scene = CreateScene(screenDataProvider.get());
+
+
+	renderingUnit->Render(scene);
 
 	return 0;
 }

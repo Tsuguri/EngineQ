@@ -28,7 +28,7 @@ namespace EngineQ
 
 			Math::Matrix4 Light::GetViewMatrix()
 			{
-
+				return this->GetLocalMatrixInverse();
 			}
 
 			ShaderProperties* Light::GetShaderProperties() const

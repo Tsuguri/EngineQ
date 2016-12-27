@@ -93,6 +93,16 @@ namespace EngineQ
 				Math::Matrix4 lightView = this->GetViewMatrix();
 				return lightProjection * lightView;
 			}
+
+			void Light::SetLightType(Light::Type type)
+			{
+				this->type = type;
+			}
+
+			Light::Type Light::GetLightType() const
+			{
+				return this->type;
+			}
 		}
 	}
 }
