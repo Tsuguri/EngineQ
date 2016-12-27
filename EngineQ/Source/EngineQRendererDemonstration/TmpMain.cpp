@@ -8,6 +8,7 @@
 
 #include "EngineQRendererDefaultImplementation/Graphics/Implementation/ScreenDataProvider.hpp"
 #include "EngineQRendererDefaultImplementation/Graphics/Implementation/Scene.hpp"
+#include "EngineQRendererDefaultImplementation/Graphics/Implementation/Light.hpp"
 
 #include "EngineQRenderer/Graphics/Mesh.hpp"
 #include "EngineQRenderer/Graphics/Vertex.hpp"
@@ -144,6 +145,9 @@ EngineQ::Graphics::Configuration::RenderingUnitConfiguration CreateRenderingUnit
 
 EngineQ::Graphics::Implementation::Scene CreateScene()
 {
+	auto light = EngineQ::Graphics::Implementation::Light();
+
+
 	return EngineQ::Graphics::Implementation::Scene{};
 }
 
