@@ -46,27 +46,6 @@ namespace EngineQ
 			glFramebufferTexture2D(GL_FRAMEBUFFER, location, GL_TEXTURE_2D, texture, 0);
 		}
 
-		Framebuffer::Framebuffer(bool depthTesting, std::vector<GLuint>& textures, ScreenDataProvider* dataProvider) :
-			screenDataProvider(dataProvider), handler(*this, &Framebuffer::Resize)
-		{
-			glGenFramebuffers(1, &fbo);
-			Bind();
-
-			if (depthTesting)
-				CreateDepthTesting();
-
-			std::vector<GLenum> attachmentOrder;
-			attachmentOrder.reserve(textures.size());
-			for (std::size_t i = 0; i < textures.size(); ++i)
-			{
-				AddTexture(textures[i], locations[i]);
-				attachmentOrder.push_back(GL_COLOR_ATTACHMENT0 + static_cast<GLuint>(i));
-			}
-			if (attachmentOrder.size() > 1)
-				glDrawBuffers(static_cast<GLsizei>(attachmentOrder.size()), &attachmentOrder[0]);
-			screenDataProvider->resizeEvent += handler;
-		}
-
 		Framebuffer::Framebuffer(bool depthTesting, std::vector<Resources::Resource<Texture>>& textures, ScreenDataProvider* dataProvider) :
 			screenDataProvider(dataProvider), handler(*this, &Framebuffer::Resize)
 		{
@@ -88,25 +67,6 @@ namespace EngineQ
 			screenDataProvider->resizeEvent += handler;
 		}
 
-		Framebuffer::Framebuffer(GLuint texture, ScreenDataProvider * dataProvider) : screenDataProvider(dataProvider),handler(*this,&Framebuffer::Resize)
-		{
-			glGenFramebuffers(1, &fbo);
-			Bind();
-
-			std::vector<GLenum> attachmentOrder;
-
-			AddTexture(texture, locations[0]);
-
-			//should not be needed as only one texture is used
-			//attachmentOrder.push_back(GL_COLOR_ATTACHMENT0);
-
-			//glDrawBuffers(GL_COLOR_ATTACHMENT0, &attachmentOrder[0]);
-
-
-
-			screenDataProvider->resizeEvent += handler;
-		}
-
 		Framebuffer::~Framebuffer()
 		{
 			if (depthRbo > 0)
@@ -119,6 +79,18 @@ namespace EngineQ
 		void Framebuffer::Bind() const
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		}
+
+		void Framebuffer::ResetDrawBuffer()
+		{
+			Bind();
+			glDrawBuffer(GL_NONE);
+		}
+
+		void Framebuffer::ResetReadBuffer()
+		{
+			Bind();
+			glReadBuffer(GL_NONE);
 		}
 
 		void Framebuffer::BindDefault()

@@ -23,14 +23,13 @@ namespace EngineQ
 
 				depthTexture = Resources::Resource<Texture>(std::make_unique<Texture>(size.X, size.Y, conf));
 
-				// strange framebuffer here so not using Framebuffer class, but will need rework in the future - extend usability of Framebuffer (more configurable)
-				glGenFramebuffers(1, &depthMapFBO);
-
-				glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexture->GetTextureID(), 0);
-				glDrawBuffer(GL_NONE);
-				glReadBuffer(GL_NONE);
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				std::vector<Resources::Resource<Texture>> textures;
+				framebuffer = std::make_unique<Framebuffer>(false, textures, screenDataProvider);
+				framebuffer->Bind();
+				framebuffer->AddTexture(depthTexture->GetTextureID(), GL_DEPTH_ATTACHMENT);
+				framebuffer->ResetDrawBuffer();
+				framebuffer->ResetReadBuffer();
+				Framebuffer::BindDefault();
 			}
 
 			void Light::RenderDepthMap(const std::vector<Renderable*>& renderables)
@@ -41,7 +40,7 @@ namespace EngineQ
 				auto matrix = GetLightMatrix();
 
 				glViewport(0, 0, size.X, size.Y);
-				glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+				framebuffer->Bind();
 				glClear(GL_DEPTH_BUFFER_BIT);
 
 				const auto& matrices = shader->GetMatrices();
@@ -63,7 +62,7 @@ namespace EngineQ
 
 				}
 
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				framebuffer->BindDefault();
 			}
 
 			float Light::GetNearPlane() const
