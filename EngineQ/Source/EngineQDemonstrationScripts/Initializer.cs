@@ -71,11 +71,12 @@ namespace QScripts
 			var lightsMesh = resourceManager.GetResource<Mesh>("EngineQ/Cube");
 			var lightsMesh2 = resourceManager.GetResource<Mesh>("EngineQ/Cube");
 
+			
 			// Light1
 			var light1 = scene.CreateEntity(true, "Light1");
 
 			var light1light = light1.AddComponent<Light>();
-			
+
 			var light1renderable = light1.AddComponent<Renderable>();
 			light1renderable.UseDeferredShader(lightsDeferredShader);
 			light1renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
@@ -90,8 +91,8 @@ namespace QScripts
 			light1script.InitialRotation = -2.0f;
 
 			light1.Transform.Scale = new Vector3(0.4f);
-
 			
+
 			//Light2
 			var light2 = scene.CreateEntity(true, "Light2");
 
@@ -104,10 +105,10 @@ namespace QScripts
 			light2renderable.CastShadows = false;
 
 			var light2script = light2.AddComponent<LightRotateScript>();
-			light2script.RotationPoint = new Vector3(0.0f, 1.3f, 0.0f);
+			light2script.RotationPoint = new Vector3(0.0f, 1.8f, 0.0f);
 			light2script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
 			light2script.RotationSpeed = 0.4f;
-			light2script.Radius = 3.0f;
+			light2script.Radius = 4.0f;
 			light2script.InitialRotation = 0.3f;
 
 			light2.Transform.Scale = new Vector3(0.4f);
