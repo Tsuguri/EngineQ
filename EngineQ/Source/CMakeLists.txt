@@ -57,6 +57,8 @@ add_custom_target(UPDATE_PROJECTS
 	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQRenderer/CMakeLists.txt"
 	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQ/CMakeLists.txt"
 	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQDemonstration/CMakeLists.txt"
+	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQRendererDefaultImplementation/CMakeLists.txt"
+	COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_SOURCE_DIR}/EngineQRendererDemonstration/CMakeLists.txt"
 )
 set_property(TARGET UPDATE_PROJECTS PROPERTY FOLDER "CMakePredefinedTargets")
 
@@ -68,3 +70,5 @@ add_subdirectory(EngineQCommon)
 add_subdirectory(EngineQRenderer)
 add_subdirectory(EngineQ)
 add_subdirectory(EngineQDemonstration)
+add_subdirectory(EngineQRendererDefaultImplementation)
+add_subdirectory(EngineQRendererDemonstration)
