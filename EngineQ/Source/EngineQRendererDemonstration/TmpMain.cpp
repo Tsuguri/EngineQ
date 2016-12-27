@@ -10,6 +10,7 @@
 #include "EngineQRendererDefaultImplementation/Graphics/Implementation/ScreenDataProvider.hpp"
 #include "EngineQRendererDefaultImplementation/Graphics/Implementation/Scene.hpp"
 #include "EngineQRendererDefaultImplementation/Graphics/Implementation/Light.hpp"
+#include "EngineQRendererDefaultImplementation/Graphics/Implementation/Renderable.hpp"
 
 #include "EngineQRenderer/Graphics/Mesh.hpp"
 #include "EngineQRenderer/Graphics/Vertex.hpp"
@@ -147,15 +148,23 @@ EngineQ::Graphics::Configuration::RenderingUnitConfiguration CreateRenderingUnit
 EngineQ::Graphics::Implementation::Scene CreateScene(EngineQ::Graphics::Implementation::ScreenDataProvider* screenDataProvider)
 {
 	auto scene = EngineQ::Graphics::Implementation::Scene{};
-	
+
 	auto light = new EngineQ::Graphics::Implementation::Light();
 	light->Init(screenDataProvider);
-	light->SetPosition(Math::Vector3{5,5,5});
+	light->SetPosition(Math::Vector3{ 5,5,5 });
 	light->SetLightType(EngineQ::Graphics::Shadows::Light::Type::Directional);
 	light->SetDirection(Math::Vector3{ -5,-4,-4 });
 	scene.lights.push_back(light);
 
+	auto meshResource = EngineQ::Resources::Resource<EngineQ::Graphics::Mesh>(GenerateCube());
+	auto renderable = EngineQ::Graphics::Implementation::Renderable{};
+	renderable.SetMesh(meshResource);
 
+	for (int i = 0; i < 5; i++)
+		for (int j = 0; j < 5; j++)
+		{
+			renderable.SetPosition(EngineQ::Math::Vector3{ i,0,j });
+		}
 
 	return scene;
 }
@@ -172,7 +181,7 @@ void FreeResources(EngineQ::Graphics::Implementation::Scene& scene)
 int main(int argc, char** argv)
 {
 	auto configuration = CreateRenderingUnitConfiguration();
-	
+
 	auto screenDataProvider = std::make_shared<EngineQ::Graphics::Implementation::ScreenDataProvider>();
 	screenDataProvider->SetScreenSize(EngineQ::Math::Vector2i{ 1920,1080 });
 
