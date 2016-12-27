@@ -41,13 +41,14 @@ namespace QScripts
 			var skull = scene.CreateEntity(true, "Skull");
 			var skullRenderable = skull.AddComponent<Renderable>();
 			skullRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
-			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
+			//	skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
+			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Horse");
 
 			skullRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
 			skullRenderable.DeferredShader.Material.Specular = new Vector3f(5.0f);
 
-			skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
-			skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
+			//	skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
+			//	skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
 
 
 			// Floor
@@ -64,6 +65,44 @@ namespace QScripts
 			floor.Transform.Scale = new Vector3(7.0f);
 
 
+			for (int i = 0; i < 4; ++i)
+			{
+				var floor2 = scene.CreateEntity(true, "Floor");
+
+				var floor2Renderable = floor2.AddComponent<Renderable>();
+				floor2Renderable.Mesh = resourceManager.GetResource<Mesh>("EngineQ/Quad");
+				floor2Renderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
+
+				floor2Renderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
+				floor2Renderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
+
+				//	floor2.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(90.0f));
+				floor2.Transform.Scale = new Vector3(7.0f);
+
+				switch (i)
+				{
+					case 0:
+						floor2.Transform.Position = new Vector3(0.0f, 3.5f, 3.5f);
+						break;
+
+					case 1:
+						floor2.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(90));
+						floor2.Transform.Position = new Vector3(3.5f, 3.5f, 0.0f);
+						break;
+
+					case 2:
+						floor2.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(-90));
+						floor2.Transform.Position = new Vector3(-3.5f, 3.5f, 0.0f);
+						break;
+
+					case 3:
+						floor2.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(180));
+						floor2.Transform.Position = new Vector3(0.0f, 3.5f, -3.5f);
+						break;
+				}
+			}
+
+
 
 			// Lights
 			var lightsDeferredShader = resourceManager.GetResource<Shader>("LightDeferred");
@@ -71,7 +110,6 @@ namespace QScripts
 			var lightsMesh = resourceManager.GetResource<Mesh>("EngineQ/Cube");
 			var lightsMesh2 = resourceManager.GetResource<Mesh>("EngineQ/Cube");
 
-			
 			// Light1
 			var light1 = scene.CreateEntity(true, "Light1");
 
@@ -91,8 +129,8 @@ namespace QScripts
 			light1script.InitialRotation = -2.0f;
 
 			light1.Transform.Scale = new Vector3(0.4f);
-			
 
+			/*
 			//Light2
 			var light2 = scene.CreateEntity(true, "Light2");
 
@@ -112,7 +150,7 @@ namespace QScripts
 			light2script.InitialRotation = 0.3f;
 
 			light2.Transform.Scale = new Vector3(0.4f);
-			
+			*/
 
 			/*
 			var capsule = scene.CreateEntity(true, "Capsule");
@@ -197,6 +235,7 @@ namespace QScripts
 			var resourceManager = ResourceManager.Instance;
 
 			resourceManager.RegisterResource<Mesh>("Skull", "./Meshes/Skull.qres");
+			resourceManager.RegisterResource<Mesh>("Horse", "./Meshes/Horse.qres");
 			resourceManager.RegisterResource<Texture>("Numbers", "./Textures/Numbers.qres");
 
 			resourceManager.RegisterResource<Shader>("SkullDeferred", "./Shaders/Deferred/DeferredSimpleTexture.qres");
@@ -215,7 +254,7 @@ namespace QScripts
 
 			resourceManager.RegisterResource<Shader>("Debug/ShadowmapDrawer", "./Shaders/Debug/ShadowmapDrawer.qres");
 
-		//	resourceManager.RegisterResource<Mesh>("Capsule", "./Meshes/Capsule.qres");
+			//	resourceManager.RegisterResource<Mesh>("Capsule", "./Meshes/Capsule.qres");
 
 			resourceManager.RegisterResource<Mesh>("Arrow", "./Meshes/Arrow.qres");
 			resourceManager.RegisterResource<Shader>("ArrowsDeferred", "./Shaders/Deferred/DeferredSimpleColor.qres");
