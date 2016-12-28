@@ -46,15 +46,34 @@ namespace EngineQ
 		{
 			get
 			{
-				bool castShadows;
-				API_GetCastShadows(this.NativeHandle, out castShadows);
-				return castShadows;
+				bool value;
+				API_GetCastShadows(this.NativeHandle, out value);
+				return value;
 			}
 			set
 			{
 				API_SetCastShadows(this.NativeHandle, value);
 			}
 		}
+
+		public bool Volumetric
+		{
+			get
+			{
+				bool value;
+				API_GetVolumetric(this.NativeHandle, out value);
+				return value;
+			}
+
+			set
+			{
+				API_SetVolumetric(this.NativeHandle, value);
+			}
+		}
+
+		
+
+		
 
 		#endregion
 
@@ -98,7 +117,13 @@ namespace EngineQ
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_UseDeferredShader(IntPtr handle, IntPtr shader);
-		
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_GetVolumetric(IntPtr nativeHandle, out bool volumetric);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_SetVolumetric(IntPtr nativeHandle, bool volumetric);
+
 		#endregion
 	}
 }

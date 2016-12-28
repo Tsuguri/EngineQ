@@ -115,11 +115,12 @@
 
 
 
-		<!--EffectConfiguration Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true">
+		<!--<EffectConfiguration Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true">
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="ShadowmapDrawerController" />
 			<Output>
 				<OutputTexture Texture="Screen"></OutputTexture>
 			</Output>
-		</EffectConfiguration-->
+		</EffectConfiguration>-->
 	
 	</Effects>
 

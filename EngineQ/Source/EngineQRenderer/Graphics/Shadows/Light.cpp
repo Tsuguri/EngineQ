@@ -49,6 +49,9 @@ namespace EngineQ
 
 				for (auto renderable : renderables)
 				{
+					if (renderable->GetVolimetric())
+						continue;
+
 					//render each object if cast shadows
 					if (renderable->castShadows)
 					{
@@ -88,7 +91,7 @@ namespace EngineQ
 
 			Math::Matrix4 Light::GetLightMatrix()
 			{
-				GLfloat range = 6.0f;
+				GLfloat range = 10.0f;
 				Math::Matrix4 lightProjection = Math::Matrix4::CreateOrtho(-range, range, -range, range, this->nearPlane, this->farPlane);
 				Math::Matrix4 lightView = this->GetViewMatrix();
 				return lightProjection * lightView;

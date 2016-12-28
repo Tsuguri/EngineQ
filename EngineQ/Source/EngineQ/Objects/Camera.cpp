@@ -128,12 +128,12 @@ namespace EngineQ
 		return this->nearDistance;
 	}
 
-	void Camera::SetNewarDistance(float distance)
+	void Camera::SetNearDistance(float distance)
 	{
-		if (this->farDistance == distance)
+		if (this->nearDistance == distance)
 			return;
 
-		this->farDistance = distance;
+		this->nearDistance = distance;
 		VoidProjectionMatrix();
 	}
 

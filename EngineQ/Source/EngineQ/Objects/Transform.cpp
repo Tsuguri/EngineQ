@@ -207,7 +207,7 @@ namespace EngineQ
 		if (globalRotationChanged)
 		{
 			if (parent != nullptr)
-				globalRotation = this->GetRotation() * parent->GetGlobalRotation();
+				globalRotation = parent->GetGlobalRotation() * this->GetRotation();
 			else
 				globalRotation = this->GetRotation();
 

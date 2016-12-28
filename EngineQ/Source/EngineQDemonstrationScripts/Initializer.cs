@@ -28,6 +28,8 @@ namespace QScripts
 			var cameraComponent = camera.AddComponent<Camera>();
 			scene.ActiveCamera = cameraComponent;
 			cameraComponent.FieldOfView = 70.0f;
+		//	cameraComponent.FarDistance = 10.0f;
+		//	cameraComponent.NearDistance = 1.0f;
 
 			camera.Transform.Position = new Vector3(4, 2.0f, -6.0f);
 			camera.Transform.Rotation = Quaternion.CreateLookAt(camera.Transform.Position, Vector3.Zero, Vector3.Up);
@@ -41,13 +43,38 @@ namespace QScripts
 			var skull = scene.CreateEntity(true, "Skull");
 			var skullRenderable = skull.AddComponent<Renderable>();
 			skullRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
-			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
+			//	skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
+			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Horse");
+		//	skullRenderable.Volumetric = true;
 
 			skullRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
-			skullRenderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
+			skullRenderable.DeferredShader.Material.Specular = new Vector3f(5.0f);
 
-			skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
-			skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
+			//	skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
+			//	skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
+
+
+
+			// Volumetric
+			var volumetric = scene.CreateEntity(true, "Volumetric");
+			var volumetricRenderable = volumetric.AddComponent<Renderable>();
+			volumetricRenderable.Mesh = PrefabGenerator.GenerateCapsule(1.5f, 0.7f);
+		//	volumetricRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
+			volumetricRenderable.Volumetric = true;
+
+			volumetric.Transform.Position = new Vector3(-1.0f, 2.4f, 1.0f);
+			volumetric.Transform.Rotation = Quaternion.CreateFromEuler(-1.2f, 0.5f, 3.0f);
+
+
+			volumetric = scene.CreateEntity(true, "Volumetric");
+			volumetricRenderable = volumetric.AddComponent<Renderable>();
+			volumetricRenderable.Mesh = PrefabGenerator.GenerateCapsule(1.5f, 0.7f);
+			//	volumetricRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
+			volumetricRenderable.Volumetric = true;
+
+			volumetric.Transform.Position = new Vector3(0.3f, 2.4f, 1.0f);
+			volumetric.Transform.Rotation = Quaternion.CreateFromEuler(1.2f, 1.5f, 2.0f);
+
 
 
 			// Floor
@@ -58,10 +85,48 @@ namespace QScripts
 			floorRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
 
 			floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
-			floorRenderable.DeferredShader.Material.Specular = new Vector3f(20.0f);
+			floorRenderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
 
 			floor.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(90.0f));
 			floor.Transform.Scale = new Vector3(7.0f);
+
+
+			for (int i = 0; i < 4; ++i)
+			{
+				var floor2 = scene.CreateEntity(true, "Floor");
+
+				var floor2Renderable = floor2.AddComponent<Renderable>();
+				floor2Renderable.Mesh = resourceManager.GetResource<Mesh>("EngineQ/Quad");
+				floor2Renderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
+
+				floor2Renderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
+				floor2Renderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
+
+				//	floor2.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(90.0f));
+				floor2.Transform.Scale = new Vector3(7.0f);
+
+				switch (i)
+				{
+					case 0:
+						floor2.Transform.Position = new Vector3(0.0f, 3.5f, 3.5f);
+						break;
+
+					case 1:
+						floor2.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(90));
+						floor2.Transform.Position = new Vector3(3.5f, 3.5f, 0.0f);
+						break;
+
+					case 2:
+						floor2.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(-90));
+						floor2.Transform.Position = new Vector3(-3.5f, 3.5f, 0.0f);
+						break;
+
+					case 3:
+						floor2.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(180));
+						floor2.Transform.Position = new Vector3(0.0f, 3.5f, -3.5f);
+						break;
+				}
+			}
 
 
 
@@ -83,14 +148,13 @@ namespace QScripts
 			light1renderable.CastShadows = false;
 
 			var light1script = light1.AddComponent<LightRotateScript>();
-			light1script.RotationPoint = new Vector3(0.0f, 2.0f, 0.0f);
+			light1script.RotationPoint = new Vector3(0.0f, 4.0f, 0.0f);
 			light1script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
 			light1script.RotationSpeed = 0.6f;
-			light1script.Radius = 2.0f;
+			light1script.Radius = 4.0f;
 			light1script.InitialRotation = -2.0f;
 
 			light1.Transform.Scale = new Vector3(0.4f);
-
 
 			/*
 			//Light2
@@ -105,16 +169,38 @@ namespace QScripts
 			light2renderable.CastShadows = false;
 
 			var light2script = light2.AddComponent<LightRotateScript>();
-			light2script.RotationPoint = new Vector3(0.0f, 1.3f, 0.0f);
+			light2script.RotationPoint = new Vector3(0.0f, 1.8f, 0.0f);
 			light2script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
 			light2script.RotationSpeed = 0.4f;
-			light2script.Radius = 3.0f;
+			light2script.Radius = 4.0f;
 			light2script.InitialRotation = 0.3f;
 
 			light2.Transform.Scale = new Vector3(0.4f);
 			*/
 
+			/*
+			var capsule = scene.CreateEntity(true, "Capsule");
+			var capsuleRenderable = capsule.AddComponent<Renderable>();
+			capsuleRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
+			capsuleRenderable.Mesh = resourceManager.GetResource<Mesh>("Capsule");
+			capsuleRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
 
+			capsule.Transform.Scale = new Vector3(0.5f);
+			capsule.Transform.Position = new Vector3(-2.0f, 1.0f, 0.0f);
+			capsule.Transform.Rotation = Quaternion.CreateFromEuler(0.35f, 2.54f, -1.3f);
+
+			var arrow = scene.CreateEntity(true, "Arrow");
+			var arrowRenderable = arrow.AddComponent<Renderable>();
+			arrowRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
+			arrowRenderable.Mesh = resourceManager.GetResource<Mesh>("Arrow");
+			arrowRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
+			arrow.AddComponent<HittestScript>();
+			*/
+
+			var arrows = scene.CreateEntity(true, "Arrows");
+			arrows.AddComponent<ArrowsController>();
+
+			arrows.Transform.Position = new Vector3(1.6f, 0.4f, -2.0f);
 
 
 			/*
@@ -175,6 +261,7 @@ namespace QScripts
 			var resourceManager = ResourceManager.Instance;
 
 			resourceManager.RegisterResource<Mesh>("Skull", "./Meshes/Skull.qres");
+			resourceManager.RegisterResource<Mesh>("Horse", "./Meshes/Horse.qres");
 			resourceManager.RegisterResource<Texture>("Numbers", "./Textures/Numbers.qres");
 
 			resourceManager.RegisterResource<Shader>("SkullDeferred", "./Shaders/Deferred/DeferredSimpleTexture.qres");
@@ -192,6 +279,11 @@ namespace QScripts
 			resourceManager.RegisterResource<Shader>("SSAOBlur", "./Shaders/SSAO/SSAOBlur.qres");
 
 			resourceManager.RegisterResource<Shader>("Debug/ShadowmapDrawer", "./Shaders/Debug/ShadowmapDrawer.qres");
+
+			//	resourceManager.RegisterResource<Mesh>("Capsule", "./Meshes/Capsule.qres");
+
+			resourceManager.RegisterResource<Mesh>("Arrow", "./Meshes/Arrow.qres");
+			resourceManager.RegisterResource<Shader>("ArrowsDeferred", "./Shaders/Deferred/DeferredSimpleColor.qres");
 
 			/*
 			resourceManager.RegisterResource<Shader>("1", "./Shaders/Basic.shd");

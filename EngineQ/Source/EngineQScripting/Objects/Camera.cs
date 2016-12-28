@@ -91,6 +91,28 @@ namespace EngineQ
 
 		#endregion
 
+		#region Methods
+
+		public Ray GetViewRay(Vector2 position)
+		{
+			var inverseView = this.Entity.Transform.GlobalMatrix;
+			var inverseProjection = this.ProjectionMatrix.Inverse;
+
+			Vector4 direction = new Vector4(position, 1.0f, 1.0f);
+
+			direction = inverseView * inverseProjection * direction;
+
+			direction.X /= direction.W;
+			direction.Y /= direction.W;
+			direction.Z /= direction.W;
+
+			Vector3 origin = this.Entity.Transform.GlobalPosition;
+
+			return new Ray(origin, ((Vector3)direction - origin).Normalized);
+		}
+
+		#endregion
+
 		#region API
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
