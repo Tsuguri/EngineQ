@@ -59,7 +59,7 @@ namespace EngineQ
 		void SetFieldOfView(float value);
 
 		float GetNearDistance() const;
-		void SetNewarDistance(float distance);
+		void SetNearDistance(float distance);
 
 		float GetFarDistance() const;
 		void SetFarDistance(float distance);

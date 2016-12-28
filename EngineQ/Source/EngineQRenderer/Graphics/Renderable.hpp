@@ -17,6 +17,7 @@ namespace EngineQ
 		public:
 			bool castShadows = true;
 			bool receiveShadows = true;
+			bool volumetric = false;
 
 			virtual Graphics::ShaderProperties* GetForwardShader() const = 0;
 			virtual Graphics::ShaderProperties* GetDeferredShader() const = 0;
@@ -27,6 +28,9 @@ namespace EngineQ
 			virtual Math::Vector3 GetPosition() = 0;
 
 			virtual Math::Matrix4 GetGlobalMatrix() = 0;
+
+			void SetVolumetric(bool volumetric);
+			bool GetVolimetric() const;
 
 			void SetCastShadows(bool val);
 			bool GetCastShadows() const;
