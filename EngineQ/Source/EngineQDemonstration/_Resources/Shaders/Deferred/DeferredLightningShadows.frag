@@ -16,8 +16,60 @@ uniform sampler2D gColorSpecular;
 
 uniform sampler2D ssaoTexture;
 
+uniform sampler2D backDepth;
+uniform sampler2D frontDepth;
+uniform sampler2D depthMap;
+
+uniform sampler2D light0backVolumeMap;
+uniform sampler2D light0frontVolumeMap;
+
+
 mat4 invView = inverse(matrices.view);
 mat4 invProjection = inverse(matrices.projection);
+
+float LinearizeDepth(float near_plane, float far_plane, float depth)
+{
+    float z = depth * 2.0 - 1.0; // Back to NDC 
+    return (2.0 * near_plane * far_plane) / (far_plane + near_plane - z * (far_plane - near_plane)) / (far_plane - near_plane);
+}
+
+float GetVolumetricOcclusion(sampler2D backDepthMap, sampler2D frontDepthMap, vec3 position, float near_plane, float far_plane)
+{
+	float back = texture(backDepthMap, position.xy).x;
+	float front = texture(frontDepthMap, position.xy).x;
+	float currentZ = position.z;
+
+	if(front == 1.0f && back == 0.0f)
+		return 1.0f;
+
+	if(front == 1.0f)
+		front = 0.0f;
+
+	back = LinearizeDepth(near_plane, far_plane, back);
+	front = LinearizeDepth(near_plane, far_plane, front);
+	currentZ = LinearizeDepth(near_plane, far_plane, currentZ);
+
+	if(currentZ < front)
+		return 1.0f;
+
+	if(currentZ < back)
+		back = currentZ;
+
+	float val = (back - front) * 30.0f;
+	if(val > 1.0f)
+		val = 1.0f;
+
+	return 1.0f - val;
+}
+
+float GetVolumetricOcclusion2()
+{
+	const float near_plane = 0.01f;
+	const float far_plane = 100.0f;
+
+	return GetVolumetricOcclusion(backDepth, frontDepth, vec3(IN.textureCoords, texture(depthMap, IN.textureCoords).x), near_plane, far_plane);
+}
+
 
 
 
@@ -55,6 +107,30 @@ float ShadowCalculations(Light light, sampler2D shadowMap, vec3 normal, vec3 pos
 	return (projCoords.z <= 1.0f ? 1.0f : 0.0f) * shadow;
 }
 
+float VolumeShadowCalculations(Light light, sampler2D shadowBackMap, sampler2D shadowFrontMap, vec3 normal, vec3 position)
+{
+	if(!light.castsShadows)
+		return 0.0f;
+	
+	vec4 fragPosLightSpace = light.lightMatrix * vec4(position, 1.0);
+
+	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+
+    // Transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // Get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+
+	float currentDepth = projCoords.z;
+	const float bias = 0.0005f;
+
+	float front = texture(shadowFrontMap, projCoords.xy).r; 
+	float shadow = (currentDepth - bias > front) ? 1.0f : 0.0f;
+
+	return (projCoords.z <= 1.0f ? 1.0f : 0.0f) * shadow * GetVolumetricOcclusion(shadowBackMap, shadowFrontMap, projCoords, 0.01f, 30.0f) / 5.0f;
+}
+
+
+
 float IsPointInShadow(Light light, sampler2D shadowMap, vec3 position)
 {
 	if(!light.castsShadows)
@@ -77,6 +153,36 @@ float IsPointInShadow(Light light, sampler2D shadowMap, vec3 position)
 	return ((projCoords.z <= 1.0f) ? 1.0f : 0.0f) * shadow;
 }
 
+float IsPointInVolume(Light light, sampler2D shadowBackMap, sampler2D shadowFrontMap, vec3 position)
+{
+	if(!light.castsShadows)
+		return 0.0f;
+
+	vec4 fragPosLightSpace = light.lightMatrix * vec4(position, 1.0);
+
+	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+
+    // Transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // Get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+
+	float currentDepth = projCoords.z;
+	const float bias = 0.0005f;
+
+
+	float front = texture(shadowFrontMap, projCoords.xy).r; 
+	float shadow = (currentDepth - bias > front) ? 1.0f : 0.0f;
+	
+	float shad = ((projCoords.z <= 1.0f) ? 1.0f : 0.0f) * shadow;
+	
+	float back = texture(shadowBackMap, projCoords.xy).r;
+
+	return shad * GetVolumetricOcclusion(shadowBackMap, shadowFrontMap, projCoords, 0.01f, 30.0f);
+}
+
+
+
+
 float SamplePoint(Light light, sampler2D shadowMap, vec3 viewSpacePosition)
 {
 	const float samples = 128.0f;
@@ -97,7 +203,7 @@ float SamplePoint(Light light, sampler2D shadowMap, vec3 viewSpacePosition)
 		
 		vec3 newWorldSpacePosition = (invView * vec4(direction, 1.0f)).xyz;
 
-		shadow += IsPointInShadow(light, shadowMap, newWorldSpacePosition);
+		shadow += IsPointInShadow(light, shadowMap, newWorldSpacePosition) + IsPointInVolume(light, light0backVolumeMap, light0frontVolumeMap, newWorldSpacePosition);
 	}
 
 	return shadow / samples;
@@ -149,7 +255,7 @@ void main()
 		vec3 specular = light.specular * spec * materialSpecular;
 
 		// Shadows
-		float shadow = 1.0f;
+		float shadow = 0.0f;
 		     if(i == 0) shadow = ShadowCalculations(light, lights_q_0_q_DirectionalShadowMap, normal, worldSpacePosition);
 		else if(i == 1) shadow = ShadowCalculations(light, lights_q_1_q_DirectionalShadowMap, normal, worldSpacePosition);
 		else if(i == 2) shadow = ShadowCalculations(light, lights_q_2_q_DirectionalShadowMap, normal, worldSpacePosition);
@@ -159,7 +265,7 @@ void main()
 
 
 		// Rays
-		float raysShadow = 1.0f;
+		float raysShadow = 0.0f;
 		     if(i == 0) raysShadow = SamplePoint(light, lights_q_0_q_DirectionalShadowMap, viewSpacePosition);
 		else if(i == 1) raysShadow = SamplePoint(light, lights_q_1_q_DirectionalShadowMap, viewSpacePosition);
 		else if(i == 2) raysShadow = SamplePoint(light, lights_q_2_q_DirectionalShadowMap, viewSpacePosition);
@@ -167,10 +273,20 @@ void main()
 		
 		float raysMultiplier = 1.0f;//viewSpacePosition.z * viewSpacePosition.z;
 		raysShadow = (1.0f - raysShadow * raysMultiplier);
-	
 		
+		if (raysShadow < 0.05f)
+			raysShadow = 0.05f;
+
+
+		// Volume shadow
+		float volumeShadow = 0.0f;
+		if(i == 0) volumeShadow = VolumeShadowCalculations(light, light0backVolumeMap, light0frontVolumeMap, normal, worldSpacePosition);
 		
-		result += (ambient + shadow * (diffuse + specular)) * color * raysShadow;
+		volumeShadow = 1.0f - volumeShadow;
+
+
+		
+		result += (ambient + shadow * volumeShadow * (diffuse + specular)) * color * raysShadow;
 
 	//	vec4 projSpacePosition = matrices.projection * vec4(viewSpacePosition, 1.0f);
 	//	projSpacePosition /= projSpacePosition.w;
@@ -179,5 +295,7 @@ void main()
 	//	result += (light.ambient * materialAmbient + shadow * (diffuse + specular)) * color * raysShadow;
 	}
 	
-	FragColor = vec4(result, 1.0f);
+	float volumetricOcclusion = GetVolumetricOcclusion2();
+
+	FragColor = vec4(result * volumetricOcclusion + vec3(0.4f, 0.4f, 0.4f) * (1.0f - volumetricOcclusion), 1.0f);
 }
