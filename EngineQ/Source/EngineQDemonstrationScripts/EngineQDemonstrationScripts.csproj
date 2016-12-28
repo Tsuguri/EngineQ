@@ -42,7 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrowsController.cs" />
     <Compile Include="CameraMoveClass.cs" />
+    <Compile Include="HittestScript.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="LightRotateScript.cs" />
     <Compile Include="MyEffectController.cs" />

@@ -186,10 +186,10 @@ namespace EngineQ.Math
 
 		#region Operators
 
-		//public explicit operator Vector2d()
-		//{
-		//	return Vector2f<Type2>((Type2)this.X, (Type2)this.Y);
-		//}
+		public static explicit operator Vector2(Vector2i vector)
+		{
+			return new Vector2((Real)vector.X, (Real)vector.Y);
+		}
 
 		public static Vector2i operator -(Vector2i vector)
 		{

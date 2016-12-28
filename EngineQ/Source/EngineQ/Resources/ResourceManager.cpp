@@ -11,34 +11,57 @@ namespace EngineQ
 			// TMP
 			this->scriptEngine.InvokeConstructor(this->GetManagedObject());
 		}
-				
+
 		void ResourceManager::UpdateResources()
 		{
-			if (this->newActiveResources.size() > 0)
+			for (auto it = this->activeResources.begin(); it != this->activeResources.end();)
 			{
-				this->activeResources.insert(this->activeResources.end(), newActiveResources.begin(), newActiveResources.end());
-				this->newActiveResources.clear();
-			}
+				auto& resourceData = **it;
 
-			for (auto resourceData : this->activeResources)
-			{
-				if (resourceData->resource->GetNativeReferenceCount() == 1 && resourceData->resource->GetAllReferenceCount() == 1)
+				if (resourceData.resource->GetAllReferenceCount() == 1)
 				{
-					resourceData->generation += 1;
+					resourceData.generation += 1;
 
-					if (resourceData->generation == MaxGeneration)
-						resourceData->destructor(*this, *resourceData);
+					if (resourceData.generation >= MaxGeneration)
+					{
+						resourceData.destructor(*this, resourceData);
+						it = this->activeResources.erase(it);
+					}
+					else
+					{
+						++it;
+					}
+				}
+				else
+				{
+					++it;
 				}
 			}
 
-			if (this->oldActiveResources.size() > 0)
+			for (auto it = this->unnamedResources.begin(); it != this->unnamedResources.end();)
 			{
-				for (auto oldResource : this->oldActiveResources)
-					this->activeResources.erase(std::remove(this->activeResources.begin(), this->activeResources.end(), oldResource), this->activeResources.end());
-				this->oldActiveResources.clear();
+				auto& resourceData = *it;
+
+				if (resourceData.resource->GetAllReferenceCount() == 1)
+				{
+					resourceData.generation += 1;
+					
+					if (resourceData.generation >= MaxGeneration)
+					{
+						it = this->unnamedResources.erase(it);
+					}
+					else
+					{
+						++it;
+					}
+				}
+				else
+				{
+					++it;
+				}
 			}
 		}
-		
+
 		void ResourceManager::Update()
 		{
 			this->frameCount += 1;
