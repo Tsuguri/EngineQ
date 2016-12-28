@@ -30,6 +30,8 @@ namespace EngineQ
 				static const std::unordered_map<std::string, GLuint> internalFormats;
 				static const std::unordered_map<std::string, GLuint> formats;
 				static const std::unordered_map<std::string, GLuint> dataTypes;
+				static const std::unordered_map<std::string, GLint> filters;
+				static const std::unordered_map<std::string, GLint> wrapType;
 
 			public:
 				static TextureConfiguration Load(tinyxml2::XMLElement * node);
@@ -38,6 +40,14 @@ namespace EngineQ
 				GLuint Format = GL_RGB;
 				GLuint InternalFormat = GL_RGB;
 				GLuint DataType = GL_UNSIGNED_BYTE;
+
+				GLint MinFilter = GL_LINEAR;
+				GLint MagFilter = GL_LINEAR;
+				GLint WrapS = GL_REPEAT;
+				GLint WrapT = GL_REPEAT;
+
+				float SizeMultiplier = 1.0f;
+
 
 				bool setBorderColor = false;
 				std::array<GLfloat, 4> borderCorlor = { 0.0f, 0.0f, 0.0f, 0.0f };

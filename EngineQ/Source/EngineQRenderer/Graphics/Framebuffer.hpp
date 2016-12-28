@@ -31,14 +31,16 @@ namespace EngineQ
 
 			void CreateDepthTesting();
 			void Resize(int width, int height);
-			void AddTexture(GLuint texture, GLenum location);
 		public:
-			Framebuffer(bool depthTesting, std::vector<GLuint>& textures, ScreenDataProvider* dataProvider);
+			void AddTexture(GLuint texture, GLenum location);
 			Framebuffer(bool depthTesting, std::vector<Resources::Resource<Texture>>& textures, ScreenDataProvider* dataProvider);
-			Framebuffer(GLuint texture, ScreenDataProvider* dataProvider);
+			//Framebuffer(GLuint texture, ScreenDataProvider* dataProvider);
 			~Framebuffer();
 
 			void Bind() const;
+
+			void ResetDrawBuffer();
+			void ResetReadBuffer();
 
 			static void BindDefault();
 		};

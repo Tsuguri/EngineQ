@@ -53,10 +53,6 @@ namespace EngineQ
 				tex->Resize(width, height);
 		}
 
-		std::unique_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<GLuint>& textures, bool depthTesting)
-		{
-			return std::make_unique<Framebuffer>(depthTesting, textures, screenDataProvider);
-		}
 
 		std::unique_ptr<Framebuffer> RenderingUnit::CreateFramebuffer(std::vector<Resources::Resource<Texture>>& textures, bool depthTesting)
 		{

@@ -30,7 +30,8 @@ namespace EngineQ
 
 			private:
 
-				GLuint depthMapFBO;
+				//GLuint depthMapFBO;
+				std::unique_ptr<Graphics::Framebuffer> framebuffer;
 				Resources::Resource<Texture> depthTexture;
 				ScreenDataProvider* screenDataProvider = nullptr;
 				Type type = Type::Directional;

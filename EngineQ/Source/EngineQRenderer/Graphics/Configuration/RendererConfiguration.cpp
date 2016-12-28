@@ -110,6 +110,22 @@ namespace EngineQ
 				{ "GL_UNSIGNED_INT_2_10_10_10_REV", GL_UNSIGNED_INT_2_10_10_10_REV },
 			};
 
+			const std::unordered_map<std::string, GLint> TextureConfiguration::filters = std::unordered_map<std::string, GLint>{
+				{ "GL_LINEAR", GL_LINEAR },
+				{ "GL_NEAREST", GL_NEAREST },
+				{ "GL_NEAREST_MIPMAP_NEAREST", GL_NEAREST_MIPMAP_NEAREST },
+				{ "GL_LINEAR_MIPMAP_NEAREST", GL_LINEAR_MIPMAP_NEAREST },
+				{ "GL_NEAREST_MIPMAP_LINEAR", GL_NEAREST_MIPMAP_LINEAR },
+				{ "GL_LINEAR_MIPMAP_LINEAR", GL_LINEAR_MIPMAP_LINEAR }
+			};
+
+			const std::unordered_map<std::string, GLint> TextureConfiguration::wrapType = std::unordered_map<std::string, GLint>{
+				{ "GL_CLAMP_TO_EDGE", GL_CLAMP_TO_EDGE },
+				{ "GL_CLAMP_TO_BORDER", GL_CLAMP_TO_BORDER},
+				{ "GL_MIRRORED_REPEAT", GL_MIRRORED_REPEAT },
+				{ "GL_REPEAT", GL_REPEAT },
+				{ "GL_MIRROR_CLAMP_TO_EDGE", GL_MIRROR_CLAMP_TO_EDGE }
+			};
 
 			TextureConfiguration TextureConfiguration::Load(tinyxml2::XMLElement * element)
 			{
