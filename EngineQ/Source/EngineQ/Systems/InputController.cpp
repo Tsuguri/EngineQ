@@ -7,7 +7,7 @@
 #include <GLFW/glfw3.h>
 
 // This project
-#include "Scripting/ScriptEngine.hpp"
+#include "EngineQ/Scripting/ScriptEngine.hpp"
 
 
 namespace EngineQ

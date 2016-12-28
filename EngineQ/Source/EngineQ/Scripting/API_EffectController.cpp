@@ -3,7 +3,7 @@
 // This project
 #include "ScriptEngine.hpp"
 #include "EngineQ/Engine.hpp"
-#include "EngineQ/EngineShaderProperties.hpp"
+#include "EngineQ/Graphics/EngineShaderProperties.hpp"
 #include "EngineQ/Graphics/ScriptedShaderPass.hpp"
 
 

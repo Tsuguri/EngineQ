@@ -23,7 +23,7 @@
 #include "MeshFactory.hpp"
 #include "EngineQ/Scripting/ScriptEngine.hpp"
 #include "EngineQ/Objects/Object.hpp"
-#include "EngineQ/Logger.hpp"
+#include "EngineQ/Systems/Logger.hpp"
 
 
 namespace EngineQ

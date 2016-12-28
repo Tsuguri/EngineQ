@@ -4,7 +4,7 @@
 #include "Entity.hpp"
 #include "EngineQ/Serialization/Serializer.hpp"
 #include "EngineQ/Serialization/Deserializer.hpp"
-#include "EngineQ/Logger.hpp"
+#include "EngineQ/Systems/Logger.hpp"
 
 
 namespace EngineQ

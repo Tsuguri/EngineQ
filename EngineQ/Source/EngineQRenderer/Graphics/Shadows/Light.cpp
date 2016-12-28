@@ -21,6 +21,7 @@ namespace EngineQ
 				conf.setBorderColor = true;
 				conf.borderCorlor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
+				auto size = dataProvider->GetScreenSize();
 				depthTexture = Resources::Resource<Texture>(std::make_unique<Texture>(size.X, size.Y, conf));
 
 				std::vector<Resources::Resource<Texture>> textures;
@@ -38,7 +39,7 @@ namespace EngineQ
 				if (shader == nullptr)
 					return;
 				auto matrix = GetLightMatrix();
-
+				auto size = screenDataProvider->GetScreenSize();
 				glViewport(0, 0, size.X, size.Y);
 				framebuffer->Bind();
 				glClear(GL_DEPTH_BUFFER_BIT);

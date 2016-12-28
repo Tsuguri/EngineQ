@@ -35,7 +35,7 @@ namespace EngineQ
 				Resources::Resource<Texture> depthTexture;
 				ScreenDataProvider* screenDataProvider = nullptr;
 				Type type = Type::Directional;
-				Math::Vector2i size = 2 * Math::Vector2i{ 1024, 1024 };
+				//Math::Vector2i size = 2 * Math::Vector2i{ 1024, 1024 };
 				
 				float distance = 0.0f;
 				float nearPlane = 0.1f;
