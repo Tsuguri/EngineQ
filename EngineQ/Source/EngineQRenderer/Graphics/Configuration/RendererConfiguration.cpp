@@ -200,6 +200,13 @@ namespace EngineQ
 					tex.WrapT = tmp->second;
 				}
 
+				float sizeMultiplier;
+				auto sizeM = element->QueryFloatAttribute("SizeMultiplier",&sizeMultiplier);
+				if (sizeM == tinyxml2::XMLError::XML_SUCCESS)
+				{
+					tex.SizeMultiplier = sizeMultiplier;
+				}
+
 				return tex;
 			}
 
