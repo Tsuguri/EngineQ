@@ -69,7 +69,7 @@ namespace EngineQ
 		{
 			auto& camera = static_cast<Camera&>(cameraBase);
 
-			camera.SetNearDistance(value);
+			camera.SetNewarDistance(value);
 		}
 			
 		void API_Camera::API_GetFarDistance(const Object& cameraBase, float& value)

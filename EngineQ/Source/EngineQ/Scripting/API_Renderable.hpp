@@ -25,8 +25,6 @@ namespace EngineQ
 			static void API_SetCastShadows(Object& renderableBase, bool castShadowsValue);
 			static void API_UseForwardShader(Object& renderableBase, Resources::Resource<Graphics::Shader>::ControlBlock& shader);
 			static void API_UseDeferredShader(Object& renderableBase, Resources::Resource<Graphics::Shader>::ControlBlock& shader);
-			static void API_GetVolumetric(const Object& renderableBase, bool& volumetric);
-			static void API_SetVolumetric(Object& renderableBase, bool volumetric);
 
 			static void API_Register(ScriptEngine& scriptEngine);
 		};

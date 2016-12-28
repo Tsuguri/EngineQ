@@ -6,5 +6,5 @@ layout (location = 0) in vec3 position;
 
 void main()
 {
-    gl_Position = matrices.projection * matrices.view * matrices.model * vec4(position, 1.0f);
+    gl_Position = matrices.view * matrices.model * vec4(position, 1.0f);
 }

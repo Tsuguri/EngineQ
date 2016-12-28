@@ -28,8 +28,6 @@ namespace QScripts
 			var cameraComponent = camera.AddComponent<Camera>();
 			scene.ActiveCamera = cameraComponent;
 			cameraComponent.FieldOfView = 70.0f;
-		//	cameraComponent.FarDistance = 10.0f;
-		//	cameraComponent.NearDistance = 1.0f;
 
 			camera.Transform.Position = new Vector3(4, 2.0f, -6.0f);
 			camera.Transform.Rotation = Quaternion.CreateLookAt(camera.Transform.Position, Vector3.Zero, Vector3.Up);
@@ -45,36 +43,12 @@ namespace QScripts
 			skullRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
 			//	skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
 			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Horse");
-		//	skullRenderable.Volumetric = true;
 
 			skullRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
 			skullRenderable.DeferredShader.Material.Specular = new Vector3f(5.0f);
 
 			//	skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
 			//	skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
-
-
-
-			// Volumetric
-			var volumetric = scene.CreateEntity(true, "Volumetric");
-			var volumetricRenderable = volumetric.AddComponent<Renderable>();
-			volumetricRenderable.Mesh = PrefabGenerator.GenerateCapsule(1.5f, 0.7f);
-		//	volumetricRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
-			volumetricRenderable.Volumetric = true;
-
-			volumetric.Transform.Position = new Vector3(-1.0f, 2.4f, 1.0f);
-			volumetric.Transform.Rotation = Quaternion.CreateFromEuler(-1.2f, 0.5f, 3.0f);
-
-
-			volumetric = scene.CreateEntity(true, "Volumetric");
-			volumetricRenderable = volumetric.AddComponent<Renderable>();
-			volumetricRenderable.Mesh = PrefabGenerator.GenerateCapsule(1.5f, 0.7f);
-			//	volumetricRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
-			volumetricRenderable.Volumetric = true;
-
-			volumetric.Transform.Position = new Vector3(0.3f, 2.4f, 1.0f);
-			volumetric.Transform.Rotation = Quaternion.CreateFromEuler(1.2f, 1.5f, 2.0f);
-
 
 
 			// Floor

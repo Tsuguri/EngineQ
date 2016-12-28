@@ -15,21 +15,21 @@ namespace EngineQ
 	{
 		void API_Renderable::API_GetForwardShader(const Object& renderableBase, MonoObject*& forwardShader)
 		{
-			auto& renderable = static_cast<const Renderable&>(renderableBase);
+			const Renderable& renderable = static_cast<const Renderable&>(renderableBase);
 
 			forwardShader = renderable.GetForwardShader()->GetManagedObject();
 		}
 
 		void API_Renderable::API_GetDeferredShader(const Object& renderableBase, MonoObject*& deferredShader)
 		{
-			auto& renderable = static_cast<const Renderable&>(renderableBase);
+			const Renderable& renderable = static_cast<const Renderable&>(renderableBase);
 
 			deferredShader = renderable.GetDeferredShader()->GetManagedObject();
 		}
 		
 		void API_Renderable::API_GetMesh(const Object& renderableBase, MonoObject*& mesh)
 		{
-			auto& renderable = static_cast<const Renderable&>(renderableBase);
+			const Renderable& renderable = static_cast<const Renderable&>(renderableBase);
 
 			const auto& scriptEngine = renderable.GetScriptEngine();
 
@@ -45,44 +45,30 @@ namespace EngineQ
 
 		void API_Renderable::API_GetCastShadows(const Object& renderableBase, bool& castShadowsValue)
 		{
-			auto& renderable = static_cast<const Renderable&>(renderableBase);
+			const Renderable& renderable = static_cast<const Renderable&>(renderableBase);
 
 			castShadowsValue = renderable.GetCastShadows();
 		}
 
 		void API_Renderable::API_SetCastShadows(Object& renderableBase, bool castShadowsValue)
 		{
-			auto& renderable = static_cast<Renderable&>(renderableBase);
+			Renderable& renderable = static_cast<Renderable&>(renderableBase);
 
 			renderable.SetCastShadows(castShadowsValue);
 		}
 
 		void API_Renderable::API_UseForwardShader(Object& renderableBase, Resources::Resource<Graphics::Shader>::ControlBlock& shader)
 		{
-			auto& renderable = static_cast<Renderable&>(renderableBase);
+			Renderable& renderable = static_cast<Renderable&>(renderableBase);
 			
 			renderable.SetForwardShader(shader.GetResource());
 		}
 		
 		void API_Renderable::API_UseDeferredShader(Object& renderableBase, Resources::Resource<Graphics::Shader>::ControlBlock& shader)
 		{
-			auto& renderable = static_cast<Renderable&>(renderableBase);
+			Renderable& renderable = static_cast<Renderable&>(renderableBase);
 		
 			renderable.SetDeferredShader(shader.GetResource());
-		}
-
-		void API_Renderable::API_GetVolumetric(const Object& renderableBase, bool& volumetric)
-		{
-			auto& renderable = static_cast<const Renderable&>(renderableBase);
-
-			volumetric = renderable.GetVolimetric();
-		}
-
-		void API_Renderable::API_SetVolumetric(Object& renderableBase, bool volumetric)
-		{
-			auto& renderable = static_cast<Renderable&>(renderableBase);
-
-			renderable.SetVolumetric(volumetric);
 		}
 
 		void API_Renderable::API_Register(ScriptEngine& scriptEngine)
@@ -95,8 +81,6 @@ namespace EngineQ
 			scriptEngine.API_Register("EngineQ.Renderable::API_SetCastShadows", API_SetCastShadows);
 			scriptEngine.API_Register("EngineQ.Renderable::API_UseForwardShader", API_UseForwardShader);
 			scriptEngine.API_Register("EngineQ.Renderable::API_UseDeferredShader", API_UseDeferredShader);
-			scriptEngine.API_Register("EngineQ.Renderable::API_GetVolumetric", API_GetVolumetric);
-			scriptEngine.API_Register("EngineQ.Renderable::API_SetVolumetric", API_SetVolumetric);
 		}
 	}
 }

@@ -77,9 +77,6 @@ namespace EngineQ
 
 			for (auto renderable : scene.GetRenderables())
 			{
-				if (renderable->GetVolimetric())
-					continue;
-
 				auto mesh = renderable->GetMesh();
 
 				ShaderProperties* shader;

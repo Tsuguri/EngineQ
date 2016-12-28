@@ -7,51 +7,41 @@ in VS_DATA
 	vec2 textureCoords;
 } IN;
 
-//#include "../Common/Light.shh"
+const int MaxLights = 4;
 
-uniform sampler2D backDepth;
-uniform sampler2D frontDepth;
-uniform sampler2D depthMap;
-
-uniform sampler2D light0backVolumeMap;
-uniform sampler2D light0frontVolumeMap;
-uniform sampler2D lights_q_0_q_DirectionalShadowMap;
-
-uniform int mode;
-
-float LinearizeDepth(float depth)
+struct Light
 {
-//	const float near_plane = 0.01f;
-//	const float far_plane = 100.0f;
-	const float near_plane = 0.01f;
-	const float far_plane = 100.0f;
+	vec3 position;
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+	
+	mat4 lightMatrix;
 
-    float z = depth * 2.0 - 1.0; // Back to NDC 
-    return (2.0 * near_plane * far_plane) / (far_plane + near_plane - z * (far_plane - near_plane)) / (far_plane - near_plane);
-}
+	float distance;
+	
+	bool castsShadows;
+	float farPlane;
+};
+
+uniform Light lights[MaxLights];
+uniform int lightCount;
+
+uniform sampler2D image;
+
+uniform sampler2D lights_q_0_q_DirectionalShadowMap;
+uniform sampler2D lights_q_1_q_DirectionalShadowMap;
+uniform sampler2D lights_q_2_q_DirectionalShadowMap;
+uniform sampler2D lights_q_3_q_DirectionalShadowMap;
+
+uniform samplerCube lights_q_0_q_PointShadowMap;
+uniform samplerCube lights_q_1_q_PointShadowMap;
+uniform samplerCube lights_q_2_q_PointShadowMap;
+uniform samplerCube lights_q_3_q_PointShadowMap;
 
 void main()
 {             
-	float color = 0.0f;
-	
-	switch(mode)
-	{
-		case 0:
-	//	color = texture(frontDepth, IN.textureCoords).x;
-		color = texture(light0frontVolumeMap, IN.textureCoords).x;
-		break;
+	float color = texture(lights_q_0_q_DirectionalShadowMap, IN.textureCoords).x;
 
-		case 1:
-	//	color = texture(backDepth, IN.textureCoords).x;
-		color = texture(light0backVolumeMap, IN.textureCoords).x;
-		break;
-
-		case 2:
-	//	color = texture(depthMap, IN.textureCoords).x;
-		color = texture(lights_q_0_q_DirectionalShadowMap, IN.textureCoords).x;
-		break;
-	}
-
-//	FragColor = vec4(vec3(LinearizeDepth(color)), 1.0f);
 	FragColor = vec4(vec3(color), 1.0f);
-} 
+}

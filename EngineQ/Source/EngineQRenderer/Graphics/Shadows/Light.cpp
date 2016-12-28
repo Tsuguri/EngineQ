@@ -48,9 +48,6 @@ namespace EngineQ
 
 				for (auto renderable : renderables)
 				{
-					if (renderable->GetVolimetric())
-						continue;
-
 					//render each object if cast shadows
 					if (renderable->castShadows)
 					{

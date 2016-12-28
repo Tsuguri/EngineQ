@@ -19,7 +19,7 @@ namespace EngineQ
 	{
 		class RenderingUnit
 		{
-		protected:
+		private:
 			std::unique_ptr<ShaderPassFactory> shaderPassFactory;
 
 			ScreenDataProvider* screenDataProvider;
@@ -47,7 +47,7 @@ namespace EngineQ
 			RenderingUnit(ScreenDataProvider* screenDataProvider, const Configuration::RenderingUnitConfiguration& configuration);
 			~RenderingUnit();
 
-			virtual void Render(Scene& scene);
+			void Render(Scene& scene);
 		};
 	}
 }

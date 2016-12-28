@@ -1,5 +1,3 @@
-#include "..\..\EngineQRenderer\Graphics\Renderable.hpp"
-#include "..\..\EngineQRenderer\Graphics\Renderable.hpp"
 #include "Renderable.hpp"
 
 // Other projects
@@ -67,16 +65,6 @@ namespace EngineQ
 	Math::Matrix4 Renderable::GetGlobalMatrix()
 	{
 		return this->GetEntity().GetTransform().GetGlobalMatrix();
-	}
-
-	void Graphics::Renderable::SetVolumetric(bool volumetric)
-	{
-		this->volumetric = volumetric;
-	}
-
-	bool Graphics::Renderable::GetVolimetric() const
-	{
-		return this->volumetric;
 	}
 
 	void Graphics::Renderable::SetCastShadows(bool val)
