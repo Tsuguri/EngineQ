@@ -67,13 +67,22 @@ namespace EngineQ
 			screenDataProvider->resizeEvent += handler;
 		}
 
+		void Framebuffer::UnsubscribeFromResize()
+		{
+			if (screenDataProvider != nullptr)
+			{
+				screenDataProvider->resizeEvent -= handler;
+				screenDataProvider = nullptr;
+			}
+		}
+
 		Framebuffer::~Framebuffer()
 		{
 			if (depthRbo > 0)
 				glDeleteRenderbuffers(1, &depthRbo);
 			glDeleteFramebuffers(1, &fbo);
 
-			screenDataProvider->resizeEvent -= handler;
+			UnsubscribeFromResize();
 		}
 
 		void Framebuffer::Bind() const

@@ -41,6 +41,7 @@ namespace EngineQ
 
 		void SetCastShadows(bool val);
 		Light(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
+		virtual ~Light();
 	};
 }
 

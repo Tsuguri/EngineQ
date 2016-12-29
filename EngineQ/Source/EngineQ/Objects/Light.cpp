@@ -87,4 +87,10 @@ namespace EngineQ
 		Init(static_cast<Graphics::ScreenDataProvider*>(this));
 		shaderProperties = std::make_unique<EngineShaderProperties>(this->scriptEngine, entity.GetScene().GetEngine()->GetResourceManager().GetResource<Graphics::Shader>("LightDepthRender") );
 	}
+
+	Light::~Light()
+	{
+		Logger::LogMessage("Destroying Light\n");
+		UnsubscribeFromResize();
+	}
 }

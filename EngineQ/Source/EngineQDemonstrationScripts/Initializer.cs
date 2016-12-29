@@ -113,24 +113,27 @@ namespace QScripts
 			// Light1
 			var light1 = scene.CreateEntity(true, "Light1");
 
+
 			var light1light = light1.AddComponent<Light>();
-			light1light.Range = 15.0f;
-			light1light.TextureSize = new Vector2i(2048);
+			//light1light.Range = 15.0f;
+			//light1light.TextureSize = new Vector2i(2048);
 
-			var light1renderable = light1.AddComponent<Renderable>();
-			light1renderable.UseDeferredShader(lightsDeferredShader);
-			light1renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
-			light1renderable.Mesh = lightsMesh;
-			light1renderable.CastShadows = false;
+			//light1.AddComponent<LightController>();
 
-			var light1script = light1.AddComponent<LightRotateScript>();
-			light1script.RotationPoint = new Vector3(0.0f, 4.0f, 0.0f);
-			light1script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
-			light1script.RotationSpeed = 0.6f;
-			light1script.Radius = 4.0f;
-			light1script.InitialRotation = -2.0f;
+			//var light1renderable = light1.AddComponent<Renderable>();
+			//light1renderable.UseDeferredShader(lightsDeferredShader);
+			//light1renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
+			//light1renderable.Mesh = lightsMesh;
+			//light1renderable.CastShadows = false;
 
-			light1.Transform.Scale = new Vector3(0.4f);
+			//var light1script = light1.AddComponent<LightRotateScript>();
+			//light1script.RotationPoint = new Vector3(0.0f, 4.0f, 0.0f);
+			//light1script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
+			//light1script.RotationSpeed = 0.6f;
+			//light1script.Radius = 4.0f;
+			//light1script.InitialRotation = -2.0f;
+
+			//light1.Transform.Scale = new Vector3(0.4f);
 
 			/*
 			//Light2

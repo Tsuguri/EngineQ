@@ -34,6 +34,7 @@ namespace EngineQ
 		public:
 			void AddTexture(GLuint texture, GLenum location);
 			Framebuffer(bool depthTesting, std::vector<Resources::Resource<Texture>>& textures, ScreenDataProvider* dataProvider);
+			void UnsubscribeFromResize();
 			~Framebuffer();
 
 			void Bind() const;

@@ -47,7 +47,6 @@ namespace EngineQ
 
 			public:
 				void Init(ScreenDataProvider* dataProvider);
-
 				Light();
 				virtual ~Light();
 
@@ -85,6 +84,10 @@ namespace EngineQ
 
 				Math::Vector3 GetSpecularColor() const;
 				void SetSpecularColor(Math::Vector3 color);
+
+			protected:
+				void UnsubscribeFromResize();
+
 			};
 		}
 	}

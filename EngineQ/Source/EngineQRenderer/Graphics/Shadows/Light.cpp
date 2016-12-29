@@ -34,12 +34,18 @@ namespace EngineQ
 				Framebuffer::BindDefault();
 			}
 
+			void Light::UnsubscribeFromResize()
+			{
+				framebuffer->UnsubscribeFromResize();
+			}
+
 			Light::Light()
 			{
 			}
 
 			Light::~Light()
 			{
+
 			}
 
 			void Light::RenderDepthMap(const std::vector<Renderable*>& renderables)
