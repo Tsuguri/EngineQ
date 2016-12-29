@@ -114,6 +114,8 @@ namespace QScripts
 			var light1 = scene.CreateEntity(true, "Light1");
 
 			var light1light = light1.AddComponent<Light>();
+			light1light.Range = 15.0f;
+			light1light.TextureSize = new Vector2i(2048);
 
 			var light1renderable = light1.AddComponent<Renderable>();
 			light1renderable.UseDeferredShader(lightsDeferredShader);

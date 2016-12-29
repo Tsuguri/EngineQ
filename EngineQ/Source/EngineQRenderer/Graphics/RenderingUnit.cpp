@@ -207,9 +207,9 @@ namespace EngineQ
 							light.Direction = sceneLight->GetDirection();
 							light.Distance = sceneLight->GetDistance();
 							
-							light.Diffuse = Math::Vector3f(0.5f);
-							light.Ambient = Math::Vector3f(0.3f);
-							light.Specular = Math::Vector3f(1.0f);
+							light.Diffuse = sceneLight->GetDiffuseColor();
+							light.Ambient = sceneLight->GetAmbientColor();
+							light.Specular = sceneLight->GetSpecularColor();
 							
 							light.CastsShadows = sceneLight->GetCastShadows();
 							light.LightMatrix = sceneLight->GetLightMatrix();

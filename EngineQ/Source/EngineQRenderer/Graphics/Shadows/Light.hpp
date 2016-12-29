@@ -35,24 +35,34 @@ namespace EngineQ
 				Resources::Resource<Texture> depthTexture;
 				ScreenDataProvider* screenDataProvider = nullptr;
 				Type type = Type::Directional;
-				//Math::Vector2i size = 2 * Math::Vector2i{ 1024, 1024 };
-				
+
+				Math::Vector3 ambient = Math::Vector3(1.0f);
+				Math::Vector3 diffuse = Math::Vector3(1.0f);
+				Math::Vector3 specular = Math::Vector3(1.0f);
+
 				float distance = 0.0f;
+				float range = 10.0f;
 				float nearPlane = 0.1f;
 				float farPlane = 30.0f;
 
 			public:
 				void Init(ScreenDataProvider* dataProvider);
 
-				Light() = default;
+				Light();
+				virtual ~Light();
 
 				void RenderDepthMap(const std::vector<Renderable*>& renderables);
 
 				Resources::Resource<Texture> GetDepthTexture();
 
 				float GetNearPlane() const;
+				void SetNearPlane(float value);
 				float GetFarPlane() const;
+				void SetFarPlane(float value);
+				float GetRange() const;
+				void SetRange(float value);
 				float GetDistance() const;
+				void SetDistance(float value);
 
 				Math::Matrix4 GetLightMatrix();
 
@@ -62,11 +72,19 @@ namespace EngineQ
 
 				virtual ShaderProperties* GetShaderProperties() const = 0;
 
-				virtual bool GetCastShadows() = 0;
+				virtual bool GetCastShadows() const = 0;
 
 				void SetLightType(Type type);
-
 				Type GetLightType() const;
+
+				Math::Vector3 GetAmbientColor() const;
+				void SetAmbientColor(Math::Vector3 color);
+
+				Math::Vector3 GetDiffuseColor() const;
+				void SetDiffuseColor(Math::Vector3 color);
+
+				Math::Vector3 GetSpecularColor() const;
+				void SetSpecularColor(Math::Vector3 color);
 			};
 		}
 	}

@@ -42,11 +42,13 @@ namespace EngineQ
 		if (textureSize != size)
 		{
 			textureSize = size;
-			if (!ResizeEventIsEmpty())
-			{
-				ResizeEventInvoke(size.X, size.Y);
-			}
+			Init(this);
 		}
+	}
+
+	Math::Vector2i Light::GetShadowTextureSize() const
+	{
+		return textureSize;
 	}
 
 	Math::Vector3 Light::GetPosition()
@@ -69,17 +71,9 @@ namespace EngineQ
 		return shaderProperties.get();
 	}
 
-	bool Light::GetCastShadows()
+	bool Light::GetCastShadows() const
 	{
 		return castShadows;
-	}
-
-	void Graphics::Shadows::Light::SetLightType(Type type)
-	{
-		if (this->type != type)
-		{
-			this->type = type;
-		}
 	}
 
 	void Light::SetCastShadows(bool val)

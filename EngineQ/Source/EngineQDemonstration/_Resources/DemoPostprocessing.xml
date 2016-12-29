@@ -8,11 +8,11 @@
 
 		<!-- Bloom -->
 		<TextureConfiguration Name="Scene" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" />
-		<TextureConfiguration Name="Bloom1" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" />
-		<TextureConfiguration Name="Bloom2" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" />
+		<TextureConfiguration Name="Bloom1" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER" />
+		<TextureConfiguration Name="Bloom2" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER" />
 		<!--TextureConfiguration Name="SSAO" DataType="GL_FLOAT" InternalFormat="GL_RGB" Format="GL_RED" /-->
 		<TextureConfiguration Name="SSAO" DataType="GL_FLOAT" InternalFormat="GL_R16F" Format="GL_RED" />
-		<TextureConfiguration Name="SSAOBlur"  DataType="GL_FLOAT"  InternalFormat="GL_R16F" Format="GL_RED" />
+		<TextureConfiguration Name="SSAOBlur"  DataType="GL_FLOAT"  InternalFormat="GL_R16F" Format="GL_RED" WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER"/>
 	</Textures>
 	
 	<Renderer Deferred="true" GlobalShadows="true">

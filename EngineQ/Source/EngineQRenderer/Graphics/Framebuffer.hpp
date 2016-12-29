@@ -28,13 +28,12 @@ namespace EngineQ
 
 			ScreenDataProvider* screenDataProvider;
 			Utilities::EventHandler<void(int, int)> handler;
+			void Resize(int width, int height);
 
 			void CreateDepthTesting();
-			void Resize(int width, int height);
 		public:
 			void AddTexture(GLuint texture, GLenum location);
 			Framebuffer(bool depthTesting, std::vector<Resources::Resource<Texture>>& textures, ScreenDataProvider* dataProvider);
-			//Framebuffer(GLuint texture, ScreenDataProvider* dataProvider);
 			~Framebuffer();
 
 			void Bind() const;

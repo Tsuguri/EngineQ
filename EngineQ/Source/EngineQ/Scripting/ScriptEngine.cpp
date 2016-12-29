@@ -31,6 +31,7 @@
 #include "API_ResourceManager.hpp"
 #include "API_EffectController.hpp"
 #include "API_PrefabGenerator.hpp"
+#include "API_Light.hpp"
 
 
 namespace EngineQ
@@ -149,6 +150,7 @@ namespace EngineQ
 			API_Component::API_Register(*this);
 			API_Transform::API_Register(*this);
 			API_Renderable::API_Register(*this);
+			API_Light::API_Register(*this);
 
 			API_Input::API_Register(*this);
 			API_TimeCounter::API_Register(*this);
