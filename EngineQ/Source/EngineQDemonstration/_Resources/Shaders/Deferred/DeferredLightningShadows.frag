@@ -110,8 +110,8 @@ float SamplePoint(Light light, sampler2D shadowMap, vec3 viewSpacePosition)
 void main()
 {
 	// Extract information from G-Buffer
-	vec3 viewSpacePosition = texture(gPosition, IN.textureCoords).xyz;
-	vec3 worldSpacePosition = (invView * vec4(viewSpacePosition, 1.0f)).xyz;
+	vec3 worldSpacePosition =  texture(gPosition, IN.textureCoords).xyz;//(invView * vec4(viewSpacePosition, 1.0f)).xyz;
+	vec3 viewSpacePosition = (matrices.view * vec4(worldSpacePosition, 1.0f)).xyz;
 
 	vec3 color = texture(gColorSpecular, IN.textureCoords).rgb;
 	float materialSpecular = texture(gColorSpecular, IN.textureCoords).a;
@@ -150,13 +150,25 @@ void main()
 
 		// Shadows
 		float shadow = 1.0f;
-		     if(i == 0) shadow = ShadowCalculations(light, lights_q_0_q_DirectionalShadowMap, normal, worldSpacePosition);
-		else if(i == 1) shadow = ShadowCalculations(light, lights_q_1_q_DirectionalShadowMap, normal, worldSpacePosition);
-		else if(i == 2) shadow = ShadowCalculations(light, lights_q_2_q_DirectionalShadowMap, normal, worldSpacePosition);
-		else if(i == 3) shadow = ShadowCalculations(light, lights_q_3_q_DirectionalShadowMap, normal, worldSpacePosition);
-		
-		shadow = 1.0f - shadow;
+		if (light.type == 0)
+		{
+				if(i == 0) shadow = ShadowCalculations(light, lights_q_0_q_DirectionalShadowMap, normal, worldSpacePosition);
+			else if(i == 1) shadow = ShadowCalculations(light, lights_q_1_q_DirectionalShadowMap, normal, worldSpacePosition);
+			else if(i == 2) shadow = ShadowCalculations(light, lights_q_2_q_DirectionalShadowMap, normal, worldSpacePosition);
+			else if(i == 3) shadow = ShadowCalculations(light, lights_q_3_q_DirectionalShadowMap, normal, worldSpacePosition);
+			
+			shadow = 1.0f - shadow;
+		}
+		else if (light.type == 1)
+		{
+			shadow = 0.0f;
+			vec3 fragToLight = worldSpacePosition - light.position;
 
+			float currentDepth = length(fragToLight);
+			float depth = texture(lights_q_0_q_PointShadowMap, fragToLight).r;
+			float bias = 0.00001;
+			shadow = 1.0 - currentDepth;
+		}
 
 		// Rays
 		float raysShadow = 1.0f;
@@ -172,12 +184,7 @@ void main()
 		
 		result += (ambient + shadow * (diffuse + specular)) * color * raysShadow;
 
-	//	vec4 projSpacePosition = matrices.projection * vec4(viewSpacePosition, 1.0f);
-	//	projSpacePosition /= projSpacePosition.w;
-
-	//	result -= (ambient + shadow * (diffuse + specular)) * color * raysShadow;
-	//	result += (light.ambient * materialAmbient + shadow * (diffuse + specular)) * color * raysShadow;
 	}
-	
-	FragColor = vec4(result, 1.0f);
+
+	FragColor = vec4(viewSpacePosition, 1.0f);
 }

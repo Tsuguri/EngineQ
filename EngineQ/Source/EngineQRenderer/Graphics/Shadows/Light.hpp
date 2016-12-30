@@ -8,7 +8,7 @@
 #include "EngineQCommon/Math/Vector2.hpp"
 
 // This project
-#include "DirectionalShadowCaster.hpp"
+#include "EngineQRenderer/Graphics/Shadows/ShadowCaster.hpp"
 #include "EngineQRenderer/Graphics/Framebuffer.hpp"
 #include "EngineQRenderer/Graphics/Utils/ScreenDataProvider.hpp"
 #include "EngineQRenderer/Graphics/ShaderProperties.hpp"

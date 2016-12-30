@@ -41,9 +41,9 @@ namespace EngineQ
 			}
 		}
 
-		void Framebuffer::AddTexture(GLuint texture, GLenum location)
+		void Framebuffer::AddTexture(GLuint texture, GLenum location, GLenum texType)
 		{
-			glFramebufferTexture2D(GL_FRAMEBUFFER, location, GL_TEXTURE_2D, texture, 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, location, texType, texture, 0);
 		}
 
 		Framebuffer::Framebuffer(bool depthTesting, std::vector<Resources::Resource<Texture>>& textures, ScreenDataProvider* dataProvider) :

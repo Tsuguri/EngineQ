@@ -3,6 +3,8 @@
 // This project
 #include "EngineQRenderer/Graphics/Renderable.hpp"
 #include "EngineQRenderer/Graphics/Mesh.hpp"
+#include "DirectionalShadowCaster.hpp"
+#include "PointShadowCaster.hpp"
 
 
 namespace EngineQ
@@ -46,6 +48,7 @@ namespace EngineQ
 				light.CastsShadows = GetCastShadows();
 
 				light.FarPlane = GetFarPlane();
+				light.LightType = (int)this->type;
 				shadowCaster->SetLightDataInShader(light,this);
 			}
 
@@ -107,8 +110,11 @@ namespace EngineQ
 					{
 					case EngineQ::Graphics::Shadows::Light::Type::Directional:
 						shadowCaster = std::make_unique<DirectionalShadowCaster>();
+						shadowCaster->Init(screenDataProvider);
 						break;
 					case EngineQ::Graphics::Shadows::Light::Type::Point:
+						shadowCaster = std::make_unique<PointShadowCaster>();
+						shadowCaster->Init(screenDataProvider);
 						break;
 					case EngineQ::Graphics::Shadows::Light::Type::Spot:
 						break;

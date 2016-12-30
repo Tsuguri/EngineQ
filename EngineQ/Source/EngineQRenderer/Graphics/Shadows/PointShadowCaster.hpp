@@ -20,13 +20,20 @@ namespace EngineQ
 			{
 
 			private:
+				static bool matricesComputed;
+				static Math::Matrix4 cameraMatrices[6];
+
 
 				float nearPlane = 0.1f;
 				float farPlane = 90.0f;
 
-				std::unique_ptr<Graphics::Framebuffer> framebuffer;
-				Resources::Resource<Texture> depthTexture;
+				//std::unique_ptr<Graphics::Framebuffer> framebuffer;
+				std::unique_ptr<Graphics::Framebuffer> framebuffers[6];
+				//GLuint framebuffer;
+				Resources::Resource<CubeTexture> depthTexture;
 
+				Math::Matrix4 GetCameraMatrice(int face);
+				void DrawFace(const std::vector<Renderable*>& renderables, ShaderProperties* shader, Light* light, int i);
 			public:
 				virtual void Init(ScreenDataProvider* dataProvider) override;
 

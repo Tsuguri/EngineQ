@@ -43,6 +43,7 @@ namespace EngineQ
 				CheckBuiltIn(light.LightMatrix, Math::Matrix4::GetIdentity());
 				CheckBuiltIn(light.DirectionalShadowMap);
 				CheckBuiltIn(light.PointShadowMap);
+				CheckBuiltIn(light.LightType);
 			}
 		}
 
@@ -162,6 +163,11 @@ namespace EngineQ
 				{
 					auto property = data.GetProperty<bool>();
 					lights[index].CastsShadows = property;
+				}
+				else if (translatedName.find("type") != std::string::npos)
+				{
+					auto property = data.GetProperty<GLint>();
+					lights[index].LightType = property;
 				}
 			}
 		}

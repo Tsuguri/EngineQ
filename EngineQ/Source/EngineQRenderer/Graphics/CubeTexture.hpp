@@ -59,6 +59,7 @@ namespace EngineQ
 			virtual ~CubeTexture();
 
 			void Resize(int width, int height);
+			GLuint GetTextureID() const;
 			int GetWidth() const;
 			int GetHeight() const;
 

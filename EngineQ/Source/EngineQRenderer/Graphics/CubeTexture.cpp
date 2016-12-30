@@ -78,8 +78,6 @@ namespace EngineQ
 			std::array<const char*, 6> names = { { east, west, top, bottom, north, south } };
 
 			InitFromNames(names);
-
-
 		}
 
 		CubeTexture::CubeTexture(std::array<const char*, 6> names)
@@ -110,6 +108,11 @@ namespace EngineQ
 			{
 				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, configuration.InternalFormat, width, height, 0, configuration.Format, configuration.DataType, nullptr);
 			}
+		}
+
+		GLuint CubeTexture::GetTextureID() const
+		{
+			return textureID;
 		}
 
 		int CubeTexture::GetWidth() const
