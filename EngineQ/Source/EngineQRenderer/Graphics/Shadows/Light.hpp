@@ -8,8 +8,10 @@
 #include "EngineQCommon/Math/Vector2.hpp"
 
 // This project
+#include "DirectionalShadowCaster.hpp"
 #include "EngineQRenderer/Graphics/Framebuffer.hpp"
 #include "EngineQRenderer/Graphics/Utils/ScreenDataProvider.hpp"
+#include "EngineQRenderer/Graphics/ShaderProperties.hpp"
 
 
 namespace EngineQ
@@ -31,8 +33,8 @@ namespace EngineQ
 			private:
 
 				//GLuint depthMapFBO;
-				std::unique_ptr<Graphics::Framebuffer> framebuffer;
-				Resources::Resource<Texture> depthTexture;
+				std::unique_ptr<ShadowCaster> shadowCaster;
+
 				ScreenDataProvider* screenDataProvider = nullptr;
 				Type type = Type::Directional;
 
@@ -40,19 +42,15 @@ namespace EngineQ
 				Math::Vector3 diffuse = Math::Vector3(1.0f);
 				Math::Vector3 specular = Math::Vector3(1.0f);
 
-				float distance = 0.0f;
-				float range = 10.0f;
-				float nearPlane = 0.1f;
-				float farPlane = 30.0f;
 
 			public:
 				void Init(ScreenDataProvider* dataProvider);
 				Light();
 				virtual ~Light();
 
-				void RenderDepthMap(const std::vector<Renderable*>& renderables);
+				void SetLightInShader(const ShaderProperties::Light& light);
 
-				Resources::Resource<Texture> GetDepthTexture();
+				void RenderDepthMap(const std::vector<Renderable*>& renderables);
 
 				float GetNearPlane() const;
 				void SetNearPlane(float value);
@@ -62,8 +60,6 @@ namespace EngineQ
 				void SetRange(float value);
 				float GetDistance() const;
 				void SetDistance(float value);
-
-				Math::Matrix4 GetLightMatrix();
 
 				virtual Math::Vector3 GetPosition() = 0;
 				virtual Math::Vector3 GetDirection() = 0;

@@ -7,6 +7,9 @@
 // This project
 #include "EngineQRenderer/Graphics/Texture.hpp"
 #include "EngineQRenderer/Graphics/Types.hpp"
+#include "EngineQRenderer/Graphics/Utils/ScreenDataProvider.hpp"
+#include "EngineQRenderer/Graphics/ShaderProperties.hpp"
+#include "Types.hpp"
 
 
 namespace EngineQ
@@ -17,13 +20,25 @@ namespace EngineQ
 		{
 			class ShadowCaster
 			{
+
 			public:
+				virtual void Init(ScreenDataProvider* dataProvider) = 0;
 
-				std::shared_ptr<Texture> texture;
-				float farPlane;
+				virtual void SetLightDataInShader(const ShaderProperties::Light& lightProperties, Light* light) = 0;
 
-				virtual void Initialize() = 0;
-				virtual void Render(Renderable* renderable) = 0;
+				virtual void RenderDepthMap(const std::vector<Renderable*>& renderables, ShaderProperties* shader, Light* light) = 0;
+
+				virtual void Deinitialize() = 0;
+				
+				virtual float GetNearPlane() const;
+				virtual void SetNearPlane(float value);
+				virtual float GetFarPlane() const;
+				virtual void SetFarPlane(float value);
+				virtual float GetRange() const;
+				virtual void SetRange(float value);
+				virtual float GetDistance() const;
+				virtual void SetDistance(float value);
+
 
 			};
 		}

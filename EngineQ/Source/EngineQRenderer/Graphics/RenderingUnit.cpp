@@ -202,19 +202,7 @@ namespace EngineQ
 						{
 							auto& light = lights[i];
 							auto sceneLight = sceneLights[i];
-
-							light.Position = sceneLight->GetPosition();
-							light.Direction = sceneLight->GetDirection();
-							light.Distance = sceneLight->GetDistance();
-							
-							light.Diffuse = sceneLight->GetDiffuseColor();
-							light.Ambient = sceneLight->GetAmbientColor();
-							light.Specular = sceneLight->GetSpecularColor();
-							
-							light.CastsShadows = sceneLight->GetCastShadows();
-							light.LightMatrix = sceneLight->GetLightMatrix();
-							light.DirectionalShadowMap = sceneLight->GetDepthTexture();
-							light.FarPlane = sceneLight->GetFarPlane();
+							sceneLight->SetLightInShader(light);
 						}
 					}
 
