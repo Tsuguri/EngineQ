@@ -3,10 +3,20 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
+	/// <summary>
+	/// Base class for all components that can be added to the <see cref="EngineQ.Entity"/>.
+	/// </summary>
+	/// <seealso cref="Camera"/>
+	/// <seealso cref="Light"/>
+	/// <seealso cref="Renderable"/>
+	/// <seealso cref="Script"/>
 	public abstract class Component : EngineQ.Object
 	{
 		#region Properties
 
+		/// <summary>
+		/// Entity owning this Component.
+		/// </summary>
 		public Entity Entity
 		{
 			get
@@ -17,6 +27,11 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Specifies whether the Component is enabled. 
+		/// When set to false, the Component will be disabled.
+		/// Disabled components have no effect on its' parent <see cref="EngineQ.Entity"/>.
+		/// </summary>
 		public bool Enabled
 		{
 			get
@@ -32,6 +47,13 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Specifies whether the Component is enabled in hierarchy.
+		/// Component can be disabled if it is disabled itself (<see cref="Enabled"/> is set to false), or it's parent <see cref="EngineQ.Entity"/> is disabled in hierarchy (<see cref="EngineQ.Entity.EnabledInHierarchy"/> is set to false).
+		/// Disabled Components have no effect on its' parent <see cref="EngineQ.Entity"/>.
+		/// </summary>
+		/// <seealso cref="Entity.Enabled"/>
+		/// <seealso cref="Entity.EnabledInHierarchy"/>
 		public bool EnabledInHierarchy
 		{
 			get

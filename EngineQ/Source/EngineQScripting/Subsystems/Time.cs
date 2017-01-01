@@ -2,27 +2,37 @@
 
 namespace EngineQ
 {
+	/// <summary>
+	/// Provides utilities to measuring time.
+	/// </summary>
 	public static class Time
 	{
+		/// <summary>
+		/// Seconds since last update.
+		/// </summary>
 		public static float DeltaTime
 		{
 			get
 			{
-				float time = 0;
-				API_GetDeltaTime(out time);
-				return time;
+				float value;
+				API_GetDeltaTime(out value);
+				return value;
 			}
 		}
 
+		/// <summary>
+		/// Seconds since start of the application.
+		/// </summary>
 		public static float TimeFromStart
 		{
 			get
 			{
-				float time = 0;
-				API_GetTimeFromStart(out time);
-				return time;
+				float value;
+				API_GetTimeFromStart(out value);
+				return value;
 			}
 		}
+
 
 		#region API
 

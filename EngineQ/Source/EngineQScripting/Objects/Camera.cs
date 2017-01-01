@@ -5,10 +5,16 @@ using EngineQ.Math;
 
 namespace EngineQ
 {
+	/// <summary>
+	/// Component providing Camera functionality for <see cref="Entity"/>. 
+	/// </summary>
 	public sealed class Camera : Component
 	{
 		#region Properties
 
+		/// <summary>
+		/// Specifies whether to use custom projection matrix.
+		/// </summary>
 		public bool UseCustomProjectionMatrix
 		{
 			get
@@ -23,6 +29,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Current projection matrix.
+		/// </summary>
 		public Matrix4 ProjectionMatrix
 		{
 			get
@@ -33,6 +42,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Custom projection matrix. It will be used only when <see cref="UseCustomProjectionMatrix"/> is set to true.
+		/// </summary>
 		public Matrix4 CustomProjectionMatrix
 		{
 			get
@@ -47,6 +59,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Field of view in degrees.
+		/// </summary>
 		public float FieldOfView
 		{
 			get
@@ -61,6 +76,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Near clipping plane distance.
+		/// </summary>
 		public float NearDistance
 		{
 			get
@@ -75,6 +93,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Far clipping plane distance.
+		/// </summary>
 		public float FarDistance
 		{
 			get
@@ -93,6 +114,11 @@ namespace EngineQ
 
 		#region Methods
 
+		/// <summary>
+		/// Get world space ray from screen position. 
+		/// </summary>
+		/// <param name="position">Position on screen. Ranges from -1 to 1 on both coordinates.</param>
+		/// <returns>World space ray from camera screen position.</returns>
 		public Ray GetViewRay(Vector2 position)
 		{
 			var inverseView = this.Entity.Transform.GlobalMatrix;
@@ -112,6 +138,7 @@ namespace EngineQ
 		}
 
 		#endregion
+
 
 		#region API
 

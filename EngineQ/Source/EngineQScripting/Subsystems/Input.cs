@@ -5,7 +5,7 @@ using EngineQ.Math;
 namespace EngineQ
 {
 	/// <summary>
-	/// Provides information about user input such as keyboard keys presses, mouse movement and mouse button presses.
+	/// Provides information about user input such as keyboard keys presses, mouse cursor position and mouse button presses.
 	/// </summary>
 	public static class Input
 	{
