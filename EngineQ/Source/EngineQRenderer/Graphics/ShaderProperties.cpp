@@ -169,6 +169,11 @@ namespace EngineQ
 					auto property = data.GetProperty<GLint>();
 					lights[index].LightType = property;
 				}
+				else if (translatedName.find("farPlane") != std::string::npos)
+				{
+					auto property = data.GetProperty<GLfloat>();
+					lights[index].FarPlane = property;
+				}
 			}
 		}
 

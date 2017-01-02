@@ -39,13 +39,24 @@ namespace QScripts
 
 			// Skull
 			var skull = scene.CreateEntity(true, "Skull");
+			skull.Transform.Position = new Vector3(0, 1.0f, 0);
 			var skullRenderable = skull.AddComponent<Renderable>();
 			skullRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
 			//	skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
-			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Horse");
+			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("EngineQ/Cube");
+//			resourceManager.GetResource<Mesh>("Horse");
 
 			skullRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
 			skullRenderable.DeferredShader.Material.Specular = new Vector3f(5.0f);
+
+
+			var skullscript = skull.AddComponent<LightRotateScript>();
+			skullscript.RotationPoint = new Vector3(0.0f, 0.8f, 0.0f);
+			skullscript.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
+			skullscript.RotationSpeed = 0.4f;
+			skullscript.Radius = 0.01f;
+			skullscript.InitialRotation = 0.3f;
+
 
 			//	skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
 			//	skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
@@ -138,13 +149,22 @@ namespace QScripts
 			var light2 = scene.CreateEntity(true, "Light2");
 			var light2light = light2.AddComponent<Light>();
 			light2light.Type = LightType.Point;
+			light2.Transform.Position = new Vector3(-2, 1.0f,0.5f);
 
-			var light2script = light2.AddComponent<LightRotateScript>();
-			light2script.RotationPoint = new Vector3(0.0f, 4.0f, 0.0f);
-			light2script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
-			light2script.RotationSpeed = 0.6f;
-			light2script.Radius = 4.0f;
-			light2script.InitialRotation = -2.0f;
+			var light2renderable = light2.AddComponent<Renderable>();
+			light2renderable.UseDeferredShader(lightsDeferredShader);
+			light2renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
+			light2renderable.Mesh = lightsMesh;
+			light2renderable.CastShadows = false;
+
+
+
+			//var light2script = light2.AddComponent<LightRotateScript>();
+			//light2script.RotationPoint = new Vector3(0.0f, 4.0f, 0.0f);
+			//light2script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
+			//light2script.RotationSpeed = 0.6f;
+			//light2script.Radius = 4.0f;
+			//light2script.InitialRotation = -2.0f;
 
 			light2.Transform.Scale = new Vector3(0.4f);
 			/*
@@ -264,6 +284,7 @@ namespace QScripts
 			resourceManager.RegisterResource<Shader>("BloomHorizontalBlur", "./Shaders/Bloom/BlurHorizontal.qres");
 			resourceManager.RegisterResource<Shader>("Combine", "./Shaders/Combine.qres");
 			resourceManager.RegisterResource<Shader>("LightDepthRender", "./Shaders/Shadows/DepthRender.qres");
+			resourceManager.RegisterResource<Shader>("LightDepthRenderPoint", "./Shaders/Shadows/DepthRenderPoint.qres");
 			resourceManager.RegisterResource<Shader>("DeferredLightingShadows", "./Shaders/Deferred/DeferredLightningShadows.qres");
 
 			resourceManager.RegisterResource<Shader>("SSAO", "./Shaders/SSAO/SSAO.qres");

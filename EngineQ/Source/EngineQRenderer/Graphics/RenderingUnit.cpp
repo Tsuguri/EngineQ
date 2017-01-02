@@ -192,6 +192,8 @@ namespace EngineQ
 					shader.GetMatrices().View = camera.GetViewMatrix();
 					shader.GetMatrices().Projection = camera.GetProjectionMatrix();
 
+
+
 					if (effect->GetApplyShadowData())
 					{
 						auto& lights = shader.GetLights();

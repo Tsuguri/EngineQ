@@ -39,6 +39,8 @@ namespace EngineQ
 
 		virtual bool GetCastShadows() const override;
 
+		virtual void SetLightType(Type type) override;
+
 		void SetCastShadows(bool val);
 		Light(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
 		virtual ~Light();

@@ -14,6 +14,8 @@ uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gColorSpecular;
 
+uniform sampler2D testShadow;
+
 uniform sampler2D ssaoTexture;
 
 mat4 invView = inverse(matrices.view);
@@ -133,14 +135,22 @@ void main()
 		Light light = lights[i];
 
 	//	vec3 lightPosition = (matrices.view * vec4(light.position, 1.0f)).xyz;
-		vec3 lightDir = normalize(-light.direction);
+		vec3 lightDir;
+		float strength = 1.0f;
 
+		if( light.type==0)
+			lightDir = normalize(-light.direction);
+		else
+		{
+			lightDir = normalize (worldSpacePosition - light.position);
+			strength = 3.0f / length(worldSpacePosition - light.position);
+		}
 		// Ambient
-		vec3 ambient = light.ambient * materialAmbient * ambientOcclusion;
+		vec3 ambient = light.ambient * materialAmbient;
 
 		// Diffuse
 		float lightMultiplier = max(dot(normal, lightDir), 0.0f);
-		vec3 diffuse = lightMultiplier * light.diffuse /* TMP */ * 10.0f;
+		vec3 diffuse = lightMultiplier * light.diffuse; /* TMP */ //* 10.0f;
 
 		// Specular
 		vec3 viewDir = normalize(-viewSpacePosition);
@@ -167,7 +177,7 @@ void main()
 			float currentDepth = length(fragToLight);
 			float depth = texture(lights_q_0_q_PointShadowMap, fragToLight).r;
 			float bias = 0.00001;
-			shadow = 1.0 - currentDepth;
+			shadow = 1.0f;// currentDepth > depth ? 0.0f : 1.0f;
 		}
 
 		// Rays
@@ -182,9 +192,15 @@ void main()
 	
 		
 		
-		result += (ambient + shadow * (diffuse + specular)) * color * raysShadow;
+		result += ambient * color;
 
 	}
 
-	FragColor = vec4(viewSpacePosition, 1.0f);
+
+	vec3 fragToLight = worldSpacePosition - lights[0].position;
+
+	float currentDepth = length(fragToLight);
+	float depth = texture(lights_q_0_q_PointShadowMap, fragToLight).r;
+
+	FragColor = vec4(vec3(depth / 60.0f) + 0.1f * result, 1.0f);
 }

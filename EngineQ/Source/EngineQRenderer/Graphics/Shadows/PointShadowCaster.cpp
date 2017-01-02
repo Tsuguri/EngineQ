@@ -4,6 +4,7 @@
 #include "EngineQRenderer/Graphics/Mesh.hpp"
 #include "PointShadowCaster.hpp"
 #include "EngineQRenderer/Graphics/Framebuffer.hpp"
+#include "Light.hpp"
 
 
 namespace EngineQ
@@ -15,31 +16,42 @@ namespace EngineQ
 			bool PointShadowCaster::matricesComputed = false;
 			Math::Matrix4 PointShadowCaster::cameraMatrices[6];
 
-			Math::Matrix4 PointShadowCaster::GetCameraMatrice(int face)
+			Math::Matrix4 PointShadowCaster::GetCameraMatrice(int face, Light* light)
 			{
-				if (!matricesComputed)
+				static const Math::Vector3 directions[6] =
 				{
-					Math::Matrix4 mat = Math::Matrix4::CreateFrustum(Math::Utils::DegToRad(90.0f), 1, nearPlane, farPlane);
-					cameraMatrices[0] = mat * Math::Matrix4::CreateLookAt(Math::Vector3(0.0f), Math::Vector3(1.0f, 0.0f, 0.0f), Math::Vector3(0.0f, -1.0f, 0.0f));
-					cameraMatrices[1] = mat * Math::Matrix4::CreateLookAt(Math::Vector3(0.0f), Math::Vector3(-1.0f, 0.0f, 0.0f), Math::Vector3(0.0f, -1.0f, 0.0f));
-					cameraMatrices[2] = mat * Math::Matrix4::CreateLookAt(Math::Vector3(0.0f), Math::Vector3(0.0f, 1.0f, 0.0f), Math::Vector3(0.0f, 0.0f, -1.0f));
-					cameraMatrices[3] = mat * Math::Matrix4::CreateLookAt(Math::Vector3(0.0f), Math::Vector3(0.0f, -1.0f, 0.0f), Math::Vector3(0.0f, 0.0f, 1.0f));
-					cameraMatrices[4] = mat * Math::Matrix4::CreateLookAt(Math::Vector3(0.0f), Math::Vector3(0.0f, 0.0f, 1.0f), Math::Vector3(0.0f, -1.0f, 0.0f));
-					cameraMatrices[5] = mat * Math::Matrix4::CreateLookAt(Math::Vector3(0.0f), Math::Vector3(0.0f, 0.0f, -1.0f), Math::Vector3(0.0f, -1.0f, 0.0f));
+					Math::Vector3(1.0f, 0.0f, 0.0f),
+					Math::Vector3(-1.0f, 0.0f, 0.0f),
+					Math::Vector3(0.0f, 1.0f, 0.0f),
+					Math::Vector3(0.0f, -1.0f, 0.0f),
+					Math::Vector3(0.0f, 0.0f, 1.0f),
+					Math::Vector3(0.0f, 0.0f, -1.0f)
+				};
+				static const Math::Vector3 ups[6] =
+				{
+					Math::Vector3(0.0f, 1.0f, 0.0f),
+					Math::Vector3(0.0f, -1.0f, 0.0f),
+					Math::Vector3(0.0f, 0.0f, -1.0f),
+					Math::Vector3(0.0f, 0.0f, -1.0f),
+					Math::Vector3(0.0f, -1.0f, 0.0f),
+					Math::Vector3(0.0f, -1.0f, 0.0f)
+				};
+				static const Math::Matrix4 mat = Math::Matrix4::CreateFrustum(Math::Utils::DegToRad(90.0f), 1, nearPlane, farPlane);
 
-				}
-				return cameraMatrices[face];
+				return mat * Math::Matrix4::CreateLookAt(light->GetPosition(), directions[face], ups[face]).GetTransposed();
 			}
 
 			void PointShadowCaster::DrawFace(const std::vector<Renderable*>& renderables, ShaderProperties* shader, Light* light, int i)
 			{
 				//auto matrix = GetLightMatrix()* light->GetViewMatrix();
-				glViewport(0, 0, depthTexture->GetWidth(), depthTexture->GetHeight());
 				framebuffers[i]->Bind();
-				glClear(GL_DEPTH_BUFFER_BIT);
+				glViewport(0, 0, depthTexture->GetWidth(), depthTexture->GetHeight());
+				glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 				const auto& matrices = shader->GetMatrices();
-				matrices.View = GetCameraMatrice(i); //tu trzeba rozne kamery
+				matrices.View = GetCameraMatrice(i,light);
+
+
 
 				for (auto renderable : renderables)
 				{
@@ -63,8 +75,8 @@ namespace EngineQ
 			{
 				auto size = dataProvider->GetScreenSize();
 				CubeTexture::Configuration conf;
-				conf.Format = GL_DEPTH_COMPONENT;
-				conf.InternalFormat = GL_DEPTH_COMPONENT;
+				conf.Format = GL_RED;
+				conf.InternalFormat = GL_R32F;
 				conf.DataType = GL_FLOAT;
 				conf.Width = size.X;
 				conf.Height = size.Y;
@@ -75,9 +87,15 @@ namespace EngineQ
 
 				for (int i = 0; i < 6; i++)
 				{
-					framebuffers[i] = std::make_unique<Framebuffer>(false, textures, dataProvider);
+					framebuffers[i] = std::make_unique<Framebuffer>(true, textures, dataProvider);
 					framebuffers[i]->Bind();
-					framebuffers[i]->AddTexture(depthTexture->GetTextureID(), GL_DEPTH_ATTACHMENT, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i);
+					framebuffers[i]->AddTexture(depthTexture->GetTextureID(), GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i);
+					GLenum temp = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+					temp = GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+					temp = GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+					temp = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+					temp = GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+					temp = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
 				}
 				Framebuffer::BindDefault();
 			}
@@ -89,8 +107,9 @@ namespace EngineQ
 
 			void PointShadowCaster::RenderDepthMap(const std::vector<Renderable*>& renderables, ShaderProperties* shader, Light* light)
 			{
+				
 
-				for (int i = 0; i<6; i++)
+				for (int i = 0; i<1; i++)
 					DrawFace(renderables, shader, light, i);
 			}
 

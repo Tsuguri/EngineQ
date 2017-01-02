@@ -32,7 +32,7 @@ namespace EngineQ
 				//GLuint framebuffer;
 				Resources::Resource<CubeTexture> depthTexture;
 
-				Math::Matrix4 GetCameraMatrice(int face);
+				Math::Matrix4 GetCameraMatrice(int face, Light* light);
 				void DrawFace(const std::vector<Renderable*>& renderables, ShaderProperties* shader, Light* light, int i);
 			public:
 				virtual void Init(ScreenDataProvider* dataProvider) override;

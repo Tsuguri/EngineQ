@@ -93,4 +93,31 @@ namespace EngineQ
 		Logger::LogMessage("Destroying Light\n");
 		UnsubscribeFromResize();
 	}
+
+	void Light::SetLightType(Type type)
+	{
+
+		if (type != this->GetLightType())
+		{
+			std::string str;
+			switch (type)
+			{
+			case EngineQ::Graphics::Shadows::Light::Type::Directional:
+				str = "LightDepthRender";
+				break;
+			case EngineQ::Graphics::Shadows::Light::Type::Point:
+				str = "LightDepthRenderPoint";
+				break;
+			case EngineQ::Graphics::Shadows::Light::Type::Spot:
+				str = "LightDepthRenderSpot";//to do
+				break;
+			default:
+				break;
+			}
+			shaderProperties = std::make_unique<EngineShaderProperties>(this->scriptEngine, entity.GetScene().GetEngine()->GetResourceManager().GetResource<Graphics::Shader>(str));
+
+		}
+		Graphics::Shadows::Light::SetLightType(type);
+
+	}
 }

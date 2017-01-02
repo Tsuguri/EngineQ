@@ -69,7 +69,7 @@ namespace EngineQ
 
 				virtual bool GetCastShadows() const = 0;
 
-				void SetLightType(Type type);
+				virtual void SetLightType(Type type);
 				Type GetLightType() const;
 
 				Math::Vector3 GetAmbientColor() const;
