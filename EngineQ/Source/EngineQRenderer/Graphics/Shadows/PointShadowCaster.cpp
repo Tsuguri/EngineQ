@@ -39,12 +39,12 @@ namespace EngineQ
 				};
 				static const Math::Matrix4 mat = Math::Matrix4::CreateFrustum(Math::Utils::DegToRad(90.0f), 1, nearPlane, farPlane);
 
+				// TO DO: find reason for required tweaks: flip x in shader, transposed look at and fliped ups.
 				return mat * Math::Matrix4::CreateLookAt(light->GetPosition(), light->GetPosition() + directions[face], ups[face]).GetTransposed();
 			}
 
 			void PointShadowCaster::DrawFace(const std::vector<Renderable*>& renderables, ShaderProperties* shader, Light* light, int i)
 			{
-				//auto matrix = GetLightMatrix()* light->GetViewMatrix();
 				framebuffers[i]->Bind();
 				glViewport(0, 0, depthTexture->GetWidth(), depthTexture->GetHeight());
 				glClearColor(farPlane, 0.0f, 0.0f, 1.0f);
@@ -53,26 +53,11 @@ namespace EngineQ
 				const auto& matrices = shader->GetMatrices();
 				matrices.View = GetCameraMatrice(i,light);
 
-
-
-				for (auto renderable : renderables)
-				{
-					//render each object if cast shadows
-					if (renderable->castShadows)
-					{
-						//bind model matrices to shader
-						matrices.Model = renderable->GetGlobalMatrix();
-
-						shader->Apply();
-						auto mesh = renderable->GetMesh();
-						glBindVertexArray(mesh->GetVao());
-						glDrawElements(GL_TRIANGLES, mesh->GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
-					}
-
-				}
+				ShadowCaster::Render(renderables, shader);
 
 				Framebuffer::BindDefault();
 			}
+
 			void PointShadowCaster::Init(ScreenDataProvider* dataProvider)
 			{
 				auto size = dataProvider->GetScreenSize();
@@ -121,7 +106,8 @@ namespace EngineQ
 
 			void PointShadowCaster::Deinitialize()
 			{
-
+				for (int i = 0; i < 6; i++)
+					framebuffers[i]->UnsubscribeFromResize();
 			}
 
 			float PointShadowCaster::GetNearPlane() const

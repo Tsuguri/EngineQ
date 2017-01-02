@@ -53,21 +53,7 @@ namespace EngineQ
 				const auto& matrices = shader->GetMatrices();
 				matrices.View = matrix;
 
-				for (auto renderable : renderables)
-				{
-					//render each object if cast shadows
-					if (renderable->castShadows)
-					{
-						//bind model matrices to shader
-						matrices.Model = renderable->GetGlobalMatrix();
-
-						shader->Apply();
-						auto mesh = renderable->GetMesh();
-						glBindVertexArray(mesh->GetVao());
-						glDrawElements(GL_TRIANGLES, mesh->GetIndicesCount(), GL_UNSIGNED_INT, nullptr);
-					}
-
-				}
+				ShadowCaster::Render(renderables, shader);
 
 				framebuffer->BindDefault();
 			}

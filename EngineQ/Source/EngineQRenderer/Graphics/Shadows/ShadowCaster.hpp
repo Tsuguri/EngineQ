@@ -20,7 +20,8 @@ namespace EngineQ
 		{
 			class ShadowCaster
 			{
-
+			protected:
+				void Render(const std::vector<Renderable*>& renderables, ShaderProperties* shader);
 			public:
 				virtual void Init(ScreenDataProvider* dataProvider) = 0;
 
