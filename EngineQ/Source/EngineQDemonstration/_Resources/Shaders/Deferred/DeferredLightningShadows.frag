@@ -23,7 +23,7 @@ mat4 invProjection = inverse(matrices.projection);
 
 
 
-float ShadowCalculations(Light light, sampler2D shadowMap, vec3 normal, vec3 position)
+float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 normal, vec3 position)
 {
 	if(!light.castsShadows)
 		return 0.0f;
@@ -55,6 +55,36 @@ float ShadowCalculations(Light light, sampler2D shadowMap, vec3 normal, vec3 pos
 	shadow *= 1.0f / (samples * samples);
 
 	return (projCoords.z <= 1.0f ? 1.0f : 0.0f) * shadow;
+}
+
+float PointShadowCalculations(Light light, samplerCube shadowMap, vec3 normal, vec3 position)
+{
+	if(!light.castsShadows)
+		return 0.0f;
+
+	vec3 fragToLight = position - light.position;
+
+	float currentDepth = length(fragToLight);
+	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f); 
+	const float samples = 3.0f;
+	float offset = (1.0f + (currentDepth / light.farPlane)) / 25.0f;
+	float pcfStep = 2.0f * offset / samples;	
+	float shadow = 0.0f;
+
+	for(float x = -offset; x <= offset; x += pcfStep)
+	{
+		for(float y = -offset; y <= offset; y += pcfStep)
+		{
+			for(float z = -offset; z <= offset; z += pcfStep)
+			{
+				float closestDepth = texture(shadowMap, fragToLight + vec3(x,y,z)).r;
+				shadow += (currentDepth - bias > closestDepth) ? 1.0f : 0.0f;
+			}
+		}
+	}
+
+	shadow *= 1.0f / (samples * samples * samples);
+	return shadow;
 }
 
 float IsPointInShadow(Light light, sampler2D shadowMap, vec3 position)
@@ -106,9 +136,6 @@ float SamplePoint(Light light, sampler2D shadowMap, vec3 viewSpacePosition)
 }
 
 
-
-
-
 void main()
 {
 	// Extract information from G-Buffer
@@ -142,11 +169,11 @@ void main()
 			lightDir = normalize(-light.direction);
 		else
 		{
-			lightDir = normalize (worldSpacePosition - light.position);
+			lightDir = normalize (light.position - worldSpacePosition);
 			strength = 3.0f / length(worldSpacePosition - light.position);
 		}
 		// Ambient
-		vec3 ambient = light.ambient * materialAmbient;
+		vec3 ambient = light.ambient * materialAmbient * 0.1f;
 
 		// Diffuse
 		float lightMultiplier = max(dot(normal, lightDir), 0.0f);
@@ -162,23 +189,20 @@ void main()
 		float shadow = 1.0f;
 		if (light.type == 0)
 		{
-				if(i == 0) shadow = ShadowCalculations(light, lights_q_0_q_DirectionalShadowMap, normal, worldSpacePosition);
-			else if(i == 1) shadow = ShadowCalculations(light, lights_q_1_q_DirectionalShadowMap, normal, worldSpacePosition);
-			else if(i == 2) shadow = ShadowCalculations(light, lights_q_2_q_DirectionalShadowMap, normal, worldSpacePosition);
-			else if(i == 3) shadow = ShadowCalculations(light, lights_q_3_q_DirectionalShadowMap, normal, worldSpacePosition);
-			
-			shadow = 1.0f - shadow;
+				 if(i == 0) shadow = DirectionalShadowCalculations(light, lights_q_0_q_DirectionalShadowMap, normal, worldSpacePosition);
+			else if(i == 1) shadow = DirectionalShadowCalculations(light, lights_q_1_q_DirectionalShadowMap, normal, worldSpacePosition);
+			else if(i == 2) shadow = DirectionalShadowCalculations(light, lights_q_2_q_DirectionalShadowMap, normal, worldSpacePosition);
+			else if(i == 3) shadow = DirectionalShadowCalculations(light, lights_q_3_q_DirectionalShadowMap, normal, worldSpacePosition);
 		}
 		else if (light.type == 1)
 		{
-			shadow = 0.0f;
-			vec3 fragToLight = worldSpacePosition - light.position;
-
-			float currentDepth = length(fragToLight);
-			float depth = texture(lights_q_0_q_PointShadowMap, fragToLight).r;
-			float bias = 0.00001;
-			shadow = 1.0f;// currentDepth > depth ? 0.0f : 1.0f;
+				 if(i == 0) shadow = PointShadowCalculations(light, lights_q_0_q_PointShadowMap, normal, worldSpacePosition);
+			else if(i == 1) shadow = PointShadowCalculations(light, lights_q_1_q_PointShadowMap, normal, worldSpacePosition);
+			else if(i == 2) shadow = PointShadowCalculations(light, lights_q_2_q_PointShadowMap, normal, worldSpacePosition);
+			else if(i == 3) shadow = PointShadowCalculations(light, lights_q_3_q_PointShadowMap, normal, worldSpacePosition);
 		}
+
+		shadow = 1.0f - shadow;
 
 		// Rays
 		float raysShadow = 1.0f;
@@ -192,15 +216,9 @@ void main()
 	
 		
 		
-		result += ambient * color;
+		result += (ambient + shadow * diffuse) * color;
 
 	}
 
-
-	vec3 fragToLight = worldSpacePosition - lights[0].position;
-
-	float currentDepth = length(fragToLight);
-	float depth = texture(lights_q_0_q_PointShadowMap, fragToLight).r;
-
-	FragColor = vec4(vec3(depth / 60.0f) + 0.1f * result, 1.0f);
+	FragColor = vec4(result, 1.0f);
 }

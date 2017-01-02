@@ -17,7 +17,7 @@ out VS_DATA
 
 mat4 ModelView = matrices.view * matrices.model;
 mat4 ViewProjection = matrices.projection * matrices.view;
-mat3 NormalMat = mat3(transpose(inverse(ModelView)));
+mat3 NormalMat = mat3(transpose(inverse(matrices.model)));
 
 void main()
 {

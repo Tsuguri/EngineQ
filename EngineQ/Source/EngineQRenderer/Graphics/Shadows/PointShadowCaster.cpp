@@ -47,6 +47,7 @@ namespace EngineQ
 				//auto matrix = GetLightMatrix()* light->GetViewMatrix();
 				framebuffers[i]->Bind();
 				glViewport(0, 0, depthTexture->GetWidth(), depthTexture->GetHeight());
+				glClearColor(farPlane, 0.0f, 0.0f, 1.0f);
 				glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 				const auto& matrices = shader->GetMatrices();
@@ -108,7 +109,11 @@ namespace EngineQ
 
 			void PointShadowCaster::RenderDepthMap(const std::vector<Renderable*>& renderables, ShaderProperties* shader, Light* light)
 			{
-				
+				auto prop = shader->TryGetProperty<Math::Vector3>("lightPosition");
+				if (prop != nullval)
+				{
+					*prop = light->GetPosition();
+				}
 
 				for (int i = 0; i<6; i++)
 					DrawFace(renderables, shader, light, i);
