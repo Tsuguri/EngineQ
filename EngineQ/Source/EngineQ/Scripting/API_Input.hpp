@@ -3,7 +3,7 @@
 
 // This project
 #include "Types.hpp"
-#include "EngineQ/InputController.hpp"
+#include "EngineQ/Systems/InputController.hpp"
 
 
 namespace EngineQ

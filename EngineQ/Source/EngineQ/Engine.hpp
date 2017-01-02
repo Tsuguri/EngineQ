@@ -11,9 +11,9 @@
 #include "EngineQRenderer/Graphics/Utils/ScreenDataProvider.hpp"
 
 // This project
-#include "Window.hpp"
-#include "InputController.hpp"
-#include "RendererIntermediateConfiguration.hpp"
+#include "Systems/Window.hpp"
+#include "Systems/InputController.hpp"
+#include "Graphics/RendererIntermediateConfiguration.hpp"
 #include "Objects/Scene.hpp"
 #include "Resources/ResourceManager.hpp"
 #include "Scripting/ScriptEngine.hpp"

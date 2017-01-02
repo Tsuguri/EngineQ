@@ -41,9 +41,9 @@ namespace EngineQ
 			}
 		}
 
-		void Framebuffer::AddTexture(GLuint texture, GLenum location)
+		void Framebuffer::AddTexture(GLuint texture, GLenum location, GLenum texType)
 		{
-			glFramebufferTexture2D(GL_FRAMEBUFFER, location, GL_TEXTURE_2D, texture, 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, location, texType, texture, 0);
 		}
 
 		Framebuffer::Framebuffer(bool depthTesting, std::vector<Resources::Resource<Texture>>& textures, ScreenDataProvider* dataProvider) :
@@ -67,13 +67,22 @@ namespace EngineQ
 			screenDataProvider->resizeEvent += handler;
 		}
 
+		void Framebuffer::UnsubscribeFromResize()
+		{
+			if (screenDataProvider != nullptr)
+			{
+				screenDataProvider->resizeEvent -= handler;
+				screenDataProvider = nullptr;
+			}
+		}
+
 		Framebuffer::~Framebuffer()
 		{
 			if (depthRbo > 0)
 				glDeleteRenderbuffers(1, &depthRbo);
 			glDeleteFramebuffers(1, &fbo);
 
-			screenDataProvider->resizeEvent -= handler;
+			UnsubscribeFromResize();
 		}
 
 		void Framebuffer::Bind() const

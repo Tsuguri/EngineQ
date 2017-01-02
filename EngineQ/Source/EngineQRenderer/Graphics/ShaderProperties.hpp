@@ -47,6 +47,7 @@ namespace EngineQ
 				ShaderProperty<Math::Matrix4> LightMatrix;
 				ShaderProperty<Resources::Resource<Texture>> DirectionalShadowMap;
 				ShaderProperty<Resources::Resource<CubeTexture>> PointShadowMap;
+				ShaderProperty<GLint> LightType;
 
 				ShaderProperty<float> Distance;
 

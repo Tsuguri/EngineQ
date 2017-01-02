@@ -46,6 +46,7 @@
     <Compile Include="CameraMoveClass.cs" />
     <Compile Include="HittestScript.cs" />
     <Compile Include="Initializer.cs" />
+    <Compile Include="LightController.cs" />
     <Compile Include="LightRotateScript.cs" />
     <Compile Include="MyEffectController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

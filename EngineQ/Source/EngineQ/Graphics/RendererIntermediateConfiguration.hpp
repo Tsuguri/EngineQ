@@ -10,7 +10,7 @@
 #include "EngineQRenderer/Graphics/Configuration/RendererConfiguration.hpp"
 
 // This project
-#include "Resources/ResourceManager.hpp"
+#include "EngineQ/Resources/ResourceManager.hpp"
 
 
 namespace EngineQ

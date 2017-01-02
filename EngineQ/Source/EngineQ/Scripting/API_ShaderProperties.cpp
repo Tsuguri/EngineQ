@@ -6,7 +6,7 @@
 
 // This project
 #include "ScriptEngine.hpp"
-#include "EngineQ/EngineShaderProperties.hpp"
+#include "EngineQ/Graphics/EngineShaderProperties.hpp"
 
 
 namespace EngineQ

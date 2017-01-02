@@ -5,7 +5,7 @@
 #include "EngineQRenderer/Graphics/ShaderProperties.hpp"
 
 // This project
-#include "Objects/Object.hpp"
+#include "EngineQ/Objects/Object.hpp"
 
 
 namespace EngineQ

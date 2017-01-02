@@ -10,8 +10,8 @@
 #include "EngineQRenderer/Graphics/Shader.hpp"
 
 // This project
-#include "Logger.hpp"
-#include "TimeCounter.hpp"
+#include "Systems/Logger.hpp"
+#include "Systems/TimeCounter.hpp"
 #include "Objects/Scene.hpp"
 #include "Objects/Camera.hpp"
 #include "Resources/ResourceManager.hpp"

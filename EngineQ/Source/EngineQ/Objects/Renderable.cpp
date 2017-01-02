@@ -8,7 +8,7 @@
 // This project
 #include "Entity.hpp"
 #include "Transform.hpp"
-#include "EngineQ/Logger.hpp"
+#include "EngineQ/Systems/Logger.hpp"
 #include "EngineQ/Scripting/ScriptEngine.hpp"
 
 

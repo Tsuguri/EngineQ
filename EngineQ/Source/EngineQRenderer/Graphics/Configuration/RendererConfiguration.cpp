@@ -164,6 +164,49 @@ namespace EngineQ
 					tex.DataType = tmp->second;
 				}
 
+				auto minFilter = element->Attribute("MinFilter");
+				if (minFilter != nullptr)
+				{
+					auto tmp = filters.find(minFilter);
+					if (tmp == filters.end())
+						throw "Brak takiego typu filtra!";
+					tex.MinFilter = tmp->second;
+				}
+
+				auto magFilter = element->Attribute("MagFilter");
+				if (magFilter != nullptr)
+				{
+					auto tmp = filters.find(magFilter);
+					if (tmp == filters.end())
+						throw "Brak takiego typu filtra!";
+					tex.MagFilter = tmp->second;
+				}
+
+				auto wrapS = element->Attribute("WrapS");
+				if (wrapS != nullptr)
+				{
+					auto tmp = wrapType.find(wrapS);
+					if (tmp == wrapType.end())
+						throw "Brak takiego typu wrapowania!";
+					tex.WrapS = tmp->second;
+				}
+
+				auto wrapT = element->Attribute("WrapT");
+				if (wrapT != nullptr)
+				{
+					auto tmp = wrapType.find(wrapT);
+					if (tmp == wrapType.end())
+						throw "Brak takiego typu wrapowania!";
+					tex.WrapT = tmp->second;
+				}
+
+				float sizeMultiplier;
+				auto sizeM = element->QueryFloatAttribute("SizeMultiplier",&sizeMultiplier);
+				if (sizeM == tinyxml2::XMLError::XML_SUCCESS)
+				{
+					tex.SizeMultiplier = sizeMultiplier;
+				}
+
 				return tex;
 			}
 

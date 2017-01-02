@@ -192,6 +192,8 @@ namespace EngineQ
 					shader.GetMatrices().View = camera.GetViewMatrix();
 					shader.GetMatrices().Projection = camera.GetProjectionMatrix();
 
+
+
 					if (effect->GetApplyShadowData())
 					{
 						auto& lights = shader.GetLights();
@@ -202,19 +204,7 @@ namespace EngineQ
 						{
 							auto& light = lights[i];
 							auto sceneLight = sceneLights[i];
-
-							light.Position = sceneLight->GetPosition();
-							light.Direction = sceneLight->GetDirection();
-							light.Distance = sceneLight->GetDistance();
-							
-							light.Diffuse = Math::Vector3f(0.5f);
-							light.Ambient = Math::Vector3f(0.3f);
-							light.Specular = Math::Vector3f(1.0f);
-							
-							light.CastsShadows = sceneLight->GetCastShadows();
-							light.LightMatrix = sceneLight->GetLightMatrix();
-							light.DirectionalShadowMap = sceneLight->GetDepthTexture();
-							light.FarPlane = sceneLight->GetFarPlane();
+							sceneLight->SetLightInShader(light);
 						}
 					}
 

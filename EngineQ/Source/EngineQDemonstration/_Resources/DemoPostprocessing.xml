@@ -8,11 +8,11 @@
 
 		<!-- Bloom -->
 		<TextureConfiguration Name="Scene" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" />
-		<TextureConfiguration Name="Bloom1" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" />
-		<TextureConfiguration Name="Bloom2" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" />
+		<TextureConfiguration Name="Bloom1" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER" />
+		<TextureConfiguration Name="Bloom2" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER" />
 		<!--TextureConfiguration Name="SSAO" DataType="GL_FLOAT" InternalFormat="GL_RGB" Format="GL_RED" /-->
 		<TextureConfiguration Name="SSAO" DataType="GL_FLOAT" InternalFormat="GL_R16F" Format="GL_RED" />
-		<TextureConfiguration Name="SSAOBlur"  DataType="GL_FLOAT"  InternalFormat="GL_R16F" Format="GL_RED" />
+		<TextureConfiguration Name="SSAOBlur"  DataType="GL_FLOAT"  InternalFormat="GL_R16F" Format="GL_RED" WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER"/>
 	</Textures>
 	
 	<Renderer Deferred="true" GlobalShadows="true">
@@ -57,69 +57,10 @@
 				<InputPair Texture="SSAOBlur" LocationName="ssaoTexture" />
 			</Input>
 			<Output>
-				<OutputTexture Texture="Scene" />
-			</Output>
-		</EffectConfiguration>
-
-
-		<!-- Extract bright colors -->
-		<EffectConfiguration Shader="BloomExtraction">
-			<Controller Assembly="QScripts" Namespace="QScripts" Class="MyEffectController" />
-
-			<Input>
-				<InputPair Texture="Scene" />
-			</Input>
-			<Output>
-				<OutputTexture Texture="Bloom2" />
-			</Output>
-		</EffectConfiguration>
-
-
-		<!-- Bloom blur passes -->
-		<EffectRepeat Iterations="10">
-
-			<!-- Bloom vertical blur -->
-			<EffectConfiguration Shader="BloomVerticalBlur">
-				<Input>
-					<InputPair Texture="Bloom2" />
-				</Input>
-				<Output>
-					<OutputTexture Texture="Bloom1" />
-				</Output>
-			</EffectConfiguration>
-
-			<!-- Bloom horizontal blur -->
-			<EffectConfiguration Shader="BloomHorizontalBlur">
-				<Input>
-					<InputPair Texture="Bloom1" />
-				</Input>
-				<Output>
-					<OutputTexture Texture="Bloom2" />
-				</Output>
-			</EffectConfiguration>
-
-		</EffectRepeat>
-
-
-		<!-- Combine Bloom and Scene -->
-		<EffectConfiguration Shader="Combine">
-			<Input>
-				<InputPair Texture="Scene" LocationName="scene" />
-				<InputPair Texture="Bloom2" LocationName="bloom" />
-			</Input>
-			<Output>
 				<OutputTexture Texture="Screen" />
 			</Output>
 		</EffectConfiguration>
 
-
-
-
-		<!--EffectConfiguration Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true">
-			<Output>
-				<OutputTexture Texture="Screen"></OutputTexture>
-			</Output>
-		</EffectConfiguration-->
 	
 	</Effects>
 

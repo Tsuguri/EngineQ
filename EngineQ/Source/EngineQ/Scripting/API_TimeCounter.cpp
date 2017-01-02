@@ -2,7 +2,7 @@
 
 // This project
 #include "ScriptEngine.hpp"
-#include "EngineQ/TimeCounter.hpp"
+#include "EngineQ/Systems/TimeCounter.hpp"
 
 
 void EngineQ::Scripting::API_TimeCounter::API_GetTimeFromStart(float& time)

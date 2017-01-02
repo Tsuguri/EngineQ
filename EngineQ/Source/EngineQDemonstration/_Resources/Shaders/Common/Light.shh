@@ -13,6 +13,8 @@ struct Light
 	bool castsShadows;
 	mat4 lightMatrix;
 	float farPlane;
+
+	int type;
 };
 
 uniform Light lights[MaxLights];

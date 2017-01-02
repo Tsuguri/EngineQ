@@ -177,7 +177,8 @@ namespace QScripts
 		{
 			if (action != Input.KeyAction.Press)
 				return;
-
+			if (Skull1 == null)
+				return;
 			Script skullScript = this.Skull1.GetComponent<Script>();
 
 			if (skullScript != null)
@@ -188,7 +189,8 @@ namespace QScripts
 		{
 			if (action != Input.KeyAction.Press)
 				return;
-
+			if (Skull1 == null)
+				return;
 			Script skullScript = this.Skull1.GetComponent<Script>();
 			if (skullScript != null)
 				this.Skull1.RemoveComponent(skullScript);

@@ -14,6 +14,8 @@ uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gColorSpecular;
 
+uniform sampler2D testShadow;
+
 uniform sampler2D ssaoTexture;
 
 mat4 invView = inverse(matrices.view);
@@ -21,7 +23,7 @@ mat4 invProjection = inverse(matrices.projection);
 
 
 
-float ShadowCalculations(Light light, sampler2D shadowMap, vec3 normal, vec3 position)
+float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 normal, vec3 position)
 {
 	if(!light.castsShadows)
 		return 0.0f;
@@ -53,6 +55,36 @@ float ShadowCalculations(Light light, sampler2D shadowMap, vec3 normal, vec3 pos
 	shadow *= 1.0f / (samples * samples);
 
 	return (projCoords.z <= 1.0f ? 1.0f : 0.0f) * shadow;
+}
+
+float PointShadowCalculations(Light light, samplerCube shadowMap, vec3 normal, vec3 position)
+{
+	if(!light.castsShadows)
+		return 0.0f;
+
+	vec3 fragToLight = position - light.position;
+
+	float currentDepth = length(fragToLight);
+	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f); 
+	const float samples = 3.0f;
+	float offset = (1.0f + (currentDepth / light.farPlane)) / 25.0f;
+	float pcfStep = 2.0f * offset / samples;	
+	float shadow = 0.0f;
+
+	for(float x = -offset; x <= offset; x += pcfStep)
+	{
+		for(float y = -offset; y <= offset; y += pcfStep)
+		{
+			for(float z = -offset; z <= offset; z += pcfStep)
+			{
+				float closestDepth = texture(shadowMap, fragToLight + vec3(x,y,z)).r;
+				shadow += (currentDepth - bias > closestDepth) ? 1.0f : 0.0f;
+			}
+		}
+	}
+
+	shadow *= 1.0f / (samples * samples * samples);
+	return shadow;
 }
 
 float IsPointInShadow(Light light, sampler2D shadowMap, vec3 position)
@@ -104,14 +136,11 @@ float SamplePoint(Light light, sampler2D shadowMap, vec3 viewSpacePosition)
 }
 
 
-
-
-
 void main()
 {
 	// Extract information from G-Buffer
-	vec3 viewSpacePosition = texture(gPosition, IN.textureCoords).xyz;
-	vec3 worldSpacePosition = (invView * vec4(viewSpacePosition, 1.0f)).xyz;
+	vec3 worldSpacePosition =  texture(gPosition, IN.textureCoords).xyz;//(invView * vec4(viewSpacePosition, 1.0f)).xyz;
+	vec3 viewSpacePosition = (matrices.view * vec4(worldSpacePosition, 1.0f)).xyz;
 
 	vec3 color = texture(gColorSpecular, IN.textureCoords).rgb;
 	float materialSpecular = texture(gColorSpecular, IN.textureCoords).a;
@@ -133,14 +162,22 @@ void main()
 		Light light = lights[i];
 
 	//	vec3 lightPosition = (matrices.view * vec4(light.position, 1.0f)).xyz;
-		vec3 lightDir = normalize(-light.direction);
+		vec3 lightDir;
+		float strength = 1.0f;
 
+		if( light.type==0)
+			lightDir = normalize(-light.direction);
+		else
+		{
+			lightDir = normalize (light.position - worldSpacePosition);
+			strength = 3.0f / length(worldSpacePosition - light.position);
+		}
 		// Ambient
-		vec3 ambient = light.ambient * materialAmbient * ambientOcclusion;
+		vec3 ambient = light.ambient * materialAmbient * 0.1f;
 
 		// Diffuse
 		float lightMultiplier = max(dot(normal, lightDir), 0.0f);
-		vec3 diffuse = lightMultiplier * light.diffuse /* TMP */ * 10.0f;
+		vec3 diffuse = lightMultiplier * light.diffuse; /* TMP */ //* 10.0f;
 
 		// Specular
 		vec3 viewDir = normalize(-viewSpacePosition);
@@ -150,13 +187,22 @@ void main()
 
 		// Shadows
 		float shadow = 1.0f;
-		     if(i == 0) shadow = ShadowCalculations(light, lights_q_0_q_DirectionalShadowMap, normal, worldSpacePosition);
-		else if(i == 1) shadow = ShadowCalculations(light, lights_q_1_q_DirectionalShadowMap, normal, worldSpacePosition);
-		else if(i == 2) shadow = ShadowCalculations(light, lights_q_2_q_DirectionalShadowMap, normal, worldSpacePosition);
-		else if(i == 3) shadow = ShadowCalculations(light, lights_q_3_q_DirectionalShadowMap, normal, worldSpacePosition);
-		
-		shadow = 1.0f - shadow;
+		if (light.type == 0)
+		{
+				 if(i == 0) shadow = DirectionalShadowCalculations(light, lights_q_0_q_DirectionalShadowMap, normal, worldSpacePosition);
+			else if(i == 1) shadow = DirectionalShadowCalculations(light, lights_q_1_q_DirectionalShadowMap, normal, worldSpacePosition);
+			else if(i == 2) shadow = DirectionalShadowCalculations(light, lights_q_2_q_DirectionalShadowMap, normal, worldSpacePosition);
+			else if(i == 3) shadow = DirectionalShadowCalculations(light, lights_q_3_q_DirectionalShadowMap, normal, worldSpacePosition);
+		}
+		else if (light.type == 1)
+		{
+				 if(i == 0) shadow = PointShadowCalculations(light, lights_q_0_q_PointShadowMap, normal, worldSpacePosition);
+			else if(i == 1) shadow = PointShadowCalculations(light, lights_q_1_q_PointShadowMap, normal, worldSpacePosition);
+			else if(i == 2) shadow = PointShadowCalculations(light, lights_q_2_q_PointShadowMap, normal, worldSpacePosition);
+			else if(i == 3) shadow = PointShadowCalculations(light, lights_q_3_q_PointShadowMap, normal, worldSpacePosition);
+		}
 
+		shadow = 1.0f - shadow;
 
 		// Rays
 		float raysShadow = 1.0f;
@@ -170,14 +216,9 @@ void main()
 	
 		
 		
-		result += (ambient + shadow * (diffuse + specular)) * color * raysShadow;
+		result += (ambient + shadow * diffuse) * color;
 
-	//	vec4 projSpacePosition = matrices.projection * vec4(viewSpacePosition, 1.0f);
-	//	projSpacePosition /= projSpacePosition.w;
-
-	//	result -= (ambient + shadow * (diffuse + specular)) * color * raysShadow;
-	//	result += (light.ambient * materialAmbient + shadow * (diffuse + specular)) * color * raysShadow;
 	}
-	
+
 	FragColor = vec4(result, 1.0f);
 }

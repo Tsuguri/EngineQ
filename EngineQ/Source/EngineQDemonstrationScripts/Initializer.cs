@@ -39,9 +39,10 @@ namespace QScripts
 
 			// Skull
 			var skull = scene.CreateEntity(true, "Skull");
+			skull.Transform.Position = new Vector3(0);
 			var skullRenderable = skull.AddComponent<Renderable>();
 			skullRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
-			//	skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
+			//skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
 			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Horse");
 
 			skullRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
@@ -113,7 +114,13 @@ namespace QScripts
 			// Light1
 			var light1 = scene.CreateEntity(true, "Light1");
 
+
 			var light1light = light1.AddComponent<Light>();
+			light1light.Type = LightType.Sun;
+			light1light.Range = 15.0f;
+			light1light.TextureSize = new Vector2i(2048);
+
+			light1.AddComponent<LightController>();
 
 			var light1renderable = light1.AddComponent<Renderable>();
 			light1renderable.UseDeferredShader(lightsDeferredShader);
@@ -130,6 +137,26 @@ namespace QScripts
 
 			light1.Transform.Scale = new Vector3(0.4f);
 
+			var light2 = scene.CreateEntity(true, "Light2");
+			var light2light = light2.AddComponent<Light>();
+			light2light.Type = LightType.Point;
+
+			var light2renderable = light2.AddComponent<Renderable>();
+			light2renderable.UseDeferredShader(lightsDeferredShader);
+			light2renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
+			light2renderable.Mesh = lightsMesh;
+			light2renderable.CastShadows = false;
+
+
+
+			var light2script = light2.AddComponent<LightRotateScript>();
+			light2script.RotationPoint = new Vector3(0.0f, 3.0f, 0.0f);
+			light2script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
+			light2script.RotationSpeed = 0.3f;
+			light2script.Radius = 3.0f;
+			light2script.InitialRotation = -4.0f;
+
+			light2.Transform.Scale = new Vector3(0.4f);
 			/*
 			//Light2
 			var light2 = scene.CreateEntity(true, "Light2");
@@ -247,6 +274,7 @@ namespace QScripts
 			resourceManager.RegisterResource<Shader>("BloomHorizontalBlur", "./Shaders/Bloom/BlurHorizontal.qres");
 			resourceManager.RegisterResource<Shader>("Combine", "./Shaders/Combine.qres");
 			resourceManager.RegisterResource<Shader>("LightDepthRender", "./Shaders/Shadows/DepthRender.qres");
+			resourceManager.RegisterResource<Shader>("LightDepthRenderPoint", "./Shaders/Shadows/DepthRenderPoint.qres");
 			resourceManager.RegisterResource<Shader>("DeferredLightingShadows", "./Shaders/Deferred/DeferredLightningShadows.qres");
 
 			resourceManager.RegisterResource<Shader>("SSAO", "./Shaders/SSAO/SSAO.qres");

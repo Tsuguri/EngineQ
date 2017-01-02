@@ -108,7 +108,15 @@ namespace EngineQ
 			this->width = width;
 			this->height = height ;
 			glBindTexture(GL_TEXTURE_2D, this->textureId);
-			glTexImage2D(GL_TEXTURE_2D, 0, configuration.InternalFormat, this->width * configuration.SizeMultiplier, this->height* configuration.SizeMultiplier, 0, configuration.Format, configuration.DataType, nullptr);
+			glTexImage2D(GL_TEXTURE_2D, 0, configuration.InternalFormat, static_cast<GLsizei>(this->width * configuration.SizeMultiplier), static_cast<GLsizei>(this->height* configuration.SizeMultiplier), 0, configuration.Format, configuration.DataType, nullptr);
+		
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, configuration.MinFilter);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, configuration.MagFilter);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, configuration.WrapS);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, configuration.WrapT);
+
+			if (configuration.setBorderColor)
+				glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, configuration.borderCorlor.data());
 		}
 
 		int Texture::GetWidth() const

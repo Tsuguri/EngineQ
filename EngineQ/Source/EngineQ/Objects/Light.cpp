@@ -42,11 +42,13 @@ namespace EngineQ
 		if (textureSize != size)
 		{
 			textureSize = size;
-			if (!ResizeEventIsEmpty())
-			{
-				ResizeEventInvoke(size.X, size.Y);
-			}
+			Init(this);
 		}
+	}
+
+	Math::Vector2i Light::GetShadowTextureSize() const
+	{
+		return textureSize;
 	}
 
 	Math::Vector3 Light::GetPosition()
@@ -69,17 +71,9 @@ namespace EngineQ
 		return shaderProperties.get();
 	}
 
-	bool Light::GetCastShadows()
+	bool Light::GetCastShadows() const
 	{
 		return castShadows;
-	}
-
-	void Graphics::Shadows::Light::SetLightType(Type type)
-	{
-		if (this->type != type)
-		{
-			this->type = type;
-		}
 	}
 
 	void Light::SetCastShadows(bool val)
@@ -92,5 +86,38 @@ namespace EngineQ
 	{
 		Init(static_cast<Graphics::ScreenDataProvider*>(this));
 		shaderProperties = std::make_unique<EngineShaderProperties>(this->scriptEngine, entity.GetScene().GetEngine()->GetResourceManager().GetResource<Graphics::Shader>("LightDepthRender") );
+	}
+
+	Light::~Light()
+	{
+		Logger::LogMessage("Destroying Light\n");
+		UnsubscribeFromResize();
+	}
+
+	void Light::SetLightType(Type type)
+	{
+
+		if (type != this->GetLightType())
+		{
+			std::string str;
+			switch (type)
+			{
+			case EngineQ::Graphics::Shadows::Light::Type::Directional:
+				str = "LightDepthRender";
+				break;
+			case EngineQ::Graphics::Shadows::Light::Type::Point:
+				str = "LightDepthRenderPoint";
+				break;
+			case EngineQ::Graphics::Shadows::Light::Type::Spot:
+				str = "LightDepthRenderSpot";//to do
+				break;
+			default:
+				break;
+			}
+			shaderProperties = std::make_unique<EngineShaderProperties>(this->scriptEngine, entity.GetScene().GetEngine()->GetResourceManager().GetResource<Graphics::Shader>(str));
+
+		}
+		Graphics::Shadows::Light::SetLightType(type);
+
 	}
 }
