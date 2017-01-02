@@ -10,5 +10,5 @@ void main()
     vec4 modelPos = matrices.model * vec4(position, 1.0f);
     pos = modelPos.xyz;
     gl_Position = matrices.view * modelPos;
-    gl_Position.y = -gl_Position.y;
+    gl_Position.x = -gl_Position.x;
 }

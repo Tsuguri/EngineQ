@@ -5,6 +5,7 @@
 #include "PointShadowCaster.hpp"
 #include "EngineQRenderer/Graphics/Framebuffer.hpp"
 #include "Light.hpp"
+#include "EngineQCommon/Math/Quaternion.hpp"
 
 
 namespace EngineQ
@@ -29,16 +30,16 @@ namespace EngineQ
 				};
 				static const Math::Vector3 ups[6] =
 				{
-					Math::Vector3(0.0f, 1.0f, 0.0f),
 					Math::Vector3(0.0f, -1.0f, 0.0f),
-					Math::Vector3(0.0f, 0.0f, -1.0f),
+					Math::Vector3(0.0f, -1.0f, 0.0f),
+					Math::Vector3(0.0f, 0.0f, 1.0f),
 					Math::Vector3(0.0f, 0.0f, -1.0f),
 					Math::Vector3(0.0f, -1.0f, 0.0f),
 					Math::Vector3(0.0f, -1.0f, 0.0f)
 				};
 				static const Math::Matrix4 mat = Math::Matrix4::CreateFrustum(Math::Utils::DegToRad(90.0f), 1, nearPlane, farPlane);
 
-				return mat * Math::Matrix4::CreateLookAt(light->GetPosition(), directions[face], ups[face]).GetTransposed();
+				return mat * Math::Matrix4::CreateLookAt(light->GetPosition(), light->GetPosition() + directions[face], ups[face]).GetTransposed();
 			}
 
 			void PointShadowCaster::DrawFace(const std::vector<Renderable*>& renderables, ShaderProperties* shader, Light* light, int i)
@@ -109,7 +110,7 @@ namespace EngineQ
 			{
 				
 
-				for (int i = 0; i<1; i++)
+				for (int i = 0; i<6; i++)
 					DrawFace(renderables, shader, light, i);
 			}
 

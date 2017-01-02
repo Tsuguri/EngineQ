@@ -149,7 +149,7 @@ namespace QScripts
 			var light2 = scene.CreateEntity(true, "Light2");
 			var light2light = light2.AddComponent<Light>();
 			light2light.Type = LightType.Point;
-			light2.Transform.Position = new Vector3(-2, 1.0f,0.5f);
+			light2.Transform.Position = new Vector3(-2, 1.0f, 0.5f);
 
 			var light2renderable = light2.AddComponent<Renderable>();
 			light2renderable.UseDeferredShader(lightsDeferredShader);
