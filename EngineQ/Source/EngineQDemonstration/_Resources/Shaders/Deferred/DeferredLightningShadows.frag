@@ -14,8 +14,6 @@ uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gColorSpecular;
 
-uniform sampler2D testShadow;
-
 uniform sampler2D ssaoTexture;
 
 mat4 invView = inverse(matrices.view);
@@ -29,17 +27,14 @@ float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 norma
 		return 0.0f;
 	
 	vec4 fragPosLightSpace = light.lightMatrix * vec4(position, 1.0);
-
 	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-
-    // Transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
-    // Get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
-
+	    
 	float currentDepth = projCoords.z;
-
-	const float samples = 4.0f;
 	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f);  
+
+	// PCF
+	const float samples = 4.0f;
 	vec2 offset = 10.0f / textureSize(shadowMap, 0);//(1.0f + (length(position)/30.0f))/ 25.0f;
 	vec2 pcfStep = 2.0f * offset / samples;
 
@@ -66,24 +61,26 @@ float PointShadowCalculations(Light light, samplerCube shadowMap, vec3 normal, v
 
 	float currentDepth = length(fragToLight);
 	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f); 
+
+	// PCF
 	const float samples = 3.0f;
 	float offset = (1.0f + (currentDepth / light.farPlane)) / 25.0f;
 	float pcfStep = 2.0f * offset / samples;	
-	float shadow = 0.0f;
 
-	for(float x = -offset; x <= offset; x += pcfStep)
+	float shadow = 0.0f;
+	for(float x = -offset; x < offset; x += pcfStep)
 	{
-		for(float y = -offset; y <= offset; y += pcfStep)
+		for(float y = -offset; y < offset; y += pcfStep)
 		{
-			for(float z = -offset; z <= offset; z += pcfStep)
+			for(float z = -offset; z < offset; z += pcfStep)
 			{
 				float closestDepth = texture(shadowMap, fragToLight + vec3(x,y,z)).r;
 				shadow += (currentDepth - bias > closestDepth) ? 1.0f : 0.0f;
 			}
 		}
 	}
-
 	shadow *= 1.0f / (samples * samples * samples);
+
 	return shadow;
 }
 
@@ -93,13 +90,9 @@ float IsPointInShadow(Light light, sampler2D shadowMap, vec3 position)
 		return 0.0f;
 
 	vec4 fragPosLightSpace = light.lightMatrix * vec4(position, 1.0);
-
 	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-
-    // Transform to [0,1] range
-    projCoords = projCoords * 0.5 + 0.5;
-    // Get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
-
+	projCoords = projCoords * 0.5 + 0.5;
+    
 	float currentDepth = projCoords.z;
 	const float bias = 0.0005f;
 
@@ -139,14 +132,24 @@ float SamplePoint(Light light, sampler2D shadowMap, vec3 viewSpacePosition)
 void main()
 {
 	// Extract information from G-Buffer
-	vec3 worldSpacePosition =  texture(gPosition, IN.textureCoords).xyz;//(invView * vec4(viewSpacePosition, 1.0f)).xyz;
-	vec3 viewSpacePosition = (matrices.view * vec4(worldSpacePosition, 1.0f)).xyz;
-
 	vec3 color = texture(gColorSpecular, IN.textureCoords).rgb;
 	float materialSpecular = texture(gColorSpecular, IN.textureCoords).a;
+
+	// World space G-Buffer
+	//	vec3 worldSpacePosition = texture(gPosition, IN.textureCoords).xyz;
+	//	vec3 viewSpacePosition = (matrices.view * vec4(worldSpacePosition, 1.0f)).xyz;
+	//	
+	//	vec3 worldSpaceNormal = normalize(texture(gNormal, IN.textureCoords).xyz);
+	//	vec3 viewSpaceNormal = normalize(mat3(transpose(invView)) * worldSpaceNormal);
 	
-	vec3 normal = normalize(texture(gNormal, IN.textureCoords).rgb);
+	// View space G-Buffer
+	vec3 viewSpacePosition = texture(gPosition, IN.textureCoords).xyz;
+	vec3 worldSpacePosition = (invView * vec4(viewSpacePosition, 1.0f)).xyz;
 	
+	vec3 viewSpaceNormal = normalize(texture(gNormal, IN.textureCoords).xyz);
+	vec3 worldSpaceNormal = normalize(mat3(transpose(matrices.view)) * viewSpaceNormal);
+
+
 	float ambientOcclusion = texture(ssaoTexture, IN.textureCoords).r;
 
 	// TODO
@@ -154,9 +157,8 @@ void main()
 	const float materialShininess = 32;
 
 
+	// Lighting
 	vec3 result = vec3(0.0f);
-
-	// Directional lights
 	for(int i = 0; i < lightCount; ++i)
 	{
 		Light light = lights[i];
@@ -165,59 +167,62 @@ void main()
 		vec3 lightDir;
 		float strength = 1.0f;
 
-		if( light.type==0)
+		if (light.type == 0)
+		{
 			lightDir = normalize(-light.direction);
+		}
 		else
 		{
-			lightDir = normalize (light.position - worldSpacePosition);
+			lightDir = normalize(light.position - worldSpacePosition);
 			strength = 3.0f / length(worldSpacePosition - light.position);
 		}
+
 		// Ambient
-		vec3 ambient = light.ambient * materialAmbient * 0.1f;
+		vec3 ambient = light.ambient * materialAmbient;
 
 		// Diffuse
-		float lightMultiplier = max(dot(normal, lightDir), 0.0f);
-		vec3 diffuse = lightMultiplier * light.diffuse; /* TMP */ //* 10.0f;
+		float lightMultiplier = max(dot(worldSpaceNormal, lightDir), 0.0f);
+		vec3 diffuse = lightMultiplier * light.diffuse;
 
 		// Specular
 		vec3 viewDir = normalize(-viewSpacePosition);
 		vec3 halfwayDir = normalize(lightDir + viewDir);
-		float spec = pow(max(dot(normal, halfwayDir), 0.0), materialShininess);
+		float spec = pow(max(dot(worldSpaceNormal, halfwayDir), 0.0), materialShininess);
 		vec3 specular = light.specular * spec * materialSpecular;
 
 		// Shadows
 		float shadow = 1.0f;
+		float raysShadow = 1.0f;
+		
+		// Directional lights
 		if (light.type == 0)
 		{
-				 if(i == 0) shadow = DirectionalShadowCalculations(light, lights_q_0_q_DirectionalShadowMap, normal, worldSpacePosition);
-			else if(i == 1) shadow = DirectionalShadowCalculations(light, lights_q_1_q_DirectionalShadowMap, normal, worldSpacePosition);
-			else if(i == 2) shadow = DirectionalShadowCalculations(light, lights_q_2_q_DirectionalShadowMap, normal, worldSpacePosition);
-			else if(i == 3) shadow = DirectionalShadowCalculations(light, lights_q_3_q_DirectionalShadowMap, normal, worldSpacePosition);
+				 if(i == 0) shadow = DirectionalShadowCalculations(light, lights_q_0_q_DirectionalShadowMap, worldSpaceNormal, worldSpacePosition);
+			else if(i == 1) shadow = DirectionalShadowCalculations(light, lights_q_1_q_DirectionalShadowMap, worldSpaceNormal, worldSpacePosition);
+			else if(i == 2) shadow = DirectionalShadowCalculations(light, lights_q_2_q_DirectionalShadowMap, worldSpaceNormal, worldSpacePosition);
+			else if(i == 3) shadow = DirectionalShadowCalculations(light, lights_q_3_q_DirectionalShadowMap, worldSpaceNormal, worldSpacePosition);
+
+			     if(i == 0) raysShadow = SamplePoint(light, lights_q_0_q_DirectionalShadowMap, viewSpacePosition);
+			else if(i == 1) raysShadow = SamplePoint(light, lights_q_1_q_DirectionalShadowMap, viewSpacePosition);
+			else if(i == 2) raysShadow = SamplePoint(light, lights_q_2_q_DirectionalShadowMap, viewSpacePosition);
+			else if(i == 3) raysShadow = SamplePoint(light, lights_q_3_q_DirectionalShadowMap, viewSpacePosition);
 		}
+		// Point lights
 		else if (light.type == 1)
 		{
-				 if(i == 0) shadow = PointShadowCalculations(light, lights_q_0_q_PointShadowMap, normal, worldSpacePosition);
-			else if(i == 1) shadow = PointShadowCalculations(light, lights_q_1_q_PointShadowMap, normal, worldSpacePosition);
-			else if(i == 2) shadow = PointShadowCalculations(light, lights_q_2_q_PointShadowMap, normal, worldSpacePosition);
-			else if(i == 3) shadow = PointShadowCalculations(light, lights_q_3_q_PointShadowMap, normal, worldSpacePosition);
+				 if(i == 0) shadow = PointShadowCalculations(light, lights_q_0_q_PointShadowMap, worldSpaceNormal, worldSpacePosition);
+			else if(i == 1) shadow = PointShadowCalculations(light, lights_q_1_q_PointShadowMap, worldSpaceNormal, worldSpacePosition);
+			else if(i == 2) shadow = PointShadowCalculations(light, lights_q_2_q_PointShadowMap, worldSpaceNormal, worldSpacePosition);
+			else if(i == 3) shadow = PointShadowCalculations(light, lights_q_3_q_PointShadowMap, worldSpaceNormal, worldSpacePosition);
+
+			raysShadow = 0.0f;
 		}
 
 		shadow = 1.0f - shadow;
-
-		// Rays
-		float raysShadow = 1.0f;
-		     if(i == 0) raysShadow = SamplePoint(light, lights_q_0_q_DirectionalShadowMap, viewSpacePosition);
-		else if(i == 1) raysShadow = SamplePoint(light, lights_q_1_q_DirectionalShadowMap, viewSpacePosition);
-		else if(i == 2) raysShadow = SamplePoint(light, lights_q_2_q_DirectionalShadowMap, viewSpacePosition);
-		else if(i == 3) raysShadow = SamplePoint(light, lights_q_3_q_DirectionalShadowMap, viewSpacePosition);
-		
-		float raysMultiplier = 1.0f;//viewSpacePosition.z * viewSpacePosition.z;
+		float raysMultiplier = 1.0f; //viewSpacePosition.z * viewSpacePosition.z;
 		raysShadow = (1.0f - raysShadow * raysMultiplier);
-	
 		
-		
-		result += (ambient + shadow * diffuse) * color;
-
+		result += (ambient + shadow * (diffuse + specular)) * color * raysShadow * ambientOcclusion;
 	}
 
 	FragColor = vec4(result, 1.0f);

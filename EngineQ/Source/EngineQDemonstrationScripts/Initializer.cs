@@ -46,59 +46,51 @@ namespace QScripts
 			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Horse");
 
 			skullRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
-			skullRenderable.DeferredShader.Material.Specular = new Vector3f(5.0f);
+			skullRenderable.DeferredShader.Material.Specular = new Vector3f(15.0f);
+
+			var skullCollider = skull.AddComponent<CapsuleCollider>();
 
 			//	skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
 			//	skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
 
 
 			// Floor
-			var floor = scene.CreateEntity(true, "Floor");
-
-			var floorRenderable = floor.AddComponent<Renderable>();
-			floorRenderable.Mesh = resourceManager.GetResource<Mesh>("EngineQ/Quad");
-			floorRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
-
-			floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
-			floorRenderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
-
-			floor.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(90.0f));
-			floor.Transform.Scale = new Vector3(7.0f);
-
-
-			for (int i = 0; i < 4; ++i)
+			for (int i = 0; i < 5; ++i)
 			{
-				var floor2 = scene.CreateEntity(true, "Floor");
+				var floor = scene.CreateEntity(true, $"Floor{i}");
 
-				var floor2Renderable = floor2.AddComponent<Renderable>();
-				floor2Renderable.Mesh = resourceManager.GetResource<Mesh>("EngineQ/Quad");
-				floor2Renderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
+				var floorRenderable = floor.AddComponent<Renderable>();
+				floorRenderable.Mesh = resourceManager.GetResource<Mesh>("EngineQ/Quad");
+				floorRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
 
-				floor2Renderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
-				floor2Renderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
+				floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
+				floorRenderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
 
-				//	floor2.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(90.0f));
-				floor2.Transform.Scale = new Vector3(7.0f);
+				floor.Transform.Scale = new Vector3(7.0f);
 
 				switch (i)
 				{
 					case 0:
-						floor2.Transform.Position = new Vector3(0.0f, 3.5f, 3.5f);
+						floor.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(90.0f));
 						break;
 
 					case 1:
-						floor2.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(90));
-						floor2.Transform.Position = new Vector3(3.5f, 3.5f, 0.0f);
+						floor.Transform.Position = new Vector3(0.0f, 3.5f, 3.5f);
 						break;
 
 					case 2:
-						floor2.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(-90));
-						floor2.Transform.Position = new Vector3(-3.5f, 3.5f, 0.0f);
+						floor.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(90));
+						floor.Transform.Position = new Vector3(3.5f, 3.5f, 0.0f);
 						break;
 
 					case 3:
-						floor2.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(180));
-						floor2.Transform.Position = new Vector3(0.0f, 3.5f, -3.5f);
+						floor.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(-90));
+						floor.Transform.Position = new Vector3(-3.5f, 3.5f, 0.0f);
+						break;
+
+					case 4:
+						floor.Transform.Rotation = Quaternion.CreateRotationY(Utils.DegToRad(180));
+						floor.Transform.Position = new Vector3(0.0f, 3.5f, -3.5f);
 						break;
 				}
 			}
@@ -107,58 +99,61 @@ namespace QScripts
 
 			// Lights
 			var lightsDeferredShader = resourceManager.GetResource<Shader>("LightDeferred");
-			var lightsDeferredShader2 = resourceManager.GetResource<Shader>("LightDeferred");
 			var lightsMesh = resourceManager.GetResource<Mesh>("EngineQ/Cube");
-			var lightsMesh2 = resourceManager.GetResource<Mesh>("EngineQ/Cube");
+
 
 			// Light1
 			var light1 = scene.CreateEntity(true, "Light1");
-
-
+			
 			var light1light = light1.AddComponent<Light>();
 			light1light.Type = LightType.Sun;
 			light1light.Range = 15.0f;
 			light1light.TextureSize = new Vector2i(2048);
+			light1light.AmbientColor = new Vector3(0.1f);
+			light1light.SpecularColor = new Vector3(1.0f);
 
 			light1.AddComponent<LightController>();
-
+		
 			var light1renderable = light1.AddComponent<Renderable>();
 			light1renderable.UseDeferredShader(lightsDeferredShader);
 			light1renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
 			light1renderable.Mesh = lightsMesh;
 			light1renderable.CastShadows = false;
-
+		
 			var light1script = light1.AddComponent<LightRotateScript>();
 			light1script.RotationPoint = new Vector3(0.0f, 4.0f, 0.0f);
 			light1script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
 			light1script.RotationSpeed = 0.6f;
 			light1script.Radius = 4.0f;
 			light1script.InitialRotation = -2.0f;
-
+		
 			light1.Transform.Scale = new Vector3(0.4f);
 
+
+			//Light2
 			var light2 = scene.CreateEntity(true, "Light2");
 			var light2light = light2.AddComponent<Light>();
 			light2light.Type = LightType.Point;
-
+			light2light.TextureSize = new Vector2i(2048);
+			light2light.AmbientColor = new Vector3(0.1f);
+		
 			var light2renderable = light2.AddComponent<Renderable>();
 			light2renderable.UseDeferredShader(lightsDeferredShader);
 			light2renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
 			light2renderable.Mesh = lightsMesh;
 			light2renderable.CastShadows = false;
-
-
-
+			
 			var light2script = light2.AddComponent<LightRotateScript>();
 			light2script.RotationPoint = new Vector3(0.0f, 3.0f, 0.0f);
 			light2script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
 			light2script.RotationSpeed = 0.3f;
 			light2script.Radius = 3.0f;
 			light2script.InitialRotation = -4.0f;
-
+		
 			light2.Transform.Scale = new Vector3(0.4f);
+			
+
 			/*
-			//Light2
 			var light2 = scene.CreateEntity(true, "Light2");
 
 			var light2light = light2.AddComponent<Light>();

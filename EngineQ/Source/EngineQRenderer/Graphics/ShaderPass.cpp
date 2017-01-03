@@ -73,12 +73,8 @@ namespace EngineQ
 			else
 			{
 				inputTextures.push_back(input);
-				auto prop = shaderProperties->TryGetProperty<Resources::Resource<Texture>>(input.Name);
-				if (prop != nullval)
-				{
-					*prop = input.texture;
-
-				}
+				auto prop = shaderProperties->GetProperty<Resources::Resource<Texture>>(input.Name);
+				prop = input.texture;
 			}
 		}
 

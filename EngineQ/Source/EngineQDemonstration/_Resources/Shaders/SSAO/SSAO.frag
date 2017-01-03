@@ -35,8 +35,7 @@ void main()
 	vec3 bitangent = cross(normal, tangent);
 	mat3 TBN = mat3(tangent, bitangent, normal);
 
-	const float bias = 0.0f;//0.05f;
-	
+
 	float occlusion = 0.0f;
 	for(int i = 0; i < kernelSize; ++i)
 	{
@@ -56,7 +55,7 @@ void main()
 
 		// Range check and accumulate
 		float rangeCheck = smoothstep(0.0f, 1.0f, radius / abs(origin.z - sampleDepth));
-		occlusion += (sampleDepth <= sample.z - bias ? 1.0f : 0.0f) * rangeCheck;
+		occlusion += (sampleDepth <= sample.z ? 1.0f : 0.0f) * rangeCheck;
 	}
 	
 	occlusion = 1.0f - (occlusion / kernelSize);
