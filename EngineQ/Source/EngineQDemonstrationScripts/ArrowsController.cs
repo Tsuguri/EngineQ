@@ -85,6 +85,8 @@ namespace QScripts
 
 		private Vector3 arrowDir;
 
+		private Transform transform;
+
 		private void ArrowPressAction(Input.MouseButton button, Input.KeyAction action)
 		{
 			if(action == Input.KeyAction.Press)
@@ -168,6 +170,11 @@ namespace QScripts
 					Vector3 diffInDirection = Project(diff, arrowDir);
 
 					this.Transform.GlobalPosition = this.initialPosition + diffInDirection;
+
+					if(transform != null)
+					{
+						transform.GlobalPosition = this.transform.GlobalPosition;
+					}
 				}
 			}
 		}
@@ -176,6 +183,11 @@ namespace QScripts
 		{
 			to.Normalize();
 			return to * Vector3.DotProduct(vector, to);
+		}
+
+		public void SetTransform(Transform transform)
+		{
+			this.transform = transform;
 		}
 	}
 }

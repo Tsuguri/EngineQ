@@ -35,6 +35,8 @@ namespace QScripts
 			cameraMove.MoveSpeed = 3.0f;
 
 			camera.AddComponent<TesterScript>();
+			var colliderPicker = camera.AddComponent<ColliderPicker>();
+			colliderPicker.Initialize(cameraComponent);
 
 
 			// Skull
@@ -50,9 +52,13 @@ namespace QScripts
 
 			var skullCollider = skull.AddComponent<CapsuleCollider>();
 
-			//	skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
-			//	skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
-
+		//	skullCollider.Height = 2.0f;
+		//	skullCollider.Position = new Vector3(0.0f, 2.0f, 0.0f);
+		//	skullCollider.Rotation = Quaternion.CreateFromEuler(1.3f, 0.1f, -2.2f);
+		//
+		//	skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
+		//	skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
+		//	skull.Transform.Scale = new Vector3(0.2f, 1.2f, 2.0f);
 
 			// Floor
 			for (int i = 0; i < 5; ++i)

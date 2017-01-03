@@ -85,7 +85,7 @@ namespace QScripts
 			capsuleEntity.Transform.Rotation = this.Rotation;
 			capsuleEntity.Transform.Position = this.Position;
 			
-			capsuleRenderable = capsuleEntity.AddComponent<Renderable>();
+			capsuleRenderable = capsuleEntity.AddComponent<Renderable>(false);
 			capsuleRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
 			capsuleRenderable.Mesh = PrefabGenerator.GenerateCapsule(this.Height, this.Radius);
 		}
@@ -102,9 +102,9 @@ namespace QScripts
 			var height = this.Height * 0.5f;
 			var point1 = this.Rotation * new Vector3(0.0f, height, 0.0f);
 			var point2 = this.Rotation * new Vector3(0.0f, -height, 0.0f);
-
+			
 			var capsule = new Capsule(point1, point2, this.Radius);
-
+			
 			return Utils.RayCapsuleIntersection(capsule, ray, out distance);
 		}
 	}
