@@ -116,6 +116,7 @@ namespace QScripts
 			light1light.Range = 15.0f;
 			light1light.TextureSize = new Vector2i(2048);
 			light1light.AmbientColor = new Vector3(0.1f);
+			light1light.DiffuseColor = new Vector3(2.0f);
 			light1light.SpecularColor = new Vector3(1.0f);
 
 			light1.AddComponent<LightController>();
@@ -142,6 +143,7 @@ namespace QScripts
 			light2light.Type = LightType.Point;
 			light2light.TextureSize = new Vector2i(2048);
 			light2light.AmbientColor = new Vector3(0.1f);
+			light2light.DiffuseColor = new Vector3(0.4f);
 		
 			var light2renderable = light2.AddComponent<Renderable>();
 			light2renderable.UseDeferredShader(lightsDeferredShader);

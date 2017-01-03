@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Config>
 	<Mono Directory="./" />
-	<Window Name="EngineQ Application" Width="400" Height="300"/>
+	<Window Name="EngineQ Application" Width="1280" Height="720"/>
 	
 	<EngineAssembly Path="./EngineQ.dll" />
 	
