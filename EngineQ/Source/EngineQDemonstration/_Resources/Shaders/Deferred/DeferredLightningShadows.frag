@@ -31,7 +31,7 @@ float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 norma
     projCoords = projCoords * 0.5 + 0.5;
 	    
 	float currentDepth = projCoords.z;
-	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f);  
+	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f) * 0.1f;  
 
 	// PCF
 	const float samples = 8.0f;

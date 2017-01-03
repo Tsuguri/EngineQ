@@ -173,7 +173,7 @@ namespace QScripts
 
 					if(transform != null)
 					{
-						transform.GlobalPosition = this.transform.GlobalPosition;
+						transform.GlobalPosition = this.Transform.GlobalPosition;
 					}
 				}
 			}

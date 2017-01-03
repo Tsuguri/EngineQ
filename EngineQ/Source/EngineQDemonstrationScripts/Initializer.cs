@@ -29,12 +29,14 @@ namespace QScripts
 			scene.ActiveCamera = cameraComponent;
 			cameraComponent.FieldOfView = 70.0f;
 
-			camera.Transform.Position = new Vector3(4, 2.0f, -6.0f);
-			camera.Transform.Rotation = Quaternion.CreateLookAt(camera.Transform.Position, Vector3.Zero, Vector3.Up);
+			//	camera.Transform.Position = new Vector3(4, 2.0f, -6.0f);
+		//	camera.Transform.Rotation = Quaternion.CreateLookAt(camera.Transform.Position, Vector3.Zero, Vector3.Up);
+			camera.Transform.Position = new Vector3(0.0f, 1.5f, -3.0f);
+			camera.Transform.Rotation = Quaternion.CreateLookAt(camera.Transform.Position, new Vector3(0.0f, 1.5f, 0.0f), Vector3.Up);
 			var cameraMove = camera.AddComponent<CameraMoveClass>();
 			cameraMove.MoveSpeed = 3.0f;
 
-			camera.AddComponent<TesterScript>();
+			camera.AddComponent<OptionChanger>();
 			var colliderPicker = camera.AddComponent<ColliderPicker>();
 			colliderPicker.Initialize(cameraComponent);
 
