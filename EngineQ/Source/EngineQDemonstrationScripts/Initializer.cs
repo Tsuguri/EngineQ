@@ -40,6 +40,8 @@ namespace QScripts
 			var colliderPicker = camera.AddComponent<ColliderPicker>();
 			colliderPicker.Initialize(cameraComponent);
 
+			camera.AddComponent<PerformanceTest>();
+
 
 			// Skull
 			var skull = scene.CreateEntity(true, "Skull");

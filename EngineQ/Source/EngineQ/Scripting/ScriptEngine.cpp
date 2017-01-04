@@ -89,6 +89,26 @@ namespace EngineQ
 			return mono_object_get_virtual_method(object, foundMethod);
 		}
 
+
+		// TMP
+		void API_Mul1(float num, float& res) { res = num * num; }
+		void API_Mul2(float num, float& res) { res = num * num * num; }
+		void API_Mul3(float num, float& res) { res = num * num * num * num; }
+		void API_Mul4(float num, float& res) { res = num * num * num * num * num; }
+		void API_Mul5(float num, float& res) { res = num * num * num * num * num * num; }
+		void API_Mul6(float num, float& res) { res = num * num * num * num * num * num * num; }
+		void API_Mul7(float num, float& res) { res = num * num * num * num * num * num * num * num; }
+
+		void API_Add1(float num, float& res) { res = num + num; }
+		void API_Add2(float num, float& res) { res = num + num + num; }
+		void API_Add3(float num, float& res) { res = num + num + num + num; }
+		void API_Add4(float num, float& res) { res = num + num + num + num + num; }
+		void API_Add5(float num, float& res) { res = num + num + num + num + num + num; }
+		void API_Add6(float num, float& res) { res = num + num + num + num + num + num + num; }
+		void API_Add7(float num, float& res) { res = num + num + num + num + num + num + num + num; }
+
+
+
 		ScriptEngine::ScriptEngine(const char* name, const char* assemblyPath, const char* libPath, const char* configPath)
 		{
 			mono_set_dirs(libPath, configPath);
@@ -160,6 +180,25 @@ namespace EngineQ
 			API_ShaderProperties::API_Register(*this);
 			API_EffectController::API_Register(*this);
 			API_PrefabGenerator::API_Register(*this);
+
+
+
+			// TMP
+			this->API_Register("QScripts.PerformanceTest::API_Mul1", API_Mul1);
+			this->API_Register("QScripts.PerformanceTest::API_Mul2", API_Mul2);
+			this->API_Register("QScripts.PerformanceTest::API_Mul3", API_Mul3);
+			this->API_Register("QScripts.PerformanceTest::API_Mul4", API_Mul4);
+			this->API_Register("QScripts.PerformanceTest::API_Mul5", API_Mul5);
+			this->API_Register("QScripts.PerformanceTest::API_Mul6", API_Mul6);
+			this->API_Register("QScripts.PerformanceTest::API_Mul7", API_Mul7);
+
+			this->API_Register("QScripts.PerformanceTest::API_Add1", API_Add1);
+			this->API_Register("QScripts.PerformanceTest::API_Add2", API_Add2);
+			this->API_Register("QScripts.PerformanceTest::API_Add3", API_Add3);
+			this->API_Register("QScripts.PerformanceTest::API_Add4", API_Add4);
+			this->API_Register("QScripts.PerformanceTest::API_Add5", API_Add5);
+			this->API_Register("QScripts.PerformanceTest::API_Add6", API_Add6);
+			this->API_Register("QScripts.PerformanceTest::API_Add7", API_Add7);
 		}
 
 		ScriptEngine::~ScriptEngine()
