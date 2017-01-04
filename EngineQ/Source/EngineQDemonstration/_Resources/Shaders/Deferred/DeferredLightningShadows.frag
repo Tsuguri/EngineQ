@@ -19,7 +19,9 @@ uniform sampler2D ssaoTexture;
 mat4 invView = inverse(matrices.view);
 mat4 invProjection = inverse(matrices.projection);
 
-
+//#define PCF
+//#define GOD_RAYS
+#define SSAO
 
 float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 normal, vec3 position)
 {
@@ -33,7 +35,8 @@ float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 norma
 	float currentDepth = projCoords.z;
 	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f) * 0.1f;  
 
-	// PCF
+	
+#ifdef PCF
 	const float samples = 8.0f;
 	vec2 offset = 8.0f / textureSize(shadowMap, 0);//(1.0f + (length(position)/30.0f))/ 25.0f;
 	vec2 pcfStep = 2.0f * offset / samples;
@@ -43,11 +46,15 @@ float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 norma
 	{
 		for(float y = -offset.y; y < offset.y; y += pcfStep.y)
 		{
-			float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y)).r; 
-			shadow += (currentDepth - bias > pcfDepth) ? 1.0f : 0.0f;
+			float closestDepth = texture(shadowMap, projCoords.xy + vec2(x, y)).r;
+			shadow += (currentDepth - bias > closestDepth) ? 1.0f : 0.0f;
 		}    
 	}
 	shadow *= 1.0f / (samples * samples);
+#else
+	float closestDepth = texture(shadowMap, projCoords.xy).r; 
+	float shadow = (currentDepth - bias > closestDepth) ? 1.0f : 0.0f;
+#endif
 
 	return (projCoords.z <= 1.0f ? 1.0f : 0.0f) * shadow;
 }
@@ -62,7 +69,7 @@ float PointShadowCalculations(Light light, samplerCube shadowMap, vec3 normal, v
 	float currentDepth = length(fragToLight);
 	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f); 
 
-	// PCF
+#ifdef PCF
 	const float samples = 4.0f;
 	float offset = (1.0f + (currentDepth / light.farPlane)) / 25.0f;
 	float pcfStep = 2.0f * offset / samples;	
@@ -80,6 +87,10 @@ float PointShadowCalculations(Light light, samplerCube shadowMap, vec3 normal, v
 		}
 	}
 	shadow *= 1.0f / (samples * samples * samples);
+#else
+	float closestDepth = texture(shadowMap, fragToLight).r;
+	float shadow = (currentDepth - bias > closestDepth) ? 1.0f : 0.0f;
+#endif
 
 	return shadow;
 }
@@ -104,7 +115,7 @@ float IsPointInShadow(Light light, sampler2D shadowMap, vec3 position)
 
 float SamplePoint(Light light, sampler2D shadowMap, vec3 cameraPosition, float cameraFragmentDistance)
 {
-	const float samples = 128.0f;
+	const float samples = 16.0f;
 
 	const float minDistance = 0.0f;
 	float maxDistance = cameraFragmentDistance;
@@ -147,9 +158,11 @@ void main()
 	vec3 viewSpaceNormal = normalize(texture(gNormal, IN.textureCoords).xyz);
 	vec3 worldSpaceNormal = normalize(mat3(transpose(matrices.view)) * viewSpaceNormal);
 
-
+#ifdef SSAO
 	float ambientOcclusion = texture(ssaoTexture, IN.textureCoords).r;
-
+#else
+	float ambientOcclusion = 1.0f;
+#endif
 
 	// Camera data
 	vec3 cameraPosition = invView[3].xyz;
@@ -214,10 +227,14 @@ void main()
 			else if(i == 2) shadow = DirectionalShadowCalculations(light, lights_q_2_q_DirectionalShadowMap, worldSpaceNormal, worldSpacePosition);
 			else if(i == 3) shadow = DirectionalShadowCalculations(light, lights_q_3_q_DirectionalShadowMap, worldSpaceNormal, worldSpacePosition);
 
+#ifdef GOD_RAYS
 			     if(i == 0) raysShadow = SamplePoint(light, lights_q_0_q_DirectionalShadowMap, cameraPosition, viewDirLength);
 			else if(i == 1) raysShadow = SamplePoint(light, lights_q_1_q_DirectionalShadowMap, cameraPosition, viewDirLength);
 			else if(i == 2) raysShadow = SamplePoint(light, lights_q_2_q_DirectionalShadowMap, cameraPosition, viewDirLength);
 			else if(i == 3) raysShadow = SamplePoint(light, lights_q_3_q_DirectionalShadowMap, cameraPosition, viewDirLength);
+#else
+			raysShadow = 0.0f;
+#endif
 		}
 		// Point lights
 		else if (light.type == 1)

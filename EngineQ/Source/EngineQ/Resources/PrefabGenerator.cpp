@@ -208,18 +208,26 @@ namespace EngineQ
 
 		Resource<Graphics::Texture> PrefabGenerator::GenerateNoiseTexture(int width, int height)
 		{
-			std::random_device rd;
-			std::mt19937 mt(rd());
-			std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
-
+			std::uniform_real_distribution<GLfloat> randomFloats(0.0f, 1.0f);
+			std::default_random_engine generator;
 
 			int size = width * height;
 			std::vector<EngineQ::Math::Vector3f> vectors(size);
 
 			for (auto& vec : vectors)
-				vec = EngineQ::Math::Vector3f(dist(mt), dist(mt), 0.0f).GetNormalized();
+				vec = EngineQ::Math::Vector3f(randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator) * 2.0f - 1.0f, 0.0f).GetNormalized();
 
-			auto resource = Resource<Graphics::Texture>(std::make_unique<EngineQ::Graphics::Texture>(width, height, &(vectors.data()->X)));
+			Graphics::Configuration::TextureConfiguration config;
+
+			config.InternalFormat = GL_RGB16F;
+			config.Format = GL_RGB;
+			config.DataType = GL_FLOAT;
+			config.MinFilter = GL_NEAREST;
+			config.MagFilter = GL_NEAREST;
+			config.WrapS = GL_REPEAT;
+			config.WrapT = GL_REPEAT;
+
+			auto resource = Resource<Graphics::Texture>(std::make_unique<Graphics::Texture>(width, height, config, vectors.data()));
 			this->resourceManager.HoldResource(resource);
 			return resource;
 		}

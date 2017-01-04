@@ -52,7 +52,7 @@ namespace EngineQ
 			configuration.WrapS = configuration.WrapT = GL_REPEAT;
 		}
 
-		void Texture::CreateFromConfiguration(int width, int height, const Configuration::TextureConfiguration& configuration)
+		void Texture::CreateFromConfiguration(int width, int height, const Configuration::TextureConfiguration& configuration, const void* data)
 		{
 			this->resizable = true;
 			this->hasMipmaps = false;
@@ -62,7 +62,7 @@ namespace EngineQ
 
 			glGenTextures(1, &this->textureId);
 			glBindTexture(GL_TEXTURE_2D, this->textureId);
-			glTexImage2D(GL_TEXTURE_2D, 0, configuration.InternalFormat, width * configuration.SizeMultiplier, height * configuration.SizeMultiplier, 0, configuration.Format, configuration.DataType, nullptr);
+			glTexImage2D(GL_TEXTURE_2D, 0, configuration.InternalFormat, width * configuration.SizeMultiplier, height * configuration.SizeMultiplier, 0, configuration.Format, configuration.DataType, data);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, configuration.MinFilter);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, configuration.MagFilter);
@@ -80,20 +80,12 @@ namespace EngineQ
 
 		Texture::Texture(int width, int height, const Configuration::TextureConfiguration& configuration)
 		{
-			this->CreateFromConfiguration(width, height, configuration);
+			this->CreateFromConfiguration(width, height, configuration, nullptr);
 		}
 
-		Texture::Texture(int width, int height, const float* data)
+		Texture::Texture(int width, int height, const Configuration::TextureConfiguration& configuration, const void* data)
 		{
-			glGenTextures(1, &this->textureId);
-			glBindTexture(GL_TEXTURE_2D, this->textureId);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, data);
-
-			// Uses default texture configuration
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, configuration.MinFilter);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, configuration.MagFilter);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, configuration.WrapS);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, configuration.WrapT);
+			this->CreateFromConfiguration(width, height, configuration, data);
 		}
 
 		Texture::~Texture()

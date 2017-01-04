@@ -12,12 +12,12 @@ uniform sampler2D gNormal;
 uniform sampler2D noiseTexture;
 
 const int kernelSize = 64;
-const float radius = 1.0f;
-const float power = 4.0f;
 
 uniform vec3 samples[kernelSize];
 uniform mat4 projection;
 
+uniform float radius = 1.0f;
+uniform float power = 2.0f;
 uniform int screenWidth;
 uniform int screenHeight;
 

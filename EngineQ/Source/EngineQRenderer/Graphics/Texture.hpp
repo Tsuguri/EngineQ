@@ -31,12 +31,12 @@ namespace EngineQ
 
 			void CreateFromFile(const char* filename, bool generateMipmaps);
 			void CreateFromData(int width, int height, const unsigned char* data, bool generateMipmaps);
-			void CreateFromConfiguration(int width, int height, const Configuration::TextureConfiguration& configuration);
+			void CreateFromConfiguration(int width, int height, const Configuration::TextureConfiguration& configuration, const void* data);
 
 		public:
 			Texture(const char* filename, bool generateMipmaps);
 			Texture(int width, int height, const Configuration::TextureConfiguration& configuration);
-			Texture(int width, int height, const float* data);
+			Texture(int width, int height, const Configuration::TextureConfiguration& configuration, const void* data);
 			~Texture();
 
 			void Resize(int width, int height);

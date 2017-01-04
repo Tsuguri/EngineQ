@@ -16,6 +16,9 @@ namespace QScripts
 		private ShaderProperty<int> screenWidthProp;
 		private ShaderProperty<int> screenHeightProp;
 
+		private ShaderProperty<float> radiusProp;
+		private ShaderProperty<float> powerRadius;
+
 		protected override void OnCreate()
 		{
 			var resourceManager = ResourceManager.Instance;
@@ -42,6 +45,7 @@ namespace QScripts
 
 				float scale = (float)i / (float)ssaoKernel.Length;
 				scale = Utils.Lerp(0.1f, 1.0f, scale * scale);
+				sample *= scale;
 				ssaoKernel[i] = sample;
 			}
 
@@ -50,6 +54,15 @@ namespace QScripts
 				var prop = shader.GetProperty<Vector3f>($"samples[{i}]");
 				shader.Set(prop, ssaoKernel[i]);
 			}
+
+
+			var changer = this.Scene.ActiveCamera.Entity.GetComponent<OptionChanger>();
+
+			this.radiusProp = this.Shader.GetProperty<float>("radius");
+			changer.AddOption(new SimpleFloatOption("SSAO Radius", 1.0f, 0.01f, 5.0f, 0.01f, (float value) => { this.Shader.Set(this.radiusProp, value); }));
+
+			this.powerRadius = this.Shader.GetProperty<float>("power");
+			changer.AddOption(new SimpleFloatOption("SSAO Power", 4.0f, 0.1f, 20.0f, 0.1f, (float value) => { this.Shader.Set(this.powerRadius, value); }));
 		}
 
 		protected override void OnBeforeRender()
