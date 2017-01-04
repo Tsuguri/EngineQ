@@ -25,6 +25,7 @@ namespace EngineQ
 			{
 				Integer,
 				Float,
+				Boolean,
 
 				Object,
 				Entity,

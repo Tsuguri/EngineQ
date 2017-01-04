@@ -106,6 +106,58 @@ namespace QScripts
 		}
 	}
 
+	public class SimpleIntOption : BaseOption
+	{
+		public delegate void ChangedHandler(int value);
+
+		private readonly string name;
+		private int value;
+
+		private readonly int minValue;
+		private readonly int maxValue;
+		private readonly int step;
+
+		private readonly ChangedHandler handler;
+
+		public SimpleIntOption(string name, int value, int minValue, int maxValue, int step, ChangedHandler handler)
+		{
+			this.name = name;
+			this.value = value;
+			this.minValue = minValue;
+			this.maxValue = maxValue;
+			this.step = step;
+			this.handler = handler;
+		}
+
+		public override void Changed(int direction)
+		{
+			this.value += step * direction;
+
+			if (this.value < minValue)
+				this.value = minValue;
+			if (this.value > maxValue)
+				this.value = maxValue;
+
+			this.handler(value);
+		}
+
+		public override string Name
+		{
+			get
+			{
+				return this.name;
+			}
+		}
+
+		public override string Value
+		{
+			get
+			{
+				return this.value.ToString();
+			}
+		}
+	}
+
 	public class SimpleBoolOption : BaseOption
 	{
 		public delegate void ChangedHandler(bool value);

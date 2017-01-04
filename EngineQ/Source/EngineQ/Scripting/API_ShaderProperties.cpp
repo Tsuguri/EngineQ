@@ -63,6 +63,10 @@ namespace EngineQ
 			{
 				propertyIndex = shaderProperties.GetPropertyIndex<int>(name);
 			}
+			else if (propertyClass == scriptEngine.GetClass(Class::Boolean))
+			{
+				propertyIndex = shaderProperties.GetPropertyIndex<bool>(name);
+			}
 			else if (propertyClass == scriptEngine.GetClass(Class::Vector3f))
 			{
 				propertyIndex = shaderProperties.GetPropertyIndex<Math::Vector3f>(name);
@@ -99,6 +103,10 @@ namespace EngineQ
 			{
 				scriptEngine.GetValue<int>(value) = shaderProperties.Get<int>(propertyIndex);
 			}
+			else if (propertyClass == scriptEngine.GetClass(Class::Boolean))
+			{
+				scriptEngine.GetValue<bool>(value) = shaderProperties.Get<bool>(propertyIndex);
+			}
 			else if (propertyClass == scriptEngine.GetClass(Class::Vector3f))
 			{
 				scriptEngine.GetValue<Math::Vector3f>(value) = shaderProperties.Get<Math::Vector3f>(propertyIndex);
@@ -134,6 +142,10 @@ namespace EngineQ
 			else if (propertyClass == scriptEngine.GetClass(Class::Integer))
 			{
 				shaderProperties.Set(propertyIndex, scriptEngine.GetValue<int>(value));
+			}
+			else if (propertyClass == scriptEngine.GetClass(Class::Boolean))
+			{
+				shaderProperties.Set(propertyIndex, scriptEngine.GetValue<bool>(value));
 			}
 			else if (propertyClass == scriptEngine.GetClass(Class::Vector3f))
 			{

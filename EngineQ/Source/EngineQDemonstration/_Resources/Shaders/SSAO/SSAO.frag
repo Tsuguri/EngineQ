@@ -11,9 +11,10 @@ uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D noiseTexture;
 
-const int kernelSize = 64;
+const int maxKernelSize = 128;
+uniform int kernelSize = 64;
 
-uniform vec3 samples[kernelSize];
+uniform vec3 samples[maxKernelSize];
 uniform mat4 projection;
 
 uniform float radius = 1.0f;
@@ -55,7 +56,7 @@ void main()
 
 		// Range check and accumulate
 		float rangeCheck = smoothstep(0.0f, 1.0f, radius / abs(origin.z - sampleDepth));
-		occlusion += (sampleDepth <= sample.z ? 1.0f : 0.0f) * rangeCheck;
+		occlusion += (sampleDepth <= sample.z - 0.025 ? 1.0f : 0.0f) * rangeCheck;
 	}
 	
 	occlusion = 1.0f - (occlusion / kernelSize);

@@ -215,7 +215,10 @@ namespace EngineQ
 			std::vector<EngineQ::Math::Vector3f> vectors(size);
 
 			for (auto& vec : vectors)
-				vec = EngineQ::Math::Vector3f(randomFloats(generator) * 2.0f - 1.0f, randomFloats(generator) * 2.0f - 1.0f, 0.0f).GetNormalized();
+				vec = EngineQ::Math::Vector3f(
+					randomFloats(generator) * 2.0f - 1.0f, 
+					randomFloats(generator) * 2.0f - 1.0f, 
+					0.0f).GetNormalized();
 
 			Graphics::Configuration::TextureConfiguration config;
 

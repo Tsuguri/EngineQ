@@ -142,6 +142,7 @@ namespace EngineQ
 
 			this->scriptClasses[static_cast<std::size_t>(Class::Integer)] = mono_get_int32_class();
 			this->scriptClasses[static_cast<std::size_t>(Class::Float)] = mono_get_single_class();
+			this->scriptClasses[static_cast<std::size_t>(Class::Boolean)] = mono_get_boolean_class();
 
 
 			for (std::size_t i = ScriptClassOffset; i < ScriptClassCount; ++i)

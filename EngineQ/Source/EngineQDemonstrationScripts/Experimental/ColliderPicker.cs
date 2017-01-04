@@ -73,10 +73,7 @@ namespace QScripts
 						Console.WriteLine($"Pressed at {closestCollider.Entity.Name}");
 
 						var arrows = scene.FindEntity("Arrows");
-
-						arrows.Enabled = true;
-
-
+						
 						arrows.Transform.Position = closestCollider.Entity.Transform.GlobalPosition;
 						arrows.Transform.Rotation = closestCollider.Entity.Transform.GlobalRotation;
 
@@ -86,7 +83,12 @@ namespace QScripts
 					{
 						var arrows = scene.FindEntity("Arrows");
 
-						arrows.Enabled = false;
+						var cameraRay = camera.GetViewRay(Application.NormalizeScreenPoint(Input.MousePosition));
+
+						arrows.Transform.GlobalPosition = cameraRay.Origin + cameraRay.Direction * 3.0f;
+
+
+						arrows.GetComponent<ArrowsController>().SetTransform(null);
 
 						Console.WriteLine("No collider found");
 					}

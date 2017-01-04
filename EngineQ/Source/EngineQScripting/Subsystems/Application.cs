@@ -36,6 +36,11 @@ namespace EngineQ
 			API_ApplicationExit();
 		}
 
+		public static Vector2 NormalizeScreenPoint(Vector2 point)
+		{
+			return point / (Vector2)ScreenSize * new Vector2(2.0f, -2.0f) - new Vector2(1.0f, -1.0f);
+		}
+
 		#endregion
 
 

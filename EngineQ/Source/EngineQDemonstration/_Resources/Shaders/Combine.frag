@@ -35,8 +35,22 @@ void main()
 			}
 			break;
 
-		// SSAO
+		// Scene
 		case 1:
+			{
+				FragColor = vec4(texture(scene, IN.textureCoords).rgb, 1.0f);
+			}
+			break;
+
+		// Bright
+		case 2:
+			{
+				FragColor = vec4(texture(bloom, IN.textureCoords).rgb, 1.0f);
+			}
+			break;
+
+		// SSAO
+		case 3:
 			{
 				FragColor = vec4(vec3(texture(ssao, IN.textureCoords).r), 1.0f);
 			}

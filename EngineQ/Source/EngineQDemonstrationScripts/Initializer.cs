@@ -116,12 +116,11 @@ namespace QScripts
 			var light1light = light1.AddComponent<Light>();
 			light1light.Type = LightType.Sun;
 			light1light.Range = 15.0f;
-			light1light.TextureSize = new Vector2i(2048);
+			light1light.TextureSize = new Vector2i(4096);
 			light1light.AmbientColor = new Vector3(0.1f);
 			light1light.DiffuseColor = new Vector3(2.0f);
 			light1light.SpecularColor = new Vector3(1.0f);
 
-			optionChanger.AddOption(new SimpleFloatOption("Light1 diffuse", light1light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light1light.DiffuseColor = new Vector3(value); }));
 
 
 			light1.AddComponent<LightController>();
@@ -149,8 +148,6 @@ namespace QScripts
 			light2light.AmbientColor = new Vector3(0.1f);
 			light2light.DiffuseColor = new Vector3(0.4f);
 
-			optionChanger.AddOption(new SimpleFloatOption("Light2 diffuse", light2light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light2light.DiffuseColor = new Vector3(value); }));
-
 
 			var light2renderable = light2.AddComponent<Renderable>();
 			light2renderable.UseDeferredShader(lightsDeferredShader);
@@ -166,8 +163,15 @@ namespace QScripts
 			light2script.InitialRotation = -4.0f;
 			light2script.Update();
 			
-			optionChanger.AddOption(new SimpleBoolOption("Lights movement", false, (bool value) => { light1script.Enabled = value; light2script.Enabled = value; }));
-			
+
+
+			optionChanger.AddOption(new SimpleFloatOption("Light1 diffuse", light1light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light1light.DiffuseColor = new Vector3(value); }));
+			optionChanger.AddOption(new SimpleFloatOption("Light2 diffuse", light2light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light2light.DiffuseColor = new Vector3(value); }));
+
+			optionChanger.AddOption(new SimpleBoolOption("Lights movement", true, (bool value) => { light1script.Enabled = value; light2script.Enabled = value; }));
+
+			optionChanger.AddOption(new SimpleBoolOption("Light1 Enable", true, (bool value) => { light1.Enabled = value; }));
+			optionChanger.AddOption(new SimpleBoolOption("Light2 Enable", true, (bool value) => { light2.Enabled = value; }));
 
 
 			var arrows = scene.CreateEntity(true, "Arrows");

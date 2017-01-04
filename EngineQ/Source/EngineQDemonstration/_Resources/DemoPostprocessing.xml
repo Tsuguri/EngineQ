@@ -2,20 +2,20 @@
 <RenderingUnitConfiguration>
 	<Textures>
 		<!-- G-Buffer -->
-		<TextureConfiguration Name="Position" DataType="GL_FLOAT" InternalFormat="GL_RGB16F" Format="GL_RGB" WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER" />
-		<TextureConfiguration Name="Normal" DataType="GL_FLOAT" InternalFormat="GL_RGB16F" Format="GL_RGB" WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER" />
-		<TextureConfiguration Name="Albedo" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER" />
+		<TextureConfiguration Name="Position" DataType="GL_FLOAT" InternalFormat="GL_RGB16F"  Format="GL_RGB"  WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="Normal"   DataType="GL_FLOAT" InternalFormat="GL_RGB16F"  Format="GL_RGB"  WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="Albedo"   DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
 
-    <!-- SSAO -->
-		<TextureConfiguration Name="SSAO" DataType="GL_FLOAT" InternalFormat="GL_R16F" Format="GL_RED" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<!-- SSAO -->
+		<TextureConfiguration Name="SSAO"      DataType="GL_FLOAT" InternalFormat="GL_R16F" Format="GL_RED" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
 		<TextureConfiguration Name="SSAOBlur"  DataType="GL_FLOAT" InternalFormat="GL_R16F" Format="GL_RED" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
-    
+
 		<!-- Bloom -->
-		<TextureConfiguration Name="Scene" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA"  WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER" />
-		<TextureConfiguration Name="Bloom1" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER" />
-		<TextureConfiguration Name="Bloom2" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_BORDER" WrapT="GL_CLAMP_TO_BORDER" />
+		<TextureConfiguration Name="Scene"  DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="Bloom1" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="Bloom2" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
 	</Textures>
-	
+
 	<Renderer Deferred="true" GlobalShadows="true">
 		<Output>
 			<OutputTexture Texture="Position"/>
@@ -23,12 +23,13 @@
 			<OutputTexture Texture="Albedo" />
 		</Output>
 	</Renderer>
-	
+
 	<Effects>
 
 		<!-- SSAO -->
 		<EffectConfiguration Shader="SSAO">
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="SSAOController" />
+			
 			<Input>
 				<InputPair Texture="Position" LocationName="gPosition" />
 				<InputPair Texture="Normal" LocationName="gNormal" />
@@ -44,95 +45,97 @@
 				<InputPair Texture="SSAO" />
 			</Input>
 			<Output>
-        <OutputTexture Texture="SSAOBlur" />
+				<OutputTexture Texture="SSAOBlur" />
 			</Output>
 		</EffectConfiguration>
 
 
-    <!-- Deferred lighting -->
-    <EffectConfiguration Shader="DeferredLightingShadows" ApplyShadowsData="true" >
-      <Input>
-        <InputPair Texture="Position" LocationName="gPosition" />
-        <InputPair Texture="Normal" LocationName="gNormal" />
-        <InputPair Texture="Albedo" LocationName="gColorSpecular" />
-        <InputPair Texture="SSAOBlur" LocationName="ssaoTexture" />
-      </Input>
-      <Output>
-        <OutputTexture Texture="Scene" />
-      </Output>
-    </EffectConfiguration>
+		<!-- Deferred lighting -->
+		<EffectConfiguration Shader="DeferredLightingShadows" ApplyShadowsData="true" >
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="LightingController" />
+
+			<Input>
+				<InputPair Texture="Position" LocationName="gPosition" />
+				<InputPair Texture="Normal" LocationName="gNormal" />
+				<InputPair Texture="Albedo" LocationName="gColorSpecular" />
+				<InputPair Texture="SSAOBlur" LocationName="ssaoTexture" />
+			</Input>
+			<Output>
+				<OutputTexture Texture="Scene" />
+			</Output>
+		</EffectConfiguration>
 
 
-    <!-- Extract bright colors -->
-    <EffectConfiguration Shader="BloomExtraction">
-      <Controller Assembly="QScripts" Namespace="QScripts" Class="MyEffectController" />
-
-      <Input>
-        <InputPair Texture="Scene" />
-      </Input>
-      <Output>
-        <OutputTexture Texture="Bloom2" />
-      </Output>
-    </EffectConfiguration>
-
-
-    <!-- Bloom blur passes -->
-    <EffectRepeat Iterations="10">
-
-      <!-- Bloom vertical blur -->
-      <EffectConfiguration Shader="BloomVerticalBlur">
-        <Input>
-          <InputPair Texture="Bloom2" />
-        </Input>
-        <Output>
-          <OutputTexture Texture="Bloom1" />
-        </Output>
-      </EffectConfiguration>
-
-      <!-- Bloom horizontal blur -->
-      <EffectConfiguration Shader="BloomHorizontalBlur">
-        <Input>
-          <InputPair Texture="Bloom1" />
-        </Input>
-        <Output>
-          <OutputTexture Texture="Bloom2" />
-        </Output>
-      </EffectConfiguration>
-
-    </EffectRepeat>
+		<!-- Extract bright colors -->
+		<EffectConfiguration Shader="BloomExtraction">
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="BrightExtractController" />
+			
+			<Input>
+				<InputPair Texture="Scene" />
+			</Input>
+			<Output>
+				<OutputTexture Texture="Bloom2" />
+			</Output>
+		</EffectConfiguration>
 
 
-    <!-- Combine Bloom and Scene -->
-    <EffectConfiguration Shader="Combine">
-      <Controller Assembly="QScripts" Namespace="QScripts" Class="CombineController" />
+		<!-- Bloom blur passes -->
+		<EffectRepeat Iterations="10">
 
-      <Input>
-        <InputPair Texture="Scene" LocationName="scene" />
-        <InputPair Texture="Bloom2" LocationName="bloom" />
-        <InputPair Texture="SSAOBlur" LocationName="ssao" />
-      </Input>
-      <Output>
-        <OutputTexture Texture="Screen" />
-      </Output>
-    </EffectConfiguration>
+			<!-- Bloom vertical blur -->
+			<EffectConfiguration Shader="BloomVerticalBlur">
+				<Input>
+					<InputPair Texture="Bloom2" />
+				</Input>
+				<Output>
+					<OutputTexture Texture="Bloom1" />
+				</Output>
+			</EffectConfiguration>
+
+			<!-- Bloom horizontal blur -->
+			<EffectConfiguration Shader="BloomHorizontalBlur">
+				<Input>
+					<InputPair Texture="Bloom1" />
+				</Input>
+				<Output>
+					<OutputTexture Texture="Bloom2" />
+				</Output>
+			</EffectConfiguration>
+
+		</EffectRepeat>
+
+
+		<!-- Combine Bloom and Scene -->
+		<EffectConfiguration Shader="Combine">
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="CombineController" />
+
+			<Input>
+				<InputPair Texture="Scene" LocationName="scene" />
+				<InputPair Texture="Bloom2" LocationName="bloom" />
+				<InputPair Texture="SSAOBlur" LocationName="ssao" />
+			</Input>
+			<Output>
+				<OutputTexture Texture="Screen" />
+			</Output>
+		</EffectConfiguration>
 
 
 
 
-    <!--EffectConfiguration Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true"> 
+		<!--EffectConfiguration Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true"> 
       <Output> 
         <OutputTexture Texture="Screen"></OutputTexture> 
       </Output> 
     </EffectConfiguration-->
 
 
-  </Effects>
+	</Effects>
 
 
 	<NotUsed>
 
 
-    
+
 
 
 	</NotUsed>

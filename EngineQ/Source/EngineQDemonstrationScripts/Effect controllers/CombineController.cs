@@ -18,6 +18,8 @@ namespace QScripts
 		private enum DrawImage
 		{
 			Normal,
+			Scene,
+			Bright,
 			SSAO,
 		}
 
