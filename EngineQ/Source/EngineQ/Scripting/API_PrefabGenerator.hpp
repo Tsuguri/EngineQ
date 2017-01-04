@@ -18,6 +18,9 @@ namespace EngineQ
 		{
 		public:
 			static void API_GenerateCapsule(Math::Real height, Math::Real radius, MonoObject*& mesh);
+			static void API_GenerateCube(Math::Real side, MonoObject*& mesh);
+			static void API_GenerateQuad(Math::Real side, MonoObject*& mesh);
+			static void API_GenerateNoiseTexture(int width, int height, MonoObject*& texture);
 
 			static void API_Register(ScriptEngine& scriptEngine);
 		};

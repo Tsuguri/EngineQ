@@ -22,6 +22,9 @@ namespace EngineQ
 			PrefabGenerator(ResourceManager& resourceManager);
 
 			Resource<Graphics::Mesh> GenerateCapsule(Math::Real height, Math::Real radius);
+			Resource<Graphics::Mesh> GenerateCube(Math::Real side = 1.0f);
+			Resource<Graphics::Mesh> GenerateQuad(Math::Real side = 1.0f);
+			Resource<Graphics::Texture> GenerateNoiseTexture(int width, int height);
 		};
 	}
 }

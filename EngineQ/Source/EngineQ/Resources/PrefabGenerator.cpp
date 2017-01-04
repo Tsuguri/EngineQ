@@ -2,6 +2,7 @@
 
 // Standard includes
 #include <memory>
+#include <random>
 
 // Other projects
 #include "EngineQCommon/Math/Vector3.hpp"
@@ -9,6 +10,7 @@
 #include "EngineQCommon/Math/Quaternion.hpp"
 #include "EngineQCommon/Math/Utils.hpp"
 #include "EngineQRenderer/Graphics/Mesh.hpp"
+#include "EngineQRenderer/Graphics/Texture.hpp"
 
 // This project
 #include "ResourceManager.hpp"
@@ -114,6 +116,110 @@ namespace EngineQ
 
 
 			auto resource = Resource<Graphics::Mesh>(std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices));
+			this->resourceManager.HoldResource(resource);
+			return resource;
+		}
+
+		Resource<Graphics::Mesh> PrefabGenerator::GenerateCube(Math::Real side)
+		{
+			side *= 0.5f;
+
+			Math::Vector3 color{ 0.5f };
+
+			std::vector<EngineQ::VertexPNTC> vertices = {
+				{ Math::Vector3{ +side, -side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 1.0f, 0.0f }, color },
+				{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 0.0f, 0.0f }, color },
+				{ Math::Vector3{ +side, +side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 1.0f, 1.0f }, color },
+				{ Math::Vector3{ -side, +side, -side }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 0.0f, 1.0f }, color },
+
+				{ Math::Vector3{ +side, -side, +side }, Math::Vector3{ 0.0f, 0.0f, 1.0f }, Math::Vector2{ 0.0f, 0.0f }, color },
+				{ Math::Vector3{ +side, +side, +side }, Math::Vector3{ 0.0f, 0.0f, 1.0f }, Math::Vector2{ 0.0f, 1.0f }, color },
+				{ Math::Vector3{ -side, -side, +side }, Math::Vector3{ 0.0f, 0.0f, 1.0f }, Math::Vector2{ 1.0f, 0.0f }, color },
+				{ Math::Vector3{ -side, +side, +side }, Math::Vector3{ 0.0f, 0.0f, 1.0f }, Math::Vector2{ 1.0f, 1.0f }, color },
+
+				{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ -1.0f, 0.0f, 0.0f }, Math::Vector2{ 1.0f, 0.0f }, color },
+				{ Math::Vector3{ -side, +side, +side }, Math::Vector3{ -1.0f, 0.0f, 0.0f }, Math::Vector2{ 0.0f, 1.0f }, color },
+				{ Math::Vector3{ -side, +side, -side }, Math::Vector3{ -1.0f, 0.0f, 0.0f }, Math::Vector2{ 1.0f, 1.0f }, color },
+				{ Math::Vector3{ -side, -side, +side }, Math::Vector3{ -1.0f, 0.0f, 0.0f }, Math::Vector2{ 0.0f, 0.0f }, color },
+
+				{ Math::Vector3{ +side, -side, -side }, Math::Vector3{ 1.0f, 0.0f, 0.0f }, Math::Vector2{ 0.0f, 0.0f }, color },
+				{ Math::Vector3{ +side, +side, -side }, Math::Vector3{ 1.0f, 0.0f, 0.0f }, Math::Vector2{ 0.0f, 1.0f }, color },
+				{ Math::Vector3{ +side, +side, +side }, Math::Vector3{ 1.0f, 0.0f, 0.0f }, Math::Vector2{ 1.0f, 1.0f }, color },
+				{ Math::Vector3{ +side, -side, +side }, Math::Vector3{ 1.0f, 0.0f, 0.0f }, Math::Vector2{ 1.0f, 0.0f }, color },
+
+				{ Math::Vector3{ +side, -side, -side }, Math::Vector3{ 0.0f, -1.0f, 0.0f }, Math::Vector2{ 1.0f, 1.0f }, color },
+				{ Math::Vector3{ +side, -side, +side }, Math::Vector3{ 0.0f, -1.0f, 0.0f }, Math::Vector2{ 1.0f, 0.0f }, color },
+				{ Math::Vector3{ -side, -side, -side }, Math::Vector3{ 0.0f, -1.0f, 0.0f }, Math::Vector2{ 0.0f, 1.0f }, color },
+				{ Math::Vector3{ -side, -side, +side }, Math::Vector3{ 0.0f, -1.0f, 0.0f }, Math::Vector2{ 0.0f, 0.0f }, color },
+
+				{ Math::Vector3{ +side, +side, +side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, Math::Vector2{ 1.0f, 1.0f }, color },
+				{ Math::Vector3{ +side, +side, -side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, Math::Vector2{ 1.0f, 0.0f }, color },
+				{ Math::Vector3{ -side, +side, -side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, Math::Vector2{ 0.0f, 0.0f }, color },
+				{ Math::Vector3{ -side, +side, +side }, Math::Vector3{ 0.0f, 1.0f, 0.0f }, Math::Vector2{ 0.0f, 1.0f }, color },
+			};
+
+			std::vector<unsigned int> indices = {
+				0, 1, 2,
+				1, 3, 2,
+
+				4, 5, 6,
+				6, 5, 7,
+
+				8, 9, 10,
+				9, 8, 11,
+
+				12, 13, 14,
+				14, 15, 12,
+
+				16, 17, 18,
+				19, 18, 17,
+
+				20, 21, 22,
+				22, 23, 20
+			};
+
+			auto resource = Resource<Graphics::Mesh>(std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices));
+			this->resourceManager.HoldResource(resource);
+			return resource;
+		}
+
+		Resource<Graphics::Mesh> PrefabGenerator::GenerateQuad(Math::Real side)
+		{
+			side *= 0.5f;
+
+			Math::Vector3 color{ 0.5f };
+
+			std::vector<EngineQ::VertexPNTC> vertices = {
+				{ Math::Vector3{ +side, -side, 0.0f }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 0.0f, 1.0f }, color },
+				{ Math::Vector3{ -side, -side, 0.0f }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 1.0f, 1.0f }, color },
+				{ Math::Vector3{ +side, +side, 0.0f }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 0.0f, 0.0f }, color },
+				{ Math::Vector3{ -side, +side, 0.0f }, Math::Vector3{ 0.0f, 0.0f, -1.0f }, Math::Vector2{ 1.0f, 0.0f }, color },
+			};
+
+			std::vector<unsigned int> indices = {
+				0, 1, 2,
+				1, 3, 2,
+			};
+
+			auto resource = Resource<Graphics::Mesh>(std::make_unique<EngineQ::Graphics::Mesh>(vertices, indices));
+			this->resourceManager.HoldResource(resource);
+			return resource;
+		}
+
+		Resource<Graphics::Texture> PrefabGenerator::GenerateNoiseTexture(int width, int height)
+		{
+			std::random_device rd;
+			std::mt19937 mt(rd());
+			std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
+
+
+			int size = width * height;
+			std::vector<EngineQ::Math::Vector3f> vectors(size);
+
+			for (auto& vec : vectors)
+				vec = EngineQ::Math::Vector3f(dist(mt), dist(mt), 0.0f).GetNormalized();
+
+			auto resource = Resource<Graphics::Texture>(std::make_unique<EngineQ::Graphics::Texture>(width, height, &(vectors.data()->X)));
 			this->resourceManager.HoldResource(resource);
 			return resource;
 		}

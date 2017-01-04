@@ -90,8 +90,6 @@ namespace QScripts
 			Input.RegisterKeyEvent(Input.Key.Escape, EscapeAction);
 			Input.RegisterKeyEvent(Input.Key.F1, F1Action);
 			Input.RegisterKeyEvent(Input.Key.F2, F2Action);
-			Input.RegisterKeyEvent(Input.Key.P, ToggleEnableSkullScriptAction);
-			Input.RegisterKeyEvent(Input.Key.O, RemoveOrAddScriptAction);
 
 			Input.RegisterKeyEvent(Input.Key.Minus, ChangeFOVAction);
 			Input.RegisterKeyEvent(Input.Key.Equal, ChangeFOVAction);
@@ -114,8 +112,6 @@ namespace QScripts
 			Input.DeregisterKeyEvent(Input.Key.Escape, EscapeAction);
 			Input.DeregisterKeyEvent(Input.Key.F1, F1Action);
 			Input.DeregisterKeyEvent(Input.Key.F2, F2Action);
-			Input.DeregisterKeyEvent(Input.Key.P, ToggleEnableSkullScriptAction);
-			Input.DeregisterKeyEvent(Input.Key.O, RemoveOrAddScriptAction);
 
 			Input.DeregisterKeyEvent(Input.Key.Minus, ChangeFOVAction);
 			Input.DeregisterKeyEvent(Input.Key.Equal, ChangeFOVAction);
@@ -171,31 +167,6 @@ namespace QScripts
 		{
 			if (action == Input.KeyAction.Press)
 				reverseY = !reverseY;
-		}
-
-		private void ToggleEnableSkullScriptAction(Input.Key key, Input.KeyAction action)
-		{
-			if (action != Input.KeyAction.Press)
-				return;
-			if (Skull1 == null)
-				return;
-			Script skullScript = this.Skull1.GetComponent<Script>();
-
-			if (skullScript != null)
-				skullScript.Enabled = !skullScript.Enabled;
-		}
-
-		private void RemoveOrAddScriptAction(Input.Key key, Input.KeyAction action)
-		{
-			if (action != Input.KeyAction.Press)
-				return;
-			if (Skull1 == null)
-				return;
-			Script skullScript = this.Skull1.GetComponent<Script>();
-			if (skullScript != null)
-				this.Skull1.RemoveComponent(skullScript);
-			else
-				this.Skull1.AddComponent<RotateTest>(false);
 		}
 	}
 }

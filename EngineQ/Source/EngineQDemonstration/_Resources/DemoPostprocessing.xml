@@ -104,7 +104,9 @@
 
     <!-- Combine Bloom and Scene -->
     <EffectConfiguration Shader="Combine">
-      <Input>
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="CombineController" />
+
+			<Input>
         <InputPair Texture="Scene" LocationName="scene" />
         <InputPair Texture="Bloom2" LocationName="bloom" />
       </Input>

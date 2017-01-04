@@ -9,56 +9,163 @@ using EngineQ.Math;
 
 namespace QScripts
 {
+	public abstract class BaseOption
+	{
+		public abstract void Changed(int direction);
+
+		public abstract string Name { get; }
+		public abstract string Value { get; }
+	}
+
+	public class GenericOption<TType> : BaseOption
+	{
+		public delegate void ChangedHandler(ref TType value, int direction);
+
+		private readonly string name;
+		private readonly ChangedHandler handler;
+		private TType value;
+
+		public GenericOption(string name, ChangedHandler handler, TType value = default(TType))
+		{
+			this.name = name;
+			this.handler = handler;
+			this.value = value;
+		}
+
+		public override void Changed(int direction)
+		{
+			this.handler(ref this.value, direction);
+		}
+
+		public override string Name
+		{
+			get
+			{
+				return this.name;
+			}
+		}
+
+		public override string Value
+		{
+			get
+			{
+				return this.value.ToString();
+			}
+		}
+	}
+
+	public class SimpleFloatOption : BaseOption
+	{
+		public delegate void ChangedHandler(float value);
+
+		private readonly string name;
+		private float value;
+
+		private readonly float minValue;
+		private readonly float maxValue;
+		private readonly float step;
+
+		private readonly ChangedHandler handler;
+
+		public SimpleFloatOption(string name, float value, float minValue, float maxValue, float step, ChangedHandler handler)
+		{
+			this.name = name;
+			this.value = value;
+			this.minValue = minValue;
+			this.maxValue = maxValue;
+			this.step = step;
+			this.handler = handler;
+		}
+
+		public override void Changed(int direction)
+		{
+			this.value += step * direction;
+
+			if (this.value < minValue)
+				this.value = minValue;
+			if (this.value > maxValue)
+				this.value = maxValue;
+
+			this.handler(value);
+		}
+
+		public override string Name
+		{
+			get
+			{
+				return this.name;
+			}
+		}
+
+		public override string Value
+		{
+			get
+			{
+				return this.value.ToString();
+			}
+		}
+	}
+
+	public class SimpleBoolOption : BaseOption
+	{
+		public delegate void ChangedHandler(bool value);
+
+		private readonly string name;
+		private readonly bool toggle;
+		private bool value;
+
+		private readonly ChangedHandler handler;
+
+		public SimpleBoolOption(string name, bool value, ChangedHandler handler, bool toggle = true)
+		{
+			this.name = name;
+			this.value = value;
+			this.toggle = toggle;
+			this.handler = handler;
+		}
+
+		public override void Changed(int direction)
+		{
+			if (direction != 0 && toggle)
+			{
+				this.value = !this.value;
+			}
+			else
+			{
+				if (direction < 0)
+					this.value = false;
+				if (direction > 0)
+					this.value = true;
+			}
+
+			this.handler(value);
+		}
+
+		public override string Name
+		{
+			get
+			{
+				return this.name;
+			}
+		}
+
+		public override string Value
+		{
+			get
+			{
+				return this.value.ToString();
+			}
+		}
+	}
+
 	public class OptionChanger : Script
 	{
-		public abstract class BaseOption
+		public void AddOption(BaseOption option, bool trigger = true)
 		{
-			public abstract void Changed(int value);
+			this.options.Add(option);
 
-			public abstract string Name { get; }
-			public abstract string Value { get; }
-		}
-
-		public class GenericOption<TType> : BaseOption
-		{
-			public delegate TType ChangedHandler(TType value, int direction);
-
-			private string name;
-			private TType value;
-			private ChangedHandler handler;
-
-			public GenericOption(string name, ChangedHandler handler, TType value = default(TType))
-			{
-				this.name = name;
-				this.handler = handler;
-				this.value = value;
-			}
-
-			public override void Changed(int direction)
-			{
-				this.handler(this.value, direction);
-			}
-
-			public override string Name
-			{
-				get
-				{
-					return this.name;
-				}
-			}
-
-			public override string Value
-			{
-				get
-				{
-					return this.value.ToString();
-				}
-			}
-		}
-
-		public void RegisterOption<TType>(string name, GenericOption<TType>.ChangedHandler handler, TType value = default(TType))
-		{
-			this.options.Add(new GenericOption<TType>(name, handler, value));
+			if (trigger)
+				option.Changed(0);
 		}
 
 		private List<BaseOption> options = new List<BaseOption>();
@@ -81,7 +188,7 @@ namespace QScripts
 			Input.DeregisterKeyEvent(Input.Key.Kp2, ChangedOptionValueAction);
 			Input.DeregisterKeyEvent(Input.Key.Kp5, CurrentOptionAction);
 		}
-		
+
 		private void CurrentOptionAction(Input.Key key, Input.KeyAction action)
 		{
 			if (action != Input.KeyAction.Press)
@@ -95,23 +202,27 @@ namespace QScripts
 
 		private void ChangedOptionValueAction(Input.Key key, Input.KeyAction action)
 		{
-			if (action != Input.KeyAction.Press)
+			if (action != Input.KeyAction.Press && action != Input.KeyAction.Repeat)
 				return;
 
 			if (options.Count == 0)
 				return;
 
-			if (key == Input.Key.Kp8)
-				options[currentOption].Changed(1);
-			if (key == Input.Key.Kp2)
-				options[currentOption].Changed(-1);
+			int value = 1;
+			if (Input.IsKeyPressed(Input.Key.LeftShift))
+				value = 3;
 
-			Console.WriteLine($"{options[currentOption].Name} set to {options[currentOption].Value}");
+			if (key == Input.Key.Kp8)
+				options[currentOption].Changed(value);
+			if (key == Input.Key.Kp2)
+				options[currentOption].Changed(-value);
+
+			Console.WriteLine($"{options[currentOption].Name} = {options[currentOption].Value}");
 		}
 
 		private void ChangedOptionAnction(Input.Key key, Input.KeyAction action)
 		{
-			if (action != Input.KeyAction.Press)
+			if (action != Input.KeyAction.Press && action != Input.KeyAction.Repeat)
 				return;
 
 			if (options.Count == 0)
@@ -125,7 +236,7 @@ namespace QScripts
 			if (key == Input.Key.Kp6)
 				currentOption = (currentOption + options.Count - 1) % options.Count;
 
-			Console.WriteLine($"Selected option: {options[currentOption].Name}");
+			Console.WriteLine($"Selected option: {options[currentOption].Name} = {options[currentOption].Value}");
 		}
 	}
 }

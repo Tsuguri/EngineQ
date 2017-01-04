@@ -22,7 +22,7 @@ namespace QScripts
 			var scene = this.Scene;
 			var shader = this.Shader;
 
-			var noiseTexture = resourceManager.GetResource<Texture>("EngineQ/Random4x4");
+			var noiseTexture = PrefabGenerator.GenerateNoiseTexture(4, 4);
 			var noiseTextureProp = shader.GetProperty<Texture>("noiseTexture");
 			shader.Set(noiseTextureProp, noiseTexture);
 			

@@ -42,14 +42,19 @@ namespace QScripts
 
 		private float currentRotation = 0.0f;
 
-		protected override void OnEnable()
+		protected override void OnActivate()
 		{
-			currentRotation = InitialRotation;
+			this.currentRotation = InitialRotation;
+		}
+		
+		public void Update()
+		{
+			Update(0.0f);
 		}
 
-		protected override void OnUpdate()
+		private void Update(float dt)
 		{
-			currentRotation += RotationSpeed * Time.DeltaTime;
+			currentRotation += RotationSpeed * dt;
 
 			while (currentRotation >= Utils.PI)
 				currentRotation -= Utils.PI * 2.0f;
@@ -65,59 +70,15 @@ namespace QScripts
 
 			rotatedPoint = rotatedPoint.Normalized * Radius;
 
-		//	var lookAtMatrix = Matrix4.CreateLookAt(Transform.Position, Vector3.Zero, Vector3.Up);
 			var lookAtQuaternion = Quaternion.CreateLookAt(Transform.Position, Vector3.Zero, Vector3.Up);
-		//	Vector3 point = Vector3.Forward;
-		//	Console.WriteLine("Mat: " + Matrix4.TransformVector(lookAtMatrix, point));
-		//	Console.WriteLine("Qat: " + lookAtQuaternion * point);
-
+			
 			Transform.Position = RotationPoint + rotation * rotatedPoint;
-		//	Transform.Rotation = CalculateRotation(lookAtMatrix);
 			Transform.Rotation = lookAtQuaternion;
 		}
 
-		private Quaternion CalculateRotation(Matrix4 matrix)
+		protected override void OnUpdate()
 		{
-			Quaternion q;
-
-			float trace = matrix[0,0] + matrix[1,1] + matrix[2,2];
-			if (trace > 0)
-			{
-				float s = 0.5f / (float)Math.Sqrt(trace + 1.0f);
-				q.W = 0.25f / s;
-				q.X = (matrix[2,1] - matrix[1,2]) * s;
-				q.Y = (matrix[0,2] - matrix[2,0]) * s;
-				q.Z = (matrix[1,0] - matrix[0,1]) * s;
-			}
-			else
-			{
-				if (matrix[0,0] > matrix[1,1] && matrix[0,0] > matrix[2,2])
-				{
-					float s = 2.0f * (float)Math.Sqrt(1.0f + matrix[0,0] - matrix[1,1] - matrix[2,2]);
-					q.W = (matrix[2,1] - matrix[1,2]) / s;
-					q.X = 0.25f * s;
-					q.Y = (matrix[0,1] + matrix[1,0]) / s;
-					q.Z = (matrix[0,2] + matrix[2,0]) / s;
-				}
-				else if (matrix[1,1] > matrix[2,2])
-				{
-					float s = 2.0f * (float)Math.Sqrt(1.0f + matrix[1,1] - matrix[0,0] - matrix[2,2]);
-					q.W = (matrix[0,2] - matrix[2,0]) / s;
-					q.X = (matrix[0,1] + matrix[1,0]) / s;
-					q.Y = 0.25f * s;
-					q.Z = (matrix[1,2] + matrix[2,1]) / s;
-				}
-				else
-				{
-					float s = 2.0f * (float)Math.Sqrt(1.0f + matrix[2,2] - matrix[0,0] - matrix[1,1]);
-					q.W = (matrix[1,0] - matrix[0,1]) / s;
-					q.X = (matrix[0,2] + matrix[2,0]) / s;
-					q.Y = (matrix[1,2] + matrix[2,1]) / s;
-					q.Z = 0.25f * s;
-				}
-			}
-
-			return q;
+			this.Update(Time.DeltaTime);
 		}
 	}
 }
