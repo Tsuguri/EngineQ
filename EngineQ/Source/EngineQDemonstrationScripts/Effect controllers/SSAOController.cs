@@ -11,8 +11,6 @@ namespace QScripts
 {
 	public class SSAOController : EffectController
 	{
-		private ShaderProperty<Matrix4> projectionMatrixProp;
-
 		private ShaderProperty<int> screenWidthProp;
 		private ShaderProperty<int> screenHeightProp;
 		private ShaderProperty<int> kernelSizeProp;
@@ -65,8 +63,6 @@ namespace QScripts
 			screenWidthProp = shader.GetProperty<int>("screenWidth");
 			screenHeightProp = shader.GetProperty<int>("screenHeight");
 			
-			projectionMatrixProp = shader.GetProperty<Matrix4>("projection");
-			
 		//	SetKernelSize(64);
 			
 			var changer = this.Scene.ActiveCamera.Entity.GetComponent<OptionChanger>();
@@ -84,11 +80,7 @@ namespace QScripts
 		protected override void OnBeforeRender()
 		{
 			var shader = this.Shader;
-			var scene = this.Scene;
 			
-			var projectionMatrix = scene.ActiveCamera.ProjectionMatrix;
-			shader.Set(projectionMatrixProp, projectionMatrix);
-
 			var screenSize = Application.ScreenSize;
 			shader.Set(screenWidthProp, screenSize.X);
 			shader.Set(screenHeightProp, screenSize.Y);

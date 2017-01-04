@@ -9,6 +9,9 @@
 		<!-- SSAO -->
 		<TextureConfiguration Name="SSAO"      DataType="GL_FLOAT" InternalFormat="GL_R16F" Format="GL_RED" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
 		<TextureConfiguration Name="SSAOBlur"  DataType="GL_FLOAT" InternalFormat="GL_R16F" Format="GL_RED" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		
+		<!-- SSR -->
+		<TextureConfiguration Name="SSR" DataType="GL_FLOAT" InternalFormat="GL_RGB16F" Format="GL_RGB" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
 
 		<!-- Bloom -->
 		<TextureConfiguration Name="Scene"  DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
@@ -65,13 +68,27 @@
 			</Output>
 		</EffectConfiguration>
 
+		<!-- SSR -->
+		<EffectConfiguration Shader="SSR">
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="SSRController" />
+			
+			<Input>
+				<InputPair Texture="Position" LocationName="gPosition" />
+				<InputPair Texture="Normal" LocationName="gNormal" />
+				<InputPair Texture="Albedo" LocationName="gColorSpecular" />
+				<InputPair Texture="Scene" LocationName="scene" />
+			</Input>
+			<Output>
+				<OutputTexture Texture="SSR" />
+			</Output>
+		</EffectConfiguration>
 
 		<!-- Extract bright colors -->
 		<EffectConfiguration Shader="BloomExtraction">
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="BrightExtractController" />
 			
 			<Input>
-				<InputPair Texture="Scene" />
+				<InputPair Texture="SSR" />
 			</Input>
 			<Output>
 				<OutputTexture Texture="Bloom2" />
@@ -110,7 +127,7 @@
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="CombineController" />
 
 			<Input>
-				<InputPair Texture="Scene" LocationName="scene" />
+				<InputPair Texture="SSR" LocationName="scene" />
 				<InputPair Texture="Bloom2" LocationName="bloom" />
 				<InputPair Texture="SSAOBlur" LocationName="ssao" />
 			</Input>

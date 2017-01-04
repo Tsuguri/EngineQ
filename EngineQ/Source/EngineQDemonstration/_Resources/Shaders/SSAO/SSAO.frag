@@ -7,6 +7,8 @@ in VS_DATA
 	vec2 textureCoords;
 } IN;
 
+#include "../Common/Matrices.shh"
+
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D noiseTexture;
@@ -15,7 +17,6 @@ const int maxKernelSize = 128;
 uniform int kernelSize = 64;
 
 uniform vec3 samples[maxKernelSize];
-uniform mat4 projection;
 
 uniform float radius = 1.0f;
 uniform float power = 2.0f;
@@ -47,7 +48,7 @@ void main()
 
 		// Project sample position
 		vec4 offset = vec4(sample, 1.0f);
-		offset = projection * offset;
+		offset = matrices.projection * offset;
 		offset.xy /= offset.w;
 		offset.xy = offset.xy * 0.5f + 0.5f;
 

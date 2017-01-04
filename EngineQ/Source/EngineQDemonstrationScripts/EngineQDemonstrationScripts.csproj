@@ -47,6 +47,7 @@
     <Compile Include="Effect controllers\BrightExtractController.cs" />
     <Compile Include="Effect controllers\CombineController.cs" />
     <Compile Include="Effect controllers\LightingController.cs" />
+    <Compile Include="Effect controllers\SSRController.cs" />
     <Compile Include="Experimental\CapsuleCollider.cs" />
     <Compile Include="Experimental\Collider.cs" />
     <Compile Include="Experimental\ColliderPicker.cs" />

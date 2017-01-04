@@ -203,6 +203,8 @@ namespace QScripts
 			resourceManager.RegisterResource<Shader>("SSAO", "./Shaders/SSAO/SSAO.qres");
 			resourceManager.RegisterResource<Shader>("SSAOBlur", "./Shaders/SSAO/SSAOBlur.qres");
 
+			resourceManager.RegisterResource<Shader>("SSR", "./Shaders/SSR/SSR.qres");
+
 			resourceManager.RegisterResource<Shader>("Debug/ShadowmapDrawer", "./Shaders/Debug/ShadowmapDrawer.qres");
 			
 			resourceManager.RegisterResource<Mesh>("Arrow", "./Meshes/Arrow.qres");
