@@ -61,7 +61,7 @@ namespace QScripts
 
 
 
-		private const int DefaultIterations = 5000000 * 10;
+		private const int DefaultIterations = 1000000;
 		private int iterations = DefaultIterations;
 		private Stopwatch sw = new Stopwatch();
 		

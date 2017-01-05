@@ -24,6 +24,7 @@ mat4 invProjection = inverse(matrices.projection);
 uniform bool useSSAO;
 uniform bool usePCF;
 uniform bool useRays;
+uniform float time;
 
 float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 normal, vec3 position)
 {
@@ -120,9 +121,37 @@ float IsPointInShadow(Light light, sampler2D shadowMap, vec3 position)
 	return ((projCoords.z <= 1.0f) ? 1.0f : 0.0f) * shadow;
 }
 
-float SamplePoint(Light light, sampler2D shadowMap, vec3 cameraPosition, float cameraFragmentDistance)
+vec4 BlendColors(vec4 back, vec4 front)
 {
-	const float samples = 32.0f;
+	float alpha = back.a + front.a - back.a * front.a;
+
+	if(alpha == 0.0f)
+		return vec4(0.0f);
+
+	return vec4((back.rgb * back.a * (1.0f - front.a) + front.rgb * front.a) / alpha, alpha);
+}
+
+vec4 GetFogColor(vec3 worldSpacePosition)
+{
+	const float gridSize = 0.01f;
+	const int maxInt = 100;
+
+	ivec3 values = ivec3(floor((worldSpacePosition + sin(time) * vec3(cos(time), sin(time), sin(time) * cos(time))) / gridSize));
+
+	int num = (values.x ^ values.y ^ values.z) % (maxInt + 1);
+
+	ivec3 values2 = ivec3(floor(worldSpacePosition / 0.07f + vec3(0.3f, -2.0f, 3.0f)));
+	int num2 = (values2.x ^ values2.y ^ values2.z) % (maxInt + 1);
+
+//	float alpha = (num2 < maxInt / 4) ? float(num) / float(maxInt) * (sin(worldSpacePosition.x) * 0.5f + 0.5f) : 0.0f;
+	float alpha = float(num) / float(maxInt) * (sin(worldSpacePosition.x) * cos(worldSpacePosition.y) * 0.5f + 0.5f);
+
+	return vec4(1.0f, 1.0f, 1.0f, alpha * 0.015f);
+}
+
+vec4 SamplePoint(Light light, sampler2D shadowMap, vec3 cameraPosition, float cameraFragmentDistance)
+{
+	const float samples = 128.0f;
 
 	const float minDistance = 0.0f;
 	float maxDistance = cameraFragmentDistance;
@@ -132,16 +161,21 @@ float SamplePoint(Light light, sampler2D shadowMap, vec3 cameraPosition, float c
 	vec4 rayPoint = invProjection * vec4(2.0f * IN.textureCoords - 1.0f, 1.0f, 1.0f);
 	rayPoint.xyz /= rayPoint.w;
 	vec3 direction = normalize(mat3(invView) * rayPoint.xyz);
+	
+	vec4 color = vec4(0.0f);
 		
-	float shadow = 0.0f;
 	for (float currentZ = minDistance; currentZ < maxDistance; currentZ += step)
 	{
 		vec3 newWorldSpacePosition = cameraPosition + direction * currentZ;
 
-		shadow += IsPointInShadow(light, shadowMap, newWorldSpacePosition);
+		float shadow = IsPointInShadow(light, shadowMap, newWorldSpacePosition);
+		vec4 fogColor = GetFogColor(newWorldSpacePosition);
+		fogColor.xyz *= (1.0f - shadow);
+
+		color = BlendColors(fogColor, color);
 	}
 
-	return shadow / samples;
+	return color;
 }
 
 
@@ -224,7 +258,7 @@ void main()
 
 		// Shadows
 		float shadow = 0.0f;
-		float raysShadow = 0.0f;
+		vec4 rayColor = vec4(0.0f);
 		
 		// Directional lights
 		if (light.type == 0)
@@ -241,13 +275,13 @@ void main()
 			if (useRays)
 			{
 				if (i == 0)
-					raysShadow = SamplePoint(light, lights_q_0_q_DirectionalShadowMap, cameraPosition, viewDirLength);
+					rayColor = SamplePoint(light, lights_q_0_q_DirectionalShadowMap, cameraPosition, viewDirLength);
 				else if (i == 1)
-					raysShadow = SamplePoint(light, lights_q_1_q_DirectionalShadowMap, cameraPosition, viewDirLength);
+					rayColor = SamplePoint(light, lights_q_1_q_DirectionalShadowMap, cameraPosition, viewDirLength);
 				else if (i == 2)
-					raysShadow = SamplePoint(light, lights_q_2_q_DirectionalShadowMap, cameraPosition, viewDirLength);
+					rayColor = SamplePoint(light, lights_q_2_q_DirectionalShadowMap, cameraPosition, viewDirLength);
 				else if (i == 3)
-					raysShadow = SamplePoint(light, lights_q_3_q_DirectionalShadowMap, cameraPosition, viewDirLength);
+					rayColor = SamplePoint(light, lights_q_3_q_DirectionalShadowMap, cameraPosition, viewDirLength);
 			}
 		}
 		// Point lights
@@ -264,10 +298,9 @@ void main()
 		}
 
 		shadow = 1.0f - shadow;
-		float raysMultiplier = 1.0f; //viewSpacePosition.z * viewSpacePosition.z;
-		raysShadow = (1.0f - raysShadow * raysMultiplier);
 		
-		result += (ambient + shadow * (diffuse + specular)) * color * raysShadow * ambientOcclusion;
+		vec4 newColor = vec4((ambient + shadow * (diffuse + specular)) * color * ambientOcclusion, 1.0f);
+		result += BlendColors(newColor, rayColor).rgb;
 	}
 
 	FragColor = vec4(result, 1.0f);

@@ -14,6 +14,9 @@ namespace QScripts
 		ShaderProperty<bool> useSSAOProp;
 		ShaderProperty<bool> usePCFProp;
 		ShaderProperty<bool> useRaysProp;
+		ShaderProperty<float> timeProp;
+
+		float time = 0.0f;
 
 		protected override void OnCreate()
 		{
@@ -27,6 +30,17 @@ namespace QScripts
 
 			this.useRaysProp = this.Shader.GetProperty<bool>("useRays");
 			changer.AddOption(new SimpleBoolOption("Use Rays", true, (bool value) => { this.Shader.Set(useRaysProp, value); }));
+
+			this.timeProp = this.Shader.GetProperty<float>("time");
+		}
+
+		protected override void OnUpdate()
+		{
+			time += Time.DeltaTime / 10.0f;
+			if (time > Math.PI * 2.0f)
+				time -= (float)Math.PI * 2.0f;
+
+			this.Shader.Set(timeProp, time);
 		}
 	}
 }
