@@ -133,10 +133,10 @@ namespace EngineQ
 				Logger::LogMessage("    ", category.first, "\n");
 				for (const auto& info : category.second)
 				{
-					Logger::LogMessage("      ", 
-						std::setw(40), std::left, info.first, 
-						std::right, std::fixed, std::setprecision(Precision), 
-						": \tAvg: ", std::setw(Width), info.second.GetAverageTime().count(), "ms    Min: ", std::setw(Width), info.second.GetMinTime().count(), "ms    Max: ", std::setw(Width), info.second.GetMaxTime().count(), "ms\n");
+					Logger::LogMessage("      ",
+						std::setw(50), std::left, std::setfill('.'), info.first,
+						std::right, std::fixed, std::setprecision(Precision), std::setfill(' '),
+						" Avg: ", std::setw(Width), info.second.GetAverageTime().count(), " ms   Min: ", std::setw(Width), info.second.GetMinTime().count(), " ms   Max: ", std::setw(Width), info.second.GetMaxTime().count(), " ms\n");
 				}
 			}
 		}
