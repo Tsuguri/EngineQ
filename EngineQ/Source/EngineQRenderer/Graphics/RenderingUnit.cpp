@@ -236,6 +236,8 @@ namespace EngineQ
 			}
 			Framebuffer::BindDefault();
 
+			// Force drawing
+			glFinish();
 		}
 	}
 }

@@ -46,7 +46,7 @@ namespace EngineQ
 
 		void ScriptedShaderPass::BeforeRender()
 		{
-			Engine::Get().GetProfiler().Start(this->GetName(), "Postprocessing");
+			Engine::Get().GetProfiler().StartGPU(this->GetName(), "Postprocessing");
 
 			if (this->beforeRenderMethod != nullptr)
 				this->scriptEngine.InvokeMethod(this->managedHandle, this->beforeRenderMethod, nullptr);
@@ -57,8 +57,7 @@ namespace EngineQ
 			if (this->afterUpdateMethod != nullptr)
 				this->scriptEngine.InvokeMethod(this->managedHandle, this->afterUpdateMethod, nullptr);
 
-			glFinish();
-			Engine::Get().GetProfiler().End(this->GetName(), "Postprocessing");
+			Engine::Get().GetProfiler().EndGPU(this->GetName(), "Postprocessing");
 		}
 		
 		void ScriptedShaderPass::Created()

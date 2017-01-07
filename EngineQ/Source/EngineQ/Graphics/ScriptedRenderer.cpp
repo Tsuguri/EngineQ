@@ -10,24 +10,22 @@ namespace EngineQ
 	{
 		void ScriptedRenderer::OnBeforeRender()
 		{
-			Engine::Get().GetProfiler().Start("Scene render", "Renderer");
+			Engine::Get().GetProfiler().StartGPU("Scene render", "Renderer");
 		}
 
 		void ScriptedRenderer::OnAfterRender()
 		{
-			glFinish();
-			Engine::Get().GetProfiler().End("Scene render", "Renderer");
+			Engine::Get().GetProfiler().EndGPU("Scene render", "Renderer");
 		}
 
 		void ScriptedRenderer::OnBeforeLightRender(std::size_t index)
 		{
-			Engine::Get().GetProfiler().Start("Light " + std::to_string(index) + " render", "Renderer");
+			Engine::Get().GetProfiler().StartGPU("Light " + std::to_string(index) + " render", "Renderer");
 		}
 
 		void ScriptedRenderer::OnAfterLightRender(std::size_t index)
 		{
-			glFinish();
-			Engine::Get().GetProfiler().End("Light " + std::to_string(index) + " render", "Renderer");
+			Engine::Get().GetProfiler().EndGPU("Light " + std::to_string(index) + " render", "Renderer");
 		}
 	}
 }

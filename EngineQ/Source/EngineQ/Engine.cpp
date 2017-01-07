@@ -208,39 +208,39 @@ namespace EngineQ
 		this->timeCounter.Update();
 		while (!this->window->ShouldClose() && this->isRunning)
 		{
-			this->profiler.Start("Main loop", "Main");
+			this->profiler.StartCPU("Main loop", "Main");
 
 			// Update time counter
 			this->timeCounter.Update();
 
 			// Input
-			this->profiler.Start("Input", "Main");
+			this->profiler.StartCPU("Input", "Main");
 			this->input.Update();
 			Window::EngineCallbacks::PollEvents();
-			this->profiler.End("Input", "Main");
+			this->profiler.EndCPU("Input", "Main");
 
 			// Update resource manager
-			this->profiler.Start("Resource Manager", "Main");
+			this->profiler.StartCPU("Resource Manager", "Main");
 			this->resourceManager->Update();
-			this->profiler.End("Resource Manager", "Main");
+			this->profiler.EndCPU("Resource Manager", "Main");
 
-			this->profiler.Start("Scripts", "Main");
+			this->profiler.StartCPU("Scripts", "Main");
 			// Update scene logic (scripts)
 			this->currentScene->Update();
 			// Update renderer
 			this->renderingUnit->Update();
-			this->profiler.End("Scripts", "Main");
+			this->profiler.EndCPU("Scripts", "Main");
 
 			// Render scene
-			this->profiler.Start("Renderer", "Main");
+			this->profiler.StartGPU("Renderer", "Main");
 			this->renderingUnit->Render(*this->currentScene);
-			this->profiler.End("Renderer", "Main");
+			this->profiler.EndGPU("Renderer", "Main");
 			
 			// Show result on screen
 			Window::EngineCallbacks::SwapBuffers(*this->window);
 
 			// Update profiler
-			this->profiler.End("Main loop", "Main");
+			this->profiler.EndCPU("Main loop", "Main");
 			this->profiler.Update();
 		}
 		this->window->RequestClose();
