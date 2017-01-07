@@ -60,27 +60,27 @@ namespace EngineQ
 		return std::chrono::duration_cast<Milliseconds>(this->accumulator) / this->iterations;
 	}
 
-	void Profiler::Start(const char * key)
+	void Profiler::Start(const char* key, const char* category)
 	{
-		this->Start(std::string(key));
+		this->Start(std::string(key), std::string(category));
 	}
 
-	void Profiler::Start(const std::string & key)
+	void Profiler::Start(const std::string& key, const std::string& category)
 	{
-		auto& info = this->info[key];
+		auto& info = this->data[category][key];
 
 		info.SetStart(Clock::now());
 	}
 
-	void Profiler::End(const char * key)
+	void Profiler::End(const char* key, const char* category)
 	{
-		this->End(std::string(key));
+		this->End(std::string(key), std::string(category));
 	}
 
-	void Profiler::End(const std::string & key)
+	void Profiler::End(const std::string& key, const std::string& category)
 	{
 		auto time = Clock::now();
-		auto& info = this->info.at(key);
+		auto& info = this->data.at(category).at(key);
 
 		info.SetEnd(time);
 	}
@@ -103,26 +103,38 @@ namespace EngineQ
 	void Profiler::Print() const
 	{
 		Logger::LogMessage("================================================== Profiler ==================================================\n");
-		for (const auto& info : this->info)
+		for (const auto& category : this->data)
 		{
-			Logger::LogMessage("\t-", info.first, ": \tAvg: ", info.second.GetAverageTime().count(), "ms \tMin: ", info.second.GetMinTime().count(), "ms \tMax: ", info.second.GetMaxTime().count(), "ms\n");
+			Logger::LogMessage("    ", category.first, "\n");
+			for (const auto& info : category.second)
+			{
+				Logger::LogMessage("        ", info.first, ": \tAvg: ", info.second.GetAverageTime().count(), "ms \tMin: ", info.second.GetMinTime().count(), "ms \tMax: ", info.second.GetMaxTime().count(), "ms\n");
+			}
 		}
 		Logger::LogMessage("==============================================================================================================\n");
 	}
 
 	void Profiler::Reset()
 	{
-		for (auto it = this->info.begin(); it != this->info.end();)
+		for (auto categoryIt = this->data.begin(); categoryIt != this->data.end();)
 		{
-			if (it->second.GetIterations() == 0)
+			for (auto infoIt = categoryIt->second.begin(); infoIt != categoryIt->second.end();)
 			{
-				it = this->info.erase(it);
+				if (infoIt->second.GetIterations() == 0)
+				{
+					infoIt = categoryIt->second.erase(infoIt);
+				}
+				else
+				{
+					infoIt->second.Reset();
+					++infoIt;
+				}
 			}
+
+			if (categoryIt->second.empty())
+				categoryIt = this->data.erase(categoryIt);
 			else
-			{
-				it->second.Reset();
-				++it;
-			}
+				++categoryIt;
 		}
 	}
 }

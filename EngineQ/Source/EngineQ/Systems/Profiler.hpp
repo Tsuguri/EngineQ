@@ -46,7 +46,7 @@ namespace EngineQ
 		};
 
 	private:
-		std::map<std::string, ProfilingInfo> info;
+		std::map<std::string, std::map<std::string, ProfilingInfo>> data;
 
 		TimePoint lastTime = Clock::now();
 		Seconds updateTime = Seconds(2);
@@ -56,10 +56,10 @@ namespace EngineQ
 		void Reset();
 	
 	public:
-		void Start(const char* key);
-		void Start(const std::string& key);
-		void End(const char* key);
-		void End(const std::string& key);
+		void Start(const char* key, const char* category);
+		void Start(const std::string& key, const std::string& category);
+		void End(const char* key, const char* category);
+		void End(const std::string& key, const std::string& category);
 		void Update();
 	};
 }

@@ -205,12 +205,12 @@ namespace EngineQ
 		float lastTime = 0.0f;
 		while (!this->window.ShouldClose() && this->isRunning)
 		{
-			this->profiler.Start("Main loop");
+			this->profiler.Start("Main loop", "Main");
 
 			// Input
-			this->profiler.Start("Input");
+			this->profiler.Start("Input", "Main");
 			this->window.PollEvents();
-			this->profiler.End("Input");
+			this->profiler.End("Input", "Main");
 
 			// Update lastTime
 			float currentTime = static_cast<float>(window.GetTime());
@@ -218,21 +218,21 @@ namespace EngineQ
 			lastTime = currentTime;
 
 			// Update resource manager
-			this->profiler.Start("Resource Manager");
+			this->profiler.Start("Resource Manager", "Main");
 			this->resourceManager->Update();
-			this->profiler.End("Resource Manager");
+			this->profiler.End("Resource Manager", "Main");
 
-			this->profiler.Start("Scripts");
+			this->profiler.Start("Scripts", "Main");
 			// Update scene logic (scripts)
 			this->currentScene->Update();
 			// Update renderer
 			this->renderingUnit->Update();
-			this->profiler.End("Scripts");
+			this->profiler.End("Scripts", "Main");
 
 			// Render scene
-			this->profiler.Start("Renderer");
+			this->profiler.Start("Renderer", "Main");
 			this->renderingUnit->Render(*this->currentScene);
-			this->profiler.End("Renderer");
+			this->profiler.End("Renderer", "Main");
 
 			// Clear frame-characteristic data
 			this->input.ClearDelta();
@@ -241,7 +241,7 @@ namespace EngineQ
 			this->window.SwapBuffers();
 
 			// Update profiler
-			this->profiler.End("Main loop");
+			this->profiler.End("Main loop", "Main");
 			this->profiler.Update();
 		}
 		this->window.Close();
