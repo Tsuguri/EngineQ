@@ -24,9 +24,6 @@ namespace EngineQ
 		/// Milliseconds since start of the application.
 		/// <summary>
 		public static ulong GetMillisecondsFromStart
-		/// </summary>
-		/// Seconds since start of the application.
-		/// <summary>
 		{
 			get
 			{
