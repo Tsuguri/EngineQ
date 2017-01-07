@@ -206,7 +206,7 @@ namespace EngineQ
 
 		if (this->activeCamera != nullptr)
 		{
-			auto screenSize = Engine::Get().GetScreenSize();
+			auto screenSize = Engine::Get().GetWindow().GetScreenSize();
 			this->activeCamera->SetAspectRatio(static_cast<float>(screenSize.X) / static_cast<float>(screenSize.Y));
 		}
 	}

@@ -21,16 +21,18 @@ namespace EngineQ
 		// TODO
 		class Framebuffer : private Utilities::Immovable
 		{
+		private:
 			static GLenum locations[8];
 
 			GLuint fbo;
 			GLuint depthRbo;
 
 			ScreenDataProvider* screenDataProvider;
-			Utilities::EventHandler<void(int, int)> handler;
-			void Resize(int width, int height);
+			Utilities::EventHandler<void(Math::Vector2i)> handler;
+			void Resize(Math::Vector2i size);
 
 			void CreateDepthTesting();
+
 		public:
 			void AddTexture(GLuint texture, GLenum location, GLenum texType = GL_TEXTURE_2D);
 			Framebuffer(bool depthTesting, std::vector<Resources::Resource<Texture>>& textures, ScreenDataProvider* dataProvider);

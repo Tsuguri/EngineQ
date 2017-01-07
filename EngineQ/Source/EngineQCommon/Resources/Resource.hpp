@@ -133,7 +133,7 @@ namespace EngineQ
 			{
 			}
 
-			~Resource()
+			virtual ~Resource()
 			{
 				if (this->controlBlock != nullptr)
 					BaseControlBlock::RemoveNativeReference(this->controlBlock);

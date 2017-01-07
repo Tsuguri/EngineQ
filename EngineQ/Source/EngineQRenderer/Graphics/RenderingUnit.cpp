@@ -45,12 +45,12 @@ namespace EngineQ
 			return Resources::Resource<Texture>(std::make_unique<Texture>(width, height, configuration));
 		}
 
-		void RenderingUnit::Resize(int width, int height)
+		void RenderingUnit::Resize(Math::Vector2i size)
 		{
-			glViewport(0, 0, width, height);
+			glViewport(0, 0, size.X, size.Y);
 
 			for (auto& tex : texturesResources)
-				tex->Resize(width, height);
+				tex->Resize(size.X, size.Y);
 		}
 
 
@@ -165,7 +165,7 @@ namespace EngineQ
 			//	glClearDepth(0);
 			//	glDepthFunc(GL_GREATER);
 
-			screenDataProvider->resizeEvent += handler;
+			screenDataProvider->ResizeEvent += handler;
 
 			this->renderer = this->rendererFactory->CreateRenderer();
 
@@ -180,7 +180,7 @@ namespace EngineQ
 
 		RenderingUnit::~RenderingUnit()
 		{
-			screenDataProvider->resizeEvent -= handler;
+			screenDataProvider->ResizeEvent -= handler;
 		}
 
 		void RenderingUnit::Render(Scene& scene)

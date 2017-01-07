@@ -23,19 +23,16 @@ namespace EngineQ
 
 	Engine::Engine(const Config& config)
 	{
-		Logger::LogMessage("Creating  EngineQ", "\n");
-		if (!window.Initialize(config.windowName, config.windowWidth, config.windowHeight))
-		{
-			Logger::LogMessage("Unable to initialize window", "\n");
-			throw std::runtime_error{ "Unable to start window" };
-		}
+		Logger::LogMessage("Creating  EngineQ\n");
 
-		window.SetKeyFunction(KeyControl);
-		window.SetMouseButtonFunction(MouseButtonControl);
-		window.SetMouseControlFunction(MouseControl);
-		window.SetFramebufferResizeFunction(FramebufferResize);
+		Window::EngineCallbacks::Initialize();
 
-		screenSize = Math::Vector2i{ static_cast<int>(config.windowWidth), static_cast<int>(config.windowHeight) };
+		window = std::make_unique<Window>(config.windowName, config.windowWidth, config.windowHeight);
+
+		window->SetKeyFunction(KeyControl);
+		window->SetMouseButtonFunction(MouseButtonControl);
+		window->SetMousePositionFunction(MouseControl);
+		window->SetResizeFunction(FramebufferResize);
 
 		this->scriptingEngine = std::make_unique<Scripting::ScriptEngine>(config.applicationPath.c_str(), config.engineAssemblyPath.c_str(), (config.monoDirectory + "libraries").c_str(), (config.monoDirectory + "config").c_str());
 
@@ -53,13 +50,13 @@ namespace EngineQ
 		this->renderConfig = IntermediateRenderingUnitConfiguration::Load(config.postprocessingConfig);
 	}
 
+	Engine::~Engine()
+	{
+		Window::EngineCallbacks::Finalize();
+	}
+
 	void Engine::WindowResized(int width, int height)
 	{
-		screenSize = Math::Vector2i{ width,height };
-		
-		if (!ResizeEventIsEmpty())
-			ResizeEventInvoke(width, height);
-
 		if (this->currentScene != nullptr)
 		{
 			auto activeCamera = this->currentScene->GetActiveEngineCamera();
@@ -114,11 +111,6 @@ namespace EngineQ
 		instance = nullptr;
 
 		return true;
-	}
-
-	Math::Vector2i Engine::GetScreenSize() const
-	{
-		return screenSize;
 	}
 
 	Scene& Engine::CreateScene()
@@ -177,6 +169,21 @@ namespace EngineQ
 		return this->profiler;
 	}
 
+	TimeCounter& Engine::GetTimeCounter()
+	{
+		return this->timeCounter;
+	}
+
+	InputController& Engine::GetInputController()
+	{
+		return this->input;
+	}
+
+	Window& Engine::GetWindow()
+	{
+		return *this->window;
+	}
+
 	Resources::ResourceManager& Engine::GetResourceManager() const
 	{
 		return *this->resourceManager;
@@ -196,26 +203,21 @@ namespace EngineQ
 
 		this->scriptingEngine->InvokeStaticMethod(this->initializerMethod, args);
 
-		this->renderingUnit = std::make_unique<Graphics::ScriptedRenderingUnit>(*this->scriptingEngine.get(), static_cast<Graphics::ScreenDataProvider*>(this), this->renderConfig.ToRenderingUnitConfiguration(resourceManager.get()));
-		
+		this->renderingUnit = std::make_unique<Graphics::ScriptedRenderingUnit>(*this->scriptingEngine.get(), static_cast<Graphics::ScreenDataProvider*>(window.get()), this->renderConfig.ToRenderingUnitConfiguration(resourceManager.get()));
 
-		auto& timeCounter = TimeCounter::Get();
-		timeCounter.Update(0.0f, 0.0f);
-
-		float lastTime = 0.0f;
-		while (!this->window.ShouldClose() && this->isRunning)
+		this->timeCounter.Update();
+		while (!this->window->ShouldClose() && this->isRunning)
 		{
 			this->profiler.Start("Main loop", "Main");
 
+			// Update time counter
+			this->timeCounter.Update();
+
 			// Input
 			this->profiler.Start("Input", "Main");
-			this->window.PollEvents();
+			this->input.Update();
+			Window::EngineCallbacks::PollEvents();
 			this->profiler.End("Input", "Main");
-
-			// Update lastTime
-			float currentTime = static_cast<float>(window.GetTime());
-			timeCounter.Update(currentTime, currentTime - lastTime);
-			lastTime = currentTime;
 
 			// Update resource manager
 			this->profiler.Start("Resource Manager", "Main");
@@ -233,17 +235,14 @@ namespace EngineQ
 			this->profiler.Start("Renderer", "Main");
 			this->renderingUnit->Render(*this->currentScene);
 			this->profiler.End("Renderer", "Main");
-
-			// Clear frame-characteristic data
-			this->input.ClearDelta();
-
+			
 			// Show result on screen
-			this->window.SwapBuffers();
+			Window::EngineCallbacks::SwapBuffers(*this->window);
 
 			// Update profiler
 			this->profiler.End("Main loop", "Main");
 			this->profiler.Update();
 		}
-		this->window.Close();
+		this->window->RequestClose();
 	}
 }

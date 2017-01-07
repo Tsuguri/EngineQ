@@ -234,6 +234,16 @@ namespace EngineQ
 			mouseEvents = new MouseButtonEventHandler[(int)MouseButton.Count];
 		}
 
+		#endregion
+
+		#region Static Methods
+
+		private static void Cleanup()
+		{
+			keyboardEvents = null;
+			mouseEvents = null;
+		}
+
 		#region Keys
 
 		private static void KeyEvent(Key key, KeyAction action)

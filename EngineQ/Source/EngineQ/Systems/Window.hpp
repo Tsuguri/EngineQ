@@ -3,45 +3,69 @@
 
 // Standard includes
 #include <string>
+#include <map>
+
+// Other projects
+#include "EngineQCommon/Math/Vector2.hpp"
+#include "EngineQCommon/Utilities/Immovable.hpp"
+#include "EngineQRenderer/Graphics/Utils/ScreenDataProvider.hpp"
 
 
 struct GLFWwindow;
 
 namespace EngineQ
 {
-	class Window
+	class Window : public Utilities::Immovable, public Graphics::ScreenDataProvider
 	{
 	public:
-		typedef void(*keyfunc)(int, int, int, int);
-		typedef void(*mousebuttonfunc)(int, int, int);
-		typedef void(*mousecontrolfunc)(double, double);
-		typedef void(*framebuffersizefunc)(int, int);
+		class EngineCallbacks
+		{
+			friend class Engine;
+
+		public:
+			static void SwapBuffers(Window& window);
+			static void PollEvents();
+			static void Initialize();
+			static void Finalize();
+		};
+
+	public:
+		typedef void(*KeyEventHandler)(int, int, int, int);
+		typedef void(*MouseButtonEventHandler)(int, int, int);
+		typedef void(*MousePositionEventHandler)(double, double);
+		typedef void(*ResizeEventHandler)(int, int);
 
 	private:
 		GLFWwindow* window;
-		static keyfunc KeyFunction;
-		static mousebuttonfunc MouseButtonsFunction;
-		static mousecontrolfunc MouseControlFunction;
-		static framebuffersizefunc FramebufferResizeFunction;
+		Math::Vector2i screenSize;
 
-		static void KeyControl(GLFWwindow* window, int key, int scancode, int action, int mode);
-		static void MouseButtonControl(GLFWwindow* window, int button, int action, int mods);
-		static void MouseControl(GLFWwindow* window, double xpos, double ypos);
-		static void FramebufferResize(GLFWwindow* window, int width, int height);
-	public:
-		Window();
-		~Window();
-		bool Initialize(const std::string& windowName, int width, int height);
+		KeyEventHandler KeyFunction = nullptr;
+		MouseButtonEventHandler MouseButtonFunction = nullptr;
+		MousePositionEventHandler MousePositionFunction = nullptr;
+		ResizeEventHandler ResizeFunction = nullptr;
+
+		static std::map<GLFWwindow*, Window*> windowsMap;
+
+		static void KeyControl(GLFWwindow* glfwWindow, int key, int scancode, int action, int mode);
+		static void MouseButtonControl(GLFWwindow* glfwWindow, int button, int action, int mods);
+		static void MousePositionControl(GLFWwindow* glfwWindow, double xpos, double ypos);
+		static void ResizeControl(GLFWwindow* glfwWindow, int width, int height);
+
 		void Close();
-		void SwapBuffers();
-		bool ShouldClose();
-		void PollEvents();
-		void SetKeyFunction(keyfunc function);
-		void SetMouseButtonFunction(mousebuttonfunc function);
-		void SetMouseControlFunction(mousecontrolfunc function);
-		void SetFramebufferResizeFunction(framebuffersizefunc function);
-		double GetTime();
 
+	public:
+		Window(const std::string& windowName, int width, int height);
+		~Window();
+
+		void MakeCurrent();
+		bool ShouldClose();
+		void RequestClose();
+		virtual Math::Vector2i GetScreenSize() const override;
+
+		void SetKeyFunction(KeyEventHandler function);
+		void SetMouseButtonFunction(MouseButtonEventHandler function);
+		void SetMousePositionFunction(MousePositionEventHandler function);
+		void SetResizeFunction(ResizeEventHandler function);
 	};
 }
 #endif

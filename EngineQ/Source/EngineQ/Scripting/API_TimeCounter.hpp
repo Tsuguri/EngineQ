@@ -12,8 +12,9 @@ namespace EngineQ
 		class API_TimeCounter
 		{
 		public:
-			static void API_GetTimeFromStart(float& time);
+			static void API_GetMillisecondsFromStart(std::uint64_t& time);
 			static void API_GetDeltaTime(float& time);
+
 			static void API_Register(ScriptEngine& scriptEngine);
 		};
 	}

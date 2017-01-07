@@ -1,28 +1,28 @@
 #include "TimeCounter.hpp"
 
-
-std::unique_ptr<TimeCounter> TimeCounter::instance = nullptr;
-
-float TimeCounter::TimeFromStart()
+namespace EngineQ
 {
-	return timeFromStart;
-}
+	void TimeCounter::Update()
+	{
+		auto time = Clock::now();
+		this->deltaTime = time - this->lastTime;
 
-float TimeCounter::DeltaTime()
-{
-	return deltaTime;
-}
+		if (this->deltaTime > this->maxDeltaTime)
+			this->deltaTime = this->maxDeltaTime;
 
-void TimeCounter::Update(float time, float deltaTime)
-{
-	this->deltaTime = deltaTime;
-	this->timeFromStart = time;
-}
+		this->lastTime = time;
+	}
 
-TimeCounter& TimeCounter::Get()
-{
-	if (instance == nullptr)
-		instance = std::make_unique<TimeCounter>();
+	float TimeCounter::GetDeltaTime()
+	{
+		return this->deltaTime.count();
+	}
 
-	return *instance;
+	std::uint64_t TimeCounter::GetMillisecondsFromStart()
+	{
+		auto time = Clock::now();
+		auto diff = time - this->startTime;
+
+		return static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(diff).count());
+	}
 }

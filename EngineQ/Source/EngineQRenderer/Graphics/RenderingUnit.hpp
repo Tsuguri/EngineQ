@@ -31,11 +31,11 @@ namespace EngineQ
 
 			std::vector<Resources::Resource<Texture>> texturesResources;
 
-			Utilities::EventHandler<void(int, int)> handler;
+			Utilities::EventHandler<void(Math::Vector2i)> handler;
 
 			Resources::Resource<Texture> CreateTexture(int width, int height, const Configuration::TextureConfiguration& configuration);
 
-			void Resize(int width, int height);
+			void Resize(Math::Vector2i size);
 			std::unique_ptr<Framebuffer> CreateFramebuffer(std::vector<Resources::Resource<Texture>>& textures, bool depthTesting);
 
 			void AddEffects(const std::vector<Configuration::EffectConfiguration>& effects, const std::string& nameBase, const std::map<std::string, int>& texturesNames);
@@ -46,7 +46,7 @@ namespace EngineQ
 
 		public:
 			RenderingUnit(ScreenDataProvider* screenDataProvider, const Configuration::RenderingUnitConfiguration& configuration);
-			~RenderingUnit();
+			virtual ~RenderingUnit();
 
 			void Render(Scene& scene);
 		};

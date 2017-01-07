@@ -68,6 +68,11 @@ namespace QScripts
 			this.Transform.Rotation = Quaternion.CreateFromEuler(1.3f, -2.0f, 0.4f);
 		}
 
+		protected override void OnDeactivate()
+		{
+			Input.DeregisterMouseButtonEvent(Input.MouseButton.Left, ArrowPressAction);
+		}
+
 		private bool HittestArrow(Transform arrow, Ray ray, out float distance)
 		{
 			var matrix = arrow.GlobalMatrix;

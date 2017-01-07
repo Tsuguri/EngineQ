@@ -8,22 +8,22 @@
 // Other projects
 #include "EngineQCommon/Math/Vector2.hpp"
 #include "EngineQCommon/Utilities/Event.hpp"
-#include "EngineQRenderer/Graphics/Utils/ScreenDataProvider.hpp"
 
 // This project
 #include "Systems/Window.hpp"
+#include "Systems/Profiler.hpp"
+#include "Systems/TimeCounter.hpp"
 #include "Systems/InputController.hpp"
 #include "Graphics/RendererIntermediateConfiguration.hpp"
 #include "Objects/Scene.hpp"
 #include "Resources/ResourceManager.hpp"
 #include "Scripting/ScriptEngine.hpp"
 #include "Graphics/ScriptedRenderingUnit.hpp"
-#include "Systems/Profiler.hpp"
 
 
 namespace EngineQ
 {
-	class Engine : private Utilities::Immovable, public Graphics::ScreenDataProvider
+	class Engine : private Utilities::Immovable
 	{
 	#pragma region Types
 
@@ -57,19 +57,16 @@ namespace EngineQ
 	private:
 		static std::unique_ptr<Engine> instance;
 
+		bool isRunning = true;
+
 		Profiler profiler;
 		IntermediateRenderingUnitConfiguration renderConfig;
 
-		Window window;
-		bool isRunning = true;
-		Math::Vector2i screenSize;
+		std::unique_ptr<Window> window;
 
-	public:
-		//Utilities::Event<Engine, void(int, int)> resizeEvent;
-		InputController input;
-
-	private:
 		std::unique_ptr<Scripting::ScriptEngine> scriptingEngine;
+		TimeCounter timeCounter;
+		InputController input;
 		std::unique_ptr<Resources::ResourceManager> resourceManager;
 		std::unique_ptr<Graphics::ScriptedRenderingUnit> renderingUnit;
 
@@ -95,12 +92,16 @@ namespace EngineQ
 	public:
 		static bool Initialize(const Config& config);
 		static bool Finalize();
-
 		static Engine& Get();
+
+		~Engine();
+	
 		Resources::ResourceManager& GetResourceManager() const;
 		Scripting::ScriptEngine& GetScriptEngine() const;
 		Profiler& GetProfiler();
-		Math::Vector2i GetScreenSize() const override;
+		TimeCounter& GetTimeCounter();
+		InputController& GetInputController();
+		Window& GetWindow();
 
 		Scene& CreateScene();
 		void RemoveScene(Scene& scene);

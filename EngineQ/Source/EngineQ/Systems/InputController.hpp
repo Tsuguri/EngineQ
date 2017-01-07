@@ -190,6 +190,7 @@ namespace EngineQ
 		Scripting::ScriptEngine* se = nullptr;
 		Scripting::ScriptMethod keyEventMethod = nullptr;
 		Scripting::ScriptMethod mouseButtonEventMethod = nullptr;
+		Scripting::ScriptMethod cleanupMethod = nullptr;
 
 		Math::Vector2 cursorPos;
 		Math::Vector2 cursorDeltaPos;
@@ -201,13 +202,15 @@ namespace EngineQ
 		static void SetTranslateTables();
 
 	public:
+		~InputController();
+
 		void InitMethods(Scripting::ScriptEngine* se);
 		bool IsButtonDown(Key keyCode);
 		bool IsMouseButtonDown(MouseButton keyCode);
 
 		Math::Vector2 GetMousePosition() const;
 		Math::Vector2 GetMouseDeltaPosition() const;
-		void ClearDelta();
+		void Update();
 	};
 }
 

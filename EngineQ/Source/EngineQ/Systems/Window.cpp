@@ -10,37 +10,89 @@
 
 namespace EngineQ
 {
-	Window::keyfunc Window::KeyFunction=nullptr;
-	Window::mousebuttonfunc Window::MouseButtonsFunction = nullptr;
-	Window::mousecontrolfunc Window::MouseControlFunction = nullptr;
-	Window::framebuffersizefunc Window::FramebufferResizeFunction = nullptr;
+	std::map<GLFWwindow*, Window*> Window::windowsMap;
 
-	void Window::KeyControl(GLFWwindow * window, int key, int scancode, int action, int mode)
+	void Window::KeyControl(GLFWwindow* glfwWindow, int key, int scancode, int action, int mode)
 	{
-		if (KeyFunction != nullptr)
-			KeyFunction(key, scancode, action, mode);
-	}
-	void Window::MouseButtonControl(GLFWwindow * window, int button, int action, int mods)
-	{
-		if (MouseButtonsFunction != nullptr)
-			MouseButtonsFunction(button, action, mods);
-	}
-	void Window::MouseControl(GLFWwindow * window, double xpos, double ypos)
-	{
-		if (MouseControlFunction != nullptr)
-			MouseControlFunction(xpos, ypos);
-	}
+		auto window = windowsMap.at(glfwWindow);
 
-	void Window::FramebufferResize(GLFWwindow* window, int width, int height)
+		if (window->KeyFunction != nullptr)
+			window->KeyFunction(key, scancode, action, mode);
+	}
+	void Window::MouseButtonControl(GLFWwindow* glfwWindow, int button, int action, int mods)
 	{
-		if (FramebufferResizeFunction != nullptr)
-			FramebufferResizeFunction(width, height);
+		auto window = windowsMap.at(glfwWindow);
+
+		if (window->MouseButtonFunction != nullptr)
+			window->MouseButtonFunction(button, action, mods);
+	}
+	void Window::MousePositionControl(GLFWwindow* glfwWindow, double xpos, double ypos)
+	{
+		auto window = windowsMap.at(glfwWindow);
+
+		if (window->MousePositionFunction != nullptr)
+			window->MousePositionFunction(xpos, ypos);
 	}
 
-	bool Window::Initialize(const std::string& windowName, int width, int height)
+	void Window::ResizeControl(GLFWwindow* glfwWindow, int width, int height)
 	{
-		glfwInit();
+		auto window = windowsMap.at(glfwWindow);
+		window->screenSize = Math::Vector2i(width, height);
 
+		if (window->ResizeFunction != nullptr)
+			window->ResizeFunction(width, height);
+
+		if (!window->ResizeEventIsEmpty())
+			window->ResizeEventInvoke(window->screenSize);
+	}
+
+	void Window::MakeCurrent()
+	{
+		glfwMakeContextCurrent(window);
+	}
+
+	void Window::Close()
+	{
+		glfwDestroyWindow(this->window);
+	}
+	
+	bool Window::ShouldClose()
+	{
+		return glfwWindowShouldClose(window) > 0;
+	}
+
+	void Window::RequestClose()
+	{
+		glfwSetWindowShouldClose(this->window, GL_TRUE);
+	}
+
+	Math::Vector2i Window::GetScreenSize() const
+	{
+		return this->screenSize;
+	}
+
+	void Window::SetKeyFunction(KeyEventHandler function)
+	{
+		KeyFunction = function;
+	}
+
+	void Window::SetMouseButtonFunction(MouseButtonEventHandler function)
+	{
+		MouseButtonFunction = function;
+	}
+
+	void Window::SetMousePositionFunction(MousePositionEventHandler function)
+	{
+		MousePositionFunction = function;
+	}
+
+	void Window::SetResizeFunction(ResizeEventHandler function)
+	{
+		ResizeFunction = function;
+	}
+
+	Window::Window(const std::string& windowName, int width, int height)
+	{
 		// Set all the required options for GLFW
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -49,25 +101,25 @@ namespace EngineQ
 
 		// Creating glfw window.
 		window = glfwCreateWindow(width, height, windowName.c_str(), nullptr, nullptr);//glfwGetPrimaryMonitor()
+	
+		this->screenSize = Math::Vector2i(width, height);
 
 		if (window == nullptr)
-		{
-			Logger::LogMessage("Failed to create GLFW window", "\n");
-			glfwTerminate();
-			return false;
-		}
+			throw std::runtime_error{ "Failed to create window" };
 
 		glfwMakeContextCurrent(window);
 
 		//Change here to manipulate vsync
 		//glfwSwapInterval(0);
 
+		windowsMap.insert(std::make_pair(window, this));
+	
 		// Set the required callback functions
 		glfwSetKeyCallback(window, KeyControl);
-		glfwSetCursorPosCallback(window, MouseControl);
+		glfwSetCursorPosCallback(window, MousePositionControl);
 		glfwSetMouseButtonCallback(window, MouseButtonControl);
 		//Uncomment below if want to register call on window resizing
-		glfwSetFramebufferSizeCallback(window, FramebufferResize);
+		glfwSetFramebufferSizeCallback(window, ResizeControl);
 
 
 		// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
@@ -75,66 +127,32 @@ namespace EngineQ
 
 		// Initialize GLEW to setup the OpenGL Function pointers
 		if (glewInit() != GLEW_OK)
-		{
-			Logger::LogMessage("Failed to initialize GLEW", "\n");
-			glfwSetWindowShouldClose(window, GL_TRUE);
-			window = nullptr;
-			return false;
-		}
-		return true;
+			throw std::runtime_error{ "Failed to initialize GLEW" };
 	}
 
-	void Window::Close()
+	Window::~Window()
 	{
-		glfwTerminate();
+		this->Close();
 	}
 
-	void Window::SwapBuffers()
+	void Window::EngineCallbacks::SwapBuffers(Window& window)
 	{
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(window.window);
 	}
 
-	bool Window::ShouldClose()
-	{
-		return glfwWindowShouldClose(window) > 0 ? true : false;
-	}
-
-	void Window::PollEvents()
+	void Window::EngineCallbacks::PollEvents()
 	{
 		glfwPollEvents();
 	}
 
-	void Window::SetKeyFunction(keyfunc function)
+	void Window::EngineCallbacks::Initialize()
 	{
-		KeyFunction = function;
+		if (glfwInit() != GL_TRUE)
+			throw std::runtime_error{ "Failed to initialize GLFW" };
 	}
 
-	void Window::SetMouseButtonFunction(mousebuttonfunc function)
+	void Window::EngineCallbacks::Finalize()
 	{
-		MouseButtonsFunction = function;
-	}
-
-	void Window::SetMouseControlFunction(mousecontrolfunc function)
-	{
-		MouseControlFunction = function;
-	}
-
-	void Window::SetFramebufferResizeFunction(framebuffersizefunc function)
-	{
-		FramebufferResizeFunction = function;
-	}
-
-	double Window::GetTime()
-	{
-		return glfwGetTime();
-	}
-
-	Window::Window()
-	{
-	}
-
-
-	Window::~Window()
-	{
+		glfwTerminate();
 	}
 }

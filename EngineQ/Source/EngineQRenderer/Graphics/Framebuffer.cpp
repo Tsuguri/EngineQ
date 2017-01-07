@@ -31,7 +31,7 @@ namespace EngineQ
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthRbo);
 		}
 
-		void Framebuffer::Resize(int width, int height)
+		void Framebuffer::Resize(Math::Vector2i)
 		{
 			if (depthRbo > 0)
 			{
@@ -64,14 +64,14 @@ namespace EngineQ
 			}
 			if (attachmentOrder.size() > 1)
 				glDrawBuffers(static_cast<GLsizei>(attachmentOrder.size()), &attachmentOrder[0]);
-			screenDataProvider->resizeEvent += handler;
+			screenDataProvider->ResizeEvent += handler;
 		}
 
 		void Framebuffer::UnsubscribeFromResize()
 		{
 			if (screenDataProvider != nullptr)
 			{
-				screenDataProvider->resizeEvent -= handler;
+				screenDataProvider->ResizeEvent -= handler;
 				screenDataProvider = nullptr;
 			}
 		}

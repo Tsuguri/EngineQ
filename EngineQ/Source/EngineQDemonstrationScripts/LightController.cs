@@ -32,11 +32,15 @@ namespace QScripts
 
 		protected override void OnActivate()
 		{
-			base.OnCreate();
-
 			light = Entity.GetComponent<Light>();
 			Input.RegisterKeyEvent(Input.Key.K, ResizeDown);
 			Input.RegisterKeyEvent(Input.Key.L, ResizeUp);
+		}
+
+		protected override void OnDeactivate()
+		{
+			Input.DeregisterKeyEvent(Input.Key.K, ResizeDown);
+			Input.DeregisterKeyEvent(Input.Key.L, ResizeUp);
 		}
 	}
 }

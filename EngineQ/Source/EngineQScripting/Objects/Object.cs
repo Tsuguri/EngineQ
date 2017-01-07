@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace EngineQ
 {
@@ -25,6 +26,8 @@ namespace EngineQ
 		}
 
 		// TMP
+		private static Dictionary<Type, int> typesCount = new Dictionary<Type, int>();
+
 		private static int objectsCount = 0;
 		private static int maxObjectsCount = 0;
 		private int objectIndex = -1;
@@ -37,8 +40,19 @@ namespace EngineQ
 			if (objectIndex != -1)
 				Console.WriteLine($"SE: !!!!! ALREADY CREATED !!!!!");
 
+			int objTotal = 0;
+			if (typesCount.ContainsKey(GetType()))
+			{
+				objTotal = typesCount[GetType()] += 1;
+			}
+			else
+			{
+				typesCount.Add(GetType(), 1);
+				objTotal = 1;
+			}
+
 			this.objectIndex = maxObjectsCount;
-			Console.WriteLine($"SE: [{objectIndex,3}|{objectsCount,3}] Constructed {GetType()} with handle {nativeHandle}");
+			Console.WriteLine($"SE: [{objectIndex,3}|{objectsCount,3}] Constructed {GetType()} ({objTotal} in total) with handle {nativeHandle}");
 		}
 
 		// TMP
@@ -47,8 +61,16 @@ namespace EngineQ
 			if (objectIndex == -1)
 				Console.WriteLine($"SE: !!!!! ALREADY DESTROYED !!!!!");
 
+			int objTotal = typesCount[GetType()] -= 1;
+
 			objectsCount -= 1;
-			Console.WriteLine($"SE: [{objectIndex,3}|{objectsCount,3}] Destructed {GetType()} with handle {nativeHandle}");
+			Console.WriteLine($"SE: [{objectIndex,3}|{objectsCount,3}] Destructed {GetType()} ({objTotal} left) with handle {nativeHandle}");
+
+		//	Console.Write("Left: ");
+		//	foreach (var pair in typesCount)
+		//		if (pair.Value != 0)
+		//			Console.Write($"({pair.Key},{pair.Value})");
+		//	Console.WriteLine();
 
 			this.objectIndex = -1;
 		}
@@ -60,7 +82,7 @@ namespace EngineQ
 
 			if (this.GetType() != obj.GetType())
 				return false;
-			
+
 			return this.nativeHandle == ((EngineQ.Object)obj).nativeHandle;
 		}
 
@@ -68,7 +90,7 @@ namespace EngineQ
 		{
 			return base.GetHashCode();
 		}
-		
+
 		public static bool operator ==(EngineQ.Object obj1, EngineQ.Object obj2)
 		{
 			if (!ReferenceEquals(obj1, null))

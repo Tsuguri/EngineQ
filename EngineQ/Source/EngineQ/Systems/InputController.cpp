@@ -159,11 +159,17 @@ namespace EngineQ
 
 
 
+	InputController::~InputController()
+	{
+		this->se->InvokeStaticMethod(this->cleanupMethod, nullptr);
+	}
+
 	void InputController::InitMethods(Scripting::ScriptEngine* se)
 	{
 		this->se = se;
 		keyEventMethod = se->GetInputMethod(":KeyEvent");
 		mouseButtonEventMethod = se->GetInputMethod(":MouseButtonEvent");
+		cleanupMethod = se->GetInputMethod(":Cleanup");
 	}
 
 	void InputController::OnKeyAction(int key, int scancode, int action, int mode)
@@ -267,7 +273,7 @@ namespace EngineQ
 		return cursorDeltaPos;
 	}
 
-	void InputController::ClearDelta()
+	void InputController::Update()
 	{
 		cursorDeltaPos = Math::Vector2::GetZero();
 	}

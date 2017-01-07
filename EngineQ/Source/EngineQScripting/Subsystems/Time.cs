@@ -8,19 +8,19 @@ namespace EngineQ
 		{
 			get
 			{
-				float time = 0;
-				API_GetDeltaTime(out time);
-				return time;
+				float value = 0.0f;
+				API_GetDeltaTime(out value);
+				return value;
 			}
 		}
 
-		public static float TimeFromStart
+		public static ulong GetMillisecondsFromStart
 		{
 			get
 			{
-				float time = 0;
-				API_GetTimeFromStart(out time);
-				return time;
+				ulong value = 0;
+				API_GetMillisecondsFromStart(out value);
+				return value;
 			}
 		}
 
@@ -30,7 +30,7 @@ namespace EngineQ
 		private static extern void API_GetDeltaTime(out float time);
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		private static extern void API_GetTimeFromStart(out float time);
+		private static extern void API_GetMillisecondsFromStart(out ulong time);
 
 		#endregion
 	}

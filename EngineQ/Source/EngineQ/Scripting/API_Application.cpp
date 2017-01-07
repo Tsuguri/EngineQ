@@ -14,7 +14,7 @@ namespace EngineQ
 	{
 		void API_Application::API_GetScreenSize(Math::Vector2i& screenSize)
 		{
-			screenSize = Engine::Get().GetScreenSize();
+			screenSize = Engine::Get().GetWindow().GetScreenSize();
 		}
 
 		void API_Application::API_ApplicationExit()

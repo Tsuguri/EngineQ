@@ -62,7 +62,7 @@ namespace EngineQ
 		{
 			MonoClass* currClass = mclass;
 			MonoMethod* foundMethod = nullptr;
-			
+
 			while (currClass != scriptClass)
 			{
 				if (currClass == nullptr)
@@ -114,23 +114,23 @@ namespace EngineQ
 			mono_set_dirs(libPath, configPath);
 
 
-			
-			
-			
 
 
-		//	const char* inputArgs[] = {
-		//		"--debugger-agent=transport=dt_socket,address=0.0.0.0:56000,server=y",
-		//	};
-			
-		//	mono_jit_parse_options(sizeof(inputArgs) / sizeof(const char*), const_cast<char**>(inputArgs));
 
-		//	mono_debug_init(MONO_DEBUG_FORMAT_MONO);
-			
+
+
+			//	const char* inputArgs[] = {
+			//		"--debugger-agent=transport=dt_socket,address=0.0.0.0:56000,server=y",
+			//	};
+
+			//	mono_jit_parse_options(sizeof(inputArgs) / sizeof(const char*), const_cast<char**>(inputArgs));
+
+			//	mono_debug_init(MONO_DEBUG_FORMAT_MONO);
+
 			this->domain = mono_jit_init(name);
-			
-		//	mono_debug_domain_create(this->domain);
-			
+
+			//	mono_debug_domain_create(this->domain);
+
 
 
 
@@ -210,38 +210,57 @@ namespace EngineQ
 			//		mono_assembly_close(assembly.second.first);
 			//	}
 
+		
+			
+		//	auto gcClass = mono_class_from_name(mono_get_corlib(), "System", "GC");
+		//
+		//	auto collectMethod = GetMethod(gcClass, ":Collect");
+		//	auto waitForPendingFinalizersMethod = GetMethod(gcClass, ":WaitForPendingFinalizers");
+		//
+		//	for (int i = 0; i < 10; ++i)
+		//	{
+		//
+		//		MonoObject* exc = nullptr;
+		//		mono_runtime_invoke(collectMethod, nullptr, nullptr, &exc);
+		//		if (exc != nullptr)
+		//		{
+		//			std::printf("==== Unhandled exception ====\n");
+		//
+		//			std::string excStr = this->GetScriptStringContent(mono_object_to_string(exc, nullptr));
+		//			std::printf("%s\n", excStr.c_str());
+		//		}
+		//
+		//		exc = nullptr;
+		//		mono_runtime_invoke(waitForPendingFinalizersMethod, nullptr, nullptr, &exc);
+		//		if (exc != nullptr)
+		//		{
+		//			std::printf("==== Unhandled exception ====\n");
+		//
+		//			std::string excStr = this->GetScriptStringContent(mono_object_to_string(exc, nullptr));
+		//			std::printf("%s\n", excStr.c_str());
+		//		}
+		//	}
 
-			auto maxGeneration = mono_gc_max_generation();
-			mono_gc_collect(maxGeneration);
-			//	mono_gc_invoke_finalizers();
+
+
+		//	auto maxGeneration = mono_gc_max_generation();
+		//	mono_gc_collect(maxGeneration);
+		//	mono_gc_invoke_finalizers();
+
+			mono_gc_collect(mono_gc_max_generation());
+
+			
+		//	for (int i = mono_gc_max_generation(); i >= 0; --i)
+		//	{
+		//		mono_gc_collect(i);
+		//
+		//		auto maxGen = mono_gc_max_generation();
+		//		auto count = mono_gc_collection_count(i);
+		//
+		//		int x = maxGen + count;
+		//	}
+					
 			mono_domain_finalize(this->domain, -1);
-
-			/*
-			auto gcClass = mono_class_from_name(mono_get_corlib(), "System", "GC");
-
-			auto collectMethod = GetMethod(gcClass, ":Collect");
-			auto waitForPendingFinalizersMethod = GetMethod(gcClass, ":WaitForPendingFinalizers");
-
-			MonoObject* exc = nullptr;
-			mono_runtime_invoke(collectMethod, nullptr, nullptr, &exc);
-			if (exc != nullptr)
-			{
-				std::printf("==== Unhandled exception ====\n");
-
-				std::string excStr = this->GetScriptStringContent(mono_object_to_string(exc, nullptr));
-				std::printf("%s\n", excStr.c_str());
-			}
-
-			exc = nullptr;
-			mono_runtime_invoke(waitForPendingFinalizersMethod, nullptr, nullptr, &exc);
-			if (exc != nullptr)
-			{
-				std::printf("==== Unhandled exception ====\n");
-
-				std::string excStr = this->GetScriptStringContent(mono_object_to_string(exc, nullptr));
-				std::printf("%s\n", excStr.c_str());
-			}
-			*/
 
 			mono_jit_cleanup(this->domain);
 
@@ -284,7 +303,7 @@ namespace EngineQ
 			if (exc != nullptr)
 			{
 				std::printf("==== Unhandled exception ====\n");
-				
+
 				std::string excStr = this->GetScriptStringContent(mono_object_to_string(exc, nullptr));
 				std::printf("%s\n", excStr.c_str());
 			}
@@ -392,7 +411,7 @@ namespace EngineQ
 		{
 			return GetScriptMethod(sclass, object, OnDisableName, this->GetClass(Class::Script));
 		}
-		
+
 		ScriptMethod ScriptEngine::GetScriptDeactivateMethod(ScriptClass sclass, ScriptObject object) const
 		{
 			return GetScriptMethod(sclass, object, OnDeactivateName, this->GetClass(Class::Script));
@@ -436,19 +455,19 @@ namespace EngineQ
 
 			auto method = this->GetMethod(scriptClass, InitializerName);
 			if (method == nullptr)
-				throw std::runtime_error{ std::string{ InitializerName } + " method not found" };
+				throw std::runtime_error{ std::string{ InitializerName } +" method not found" };
 
 			auto signature = mono_method_signature(method);
-		
+
 			if (mono_signature_is_instance(signature))
-				throw std::runtime_error{ std::string{ InitializerName } + " method must be static" };
+				throw std::runtime_error{ std::string{ InitializerName } +" method must be static" };
 
 			if (mono_signature_get_param_count(signature) != 1)
 				throw std::runtime_error{ std::string{ InitializerName } +" method must accept only one argument of type Scene" };
 
 			void* paramsIter = nullptr;
 			auto arg0Type = mono_signature_get_params(signature, &paramsIter);
-			
+
 			auto arg0Class = mono_type_get_class(arg0Type);
 			if (arg0Class != this->GetClass(Class::Scene))
 				throw std::runtime_error{ std::string{ InitializerName } +" method must accept only one argument of type Scene" };
@@ -525,9 +544,9 @@ namespace EngineQ
 
 			auto effectClass = mono_class_from_name(image, classNamespace, name);
 
-			if(effectClass == nullptr)
+			if (effectClass == nullptr)
 				throw ScriptEngineException{ "Class " + std::string{ classNamespace } +"." + name + (assemblyName.empty() ? "" : " from assembly " + assemblyName) + " not found" };
-			
+
 			if (!this->IsDerrived(effectClass, this->GetClass(Class::EffectController)))
 				throw ScriptEngineException{ "Class " + std::string{ classNamespace } +"." + name + (assemblyName.empty() ? "" : " from assembly " + assemblyName) + " is not derrived from EffectController" };
 
