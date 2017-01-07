@@ -3,8 +3,15 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
+	/// <summary>
+	/// Abstract representation of the scene object.
+	/// Provides utilities for adding and removing <see cref="Component"/>s which provide functionality for Entities.
+	/// </summary>
 	public sealed class Entity : EngineQ.Object
 	{
+		/// <summary>
+		/// Scene contaning this Entity.
+		/// </summary>
 		public Scene Scene
 		{
 			get
@@ -15,6 +22,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// <see cref="Component"/> describing position, orientation and hierarchy of this Entity on the <see cref="EngineQ.Scene"/>. 
+		/// </summary>
 		public Transform Transform
 		{
 			get
@@ -25,6 +35,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Name of this Entity.
+		/// </summary>
 		public string Name
 		{
 			get
@@ -40,6 +53,11 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Specifies whether the Entity is enabled. 
+		/// When set to false, the Entity will be disabled.
+		/// Disabling Entity disables all children Entities and Components of this Entity. 
+		/// </summary>
 		public bool Enabled
 		{
 			get
@@ -55,6 +73,12 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Specifies whether the Entity is enabled in hierarchy.
+		/// Entity can be disabled if it is disabled itself (<see cref="Enabled"/> is set to false), or it's parent <see cref="Transform.Parent"/> is disabled in hierarchy (<see cref="EnabledInHierarchy"/> is set to false).
+		/// </summary>
+		/// <seealso cref="Enabled"/>
+		/// <seealso cref="EnabledInHierarchy"/>
 		public bool EnabledInHierarchy
 		{
 			get
@@ -65,6 +89,11 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Gets first <see cref="Component"/> with specified or derrived type.
+		/// </summary>
+		/// <typeparam name="TComponent"><see cref="Component"/> direct or base type.</typeparam>
+		/// <returns>Found <see cref="Component"/> or null when not found.</returns>
 		public TComponent GetComponent<TComponent>()
 			where TComponent : Component
 		{
@@ -74,6 +103,12 @@ namespace EngineQ
 			return (TComponent)value;
 		}
 
+		/// <summary>
+		/// Creates and adds <see cref="Component"/> with given type to this Entity.
+		/// </summary>
+		/// <typeparam name="TComponent">Type of the <see cref="Component"/>.</typeparam>
+		/// <param name="enabled">Specifies whether <see cref="Component"/> will be created as enabled or disabled.</param>
+		/// <returns>Reference to created component.</returns>
 		public TComponent AddComponent<TComponent>(bool enabled = true)
 			where TComponent : Component
 		{
@@ -83,11 +118,21 @@ namespace EngineQ
 			return (TComponent)value;
 		}
 
+		/// <summary>
+		/// Removes specified <see cref="Component"/> from this Entity and destroys it.
+		/// </summary>
+		/// <param name="component"><see cref="Component"/> to be removed and destroyed.</param>
+		/// <exception cref="ArgumentException">
+		///	Throws when <paramref name="component"/> is not owned by this Entity.
+		/// </exception>
 		public void RemoveComponent(Component component)
 		{
 			API_RemoveComponent(this.NativeHandle, ref component);
 		}
 
+		/// <summary>
+		/// Amount of <see cref="Component"/>s added to the Entity.
+		/// </summary>
 		public int ComponentsCount
 		{
 			get
@@ -98,12 +143,18 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Gets <see cref="Component"/> with specified index.
+		/// </summary>
+		/// <param name="index">Index of the <see cref="Component"/>.</param>
+		/// <returns><see cref="Component"/> on specified index.</returns>
 		public Component GetComponent(int index)
 		{
 			Component value;
 			API_GetComponentIndex(this.NativeHandle, index, out value);
 			return value;
 		}
+
 
 		#region API
 

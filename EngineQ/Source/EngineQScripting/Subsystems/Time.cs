@@ -2,8 +2,14 @@
 
 namespace EngineQ
 {
+	/// <summary>
+	/// Provides utilities to measuring time.
+	/// </summary>
 	public static class Time
 	{
+		/// <summary>
+		/// Seconds since last update.
+		/// </summary>
 		public static float DeltaTime
 		{
 			get
@@ -15,6 +21,9 @@ namespace EngineQ
 		}
 
 		public static ulong GetMillisecondsFromStart
+		/// </summary>
+		/// Seconds since start of the application.
+		/// <summary>
 		{
 			get
 			{
@@ -23,6 +32,7 @@ namespace EngineQ
 				return value;
 			}
 		}
+
 
 		#region API
 

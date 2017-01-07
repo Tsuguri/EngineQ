@@ -3,10 +3,16 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
+	/// <summary>
+	/// Base class for all resources. Every Resoruce is managed by <see cref="ResourceManager"/>. 
+	/// </summary>
 	public abstract class Resource : EngineQ.Object
 	{
 		#region Properties
 
+		/// <summary>
+		/// Handle to resource memory.
+		/// </summary>
 		internal IntPtr Handle
 		{
 			get
@@ -30,6 +36,7 @@ namespace EngineQ
 		}
 
 		#endregion
+
 
 		#region API
 

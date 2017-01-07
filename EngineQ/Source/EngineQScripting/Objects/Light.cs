@@ -5,6 +5,9 @@ using EngineQ.Math;
 
 namespace EngineQ
 {
+	/// <summary>
+	/// Type of the <see cref="Light"/> component.
+	/// </summary>
 	public enum LightType
 	{
 		Sun,
@@ -12,10 +15,16 @@ namespace EngineQ
 		Spotlight,
 	}
 
+	/// <summary>
+	/// <see cref="Component"/> providing light functionality for the <see cref="Entity"/>.
+	/// </summary>
 	public sealed class Light : Component
 	{
 		#region Properties
 
+		/// <summary>
+		/// Ambient color of the light.
+		/// </summary>
 		public Vector3 AmbientColor
 		{
 			get
@@ -30,6 +39,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Diffuse color of the light.
+		/// </summary>
 		public Vector3 DiffuseColor
 		{
 			get
@@ -44,6 +56,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Specular color of the light.
+		/// </summary>
 		public Vector3 SpecularColor
 		{
 			get
@@ -58,6 +73,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Type of the light.
+		/// </summary>
 		public LightType Type
 		{
 			get
