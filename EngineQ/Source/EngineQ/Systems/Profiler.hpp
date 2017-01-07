@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 #include <array>
+#include <iomanip>
 
 // Libraries
 #include <GL\glew.h>
@@ -125,10 +126,17 @@ namespace EngineQ
 		{
 			for (const auto& category : infoMap)
 			{
+				constexpr int Precision = 3;
+				constexpr int Decimal = 3;
+				constexpr int Width = Precision + 1 + Decimal;
+
 				Logger::LogMessage("    ", category.first, "\n");
 				for (const auto& info : category.second)
 				{
-					Logger::LogMessage("      ", info.first, ": \tAvg: ", info.second.GetAverageTime().count(), "ms \tMin: ", info.second.GetMinTime().count(), "ms \tMax: ", info.second.GetMaxTime().count(), "ms\n");
+					Logger::LogMessage("      ", 
+						std::setw(40), std::left, info.first, 
+						std::right, std::fixed, std::setprecision(Precision), 
+						": \tAvg: ", std::setw(Width), info.second.GetAverageTime().count(), "ms    Min: ", std::setw(Width), info.second.GetMinTime().count(), "ms    Max: ", std::setw(Width), info.second.GetMaxTime().count(), "ms\n");
 				}
 			}
 		}
