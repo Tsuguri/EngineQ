@@ -18,6 +18,8 @@ namespace EngineQ
 	class IntermediateEffectConfiguration
 	{
 	public:
+		std::string Name;
+
 		// Effect node
 		std::string ShaderName;//for resource manager
 		std::string ClassName;

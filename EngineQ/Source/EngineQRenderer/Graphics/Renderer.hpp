@@ -23,11 +23,28 @@ namespace EngineQ
 
 			Graphics::ShaderProperties* (Graphics::Renderable::*shaderMethod)() const = &Graphics::Renderable::GetDeferredShader;
 
+		protected:
+			virtual void OnBeforeRender();
+			virtual void OnAfterRender();
+
+			virtual void OnBeforeLightRender(std::size_t lightIndex);
+			virtual void OnAfterLightRender(std::size_t lightIndex);
+
 		public:
+			virtual ~Renderer() = default;
+
 			void SetDeferred(bool state);
 			void SetGlobalShadows(bool state);
-			void Render(Scene& scene, ScreenDataProvider* dataProvider) const;
+			void Render(Scene& scene, ScreenDataProvider* dataProvider);
 			void SetTargetBuffer(std::shared_ptr<Framebuffer> buffer);
+		};
+
+		class RendererFactory
+		{
+		public:
+			virtual ~RendererFactory();
+
+			virtual std::unique_ptr<Renderer> CreateRenderer();
 		};
 	}
 }

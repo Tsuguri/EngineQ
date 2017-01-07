@@ -73,6 +73,8 @@ namespace EngineQ
 			class EffectConfiguration
 			{
 			public:
+				std::string Name;
+
 				// Effect node
 				Resources::Resource<Shader> EffectShader;
 				std::string ClassName;

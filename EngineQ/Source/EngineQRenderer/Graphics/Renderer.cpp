@@ -33,9 +33,8 @@ namespace EngineQ
 			globalShadows = state;
 		}
 
-		void Renderer::Render(Scene& scene, ScreenDataProvider* dataProvider) const
+		void Renderer::Render(Scene& scene, ScreenDataProvider* dataProvider)
 		{
-
 			const auto& renderables = scene.GetRenderables();
 
 			auto& lights = scene.GetLights();
@@ -43,16 +42,21 @@ namespace EngineQ
 			// If shadows are enabled - render depthmaps into textures
 			if (globalShadows)
 			{
+				std::size_t index = 0;
 				for (auto light : lights)
 				{
+					this->OnBeforeLightRender(index);
 					light->RenderDepthMap(renderables);
+					this->OnAfterLightRender(index);
+
+					index += 1;
 				}
 			}
 
 
+			this->OnBeforeRender();
 
 			// Render target binding
-
 			if (this->framebuffer == nullptr)
 				// Binds default buffer - screen
 				Framebuffer::BindDefault();
@@ -125,11 +129,37 @@ namespace EngineQ
 		//	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//	glEnable(GL_CULL_FACE);
 
+			this->OnAfterRender();
 		}
 
 		void Renderer::SetTargetBuffer(std::shared_ptr<Framebuffer> buffer)
 		{
 			framebuffer = buffer;
 		}
-	}
+
+		void Renderer::OnBeforeRender()
+		{
+		}
+
+		void Renderer::OnAfterRender()
+		{
+		}
+
+		void Renderer::OnBeforeLightRender(std::size_t lightIndex) 
+		{
+		}
+
+		void Renderer::OnAfterLightRender(std::size_t lightIndex)
+		{
+		}
+
+		RendererFactory::~RendererFactory()
+		{
+		}
+
+		std::unique_ptr<Renderer> RendererFactory::CreateRenderer()
+		{
+			return std::make_unique<Renderer>();
+		}
+}
 }

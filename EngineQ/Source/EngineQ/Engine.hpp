@@ -18,6 +18,7 @@
 #include "Resources/ResourceManager.hpp"
 #include "Scripting/ScriptEngine.hpp"
 #include "Graphics/ScriptedRenderingUnit.hpp"
+#include "Systems/Profiler.hpp"
 
 
 namespace EngineQ
@@ -56,6 +57,7 @@ namespace EngineQ
 	private:
 		static std::unique_ptr<Engine> instance;
 
+		Profiler profiler;
 		IntermediateRenderingUnitConfiguration renderConfig;
 
 		Window window;
@@ -97,6 +99,7 @@ namespace EngineQ
 		static Engine& Get();
 		Resources::ResourceManager& GetResourceManager() const;
 		Scripting::ScriptEngine& GetScriptEngine() const;
+		Profiler& GetProfiler();
 		Math::Vector2i GetScreenSize() const override;
 
 		Scene& CreateScene();

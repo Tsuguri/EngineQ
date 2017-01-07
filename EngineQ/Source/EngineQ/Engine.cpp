@@ -106,11 +106,10 @@ namespace EngineQ
 	{
 		if (instance == nullptr)
 		{
-			std::cout << "EngineQ is already finalized" << std::endl;
+			Logger::LogMessage("EngineQ is already finalized\n");
 			return false;
 		}
-
-		std::cout << "Finalizing EngineQ" << std::endl;
+		Logger::LogMessage("Finalizing EngineQ\n");
 
 		instance = nullptr;
 
@@ -173,9 +172,14 @@ namespace EngineQ
 		throw std::runtime_error{ "Engine not initialized" };
 	}
 
+	Profiler& Engine::GetProfiler()
+	{
+		return this->profiler;
+	}
+
 	Resources::ResourceManager& Engine::GetResourceManager() const
 	{
-		return *resourceManager;
+		return *this->resourceManager;
 	}
 
 	Scripting::ScriptEngine& Engine::GetScriptEngine() const
@@ -201,8 +205,12 @@ namespace EngineQ
 		float lastTime = 0.0f;
 		while (!this->window.ShouldClose() && this->isRunning)
 		{
+			this->profiler.Start("Main loop");
+
 			// Input
+			this->profiler.Start("Input");
 			this->window.PollEvents();
+			this->profiler.End("Input");
 
 			// Update lastTime
 			float currentTime = static_cast<float>(window.GetTime());
@@ -210,22 +218,31 @@ namespace EngineQ
 			lastTime = currentTime;
 
 			// Update resource manager
+			this->profiler.Start("Resource Manager");
 			this->resourceManager->Update();
+			this->profiler.End("Resource Manager");
 
+			this->profiler.Start("Scripts");
 			// Update scene logic (scripts)
 			this->currentScene->Update();
-
 			// Update renderer
 			this->renderingUnit->Update();
+			this->profiler.End("Scripts");
 
 			// Render scene
+			this->profiler.Start("Renderer");
 			this->renderingUnit->Render(*this->currentScene);
+			this->profiler.End("Renderer");
 
 			// Clear frame-characteristic data
 			this->input.ClearDelta();
 
 			// Show result on screen
 			this->window.SwapBuffers();
+
+			// Update profiler
+			this->profiler.End("Main loop");
+			this->profiler.Update();
 		}
 		this->window.Close();
 	}

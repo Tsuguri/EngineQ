@@ -10,6 +10,8 @@ namespace EngineQ
 	{
 		auto configuration = Graphics::Configuration::EffectConfiguration();
 
+		configuration.Name = this->Name;
+
 		if (this->Iterations < 0)
 		{
 			configuration.ClassName = ClassName;
@@ -35,6 +37,10 @@ namespace EngineQ
 	IntermediateEffectConfiguration IntermediateEffectConfiguration::Load(tinyxml2::XMLElement * element)
 	{
 		auto configuration = IntermediateEffectConfiguration{};
+
+		auto name = element->Attribute("Name");
+		if (name != nullptr)
+			configuration.Name = name;
 
 		if (std::strcmp(element->Name(), "EffectConfiguration") == 0)
 		{

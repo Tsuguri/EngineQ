@@ -30,7 +30,7 @@
 	<Effects>
 
 		<!-- SSAO -->
-		<EffectConfiguration Shader="SSAO">
+		<EffectConfiguration Name="SSAO" Shader="SSAO">
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="SSAOController" />
 			
 			<Input>
@@ -43,7 +43,7 @@
 		</EffectConfiguration>
 
 		<!-- SSAO Blur -->
-		<EffectConfiguration Shader="SSAOBlur">
+		<EffectConfiguration Name="SSAO Blur" Shader="SSAOBlur">
 			<Input>
 				<InputPair Texture="SSAO" />
 			</Input>
@@ -54,7 +54,7 @@
 
 
 		<!-- Deferred lighting -->
-		<EffectConfiguration Shader="DeferredLightingShadows" ApplyShadowsData="true" >
+		<EffectConfiguration Name="Lighting" Shader="DeferredLightingShadows" ApplyShadowsData="true" >
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="LightingController" />
 
 			<Input>
@@ -69,7 +69,7 @@
 		</EffectConfiguration>
 
 		<!-- SSR -->
-		<EffectConfiguration Shader="SSR">
+		<EffectConfiguration Name="SSR" Shader="SSR">
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="SSRController" />
 			
 			<Input>
@@ -84,7 +84,7 @@
 		</EffectConfiguration>
 
 		<!-- Extract bright colors -->
-		<EffectConfiguration Shader="BloomExtraction">
+		<EffectConfiguration Name="Bloom bright extraction" Shader="BloomExtraction">
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="BrightExtractController" />
 			
 			<Input>
@@ -97,10 +97,10 @@
 
 
 		<!-- Bloom blur passes -->
-		<EffectRepeat Iterations="10">
+		<EffectRepeat Name="Bloom loop" Iterations="10">
 
 			<!-- Bloom vertical blur -->
-			<EffectConfiguration Shader="BloomVerticalBlur">
+			<EffectConfiguration Name="Vertical blur" Shader="BloomVerticalBlur">
 				<Input>
 					<InputPair Texture="Bloom2" />
 				</Input>
@@ -110,7 +110,7 @@
 			</EffectConfiguration>
 
 			<!-- Bloom horizontal blur -->
-			<EffectConfiguration Shader="BloomHorizontalBlur">
+			<EffectConfiguration Name="Horizontal blur" Shader="BloomHorizontalBlur">
 				<Input>
 					<InputPair Texture="Bloom1" />
 				</Input>
@@ -123,7 +123,7 @@
 
 
 		<!-- Combine Bloom and Scene -->
-		<EffectConfiguration Shader="Combine">
+		<EffectConfiguration Name="Combine" Shader="Combine">
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="CombineController" />
 
 			<Input>
@@ -139,7 +139,7 @@
 
 
 
-		<!--EffectConfiguration Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true"> 
+		<!--EffectConfiguration Name="Debug Shadowmap drawer" Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true"> 
       <Output> 
         <OutputTexture Texture="Screen"></OutputTexture> 
       </Output> 

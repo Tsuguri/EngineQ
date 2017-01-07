@@ -18,29 +18,31 @@ namespace EngineQ
 			Resources::Resource<Texture> texture;
 			std::string Name;
 
-			InputConfiguration(Resources::Resource<Texture> texture, std::string name);
+			InputConfiguration(Resources::Resource<Texture> texture, const std::string& name);
 		};
 
 
 		class ShaderPass
 		{
 		private:
+			std::string name;
 			std::unique_ptr<ShaderProperties> shaderProperties;
 			bool applyShadowData = false;
 			std::vector<InputConfiguration> inputTextures;
 			std::unique_ptr<Framebuffer> framebuffer;
 
 		protected:
-			ShaderPass(std::unique_ptr<ShaderProperties> shaderProperties);
+			ShaderPass(std::unique_ptr<ShaderProperties> shaderProperties, const std::string& name);
 
 		public:
-			ShaderPass(Resources::Resource<Shader> shader);
+			ShaderPass(Resources::Resource<Shader> shader, const std::string& name);
 			virtual ~ShaderPass();
 
 			ShaderProperties& GetShaderProperties() const;
 			void BindTargetBuffer() const;
 			void SetTargetBuffer(std::unique_ptr<Framebuffer>&& buffer);
 
+			const std::string& GetName() const;
 			bool GetApplyShadowData() const;
 			void SetApplyShadowData(bool val);
 			void AddInput(const InputConfiguration& input);
@@ -60,7 +62,7 @@ namespace EngineQ
 		public:
 			virtual ~ShaderPassFactory() = default;
 
-			virtual std::unique_ptr<ShaderPass> CreateShaderPass(const Configuration::EffectConfiguration& config);
+			virtual std::unique_ptr<ShaderPass> CreateShaderPass(const Configuration::EffectConfiguration& config, const std::string& name);
 		};
 	}
 }

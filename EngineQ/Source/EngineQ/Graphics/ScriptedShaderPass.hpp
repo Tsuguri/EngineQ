@@ -23,7 +23,7 @@ namespace EngineQ
 			Scripting::ScriptMethod destroyMethod;
 
 		public:
-			ScriptedShaderPass(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass effectClass, Resources::Resource<Shader> shader);
+			ScriptedShaderPass(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass effectClass, Resources::Resource<Shader> shader, const std::string& name);
 			virtual ~ScriptedShaderPass();
 
 			EngineShaderProperties& GetShaderProperties() const;

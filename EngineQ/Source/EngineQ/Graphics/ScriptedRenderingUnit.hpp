@@ -24,7 +24,13 @@ namespace EngineQ
 			public:
 				ScriptedShaderPassFactory(ScriptedRenderingUnit& parent);
 
-				virtual std::unique_ptr<ShaderPass> CreateShaderPass(const Configuration::EffectConfiguration& config) override;
+				virtual std::unique_ptr<ShaderPass> CreateShaderPass(const Configuration::EffectConfiguration& config, const std::string& name) override;
+			};
+
+			class ScriptedRendererFactory : public RendererFactory
+			{
+			public:
+				virtual std::unique_ptr<Renderer> CreateRenderer() override;
 			};
 
 			Scripting::ScriptEngine& scriptEngine;

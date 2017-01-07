@@ -75,12 +75,12 @@ namespace EngineQ
 			}
 
 			// Renderer
-			renderer.SetDeferred(!configuration.Renderer.Deffered);
-			renderer.SetGlobalShadows(configuration.Renderer.GlobalShadows);
+			renderer->SetDeferred(!configuration.Renderer.Deffered);
+			renderer->SetGlobalShadows(configuration.Renderer.GlobalShadows);
 
 			if (configuration.Renderer.Output.size() == 0 || (configuration.Renderer.Output.size() == 1 && configuration.Renderer.Output[0].Texture == "Screen"))
 			{
-				renderer.SetTargetBuffer(nullptr);
+				renderer->SetTargetBuffer(nullptr);
 			}
 			else
 			{
@@ -88,20 +88,26 @@ namespace EngineQ
 				rendererOutput.reserve(configuration.Renderer.Output.size());
 				for (auto outputConfiguration : configuration.Renderer.Output)
 					rendererOutput.push_back(texturesResources[textureNames.at(outputConfiguration.Texture)]);
-				renderer.SetTargetBuffer(CreateFramebuffer(rendererOutput, true));
+				renderer->SetTargetBuffer(CreateFramebuffer(rendererOutput, true));
 			}
 
 			// Effects
-			this->AddEffects(configuration.Effects, textureNames);
+			this->AddEffects(configuration.Effects, "", textureNames);
 		}
 
-		void RenderingUnit::AddEffects(const std::vector<Configuration::EffectConfiguration>& effects, const std::map<std::string, int>& textureNames)
+		void RenderingUnit::AddEffects(const std::vector<Configuration::EffectConfiguration>& effects, const std::string& nameBase, const std::map<std::string, int>& textureNames)
 		{
 			for (const auto& effect : effects)
 			{
 				if (effect.Iterations < 0)
 				{
-					auto shaderPass = this->shaderPassFactory->CreateShaderPass(effect);
+					std::string name;
+					if (effect.Name.empty())
+						name = std::string("Effect ") + std::to_string(this->effects.size());
+					else
+						name = nameBase + effect.Name;
+
+					auto shaderPass = this->shaderPassFactory->CreateShaderPass(effect, name);
 					for (auto inputConfiguration : effect.Input)
 						shaderPass->AddInput(InputConfiguration{ texturesResources[textureNames.at(inputConfiguration.Texture)], inputConfiguration.LocationName });
 
@@ -128,16 +134,23 @@ namespace EngineQ
 				}
 				else
 				{
+					std::string name;
+					if (effect.Name.empty())
+						name = nameBase + std::string("Loop ") + std::to_string(this->effects.size());
+					else
+						name = nameBase + effect.Name;
+
 					for (int i = 0; i < effect.Iterations; ++i)
 					{
-						this->AddEffects(effect.Effects, textureNames);
+
+						this->AddEffects(effect.Effects, name + " " + std::to_string(i) + " - ", textureNames);
 					}
 				}
 			}
 		}
 
-		RenderingUnit::RenderingUnit(ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration, std::unique_ptr<ShaderPassFactory> shaderPassFactory) :
-			shaderPassFactory(std::move(shaderPassFactory)), screenDataProvider(dataProvider), handler(*this, &RenderingUnit::Resize)
+		RenderingUnit::RenderingUnit(ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration, std::unique_ptr<ShaderPassFactory> shaderPassFactory, std::unique_ptr<RendererFactory> rendererFactory) :
+			shaderPassFactory(std::move(shaderPassFactory)), rendererFactory(std::move(rendererFactory)), screenDataProvider(dataProvider), handler(*this, &RenderingUnit::Resize)
 		{
 			//	glPolygonMode(GL_FRONT, GL_FILL);
 			//	glPolygonMode(GL_BACK, GL_LINE);
@@ -154,11 +167,13 @@ namespace EngineQ
 
 			screenDataProvider->resizeEvent += handler;
 
+			this->renderer = this->rendererFactory->CreateRenderer();
+
 			InitScreenQuad(&quadVao);	
 		}
 
 		RenderingUnit::RenderingUnit(ScreenDataProvider* dataProvider, const Configuration::RenderingUnitConfiguration& configuration) :
-			RenderingUnit(dataProvider, configuration, std::make_unique<ShaderPassFactory>())
+			RenderingUnit(dataProvider, configuration, std::make_unique<ShaderPassFactory>(), std::make_unique<RendererFactory>())
 		{
 			Initialize(configuration);
 		}
@@ -170,7 +185,7 @@ namespace EngineQ
 
 		void RenderingUnit::Render(Scene& scene)
 		{
-			renderer.Render(scene, screenDataProvider);
+			renderer->Render(scene, screenDataProvider);
 
 			auto& camera = *scene.GetActiveCamera();
 

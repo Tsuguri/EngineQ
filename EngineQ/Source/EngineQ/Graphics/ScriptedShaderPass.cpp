@@ -2,14 +2,15 @@
 
 // This project
 #include "EngineQ/Scripting/ScriptEngine.hpp"
+#include "EngineQ/Engine.hpp"
 
 
 namespace EngineQ
 {
 	namespace Graphics
 	{
-		ScriptedShaderPass::ScriptedShaderPass(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass effectClass, Resources::Resource<Shader> shader) :
-			Object(scriptEngine, effectClass), ShaderPass(std::make_unique<EngineShaderProperties>(scriptEngine, shader))
+		ScriptedShaderPass::ScriptedShaderPass(Scripting::ScriptEngine& scriptEngine, Scripting::ScriptClass effectClass, Resources::Resource<Shader> shader, const std::string& name) :
+			Object(scriptEngine, effectClass), ShaderPass(std::make_unique<EngineShaderProperties>(scriptEngine, shader), name)
 		{
 			auto managedObject = this->GetManagedObject();
 
@@ -45,6 +46,8 @@ namespace EngineQ
 
 		void ScriptedShaderPass::BeforeRender()
 		{
+			Engine::Get().GetProfiler().Start("Post: " + this->GetName());
+
 			if (this->beforeRenderMethod != nullptr)
 				this->scriptEngine.InvokeMethod(this->managedHandle, this->beforeRenderMethod, nullptr);
 		}
@@ -53,6 +56,9 @@ namespace EngineQ
 		{
 			if (this->afterUpdateMethod != nullptr)
 				this->scriptEngine.InvokeMethod(this->managedHandle, this->afterUpdateMethod, nullptr);
+
+			glFinish();
+			Engine::Get().GetProfiler().End("Post: " + this->GetName());
 		}
 		
 		void ScriptedShaderPass::Created()

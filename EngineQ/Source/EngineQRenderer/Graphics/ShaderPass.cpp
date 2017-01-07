@@ -10,18 +10,18 @@ namespace EngineQ
 {
 	namespace Graphics
 	{
-		InputConfiguration::InputConfiguration(Resources::Resource<Texture> texture, std::string name) :
+		InputConfiguration::InputConfiguration(Resources::Resource<Texture> texture, const std::string& name) :
 			texture{ texture }, Name{ name }
 		{
 		}
 
-		ShaderPass::ShaderPass(std::unique_ptr<ShaderProperties> shaderProperties) :
-			shaderProperties{ std::move(shaderProperties) }
+		ShaderPass::ShaderPass(std::unique_ptr<ShaderProperties> shaderProperties, const std::string& name) :
+			shaderProperties{ std::move(shaderProperties) }, name{ name }
 		{
 		}
 
-		ShaderPass::ShaderPass(Resources::Resource<Shader> shader) :
-			shaderProperties{ std::make_unique<ShaderProperties>(shader) }
+		ShaderPass::ShaderPass(Resources::Resource<Shader> shader, const std::string& name) :
+			shaderProperties{ std::make_unique<ShaderProperties>(shader) }, name{ name }
 		{
 		}
 
@@ -45,6 +45,11 @@ namespace EngineQ
 		void ShaderPass::SetTargetBuffer(std::unique_ptr<Framebuffer>&& buffer)
 		{
 			framebuffer = std::move(buffer);
+		}
+
+		const std::string & ShaderPass::GetName() const
+		{
+			return this->name;
 		}
 
 		bool ShaderPass::GetApplyShadowData() const
@@ -104,9 +109,9 @@ namespace EngineQ
 			shaderProperties->Apply();
 		}
 
-		std::unique_ptr<ShaderPass> ShaderPassFactory::CreateShaderPass(const Configuration::EffectConfiguration& config)
+		std::unique_ptr<ShaderPass> ShaderPassFactory::CreateShaderPass(const Configuration::EffectConfiguration& config, const std::string& name)
 		{
-			return std::make_unique<ShaderPass>(config.EffectShader);
+			return std::make_unique<ShaderPass>(config.EffectShader, name);
 		}
 	}
 }
