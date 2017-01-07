@@ -4,12 +4,15 @@ using System.Runtime.CompilerServices;
 namespace EngineQ
 {
 	/// <summary>
-	/// 
+	/// <see cref="Component"/> providing <see cref="EngineQ.Mesh"/> rendering capability - given mesh will appear on scene in <see cref="Entity"/> position.
 	/// </summary>
 	public sealed class Renderable : Component
 	{
 		#region Properties
 		
+		/// <summary>
+		/// Properties of shader that will be used in case of forward rendering. Can be used to control it.
+		/// </summary>
 		public ShaderProperties ForwardShader
 		{
 			get
@@ -20,6 +23,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Properties of shader that will be used in case od deferred rendering. Can be used to control it.
+		/// </summary>
 		public ShaderProperties DeferredShader
 		{
 			get
@@ -30,6 +36,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// <see cref="EngineQ.Mesh"/> that will be rendered by this <see cref="Renderable"/>
+		/// </summary>
 		public Mesh Mesh
 		{
 			get
@@ -45,6 +54,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Indicates if rendered <see cref="EngineQ.Mesh"/> should cast shadows on other objects
+		/// </summary>
 		public bool CastShadows
 		{
 			get
@@ -63,11 +75,19 @@ namespace EngineQ
 
 		#region Methods
 
+		/// <summary>
+		/// Sets usage of given <see cref="Shader"/> to render in case of forward rendering path.
+		/// </summary>
+		/// <param name="shader">Will be used to render given <see cref="EngineQ.Mesh"/></param>
 		public void UseForwardShader(Shader shader)
 		{
 			API_UseForwardShader(this.NativeHandle, shader.Handle);
 		}
 		
+		/// <summary>
+		/// Sets usage of given <see cref="Shader"/> to render in case of deferred rendering path. It should be geometry pass shader.
+		/// </summary>
+		/// <param name="shader">Will be used in geometry pass to render given <see cref="EngineQ.Mesh"/></param>
 		public void UseDeferredShader(Shader shader)
 		{
 			API_UseDeferredShader(this.NativeHandle, shader.Handle);
