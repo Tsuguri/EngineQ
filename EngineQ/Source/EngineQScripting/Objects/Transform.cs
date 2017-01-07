@@ -5,10 +5,16 @@ namespace EngineQ
 {
 	using Math;
 
+	/// <summary>
+	/// Automatically created <see cref="Component"/> of <see cref="Entity"/>. Cannot be removed. Transforms are kept in tree structure.
+	/// </summary>
 	public sealed class Transform : Component
 	{
 		#region Properties
 
+		/// <summary>
+		/// Parent <see cref="Transform"/> in tree structure.
+		/// </summary>
 		public Transform Parent
 		{
 			get
@@ -23,6 +29,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Position of object relational to <see cref="Transform.Parent"/>'s position (and rotation!)
+		/// </summary>
 		public Vector3 Position
 		{
 			get
@@ -37,6 +46,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Global space object position.
+		/// </summary>
 		public Vector3 GlobalPosition
 		{
 			get
@@ -51,6 +63,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Object's scale
+		/// </summary>
 		public Vector3 Scale
 		{
 			get
@@ -65,7 +80,10 @@ namespace EngineQ
 				API_SetScale(this.NativeHandle, ref value);
 			}
 		}
-		
+
+		/// <summary>
+		/// Object rotation relational to <see cref="Transform.Parent"/>'s rotation
+		/// </summary>
 		public Quaternion Rotation
 		{
 			get
@@ -81,6 +99,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Object rotation in global space.
+		/// </summary>
 		public Quaternion GlobalRotation
 		{
 			get
@@ -95,6 +116,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Matrix representing object <see cref="Transform.Position"/>, <see cref="Transform.Rotation"/> and <see cref="Transform.Scale"/> relational to <see cref="Transform.Parent"/>
+		/// </summary>
 		public Matrix4 LocalMatrix
 		{
 			get
@@ -105,6 +129,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Inversion of <see cref="Transform.LocalMatrix"/>
+		/// </summary>
 		public Matrix4 LocalMatrixInverse
 		{
 			get
@@ -115,6 +142,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Matrix representing object position, rotation and scale in world space.
+		/// </summary>
 		public Matrix4 GlobalMatrix
 		{
 			get
@@ -125,6 +155,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Inversion of <see cref="Transform.GlobalMatrix"/>
+		/// </summary>
 		public Matrix4 GlobalMatrixInverse
 		{
 			get
@@ -135,6 +168,9 @@ namespace EngineQ
 			}
 		}
 		
+		/// <summary>
+		/// Number of other <see cref="Transform"/>s that are childs of this <see cref="Transform"/>
+		/// </summary>
 		public int ChildCount
 		{
 			get
@@ -145,6 +181,11 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Finds child of this <see cref="Transform"/> with given index
+		/// </summary>
+		/// <param name="index">Index of child to find. From 0 to <see cref="ChildCount"/></param>
+		/// <returns></returns>
 		public Transform GetChild(int index)
 		{
 			Transform value;
