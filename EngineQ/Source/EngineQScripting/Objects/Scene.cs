@@ -3,8 +3,16 @@ using System.Runtime.CompilerServices;
 
 namespace EngineQ
 {
+	/// <summary>
+	/// Container object prepresenting rendered scene. 
+	/// </summary>
 	public sealed class Scene : EngineQ.Object
 	{
+		/// <summary>
+		/// Finds <see cref="Entity"/> with given name. In case of multiple founds, first is returned.
+		/// </summary>
+		/// <param name="name">Name of <see cref="Entity"/> to find</param>
+		/// <returns></returns>
 		public Entity FindEntity(string name)
 		{
 			Entity entity;
@@ -12,6 +20,12 @@ namespace EngineQ
 			return entity;
 		}
 
+		/// <summary>
+		/// Creates new <see cref="Entity"/> with given <paramref name="name"/>.
+		/// </summary>
+		/// <param name="enabled">true if Entity should be activated immediately.</param>
+		/// <param name="name">Name of created entity.</param>
+		/// <returns></returns>
 		public Entity CreateEntity(bool enabled = true, string name = "")
 		{
 			Entity value;
@@ -19,16 +33,29 @@ namespace EngineQ
 			return value;
 		}
 		
+		/// <summary>
+		/// Removes <see cref="Entity"/> with given 0-based index.
+		/// </summary>
+		/// <param name="index">0-based index of <see cref="Entity"/> to remove.</param>
 		public void RemoveEntity(int index)
 		{
 			API_RemoveEntityIndex(NativeHandle, index);
 		}
 
+		/// <summary>
+		/// Removes given <see cref="Entity"/> from scene.
+		/// </summary>
+		/// <param name="entity"><see cref="Entity"/> to be removed from scene</param>
 		public void RemoveEntity(Entity entity)
 		{
 			API_RemoveEntityRef(NativeHandle, ref entity);
 		}
 
+		/// <summary>
+		/// Returns scene index of given <see cref="Entity"/>.
+		/// </summary>
+		/// <param name="entity"><see cref="Entity"/> belonging to scene which index should be returned</param>
+		/// <returns>Index of given <see cref="Entity"/></returns>
 		public int GetEntityIndex(Entity entity)
 		{
 			int value;
@@ -36,13 +63,20 @@ namespace EngineQ
 			return value;
 		}
 
+		/// <summary>
+		/// Finds <see cref="Entity"/> with given index.
+		/// </summary>
+		/// <param name="index">Index of <see cref="Entity"/></param>
+		/// <returns><see cref="Entity"/> placed under given index</returns>
 		public Entity GetEntity(int index)
 		{
 			Entity value;
 			API_GetEntity(NativeHandle, index, out value);
 			return value;
 		}
-
+		/// <summary>
+		/// Number of <see cref="Entity"/> in <see cref="Scene"/>. 
+		/// </summary>
 		public int EntitiesCount
 		{
 			get
@@ -53,6 +87,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Currently active <see cref="Camera"/>
+		/// </summary>
 		public Camera ActiveCamera
 		{
 			get

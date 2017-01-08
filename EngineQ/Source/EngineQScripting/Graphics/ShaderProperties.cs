@@ -5,10 +5,16 @@ using EngineQ.Math;
 
 namespace EngineQ
 {
+	/// <summary>
+	/// Wrapper class which enables and simplifies usage of set <see cref="EngineQ.Shader"/>
+	/// </summary>
 	public sealed class ShaderProperties : EngineQ.Object
 	{
 		#region Types
 
+		/// <summary>
+		/// Wrapper class allowing simple control of <see cref="EngineQ.Shader"/> material properties. Used within <see cref="Renderable"/> to control <see cref="Mesh"/> rendering data.
+		/// </summary>
 		public class MaterialProperties
 		{
 			private readonly ShaderProperties parent;
@@ -18,6 +24,9 @@ namespace EngineQ
 				this.parent = parent;
 			}
 
+			/// <summary>
+			/// Value of ambient color of material.
+			/// </summary>
 			public Vector3f Ambient
 			{
 				get
@@ -32,6 +41,9 @@ namespace EngineQ
 				}
 			}
 
+			/// <summary>
+			/// Value of diffuse color of material.
+			/// </summary>
 			public Vector3f Diffuse
 			{
 				get
@@ -46,6 +58,9 @@ namespace EngineQ
 				}
 			}
 
+			/// <summary>
+			/// Value of specular color of material. 
+			/// </summary>
 			public Vector3f Specular
 			{
 				get
@@ -60,6 +75,9 @@ namespace EngineQ
 				}
 			}
 
+			/// <summary>
+			/// Indicates shininess of redered <see cref="Mesh"/>
+			/// </summary>
 			public float Shininess
 			{
 				get
@@ -74,6 +92,9 @@ namespace EngineQ
 				}
 			}
 
+			/// <summary>
+			/// Diffuse <see cref="Texture"/> that will be read from in time of <see cref="Mesh"/> rendering
+			/// </summary>
 			public Texture DiffuseTexture
 			{
 				get
@@ -88,6 +109,9 @@ namespace EngineQ
 				}
 			}
 
+			/// <summary>
+			/// Specular <see cref="Texture"/> that will be read from in time of <see cref="Mesh"/> rendering
+			/// </summary>
 			public Texture SpecularTexture
 			{
 				get
@@ -102,6 +126,9 @@ namespace EngineQ
 				}
 			}
 
+			/// <summary>
+			/// NormalMap <see cref="Texture"/> that will be read from in time of <see cref="Mesh"/> rendering
+			/// </summary>
 			public Texture NormalTexture
 			{
 				get
@@ -127,6 +154,9 @@ namespace EngineQ
 
 		#region Properties
 
+		/// <summary>
+		/// <see cref="EngineQ.Shader"/> associated with this instance of <see cref="ShaderProperties"/>
+		/// </summary>
 		public Shader Shader
 		{
 			get
@@ -137,6 +167,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Set of <see cref="ShaderProperty{TPropertyType}"/> representing material data that will be used to render <see cref="Mesh"/>
+		/// </summary>
 		public MaterialProperties Material
 		{
 			get
@@ -154,6 +187,12 @@ namespace EngineQ
 			this.material = new MaterialProperties(this);
 		}
 
+		/// <summary>
+		/// Checks if property of given <paramref name="propertyName"/> and <typeparamref name="TPropertyType"/> exists within shader
+		/// </summary>
+		/// <typeparam name="TPropertyType">Type of property to check</typeparam>
+		/// <param name="propertyName">Name of property to check</param>
+		/// <returns>true if given property exists within shader</returns>
 		public bool HasProperty<TPropertyType>(string propertyName)
 		{
 			int propertyIndex;
@@ -162,6 +201,12 @@ namespace EngineQ
 			return propertyIndex >= 0;
 		}
 
+		/// <summary>
+		/// Attempts to get property of given <paramref name="name"/> and <typeparamref name="TPropertyType"/>. In case of failure exception will be thrown.
+		/// </summary>
+		/// <typeparam name="TPropertyType">Type of <see cref="ShaderProperty{TPropertyType}"/> to retrieve.</typeparam>
+		/// <param name="propertyName">Name of <see cref="ShaderProperty{TPropertyType}"/> to retrieve.</param>
+		/// <returns><see cref="ShaderProperty{TPropertyType}"/> associated with given <paramref name="name"/>.</returns>
 		public ShaderProperty<TPropertyType> GetProperty<TPropertyType>(string propertyName)
 		{
 			int propertyIndex;
@@ -173,6 +218,12 @@ namespace EngineQ
 			return new ShaderProperty<TPropertyType>(propertyIndex);
 		}
 
+		/// <summary>
+		/// Attempts to get property of given <paramref name="name"/> and <typeparamref name="TPropertyType"/>. In case of failure null will be returned.
+		/// </summary>
+		/// <typeparam name="TPropertyType">Type of <see cref="ShaderProperty{TPropertyType}"/> to retrieve.</typeparam>
+		/// <param name="propertyName">Name of <see cref="ShaderProperty{TPropertyType}"/> to retrieve.</param>
+		/// <returns><see cref="ShaderProperty{TPropertyType}"/> associated with given <paramref name="name"/> or null.</returns>
 		public ShaderProperty<TPropertyType>? TryGetProperty<TPropertyType>(string propertyName)
 		{
 			int propertyIndex;
@@ -184,6 +235,12 @@ namespace EngineQ
 			return new ShaderProperty<TPropertyType>(propertyIndex);
 		}
 
+		/// <summary>
+		/// Retrievs actual value of given <see cref="ShaderProperty{TPropertyType}"/>.
+		/// </summary>
+		/// <typeparam name="TPropertyType">Type of selected property.</typeparam>
+		/// <param name="property">Property which value will be retrieved.</param>
+		/// <returns>Current value of given property.</returns>
 		public TPropertyType Get<TPropertyType>(ShaderProperty<TPropertyType> property)
 		{
 			object value = default(TPropertyType);
@@ -191,6 +248,12 @@ namespace EngineQ
 			return (TPropertyType)value;
 		}
 
+		/// <summary>
+		/// Sets value of <see cref="ShaderProperty{TPropertyType}"/> to given value.
+		/// </summary>
+		/// <typeparam name="TPropertyType">Type of selected property.</typeparam>
+		/// <param name="property">To this property new value will be assigned.</param>
+		/// <param name="value">This value will be assigned to property.</param>
 		public void Set<TPropertyType>(ShaderProperty<TPropertyType> property, TPropertyType value)
 		{
 			object objValue = value;

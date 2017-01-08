@@ -90,6 +90,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Size of the texture used as depth map.
+		/// </summary>
 		public Vector2i TextureSize
 		{
 			get
@@ -104,6 +107,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Indicates if this <see cref="Light"/> casts shadow of <see cref="Renderable"/>s
+		/// </summary>
 		public bool CastShadows
 		{
 			get
@@ -118,6 +124,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Maximum distance of object to directional light plane (only Directional light: <see cref="LightType.Sun"/> )
+		/// </summary>
 		public float Distance
 		{
 			get
@@ -132,6 +141,9 @@ namespace EngineQ
 			}
 		}
 
+		/// <summary>
+		/// Horizontal and vertical range of area that will be rendered into texture (only DirectionalLight: <see cref="LightType.Sun"/>)
+		/// </summary>
 		public float Range
 		{
 			get
