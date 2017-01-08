@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+	attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.EngineQ.com"
+	xmlns="http://www.EngineQ.com"
+	xmlns:eq="http://www.EngineQ.com"
+>
+
+	<xs:simpleType name="EnumTextureWrapType" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GL_CLAMP_TO_EDGE"/>
+			<xs:enumeration value="GL_CLAMP_TO_BORDER"/>
+			<xs:enumeration value="GL_MIRRORED_REPEAT"/>
+			<xs:enumeration value="GL_REPEAT"/>
+			<xs:enumeration value="GL_MIRROR_CLAMP_TO_EDGE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="EnumTextureFilter" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GL_LINEAR"/>
+			<xs:enumeration value="GL_NEAREST"/>
+			<xs:enumeration value="GL_NEAREST_MIPMAP_NEAREST"/>
+			<xs:enumeration value="GL_LINEAR_MIPMAP_NEAREST"/>
+			<xs:enumeration value="GL_NEAREST_MIPMAP_LINEAR"/>
+			<xs:enumeration value="GL_LINEAR_MIPMAP_LINEAR"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="EnumTextureDataType" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GL_UNSIGNED_BYTE"/>
+			<xs:enumeration value="GL_BYTE"/>
+			<xs:enumeration value="GL_UNSIGNED_SHORT"/>
+			<xs:enumeration value="GL_SHORT"/>
+			<xs:enumeration value="GL_UNSIGNED_INT"/>
+			<xs:enumeration value="GL_INT"/>
+			<xs:enumeration value="GL_FLOAT"/>
+			<xs:enumeration value="GL_UNSIGNED_BYTE_3_3_2"/>
+			<xs:enumeration value="GL_UNSIGNED_BYTE_2_3_3_REV"/>
+			<xs:enumeration value="GL_UNSIGNED_SHORT_5_6_5"/>
+			<xs:enumeration value="GL_UNSIGNED_SHORT_5_6_5_REV"/>
+			<xs:enumeration value="GL_UNSIGNED_SHORT_4_4_4_4"/>
+			<xs:enumeration value="GL_UNSIGNED_SHORT_4_4_4_4_REV"/>
+			<xs:enumeration value="GL_UNSIGNED_SHORT_5_5_5_1"/>
+			<xs:enumeration value="GL_UNSIGNED_SHORT_1_5_5_5_REV"/>
+			<xs:enumeration value="GL_UNSIGNED_INT_8_8_8_8"/>
+			<xs:enumeration value="GL_UNSIGNED_INT_8_8_8_8_REV"/>
+			<xs:enumeration value="GL_UNSIGNED_INT_10_10_10_2"/>
+			<xs:enumeration value="GL_UNSIGNED_INT_2_10_10_10_REV"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="EnumTextureFormat" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GL_COLOR_INDEX"/>
+			<xs:enumeration value="GL_RED"/>
+			<xs:enumeration value="GL_GREEN"/>
+			<xs:enumeration value="GL_BLUE"/>
+			<xs:enumeration value="GL_ALPHA"/>
+			<xs:enumeration value="GL_RGB"/>
+			<xs:enumeration value="GL_BGR"/>
+			<xs:enumeration value="GL_RGBA"/>
+			<xs:enumeration value="GL_BGRA"/>
+			<xs:enumeration value="GL_LUMINANCE"/>
+			<xs:enumeration value="GL_LUMINANCE_ALPHA"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="EnumTextureInternalFormat" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GL_ALPHA" />
+			<xs:enumeration value="GL_ALPHA4" />
+			<xs:enumeration value="GL_ALPHA8" />
+			<xs:enumeration value="GL_ALPHA12" />
+			<xs:enumeration value="GL_ALPHA16" />
+			<xs:enumeration value="GL_COMPRESSED_ALPHA" />
+			<xs:enumeration value="GL_COMPRESSED_LUMINANCE" />
+			<xs:enumeration value="GL_COMPRESSED_LUMINANCE_ALPHA" />
+			<xs:enumeration value="GL_COMPRESSED_INTENSITY" />
+			<xs:enumeration value="GL_COMPRESSED_RGB" />
+			<xs:enumeration value="GL_COMPRESSED_RGBA" />
+			<xs:enumeration value="GL_DEPTH_COMPONENT" />
+			<xs:enumeration value="GL_DEPTH_COMPONENT16" />
+			<xs:enumeration value="GL_DEPTH_COMPONENT24" />
+			<xs:enumeration value="GL_DEPTH_COMPONENT32" />
+			<xs:enumeration value="GL_LUMINANCE" />
+			<xs:enumeration value="GL_LUMINANCE4" />
+			<xs:enumeration value="GL_LUMINANCE8" />
+			<xs:enumeration value="GL_LUMINANCE12" />
+			<xs:enumeration value="GL_LUMINANCE16" />
+			<xs:enumeration value="GL_LUMINANCE_ALPHA" />
+			<xs:enumeration value="GL_LUMINANCE4_ALPHA4" />
+			<xs:enumeration value="GL_LUMINANCE6_ALPHA2" />
+			<xs:enumeration value="GL_LUMINANCE8_ALPHA8" />
+			<xs:enumeration value="GL_LUMINANCE12_ALPHA4" />
+			<xs:enumeration value="GL_LUMINANCE12_ALPHA12" />
+			<xs:enumeration value="GL_LUMINANCE16_ALPHA16" />
+			<xs:enumeration value="GL_INTENSITY" />
+			<xs:enumeration value="GL_INTENSITY4" />
+			<xs:enumeration value="GL_INTENSITY8" />
+			<xs:enumeration value="GL_INTENSITY12" />
+			<xs:enumeration value="GL_INTENSITY16" />
+			<xs:enumeration value="GL_R3_G3_B2" />
+			<xs:enumeration value="GL_RGB" />
+			<xs:enumeration value="GL_RGB4" />
+			<xs:enumeration value="GL_RGB5" />
+			<xs:enumeration value="GL_RGB8" />
+			<xs:enumeration value="GL_RGB10" />
+			<xs:enumeration value="GL_RGB12" />
+			<xs:enumeration value="GL_RGB16" />
+			<xs:enumeration value="GL_RGBA" />
+			<xs:enumeration value="GL_RGBA2" />
+			<xs:enumeration value="GL_RGBA4" />
+			<xs:enumeration value="GL_RGB5_A1" />
+			<xs:enumeration value="GL_RGBA8" />
+			<xs:enumeration value="GL_RGB10_A2" />
+			<xs:enumeration value="GL_RGBA12" />
+			<xs:enumeration value="GL_RGBA16" />
+			<xs:enumeration value="GL_SLUMINANCE" />
+			<xs:enumeration value="GL_SLUMINANCE8" />
+			<xs:enumeration value="GL_SLUMINANCE_ALPHA" />
+			<xs:enumeration value="GL_SLUMINANCE8_ALPHA8" />
+			<xs:enumeration value="GL_SRGB" />
+			<xs:enumeration value="GL_SRGB8" />
+			<xs:enumeration value="GL_SRGB_ALPHA" />
+			<xs:enumeration value="GL_SRGB8_ALPHA8" />
+			<xs:enumeration value="GL_RGB16F" />
+			<xs:enumeration value="GL_RGBA16F" />
+			<xs:enumeration value="GL_R8" />
+			<xs:enumeration value="GL_R16F" />
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:element name="Controller">
+		<xs:complexType>
+			<xs:attribute name="Assembly" type="xs:string" use="required" />
+			<xs:attribute name="Namespace" type="xs:string" use="required" />
+			<xs:attribute name="Class" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="EffectConfiguration">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="1" ref="Controller" />
+
+				<xs:element minOccurs="0" maxOccurs="1" name="Input">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element minOccurs="1" maxOccurs="unbounded" name="InputPair">
+								<xs:complexType>
+									<xs:attribute name="Texture" type="xs:NCName" use="required" />
+									<xs:attribute name="LocationName" type="xs:string" use="optional" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element minOccurs="1" maxOccurs="1" name="Output">
+					<xs:complexType>
+						<xs:choice minOccurs="1" maxOccurs="unbounded" >
+							<xs:element ref="OutputTexture" />
+							<xs:element maxOccurs="1" ref="ScreenTexture" />
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+
+			<xs:attribute name="Name" type="xs:string" use="required" />
+			<xs:attribute name="Shader" type="xs:string" use="required" />
+			<xs:attribute name="ApplyShadowsData" type="xs:boolean" use="optional" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="EffectRepeat">
+		<xs:complexType>
+			<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="EffectConfiguration"/>
+				<xs:element ref="EffectRepeat" />
+			</xs:choice>
+			<xs:attribute name="Name" type="xs:string" use="required" />
+			<xs:attribute name="Iterations" type="xs:unsignedByte" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="OutputTexture">
+		<xs:complexType>
+			<xs:attribute name="Texture" type="xs:NCName" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="ScreenTexture" />
+
+	<xs:element name="RenderingUnitConfiguration">
+		<xs:complexType>
+			<xs:sequence>
+
+				<xs:element name="Textures">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" name="TextureConfiguration">
+								<xs:complexType>
+									<xs:attribute name="Name" type="xs:NCName" use="required" />
+									<xs:attribute name="DataType" type="EnumTextureDataType" use="required" />
+									<xs:attribute name="InternalFormat" type="EnumTextureInternalFormat" use="required" />
+									<xs:attribute name="Format" type="EnumTextureFormat" use="required" />
+									<xs:attribute name="WrapS" type="EnumTextureWrapType" use="optional" />
+									<xs:attribute name="WrapT" type="EnumTextureWrapType" use="optional" />
+									<xs:attribute name="MinFilter" type="EnumTextureFilter" use="optional" />
+									<xs:attribute name="MagFilter" type="EnumTextureFilter" use="optional" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="Renderer">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Output">
+								<xs:complexType>
+									<xs:choice minOccurs="1" maxOccurs="unbounded" >
+										<xs:element ref="OutputTexture" />
+										<xs:element maxOccurs="1" ref="ScreenTexture" />
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Deferred" type="xs:boolean" use="optional" />
+						<xs:attribute name="GlobalShadows" type="xs:boolean" use="optional" />
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="Effects">
+					<xs:complexType>
+						<xs:choice minOccurs="1" maxOccurs="unbounded">
+							<xs:element ref="EffectRepeat" />
+							<xs:element ref="EffectConfiguration" />
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="DisabledEffects">
+					<xs:complexType>
+						<xs:annotation>
+							<xs:documentation>
+								All effects placed in this element will be ignored.
+								Allows for disabling effects without entrirely removing them from file.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element ref="EffectRepeat" />
+							<xs:element ref="EffectConfiguration" />
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+
+
+		<xs:unique name="TextureName">
+			<xs:selector xpath=".//eq:TextureConfiguration" />
+			<xs:field xpath="@Name" />
+		</xs:unique>
+		<xs:keyref name="TextureNameRef1" refer="TextureName">
+			<xs:selector xpath=".//eq:OutputTexture" />
+			<xs:field xpath="@Texture" />
+		</xs:keyref>
+		<xs:keyref name="TextureNameRef2" refer="TextureName">
+			<xs:selector xpath=".//eq:InputPair" />
+			<xs:field xpath="@Texture" />
+		</xs:keyref>
+
+	</xs:element>
+
+</xs:schema>

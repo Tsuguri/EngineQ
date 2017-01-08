@@ -41,6 +41,7 @@ namespace EngineQ
 			std::string scriptsDirectory = "./Scripts/";
 			std::string engineAssemblyPath = "./EngineQ.dll";
 
+			std::vector<std::string> referenceAssemblies;
 			std::vector<std::string> scriptAssemblies;
 
 			std::string initializerAssembly;

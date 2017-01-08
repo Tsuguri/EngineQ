@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Shader>
+<Shader
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.EngineQ.com"
+	xsi:schemaLocation="http://www.EngineQ.com ../../../../Schemas/ResourceShader.xsd"
+>
 	<Part Type="VertexShader" Path="./Shaders/Quad.vert" />
 	<Part Type="FragmentShader" Path="./Shaders/SSAO/SSAO.frag" />
 </Shader>

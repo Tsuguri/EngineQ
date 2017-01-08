@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Config>
-  <Mono Directory="./" />
-  <Window Name="EngineQ Application" Width="1280" Height="720"/>
+<Config	
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.EngineQ.com"
+	xsi:schemaLocation="http://www.EngineQ.com ../../Schemas/Config.xsd"
+>
+  <Window Name="EngineQ Application" Width="1280" Height="720" />
   <!--<Window Name="EngineQ Application" Width="300" Height="200"/>-->
+	
+	<ScriptEngine MonoDirectory="./">
+		<EngineAssembly Path="./EngineQ.dll" />
 
-  <EngineAssembly Path="./EngineQ.dll" />
+		<ReferenceAssemblies>
+			<Assembly Path="./libraries/mono/4.5/System.dll" />
+		</ReferenceAssemblies>
 
-  <ScriptAssemblies Directory="./Scripts/">
-    <Assembly Name="QScripts.dll" />
-    <Assembly Name="../libraries/mono/4.5/System.dll" />
-  </ScriptAssemblies>
+		<ScriptAssemblies Directory="./Scripts/">
+			<Assembly Path="QScripts.dll" />
+		</ScriptAssemblies>
 
-  <Initializer Assembly="QScripts" Namespace="QScripts" Class="Initializer" />
-
+		<Initializer Assembly="QScripts" Namespace="QScripts" Class="Initializer" />
+	</ScriptEngine>
+		
   <Postprocessing Path="./DemoPostprocessing.xml" />
 </Config>

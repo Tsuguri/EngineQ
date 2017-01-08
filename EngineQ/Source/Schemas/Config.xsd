@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+	attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.EngineQ.com"
+	xmlns="http://www.EngineQ.com"
+	xmlns:eq="http://www.EngineQ.com"
+>
+	<xs:element name="Assembly">
+		<xs:complexType>
+			<xs:attribute name="Path" type="xs:anyURI" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Config">
+		<xs:complexType>
+			<xs:sequence>
+
+				<xs:element minOccurs="1" maxOccurs="1" name="Window">
+					<xs:complexType>
+						<xs:attribute name="Name" type="xs:string" use="required" />
+						<xs:attribute name="Width" type="xs:unsignedShort" use="required" />
+						<xs:attribute name="Height" type="xs:unsignedShort" use="required" />
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element minOccurs="1" maxOccurs="1" name="ScriptEngine">
+					<xs:complexType>
+						<xs:sequence>
+
+							<xs:element minOccurs="1" maxOccurs="1" name="EngineAssembly">
+								<xs:complexType>
+									<xs:attribute name="Path" type="xs:anyURI" use="required" />
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element minOccurs="0" maxOccurs="1"  name="ReferenceAssemblies">
+								<xs:complexType>
+									<xs:sequence minOccurs="0" maxOccurs="unbounded">
+										<xs:element ref="Assembly" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element minOccurs="1" maxOccurs="1" name="ScriptAssemblies">
+								<xs:complexType>
+									<xs:sequence minOccurs="0" maxOccurs="unbounded">
+										<xs:element ref="Assembly" />
+									</xs:sequence>
+									<xs:attribute name="Directory" type="xs:anyURI" use="required" />
+								</xs:complexType>
+							</xs:element>
+
+							<xs:element minOccurs="1" maxOccurs="1"  name="Initializer">
+								<xs:complexType>
+									<xs:attribute name="Assembly" type="xs:NCName" use="required" />
+									<xs:attribute name="Namespace" type="xs:NCName" use="required" />
+									<xs:attribute name="Class" type="xs:NCName" use="required" />
+								</xs:complexType>
+							</xs:element>
+
+						</xs:sequence>
+						<xs:attribute name="MonoDirectory" type="xs:anyURI" use="required" />
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element minOccurs="1" maxOccurs="1" name="Postprocessing">
+					<xs:complexType>
+						<xs:attribute name="Path" type="xs:anyURI" use="required" />
+					</xs:complexType>
+				</xs:element>
+
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

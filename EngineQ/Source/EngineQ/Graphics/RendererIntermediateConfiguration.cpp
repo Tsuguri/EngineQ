@@ -93,15 +93,22 @@ namespace EngineQ
 			auto output = element->FirstChildElement("Output");
 			if (output == nullptr || output->FirstChildElement() == nullptr)
 				throw "Shader without output found";
+			
 			for (auto outputInfo = output->FirstChildElement(); outputInfo != nullptr; outputInfo = outputInfo->NextSiblingElement())
 			{
-				auto texture = outputInfo->Attribute("Texture");
-				if (texture == nullptr)
+				if (std::strcmp(outputInfo->Name(), "ScreenTexture") == 0)
 				{
-					configuration.Output.push_back(Graphics::Configuration::OutputTexture{ std::string("Screen") });
+					configuration.Output.push_back(Graphics::Configuration::OutputTexture{});
+				}
+				else if (std::strcmp(outputInfo->Name(), "OutputTexture") == 0)
+				{
+					auto texture = outputInfo->Attribute("Texture");
+					configuration.Output.push_back(Graphics::Configuration::OutputTexture{ std::string(texture) });
 				}
 				else
-					configuration.Output.push_back(Graphics::Configuration::OutputTexture{ std::string(texture) });
+				{
+					throw std::runtime_error{ "Invalid ouptit element" };
+				}
 			}
 		}
 		else if (std::strcmp(element->Name(), "EffectRepeat") == 0)

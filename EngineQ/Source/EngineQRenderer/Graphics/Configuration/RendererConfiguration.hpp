@@ -66,7 +66,9 @@ namespace EngineQ
 			class OutputTexture
 			{
 			public:
+				OutputTexture() = default;
 				OutputTexture(std::string texture);
+				bool IsScreen = true;
 				std::string Texture;
 			};
 

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<Shader>
-	<Part Type="VertexShader" Path="./Shaders/Deferred/DeferredCustom.vsh" />
-	<Part Type="FragmentShader" Path="./Shaders/Deferred/DeferredCustom.fsh" />
-</Shader>
