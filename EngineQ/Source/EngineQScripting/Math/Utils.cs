@@ -8,6 +8,9 @@ namespace EngineQ.Math
 {
     public static class Utils
     {
+		/// <summary>
+		/// Math constant: PI ~= 3.14
+		/// </summary>
         public static float PI
         {
             get
@@ -16,6 +19,9 @@ namespace EngineQ.Math
             }
         }
 
+		/// <summary>
+		/// Eps to use with float operations, eg. Vectors/Matrix comparison
+		/// </summary>
 		public static float Eps
 		{
 			get
@@ -24,22 +30,45 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Converts angle from degrees do radians.
+		/// </summary>
+		/// <param name="deg">Angle value in degrees.</param>
+		/// <returns>Angle value in radians.</returns>
         public static float DegToRad(float deg)
         {
             return deg / 180.0f * PI;
         }
 
+		/// <summary>
+		/// Converts angle from radians to degrees.
+		/// </summary>
+		/// <param name="rad">Angle value in radians.</param>
+		/// <returns>Angle value in degrees.</returns>
         public static float RadToDeg(float rad)
         {
             return rad / PI * 180.0f;
         }
 
+		/// <summary>
+		/// Performs linear interpolation between two value.
+		/// </summary>
+		/// <param name="a">First value.</param>
+		/// <param name="b">Second value.</param>
+		/// <param name="val">Interpolation parameter. If equal to 0 lerp will return a, if equal to 1 lerp will return b, interpolated value in between</param>
+		/// <returns></returns>
 		public static float Lerp(float a, float b, float val)
 		{
 			return (b - a) * val + a;
 		}
 
-
+		/// <summary>
+		/// Checks if provided ray is intersecting with <see cref="Sphere"/>. If yes returns distance.
+		/// </summary>
+		/// <param name="sphere"><see cref="Sphere"/> to intersect</param>
+		/// <param name="ray"><see cref="Ray"/> to intersect</param>
+		/// <param name="distance">Out parameter which returns distance of intersection</param>
+		/// <returns>True if intersection occurs, false otherwise</returns>
 		public static bool RaySphereIntersection(Sphere sphere, Ray ray, out float distance)
 		{
 			Vector3 l = sphere.Center - ray.Origin;
@@ -83,6 +112,13 @@ namespace EngineQ.Math
 			return true;
 		}
 
+		/// <summary>
+		/// Checks if provided ray is intersecting with <see cref="Capsule"/>. If yes returns distance.
+		/// </summary>
+		/// <param name="capsule"><see cref="Capsule"/> to intersect.</param>
+		/// <param name="ray"><see cref="Ray"/> to intersect.</param>
+		/// <param name="distance">Out parameter which returns distance of intersection</param>
+		/// <returns>True if intersection occurs, false otherwise</returns>
 		public static bool RayCapsuleIntersection(Capsule capsule, Ray ray, out float distance)
 		{
 			Vector3 u = capsule.Point2 - capsule.Point1;
@@ -159,6 +195,13 @@ namespace EngineQ.Math
 			return true;
 		}
 
+		/// <summary>
+		/// Checks if provided ray is intersecting with <see cref="Plane"/>. If yes returns distance.
+		/// </summary>
+		/// <param name="plane"><see cref="Plane"/> to intersect.</param>
+		/// <param name="ray"><see cref="Ray"/> to intersect.</param>
+		/// <param name="distance">Out parameter which returns distance of intersection.</param>
+		/// <returns>True if intersection occurs, false otherwise.</returns>
 		public static bool RayPlaneIntersection(Plane plane, Ray ray, out float distance)
 		{
 			var dot = Vector3.DotProduct(ray.Direction, plane.Normal);
@@ -173,7 +216,12 @@ namespace EngineQ.Math
 			return true;
 		}
 
-
+		/// <summary>
+		/// Computes distance between <see cref="Segment"/>s
+		/// </summary>
+		/// <param name="segment1">First <see cref="Segment"/>.</param>
+		/// <param name="segment2">Second <see cref="Segment"/>.</param>
+		/// <returns>Distance between <see cref="Segment"/>s.</returns>
 		public static float SegmentToSegmentDistance(Segment segment1, Segment segment2)
 		{
 			Vector3 u = segment1.Point2 - segment1.Point1;
@@ -253,6 +301,10 @@ namespace EngineQ.Math
 			return dP.Length;   // return the closest distance
 		}
 
+		/// <summary>
+		/// Computes distance between <see cref="Segment"/> and <see cref="Ray"/>.
+		/// </summary>
+		/// <returns>Distance between <see cref="Segment"/> and <see cref="Ray"/>.</returns>
 		public static float SegmentToRayDistance(Segment segment, Ray ray)
 		{
 			Vector3 u = segment.Point2 - segment.Point1;
@@ -320,6 +372,12 @@ namespace EngineQ.Math
 			return dP.Length;   // return the closest distance
 		}
 
+		/// <summary>
+		/// Computes distance between two lines.
+		/// </summary>
+		/// <param name="line1">First line.</param>
+		/// <param name="line2">Second line.</param>
+		/// <returns>Computed distance.</returns>
 		public static float LineToLineDistance(Segment line1, Segment line2)
 		{
 			Vector3 u = line1.Point2 - line1.Point1;

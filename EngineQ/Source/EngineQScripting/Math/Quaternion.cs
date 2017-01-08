@@ -5,14 +5,32 @@ namespace EngineQ.Math
 {
 	using Real = System.Single;
 
+	/// <summary>
+	/// Represents rotation if form of Quaternion. 
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public struct Quaternion
 	{
 		#region Fields
 
+		/// <summary>
+		/// W component of <see cref="Quaternion"/>.
+		/// </summary>
 		public Real W;
+
+		/// <summary>
+		/// X component of <see cref="Quaternion"/>.
+		/// </summary>
 		public Real X;
+
+		/// <summary>
+		/// Y component of <see cref="Quaternion"/>.
+		/// </summary>
 		public Real Y;
+
+		/// <summary>
+		/// Z component of <see cref="Quaternion"/>.
+		/// </summary>
 		public Real Z;
 
 		#endregion
@@ -31,6 +49,9 @@ namespace EngineQ.Math
 
 		#region Properties
 
+		/// <summary>
+		/// Direction of Axis around which rotation occurs.
+		/// </summary>
 		public Vector4 AxisAngle
 		{
 			get
@@ -41,6 +62,9 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Euler angles representation of quaternion's rotation.
+		/// </summary>
 		public Vector3 EulerAngles
 		{
 			get
@@ -51,6 +75,9 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Squared lenght of quaternion.
+		/// </summary>
 		public Real LengthSquared
 		{
 			get
@@ -59,6 +86,9 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Length of quaternion (sum of all components to power of two).
+		/// </summary>
 		public Real Length
 		{
 			get
@@ -67,6 +97,9 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Normalized quaternion - all coponents divided by Z component.
+		/// </summary>
 		public Quaternion Normalized
 		{
 			get
@@ -82,6 +115,9 @@ namespace EngineQ.Math
 
 		#region Static Properties
 
+		/// <summary>
+		/// Quaternion representing no rotation.
+		/// </summary>
 		public static Quaternion Identity
 		{
 			get
@@ -94,6 +130,9 @@ namespace EngineQ.Math
 
 		#region Methods
 
+		/// <summary>
+		/// Normalizes quaternion - divides all components by Z component.
+		/// </summary>
 		public void Normalize()
 		{
 			API_Normalize(ref this);
@@ -121,11 +160,25 @@ namespace EngineQ.Math
 
 		#region Static Methods
 
+		/// <summary>
+		/// Creates <see cref="Quaternion"/> from rotation around given axis by given angle.
+		/// </summary>
+		/// <param name="axis">Axis around which rotation occurs.</param>
+		/// <param name="angle">Angle of rotation. In radians.</param>
+		/// <returns><see cref="Quaternion"/> representing rotation equal to given.</returns>
 		public static Quaternion CreateFromAxisAngle(Vector3 axis, Real angle)
 		{
 			return CreateFromAxisAngle(axis.X, axis.Y, axis.Z, angle);
 		}
 
+		/// <summary>
+		/// Creates <see cref="Quaternion"/> from rotation around given axis by given angle.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <param name="angle">Angle of rotation. In radians.</param>
+		/// <returns><see cref="Quaternion"/> representing rotation equal to given.</returns>
 		public static Quaternion CreateFromAxisAngle(Real x, Real y, Real z, Real angle)
 		{
 			Quaternion ret;
@@ -133,6 +186,11 @@ namespace EngineQ.Math
 			return ret;
 		}
 
+		/// <summary>
+		/// Creates rotation around Z axis by given angle.
+		/// </summary>
+		/// <param name="angle">Value of angle around Z axis. In radians.</param>
+		/// <returns><see cref="Quaternion"/> representing rotation.</returns>
 		public static Quaternion CreateRotationZ(Real angle)
 		{
 			Quaternion ret;
@@ -140,6 +198,11 @@ namespace EngineQ.Math
 			return ret;
 		}
 
+		/// <summary>
+		/// Creates rotation around Y axis by given angle.
+		/// </summary>
+		/// <param name="angle">Value of angle around Y axis. In radians.</param>
+		/// <returns><see cref="Quaternion"/> representing rotation.</returns>
 		public static Quaternion CreateRotationY(Real angle)
 		{
 			Quaternion ret;
@@ -147,6 +210,11 @@ namespace EngineQ.Math
 			return ret;
 		}
 
+		/// <summary>
+		/// Creates rotation around X axis by given angle.
+		/// </summary>
+		/// <param name="angle">Value of angle around X axis. In radians.</param>
+		/// <returns><see cref="Quaternion"/> representing rotation.</returns>
 		public static Quaternion CreateRotationX(Real angle)
 		{
 			Quaternion ret;
@@ -154,6 +222,13 @@ namespace EngineQ.Math
 			return ret;
 		}
 
+		/// <summary>
+		/// Creates rotation equal to rotation represented by Euler angles given in radians.
+		/// </summary>
+		/// <param name="x">Rotation around X axis.</param>
+		/// <param name="y">Rotation around Y axis.</param>
+		/// <param name="z">Rotation around Z axis.</param>
+		/// <returns><see cref="Quaternion"/> representing rotation.</returns>
 		public static Quaternion CreateFromEuler(Real x, Real y, Real z)
 		{
 			Quaternion ret;
@@ -161,12 +236,24 @@ namespace EngineQ.Math
 			return ret;
 		}
 
+		/// <summary>
+		/// Creates rotation equal to rotation represented by Euler angles given in radians.
+		/// </summary>
+		/// <param name="angles">Vector of rotations around axes. In radians.</param>
+		/// <returns><see cref="Quaternion"/> representing rotation.</returns>
 		public static Quaternion CreateFromEuler(Vector3 angles)
 		{
 			return CreateFromEuler(angles.X, angles.Y, angles.Z);
 		}
 
-        public static Quaternion CreateLookAt(Vector3 sourcePoint, Vector3 targetPoint, Vector3 up)
+		/// <summary>
+		/// Creates <see cref="Quaternion"/> representing rotation from no-rotation state to looking at given <paramref name="targetPoint"/> from <paramref name="sourcePoint"/>.
+		/// </summary>
+		/// <param name="sourcePoint">Position of object.</param>
+		/// <param name="targetPoint">Target that will be targeted by rotation</param>
+		/// <param name="up">Vector representing up vector - orthogonal to axis from source to target point</param>
+		/// <returns><see cref="Quaternion"/> representing rotation.</returns>
+		public static Quaternion CreateLookAt(Vector3 sourcePoint, Vector3 targetPoint, Vector3 up)
         {
 			Quaternion ret;
 			API_CreateLookAt(ref sourcePoint, ref targetPoint, ref up, out ret);

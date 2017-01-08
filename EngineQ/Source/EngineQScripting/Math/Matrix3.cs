@@ -136,6 +136,9 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Creates new <see cref="Matrix3"/> that is transposition of this one.
+		/// </summary>
 		public Matrix3 Transposed
 		{
 			get
@@ -144,6 +147,9 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Creates new <see cref="Matrix3"/> that is inversion of this one.
+		/// </summary>
 		public Matrix3 Inversed
 		{
 			get
@@ -154,6 +160,9 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Computes determinant of this <see cref="Matrix3"/>.
+		/// </summary>
 		public Real Determinant
 		{
 			get
@@ -164,6 +173,11 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Diagonal vector of this <see cref="Matrix3"/>.
+		/// Vector of values with the same row and column index.
+		/// eg. matrix[0,0], matrix[1,1], etc.
+		/// </summary>
 		public Vector3 Diagonal
 		{
 			get
@@ -183,6 +197,10 @@ namespace EngineQ.Math
 
 		#region Static Properties
 
+		/// <summary>
+		/// Identity <see cref="Matrix3"/> - filled with zeros, with ones on diagonal
+		/// </summary>
+		/// <returns></returns>
 		public static Matrix3 GetIdentity()
 		{
 			return new Matrix3(
@@ -195,11 +213,17 @@ namespace EngineQ.Math
 
 		#region Methods
 
+		/// <summary>
+		/// Modifies this <see cref="Matrix3"/> by transposition.
+		/// </summary>
 		public void Transpose()
 		{
 			API_Transpose(ref this);
 		}
 
+		/// <summary>
+		/// Modifies this <see cref="Matrix3"/> by inversion.
+		/// </summary>
 		public void Inverse()
 		{
 			this = Inversed;
@@ -223,11 +247,21 @@ namespace EngineQ.Math
 			return base.GetHashCode();
 		}
 
+		/// <summary>
+		/// <see cref="Vector3"/> representing one of columns of this <see cref="Matrix3"/>.
+		/// </summary>
+		/// <param name="column">Index of column.</param>
+		/// <returns><see cref="Vector3"/> representing column.</returns>
 		public Vector3 GetColumn(int column)
 		{
 			return new Vector3(this[0, column], this[1, column], this[2, column]);
 		}
 
+		/// <summary>
+		/// Sets content of <paramref name="column"/> with given <see cref="Vector3"/> <paramref name="value"/>.
+		/// </summary>
+		/// <param name="column">Index of column to set.</param>
+		/// <param name="value">New values.</param>
 		public void SetColumn(int column, Vector3 value)
 		{
 			this[0, column] = value.X;
@@ -235,11 +269,21 @@ namespace EngineQ.Math
 			this[2, column] = value.Z;
 		}
 
+		/// <summary>
+		/// <see cref="Vector3"/> representing one of rows of this <see cref="Matrix3"/>.
+		/// </summary>
+		/// <param name="row">Index of row.</param>
+		/// <returns><see cref="Vector3"/> representing row.</returns>
 		public Vector3 GetRow(int row)
 		{
 			return new Vector3(this[row, 0], this[row, 1], this[row, 2]);
 		}
 
+		/// <summary>
+		/// Sets content fo <paramref name="row"/>  with given <see cref="Vector3"/> <paramref name="value"/>.
+		/// </summary>
+		/// <param name="row"></param>
+		/// <param name="value"></param>
 		public void SetRow(int row, Vector3 value)
 		{
 			this[row, 0] = value.X;
@@ -247,6 +291,10 @@ namespace EngineQ.Math
 			this[row, 2] = value.Z;
 		}
 
+		/// <summary>
+		/// Converts this <see cref="Matrix3"/> into <see cref="Vector3"/>s of rows.
+		/// </summary>
+		/// <returns><see cref="Vector3"/> array of rows.</returns>
 		public Vector3[] GetRows()
 		{
 			return new Vector3[3]
@@ -257,6 +305,10 @@ namespace EngineQ.Math
 			};
 		}
 
+		/// <summary>
+		/// Converts this <see cref="Matrix3"/> into <see cref="Vector3"/>s of columns.
+		/// </summary>
+		/// <returns><see cref="Vector3"/> array of columns.</returns>
 		public Vector3[] GetColumns()
 		{
 			return new Vector3[3]
@@ -271,6 +323,10 @@ namespace EngineQ.Math
 
 		#region Static Methods
 
+		/// <summary>
+		/// Creates <see cref="Matrix3"/> from given columns <see cref="Vector3"/>s.
+		/// </summary>
+		/// <returns>Created <see cref="Matrix3"/>.</returns>
 		public static Matrix3 CreateFromColumns(Vector3 column0, Vector3 column1, Vector3 column2)
 		{
 			return new Matrix3
@@ -281,6 +337,10 @@ namespace EngineQ.Math
 			);
 		}
 
+		/// <summary>
+		/// Creates <see cref="Matrix3"/> from given rows <see cref="Vector3"/>s.
+		/// </summary>
+		/// <returns>Created <see cref="Matrix3"/>.</returns>
 		public static Matrix3 CreateFromRows(Vector3 row0, Vector3 row1, Vector3 row2)
 		{
 			return new Matrix3
