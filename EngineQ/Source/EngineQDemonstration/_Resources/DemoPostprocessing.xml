@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<RenderingUnitConfiguration>
+<RenderingUnitConfiguration
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.EngineQ.com"
+	xsi:schemaLocation="http://www.EngineQ.com ../../Schemas/PostprocessingConfig.xsd"
+>
 	<Textures>
 		<!-- G-Buffer -->
 		<TextureConfiguration Name="Position" DataType="GL_FLOAT" InternalFormat="GL_RGB16F"  Format="GL_RGB"  WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
@@ -9,9 +13,9 @@
 		<!-- SSAO -->
 		<TextureConfiguration Name="SSAO"      DataType="GL_FLOAT" InternalFormat="GL_R16F" Format="GL_RED" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
 		<TextureConfiguration Name="SSAOBlur"  DataType="GL_FLOAT" InternalFormat="GL_R16F" Format="GL_RED" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
-		
+
 		<!-- SSR -->
-		<TextureConfiguration Name="SSR" DataType="GL_FLOAT" InternalFormat="GL_RGB16F" Format="GL_RGB" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="SSR"    DataType="GL_FLOAT" InternalFormat="GL_RGB16F" Format="GL_RGB" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
 
 		<!-- Bloom -->
 		<TextureConfiguration Name="Scene"  DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
@@ -32,7 +36,7 @@
 		<!-- SSAO -->
 		<EffectConfiguration Name="SSAO" Shader="SSAO">
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="SSAOController" />
-			
+
 			<Input>
 				<InputPair Texture="Position" LocationName="gPosition" />
 				<InputPair Texture="Normal" LocationName="gNormal" />
@@ -71,7 +75,7 @@
 		<!-- SSR -->
 		<EffectConfiguration Name="SSR" Shader="SSR">
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="SSRController" />
-			
+
 			<Input>
 				<InputPair Texture="Position" LocationName="gPosition" />
 				<InputPair Texture="Normal" LocationName="gNormal" />
@@ -86,7 +90,7 @@
 		<!-- Extract bright colors -->
 		<EffectConfiguration Name="Bloom bright extraction" Shader="BloomExtraction">
 			<Controller Assembly="QScripts" Namespace="QScripts" Class="BrightExtractController" />
-			
+
 			<Input>
 				<InputPair Texture="SSR" />
 			</Input>
@@ -132,29 +136,20 @@
 				<InputPair Texture="SSAOBlur" LocationName="ssao" />
 			</Input>
 			<Output>
-				<OutputTexture Texture="Screen" />
+				<ScreenTexture />
 			</Output>
 		</EffectConfiguration>
 
-
-
-
-		<!--EffectConfiguration Name="Debug Shadowmap drawer" Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true"> 
-      <Output> 
-        <OutputTexture Texture="Screen"></OutputTexture> 
-      </Output> 
-    </EffectConfiguration-->
-
-
 	</Effects>
 
+	<DisabledEffects>
 
-	<NotUsed>
+		<EffectConfiguration Name="Debug Shadowmap drawer" Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true">
+			<Output>
+				<ScreenTexture />
+			</Output>
+		</EffectConfiguration>
 
-
-
-
-
-	</NotUsed>
+	</DisabledEffects>
 
 </RenderingUnitConfiguration>

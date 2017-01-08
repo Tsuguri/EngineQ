@@ -36,6 +36,9 @@ namespace EngineQ
 
 		this->scriptingEngine = std::make_unique<Scripting::ScriptEngine>(config.applicationPath.c_str(), config.engineAssemblyPath.c_str(), (config.monoDirectory + "libraries").c_str(), (config.monoDirectory + "config").c_str());
 
+		for (const auto& referenceAssembly : config.referenceAssemblies)
+			this->scriptingEngine->LoadAssembly(referenceAssembly.c_str());
+
 		for (const auto& scriptAssembly : config.scriptAssemblies)
 			this->scriptingEngine->LoadAssembly((config.scriptsDirectory + scriptAssembly).c_str());
 

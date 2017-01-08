@@ -35,26 +35,32 @@ EngineQ::Engine::Config ParseConfig(const char* applicationPath, const char* pat
 
 	EngineQ::Engine::Config config;
 
-	auto engineAssemblyElement = rootElement->FirstChildElement("EngineAssembly");
-	config.engineAssemblyPath = engineAssemblyElement->Attribute("Path");
-
 	auto windowElement = rootElement->FirstChildElement("Window");
 	config.windowName = windowElement->Attribute("Name");
 	config.windowWidth = windowElement->IntAttribute("Width");
 	config.windowHeight = windowElement->IntAttribute("Height");
 
-	auto scriptAssembliesElement = rootElement->FirstChildElement("ScriptAssemblies");
+	auto scriptEngineElement = rootElement->FirstChildElement("ScriptEngine");
+	config.monoDirectory = scriptEngineElement->Attribute("MonoDirectory");
+
+	auto engineAssemblyElement = scriptEngineElement->FirstChildElement("EngineAssembly");
+	config.engineAssemblyPath = engineAssemblyElement->Attribute("Path");
+
+	auto scriptAssembliesElement = scriptEngineElement->FirstChildElement("ScriptAssemblies");
 	config.scriptsDirectory = scriptAssembliesElement->Attribute("Directory");
 	for (auto assemblyElement = scriptAssembliesElement->FirstChildElement(); assemblyElement != nullptr; assemblyElement = assemblyElement->NextSiblingElement())
-		config.scriptAssemblies.push_back(assemblyElement->Attribute("Name"));
+		config.scriptAssemblies.push_back(assemblyElement->Attribute("Path"));
 
-	auto initializerElement = rootElement->FirstChildElement("Initializer");
+	auto referenceAssembliesElement = scriptEngineElement->FirstChildElement("ReferenceAssemblies");
+	if(referenceAssembliesElement != nullptr)
+		for (auto assemblyElement = referenceAssembliesElement->FirstChildElement(); assemblyElement != nullptr; assemblyElement = assemblyElement->NextSiblingElement())
+			config.referenceAssemblies.push_back(assemblyElement->Attribute("Path"));
+
+	auto initializerElement = scriptEngineElement->FirstChildElement("Initializer");
 	config.initializerAssembly = initializerElement->Attribute("Assembly");
 	config.initializerNamespace = initializerElement->Attribute("Namespace");
 	config.initializerClass = initializerElement->Attribute("Class");
 
-	auto monoElement = rootElement->FirstChildElement("Mono");
-	config.monoDirectory = monoElement->Attribute("Directory");
 
 	auto postprocessingElement = rootElement->FirstChildElement("Postprocessing");
 	config.postprocessingConfig = postprocessingElement->Attribute("Path");

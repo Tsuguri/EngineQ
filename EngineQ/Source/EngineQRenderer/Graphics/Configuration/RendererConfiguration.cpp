@@ -201,7 +201,7 @@ namespace EngineQ
 				}
 
 				float sizeMultiplier;
-				auto sizeM = element->QueryFloatAttribute("SizeMultiplier",&sizeMultiplier);
+				auto sizeM = element->QueryFloatAttribute("SizeMultiplier", &sizeMultiplier);
 				if (sizeM == tinyxml2::XMLError::XML_SUCCESS)
 				{
 					tex.SizeMultiplier = sizeMultiplier;
@@ -214,11 +214,12 @@ namespace EngineQ
 			{
 			}
 
-			InputPair::InputPair(std::string texture, std::string locationName) :LocationName(locationName), Texture(texture)
+			InputPair::InputPair(std::string texture, std::string locationName) : LocationName(locationName), Texture(texture)
 			{
 			}
 
-			OutputTexture::OutputTexture(std::string texture) : Texture(texture)
+			OutputTexture::OutputTexture(std::string texture) :
+				Texture(texture), IsScreen(false)
 			{
 			}
 
@@ -231,7 +232,7 @@ namespace EngineQ
 				{
 					configuration.Deffered = true;
 				}
-				
+
 				format = element->Attribute("GlobalShadows");
 				if (format != nullptr && std::strcmp(format, "true") == 0)
 				{
@@ -243,14 +244,22 @@ namespace EngineQ
 				{
 					if (std::strcmp(output->Name(), "Output") != 0)
 						throw "Wrong renderer configuration element!";
-					
+
 					for (auto outputInfo = output->FirstChildElement(); outputInfo != nullptr; outputInfo = outputInfo->NextSiblingElement())
 					{
-						auto texture = outputInfo->Attribute("Texture");
-						if (texture == nullptr)
+						if (strcmp(outputInfo->Name(), "ScreenTexture") == 0)
+						{
+							configuration.Output.push_back(OutputTexture{ std::string() });
+						}
+						else if (strcmp(outputInfo->Name(), "OutputTexture") == 0)
+						{
+							auto texture = outputInfo->Attribute("Texture");
+							configuration.Output.push_back(OutputTexture{ std::string(texture) });
+						}
+						else
+						{
 							throw "No texture info";
-
-						configuration.Output.push_back(OutputTexture{ std::string(texture) });
+						}
 					}
 				}
 

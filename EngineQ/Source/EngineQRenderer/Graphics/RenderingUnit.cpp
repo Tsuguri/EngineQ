@@ -78,7 +78,7 @@ namespace EngineQ
 			renderer->SetDeferred(!configuration.Renderer.Deffered);
 			renderer->SetGlobalShadows(configuration.Renderer.GlobalShadows);
 
-			if (configuration.Renderer.Output.size() == 0 || (configuration.Renderer.Output.size() == 1 && configuration.Renderer.Output[0].Texture == "Screen"))
+			if (configuration.Renderer.Output.size() == 0 || (configuration.Renderer.Output.size() == 1 && configuration.Renderer.Output[0].IsScreen))
 			{
 				renderer->SetTargetBuffer(nullptr);
 			}
@@ -111,7 +111,7 @@ namespace EngineQ
 					for (auto inputConfiguration : effect.Input)
 						shaderPass->AddInput(InputConfiguration{ texturesResources[textureNames.at(inputConfiguration.Texture)], inputConfiguration.LocationName });
 
-					if (effect.Output.size() == 0 || (effect.Output.size() == 1 && effect.Output[0].Texture == "Screen"))
+					if (effect.Output.size() == 0 || (effect.Output.size() == 1 && effect.Output[0].IsScreen))
 					{
 						shaderPass->SetTargetBuffer(nullptr);
 					}

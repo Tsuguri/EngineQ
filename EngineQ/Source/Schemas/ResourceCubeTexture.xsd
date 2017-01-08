@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+	attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.EngineQ.com"
+	xmlns="http://www.EngineQ.com"
+	xmlns:eq="http://www.EngineQ.com"
+>
+	<xs:simpleType name="EnumDirection" final="restriction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Top" />
+			<xs:enumeration value="Bottom" />
+			<xs:enumeration value="East" />
+			<xs:enumeration value="West" />
+			<xs:enumeration value="North" />
+			<xs:enumeration value="South" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="CubeTexture">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="6" maxOccurs="6" name="Image">
+					<xs:complexType>
+						<xs:attribute name="Direction" type="EnumDirection" use="required" />
+						<xs:attribute name="Path" type="xs:anyURI" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+
+		<xs:unique name="UniqueDirection">
+			<xs:selector xpath="eq:Image" />
+			<xs:field xpath="@Direction" />
+		</xs:unique>
+
+	</xs:element>
+</xs:schema>
