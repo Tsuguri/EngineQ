@@ -56,6 +56,11 @@ namespace EngineQ
 		return GetEntity().GetTransform().GetGlobalPosition();
 	}
 
+	Math::Vector3 Light::GetRight()
+	{
+		return this->entity.GetTransform().GetGlobalRotation() * Math::Vector3::GetRight();
+	}
+
 	Math::Vector3 Light::GetDirection()
 	{
 		return this->entity.GetTransform().GetGlobalRotation() * Math::Vector3::GetForward();

@@ -42,7 +42,7 @@ namespace QScripts
 			
 
 			// Skull
-			var skull = scene.CreateEntity(true, "Skull");
+			var skull = scene.CreateEntity(false, "Skull");
 			skull.Transform.Position = new Vector3(0);
 			var skullRenderable = skull.AddComponent<Renderable>();
 			skullRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
@@ -105,7 +105,7 @@ namespace QScripts
 
 			// Lights
 			var lightsDeferredShader = resourceManager.GetResource<Shader>("LightDeferred");
-			var lightsMesh = PrefabGenerator.GenerateCube(0.4f);
+			var lightsMesh = PrefabGenerator.GenerateCube(1.0f);
 
 
 			// Light1
@@ -119,9 +119,13 @@ namespace QScripts
 			light1light.DiffuseColor = new Vector3(2.0f);
 			light1light.SpecularColor = new Vector3(1.0f);
 
+			light1.Transform.Scale = new Vector3(0.5f, 1.0f, 0.05f);
+			light1.Transform.Position = new Vector3(0.0f, 1.0f, 0.0f);
+			light1.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(180 - 30));
 
+			light1.AddComponent<CapsuleCollider>();
 
-			light1.AddComponent<LightController>();
+		//	light1.AddComponent<LightController>();
 		
 			var light1renderable = light1.AddComponent<Renderable>();
 			light1renderable.UseDeferredShader(lightsDeferredShader);
@@ -129,47 +133,47 @@ namespace QScripts
 			light1renderable.Mesh = lightsMesh;
 			light1renderable.CastShadows = false;
 		
-			var light1script = light1.AddComponent<LightRotateScript>();
-			light1script.RotationPoint = new Vector3(0.0f, 4.0f, 0.0f);
-			light1script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
-			light1script.RotationSpeed = 0.6f;
-			light1script.Radius = 4.0f;
-			light1script.InitialRotation = -2.0f;
-			light1script.Update();
+		//	var light1script = light1.AddComponent<LightRotateScript>();
+		//	light1script.RotationPoint = new Vector3(0.0f, 4.0f, 0.0f);
+		//	light1script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
+		//	light1script.RotationSpeed = 0.6f;
+		//	light1script.Radius = 4.0f;
+		//	light1script.InitialRotation = -2.0f;
+		//	light1script.Update();
 			
 
 			//Light2
-			var light2 = scene.CreateEntity(true, "Light2");
-			var light2light = light2.AddComponent<Light>();
-			light2light.Type = LightType.Point;
-			light2light.TextureSize = new Vector2i(2048);
-			light2light.AmbientColor = new Vector3(0.1f);
-			light2light.DiffuseColor = new Vector3(0.4f);
-
-
-			var light2renderable = light2.AddComponent<Renderable>();
-			light2renderable.UseDeferredShader(lightsDeferredShader);
-			light2renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
-			light2renderable.Mesh = lightsMesh;
-			light2renderable.CastShadows = false;
+		//	var light2 = scene.CreateEntity(true, "Light2");
+		//	var light2light = light2.AddComponent<Light>();
+		//	light2light.Type = LightType.Point;
+		//	light2light.TextureSize = new Vector2i(2048);
+		//	light2light.AmbientColor = new Vector3(0.1f);
+		//	light2light.DiffuseColor = new Vector3(0.4f);
+		//
+		//
+		//	var light2renderable = light2.AddComponent<Renderable>();
+		//	light2renderable.UseDeferredShader(lightsDeferredShader);
+		//	light2renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
+		//	light2renderable.Mesh = lightsMesh;
+		//	light2renderable.CastShadows = false;
+		//	
+		//	var light2script = light2.AddComponent<LightRotateScript>();
+		//	light2script.RotationPoint = new Vector3(0.0f, 3.0f, 0.0f);
+		//	light2script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
+		//	light2script.RotationSpeed = 0.3f;
+		//	light2script.Radius = 3.0f;
+		//	light2script.InitialRotation = -4.0f;
+		//	light2script.Update();
 			
-			var light2script = light2.AddComponent<LightRotateScript>();
-			light2script.RotationPoint = new Vector3(0.0f, 3.0f, 0.0f);
-			light2script.RotationAxis = new Vector3(0.0f, 1.0f, 0.0f);
-			light2script.RotationSpeed = 0.3f;
-			light2script.Radius = 3.0f;
-			light2script.InitialRotation = -4.0f;
-			light2script.Update();
-			
 
 
-			optionChanger.AddOption(new SimpleFloatOption("Light1 diffuse", light1light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light1light.DiffuseColor = new Vector3(value); }));
-			optionChanger.AddOption(new SimpleFloatOption("Light2 diffuse", light2light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light2light.DiffuseColor = new Vector3(value); }));
+		//	optionChanger.AddOption(new SimpleFloatOption("Light1 diffuse", light1light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light1light.DiffuseColor = new Vector3(value); }));
+		//	optionChanger.AddOption(new SimpleFloatOption("Light2 diffuse", light2light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light2light.DiffuseColor = new Vector3(value); }));
 
-			optionChanger.AddOption(new SimpleBoolOption("Lights movement", true, (bool value) => { light1script.Enabled = value; light2script.Enabled = value; }));
+		//	optionChanger.AddOption(new SimpleBoolOption("Lights movement", true, (bool value) => { light1script.Enabled = value; light2script.Enabled = value; }));
 
-			optionChanger.AddOption(new SimpleBoolOption("Light1 Enable", true, (bool value) => { light1.Enabled = value; }));
-			optionChanger.AddOption(new SimpleBoolOption("Light2 Enable", true, (bool value) => { light2.Enabled = value; }));
+		//	optionChanger.AddOption(new SimpleBoolOption("Light1 Enable", true, (bool value) => { light1.Enabled = value; }));
+		//	optionChanger.AddOption(new SimpleBoolOption("Light2 Enable", true, (bool value) => { light2.Enabled = value; }));
 
 
 			var arrows = scene.CreateEntity(true, "Arrows");

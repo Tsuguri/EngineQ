@@ -39,6 +39,7 @@ namespace EngineQ
 			{
 				light.Position = GetPosition();
 				light.Direction = GetDirection();
+				light.Right = GetRight();
 				light.Distance = GetDistance();
 
 				light.Diffuse = GetDiffuseColor();

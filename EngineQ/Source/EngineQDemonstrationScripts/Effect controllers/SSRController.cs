@@ -18,7 +18,7 @@ namespace QScripts
 			var changer = this.Scene.ActiveCamera.Entity.GetComponent<OptionChanger>();
 
 			this.enabledProp = this.Shader.GetProperty<bool>("enabled");
-			changer.AddOption(new SimpleBoolOption("Use SSR", true, (bool value) => { this.Shader.Set(enabledProp, value); }));
+			changer.AddOption(new SimpleBoolOption("Use SSR", false, (bool value) => { this.Shader.Set(enabledProp, value); }));
 		}
 	}
 }

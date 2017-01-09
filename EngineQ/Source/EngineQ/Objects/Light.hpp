@@ -32,6 +32,7 @@ namespace EngineQ
 		*/
 
 		virtual Math::Vector3 GetPosition() override;
+		virtual Math::Vector3 GetRight() override;
 		virtual Math::Vector3 GetDirection() override;
 		virtual Math::Matrix4 GetViewMatrix() override;
 

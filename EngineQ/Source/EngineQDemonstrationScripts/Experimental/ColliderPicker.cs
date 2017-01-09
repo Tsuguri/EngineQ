@@ -52,6 +52,8 @@ namespace QScripts
 					for (int i = 0; i < scene.EntitiesCount; ++i)
 					{
 						var entity = scene.GetEntity(i);
+						if (!entity.Enabled)
+							continue;
 
 						var collider = entity.GetComponent<Collider>();
 						if (collider == null)

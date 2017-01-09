@@ -33,6 +33,7 @@ namespace EngineQ
 			{
 				CheckBuiltIn(light.Position);
 				CheckBuiltIn(light.Direction);
+				CheckBuiltIn(light.Right);
 				CheckBuiltIn(light.Distance);
 				CheckBuiltIn(light.Ambient);
 				CheckBuiltIn(light.Diffuse);
@@ -143,6 +144,11 @@ namespace EngineQ
 				{
 					auto property = data.GetProperty<Math::Vector3f>();
 					lights[index].Direction = property;
+				}
+				else if (translatedName.find("right") != std::string::npos)
+				{
+					auto property = data.GetProperty<Math::Vector3f>();
+					lights[index].Right = property;
 				}
 				else if (translatedName.find("distance") != std::string::npos)
 				{

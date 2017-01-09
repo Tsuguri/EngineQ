@@ -63,6 +63,7 @@ namespace EngineQ
 
 				virtual Math::Vector3 GetPosition() = 0;
 				virtual Math::Vector3 GetDirection() = 0;
+				virtual Math::Vector3 GetRight() = 0;
 				virtual Math::Matrix4 GetViewMatrix() = 0;
 
 				virtual ShaderProperties* GetShaderProperties() const = 0;

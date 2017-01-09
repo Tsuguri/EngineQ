@@ -41,6 +41,7 @@ namespace EngineQ
 			{
 				ShaderProperty<Math::Vector3f> Position;
 				ShaderProperty<Math::Vector3f> Direction;
+				ShaderProperty<Math::Vector3f> Right;
 				ShaderProperty<Math::Vector3f> Ambient;
 				ShaderProperty<Math::Vector3f> Diffuse;
 				ShaderProperty<Math::Vector3f> Specular;
