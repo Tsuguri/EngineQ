@@ -14,6 +14,9 @@
 
 namespace EngineQ
 {
+	/// <summary>
+	/// Component providing Camera functionality for <see cref="Entity"/>. 
+	/// </summary>
 	class Camera final : public Component, public Graphics::Camera
 	{
 	private:
@@ -49,6 +52,10 @@ namespace EngineQ
 
 		Camera(Scripting::ScriptEngine& scriptEngine, Entity& entity, bool enabled);
 
+		/// <summary>
+		/// Checks if is using custom projection matrix.
+		/// </summary>
+		/// <returns>true if is using custom projection matrix.</returns>
 		bool IsUsingCustomProjectionMatrix() const;
 		void SetUsingCustomProjectionMatrix(bool value);
 
