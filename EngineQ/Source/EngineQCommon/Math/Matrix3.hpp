@@ -34,12 +34,12 @@ namespace EngineQ
 		#pragma region Constructors
 
 			/// <sumary>
-			/// Constructs empty Matrix filled with zeros.
+			/// Constructs empty <see cref="Matrix3"/> filled with zeros.
 			/// </sumary>
 			explicit Matrix3() = default;
 
 			/// <sumary>
-			/// Constructs Matrix filled with specified value.
+			/// Constructs <see cref="Matrix3"/> filled with specified value.
 			/// </sumary>
 			/// <param name="value">Value to set all elements.</param>
 			explicit Matrix3(Real value);
@@ -64,9 +64,9 @@ namespace EngineQ
 			/// <summary>
 			/// Constructs Matrix from rows.
 			/// </summary>
-			/// <param name="row0">Vector of elements for row 0.</param>
-			/// <param name="row1">Vector of elements for row 1.</param>
-			/// <param name="row2">Vector of elements for row 2.</param>
+			/// <param name="row0"><see cref="Vector3"/> of elements for first row.</param>
+			/// <param name="row1"><see cref="Vector3"/> of elements for second row.</param>
+			/// <param name="row2"><see cref="Vector3"/> of elements for third row.</param>
 			explicit Matrix3(const Vector3& row0, const Vector3& row1, const Vector3& row2);
 
 		#pragma endregion
@@ -86,7 +86,7 @@ namespace EngineQ
 			/// <summary>
 			/// Returns string representation of this <see cref="Matrix3"/>. 
 			/// </summary>
-			/// <returns>String representation of Matrix.</returns>
+			/// <returns>String representation of <see cref="Matrix3"/>.</returns>
 			std::string ToString() const;
 
 			/// <summary>
@@ -158,9 +158,9 @@ namespace EngineQ
 			/// <summary>
 			/// Extracts this <see cref="Matrix3"/>'s columns into given <see cref="Vector3"/>s references. 
 			/// </summary>
-			/// <param name="row0">Reference to the <see cref="Vector3"/> that will contain values from first column.</param>
-			/// <param name="row1">Reference to the <see cref="Vector3"/> that will contain values from second column.</param>
-			/// <param name="row2">Reference to the <see cref="Vector3"/> that will contain values from third column.</param>
+			/// <param name="column0">Reference to the <see cref="Vector3"/> that will contain values from first column.</param>
+			/// <param name="column1">Reference to the <see cref="Vector3"/> that will contain values from second column.</param>
+			/// <param name="column2">Reference to the <see cref="Vector3"/> that will contain values from third column.</param>
 			void GetColumns(Vector3& column0, Vector3& column1, Vector3& column2) const;
 
 		#pragma endregion
@@ -168,9 +168,9 @@ namespace EngineQ
 		#pragma region Static Methods
 
 			/// <summary>
-			/// Returns identity Matrix
+			/// Returns identity Matrix.
 			/// </summary>
-			/// <returns>Identity Matrix</returns>
+			/// <returns>Identity Matrix.</returns>
 			static Matrix3 GetIdentity();
 			
 			/// <summary>

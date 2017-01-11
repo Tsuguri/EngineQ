@@ -95,6 +95,16 @@ namespace EngineQ
 			value = lhs / rhs;
 		}
 
+		void API_Matrix4::API_Equal(const Math::Matrix4& lhs, const Math::Matrix4& rhs, bool& value)
+		{
+			value = lhs == rhs;
+		}
+
+		void API_Matrix4::API_NotEqual(const Math::Matrix4& lhs, const Math::Matrix4& rhs, bool& value)
+		{
+			value = lhs != rhs;
+		}
+
 		void API_Matrix4::API_Register(ScriptEngine& scriptEngine)
 		{
 			scriptEngine.API_Register("EngineQ.Math.Matrix4::API_Determinant", API_Determinant);
@@ -113,6 +123,8 @@ namespace EngineQ
 			scriptEngine.API_Register("EngineQ.Math.Matrix4::API_MultiplyVector4", API_MultiplyVector4);
 			scriptEngine.API_Register("EngineQ.Math.Matrix4::API_MultiplyMatrix", API_MultiplyMatrix);
 			scriptEngine.API_Register("EngineQ.Math.Matrix4::API_DivideScalar", API_DivideScalar);
+			scriptEngine.API_Register("EngineQ.Math.Matrix4::API_Equal", API_Equal);
+			scriptEngine.API_Register("EngineQ.Math.Matrix4::API_NotEqual", API_NotEqual);
 		}
 	}
 }

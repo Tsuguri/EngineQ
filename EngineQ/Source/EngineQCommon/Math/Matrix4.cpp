@@ -545,9 +545,9 @@ namespace EngineQ
 			};
 		}
 
-		Vector3 Matrix4::TransformPerspective(const Matrix4& matrix, const Vector3& vector)
+		Vector3 Matrix4::TransformPerspective(const Matrix4& matrix, const Vector3& position)
 		{
-			Vector4 result = Vector4{ vector, static_cast<Real>(1) };
+			Vector4 result = Vector4{ position, static_cast<Real>(1) };
 			result = matrix * result;
 			return static_cast<Vector3>(result) / result.W;
 		}

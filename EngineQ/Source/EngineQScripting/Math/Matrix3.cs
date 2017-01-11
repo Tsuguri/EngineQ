@@ -179,7 +179,7 @@ namespace EngineQ.Math
 		/// <summary>
 		/// Creates new <see cref="Matrix3"/> that is inversion of this one.
 		/// </summary>
-		public Matrix3 Inversed
+		public Matrix3 Inverse
 		{
 			get
 			{
@@ -225,7 +225,7 @@ namespace EngineQ.Math
 		#region Static Properties
 		
 		/// <summary>
-		/// Identity Matrix
+		/// Identity Matrix.
 		/// </summary>
 		public static Matrix3 Identity
 		{
@@ -253,9 +253,9 @@ namespace EngineQ.Math
 		/// <summary>
 		/// Modifies this <see cref="Matrix3"/> by inversion.
 		/// </summary>
-		public void Inverse()
+		public void Invert()
 		{
-			this = Inversed;
+			this = Inverse;
 		}
 
 		/// <summary>
@@ -267,6 +267,11 @@ namespace EngineQ.Math
 			return $"[[{M00},{M01},{M02}],[{M10},{M11},{M12}],[{M20},{M21},{M22}]]";
 		}
 
+		/// <summary>
+		/// Determines whether the specified object is equal to the current <see cref="Matrix3"/>.
+		/// </summary>
+		/// <param name="obj">The object to compare with the current <see cref="Matrix3"/>.</param>
+		/// <returns>true if the specified object is equal to the current <see cref="Matrix3"/>; otherwise, false.</returns>
 		public override bool Equals(object obj)
 		{
 			if (!(obj is Matrix3))
@@ -275,6 +280,10 @@ namespace EngineQ.Math
 			return this == (Matrix3)obj;
 		}
 
+		/// <summary>
+		/// Default hash function.
+		/// </summary>
+		/// <returns>Default hash value.</returns>
 		public override int GetHashCode()
 		{
 			return base.GetHashCode();
@@ -379,7 +388,7 @@ namespace EngineQ.Math
 		/// <param name="row0">First row.</param>
 		/// <param name="row1">Second row.</param>
 		/// <param name="row2">Third row.</param>
-		/// <returns><see cref="Matrix3"/> created from given columns.</returns>
+		/// <returns><see cref="Matrix3"/> created from given rows.</returns>
 		public static Matrix3 CreateFromRows(Vector3 row0, Vector3 row1, Vector3 row2)
 		{
 			return new Matrix3
