@@ -25,6 +25,18 @@ namespace EngineQ.Math
 
 		#region Constructors
 
+		/// <summary>
+		/// Constructs Matrix from individual elements.
+		/// </summary>
+		/// <param name="m00">Element at row 0, column 0.</param>
+		/// <param name="m01">Element at row 0, column 1.</param>
+		/// <param name="m02">Element at row 0, column 2.</param>
+		/// <param name="m10">Element at row 1, column 0.</param>
+		/// <param name="m11">Element at row 1, column 1.</param>
+		/// <param name="m12">Element at row 1, column 2.</param>
+		/// <param name="m20">Element at row 2, column 0.</param>
+		/// <param name="m21">Element at row 2, column 1.</param>
+		/// <param name="m22">Element at row 2, column 2.</param>
 		public Matrix3(
 			Real m00, Real m01, Real m02,
 			Real m10, Real m11, Real m12,
@@ -41,6 +53,12 @@ namespace EngineQ.Math
 			this.M22 = m22;
 		}
 
+		/// <summary>
+		/// Constructs Matrix from rows.
+		/// </summary>
+		/// <param name="row0">Vector of elements for row 0.</param>
+		/// <param name="row1">Vector of elements for row 1.</param>
+		/// <param name="row2">Vector of elements for row 2.</param>
 		public Matrix3(Vector3 row0, Vector3 row1, Vector3 row2)
 		{
 			this.M00 = row0.X;
@@ -59,6 +77,12 @@ namespace EngineQ.Math
 
 		#region Properties
 
+		/// <summary>
+		/// Element at specified row and column.
+		/// </summary>
+		/// <param name="row">Element row.</param>
+		/// <param name="column">Element column.</param>
+		/// <returns>Element at specified row and column.</returns>
 		public Real this[int row, int column]
 		{
 			get
@@ -71,6 +95,11 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Element at specified index.
+		/// </summary>
+		/// <param name="index">Element index.</param>
+		/// <returns>Element at given index.</returns>
 		public Real this[int index]
 		{
 			get
@@ -78,25 +107,25 @@ namespace EngineQ.Math
 				switch (index)
 				{
 					case 0:
-					return M00;
+						return M00;
 					case 1:
-					return M01;
+						return M01;
 					case 2:
-					return M02;
+						return M02;
 					case 3:
-					return M10;
+						return M10;
 					case 4:
-					return M11;
+						return M11;
 					case 5:
-					return M12;
+						return M12;
 					case 6:
-					return M20;
+						return M20;
 					case 7:
-					return M21;
+						return M21;
 					case 8:
-					return M22;
+						return M22;
 					default:
-					throw new IndexOutOfRangeException("Invalid index");
+						throw new IndexOutOfRangeException("Invalid index");
 				}
 			}
 			set
@@ -104,34 +133,34 @@ namespace EngineQ.Math
 				switch (index)
 				{
 					case 0:
-					M00 = value;
-					break;
+						M00 = value;
+						break;
 					case 1:
-					M01 = value;
-					break;
+						M01 = value;
+						break;
 					case 2:
-					M02 = value;
-					break;
+						M02 = value;
+						break;
 					case 3:
-					M10 = value;
-					break;
+						M10 = value;
+						break;
 					case 4:
-					M11 = value;
-					break;
+						M11 = value;
+						break;
 					case 5:
-					M12 = value;
-					break;
+						M12 = value;
+						break;
 					case 6:
-					M20 = value;
-					break;
+						M20 = value;
+						break;
 					case 7:
-					M21 = value;
-					break;
+						M21 = value;
+						break;
 					case 8:
-					M22 = value;
-					break;
+						M22 = value;
+						break;
 					default:
-					throw new IndexOutOfRangeException("Invalid index");
+						throw new IndexOutOfRangeException("Invalid index");
 				}
 			}
 		}
@@ -174,9 +203,7 @@ namespace EngineQ.Math
 		}
 
 		/// <summary>
-		/// Diagonal vector of this <see cref="Matrix3"/>.
-		/// Vector of values with the same row and column index.
-		/// eg. matrix[0,0], matrix[1,1], etc.
+		/// <see cref="Vector3"/> of values lying on the diagonal of this <see cref="Matrix3"/>.
 		/// </summary>
 		public Vector3 Diagonal
 		{
@@ -196,17 +223,19 @@ namespace EngineQ.Math
 		#endregion
 
 		#region Static Properties
-
+		
 		/// <summary>
-		/// Identity <see cref="Matrix3"/> - filled with zeros, with ones on diagonal
+		/// Identity Matrix
 		/// </summary>
-		/// <returns></returns>
-		public static Matrix3 GetIdentity()
+		public static Matrix3 Identity
 		{
-			return new Matrix3(
-				(Real)1, (Real)0, (Real)0,
-				(Real)0, (Real)1, (Real)0,
-				(Real)0, (Real)0, (Real)1);
+			get
+			{
+				return new Matrix3(
+					(Real)1, (Real)0, (Real)0,
+					(Real)0, (Real)1, (Real)0,
+					(Real)0, (Real)0, (Real)1);
+			}
 		}
 
 		#endregion
@@ -229,6 +258,10 @@ namespace EngineQ.Math
 			this = Inversed;
 		}
 
+		/// <summary>
+		/// Returns string representation of this <see cref="Matrix3"/>. 
+		/// </summary>
+		/// <returns>String representation of Matrix.</returns>
 		public override string ToString()
 		{
 			return $"[[{M00},{M01},{M02}],[{M10},{M11},{M12}],[{M20},{M21},{M22}]]";
@@ -260,8 +293,8 @@ namespace EngineQ.Math
 		/// <summary>
 		/// Sets content of <paramref name="column"/> with given <see cref="Vector3"/> <paramref name="value"/>.
 		/// </summary>
-		/// <param name="column">Index of column to set.</param>
-		/// <param name="value">New values.</param>
+		/// <param name="column">Index of the column to set.</param>
+		/// <param name="value"><see cref="Vector3"/> of values to set in the column.</param>
 		public void SetColumn(int column, Vector3 value)
 		{
 			this[0, column] = value.X;
@@ -282,8 +315,8 @@ namespace EngineQ.Math
 		/// <summary>
 		/// Sets content fo <paramref name="row"/>  with given <see cref="Vector3"/> <paramref name="value"/>.
 		/// </summary>
-		/// <param name="row"></param>
-		/// <param name="value"></param>
+		/// <param name="row">Index of the row to set.</param>
+		/// <param name="value"><see cref="Vector3"/> of values to set in the row.</param>
 		public void SetRow(int row, Vector3 value)
 		{
 			this[row, 0] = value.X;
@@ -322,11 +355,14 @@ namespace EngineQ.Math
 		#endregion
 
 		#region Static Methods
-
+		
 		/// <summary>
-		/// Creates <see cref="Matrix3"/> from given columns <see cref="Vector3"/>s.
+		/// Creates <see cref="Matrix3"/> from given <see cref="Vector3"/>s representing columns.
 		/// </summary>
-		/// <returns>Created <see cref="Matrix3"/>.</returns>
+		/// <param name="column0">First column.</param>
+		/// <param name="column1">Second column.</param>
+		/// <param name="column2">Third column.</param>
+		/// <returns><see cref="Matrix3"/> created from given rows.</returns>
 		public static Matrix3 CreateFromColumns(Vector3 column0, Vector3 column1, Vector3 column2)
 		{
 			return new Matrix3
@@ -338,9 +374,12 @@ namespace EngineQ.Math
 		}
 
 		/// <summary>
-		/// Creates <see cref="Matrix3"/> from given rows <see cref="Vector3"/>s.
+		/// Creates <see cref="Matrix3"/> from given <see cref="Vector3"/>s representing rows.
 		/// </summary>
-		/// <returns>Created <see cref="Matrix3"/>.</returns>
+		/// <param name="row0">First row.</param>
+		/// <param name="row1">Second row.</param>
+		/// <param name="row2">Third row.</param>
+		/// <returns><see cref="Matrix3"/> created from given columns.</returns>
 		public static Matrix3 CreateFromRows(Vector3 row0, Vector3 row1, Vector3 row2)
 		{
 			return new Matrix3
