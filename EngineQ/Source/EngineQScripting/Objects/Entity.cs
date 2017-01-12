@@ -37,6 +37,7 @@ namespace EngineQ
 
 		/// <summary>
 		/// Name of this Entity.
+		/// Can be used to distinguish entities and search for them on the <see cref="EngineQ.Scene"/>.
 		/// </summary>
 		public string Name
 		{
@@ -122,9 +123,7 @@ namespace EngineQ
 		/// Removes specified <see cref="Component"/> from this Entity and destroys it.
 		/// </summary>
 		/// <param name="component"><see cref="Component"/> to be removed and destroyed.</param>
-		/// <exception cref="ArgumentException">
-		///	Throws when <paramref name="component"/> is not owned by this Entity.
-		/// </exception>
+		/// <exception cref="ArgumentException">Thrown when <paramref name="component"/> is not owned by this Entity  or it is <see cref="EngineQ.Transform"/> component.</exception>
 		public void RemoveComponent(Component component)
 		{
 			API_RemoveComponent(this.NativeHandle, ref component);
@@ -147,7 +146,7 @@ namespace EngineQ
 		/// Gets <see cref="Component"/> with specified index.
 		/// </summary>
 		/// <param name="index">Index of the <see cref="Component"/>.</param>
-		/// <returns><see cref="Component"/> on specified index.</returns>
+		/// <returns><see cref="Component"/> at specified index.</returns>
 		public Component GetComponent(int index)
 		{
 			Component value;

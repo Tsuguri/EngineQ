@@ -22,7 +22,7 @@ namespace EngineQ
 	};
 
 	/// <summary>
-	/// Base class for all components that can be added to the <see cref="EngineQ::Entity"/>.
+	/// Base class for all components that can be added to the <see cref="Entity"/>.
 	/// </summary>
 	/// <seealso cref="Transform"/>
 	/// <seealso cref="Camera"/>
@@ -33,7 +33,7 @@ namespace EngineQ
 	{
 	public:
 		/// <summary>
-		/// Class providing interface methods exposed only to <see cref="EngineQ::Entity"/> class.
+		/// Class providing interface methods exposed only to <see cref="Entity"/> class.
 		/// </summary>
 		class EntityCallbacks
 		{
@@ -85,7 +85,7 @@ namespace EngineQ
 		/// <summary>
 		/// Specifies whether the Component is enabled. 
 		/// When set to false, the Component will be disabled.
-		/// Disabled components have no effect on its' parent <see cref="EngineQ::Entity"/>.
+		/// Disabled components have no effect on its' parent <see cref="Entity"/>.
 		/// </summary>
 		/// <returns>true if component is enabled.</returns>
 		bool IsEnabled() const;
@@ -93,15 +93,15 @@ namespace EngineQ
 		/// <summary>
 		/// Sets whether the Component is enabled. 
 		/// When set to false, the Component will be disabled.
-		/// Disabled components have no effect on its' parent <see cref="EngineQ::Entity"/>.
+		/// Disabled components have no effect on its' parent <see cref="Entity"/>.
 		/// </summary>
 		/// <param name="enabled">Value to set. true to enable, false to disable.</param>
 		void SetEnabled(bool enabled);
 
 		/// <summary>
 		/// Specifies whether the Component is enabled in hierarchy.
-		/// Component can be disabled if it is disabled itself (<see cref="Enabled"/> is set to false), or it's parent <see cref="EngineQ::Entity"/> is disabled in hierarchy (<see cref="EngineQ::Entity::EnabledInHierarchy"/> is set to false).
-		/// Disabled Components have no effect on its' parent <see cref="EngineQ::Entity"/>.
+		/// Component can be disabled if it is disabled itself (<see cref="Enabled"/> is set to false), or it's parent <see cref="Entity"/> is disabled in hierarchy (<see cref="Entity::IsEnabledInHierarchy"/> is set to false).
+		/// Disabled Components have no effect on its' parent <see cref="Entity"/>.
 		/// </summary>
 		/// <returns>true if component is enabled in hierarchy.</returns>
 		bool IsEnabledInHierarchy() const;
