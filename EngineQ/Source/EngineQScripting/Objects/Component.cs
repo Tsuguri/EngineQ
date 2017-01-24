@@ -6,6 +6,7 @@ namespace EngineQ
 	/// <summary>
 	/// Base class for all components that can be added to the <see cref="EngineQ.Entity"/>.
 	/// </summary>
+	/// <seealso cref="Transform"/>
 	/// <seealso cref="Camera"/>
 	/// <seealso cref="Light"/>
 	/// <seealso cref="Renderable"/>

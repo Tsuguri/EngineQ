@@ -146,7 +146,7 @@ namespace EngineQ
 			child->entity.SetParentEnabled(hierarchyEnabled);
 
 		for (auto& component : this->components)
-			component->SetParentEnabled(hierarchyEnabled);
+			Component::EntityCallbacks::OnEnabledChanged(*component, hierarchyEnabled);
 
 		if (hierarchyEnabled)
 		{

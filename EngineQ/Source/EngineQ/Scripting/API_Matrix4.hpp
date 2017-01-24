@@ -31,7 +31,10 @@ namespace EngineQ
 			static void API_MultiplyVector4(const Math::Matrix4& lhs, const Math::Vector4& rhs, Math::Vector4& value);
 			static void API_MultiplyMatrix(const Math::Matrix4& lhs, const Math::Matrix4& rhs, Math::Matrix4& value);
 			static void API_DivideScalar(const Math::Matrix4& lhs, Math::Real rhs, Math::Matrix4& value);
-			
+			static void API_Equal(const Math::Matrix4& lhs, const Math::Matrix4& rhs, bool& value);
+			static void API_NotEqual(const Math::Matrix4& lhs, const Math::Matrix4& rhs, bool& value);
+
+
 			static void API_Register(ScriptEngine& scriptEngine);
 		};
 	}

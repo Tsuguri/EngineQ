@@ -91,4 +91,9 @@ namespace EngineQ
 	void Component::OnEnabledChanged(bool enabled)
 	{
 	}
+
+	void Component::EntityCallbacks::OnEnabledChanged(Component& component, bool enabled)
+	{
+		component.OnEnabledChanged(enabled);
+	}
 }

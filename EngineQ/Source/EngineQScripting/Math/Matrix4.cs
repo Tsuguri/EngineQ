@@ -32,6 +32,10 @@ namespace EngineQ.Math
 
 		#region Constructors
 
+		/// <sumary>
+		/// Constructs <see cref="Matrix4"/> filled with specified value.
+		/// </sumary>
+		/// <param name="value">Value to set all elements.</param>
 		public Matrix4(Real value)
 		{
 			this.M00 = value;
@@ -52,6 +56,25 @@ namespace EngineQ.Math
 			this.M33 = value;
 		}
 
+		/// <summary>
+		/// Constructs Matrix from individual elements.
+		/// </summary>
+		/// <param name="m00">Element at row 0, column 0.</param>
+		/// <param name="m01">Element at row 0, column 1.</param>
+		/// <param name="m02">Element at row 0, column 2.</param>
+		/// <param name="m03">Element at row 0, column 3.</param>
+		/// <param name="m10">Element at row 1, column 0.</param>
+		/// <param name="m11">Element at row 1, column 1.</param>
+		/// <param name="m12">Element at row 1, column 2.</param>
+		/// <param name="m13">Element at row 1, column 3.</param>
+		/// <param name="m20">Element at row 2, column 0.</param>
+		/// <param name="m21">Element at row 2, column 1.</param>
+		/// <param name="m22">Element at row 2, column 2.</param>
+		/// <param name="m23">Element at row 2, column 3.</param>
+		/// <param name="m30">Element at row 0, column 0.</param>
+		/// <param name="m31">Element at row 0, column 1.</param>
+		/// <param name="m32">Element at row 0, column 2.</param>
+		/// <param name="m33">Element at row 0, column 3.</param>
 		public Matrix4(
 			Real m00, Real m01, Real m02, Real m03,
 			Real m10, Real m11, Real m12, Real m13,
@@ -76,6 +99,13 @@ namespace EngineQ.Math
 			this.M33 = m33;
 		}
 
+		/// <summary>
+		/// Constructs Matrix from rows.
+		/// </summary>
+		/// <param name="row0"><see cref="Vector4"/> of elements for first row.</param>
+		/// <param name="row1"><see cref="Vector4"/> of elements for second row.</param>
+		/// <param name="row2"><see cref="Vector4"/> of elements for third row.</param>
+		/// <param name="row3"><see cref="Vector4"/> of elements for fourth row.</param>
 		public Matrix4(
 			 Vector4 row0,
 			 Vector4 row1,
@@ -104,6 +134,12 @@ namespace EngineQ.Math
 
 		#region Properties
 
+		/// <summary>
+		///  Provides access to the element at specified row and column.
+		/// </summary>
+		/// <param name="row">Element row.</param>
+		/// <param name="column">Element column.</param>
+		/// <returns>Element at specified row and column.</returns>
 		public Real this[int row, int column]
 		{
 			get
@@ -116,6 +152,11 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		///  Provides access to the element at specified index
+		/// </summary>
+		/// <param name="index">Element index.</param>
+		/// <returns>Element at given index.</returns>
 		public Real this[int index]
 		{
 			get
@@ -123,39 +164,39 @@ namespace EngineQ.Math
 				switch (index)
 				{
 					case 0:
-					return M00;
+						return M00;
 					case 1:
-					return M01;
+						return M01;
 					case 2:
-					return M02;
+						return M02;
 					case 3:
-					return M03;
+						return M03;
 					case 4:
-					return M10;
+						return M10;
 					case 5:
-					return M11;
+						return M11;
 					case 6:
-					return M12;
+						return M12;
 					case 7:
-					return M13;
+						return M13;
 					case 8:
-					return M20;
+						return M20;
 					case 9:
-					return M21;
+						return M21;
 					case 10:
-					return M22;
+						return M22;
 					case 11:
-					return M23;
+						return M23;
 					case 12:
-					return M30;
+						return M30;
 					case 13:
-					return M31;
+						return M31;
 					case 14:
-					return M32;
+						return M32;
 					case 15:
-					return M33;
+						return M33;
 					default:
-					throw new IndexOutOfRangeException("Invalid index");
+						throw new IndexOutOfRangeException("Invalid index");
 				}
 			}
 			set
@@ -163,56 +204,59 @@ namespace EngineQ.Math
 				switch (index)
 				{
 					case 0:
-					M00 = value;
-					break;
+						M00 = value;
+						break;
 					case 1:
-					M01 = value;
-					break;
+						M01 = value;
+						break;
 					case 2:
-					M02 = value;
-					break;
+						M02 = value;
+						break;
 					case 4:
-					M10 = value;
-					break;
+						M10 = value;
+						break;
 					case 5:
-					M11 = value;
-					break;
+						M11 = value;
+						break;
 					case 6:
-					M12 = value;
-					break;
+						M12 = value;
+						break;
 					case 7:
-					M13 = value;
-					break;
+						M13 = value;
+						break;
 					case 8:
-					M20 = value;
-					break;
+						M20 = value;
+						break;
 					case 9:
-					M21 = value;
-					break;
+						M21 = value;
+						break;
 					case 10:
-					M22 = value;
-					break;
+						M22 = value;
+						break;
 					case 11:
-					M23 = value;
-					break;
+						M23 = value;
+						break;
 					case 12:
-					M30 = value;
-					break;
+						M30 = value;
+						break;
 					case 13:
-					M31 = value;
-					break;
+						M31 = value;
+						break;
 					case 14:
-					M32 = value;
-					break;
+						M32 = value;
+						break;
 					case 15:
-					M33 = value;
-					break;
+						M33 = value;
+						break;
 					default:
-					throw new IndexOutOfRangeException("Invalid index");
+						throw new IndexOutOfRangeException("Invalid index");
 				}
 			}
 		}
 
+		/// <summary>
+		/// Computes determinant of this <see cref="Matrix4"/>.
+		/// </summary>
 		public Real Determinant
 		{
 			get
@@ -223,6 +267,9 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Creates new <see cref="Matrix4"/> that is transposition of this one.
+		/// </summary>
 		public Matrix4 Transposed
 		{
 			get
@@ -237,6 +284,9 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// Creates new <see cref="Matrix4"/> that is inversion of this one.
+		/// </summary>
 		public Matrix4 Inverse
 		{
 			get
@@ -247,6 +297,9 @@ namespace EngineQ.Math
 			}
 		}
 
+		/// <summary>
+		/// <see cref="Vector4"/> of values lying on the diagonal of this <see cref="Matrix4"/>.
+		/// </summary>
 		public Vector4 Diagonal
 		{
 			get
@@ -266,6 +319,9 @@ namespace EngineQ.Math
 
 		#region Static Properties
 
+		/// <summary>
+		/// Identity Matrix.
+		/// </summary>
 		public static Matrix4 Identity
 		{
 			get
@@ -285,26 +341,68 @@ namespace EngineQ.Math
 
 		#region Methods
 
+		/// <summary>
+		/// Modifies this <see cref="Matrix4"/> by transposition.
+		/// </summary>
 		public void Transpose()
 		{
 			API_Transpose(ref this);
 		}
 
+		/// <summary>
+		/// Modifies this <see cref="Matrix4"/> by inversion.
+		/// </summary>
 		public void Invert()
 		{
 			this = Inverse;
 		}
 
+		/// <summary>
+		/// Returns string representation of this <see cref="Matrix4"/>. 
+		/// </summary>
+		/// <returns>String representation of Matrix.</returns>
 		public override string ToString()
 		{
 			return $"[[{M00},{M01},{M02},{M03}],[{M10},{M11},{M12},{M13}],[{M20},{M21},{M22},{M23}],[{M30},{M31},{M32},{M33}]]";
 		}
 
+		/// <summary>
+		/// Determines whether the specified object is equal to the current <see cref="Matrix4"/>.
+		/// </summary>
+		/// <param name="obj">The object to compare with the current <see cref="Matrix4"/>.</param>
+		/// <returns>true if the specified object is equal to the current <see cref="Matrix4"/>; otherwise, false.</returns>
+		public override bool Equals(object obj)
+		{
+			if (!(obj is Matrix4))
+				return false;
+
+			return this == (Matrix4)obj;
+		}
+
+		/// <summary>
+		/// Default hash function.
+		/// </summary>
+		/// <returns>Default hash value.</returns>
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+
+		/// <summary>
+		/// <see cref="Vector4"/> representing one of columns of this <see cref="Matrix4"/>.
+		/// </summary>
+		/// <param name="column">Index of column.</param>
+		/// <returns><see cref="Vector4"/> representing column.</returns>
 		public Vector4 GetColumn(int column)
 		{
 			return new Vector4(this[0, column], this[1, column], this[2, column], this[3, column]);
 		}
 
+		/// <summary>
+		/// Sets content of <paramref name="column"/> with given <see cref="Vector4"/> <paramref name="value"/>.
+		/// </summary>
+		/// <param name="column">Index of the column to set.</param>
+		/// <param name="value"><see cref="Vector4"/> of values to set in the column.</param>
 		public void SetColumn(int column, Vector4 value)
 		{
 			this[0, column] = value.X;
@@ -313,11 +411,21 @@ namespace EngineQ.Math
 			this[3, column] = value.W;
 		}
 
+		/// <summary>
+		/// <see cref="Vector4"/> representing one of rows of this <see cref="Matrix4"/>.
+		/// </summary>
+		/// <param name="row">Index of row.</param>
+		/// <returns><see cref="Vector4"/> representing row.</returns>
 		public Vector4 GetRow(int row)
 		{
 			return new Vector4(this[row, 0], this[row, 1], this[row, 2], this[row, 3]);
 		}
 
+		/// <summary>
+		/// Sets content fo <paramref name="row"/>  with given <see cref="Vector4"/> <paramref name="value"/>.
+		/// </summary>
+		/// <param name="row">Index of the row to set.</param>
+		/// <param name="value"><see cref="Vector4"/> of values to set in the row.</param>
 		public void SetRow(int row, Vector4 value)
 		{
 			this[row, 0] = value.X;
@@ -326,6 +434,10 @@ namespace EngineQ.Math
 			this[row, 3] = value.W;
 		}
 
+		/// <summary>
+		/// Converts this <see cref="Matrix4"/> into <see cref="Vector4"/>s of rows.
+		/// </summary>
+		/// <returns><see cref="Vector4"/> array of rows.</returns>
 		public Vector4[] GetRows()
 		{
 			return new Vector4[4]
@@ -337,6 +449,10 @@ namespace EngineQ.Math
 			};
 		}
 
+		/// <summary>
+		/// Converts this <see cref="Matrix4"/> into <see cref="Vector4"/>s of columns.
+		/// </summary>
+		/// <returns><see cref="Vector4"/> array of columns.</returns>
 		public Vector4[] GetColumns()
 		{
 			return new Vector4[4]
@@ -352,6 +468,14 @@ namespace EngineQ.Math
 
 		#region Static Methods
 
+		/// <summary>
+		/// Creates <see cref="Matrix4"/> from given <see cref="Vector4"/>s representing rows.
+		/// </summary>
+		/// <param name="row0">First row.</param>
+		/// <param name="row1">Second row.</param>
+		/// <param name="row2">Third row.</param>
+		/// <param name="row3">Fourth row.</param>
+		/// <returns><see cref="Matrix4"/> created from given columns.</returns>
 		public static Matrix4 CreateFromRows(Vector4 row0, Vector4 row1, Vector4 row2, Vector4 row3)
 		{
 			return new Matrix4
@@ -363,6 +487,14 @@ namespace EngineQ.Math
 			);
 		}
 
+		/// <summary>
+		/// Creates <see cref="Matrix4"/> from given <see cref="Vector4"/>s representing columns.
+		/// </summary>
+		/// <param name="column0">First column.</param>
+		/// <param name="column1">Second column.</param>
+		/// <param name="column2">Third column.</param>
+		/// <param name="column3">Fourth column.</param>
+		/// <returns><see cref="Matrix4"/> created from given rows.</returns>
 		public static Matrix4 CreateFromColumns(Vector4 column0, Vector4 column1, Vector4 column2, Vector4 column3)
 		{
 			return new Matrix4
@@ -374,6 +506,11 @@ namespace EngineQ.Math
 			);
 		}
 
+		/// <summary>
+		/// Creates rotation <see cref="Matrix4"/> from given <see cref="Quaternion"/> rotation.
+		/// </summary>
+		/// <param name="q">Rotation.</param>
+		/// <returns>Constructed rotation matrix.</returns>
 		public static Matrix4 CreateRotation(Quaternion q)
 		{
 			Matrix4 value;
@@ -381,6 +518,13 @@ namespace EngineQ.Math
 			return value;
 		}
 
+		/// <summary>
+		/// Creates translation matrix by given coordinates.
+		/// </summary>
+		/// <param name="x">Translation on the X axis.</param>
+		/// <param name="y">Translation on the Y axis.</param>
+		/// <param name="z">Translation on the Z axis.</param>
+		/// <returns>Constructed translation matrix.</returns>
 		public static Matrix4 CreateTranslation(Real x, Real y, Real z)
 		{
 			return new Matrix4
@@ -392,6 +536,11 @@ namespace EngineQ.Math
 			);
 		}
 
+		/// <summary>
+		/// Creates translation matrix by given vector.
+		/// </summary>
+		/// <param name="translation">Translation vector.</param>
+		/// <returns>Constructed translation matrix.</returns>
 		public static Matrix4 CreateTranslation(Vector3 translation)
 		{
 			return new Matrix4
@@ -403,6 +552,13 @@ namespace EngineQ.Math
 			);
 		}
 
+		/// <summary>
+		/// Creates scale matrix by given scalars.
+		/// </summary>
+		/// <param name="x">Scale on the X axis.</param>
+		/// <param name="y">Scale on the Y axis.</param>
+		/// <param name="z">Scale on the Z axis.</param>
+		/// <returns>Constructed scale matrix.</returns>
 		public static Matrix4 CreateScale(Real x, Real y, Real z)
 		{
 			return new Matrix4
@@ -414,6 +570,11 @@ namespace EngineQ.Math
 			);
 		}
 
+		/// <summary>
+		/// Creates scale matrix by given <see cref="Vector3"/> of scalars.
+		/// </summary>
+		/// <param name="scale"><see cref="Vector3"/> of scalars.</param>
+		/// <returns>Constructed scale matrix.</returns>
 		public static Matrix4 CreateScale(Vector3 scale)
 		{
 			return new Matrix4
@@ -425,6 +586,11 @@ namespace EngineQ.Math
 			);
 		}
 
+		/// <summary>
+		/// Creates rotation matrix representing rotation by given angle around X axis.
+		/// </summary>
+		/// <param name="angle">Rotation in radians around X axis.</param>
+		/// <returns>Constructed rotation matrix.</returns>
 		public static Matrix4 CreateRotationX(Real angle)
 		{
 			Real s = (Real)System.Math.Sin((double)angle);
@@ -439,6 +605,11 @@ namespace EngineQ.Math
 			);
 		}
 
+		/// <summary>
+		/// Creates rotation matrix representing rotation by given angle around Y axis.
+		/// </summary>
+		/// <param name="angle">Rotation in radians around Y axis.</param>
+		/// <returns>Constructed rotation matrix.</returns>
 		public static Matrix4 CreateRotationY(Real angle)
 		{
 			Real s = (Real)System.Math.Sin((double)angle);
@@ -453,6 +624,11 @@ namespace EngineQ.Math
 			);
 		}
 
+		/// <summary>
+		/// Creates rotation matrix representing rotation by given angle around Z axis.
+		/// </summary>
+		/// <param name="angle">Rotation in radians around Z axis.</param>
+		/// <returns>Constructed rotation matrix.</returns>
 		public static Matrix4 CreateRotationZ(Real angle)
 		{
 			Real s = (Real)System.Math.Sin((double)angle);
@@ -467,6 +643,14 @@ namespace EngineQ.Math
 			);
 		}
 
+		/// <summary>
+		/// Creates viewport transformation.
+		/// </summary>
+		/// <param name="x">X coordinate of the upper left corner of the viewport.</param>
+		/// <param name="y">Y coordinate of the upper left corner of the viewport.</param>
+		/// <param name="width">With of the viewport.</param>
+		/// <param name="height">Height of the viewport.</param>
+		/// <returns>Constructed viewport transformation matrix.</returns>
 		public static Matrix4 CreateViewport(Real x, Real y, Real width, Real height)
 		{
 			return new Matrix4
@@ -478,13 +662,28 @@ namespace EngineQ.Math
 			);
 		}
 
-		public static Matrix4 CreatePerspective(Real fovY, Real aspectRatio, Real near, Real far)
+		/// <summary>
+		/// Creates frustum perspective transformation.
+		/// </summary>
+		/// <param name="fovy">Field of view in radians.</param>
+		/// <param name="aspect">Aspect ratio.</param>
+		/// <param name="near">Near plane distance.</param>
+		/// <param name="far">Far plane distance.</param>
+		/// <returns>Constructed perspective transformation matrix.</returns>
+		public static Matrix4 CreateFrustum(Real fovY, Real aspectRatio, Real near, Real far)
 		{
 			Matrix4 value;
 			API_CreateFrustum(fovY, aspectRatio, near, far, out value);
 			return value;
 		}
 
+		/// <summary>
+		/// Creates rotation matrix that rotates forward vector to point in the direction pointing from <paramref name="cameraPosition"/> to <paramref name="cameraTarget"/>.
+		/// </summary>
+		/// <param name="cameraPosition">Position of the observer.</param>
+		/// <param name="cameraTarget">Point at which ovserver will be looking after transformation.</param>
+		/// <param name="upVector">Up direction vector.</param>
+		/// <returns></returns>
 		public static Matrix4 CreateLookAt(Vector3 cameraPosition, Vector3 cameraTarget, Vector3 upVector)
 		{
 			Matrix4 value;
@@ -492,6 +691,12 @@ namespace EngineQ.Math
 			return value;
 		}
 
+		/// <summary>
+		/// Applies matrix transformation to direction vector.
+		/// </summary>
+		/// <param name="matrix">Transformation matrix.</param>
+		/// <param name="vector">Direction vector.</param>
+		/// <returns>Transformed direction vector.</returns>
 		public static Vector3 TransformVector(Matrix4 matrix, Vector3 vector)
 		{
 			Vector3 value;
@@ -499,6 +704,12 @@ namespace EngineQ.Math
 			return value;
 		}
 
+		/// <summary>
+		/// Applies matrix transformation to position stored in vector.
+		/// </summary>
+		/// <param name="matrix">Transformation matrix.</param>
+		/// <param name="position">Position vector.</param>
+		/// <returns>Transformed position vector.</returns>
 		public static Vector3 TransformPosition(Matrix4 matrix, Vector3 position)
 		{
 			Vector3 value;
@@ -506,6 +717,12 @@ namespace EngineQ.Math
 			return value;
 		}
 
+		/// <summary>
+		/// Applies matrix transformation to normal vector.
+		/// </summary>
+		/// <param name="matrix">Transformation matrix.</param>
+		/// <param name="normal">Normal vector.</param>
+		/// <returns>Transformed normal vector.</returns>
 		public static Vector3 TransformNormal(Matrix4 matrix, Vector3 normal)
 		{
 			Vector3 value;
@@ -513,10 +730,16 @@ namespace EngineQ.Math
 			return value;
 		}
 
-		public static Vector3 TransformPerspective(Matrix4 matrix, Vector3 vector)
+		/// <summary>
+		/// Applies matrix transformation to given position stored in vector applying perspective division.
+		/// </summary>
+		/// <param name="matrix">Transformation matrix.</param>
+		/// <param name="position">Position vector.</param>
+		/// <returns>Transformed position vector.</returns>
+		public static Vector3 TransformPerspective(Matrix4 matrix, Vector3 position)
 		{
 			Vector3 value;
-			API_TransformPerspective(ref matrix, ref vector, out value);
+			API_TransformPerspective(ref matrix, ref position, out value);
 			return value;
 		}
 
@@ -524,6 +747,10 @@ namespace EngineQ.Math
 
 		#region Operators
 
+		/// <summary>
+		/// Converts specified <see cref="Matrix4"/> to <see cref="Matrix3"/>.
+		/// </summary>
+		/// <param name="matrix"><see cref="Matrix4"/> to be converted to <see cref="Matrix3"/>.</param>
 		public static explicit operator Matrix3(Matrix4 matrix)
 		{
 			return new Matrix3
@@ -599,6 +826,20 @@ namespace EngineQ.Math
 			return value;
 		}
 
+		public static bool operator ==(Matrix4 matrix1, Matrix4 matrix2)
+		{
+			bool value;
+			API_Equal(ref matrix1, ref matrix2, out value);
+			return value;
+		}
+
+		public static bool operator !=(Matrix4 matrix1, Matrix4 matrix2)
+		{
+			bool value;
+			API_NotEqual(ref matrix1, ref matrix2, out value);
+			return value;
+		}
+
 		#endregion
 
 		#region API
@@ -650,6 +891,12 @@ namespace EngineQ.Math
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private static extern void API_DivideScalar(ref Matrix4 lhs, Real rhs, out Matrix4 value);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_Equal(ref Matrix4 lhs, ref Matrix4 rhs, out bool value);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private static extern void API_NotEqual(ref Matrix4 lhs, ref Matrix4 rhs, out bool value);
 
 		#endregion
 	}
