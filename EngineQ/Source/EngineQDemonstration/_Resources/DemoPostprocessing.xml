@@ -134,6 +134,9 @@
 				<InputPair Texture="SSR" LocationName="scene" />
 				<InputPair Texture="Bloom2" LocationName="bloom" />
 				<InputPair Texture="SSAOBlur" LocationName="ssao" />
+				<InputPair Texture="Position" LocationName="gPosition" />
+				<InputPair Texture="Normal" LocationName="gNormal" />
+				<InputPair Texture="Albedo" LocationName="gColor" />
 			</Input>
 			<Output>
 				<ScreenTexture />

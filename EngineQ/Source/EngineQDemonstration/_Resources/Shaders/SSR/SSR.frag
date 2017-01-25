@@ -100,6 +100,7 @@ void main()
 		FragColor = vec4(sceneColor, 1.0f);
 		return;
 	}
+	specular = clamp(specular, 0.0f, 1.0f);
 
 	vec3 viewNormal = texture(gNormal, IN.textureCoords).xyz;
 	vec3 viewPos = texture(gPosition, IN.textureCoords).xyz;
@@ -119,6 +120,7 @@ void main()
 	vec3 reflectionColor = texture(scene, coords.xy).rgb;
 	float reflectionMultiplier = 
 	//	pow(specular, reflectionSpecularFalloffExponent) *
+		specular * 
 		screenEdgefactor * clamp(reflected.z, 0.0f, 1.0f) *
 		clamp((searchDist - length(viewPos - hitPos)) * searchDistInv, 0.0f, 1.0f) * coords.w;
 

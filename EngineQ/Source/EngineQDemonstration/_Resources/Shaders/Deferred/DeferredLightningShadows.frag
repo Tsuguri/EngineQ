@@ -21,9 +21,11 @@ uniform sampler2D ssaoTexture;
 mat4 invView = inverse(matrices.view);
 mat4 invProjection = inverse(matrices.projection);
 
-uniform bool useSSAO;
 uniform bool usePCF;
 uniform bool useRays;
+
+uniform int directionalPCFSamples;
+uniform int pointPCFSamples;
 
 float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 normal, vec3 position)
 {
@@ -35,13 +37,15 @@ float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 norma
 	projCoords = projCoords * 0.5 + 0.5;
 	    
 	float currentDepth = projCoords.z;
-	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f) * 0.1f;
+	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f);
 		
 	float shadow = 0.0f;
 	if (usePCF)
 	{
-		const float samples = 8.0f;
-		vec2 offset = 8.0f / textureSize(shadowMap, 0); //(1.0f + (length(position)/30.0f))/ 25.0f;
+		float samples = float(directionalPCFSamples);
+		float spread = 2.0f;
+
+		vec2 offset = spread / textureSize(shadowMap, 0); //(1.0f + (length(position)/30.0f))/ 25.0f;
 		vec2 pcfStep = 2.0f * offset / samples;
 
 		for (float x = -offset.x; x < offset.x; x += pcfStep.x)
@@ -76,7 +80,7 @@ float PointShadowCalculations(Light light, samplerCube shadowMap, vec3 normal, v
 	float shadow = 0.0f;
 	if (usePCF)
 	{
-		const float samples = 4.0f;
+		float samples = float(pointPCFSamples);
 		float offset = (1.0f + (currentDepth / light.farPlane)) / 25.0f;
 		float pcfStep = 2.0f * offset / samples;
 
@@ -165,11 +169,7 @@ void main()
 	vec3 viewSpaceNormal = normalize(texture(gNormal, IN.textureCoords).xyz);
 	vec3 worldSpaceNormal = normalize(mat3(transpose(matrices.view)) * viewSpaceNormal);
 
-	float ambientOcclusion = 1.0f;
-	if (useSSAO)
-	{
-		ambientOcclusion = texture(ssaoTexture, IN.textureCoords).r;
-	}
+	float ambientOcclusion = texture(ssaoTexture, IN.textureCoords).r;
 
 	// Camera data
 	vec3 cameraPosition = invView[3].xyz;

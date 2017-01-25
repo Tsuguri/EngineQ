@@ -11,16 +11,22 @@ uniform sampler2D scene;
 uniform sampler2D bloom;
 uniform sampler2D ssao;
 
+uniform sampler2D gPosition;
+uniform sampler2D gNormal;
+uniform sampler2D gColor;
+
 uniform float exposure = 1.1f;
 uniform float gamma = 2.2f;
 
 uniform int drawImage = 0;
 
+#include "Common/Matrices.shh"
+
 void main()
 {
 	switch (drawImage)
 	{
-		// Normal
+		// Full
 		case 0:
 			{
 				vec3 hdrColor = texture(scene, IN.textureCoords).rgb;
@@ -53,6 +59,33 @@ void main()
 		case 3:
 			{
 				FragColor = vec4(vec3(texture(ssao, IN.textureCoords).r), 1.0f);
+			}
+			break;
+
+		// G-Position
+		case 4:
+			{
+				vec3 pos = texture(gPosition, IN.textureCoords).xyz;
+				pos = (inverse(matrices.view) * vec4(pos, 1.0f)).xyz;
+
+				FragColor = vec4(pos, 1.0f);
+			}
+			break;
+
+		// G-Normal
+		case 5:
+			{
+				vec3 norm = texture(gNormal, IN.textureCoords).xyz;
+				norm = normalize(mat3(transpose(matrices.view)) * norm);
+
+				FragColor = vec4(norm, 1.0f);
+			}
+			break;
+
+		// G-Color
+		case 6:
+			{
+				FragColor = vec4(texture(gColor, IN.textureCoords).xyz, 1.0f);
 			}
 			break;
 	}

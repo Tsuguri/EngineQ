@@ -18,6 +18,8 @@ namespace QScripts
 		private ShaderProperty<float> radiusProp;
 		private ShaderProperty<float> powerRadius;
 
+		private ShaderProperty<bool> enabledProp;
+
 		private void SetKernelSize(int kernelSize)
 		{
 			Random rand = new Random();
@@ -75,6 +77,9 @@ namespace QScripts
 
 			kernelSizeProp = this.Shader.GetProperty<int>("kernelSize");
 			changer.AddOption(new SimpleIntOption("SSAO Kernel Size", 16, 1, 128, 1, SetKernelSize));
+
+			this.enabledProp = this.Shader.GetProperty<bool>("enabled");
+			changer.AddOption(new SimpleBoolOption("Use SSAO", true, (bool value) => { this.Shader.Set(enabledProp, value); }));
 		}
 
 		protected override void OnBeforeRender()

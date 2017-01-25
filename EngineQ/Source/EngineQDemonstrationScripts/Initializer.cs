@@ -41,16 +41,18 @@ namespace QScripts
 			colliderPicker.Initialize(cameraComponent);
 			
 
-			// Skull
-			var skull = scene.CreateEntity(true, "Skull");
+			// Horse
+			var skull = scene.CreateEntity(true, "Horse");
+
 			skull.Transform.Position = new Vector3(0);
+			skull.Transform.Scale = new Vector3(0.8f);
+
 			var skullRenderable = skull.AddComponent<Renderable>();
 			skullRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
-			//skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Skull");
 			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Horse");
 
-			skullRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
-			skullRenderable.DeferredShader.Material.Specular = new Vector3f(15.0f);
+			skullRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Marble");
+			skullRenderable.DeferredShader.Material.Specular = new Vector3f(0.5f);
 
 			var skullCollider = skull.AddComponent<CapsuleCollider>();
 
@@ -71,7 +73,8 @@ namespace QScripts
 				floorRenderable.Mesh = PrefabGenerator.GenerateQuad(7.0f);
 				floorRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
 
-				floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
+				floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Marble");
+			//	floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
 				floorRenderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
 				
 				switch (i)
@@ -125,7 +128,7 @@ namespace QScripts
 		
 			var light1renderable = light1.AddComponent<Renderable>();
 			light1renderable.UseDeferredShader(lightsDeferredShader);
-			light1renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
+			light1renderable.DeferredShader.Material.Diffuse = 15.0f * new Vector3f(1.0f, 0.0f, 0.0f);
 			light1renderable.Mesh = lightsMesh;
 			light1renderable.CastShadows = false;
 		
@@ -149,7 +152,7 @@ namespace QScripts
 
 			var light2renderable = light2.AddComponent<Renderable>();
 			light2renderable.UseDeferredShader(lightsDeferredShader);
-			light2renderable.DeferredShader.Material.Diffuse = 5.0f * new Vector3f(1.0f, 0.0f, 0.0f);
+			light2renderable.DeferredShader.Material.Diffuse = 15.0f * new Vector3f(1.0f, 0.0f, 0.0f);
 			light2renderable.Mesh = lightsMesh;
 			light2renderable.CastShadows = false;
 			
@@ -184,7 +187,9 @@ namespace QScripts
 
 			resourceManager.RegisterResource<Mesh>("Skull", "./Meshes/Skull.qres");
 			resourceManager.RegisterResource<Mesh>("Horse", "./Meshes/Horse.qres");
+
 			resourceManager.RegisterResource<Texture>("Numbers", "./Textures/Numbers.qres");
+			resourceManager.RegisterResource<Texture>("Marble", "./Textures/Marble.qres");
 
 			resourceManager.RegisterResource<Shader>("SkullDeferred", "./Shaders/Deferred/DeferredSimpleTexture.qres");
 			resourceManager.RegisterResource<Shader>("LightDeferred", "./Shaders/Deferred/DeferredSimpleColor.qres");

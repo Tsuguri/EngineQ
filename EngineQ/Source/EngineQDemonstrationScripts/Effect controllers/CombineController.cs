@@ -21,6 +21,9 @@ namespace QScripts
 			Scene,
 			Bright,
 			SSAO,
+			GPosition,
+			GNormal,
+			GColor,
 		}
 
 		protected override void OnCreate()
