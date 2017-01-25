@@ -19,6 +19,7 @@
 
 		<!-- Bloom -->
 		<TextureConfiguration Name="Scene"  DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="BrightExtract" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
 		<TextureConfiguration Name="Bloom1" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
 		<TextureConfiguration Name="Bloom2" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
 	</Textures>
@@ -96,6 +97,7 @@
 			</Input>
 			<Output>
 				<OutputTexture Texture="Bloom2" />
+				<OutputTexture Texture="BrightExtract" />
 			</Output>
 		</EffectConfiguration>
 
@@ -132,6 +134,7 @@
 
 			<Input>
 				<InputPair Texture="SSR" LocationName="scene" />
+				<InputPair Texture="BrightExtract" LocationName="bright" />
 				<InputPair Texture="Bloom2" LocationName="bloom" />
 				<InputPair Texture="SSAOBlur" LocationName="ssao" />
 				<InputPair Texture="Position" LocationName="gPosition" />

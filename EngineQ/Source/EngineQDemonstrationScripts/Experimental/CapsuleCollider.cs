@@ -86,7 +86,7 @@ namespace QScripts
 			capsuleEntity.Transform.Position = this.Position;
 			
 			capsuleRenderable = capsuleEntity.AddComponent<Renderable>(false);
-			capsuleRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
+			capsuleRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("DeferredSimpleTexture"));
 			capsuleRenderable.Mesh = PrefabGenerator.GenerateCapsule(this.Height, this.Radius);
 		}
 

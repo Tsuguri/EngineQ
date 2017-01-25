@@ -17,6 +17,8 @@ namespace QScripts
 		ShaderProperty<int> directionalPCFSamplesProp;
 		ShaderProperty<int> pointPCFSamplesProp;
 
+		ShaderProperty<float> directionalBiasProp;
+
 		protected override void OnCreate()
 		{
 			var changer = this.Scene.ActiveCamera.Entity.GetComponent<OptionChanger>();
@@ -35,6 +37,9 @@ namespace QScripts
 
 			this.pointPCFSamplesProp = this.Shader.GetProperty<int>("pointPCFSamples");
 			changer.AddOption(new SimpleIntOption("Point PCF Samples", 4, 1, 32, 1, (int value) => { this.Shader.Set(pointPCFSamplesProp, value); }));
+
+			this.directionalBiasProp = this.Shader.GetProperty<float>("directionalBias");
+			changer.AddOption(new SimpleFloatOption("Directional bias", 1, 0, 10, 0.01f, (float value) => { this.Shader.Set(directionalBiasProp, value); }));
 
 		}
 	}

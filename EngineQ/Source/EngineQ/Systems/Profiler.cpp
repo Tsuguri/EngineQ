@@ -192,6 +192,7 @@ namespace EngineQ
 		{
 			accumulator = Seconds::zero();
 
+			/*
 			Logger::LogMessage("================================================== Profiler ==================================================\n");
 			
 			Logger::LogMessage("  CPU\n");
@@ -201,6 +202,7 @@ namespace EngineQ
 			this->Print(this->gpuInfo);
 
 			Logger::LogMessage("==============================================================================================================\n");
+			*/
 
 			this->Reset(this->cpuInfo);
 			this->Reset(this->gpuInfo);

@@ -20,6 +20,7 @@ namespace QScripts
 			Normal,
 			Scene,
 			Bright,
+			Bloom,
 			SSAO,
 			GPosition,
 			GNormal,

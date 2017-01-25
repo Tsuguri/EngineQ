@@ -15,8 +15,8 @@ namespace QScripts
 		private Transform arrowY;
 		private Transform arrowZ;
 
-		private const float capsuleRadius = 0.1f;
-		private const float capsuleHeight = 1.0f - 2.0f * capsuleRadius;
+		private const float capsuleRadius = 2 * (0.1f);
+		private const float capsuleHeight = 2 * (1.0f - 2.0f * capsuleRadius);
 		private const float capsulePosition = capsuleRadius;
 
 		private Vector3 capsulePoint1 = new Vector3(0.0f, capsulePosition, 0.0f);
@@ -86,8 +86,10 @@ namespace QScripts
 
 		private bool move = false;
 		private bool rotate = false;
+		private bool scale = false;
 		private Vector3 initialPosition;
 		private Quaternion initialRotation;
+		private float initialScale;
 		private Vector3 initialRayIntersection;
 
 		private Vector3 arrowDir;
@@ -147,9 +149,12 @@ namespace QScripts
 						this.initialRayIntersection = ray.GetPoint(distance);
 						this.initialPosition = this.Transform.GlobalPosition;
 						this.initialRotation = this.Transform.GlobalRotation;
+						this.initialScale = this.Transform.Scale.X;
 
 						if (Input.IsKeyPressed(Input.Key.LeftShift))
 							this.rotate = true;
+						else if (Input.IsKeyPressed(Input.Key.LeftAlt))
+							this.scale = true;
 						else
 							this.move = true;
 					}
@@ -160,12 +165,14 @@ namespace QScripts
 			{
 				move = false;
 				rotate = false;
+				scale = false;
+				transform = null;
 			}
 		}
 
 		protected override void OnUpdate()
 		{
-			if (move || rotate)
+			if (move || rotate || scale)
 			{
 				var ray = this.Entity.Scene.ActiveCamera.GetViewRay(new Vector2(2.0f, -2.0f) * Input.MousePosition / (Vector2)Application.ScreenSize + new Vector2(-1.0f, 1.0f));
 
@@ -196,6 +203,14 @@ namespace QScripts
 
 						if (transform != null)
 							transform.GlobalPosition = this.Transform.GlobalPosition;
+					}
+
+					if(scale)
+					{
+						var diffInDirection = Vector3.DotProduct(diff, arrowDir.Normalized);
+
+						if (transform != null)
+							transform.Scale = new Vector3(this.initialScale + diffInDirection);
 					}
 				}
 			}

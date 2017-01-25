@@ -8,6 +8,7 @@ in VS_DATA
 } IN;
 
 uniform sampler2D scene;
+uniform sampler2D bright;
 uniform sampler2D bloom;
 uniform sampler2D ssao;
 
@@ -51,19 +52,26 @@ void main()
 		// Bright
 		case 2:
 			{
+				FragColor = vec4(texture(bright, IN.textureCoords).rgb, 1.0f);
+			}
+			break;
+
+		// Bloom
+		case 3:
+			{
 				FragColor = vec4(texture(bloom, IN.textureCoords).rgb, 1.0f);
 			}
 			break;
 
 		// SSAO
-		case 3:
+		case 4:
 			{
 				FragColor = vec4(vec3(texture(ssao, IN.textureCoords).r), 1.0f);
 			}
 			break;
 
 		// G-Position
-		case 4:
+		case 5:
 			{
 				vec3 pos = texture(gPosition, IN.textureCoords).xyz;
 				pos = (inverse(matrices.view) * vec4(pos, 1.0f)).xyz;
@@ -73,7 +81,7 @@ void main()
 			break;
 
 		// G-Normal
-		case 5:
+		case 6:
 			{
 				vec3 norm = texture(gNormal, IN.textureCoords).xyz;
 				norm = normalize(mat3(transpose(matrices.view)) * norm);
@@ -83,7 +91,7 @@ void main()
 			break;
 
 		// G-Color
-		case 6:
+		case 7:
 			{
 				FragColor = vec4(texture(gColor, IN.textureCoords).xyz, 1.0f);
 			}

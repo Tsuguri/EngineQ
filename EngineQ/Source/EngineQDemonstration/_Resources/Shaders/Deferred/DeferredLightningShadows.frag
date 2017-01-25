@@ -26,6 +26,7 @@ uniform bool useRays;
 
 uniform int directionalPCFSamples;
 uniform int pointPCFSamples;
+uniform float directionalBias;
 
 float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 normal, vec3 position)
 {
@@ -37,7 +38,7 @@ float DirectionalShadowCalculations(Light light, sampler2D shadowMap, vec3 norma
 	projCoords = projCoords * 0.5 + 0.5;
 	    
 	float currentDepth = projCoords.z;
-	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f);
+	float bias = max(0.05f * (1.0f - dot(normal, -light.direction)), 0.005f) * directionalBias;
 		
 	float shadow = 0.0f;
 	if (usePCF)

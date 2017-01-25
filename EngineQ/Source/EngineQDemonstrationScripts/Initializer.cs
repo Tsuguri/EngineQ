@@ -39,44 +39,80 @@ namespace QScripts
 			var optionChanger = camera.AddComponent<OptionChanger>();
 			var colliderPicker = camera.AddComponent<ColliderPicker>();
 			colliderPicker.Initialize(cameraComponent);
+
+
 			
-
 			// Horse
-			var skull = scene.CreateEntity(true, "Horse");
+			var horse = scene.CreateEntity(true, "Horse");
 
-			skull.Transform.Position = new Vector3(0);
-			skull.Transform.Scale = new Vector3(0.8f);
+			horse.Transform.Position = new Vector3(0);
+			horse.Transform.Scale = new Vector3(0.8f);
 
-			var skullRenderable = skull.AddComponent<Renderable>();
-			skullRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
-			skullRenderable.Mesh = resourceManager.GetResource<Mesh>("Horse");
+			var horseRenderable = horse.AddComponent<Renderable>();
+			horseRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("DeferredSimpleTexture"));
+			horseRenderable.Mesh = resourceManager.GetResource<Mesh>("Horse");
 
-			skullRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Marble");
-			skullRenderable.DeferredShader.Material.Specular = new Vector3f(0.5f);
+			horseRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Metal");
+			horseRenderable.DeferredShader.Material.Specular = new Vector3f(0.5f);
 
-			var skullCollider = skull.AddComponent<CapsuleCollider>();
+			var horseCollider = horse.AddComponent<CapsuleCollider>();
 
-		//	skullCollider.Height = 2.0f;
-		//	skullCollider.Position = new Vector3(0.0f, 2.0f, 0.0f);
-		//	skullCollider.Rotation = Quaternion.CreateFromEuler(1.3f, 0.1f, -2.2f);
-		//
-		//	skull.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(29.0f));
-		//	skull.Transform.Position -= new Vector3(0.0f, 0.07f, 0.0f);
-		//	skull.Transform.Scale = new Vector3(0.2f, 1.2f, 2.0f);
+
+			/*
+			// Random cubes
+			Random rand = new Random(123);
+			Func<float, float, float> RandPosFunc = (float min, float max) => (float)rand.NextDouble() * (max - min) + min;
+
+			for(int i = 0; i < 4; ++i)
+			{
+				const float CubeSide = 0.5f;
+
+				var cube = scene.CreateEntity(true, $"Cube{i}");
+
+				cube.Transform.Position = new Vector3(RandPosFunc(-1, 1), CubeSide / 2.0f, RandPosFunc(-1, 1));
+				
+				var renderable = cube.AddComponent<Renderable>();
+				renderable.UseDeferredShader(resourceManager.GetResource<Shader>("DeferredSimpleTexture"));
+				renderable.Mesh = PrefabGenerator.GenerateCube(CubeSide);
+
+				var shader = renderable.DeferredShader;
+				shader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Marble");
+
+				var collider = cube.AddComponent<CapsuleCollider>();
+				collider.Height = 0.0f;
+				collider.Radius = CubeSide / 2.0f;
+			}
+			*/
 
 			// Floor
+			Renderable[] floorRenderables = new Renderable[5];
 			for (int i = 0; i < 5; ++i)
 			{
+				const float QuadSize = 7.0f;
+
 				var floor = scene.CreateEntity(true, $"Floor{i}");
 
 				var floorRenderable = floor.AddComponent<Renderable>();
-				floorRenderable.Mesh = PrefabGenerator.GenerateQuad(7.0f);
-				floorRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("SkullDeferred"));
+				floorRenderable.Mesh = PrefabGenerator.GenerateQuad(QuadSize);
+				floorRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("DeferredSimpleTexture"));
 
 				floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Marble");
 			//	floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
 				floorRenderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
-				
+
+				floorRenderables[i] = floorRenderable;
+
+				/*
+				// Flat floor
+				int posX = i % 3 - 1;
+				int posY = i / 3 - 1;
+
+				floor.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(90.0f));
+				floor.Transform.Position = new Vector3(posX * QuadSize, 0.0f, posY * QuadSize); 
+				*/
+
+
+				// Square walls
 				switch (i)
 				{
 					case 0:
@@ -128,7 +164,7 @@ namespace QScripts
 		
 			var light1renderable = light1.AddComponent<Renderable>();
 			light1renderable.UseDeferredShader(lightsDeferredShader);
-			light1renderable.DeferredShader.Material.Diffuse = 15.0f * new Vector3f(1.0f, 0.0f, 0.0f);
+			light1renderable.DeferredShader.Material.Diffuse = 15.0f * new Vector3f(1.0f);
 			light1renderable.Mesh = lightsMesh;
 			light1renderable.CastShadows = false;
 		
@@ -152,7 +188,7 @@ namespace QScripts
 
 			var light2renderable = light2.AddComponent<Renderable>();
 			light2renderable.UseDeferredShader(lightsDeferredShader);
-			light2renderable.DeferredShader.Material.Diffuse = 15.0f * new Vector3f(1.0f, 0.0f, 0.0f);
+			light2renderable.DeferredShader.Material.Diffuse = 15.0f * new Vector3f(1.0f);
 			light2renderable.Mesh = lightsMesh;
 			light2renderable.CastShadows = false;
 			
@@ -164,15 +200,24 @@ namespace QScripts
 			light2script.InitialRotation = -4.0f;
 			light2script.Update();
 			
+			
+			optionChanger.AddOption(new SimpleFloatOption("Horse specular", 2f, 0.0f, 100.0f, 0.05f, (float value) => { horseRenderable.DeferredShader.Material.Specular = new Vector3f(value); }));
+			optionChanger.AddOption(new SimpleFloatOption("Floor specular", 0.5f, 0.0f, 100.0f, 0.05f, (float value) => { foreach(var renderable in floorRenderables) renderable.DeferredShader.Material.Specular = new Vector3f(value); }));
 
+			optionChanger.AddOption(new SimpleFloatOption("Light1 light diffuse", light1light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light1light.DiffuseColor = new Vector3(value); }));
+			optionChanger.AddOption(new SimpleFloatOption("Light2 light diffuse", light2light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light2light.DiffuseColor = new Vector3(value); }));
 
-			optionChanger.AddOption(new SimpleFloatOption("Light1 diffuse", light1light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light1light.DiffuseColor = new Vector3(value); }));
-			optionChanger.AddOption(new SimpleFloatOption("Light2 diffuse", light2light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light2light.DiffuseColor = new Vector3(value); }));
+			optionChanger.AddOption(new SimpleFloatOption("Light1 cube diffuse", light1renderable.DeferredShader.Material.Diffuse.X, 0.0f, 100.0f, 0.1f, (float value) => { light1renderable.DeferredShader.Material.Diffuse = new Vector3f(value); }));
+			optionChanger.AddOption(new SimpleFloatOption("Light2 cube diffuse", light2renderable.DeferredShader.Material.Diffuse.X, 0.0f, 100.0f, 0.1f, (float value) => { light2renderable.DeferredShader.Material.Diffuse = new Vector3f(value); }));
+
 
 			optionChanger.AddOption(new SimpleBoolOption("Lights movement", true, (bool value) => { light1script.Enabled = value; light2script.Enabled = value; }));
 
 			optionChanger.AddOption(new SimpleBoolOption("Light1 Enable", true, (bool value) => { light1.Enabled = value; }));
 			optionChanger.AddOption(new SimpleBoolOption("Light2 Enable", true, (bool value) => { light2.Enabled = value; }));
+
+			optionChanger.AddOption(new SimpleBoolOption("Light1 Cast shadows", true, (bool value) => { light1light.CastShadows = value; }));
+			optionChanger.AddOption(new SimpleBoolOption("Light2 Cast shadows", true, (bool value) => { light2light.CastShadows = value; }));
 
 
 			var arrows = scene.CreateEntity(true, "Arrows");
@@ -190,8 +235,9 @@ namespace QScripts
 
 			resourceManager.RegisterResource<Texture>("Numbers", "./Textures/Numbers.qres");
 			resourceManager.RegisterResource<Texture>("Marble", "./Textures/Marble.qres");
+			resourceManager.RegisterResource<Texture>("Metal", "./Textures/Metal.qres");
 
-			resourceManager.RegisterResource<Shader>("SkullDeferred", "./Shaders/Deferred/DeferredSimpleTexture.qres");
+			resourceManager.RegisterResource<Shader>("DeferredSimpleTexture", "./Shaders/Deferred/DeferredSimpleTexture.qres");
 			resourceManager.RegisterResource<Shader>("LightDeferred", "./Shaders/Deferred/DeferredSimpleColor.qres");
 			resourceManager.RegisterResource<Shader>("DeferredLighting", "./Shaders/Deferred/DeferredLightning.qres");
 

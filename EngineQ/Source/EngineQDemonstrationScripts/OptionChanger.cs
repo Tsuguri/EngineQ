@@ -218,6 +218,8 @@ namespace QScripts
 
 			if (trigger)
 				option.Changed(0);
+
+			this.options.Sort((BaseOption o1, BaseOption o2) => o2.Name.CompareTo(o1.Name));
 		}
 
 		private List<BaseOption> options = new List<BaseOption>();
