@@ -45,7 +45,7 @@ namespace EngineQ
 		this->maxTime = Nanoseconds::min();
 		this->isActive = false;
 	}
-	
+
 
 
 	void Profiler::CPUProfilingInfo::SetStart(TimePoint startTime)
@@ -129,6 +129,16 @@ namespace EngineQ
 
 
 
+	bool Profiler::GetPrintInfo() const
+	{
+		return this->printInfo;
+	}
+
+	void Profiler::SetPrintInfo(bool value)
+	{
+		this->printInfo = value;
+	}
+
 	void Profiler::StartCPU(const char* key, const char* category)
 	{
 		this->StartCPU(std::string(key), std::string(category));
@@ -175,7 +185,7 @@ namespace EngineQ
 	void Profiler::EndGPU(const std::string& key, const std::string& category)
 	{
 		auto& info = this->gpuInfo.at(category).at(key);
-		
+
 		info.End();
 	}
 
@@ -192,17 +202,18 @@ namespace EngineQ
 		{
 			accumulator = Seconds::zero();
 
-			/*
-			Logger::LogMessage("================================================== Profiler ==================================================\n");
-			
-			Logger::LogMessage("  CPU\n");
-			this->Print(this->cpuInfo);
-			
-			Logger::LogMessage("  GPU\n");
-			this->Print(this->gpuInfo);
+			if (printInfo)
+			{
+				Logger::LogMessage("================================================== Profiler ==================================================\n");
 
-			Logger::LogMessage("==============================================================================================================\n");
-			*/
+				Logger::LogMessage("  CPU\n");
+				this->Print(this->cpuInfo);
+
+				Logger::LogMessage("  GPU\n");
+				this->Print(this->gpuInfo);
+
+				Logger::LogMessage("==============================================================================================================\n");
+			}
 
 			this->Reset(this->cpuInfo);
 			this->Reset(this->gpuInfo);

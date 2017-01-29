@@ -25,14 +25,49 @@ namespace QScripts
 			// Camera
 			var camera = scene.CreateEntity(true, "Camera");
 
+			var singleUpdateRunner = camera.AddComponent<SingleUpdateRunner>();
+			singleUpdateRunner.RunEvent += () =>
+			{
+				Console.WriteLine();
+				Console.WriteLine("============================================");
+				Console.WriteLine("===               Controls               ===");
+
+				Console.WriteLine();
+				Console.WriteLine("Movement:");
+				Console.WriteLine("\tW - Move Forward");
+				Console.WriteLine("\tS - Move Backward");
+				Console.WriteLine("\tA - Move Right");
+				Console.WriteLine("\tD - Move Left");
+				Console.WriteLine();
+				Console.WriteLine("\tSpace   - Move Up");
+				Console.WriteLine("\tL Ctrl  - Move Down");
+				Console.WriteLine("\tL Shift - Move Faster");
+				Console.WriteLine();
+				Console.WriteLine("\tRight Mouse - Move camera");
+
+				Console.WriteLine();
+				Console.WriteLine("Options:");
+				Console.WriteLine("\tKeypad 6 - Next option");
+				Console.WriteLine("\tKeypad 4 - Previous option");
+				Console.WriteLine("\tKeypad 5 - Show current option");
+				Console.WriteLine("\tKeypad 8 - Increase option");
+				Console.WriteLine("\tKeypad 2 - Decrease option");
+
+				Console.WriteLine();
+				Console.WriteLine("Misc:");
+				Console.WriteLine("\tLeft Mouse - Select items");
+				Console.WriteLine();
+
+				Console.WriteLine("============================================");
+				Console.WriteLine();
+			};
+
 			var cameraComponent = camera.AddComponent<Camera>();
 			scene.ActiveCamera = cameraComponent;
 			cameraComponent.FieldOfView = 70.0f;
 
-			//	camera.Transform.Position = new Vector3(4, 2.0f, -6.0f);
-		//	camera.Transform.Rotation = Quaternion.CreateLookAt(camera.Transform.Position, Vector3.Zero, Vector3.Up);
-			camera.Transform.Position = new Vector3(0.0f, 1.5f, -3.0f);
-			camera.Transform.Rotation = Quaternion.CreateLookAt(camera.Transform.Position, new Vector3(0.0f, 1.5f, 0.0f), Vector3.Up);
+			camera.Transform.Position = new Vector3(2.2f, 3.7f, -2.7f);
+			camera.Transform.Rotation = Quaternion.CreateLookAt(camera.Transform.Position, new Vector3(0.0f, 2.5f, 0.0f), Vector3.Up);
 			var cameraMove = camera.AddComponent<CameraMoveClass>();
 			cameraMove.MoveSpeed = 3.0f;
 
@@ -40,7 +75,7 @@ namespace QScripts
 			var colliderPicker = camera.AddComponent<ColliderPicker>();
 			colliderPicker.Initialize(cameraComponent);
 
-
+			Input.RegisterKeyEvent(Input.Key.T, (Input.Key key, Input.KeyAction action) => { Console.WriteLine(camera.Transform.Position); });
 			
 			// Horse
 			var horse = scene.CreateEntity(true, "Horse");
@@ -52,38 +87,11 @@ namespace QScripts
 			horseRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("DeferredSimpleTexture"));
 			horseRenderable.Mesh = resourceManager.GetResource<Mesh>("Horse");
 
-			horseRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Metal");
+			horseRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Marble");
 			horseRenderable.DeferredShader.Material.Specular = new Vector3f(0.5f);
 
 			var horseCollider = horse.AddComponent<CapsuleCollider>();
-
-
-			/*
-			// Random cubes
-			Random rand = new Random(123);
-			Func<float, float, float> RandPosFunc = (float min, float max) => (float)rand.NextDouble() * (max - min) + min;
-
-			for(int i = 0; i < 4; ++i)
-			{
-				const float CubeSide = 0.5f;
-
-				var cube = scene.CreateEntity(true, $"Cube{i}");
-
-				cube.Transform.Position = new Vector3(RandPosFunc(-1, 1), CubeSide / 2.0f, RandPosFunc(-1, 1));
-				
-				var renderable = cube.AddComponent<Renderable>();
-				renderable.UseDeferredShader(resourceManager.GetResource<Shader>("DeferredSimpleTexture"));
-				renderable.Mesh = PrefabGenerator.GenerateCube(CubeSide);
-
-				var shader = renderable.DeferredShader;
-				shader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Marble");
-
-				var collider = cube.AddComponent<CapsuleCollider>();
-				collider.Height = 0.0f;
-				collider.Radius = CubeSide / 2.0f;
-			}
-			*/
-
+			
 			// Floor
 			Renderable[] floorRenderables = new Renderable[5];
 			for (int i = 0; i < 5; ++i)
@@ -97,21 +105,10 @@ namespace QScripts
 				floorRenderable.UseDeferredShader(resourceManager.GetResource<Shader>("DeferredSimpleTexture"));
 
 				floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Marble");
-			//	floorRenderable.DeferredShader.Material.DiffuseTexture = resourceManager.GetResource<Texture>("Numbers");
 				floorRenderable.DeferredShader.Material.Specular = new Vector3f(1.0f);
 
 				floorRenderables[i] = floorRenderable;
-
-				/*
-				// Flat floor
-				int posX = i % 3 - 1;
-				int posY = i / 3 - 1;
-
-				floor.Transform.Rotation = Quaternion.CreateRotationX(Utils.DegToRad(90.0f));
-				floor.Transform.Position = new Vector3(posX * QuadSize, 0.0f, posY * QuadSize); 
-				*/
-
-
+				
 				// Square walls
 				switch (i)
 				{
@@ -202,7 +199,7 @@ namespace QScripts
 			
 			
 			optionChanger.AddOption(new SimpleFloatOption("Horse specular", 2f, 0.0f, 100.0f, 0.05f, (float value) => { horseRenderable.DeferredShader.Material.Specular = new Vector3f(value); }));
-			optionChanger.AddOption(new SimpleFloatOption("Floor specular", 0.5f, 0.0f, 100.0f, 0.05f, (float value) => { foreach(var renderable in floorRenderables) renderable.DeferredShader.Material.Specular = new Vector3f(value); }));
+			optionChanger.AddOption(new SimpleFloatOption("Floor specular", 1.0f, 0.0f, 100.0f, 0.05f, (float value) => { foreach(var renderable in floorRenderables) renderable.DeferredShader.Material.Specular = new Vector3f(value); }));
 
 			optionChanger.AddOption(new SimpleFloatOption("Light1 light diffuse", light1light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light1light.DiffuseColor = new Vector3(value); }));
 			optionChanger.AddOption(new SimpleFloatOption("Light2 light diffuse", light2light.DiffuseColor.X, 0.0f, 100.0f, 0.1f, (float value) => { light2light.DiffuseColor = new Vector3(value); }));
@@ -219,13 +216,14 @@ namespace QScripts
 			optionChanger.AddOption(new SimpleBoolOption("Light1 Cast shadows", true, (bool value) => { light1light.CastShadows = value; }));
 			optionChanger.AddOption(new SimpleBoolOption("Light2 Cast shadows", true, (bool value) => { light2light.CastShadows = value; }));
 
+			optionChanger.AddOption(new SimpleBoolOption("Profiler print info", false, (bool value) => { Profiler.PrintInfo = value; }));
 
 			var arrows = scene.CreateEntity(true, "Arrows");
 			arrows.AddComponent<ArrowsController>();
 
 			arrows.Transform.Position = new Vector3(1.6f, 0.4f, -2.0f);
 		}
-
+		
 		private static void RegisterResources()
 		{
 			var resourceManager = ResourceManager.Instance;

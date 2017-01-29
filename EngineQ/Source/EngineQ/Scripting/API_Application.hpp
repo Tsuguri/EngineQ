@@ -21,4 +21,5 @@ namespace EngineQ
 		};
 	}
 }
-#endif
+
+#endif // ENGINEQ_SCRIPTING_API_APPLICATION_HPP

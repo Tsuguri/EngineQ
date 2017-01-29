@@ -74,7 +74,7 @@ namespace EngineQ
 
 			GPUProfilingInfo(const GPUProfilingInfo&) = delete;
 			GPUProfilingInfo& operator = (const GPUProfilingInfo&) = delete;
-			
+
 			void Start();
 			void End();
 			void Resolve();
@@ -87,6 +87,8 @@ namespace EngineQ
 		TimePoint lastTime = Clock::now();
 		Seconds updateTime = Seconds(5);
 		Seconds accumulator = Nanoseconds::zero();
+
+		bool printInfo = true;
 
 		template<typename TProfilingInfo>
 		static void Resolve(std::map<std::string, std::map<std::string, TProfilingInfo>>& infoMap)
@@ -142,6 +144,9 @@ namespace EngineQ
 		}
 
 	public:
+		bool GetPrintInfo() const;
+		void SetPrintInfo(bool value);
+
 		void StartCPU(const char* key, const char* category);
 		void StartCPU(const std::string& key, const std::string& category);
 		void EndCPU(const char* key, const char* category);
@@ -150,7 +155,7 @@ namespace EngineQ
 		void StartGPU(const std::string& key, const std::string& category);
 		void EndGPU(const char* key, const char* category);
 		void EndGPU(const std::string& key, const std::string& category);
-		
+
 		void Update();
 	};
 }
