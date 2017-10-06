@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Mesh
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.EngineQ.com"
+	xsi:schemaLocation="http://www.EngineQ.com ../../../Schemas/ResourceMesh.xsd"
+>
+	<Model ResourceName="Horse" Path="./Models/Horse.qres" />
+
+	<ModelMesh Index="0" />
+</Mesh>

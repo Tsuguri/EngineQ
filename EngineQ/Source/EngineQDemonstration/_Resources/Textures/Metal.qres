@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Texture
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.EngineQ.com"
+	xsi:schemaLocation="http://www.EngineQ.com ../../../Schemas/ResourceTexture.xsd"
+>
+	<Image Path="./Textures/Silver.jpg" />
+	<Mipmaps Use="true"/>
+</Texture>

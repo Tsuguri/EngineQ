@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RenderingUnitConfiguration
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.EngineQ.com"
+	xsi:schemaLocation="http://www.EngineQ.com ../../Schemas/PostprocessingConfig.xsd"
+>
+	<Textures>
+		<!-- G-Buffer -->
+		<TextureConfiguration Name="Position" DataType="GL_FLOAT" InternalFormat="GL_RGB16F"  Format="GL_RGB"  WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="Normal"   DataType="GL_FLOAT" InternalFormat="GL_RGB16F"  Format="GL_RGB"  WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="Albedo"   DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+
+		<!-- SSAO -->
+		<TextureConfiguration Name="SSAO"      DataType="GL_FLOAT" InternalFormat="GL_R16F" Format="GL_RED" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="SSAOBlur"  DataType="GL_FLOAT" InternalFormat="GL_R16F" Format="GL_RED" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+
+		<!-- SSR -->
+		<TextureConfiguration Name="SSR"    DataType="GL_FLOAT" InternalFormat="GL_RGB16F" Format="GL_RGB" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+
+		<!-- Bloom -->
+		<TextureConfiguration Name="Scene"  DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="BrightExtract" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="Bloom1" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+		<TextureConfiguration Name="Bloom2" DataType="GL_FLOAT" InternalFormat="GL_RGBA16F" Format="GL_RGBA" WrapS="GL_CLAMP_TO_EDGE" WrapT="GL_CLAMP_TO_EDGE" MinFilter="GL_NEAREST" MagFilter="GL_NEAREST" />
+	</Textures>
+
+	<Renderer Deferred="true" GlobalShadows="true">
+		<Output>
+			<OutputTexture Texture="Position"/>
+			<OutputTexture Texture="Normal" />
+			<OutputTexture Texture="Albedo" />
+		</Output>
+	</Renderer>
+
+	<Effects>
+
+		<!-- SSAO -->
+		<EffectConfiguration Name="SSAO" Shader="SSAO">
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="SSAOController" />
+
+			<Input>
+				<InputPair Texture="Position" LocationName="gPosition" />
+				<InputPair Texture="Normal" LocationName="gNormal" />
+			</Input>
+			<Output>
+				<OutputTexture Texture="SSAO" />
+			</Output>
+		</EffectConfiguration>
+
+		<!-- SSAO Blur -->
+		<EffectConfiguration Name="SSAO Blur" Shader="SSAOBlur">
+			<Input>
+				<InputPair Texture="SSAO" />
+			</Input>
+			<Output>
+				<OutputTexture Texture="SSAOBlur" />
+			</Output>
+		</EffectConfiguration>
+
+
+		<!-- Deferred lighting -->
+		<EffectConfiguration Name="Lighting" Shader="DeferredLightingShadows" ApplyShadowsData="true" >
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="LightingController" />
+
+			<Input>
+				<InputPair Texture="Position" LocationName="gPosition" />
+				<InputPair Texture="Normal" LocationName="gNormal" />
+				<InputPair Texture="Albedo" LocationName="gColorSpecular" />
+				<InputPair Texture="SSAOBlur" LocationName="ssaoTexture" />
+			</Input>
+			<Output>
+				<OutputTexture Texture="Scene" />
+			</Output>
+		</EffectConfiguration>
+
+		<!-- SSR -->
+		<EffectConfiguration Name="SSR" Shader="SSR">
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="SSRController" />
+
+			<Input>
+				<InputPair Texture="Position" LocationName="gPosition" />
+				<InputPair Texture="Normal" LocationName="gNormal" />
+				<InputPair Texture="Albedo" LocationName="gColorSpecular" />
+				<InputPair Texture="Scene" LocationName="scene" />
+			</Input>
+			<Output>
+				<OutputTexture Texture="SSR" />
+			</Output>
+		</EffectConfiguration>
+
+		<!-- Extract bright colors -->
+		<EffectConfiguration Name="Bloom bright extraction" Shader="BloomExtraction">
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="BrightExtractController" />
+
+			<Input>
+				<InputPair Texture="SSR" />
+			</Input>
+			<Output>
+				<OutputTexture Texture="Bloom2" />
+				<OutputTexture Texture="BrightExtract" />
+			</Output>
+		</EffectConfiguration>
+
+
+		<!-- Bloom blur passes -->
+		<EffectRepeat Name="Bloom loop" Iterations="10">
+
+			<!-- Bloom vertical blur -->
+			<EffectConfiguration Name="Vertical blur" Shader="BloomVerticalBlur">
+				<Input>
+					<InputPair Texture="Bloom2" />
+				</Input>
+				<Output>
+					<OutputTexture Texture="Bloom1" />
+				</Output>
+			</EffectConfiguration>
+
+			<!-- Bloom horizontal blur -->
+			<EffectConfiguration Name="Horizontal blur" Shader="BloomHorizontalBlur">
+				<Input>
+					<InputPair Texture="Bloom1" />
+				</Input>
+				<Output>
+					<OutputTexture Texture="Bloom2" />
+				</Output>
+			</EffectConfiguration>
+
+		</EffectRepeat>
+
+
+		<!-- Combine Bloom and Scene -->
+		<EffectConfiguration Name="Combine" Shader="Combine">
+			<Controller Assembly="QScripts" Namespace="QScripts" Class="CombineController" />
+
+			<Input>
+				<InputPair Texture="SSR" LocationName="scene" />
+				<InputPair Texture="BrightExtract" LocationName="bright" />
+				<InputPair Texture="Bloom2" LocationName="bloom" />
+				<InputPair Texture="SSAOBlur" LocationName="ssao" />
+				<InputPair Texture="Position" LocationName="gPosition" />
+				<InputPair Texture="Normal" LocationName="gNormal" />
+				<InputPair Texture="Albedo" LocationName="gColor" />
+			</Input>
+			<Output>
+				<ScreenTexture />
+			</Output>
+		</EffectConfiguration>
+
+	</Effects>
+
+	<DisabledEffects>
+
+		<EffectConfiguration Name="Debug Shadowmap drawer" Shader="Debug/ShadowmapDrawer" ApplyShadowsData="true">
+			<Output>
+				<ScreenTexture />
+			</Output>
+		</EffectConfiguration>
+
+	</DisabledEffects>
+
+</RenderingUnitConfiguration>

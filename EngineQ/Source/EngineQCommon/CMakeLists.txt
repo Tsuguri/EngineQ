@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.0)
+
+file(
+    GLOB_RECURSE SOURCE_FILES 
+    LIST_DIRECTORIES false
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.inl"
+)
+
+project(EngineQCommon CXX)
+
+SetupProject(
+	${PROJECT_NAME}
+
+	LIBRARY STATIC
+	
+	INCLUDES
+		${CMAKE_SOURCE_DIR}
+		
+	SOURCES
+		${SOURCE_FILES}
+
+#	OUTPUT_PATH "${BUILD_ROOT_PATH}/${PROJECT_NAME}/bin"
+	FOLDER "EngineQ"
+)

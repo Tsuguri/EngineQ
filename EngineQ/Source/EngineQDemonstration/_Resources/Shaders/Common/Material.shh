@@ -1,0 +1,39 @@
+/*
+struct Material
+{
+	vec3 diffuse;
+	vec3 specular;
+	vec3 ambient;
+	float shininess;
+
+	sampler2D diffuseTexture;
+	sampler2D specularTexture;
+	sampler2D normalTexture;
+};
+*/
+/*
+uniform struct Material
+{
+	vec3 diffuse;
+	vec3 specular;
+	vec3 ambient;
+	float shininess;
+
+	sampler2D diffuseTexture;
+	sampler2D specularTexture;
+	sampler2D normalTexture;
+} material;
+*/
+
+struct Material
+{
+	vec3 diffuse;
+	vec3 specular;
+	vec3 ambient;
+	float shininess;
+};
+
+uniform Material material;
+uniform sampler2D material_q_diffuseTexture;
+uniform sampler2D material_q_specularTexture;
+uniform sampler2D material_q_normalTexture;
